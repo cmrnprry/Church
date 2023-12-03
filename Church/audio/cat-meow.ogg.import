@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/cat-meow.ogg-34b5f009d01208da45460e94708be5cc.oggstr"
+
+[deps]
+
+source_file="res://audio/cat-meow.ogg"
+dest_files=[ "res://.import/cat-meow.ogg-34b5f009d01208da45460e94708be5cc.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
