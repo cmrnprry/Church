@@ -74,6 +74,7 @@ You look around the small space again, touching the smooth wood to find anything
 }
 
 *[Leave the booth]
+#play: curtain
 You quickly leave the booth, and stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
     
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
@@ -86,6 +87,9 @@ _Plink!_ A drop of water falls into the bucket.
 {
     - stay >= 1.5:
     You wring your hands together. A confession? Talking to someone might talk your mind off of things...
+    
+    You take a deep breath, suddenly nervous.
+    
         *[Talk about work]
             -> Confessional.Work_Confession
         *[Talk about something personal]
@@ -121,6 +125,7 @@ _Plink!_ A drop of water falls into the bucket.
             ->Confessional.Question
 
         *[Leave the booth]
+        #play: curtain
         You don't care to find out and quickly leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
         
         There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
@@ -128,8 +133,6 @@ _Plink!_ A drop of water falls into the bucket.
 }
 
 = Work_Confession
-You take a deep breath, suddenly nervous.
-
 {
     - work == 1:
         ~temp_string = "\"I sent multiple wrong copies to a department. I only realized when a coworker called me out. She seemed worried about me, but... I don't know.\""
@@ -666,13 +669,187 @@ The booth could come apart at any moment. You need to get out of here.
 -> Confessional.Look
 
 ->END
+
 = Personal_Confession
 ->END
+
 = No_Confession
+#delay: 1
+"Nothing. I have nothing to confess."
+
+#play: liquid-drop
+_Plink!_
+
+#delay: 1
+"Nothing at all?" The voice on the other side chuckles. "Nothing at work? At home? You haven't hurt anyone? Done anything wrong?"
+
+#play: liquid-drop
+_Plink!_
+
+You hesitate before answering.
+
+*["No."]
+The voice says nothing.
+~temp_bool = true
+
+*[Recall a work event.]
+"Well, work is..." You wring your hands together, embaressed. "It's a routine. There's nothing to tell...."
+
+"You don't sound very sure." The voice presses. "Nothing leaves this conversation. You can trust me."
+~temp_bool = false
+~temp_bool_2 = true
+
+*[Recall a personal event.]
+"Life is..." You wring your hands together, embarrassed. "It's boring. There's not much to tell..."
+
+"You don't sound very sure." The voice presses. "Nothing leaves this conversation. You can trust me."
+~temp_bool = false
+~temp_bool_2 = false
+
+- 
+
+{
+- temp_bool:
+    *[Fill the silence.]
+        "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
+        ->Confessional.No_Talk
+    {
+        - stay <= 1:
+            *[Wait]
+            -> Confessional.Wait
+    }
+- else:
+    *[Talk about it]
+        {
+            - temp_bool_2:
+                ->Confessional.Work_Confession
+            - else:
+                ->Confessional.Personal_Confession
+        }
+    *[Don't talk about it]
+        "No, nothing to tell. My life is a routine, and work is no different." You tap your fingers against the bench. "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." 
+        ->Confessional.No_Talk
+
+
+}
+= Wait
+You squirm uncomfortably in your seat. The quiet seems deafening. 
+
+*[Fill the silence.]
+    "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
+    ->Confessional.No_Talk
+
+*[Continue waiting]
+    ~stubborn = true
+- Finally, the voice breaks the silence.
+
+"You are more... stuborn than expected." The voice spits out the words. "But I can wait for as long as you need. I have _all_ the time in the world."
+
+    Your skin crawls. The silence returns.
+
+*[Fill the silence.]
+    "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
+    ->Confessional.No_Talk
+
+*[Leave the booth]
+    #play: curtain
+    You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
+        
+    You should look for the heart elsewhere for now. You look...
+    -> Confessional.Leave
+    
+    
+= No_Talk
+#play: liquid-drop
+_Plink!_
+
+"A routine..." The voice trails off. "Would you say you become bored of this? That you wish for more than what you have?"
+
+*[Agree with the voice]
+    ~temp_bool = true
+
+*[Disagree with the voice]
+    ~temp_bool = false
+
+- 
+
+{
+    - temp_bool:
+        {
+            - stay <= 1:
+                ~temp_string = "do you fight it"
+            - else:
+                ~temp_string = "don't you stay"
+        }
+        #delay: 1
+        You feel yourself nodding. "I... My job is a means to an end. It's enought to keep me alive, but not enough to... do more..."
+        
+        #play: liquid-drop
+        _Plink!_
+        
+        "I see. So why {temp_string} then?"
+    - else:
+        {
+            - stay <= 1:
+                ~temp_string = "So, is this why fight the church?"
+            - else:
+                ~temp_string = "And yet you wish to stay? To choose the church?"
+        }
+        #delay: 1
+        "No, I..." You shake your head. "My life is still mine. This is what I chose." You clench your fists.
+    
+        #play: liquid-drop
+        _Plink!_
+        
+        {temp_string}
+
+}
+
+*["What?"]
+
+*[Stay silent.]
+
+- #play: liquid-drop
+_Plink!_
+
+        {
+            - stay <= 1:
+                ~temp_string = "Of course you fight the church. You want to _leave._"
+            - else:
+                ~temp_string = "Stay? When have you ever wished to..."
+        }
+
+What is it talking about? {temp_string}
+
+        {
+            - stay <= 1:
+                ~temp_string = "So, this is why fight the church?"
+            - else:
+                ~temp_string = "And yet you wish to stay?"
+        }
+
+"You can say you're content with your life _out there,_ but we both know you want to stay _here"_ The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {temp_string}"
+
+#play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
+_Plink! Plink! Plink!_
+
+*["What?"]
+
+*[Stay silent.]
+
+
+- 
+
+
+
+
+
 ->END
 
 = Question
-You don't think you will get an answer. The voice is pushing you to confess, maybe you can learn more if you play along?
+You don't think you will get an answer. The voice is pushing you to confess.
+
+You take a deep breath. You need to confess something? Fine.
 {
     - confessional_priest:
         
@@ -695,6 +872,7 @@ You don't think you will get an answer. The voice is pushing you to confess, may
     -> Confessional.No_Confession
             
 *[Leave the booth]
+#play: curtain
 You quickly leave the booth, and stare at the confessional. It's quiet. Whatever is in there, it won't tell you anything important. And you don't like that it was pushing you to "confess."
     
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
@@ -712,6 +890,8 @@ Something clicks into place. "I... know who you are..."
 
 You frown, "No, that's not what-" A gutter growl cuts you off. You don't think you should [[push the matter]]. The voice is pushing you to confess, maybe you can learn more if you play along?
 
+You take a deep breath. You need to confess something? Fine.
+
 *[push the matter]
 
 *[Talk about work]
@@ -722,6 +902,7 @@ You frown, "No, that's not what-" A gutter growl cuts you off. You don't think y
     -> Confessional.No_Confession
 
 *[Leave the booth]
+#play: curtain
 Without a second thought, you rush out of the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it, let alone confess.
         
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...

@@ -15,6 +15,7 @@ VAR know = false
 VAR avoid = false
 VAR photo_ripped = false
 VAR leave_light = false
+VAR stubborn = false
 
 VAR work = 0
 VAR room = 0
