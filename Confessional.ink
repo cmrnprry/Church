@@ -812,26 +812,42 @@ _Plink!_
 - #play: liquid-drop
 _Plink!_
 
+
+{
+
+- temp_bool:
         {
             - stay <= 1:
-                ~temp_string = "Of course you fight the church. You want to _leave._"
+                ~temp_string = "fight it"
             - else:
-                ~temp_string = "Stay? When have you ever wished to..."
+                ~temp_string = "don't you stay stay? Choose the church?"
         }
+    "You complain of routine. You wish for more." The voice becomes softer as it speaks. "So _why_ {temp_string}? The church has so much to offer you."
+    
+- else:
 
-What is it talking about? {temp_string}
+    {
+        - stay <= 1:
+            ~temp_string = "Of course you fight the church. You want to _leave._"
+        - else:
+            ~temp_string = "Stay? When have you ever wished to..."
+    }
 
-        {
-            - stay <= 1:
-                ~temp_string = "So, this is why fight the church?"
-            - else:
-                ~temp_string = "And yet you wish to stay?"
-        }
+    What is it talking about? {temp_string}
 
-"You can say you're content with your life _out there,_ but we both know you want to stay _here"_ The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {temp_string}"
+    {
+        - stay <= 1:
+            ~temp_string = "So, why is it you fight the church?"
+        - else:
+            ~temp_string = "And yet you wish to stay?"
+    }
 
-#play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
-_Plink! Plink! Plink!_
+    "You can say you're content with your life _out there,_ but we both know you want to stay _here"_ The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {temp_string}"
+
+    #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
+    _Plink! Plink! Plink!_
+
+}
 
 *["What?"]
 
