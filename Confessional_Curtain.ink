@@ -41,7 +41,7 @@ You look around the small space again, touching the smooth wood to find anything
 You quickly leave the booth, and stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
     
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
--> Confessional.Leave
+-> Confessional_Curtain.Leave
 
 - 
 #play: liquid-drop
@@ -54,11 +54,11 @@ _Plink!_ A drop of water falls into the bucket.
     You take a deep breath, suddenly nervous.
     
         *[Talk about work]
-            -> Confessional.Work_Confession
+            -> Confessional_Curtain.Work_Confession
         *[Talk about something personal]
-            -> Confessional.Personal_Confession
+            -> Confessional_Curtain.Personal_Confession
         *[Talk about nothing]
-            -> Confessional.No_Confession
+            -> Confessional_Curtain.No_Confession
     - else:
         *["Tell me who you are first."]
             ~temp_bool = true
@@ -71,7 +71,7 @@ _Plink!_ A drop of water falls into the bucket.
 
             "I do not have all day, and there are others waiting their turn." The voice cuts you off. "So this is the last time I'll ask you this: What. Do. You. Wish. To. Confess?"
 
-            -> Confessional.Question
+            -> Confessional_Curtain.Question
             
         *["Are you part of the church?"]
             ~temp_bool = false
@@ -85,14 +85,14 @@ _Plink!_ A drop of water falls into the bucket.
 
             "I do not have all day, and there are others waiting their turn." The voice cuts you off. "So this is the last time I'll ask you this: What. Do. You. Wish. To. Confess?"
 
-            ->Confessional.Question
+            ->Confessional_Curtain.Question
 
         *[Leave the booth]
         #play: curtain
         You don't care to find out and quickly leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
         
         There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
-        -> Confessional.Leave
+        -> Confessional_Curtain.Leave
 }
 
 = Work_Confession
@@ -224,10 +224,10 @@ _Plink! Plink!_
         Your stomach drops.
         
         *["What?"]
-        ->Confessional.Middle
+        ->Confessional_Curtain.Middle
 
         *["I don't...?"]
-        ->Confessional.Middle
+        ->Confessional_Curtain.Middle
     
     - else:
     {
@@ -252,14 +252,14 @@ _Plink! Plink!_
     _Plink!_ The bucket is filling fast. You can see that the [[liquid]] seems... thicker than just water.
     
     *[liquid]
-    ->Confessional.liquid
+    ->Confessional_Curtain.liquid
     
     *["I don't want to be here."]
     The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You don't _want_ to be here? How dare you-"
-    ->Confessional.Reject
+    ->Confessional_Curtain.Reject
 
     *[Stay silent.]
-    ->Confessional.Agree
+    ->Confessional_Curtain.Agree
 }
 
 = liquid
@@ -268,13 +268,13 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almsot l
 "Well?" The voice is growing impatient. You tense. "Aren't you happier here?"
 
 *["Maybe..."]
-->Confessional.Agree
+->Confessional_Curtain.Agree
 *["I don't want to be here."]
 The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You don't _want_ to be here? How dare you-"
-->Confessional.Reject
+->Confessional_Curtain.Reject
 
 *["I don't know.]
-->Confessional.Agree
+->Confessional_Curtain.Agree
 
 = Middle
 #play: liquid-drop
@@ -295,14 +295,14 @@ _Plink!_
 The bucket is filling fast. You can see that the [[liquid]] seems... thicker than just water.
 
 *[liquid]
-->Confessional.liquid
+->Confessional_Curtain.liquid
     
 *["I don't want to be here."]
 The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You don't _want_ to be here? How dare you-"
-->Confessional.Reject
+->Confessional_Curtain.Reject
 
 *[Stay silent.]
-->Confessional.Agree
+->Confessional_Curtain.Agree
 
 = Reject
 ~temp_string = ""
@@ -352,9 +352,9 @@ Bang!
 The booth could come apart at any moment. You need to get out of here.
 
 *[Get out of the confessional]
--> Confessional.Get_Out
+-> Confessional_Curtain.Get_Out
 *[Look into the other side]
--> Confessional.Look
+-> Confessional_Curtain.Look
 
 = Get_Out
 #style: shudder #play: banging-confession #delay: 0.5
@@ -519,7 +519,7 @@ You clench and unclench your hands. {temp_string}
        You shake the thought from your head. You can't let the voice's sweet words posin your mind.
 }
 
-->Confessional.Reject_Version_2
+->Confessional_Curtain.Reject_Version_2
 
 -
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
@@ -535,7 +535,7 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
     "It screamed at me. It- It burned me..." You shutter at the memory. 
     
     The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must be mistaken. The church would never-"
-    ->Confessional.Reject
+    ->Confessional_Curtain.Reject
 }
 
 *["No.."]
@@ -627,20 +627,20 @@ Bang!
 The booth could come apart at any moment. You need to get out of here.
 
 *[Get out of the confessional]
--> Confessional.Get_Out
+-> Confessional_Curtain.Get_Out
 *[Look into the other side]
--> Confessional.Look
+-> Confessional_Curtain.Look
 
 = Personal_Confession
 "I..." You don't know what to say.  The voice is patient.
 
 *[Talk about lack of motivation]
 ~temp_bool = true
--> Confessional.Motivation
+-> Confessional_Curtain.Motivation
 
 *[Talk about doing too much]
 ~temp_bool = false
--> Confessional.Too_much
+-> Confessional_Curtain.Too_much
 
 = Motivation
 "I have no drive to do... anything. Even the things I want to do." You tap your fingers against the cold, wood bench. "I pick up a hobby only to drop it after a week. I _want_ to do things, but..."
@@ -652,11 +652,11 @@ The voice is silent.
 
 *[Fill the silence.]
         "And I just... I just want to _finish_ something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. _This time_ things will be different."
-        ->Confessional.Personal_TooMuch
+        ->Confessional_Curtain.Personal_TooMuch
 {
     - stay <= 1:
         *[Wait]
-        -> Confessional.Wait_Personal
+        -> Confessional_Curtain.Wait_Personal
 }
 
 = Too_much
@@ -669,11 +669,11 @@ The voice is silent.
 
 *[Fill the silence.]
         "And I just... I just want to _finish_ something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. _This time_ things will be different."
-        ->Confessional.Personal_TooMuch
+        ->Confessional_Curtain.Personal_TooMuch
 {
     - stay <= 1:
         *[Wait]
-        -> Confessional.Wait_Personal
+        -> Confessional_Curtain.Wait_Personal
 }
 
 = Wait_Personal
@@ -681,10 +681,10 @@ The voice is silent.
 {
     - temp_bool:
         "And I just... I just want to _finish_ something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. _This time_ things will be different."
-        ->Confessional.Personal_TooMuch
+        ->Confessional_Curtain.Personal_TooMuch
     - else:
         "I want to do more, really I do." You let out a deep sigh. "But I just... can't..."
-        ->Confessional.Personal_Motivation
+        ->Confessional_Curtain.Personal_Motivation
 }
 
 *[Continue waiting]
@@ -700,10 +700,10 @@ Your skin crawls. The silence returns.
 {
     - temp_bool:
         "And I just... I just want to _finish_ something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. _This time_ things will be different."
-        ->Confessional.Personal_TooMuch
+        ->Confessional_Curtain.Personal_TooMuch
     - else:
         "I want to do more, really I do." You let out a deep sigh. "But I just... can't..."
-        ->Confessional.Personal_Motivation
+        ->Confessional_Curtain.Personal_Motivation
 }
 
 *[Leave the booth]
@@ -711,7 +711,7 @@ Your skin crawls. The silence returns.
     You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
         
     You should look for the heart elsewhere for now. You look...
-    -> Confessional.Leave
+    -> Confessional_Curtain.Leave
 
 = Personal_Motivation
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
@@ -735,7 +735,7 @@ _Plink! Plink! Plink!_
     
         "It's not your fault that the outside world is unsympathetic." The voice is gentle. Soft. "So aren't you so glad you can stay?"
     
-        -> Confessional.TooMuch_Choice
+        -> Confessional_Curtain.TooMuch_Choice
     - else:
         "Maybe..." You chew on the voice's words. "Or maybe it's-"
 
@@ -750,7 +750,7 @@ _Plink! Plink! Plink!_
             "There is a silver lining to all this." 
             
             You perk up immediately at it's words.
-            -> Confessional.Personal_End
+            -> Confessional_Curtain.Personal_End
     
         *[Disagree with the voice]
             Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that-"
@@ -758,7 +758,7 @@ _Plink! Plink! Plink!_
             It cuts you off again.
     
             "I think you are sabotaging yourself on purpose." The voice is stern, and cold. "Something, out _there_ is making you this way. So aren't you so glad you can stay?"
-            -> Confessional.TooMuch_Choice
+            -> Confessional_Curtain.TooMuch_Choice
 }
 
 = Personal_TooMuch
@@ -790,7 +790,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 
     "I think you are sabotaging yourself on purpose." The voice is gentle. Soft. " Something, out _there_ is making you this way. So aren't you so glad you can stay?"
     
-    -> Confessional.TooMuch_Choice
+    -> Confessional_Curtain.TooMuch_Choice
 
 - else:
     #delay: 0.5
@@ -807,7 +807,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
         "There is a silver lining to all this." 
         
         You perk up immediately at it's words.
-        -> Confessional.Personal_End
+        -> Confessional_Curtain.Personal_End
     
     *[Disagree with the voice]
         Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that-"
@@ -815,19 +815,19 @@ The voice finally continues, and you can breathe again. "So you are picking thes
         It cuts you off again.
 
         "I think you are sabotaging yourself on purpose." The voice is stern, and cold. "Something, out _there_ is making you this way. So aren't you so glad you can stay?"
-        -> Confessional.TooMuch_Choice
+        -> Confessional_Curtain.TooMuch_Choice
 }   
 
 = TooMuch_Choice
 *[Nod]
     ~stay += 1
     You find yourself nodding. You are glad. You can stay and have all the time in the world. You can do it all, so long as you get to stay.
-    -> Confessional.Personal_End
+    -> Confessional_Curtain.Personal_End
 
 *[Remain silent.]
     ~stay += 0.5
     You say nothing, the voice's words rolling around in your mind. It's... tempting. If the voice is right....
-    -> Confessional.Personal_End
+    -> Confessional_Curtain.Personal_End
         
 *["Stay?"]
 
@@ -843,18 +843,18 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
 "Of course." The voice changes. "You'll have all the time in the world here. Doesn't that sound grand?"
         
 *[liquid]
-    ->Confessional.liquid_2
+    ->Confessional_Curtain.liquid_2
     
 *["No."]
     
 *["I don't want to be here."]
     The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You don't _want_ to be here? How dare you-"
-    ->Confessional.Reject
+    ->Confessional_Curtain.Reject
     
 *[Remain silent.]
     ~stay += 0.5
     You say nothing, the voice's words rolling around in your mind. It's... tempting. If the voice is right....
-    -> Confessional.Personal_End
+    -> Confessional_Curtain.Personal_End
 
 - - The drips from the leak stop. "No...?" The voice scofts at you. "What do you mean, no?"
 ~temp_string = ""
@@ -903,9 +903,9 @@ Bang!
 The booth could come apart at any moment. You need to get out of here.
 
 *[Get out of the confessional]
--> Confessional.Get_Out
+-> Confessional_Curtain.Get_Out
 *[Look into the other side]
--> Confessional.Look
+-> Confessional_Curtain.Look
 
 = Personal_End
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
@@ -916,11 +916,11 @@ The bucket is filling fast. You can see the [liquid] seems... thicker than just 
 "You'll have all the time in the world here. All you have to do is stay!" The voice is excited. "Doesn't that sound grand?" 
 
 * [liquid]
-    ->Confessional.liquid_2
+    ->Confessional_Curtain.liquid_2
 
 *["You're right..."]
     The voice is making sense. Imagine what you could fo if...
-    ->Confessional.End_Confessional
+    ->Confessional_Curtain.End_Confessional
 
 *["No."]
 
@@ -971,9 +971,9 @@ Bang!
 The booth could come apart at any moment. You need to get out of here.
 
 *[Get out of the confessional]
--> Confessional.Get_Out
+-> Confessional_Curtain.Get_Out
 *[Look into the other side]
--> Confessional.Look
+-> Confessional_Curtain.Look
 
 = liquid_2 
 You look closer. The liquid in the bucket is slightly viscous. It looks almsot like-
@@ -981,7 +981,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almsot l
 "Well?" The voice is growing impatient.
 
 *["You're right..."]
--> Confessional.End_Confessional
+-> Confessional_Curtain.End_Confessional
 
 *["I don't want to be here."]
 
@@ -1032,9 +1032,9 @@ Bang!
 The booth could come apart at any moment. You need to get out of here.
 
 *[Get out of the confessional]
--> Confessional.Get_Out
+-> Confessional_Curtain.Get_Out
 *[Look into the other side]
--> Confessional.Look
+-> Confessional_Curtain.Look
 
 = No_Confession
 #delay: 1
@@ -1075,23 +1075,23 @@ The voice says nothing.
 - temp_bool:
     *[Fill the silence.]
         "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
-        ->Confessional.No_Talk
+        ->Confessional_Curtain.No_Talk
     {
         - stay <= 1:
             *[Wait]
-            -> Confessional.Wait
+            -> Confessional_Curtain.Wait
     }
 - else:
     *[Talk about it]
         {
             - temp_bool_2:
-                ->Confessional.Work_Confession
+                ->Confessional_Curtain.Work_Confession
             - else:
-                ->Confessional.Personal_Confession
+                ->Confessional_Curtain.Personal_Confession
         }
     *[Don't talk about it]
         "No, nothing to tell. My life is a routine, and work is no different." You tap your fingers against the bench. "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." 
-        ->Confessional.No_Talk
+        ->Confessional_Curtain.No_Talk
 }
 
 = Wait
@@ -1099,7 +1099,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 *[Fill the silence.]
     "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
-    ->Confessional.No_Talk
+    ->Confessional_Curtain.No_Talk
 
 *[Continue waiting]
     ~stubborn = true
@@ -1111,14 +1111,14 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 *[Fill the silence.]
     "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
-    ->Confessional.No_Talk
+    ->Confessional_Curtain.No_Talk
 
 *[Leave the booth]
     #play: curtain
     You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
         
     You should look for the heart elsewhere for now. You look...
-    -> Confessional.Leave
+    -> Confessional_Curtain.Leave
     
     
 
@@ -1218,7 +1218,7 @@ _Plink!_
 
 *["I don't want to be here."]
 The rapid drips from the leak stop. "Hm...?" The voice laughs. "You think that now, but just wait-"
-->Confessional.Reject
+->Confessional_Curtain.Reject
 
 *[Stay silent.]
 ~temp_string = "..."
@@ -1244,7 +1244,7 @@ _Plink! Plink! Plink!_
 *["Maybe you are right..."]
 
 *["No..."]
--> Confessional.Reject_Version_2
+-> Confessional_Curtain.Reject_Version_2
 
 
 - The leak is dripping faster now. The bucket is spilling over. The viscous liquid contains small bubbles as it crawls over the floor.
@@ -1259,14 +1259,14 @@ _Plink! Plink! Plink!_
     "It screamed at me. It- It burned me..." You shutter at the memory. 
     
     The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must be mistaken. The church would never-"
-    ->Confessional.Reject
+    ->Confessional_Curtain.Reject
 }
 
 *["No.."]
 
 *["When it brought me here..."]
 
-- -> Confessional.End_Confessional
+- -> Confessional_Curtain.End_Confessional
 
 = End_Confessional
 "When it brought you here, that must have been frightening. Change always is."
@@ -1314,27 +1314,27 @@ You take a deep breath. You need to confess something? Fine.
         {
             - temp_bool:
                 *[I am a pastor here,]
-                    ->Confessional.Know_Father
+                    ->Confessional_Curtain.Know_Father
             - else: 
                 *[As a man of cloth,]
-                ->Confessional.Know_Father
+                ->Confessional_Curtain.Know_Father
         }
         
 }
 
 *[Talk about work]
-    -> Confessional.Work_Confession
+    -> Confessional_Curtain.Work_Confession
 *[Talk about something personal]
-    -> Confessional.Personal_Confession
+    -> Confessional_Curtain.Personal_Confession
 *[Talk about nothing]
-    -> Confessional.No_Confession
+    -> Confessional_Curtain.No_Confession
             
 *[Leave the booth]
 #play: curtain
 You quickly leave the booth, and stare at the confessional. It's quiet. Whatever is in there, it won't tell you anything important. And you don't like that it was pushing you to "confess."
     
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
--> Confessional.Leave
+-> Confessional_Curtain.Leave
 
 = Know_Father
 ~ church_anger += 0.5
@@ -1353,18 +1353,18 @@ You take a deep breath. You need to confess something? Fine.
 *[push the matter]
 
 *[Talk about work]
-    -> Confessional.Work_Confession
+    -> Confessional_Curtain.Work_Confession
 *[Talk about something personal]
-    -> Confessional.Personal_Confession
+    -> Confessional_Curtain.Personal_Confession
 *[Talk about nothing]
-    -> Confessional.No_Confession
+    -> Confessional_Curtain.No_Confession
 
 *[Leave the booth]
 #play: curtain
 Without a second thought, you rush out of the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it, let alone confess.
         
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
--> Confessional.Leave
+-> Confessional_Curtain.Leave
 
 - "No, the father of that girl."
 
