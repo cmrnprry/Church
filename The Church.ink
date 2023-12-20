@@ -1,6 +1,10 @@
 INCLUDE Variables.ink
 INCLUDE Confessional.ink
 INCLUDE AfterFirstChoice.ink
+INCLUDE Confessional_Door.ink
+INCLUDE Confessional_Curtain.ink
+
+
 
 
 
@@ -1080,8 +1084,11 @@ You swallow th elump in your throat and carefully pick up pieces, ensuring you g
 It's still dark, but your eyes have adjusted a bit more. You can't get out the way you came in, but there might be another way out.
 
 *[Wait until morning]
-
+    ~ temp_bool = false
+    ->Trapped.Wait_Morning
 *[Look for a different exit]
+    ~ temp_bool = true
+    ->Trapped.Wait_Morning
 
 *[Accept the Church]
 ->Trapped.Accept
@@ -1387,6 +1394,7 @@ You feel...
 - On the ground in front of you sits a flashlight and a note.
 
 *[Pick up the flashlight]
+->Inside.Flashlight
 
 *[Read the note]
 ->Inside.Dark
@@ -1395,8 +1403,10 @@ You feel...
 The paper feels thin. It's too dark to read.
 
 *[Pick up the flashlight]
+->Inside.Flashlight
 
-- ~ lanturn =  true
+= Flashlight
+ ~ lanturn =  true
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
 *[Read the note]
@@ -1404,7 +1414,7 @@ It looks battery operated, and gives off enough light to see around you. You sho
 
 = Note
 #play: click-on #effect: flashlight
-The note is from an old piece of parchment. Picking it up, it feels like it could crumple into dust.
+The note is from an old piece of parchment. It feels like it could crumple into dust.
 
 #effect: dark
 "Find the heart and destroy it./nThe church will try to stop you./nIt will do anything to keep you here. Stay out of it's sight./n Do not become it's next meal."
@@ -1461,6 +1471,32 @@ You have a goal now. _Find and destroy the heart._ You don't know where the "hea
 
 === Stairs ===
 -> END
+
+=== Confessional ===
+{
+ - !confessional_priest || !confessional_sin:
+        {
+            - leg == "worst":
+                ~temp_string = "carefully"
+            - else: 
+                ~temp_string = ""
+        }
+        You {temp_string} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.
+    - else:
+        You approach the confessional booth.
+
+}
+
+{
+
+    - !confessional_priest:
+        *[Enter through the door]
+        ->Confessional_Door
+    - !confessional_sin:
+        *[Enter through the curtain]
+        ->Confessional_Curtain
+
+}
 
 === Endings ===
 
