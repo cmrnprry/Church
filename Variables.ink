@@ -21,8 +21,10 @@ VAR work = 0
 VAR room = 0
 VAR stay = 0
 VAR church_anger  = 0
+VAR temp_num = 0
 
 //visited
 VAR confessional_priest = false
 VAR confessional_sin = false
 VAR pews = false
+VAR after_first = false

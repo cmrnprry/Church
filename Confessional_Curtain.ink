@@ -1,28 +1,49 @@
 === Confessional_Curtain ===
-
 ~ confessional_sin = true
-#play: curtain
-You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
 
-A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
+{
+- !after_first:
+    #play: curtain
+    You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
 
-There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter?
+    A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
+
+    There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter?
+
+- else:
+    While you wait for the service to be over, you look around the cramed space for something useful.
+
+    A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
+
+    You find nothing. The booth is empty.
+
+    The rumbling of the sound outside have gone quiet, and when you peak out again, the people and red light are gone. It's probably safe to leave now.
+    
+    You sigh in relief, and move to leave when you hear a voice float through the grate. 
+    
+    "Already leaving?" You freeze. The voice is deep. "Why did you enter only to leave? Aren't you looking for somehting?"
+    ->Confessional_Curtain.Why_Enter
+}
 
 *[To Confess]
 ~temp_bool = true
 "What is it you have to confess?" You jump at the deep voice comes from the other side of the screen. "I am here to listen."
+->Confessional_Curtain.Why_Enter
 
 *[To Look for Clues]
 ~temp_bool = false
 You look around the small space again, touching the smooth wood to find anything your eyes might miss.
 
 "Looking for something?" You jump at the deep voice comes from the other side of the screen. "I may be able to help?"
+->Confessional_Curtain.Why_Enter
 
 *[You Don't Know]
 ~temp_bool = false
 "Lost are we?" You jump at the deep voice comes from the other side of the screen. "Maybe I can help?"
+->Confessional_Curtain.Why_Enter
 
-- Your heart races, and your entire body tenses. Another person? Here? Do they know about the heart? Can you trust them? 
+= Why_Enter
+Your heart races, and your entire body tenses. Another person? Here? Do they know about the heart? Can you trust them? 
 
 *["Have you seen a heart?"]
 #delay: 1
@@ -40,7 +61,7 @@ You look around the small space again, touching the smooth wood to find anything
 #play: curtain
 You quickly leave the booth, and stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
     
-There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
+There was nothing in there, anyway. You should return to your search.
 -> Confessional_Curtain.Leave
 
 - 

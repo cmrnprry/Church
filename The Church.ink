@@ -1,14 +1,17 @@
 INCLUDE Variables.ink
-INCLUDE Confessional.ink
 INCLUDE AfterFirstChoice.ink
 INCLUDE Confessional_Door.ink
 INCLUDE Confessional_Curtain.ink
+INCLUDE Pews.ink
+INCLUDE Stairs.ink
 
 
 
 
 
-->Start
+
+
+->Confessional_Door
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
@@ -872,11 +875,12 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 
 On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
-*Pick up the {object}.
+~ room += 1
+
+*[Pick up the {object}.]
 ~ temp_bool = false
 
-*Leave it.
-~ room += 1
+*[Leave it.]
 ~ temp_bool = true
 
 - 
@@ -1465,12 +1469,8 @@ You have a goal now. _Find and destroy the heart._ You don't know where the "hea
 *[Somewhere up the stairs]
 -> Stairs
 
-=== Pews ===
--> END
 
 
-=== Stairs ===
--> END
 
 === Confessional ===
 {
