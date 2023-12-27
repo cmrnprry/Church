@@ -4,6 +4,8 @@ INCLUDE Confessional_Door.ink
 INCLUDE Confessional_Curtain.ink
 INCLUDE Pews.ink
 INCLUDE Stairs.ink
+INCLUDE End_Game.ink
+
 
 
 

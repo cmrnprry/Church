@@ -441,7 +441,7 @@ You {temp_string}, and turn to see the confessional shuttering under whatever in
 Inside, the booth is empty, and pristine. The divider is not splintered, and the seperating grate is back in place. It looks almost identical to the side you had been on. 
 
 On the bench sits a small key. You pick it up, and put in your pocket, hoping it will be useful later.
-
+~ key = true
 ~ confessional_priest = true
 *[Exit the confessional booth.]
 ->After_First.Confessional_After
@@ -465,7 +465,7 @@ The flash light clicks on, and everything stops.
 Tthe otherside is pristine. It looks almost identical to the side you had been on. No one is insdie.
 
 On the bench sits a small key. 
-
+~ key = true
 *[Reach your arm through]
 ~temp_bool = true
 *[Go around]
@@ -586,7 +586,7 @@ _Plunk!_
 A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid streches like you stepped in gum. Is this...? You gag.
 
 "A gift for you. An olive branch of sorts." You hear the door close, and you know you are alone.
-
+~ key = true
 *[Pick up the key]
 
 - You grab it out of the pool of liquid. It's sticky and thick, almost like... Your stomach churns. Saliva?
@@ -1290,6 +1290,7 @@ _Plink! Plink! Plink!_
 - -> Confessional_Curtain.End_Confessional
 
 = End_Confessional
+~ key = true
 "When it brought you here, that must have been frightening. Change always is."
 
 #delay: 1

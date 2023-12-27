@@ -50,6 +50,7 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 *[Go downstairs]
     ->Stairs.Downstairs
     
+
 = Upstairs
 #play: click-on
 You start up the stairs, holding the hand rail as you go.
@@ -61,7 +62,7 @@ You start up the stairs, holding the hand rail as you go.
         ~temp_string=""
 }
 
-You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost list a ladder, the stairs are so steep. {temp_string}
+You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost treating the stairs as a ladder, they're so steep. {temp_string}
 
 You stop to rest every 3 or 4 flights. If your count is right, you've stopped at least 12 times.
 
@@ -79,16 +80,218 @@ After countless flights of stairs, you make it to the landing, crawling your way
 
 The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
 
-You wonder if this is where the heart is kept.
 
-[[Examine the locks]]
+*[Examine the locks]
 
-[[Head back down]]
+*[Head back down]
+-> Stairs.Return_Down
 
-(if:$confessional_sin is true)[\
-[[Try the key you have.]]]
+- 
+{
+- key or clippers:
+    ~temp_string = "Maybe you could..."
+- else:
+    ~temp_string = ""
+}
 
 
+You take a closer look at the locks. There are three main ones, all are slightly different. 
+
+The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {temp_string}
+
+The middle lock seems to be slightly newer. It doesn't require a key, but a four digit number code. It is attched to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
+
+The last lock is a sliding chain door that appartments usually have inside to prevent people from forcing their way in. Sliding it all the way to the end makes a smaller deadbolt slide into place, keeping the door unopenable. There is no obvious keyhole.
+
+{
+    - key && key_lock:
+        *[Try the key you have.]
+            -> Stairs.Try_Key
+}
+
+{
+    - clippers && !clippers_lock:
+        *[Use the wire cutters.]
+            -> Stairs.Use_Clippers
+}
+
+{
+    - number_combo != "" && !number_lock:
+        *[Enter {number_lock} into number lock.]
+            -> Stairs.Enter_Number
+}
+
+*[Mess with the locks]
+~ messed_locks = true
+
+*[Head back down]
+-> Stairs.Return_Down
+
+- You try a few combinations on the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up.
+
+You pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out.
+
+{
+    - key && !key_lock:
+        *[Try the key you have.]
+            -> Stairs.Try_Key
+}
+
+*[Head back down]
+-> Stairs.Return_Down
+
+= Try_Key
+~ locks += 1
+~ key_lock = true
+You fish the key out of your pocket, and try it on the only lock with a key hole. It resists slightly, but after messing with it, you're able to slot it in and turn it. 
+
+#play: groaning-angry, 1 
+The chains and lock fall to the ground. <>
+
+#stop: groaning-angry, 2
+The church groans angrily in response. 
+
+{ - locks:
+    - 1: One lock down, two more to go.
+    - 2: Two locks down, one more to go.
+    - 3: All the locks have been removed.
+}
+
+{
+    - key_lock && number_lock && clippers_lock:
+        *[Open the door.]
+        ->Open_the_Door
+    - else:
+        {
+            - clippers && !clippers_lock:
+                *[Use the wire cutters.]
+                    -> Stairs.Use_Clippers
+        }
+        
+        {
+            - number_combo != "" && !number_lock:
+                *[Enter {number_lock} into number lock.]
+                    -> Stairs.Enter_Number
+        }
+        
+        
+        {
+            - !messed_locks && locks < 3 && (number_combo == "" || !clippers):
+                *[Mess with the other locks]
+                ~ messed_locks = true
+                -> Stairs.Mess_With
+        }
+        
+        *[Head back down]
+        -> Stairs.Return_Down
+}
+
+= Mess_With
+~temp_string = ""
+{
+    - number_combo != "":
+        ~temp_string = "You try a few combinations on  the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up."
+}
+{
+    - !key:
+        ~temp_string += "\nYou pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast."
+}
+{
+    - clippers:
+        ~temp_string += "You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out."
+}
+    
+With one lock removed, you mess with the others. {temp_string}
+
+= Use_Clippers
+~ locks += 1
+~ key_lock = true
+~ temp_string = ""
+
+{
+ - finger_chopped:
+    ~ temp_string = "You flinch at the sound out the chain snapping, reminded of the sound when you let them take your finger. A dull pain echos through your stump at the memory. "
+}
+
+{
+ - !key_lock && key:
+    ~ temp_string += "You look at the rest of the chains that are held together with the old looking lock. You try the key you found but... Instead, you cut around the lock and then some, until the lock falls."
+ - !key_lock && !key:
+    ~ temp_string += "You look at the rest of the chains that are held together with the old looking lock. You could look for a key, but... Instead, you cut around the lock and then some, until the lock falls."
+}
+
+You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
+
+#play: cut_chain
+{temp_string}
+
+{ - locks:
+    - 2: With two locks removed, all that's left is the number lock.
+    - 3: All the locks have been removed.
+}
+
+{
+    - key_lock && number_lock && clippers_lock:
+        *[Open the door.]
+        ->Open_the_Door
+    - else:
+        {
+            - number_combo != "" && !number_lock:
+                *[Enter {number_lock} into number lock.]
+                    -> Stairs.Enter_Number
+        }
+}
+
+
+
+*[Head back down]
+-> Stairs.Return_Down
+
+//TODO
+
+= Enter_Number
+~locks += 1
+~number_lock = true
+
+(set:$code to true)(if:$name is true)[(if:$room is 5)[You pull the page from your pocket. You grab the combination lock and input the numbers. 0624.
+
+The lock doesn't click. You pull it, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
+
+Further down the page, it explains the number. Not a date or some random sequence, it's the number of people that have been trapped. With shaking hands, you turn the 4 up to a 5 and the lock clicks open.](else:)[You grab the combination lock try to remember the number. 062...5? You think it was that or similar. You input the number and the lock clicks open.]](else:)[You grab the combination lock, and input the number they were chanting, adding a leading zero. (if:$finger_chopped is "Oliver")[0624. The lock doesn't click. You pull it, thinking it might be stuck. Nothing.
+
+You think back, you are sure that was the number they were saying. What else could it be... Then it dawns on you. The pastor had called you, 625. Their //latest// member.
+
+It's not a date or some random, it's the number of people that have been trapped. With shaking hands, you turn the 4 up to a 5 and the lock clicks open.] (else:)[0625 You think it was that or similar. You input the number and the lock clicks open.]]
+
+You remove the lock from the metal bar, and slide it out of place. 
+(if:$cutters is true and $code is true and $locks is 1)[
+
+{ - locks:
+    - 1: One lock down, two more to go.
+    - 2: Two locks down, one more to go.
+    - 3: All the locks have been removed.
+}
+
+{
+    - key_lock && number_lock && clippers_lock:
+        *[Open the door.]
+        ->Open_the_Door
+    - else:
+        {
+            - key && key_lock:
+                *[Try the key you have.]
+                    -> Stairs.Try_Key
+        }
+        
+        {
+            - clippers && !clippers_lock:
+                *[Use the wire cutters.]
+                    -> Stairs.Use_Clippers
+        }
+
+        *[Head back down]
+        -> Stairs.Return_Down
+}
 
 = Downstairs
 ~ temp_bool = false
@@ -260,11 +463,32 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 ->Stairs.Office
 
 *[Return to the main body of the church]
+
+=  Return_Down
+{
+- locks == 1:
+    ~temp_string = "With one lock down,"
+- locks == 2:
+    ~temp_string = "With two locks down,"
+- else:
+    ~temp_string = "Unsure of what more you can do,"
+}
+
+{temp_string} you decide to head back down, assuming you can find a way to unlock them down in the church's main body.
+
+When you turn to go back down, dreading the climb, the staircase has changed into one normal flight of stairs. You can see the bottom of the landing. 
+
+Tentatively, you go down the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a spiral stair case. Shining your flashlight back up, you only see darkness. 
+
+If you weren't sure before, you are now: Behind that door lies the heart.
+
 *[Go upstairs]
+->Stairs.Upstairs
 
+*[Enter the office]
+->Stairs.Office
 
-
-
+*[Return to the main body of the church]
 
 
 
