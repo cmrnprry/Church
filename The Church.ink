@@ -1471,7 +1471,17 @@ You have a goal now. _Find and destroy the heart._ You don't know where the "hea
 *[Somewhere up the stairs]
 -> Stairs
 
+= Look_For_Heart
+You have a goal now. _Find and destroy the heart._ You don't know where the "heart" of the church is, but if you have to guess it would be....
 
+*[In the pews]
+-> Pews
+
+*[In the confessional]
+-> Confessional
+
+*[Somewhere up the stairs]
+-> Stairs
 
 
 === Confessional ===

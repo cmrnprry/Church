@@ -219,7 +219,9 @@ The ripped piece of curtain lays just outside of the booth. There's a splatter o
 
 *[Look through the hole]
 
-- ~temp_bool = true
+- 
+
+~temp_bool = true
 You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
 
 *[You need to get to her.]
@@ -228,6 +230,7 @@ You step back and throw yourself at the door one last time. It gives, and you fa
 The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
 -> Confessional_Door.Exit_Booth
 
+//TODO
 = Yes_Confessions
 "Oh!" She perks up immediately. "I kept miss-"
 
@@ -275,9 +278,9 @@ She's quiet again. You don't know what to say.
 
 Your stomach drops. Here? _This_ church? {temp_string}Your mind races. [[Is it possible that...]]
 
-[["What do you mean?"]]
+*["What do you mean?"]
 
-[["He doesn't come home?"]]
+*["He doesn't come home?"]
 
 *[Reassure her]
 

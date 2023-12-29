@@ -24,7 +24,9 @@
 *[Enter the office]
 ->Stairs.Office
 *[Return to the main body of the church]
+->Inside.Look_For_Heart
 
+//TODO
 = Office
 {
     - object != "":
@@ -45,6 +47,8 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 ->Stairs.Office
 
 *[Return to the main body of the church]
+->Inside.Look_For_Heart
+
 *[Go upstairs]
     ->Stairs.Upstairs
 *[Go downstairs]
@@ -190,18 +194,40 @@ The church groans angrily in response.
 ~temp_string = ""
 {
     - number_combo != "":
-        ~temp_string = "You try a few combinations on  the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up."
+        ~temp_string = "You try a few combinations on  the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up. \n"
 }
 {
     - !key:
-        ~temp_string += "\nYou pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast."
+        ~temp_string += "You pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast."
 }
 {
     - clippers:
         ~temp_string += "You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out."
 }
     
-With one lock removed, you mess with the others. {temp_string}
+{temp_string}
+
+{
+    - key && key_lock:
+        *[Try the key you have.]
+            -> Stairs.Try_Key
+}
+
+{
+    - clippers && !clippers_lock:
+        *[Use the wire cutters.]
+            -> Stairs.Use_Clippers
+}
+
+{
+    - number_combo != "" && !number_lock:
+        *[Enter {number_lock} into number lock.]
+            -> Stairs.Enter_Number
+}
+
+
+*[Head back down]
+-> Stairs.Return_Down
 
 = Use_Clippers
 ~ locks += 1
@@ -420,6 +446,8 @@ You feel to your right. The ground feels like you're touching chewed gum covered
 
 Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
 
+- 
+
 *[Your hand starts to itch]
 ->Stairs.Melt
 
@@ -463,6 +491,7 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 ->Stairs.Office
 
 *[Return to the main body of the church]
+->After_First.Stairs_After
 
 =  Return_Down
 {
@@ -489,6 +518,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 ->Stairs.Office
 
 *[Return to the main body of the church]
+->After_First.Stairs_After
 
 
 
