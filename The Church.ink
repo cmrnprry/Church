@@ -1118,7 +1118,7 @@ A fleeting memory won't help you now.
 Maybe... Maybe you are supposed to be here.
 
 The air around you grows a little warmer. 
-
+~ trapped_reject = true
 *It's comfortable.
 
 *The air smells sour.
@@ -1195,9 +1195,9 @@ You refuse to sleep, and dig your nails into your arm.
 -
 { 
     - stay >= 1.5: 
-        ~ temp_string = "The hauntingly familiar melody starts again." 
+        ~ temp_string = "The hauntingly familiar melody starts again, and the room warms up." 
     - stay < 1.5: 
-        ~ temp_string = "A light melody begins to play. A familiar lullaby." 
+        ~ temp_string = "A light melody begins to play, and the room warms up. The lullaby is... familiar." 
 }
 
 You try to {sleep}. {temp_string} But it's... different than <>
@@ -1298,23 +1298,23 @@ You stagger backward, deeper into the church, an intense pressure pressing down 
 You feel...
 
 *[Relief]
-~ feeling = "relief"
+~ light_feeling = "relief"
 
 *[Worry]
-~ feeling = "worry"
+~ light_feeling = "worry"
 
 *[Confused]
-~ feeling = "confused"
+~ light_feeling = "confused"
 
 - The back of your throat goes tight as you hold back tears, but you don't know why. 
 
 {
 
-    - feeling == "relief":
+    - light_feeling == "relief":
         Is some part of you... happy to be back? Reassured to be back in a place like this? Comforted to be bathed in this light?
-    - feeling == "confused":
+    - light_feeling == "confused":
         Too many emotions you can't identify are swirling inside you. You know you need to escape this light, but you want to stay for just a bit longer. 
-    - feeling == "worry":
+    - light_feeling == "worry":
         Something is wrong. Logically, you know you should feel something negative. Fear. Panic. Alarm. But the most you can muster up is worry. Worry that you will never be bathed in this light again.
 
 }
@@ -1330,12 +1330,12 @@ You feel...
 - 
 
 {
-    - feeling == "confused":
+    - light_feeling == "confused":
         ~temp_string = "confusion is the only thing you can trust."
-    - feeling == "relief":
-        ~temp_string = "{feeling} is wrong."
-    - feeling != "confused" and feeling != "relief":
-        ~temp_string = "{feeling} is a flag that something is very _wrong._"
+    - light_feeling == "relief":
+        ~temp_string = "relief is wrong."
+    - light_feeling != "confused" and feeling != "relief":
+        ~temp_string = "worry is a flag that something is very _wrong._"
 }
 
 {
@@ -1345,7 +1345,7 @@ You feel...
         ~ church_anger += 1
         ~ stay -= 0.5
         #delay: 6.5
-        You take a heavy step back and pull away from the light. This feeling of {temp_string } This much you know. This much you trust. The rest is the church.
+        You take a heavy step back and pull away from the light. This feeling of {light_feeling } This much you know. This much you trust. The rest is the church.
         
         #play: screeching 
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and luder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
@@ -1360,10 +1360,10 @@ You feel...
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
 
 {
-    - feeling == "confused":
+    - light_feeling == "confused":
         ~temp_string = "confused emotions go"
     - else:
-        ~temp_string = "{feeling} goes"
+        ~temp_string = "{light_feeling} goes"
 }
 
         "N-no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 

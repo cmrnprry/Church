@@ -40,6 +40,727 @@
     - 3:
 }
 
+{
+    - saw_locks:
+        ~temp_bool = true
+        *[Look for something to break the chain]
+        ->Stairs.Desk
+        
+        *[Look for the combination lock code]
+        ->Stairs.Books
+    - else:
+        ~temp_bool = false
+        *[Look through the books]
+        ->Stairs.Books
+
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Return to stairwell]
+~room += 1
+
+= Desk
+~ temp_bool_3 = true
+{
+    - temp_bool:
+        {
+            - object != "" :
+                ~temp_string = "You sliently curse yourself. The {object} would have made quick work of all the locks. You kick the desk in frustration."
+            - else:
+                ~temp_string = ""
+        }
+        
+        You look through the desk drawers for something that could break the chain. They're empty. {temp_string}
+        
+        
+    - else:
+        {
+            - object != "" :
+                ~temp_string = "You sliently curse yourself. The {object} would have made quick work of all the locks. You kick the desk in frustration."
+            - else:
+                ~temp_string = ""
+        }
+        
+        You go to the desk and look through the drawers of the desk. They're empty. {temp_string}
+}
+
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for the combination lock code]
+        ->Stairs.Books
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the books]
+        ->Stairs.Books
+}
+
+*[Return to stairwell]
+~room += 1
+
+= Books
+~ temp_bool_3 = false
+You approach the bookshelves. In addition to all the books, water-stained boxes and a decaying wooden chest littered the shelves. You pick through the boxes first, only to find them filled with more books. You grab the chest and try opening it, only to find it to be locked. You give it a shake, and hear something shaking around inside.
+        
+        "Probably another book..." you mutter. You look through the key hole, but can't see anything.
+
+{//TODO
+    - key && !key_lock:
+        ~temp_bool_2 = false
+        *[Try the key]
+        You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
+        
+        You jiggle the key, and force it to turn. _Clank!_ The key snaps in the lock.
+        
+        "God DAMMIT!"
+        
+        You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+        -> Stairs.Your_Book
+    - else:
+        *[Break the chest]
+        You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
+        -> Stairs.Your_Book
+}
+
+*[Look at the books]
+
+- You put the chest back on the shelf, and grab a random book. It has no title, but the number 2743 is on the cover in thick, gold-colored lettering.
+
+The first page has the name "Mary" in script. A dedication, maybe? You flip to the next page and begin to read. The color almost immediately drains from your face. You jump to the end, and your stomach tightens. You throw the book to the floor, and grab another off it's shelf. 1924, Jeff. 2952, Adrian. 1853, Reed. 
+
+All the stories are the same: They entered the church, and never left.
+
+*[Read Mary's book]
+~temp_bool_2 = true
+
+*[Look for your book]
+-> Stairs.Your_Book
+
+- 
+Tentatively, you pick up Mary's book again, and begin to read.
+
+The start is jarrying. Mary is stuck in a storm, and stumbled upon the church while looking for a place to rest. Her version of the churchUnlike your expereince, this was her first time meeting the church. Her first thought upon seeing it was: _Finally, salvation._ 
+
+She did not hesitate to take shelter inside. 
+
+Once inside, Mary wanders to the pews. Then a very familiar scene begins to play out: a beautiful melody begins to play and the church warms itself. You can't be sure is the melody is the same you heard, but it brought tears to Mary's eyes. 
+
+The last page details how the beautiful melody lulled her into a sense security. How her final breaths were peacful. How her body melted into wood after she was gone.
+
+You close the book, and place it back on the shelf. Your insides twist and lurch as you look over all the books that litter the floor, and sit on the shelves. All these books- no. All these _people_ are victims who never got out.
+
+{
+    - saw_locks:
+        ~temp_string = "Look through books for the code"
+    - else:
+        ~temp_string = "Look through the books for clues"
+}
+
+*[Look for your book]
+-> Stairs.Your_Book
+
+*[{temp_string}]
+
+- 
+
+= Your_Book
+~temp_bool = false
+{
+    - temp_bool_2:
+        You pull book after book off the shelves, looking at the first page for your name, and throwing it to the floor when it's not. When you run out of books, you go through the boxes. 
+        
+        "Where is it? Where could it possibly be?"
+        
+        You grab the chest, give it a shake, and hear something inside. You try to open it, but it's locked.
+        
+        "Probably another book..." you mutter. You look through the key hole, but can't see anything. "It could be..."
+
+    {//TODO
+        - key && !key_lock:
+            ~temp_bool_2 = false
+            ~temp_bool = true
+            *[Try the key]
+            You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
+            
+            You jiggle the key, and force it to turn. _Clank!_ The key snaps in the lock.
+            
+            "God DAMMIT!"
+            
+            You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+            ~temp_string = "if the loss of the key was worth it"
+            -> Stairs.Your_Book
+        - else:
+            *[Break the chest]
+            You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
+            ~temp_string = "if this is indeed your book"
+            -> Stairs.Your_Book
+    }
+    
+    - temp_bool:
+        You pick up the book, and trace the numbers. You look at the first page, eage to see {temp_string}. "Oh..."
+        
+        You fall to the ground. <>
+    
+    - else:
+        You pick up the book, and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..."
+}
+
+It's your book.
+
+Your read the first few pages, and it detials everything you've expereinced so far, including the childhood memories you supressed. There's blank pages between your childhood expereince and your current one. Your hands shake. Is the ending already written? If it is, will reading make a difference?
+
+*[Flip to the end.]
+~temp_bool = true
+~read_book = true
+
+*[Put it back.]
+~temp_bool = false
+~read_book = false
+-> Stairs.Put_Back
+
+- With shaking hands, you flip to the end of the book. You take a deep breath and read the last page. It ends with... It ends with you sitting in the pews of the church, happy. You found peace. 
+
+You accepted the church.
+    ~ stay += 1
+
+*[You can't belive this.]
+
+- You refuse to accept this. That must be a trick of the church- it has to be.
+
+{
+    - stay >= 2.5:
+    _But does it?_ Your traitorous mind whispers to you. You think back to everything that's happened. All the good. All the bad. _Does the bad really outweigh the good?_ You want to say yes, but you can't bring yourself to say it. _If you had to choose, could you really say that leaving is better? Is that what you really want?_
+
+    *[You're not sure.]
+        ->Stairs.Unsure
+    
+    - else:
+        You clutch the book tightly in your hands. You cannot accept that ending. Not after everything you've been through.
+    *[Put it back.]
+        -> Stairs.Put_Back
+}
+
+*[Rip out the page]
+
+*[Take the book with you.]
+->Stairs.Take_it
+
+- //TODO: Rip out the apges and hurt yourself
+~ stay -= 0.5
+You stare at the page, and without another thought, rip it out. You feel a throbbing pain in your lower back, but ignore it. You feel a sense of relif as you stare at the blank page, your book is no longer finished.
+
+Then, to your horror, ink stains the page, and the words reappear. _You found peace._
+
+*[Rip it out again.]
+
+*[Leave it.]
+->Stairs.Leave_it
+- 
+~ stay -= 0.5
+You rip out the page again, and again, you feel a throbbing pain. This time, in your shoulder.
+
+Again the ink reappears. 
+
+In frustration, you rip the pages out over and over. A new part of your body gains a new pain. The ink reappears each time. You rip and rip and rip the pages until there's only one left.
+
+Your entire body aches.
+
+*[Rip out the last page.]
+
+*[Leave it.]
+->Stairs.Leave_it
+
+- 
+~ branded = true
+You rip out the last page. You don't feel a pain this time.
+
+"What now, huh?" you yell. "What...?"
+
+Your skin starts to tingle, which quickly turns into a searing pain. You scream and drop your book, clawing at the pain, trying to make it stop. You stare down at your hands to see angry red lines etched in your skin. You roll up your shirt and see the same thing.
+
+Your skin bubbles and and oozes as these line change their shape to form words. Words you have read over and over again. _You found peace. You found peace. You found peace. You found peace._
+
+"No, stop. Stop!" 
+
+Your words fall on deaf ears as you can only watch the words from your book engrave themselves in your skin. You drop to the floor, and curl into the fetal position. Tears leak from your eyes, a soothing comfort as they roll over your bleeding skin. 
+
+You wimper as the branding finishes, every part of your skin prickles. You bring your trembling hands to your face, and they are stained with your blood. Slowly, slowly, you sit up. Your clothing peels over the wooden floor. The branding already looks healed over, but the pain is still fresh.
+
+*[You don't think you'll ever forget that pain.]
+
+- You grab your book off the floor and dust off the cover.
+
+*[Put the book away.]
+->Stairs.Put_Back
+
+*[Take the book with you.]
+->Stairs.Take_it
+
+= Leave_it
+You take a deep breath, and close the book. The church can think what it wants, it doesn't know that this is how it will end. It's just how it _thinks_ it will end.
+
+*[Put the book away.]
+->Stairs.Put_Back
+
+*[Take the book with you.]
+->Stairs.Take_it
+
+= Take_it
+{
+    - temp_bool:
+        ~ temp_string = "You may already know how this could end, but you take it with you none the less."
+    - else:
+        ~ temp_string = "You don't want to know how this story ends, but in case you change your mind... "
+}
+
+
+You tuck the book under your arm. {temp_string}
+
+{
+    - saw_locks:
+        You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
+        
+    - else:
+        You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you?
+}
+
+*[Look through the books]
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office]
+->Stairs.Exit_Office
+
+- 
+
+{
+    - confessional_priest:
+        ~ temp_string = "You look through all the books that match the story the little girl told you, searching for a mother that had a sick child, and a father that was a priest."
+    - saw_locks:
+        ~ temp_string = "You search and seach, but you don't know enough about her to even know if you've passed her book or not."
+    - else: 
+        ~ temp_string = "You search and seach, but you don't know what you're looking for.<br>After hours of searching, you decide to stop. If the code is in one of these books, you're going about it the wrong way. You decide to look again once you know more."
+}
+
+With the minimal knowledge you have, you skim through as many books as you can. {temp_string}
+
+{
+    - read_book:
+        ~ temp_string = "Much like your own ending, they never leave."
+    - else:
+        ~ temp_string = "They never leave."
+}
+{
+    - confessional_priest or saw_locks:
+        ~ stay += 0.5
+        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {temp_string} They all find peace.
+        
+        You're about to give up until you find someone promising: Ophelia.
+}
+
+{
+    - confessional_priest or saw_locks:
+        ~ temp_string = "Read the book."
+    - else:
+        ~ temp_string = "Look elsewhere."
+}
+
+*[{temp_string}]
+
+-
+{
+    - !confessional_priest or !saw_locks:
+        ->END
+}
+~name = true
+~number_combo = "2755"
+You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
+
+Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
+
+"2755, got it!" you exclaim. "Thank you, Ophelia!"
+
+*[Rip out the page]
+->Stairs.Rip_out_Ophelia
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office.]
+->Stairs.Exit_Office
+
+= Unsure
+Confused, you leave the room, and wander numbly back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
+
+*[You reach out a hand.]
+
+But the church looks at you again, bathing you in the wonderfully comfortable red light. The door stay open. You feel like...
+
+*[Laughing]
+~ feeling = "laugh"
+
+*[Crying]
+~ feeling = "cry"
+
+- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. _Is this really what you want?_ Freedom is only one more step away. _To leave?_ Your legs are glued to your spot on the floor. _Are you sure?_ You grab your leg, pulling it forward.
+
+{
+    - name:
+        ~temp_string = ", Emily."
+    - else:
+        ~temp_string = "."
+}
+
+{
+    - confessional_priest:
+        "You're leaving me?" You stop. It's the little girl{temp_string} She's crying. "You're leaving me all alone? Again?"
+        
+        You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
+        {
+            - priest_feeling == "guilt":
+                Tears well in your eyes, and you fall to your knees, bowing your head, holding the fabric to your face. <Guilt, Shame, Remorse> bubbles up inside you. 
+                
+                {
+                    - stay >= 1.5:
+                        "No." you croak. How could you leave her again? After all she's been through?
+
+                        "Thank goodness." she says, and you feel someone hug you from behind. You turn to hug her back.
+                
+                        *[No one is there.]
+                        ->Stairs.Sit_Pews
+                    - else:
+                        But the guilt is misplaced. You didn't hurt her. You don't even know if she's real.
+                        
+                        "Yes." You say and fall forward.
+                        
+                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+        
+                        *[You stand, dust yourself off, and walk home.]
+                        ->Stairs.Leave
+                }
+                
+            - priest_feeling == "dread":
+                You drop the fabric, and watch it fall to the floor. You can feel the crip outside wind blowing into the church, but the fabric does not react to it.
+                
+                "It's not real." You murmer, and fix your gaze on the outside. "It's not real."
+                
+                "But _I_ am." the little girl wails, and something warm slams into your back. "_I'm_ real, so _promise_ you won't leave me alone again!"
+                
+                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
+                        
+                "I...." you croak. It's real this time. It's not a trick. 
+                
+                {
+                    - stay >= 2:
+                        "I won't." you wimper. If it is real, how could you leave her again? "I promise"
+
+                        "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
+                
+                        *[No one is there.]
+                        ->Stairs.Sit_Pews
+                        
+                    - else:
+                        You steel yourself.  You don't even know if she's real.
+                        
+                        "No." You say and fall forward.
+                        
+                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+        
+                        *[You stand, dust yourself off, and walk home.]
+                        ->Stairs.Leave
+                }
+            
+            - priest_feeling == "anger":
+                You throw the fabric to the ground. "Do you think this will work the second time?" You {feeling}.
+                
+                "Don't leave me. _Please_ don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
+                
+                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
+                        
+                "I...." you croak. It's real this time. It's not a trick. 
+                
+                {
+                    - stay >= 2:
+                        Your resolve breaks, "I won't." 
+
+                        "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
+                        
+                        *[No one is there.]
+                        ->Stairs.Sit_Pews
+                    - else:
+                        You steel yourself.
+                        
+                        "No." You say and fall forward.
+                        
+                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+        
+                        *[You stand, dust yourself off, and walk home.]
+                        ->Stairs.Leave
+                }
+        }
+        
+    - coward:
+        {
+           - name:
+                ~temp_string = ", Ophelia."
+            - else:
+                ~temp_string = "."
+        }
+        
+        "Coward." You stop. It's the woman who helped you{temp_string} "You're just going to leave?"
+        
+        {
+            - stay >= 2.5:
+                "I..." You don't know how to answer. You look down at your hands, they're intact. You still have all ten. You ball them into fists. "I..."
+
+                "You don't deserve to leave."
+                
+                *[Maybe she's right...]
+                ->Stairs.Sit_Pews
+            - else:
+            "Yes." You say and fall forward.
+                        
+            There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+        
+            *[You stand, dust yourself off, and walk home.]
+            ->Stairs.Leave
+        }
+        
+    - else:
+        The red light intensifies, a comforting pressure. You fall to the floor, and begin to crawl. Your body is heavy. Each movement harder than the last. 
+        
+        The way out is within your reach. It's just a bit further. The light grows brighter. Your limbs shake.
+        
+        {
+            - leave_light:
+                You don't want to leave it, but you know you have to. You want to. You want...
+            
+                What do you want?
+            
+                You stop, and sit back. You stare up at the church window, and it looks back at you.
+                
+            {
+                - stay >= 2.5:
+                    What are you fighting so hard for?
+                    
+                    {
+                        - happy:
+                            You look down at the hand that's missing a finger.
+                        - else:
+                            You think about all you've been through.
+                    }
+                    
+                    *[You've already given up so much.]
+                        ->Stairs.Sit_Pews
+                - else:
+                    You didn't leave this light until the church decided you could last time, but this time... Your finger tips escape the light, reaching out through the church door. 
+                
+                    That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+        
+                    *[You stand, dust yourself off, and walk home.]
+                        ->Stairs.Leave
+            }
+            - else:
+                You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
+                
+                That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+        
+                *[You stand, dust yourself off, and walk home.]
+                ->Stairs.Leave
+        }
+}
+
+= Sit_Pews
+The front door closes, and you drift deeper into the church. Organ music begins to play.
+
+You end up in the pews, just like your book said you would. You sit down, and close your eyes, taking in the church music. When you open them, the pews are filled with people, all turned towards you. It's people you've read about, smiling at you. Welcoming you.
+
+They begin to sing, hands out streached for you to take. The music flows through you, and you feel a smile come to your face.
+
+*[Take their hands.]
+
+- 
+*[And find peace.]
+->Credits
+
+= Leave
+*[It has been a long night.]
+
+- 
+*[And you deserve a very long, vey hot, bath.]
+->Credits
+
+= Put_Back
+{
+    - temp_bool:
+        ~ temp_string = ""
+    - else:
+        ~ temp_string = "You don't want to know how this story ends, not when there's still something you can do. "
+}
+
+{temp_string}You put the book back on the shelf.
+
+{
+    - !temp_bool_3:
+        ~ temp_string = " or there might be something in the desk."
+    - else:
+        ~ temp_string = "."
+}
+
+{
+    - saw_locks:
+        You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
+        
+    - else:
+        You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you?
+}
+
+*[Look through the books]
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office]
+->Stairs.Exit_Office
+
+- 
+
+{
+    - confessional_priest:
+        ~ temp_string = "You look through all the books that match the story the little girl told you, searching for a mother that had a sick child, and a father that was a priest."
+    - saw_locks:
+        ~ temp_string = "You search and seach, but you don't know enough about her to even know if you've passed her book or not."
+    - else: 
+        ~ temp_string = "You search and seach, but you don't know what you're looking for.<br>After hours of searching, you decide to stop. If the code is in one of these books, you're going about it the wrong way. You decide to look again once you know more."
+}
+
+With the minimal knowledge you have, you skim through as many books as you can. {temp_string}
+
+{
+    - read_book:
+        ~ temp_string = "Much like your own ending, they never leave."
+    - else:
+        ~ temp_string = "They never leave."
+}
+{
+    - confessional_priest or saw_locks:
+        ~ stay += 0.5
+        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {temp_string} They all find peace.
+        
+        You're about to give up until you find someone promising: Ophelia.
+}
+
+{
+    - confessional_priest or saw_locks:
+        ~ temp_string = "Read the book."
+    - else:
+        ~ temp_string = "Look elsewhere."
+}
+
+*[{temp_string}]
+
+-
+{
+    - !confessional_priest or !saw_locks:
+        ->END
+}
+~name = true
+~number_combo = "2755"
+You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
+
+Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
+
+"2755, got it!" you exclaim. "Thank you, Ophelia!"
+
+*[Rip out the page]
+->Stairs.Rip_out_Ophelia
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office.]
+->Stairs.Exit_Office
+
+= Rip_out_Ophelia
+#play: screeching, 1 #stop: screeching, 2
+Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balence.
+
+Whatever books are left on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
+
+*[Run out of the room]
+~room = 5
+~ rip_page = true
+
+- You make your way out of the room as fast as you can. All the books on the floor make it difficult, but you manage. Once you're about halfway to the door, you hear a sharp snapping sound. A large piece of ceiling falls to your side, just barely missing you.
+
+{
+    - leg == "worst":
+        ~temp_string = ", but your leg is not cooperating with you You're not moving as fast as you want to"
+    - else:
+        ~temp_string = ""
+}
+
+You push yourself harder{temp_string}. The door is so close. _You're_ so close.
+
+*[One last push]
+
+-
+{
+    - leg == "worst":
+        You try to push your body past it's limit, but your hurt leg gives out on you. You fall, just inches from the doorway. You don't have time to get to your feet before a large chunk of ceiling lands on you.
+
+        "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
+
+        Hoping. Praying.
+
+        *[But it's no use.]
+        -> Credits
+    - else:
+        With one last burst of energy, you throw yourself out of the room. You land on the stairs hard, probably bruising something or worse. You watch as the room collapses in on itself, leaving only a caved in door way.
+
+        "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, _don't_ rip anything while in here..."
+
+        You pat your pocket that holds the page. At least you can remove one more lock with this.
+        
+        *[Exit the office.]
+        ->Stairs.Exit_Office
+}
+
 = Examine_Stairs
 You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either.
 
@@ -86,7 +807,7 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 
 
 *[Examine the locks]
-
+~ saw_locks = true
 *[Head back down]
 -> Stairs.Return_Down
 
@@ -283,7 +1004,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 
 The lock doesn't click. You pull it, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
 
-Further down the page, it explains the number. Not a date or some random sequence, it's the number of people that have been trapped. With shaking hands, you turn the 4 up to a 5 and the lock clicks open.](else:)[You grab the combination lock try to remember the number. 062...5? You think it was that or similar. You input the number and the lock clicks open.]](else:)[You grab the combination lock, and input the number they were chanting, adding a leading zero. (if:$finger_chopped is "Oliver")[0624. The lock doesn't click. You pull it, thinking it might be stuck. Nothing.
+Further down the page, it explains the number. Not a date or some random sequence, it's the number of people that have been trapped. With shaking hands, you turn the 4 up to a 5 and the lock clicks open.](else:)[You grab the combination lock try to remember the number. 062...5? You think it was that or similar. You input the number and the lock clicks open.]](else:)[You grab the combination lock, and input the number they were chanting, adding a leading zero. (if:$finger_chopped is "Ophelia")[0624. The lock doesn't click. You pull it, thinking it might be stuck. Nothing.
 
 You think back, you are sure that was the number they were saying. What else could it be... Then it dawns on you. The pastor had called you, 625. Their //latest// member.
 
@@ -493,7 +1214,7 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 *[Return to the main body of the church]
 ->After_First.Stairs_After
 
-=  Return_Down
+= Return_Down
 {
 - locks == 1:
     ~temp_string = "With one lock down,"
@@ -520,8 +1241,8 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 *[Return to the main body of the church]
 ->After_First.Stairs_After
 
-
-
+= Exit_Office
+->END
 
 
 

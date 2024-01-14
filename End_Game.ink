@@ -3,7 +3,7 @@ The door opens with a groan. The walls are bare, and the ceiling is low. The roo
 
 "The heart...?"
 
-You duck into the room and the door closes behind you, but you don't bother looking back. You approach the table, and sit in front of it. The heart is about the size of your fist. It floats in a small bowl of water, and is the soucre of the red glow. The glass is filled with a deep, red liquid. The bread next to it is short and stubby. It looks soft under the light of the heart.
+You duck into the room and the door closes behind you, but you don't bother looking back. You approach the table, and sit in front of it. The heart is about the size of your fist. It floats in a small bowl of water, and is the source of the red glow. The glass is filled with a deep, red liquid. The bread next to it is short and stubby. It looks soft under the light of the heart.
 
 Your mouth begins to water and your stomach growls. When was the last time you ate? drank?
 
@@ -71,10 +71,30 @@ You look back at the glowing heart.
 -> Open_the_Door.Pick_Up
 
 = Pick_Up
+{
+    - stay >= 2.5:
+        ~temp_string = "It's beautiful."
+    - stay >= 1.5:
+        ~temp_string = "It's unnatural."
+    - else:
+        ~temp_string = "It's disgusting."
+}
+
 #play: groan
 Carefully, you reach out and take the heart out of the water. The church groans, and heart softly pulses in your hand.
 
-The heart is warm. It must be made of thick glass, but it feels like you could crush it in your hands with little effort. You give it a soft squeeze that the room shakes in response.
+{temp_string}
+
+{
+    - stay >= 2.5:
+        ~temp_string = "The heart is warm. The stained glass feels delicate in your hand, where one wrong move could crush it. You gently press your thumb on it's center. The room shakes in response."
+    - stay >= 1.5:
+        ~temp_string = "The heart is warm. You roll it around in your hand before softly squeezing it in your hand. The room shakes in response. It's more delicate than you had imagined."
+    - else:
+        ~temp_string = "The heart is uncomfortably warm, almost burning. It must be made of thick glass, but it feels like you could crush it in your hands with little effort. You squeeze it, and the room shakes in response."
+}
+
+{temp_string} 
 
 *[Crush it]
 ~temp_bool_2 = false
@@ -84,7 +104,7 @@ The heart is warm. It must be made of thick glass, but it feels like you could c
 ->Open_the_Door.Front_Door
 
 = Front_Door
-You don't know what will happen to you or the church if you destroy the heart up here, and you don't really want to find out. You don't think the church will oull anything while your holding it's heart.
+You don't know what will happen to you or the church if you destroy the heart up here, and you don't really want to find out. You don't think the church will pull anything while your holding it's heart, but...
 
 {
     - pews:

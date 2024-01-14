@@ -231,6 +231,7 @@ The ripped piece of curtain lays just outside of the booth. There's a splatter o
 -> Confessional_Door.Exit_Booth
 
 //TODO
+
 = Yes_Confessions
 "Oh!" She perks up immediately. "I kept miss-"
 
@@ -239,11 +240,11 @@ She is cut off by a coughing fit. Harsh, loud, wet coughs.
 *[Wait for her to stop]
 
 *[Ask if she's alright]
-"Ye-" she tries to respond. "Ye-ah."
+    "Ye-" she tries to respond. "Ye-ah."
 
-"Deep breaths." You say. "We are in no rush."
+    "Deep breaths." You say. "We are in no rush."
 
-She tries to say something else, but the coughing fit persists.
+    She tries to say something else, but the coughing fit persists.
 
 - You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Eventually, she stops.
 
@@ -292,6 +293,7 @@ You kneel in front of the booth.
 You feel...
 
 *[Angry]
+~ priest_feeling = "anger"
 ~stay -= 0.5
 ~temp_string = "You grind your teeth"
 
@@ -301,8 +303,8 @@ You grab the fabric and start pulling it apart. _Riiiippp_ Is anything in here r
 
 You stop and hold the scraps in your hand. You look at the blood splatter, then up at the confessional.
 
-
 *[Guilty]
+~ priest_feeling = "guilt"
 ~stay += 0.5
 ~temp_string = "You grimce"
 
@@ -311,7 +313,7 @@ You gather up the fabric in your hands. You swallow back the lump growing in you
 You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? You look at the blood splatter, then up at the confessional.
 
 *[Dread]
-
+~ priest_feeling = "dread"
 {
 - temp_bool:
     ~temp_string = "You saw her. You _SAW_ her. The curtain is _ripped._"
@@ -335,7 +337,7 @@ It _had_ to be real, for your own sake. You grab the ripped fabric, and hesitant
     - temp_string == "Your hands tremble":
         You stare at the intact curtain in front of you. You grip the fabric in your hands tightly, afraid it will disappear the moment you can no longer feel it.
 
-        "Why...?" you mutter as you try to stand, your legs shakey. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to..."
+        "Why...?" you mutter as you try to stand, your legs shakey. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to...?"
 
         Your voice is quiet, but you know the church heard you. Deep in your gut, you know, and you waited for its response. 
         
