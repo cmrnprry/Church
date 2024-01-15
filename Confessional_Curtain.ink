@@ -2,7 +2,7 @@
 ~ confessional_sin = true
 
 {
-- !after_first:
+- !temp_visited:
     #play: curtain
     You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
 
@@ -11,6 +11,7 @@
     There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter?
 
 - else:
+    ~ temp_visited = false
     While you wait for the service to be over, you look around the cramed space for something useful.
 
     A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
@@ -444,7 +445,12 @@ On the bench sits a small key. You pick it up, and put in your pocket, hoping it
 ~ key = true
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-->After_First.Confessional_After
+{
+    - visited_first:
+        ->After_First.Confessional_After
+    - else:
+        -> After_Second
+}
 
 = Look
 #style: shudder #play: banging-confession #delay: 0.5
@@ -501,7 +507,12 @@ On the bench sits a small key.
 
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-->After_First.Confessional_After
+{
+    - visited_first:
+        ->After_First.Confessional_After
+    - else:
+        -> After_Second
+}
 
 = Agree
 #delay: 1
@@ -597,7 +608,12 @@ You wonder if you'll meet it again.
 
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-->After_First.Confessional_After
+{
+    - visited_first:
+        ->After_First.Confessional_After
+    - else:
+        -> After_Second
+}
 
 = Reject_Version_2
 The rapid drips from the leak stop. "No...?" The voice is hard now. The calm, softness it used to speak to you before is gone. "What do you mean, no?"
@@ -1324,7 +1340,12 @@ You wonder if you'll meet it again.
 
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-->After_First.Confessional_After
+{
+    - visited_first:
+        ->After_First.Confessional_After
+    - else:
+        -> After_Second
+}
 
 = Question
 You don't think you will get an answer. The voice is pushing you to confess.

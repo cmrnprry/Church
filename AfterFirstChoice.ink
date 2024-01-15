@@ -1,24 +1,29 @@
 ===After_First===
 
-
 = Confessional_After
-~after_first = true
+~temp_visited = true
+~visited_first = false
 You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
 
 *[Take a seat at a pew]
 ->After_First.Take_Seat
-*[Got to the stairwell]
+*[Go to the stairwell]
 ->After_First.Stairs_After
 *[Walk back into the confessional]
 ->After_First.Back_Confessional
 
 = Take_Seat
 ->END
+
 = Stairs_After
-->END
-=Back_Confessional
+There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.
+
+You hear someone call your name, but you don't dare turn around.
+->Stairs.Office
+
+= Back_Confessional
 {
     - confessional_sin && !confessional_priest:
         ~temp_bool = false
@@ -77,7 +82,31 @@ After some time the sounds stop. You wait a few minutes to be safe, before openi
 As soon as you step outside a red light is placed on you, and you freeze. The people in the pews are looking at you. The preist on stages has his arms open toward you.
 
 = Pews_After
+~visited_first = false
 ->END
 
 = Side_Room_After
+~temp_visited = true
+~visited_first = false
+You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
+
+The confessional at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
+
+*[Take a seat at a pew]
+->After_First.Take_Seat
+
+*[Go to the confessional]
+
+- There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.
+
+You hear someone call your name, but you don't dare turn around. Insead, you quicken your pace and hide in the...
+
+*[Door side confessional]
+-> Confessional_Door
+
+*[Curtain side confessional]
+-> Confessional_Curtain
+
+
+===After_Second===
 ->END

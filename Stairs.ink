@@ -30,14 +30,29 @@
 = Office
 {
     - object != "":
-        ~temp_string = "The door seems shorter than  you remember."
+        ~temp_string = "It's the office door from earlier, but it seems shorter than you remember."
     - else:
         ~temp_string = ""
+        ~room = 2
 }
-{ - room:
 
-    - 2: You duck through the doorway. {temp_string}
-    - 3:
+{
+    - temp_visited:
+        ~temp_visited = false
+        { - room:
+
+            - 2: You see a door, and duck through the doorway. {temp_string}
+            - 3: 
+        }
+    - else:
+        { - room:
+
+            - 2: You duck through the doorway. {temp_string}
+            - 3: 
+            - 4: 
+            - else: 
+            There is no doorway.
+        }
 }
 
 {
@@ -308,6 +323,7 @@ You take a deep breath, and close the book. The church can think what it wants, 
 ->Stairs.Take_it
 
 = Take_it
+~ keep_book = true
 {
     - temp_bool:
         ~ temp_string = "You may already know how this could end, but you take it with you none the less."
@@ -741,6 +757,14 @@ You push yourself harder{temp_string}. The door is so close. _You're_ so close.
 
 -
 {
+    - keep_book:
+        ~temp_string = ", and tighen your grib on your book."
+    - else:
+        ~temp_string = "."
+}
+
+
+{
     - leg == "worst":
         You try to push your body past it's limit, but your hurt leg gives out on you. You fall, just inches from the doorway. You don't have time to get to your feet before a large chunk of ceiling lands on you.
 
@@ -755,7 +779,7 @@ You push yourself harder{temp_string}. The door is so close. _You're_ so close.
 
         "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, _don't_ rip anything while in here..."
 
-        You pat your pocket that holds the page. At least you can remove one more lock with this.
+        You pat your pocket that holds the page{temp_string} At least you can remove one more lock with this.
         
         *[Exit the office.]
         ->Stairs.Exit_Office
@@ -994,24 +1018,67 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 *[Head back down]
 -> Stairs.Return_Down
 
-//TODO
-
 = Enter_Number
 ~locks += 1
 ~number_lock = true
 
-(set:$code to true)(if:$name is true)[(if:$room is 5)[You pull the page from your pocket. You grab the combination lock and input the numbers. 0624.
+{
+    - rip_page:
+        You pull the page from your pocket. You grab the combination lock and input the numbers 2755, and pull on the lock.
+        
+        //TODO: Maybe little "game" to input the numbers?
+        
+        It doesn't open.
+        
+        You pull it again, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
 
-The lock doesn't click. You pull it, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
+        Further down the page, it explains the number. Not a date or some random sequence, the code is differnt for everyone. To open it, you have to use your own number. The number that the church assigned you.
+        
+        
+    - name:
+        You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
+        
+        //TODO: Maybe little "game" to input the numbers?
+        
+        It doesn't open.
+        
+        You pull it again, thinking it might be stuck. Nothing. You're almost positive that was the correct number.
+}
 
-Further down the page, it explains the number. Not a date or some random sequence, it's the number of people that have been trapped. With shaking hands, you turn the 4 up to a 5 and the lock clicks open.](else:)[You grab the combination lock try to remember the number. 062...5? You think it was that or similar. You input the number and the lock clicks open.]](else:)[You grab the combination lock, and input the number they were chanting, adding a leading zero. (if:$finger_chopped is "Ophelia")[0624. The lock doesn't click. You pull it, thinking it might be stuck. Nothing.
-
-You think back, you are sure that was the number they were saying. What else could it be... Then it dawns on you. The pastor had called you, 625. Their //latest// member.
-
-It's not a date or some random, it's the number of people that have been trapped. With shaking hands, you turn the 4 up to a 5 and the lock clicks open.] (else:)[0625 You think it was that or similar. You input the number and the lock clicks open.]]
-
-You remove the lock from the metal bar, and slide it out of place. 
-(if:$cutters is true and $code is true and $locks is 1)[
+{
+    - keep_book:
+        {
+            - rip_page:
+                You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
+            
+                You remove the lock from the metal bar, and slide it out of place. 
+            - name:
+                "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
+                
+                None of them work.
+                
+                You check the cover of your book again. 2758. With no other options, you use your book number as the code, and the lock pops open.
+            
+                You remove the lock from the metal bar, and slide it out of place. 
+        }
+    
+    
+    - else:
+        {
+            - rip_page:
+                Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
+            
+                You remove the lock from the metal bar, and slide it out of place. 
+            - name:
+                "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
+                
+                None of them work.
+                
+                You can only properly remember your own book number. 2758. With no other options, you use your book number as the code, and the lock pops open.
+            
+                You remove the lock from the metal bar, and slide it out of place. 
+        }
+}
 
 { - locks:
     - 1: One lock down, two more to go.
@@ -1242,6 +1309,16 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 ->After_First.Stairs_After
 
 = Exit_Office
+~room += 1
+
+You exit the office.
+
+*[Examine the stairs]
+-> Stairs.Examine_Stairs
+*[Enter the office]
+->Stairs.Office
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
 ->END
 
 

@@ -2,7 +2,7 @@
 ~ confessional_priest = true
 
 {
-- !after_first:
+- !temp_visited:
     You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
     {
         - confessional_sin:
@@ -13,6 +13,7 @@
     
     You look around the cramed space and find nothing. The booth is empty. {temp_string}
 - else:
+     ~ temp_visited = false
     While you wait for the service to be over, you look around the cramed space for something useful.
     
     {
@@ -429,27 +430,13 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 *[Somewhere up the stairs]
 -> Stairs
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--> END
-
 = Return_to_Search
-->After_First.Confessional_After
+{
+    - visited_first:
+        ->After_First.Confessional_After
+    - else:
+        -> After_Second
+}
 
 
 

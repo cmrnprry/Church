@@ -39,7 +39,9 @@ VAR confessional_priest = false
 VAR confessional_sin = false
 VAR pews = false
 VAR after_first = false
+VAR temp_visited = false
 VAR saw_locks = false
+VAR visited_first = true
 
 //keys
 VAR key = false
