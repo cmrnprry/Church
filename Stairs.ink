@@ -127,7 +127,7 @@ You approach the bookshelves. In addition to all the books, water-stained boxes 
         *[Try the key]
         You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
         
-        You jiggle the key, and force it to turn. _Clank!_ The key snaps in the lock.
+        You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
         
         "God DAMMIT!"
         
@@ -156,7 +156,7 @@ All the stories are the same: They entered the church, and never left.
 - 
 Tentatively, you pick up Mary's book again, and begin to read.
 
-The start is jarrying. Mary is stuck in a storm, and stumbled upon the church while looking for a place to rest. Her version of the churchUnlike your expereince, this was her first time meeting the church. Her first thought upon seeing it was: _Finally, salvation._ 
+The start is jarrying. Mary is stuck in a storm, and stumbled upon the church while looking for a place to rest. Her version of the churchUnlike your expereince, this was her first time meeting the church. Her first thought upon seeing it was: <i>Finally, salvation.</i> 
 
 She did not hesitate to take shelter inside. 
 
@@ -164,7 +164,7 @@ Once inside, Mary wanders to the pews. Then a very familiar scene begins to play
 
 The last page details how the beautiful melody lulled her into a sense security. How her final breaths were peacful. How her body melted into wood after she was gone.
 
-You close the book, and place it back on the shelf. Your insides twist and lurch as you look over all the books that litter the floor, and sit on the shelves. All these books- no. All these _people_ are victims who never got out.
+You close the book, and place it back on the shelf. Your insides twist and lurch as you look over all the books that litter the floor, and sit on the shelves. All these books- no. All these <i>people</i> are victims who never got out.
 
 {
     - saw_locks:
@@ -199,7 +199,7 @@ You close the book, and place it back on the shelf. Your insides twist and lurch
             *[Try the key]
             You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
             
-            You jiggle the key, and force it to turn. _Clank!_ The key snaps in the lock.
+            You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
             
             "God DAMMIT!"
             
@@ -246,7 +246,7 @@ You accepted the church.
 
 {
     - stay >= 2.5:
-    _But does it?_ Your traitorous mind whispers to you. You think back to everything that's happened. All the good. All the bad. _Does the bad really outweigh the good?_ You want to say yes, but you can't bring yourself to say it. _If you had to choose, could you really say that leaving is better? Is that what you really want?_
+    <i>But does it?</i> Your traitorous mind whispers to you. You think back to everything that's happened. All the good. All the bad. <i>Does the bad really outweigh the good?</i> You want to say yes, but you can't bring yourself to say it. <i>If you had to choose, could you really say that leaving is better? Is that what you really want?</i>
 
     *[You're not sure.]
         ->Stairs.Unsure
@@ -266,7 +266,7 @@ You accepted the church.
 ~ stay -= 0.5
 You stare at the page, and without another thought, rip it out. You feel a throbbing pain in your lower back, but ignore it. You feel a sense of relif as you stare at the blank page, your book is no longer finished.
 
-Then, to your horror, ink stains the page, and the words reappear. _You found peace._
+Then, to your horror, ink stains the page, and the words reappear. <i>You found peace.</i>
 
 *[Rip it out again.]
 
@@ -295,7 +295,7 @@ You rip out the last page. You don't feel a pain this time.
 
 Your skin starts to tingle, which quickly turns into a searing pain. You scream and drop your book, clawing at the pain, trying to make it stop. You stare down at your hands to see angry red lines etched in your skin. You roll up your shirt and see the same thing.
 
-Your skin bubbles and and oozes as these line change their shape to form words. Words you have read over and over again. _You found peace. You found peace. You found peace. You found peace._
+Your skin bubbles and and oozes as these line change their shape to form words. Words you have read over and over again. <i>You found peace. You found peace. You found peace. You found peace.</i>
 
 "No, stop. Stop!" 
 
@@ -314,7 +314,7 @@ You wimper as the branding finishes, every part of your skin prickles. You bring
 ->Stairs.Take_it
 
 = Leave_it
-You take a deep breath, and close the book. The church can think what it wants, it doesn't know that this is how it will end. It's just how it _thinks_ it will end.
+You take a deep breath, and close the book. The church can think what it wants, it doesn't know that this is how it will end. It's just how it <i>thinks</i> it will end.
 
 *[Put the book away.]
 ->Stairs.Put_Back
@@ -437,7 +437,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
 *[Crying]
 ~ feeling = "cry"
 
-- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. _Is this really what you want?_ Freedom is only one more step away. _To leave?_ Your legs are glued to your spot on the floor. _Are you sure?_ You grab your leg, pulling it forward.
+- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 
 {
     - name:
@@ -447,7 +447,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
 }
 
 {
-    - confessional_priest:
+    - emily_hurt:
         "You're leaving me?" You stop. It's the little girl{temp_string} She's crying. "You're leaving me all alone? Again?"
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
@@ -479,7 +479,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                 
                 "It's not real." You murmer, and fix your gaze on the outside. "It's not real."
                 
-                "But _I_ am." the little girl wails, and something warm slams into your back. "_I'm_ real, so _promise_ you won't leave me alone again!"
+                "But <i>I</i> am." the little girl wails, and something warm slams into your back. "<i>I'm</i> real, so <i>promise</i> you won't leave me alone again!"
                 
                 You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
                         
@@ -508,7 +508,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
             - priest_feeling == "anger":
                 You throw the fabric to the ground. "Do you think this will work the second time?" You {feeling}.
                 
-                "Don't leave me. _Please_ don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
+                "Don't leave me. <i>Please</i> don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
                 
                 You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
                         
@@ -751,7 +751,7 @@ Whatever books are left on the shelves fall off, and the far book shelf falls ov
         ~temp_string = ""
 }
 
-You push yourself harder{temp_string}. The door is so close. _You're_ so close.
+You push yourself harder{temp_string}. The door is so close. <i>You're</i> so close.
 
 *[One last push]
 
@@ -777,7 +777,7 @@ You push yourself harder{temp_string}. The door is so close. _You're_ so close.
     - else:
         With one last burst of energy, you throw yourself out of the room. You land on the stairs hard, probably bruising something or worse. You watch as the room collapses in on itself, leaving only a caved in door way.
 
-        "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, _don't_ rip anything while in here..."
+        "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, <i>don't</i> rip anything while in here..."
 
         You pat your pocket that holds the page{temp_string} At least you can remove one more lock with this.
         
@@ -1168,19 +1168,19 @@ You shine your light to the end of the staircase, and see a door at the end of t
     #play: click-off
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
-    The flesh, it- it _reacted_ to your touch. Your skin crawls at the thought. You don't think you should go back down there.
+    The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
     ->Stairs.Turn_Back
 
 - 
 #play: 1, squish-squash
-_You've made it this far, might as well see it it toward the end,_ you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
+<i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
-_Squish_
+<i>Squish</i>
 
 #stop: 3, squish-squash
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
-_Squelch_
+<i>Squelch</i>
 
 *[Open the door]
 
@@ -1220,7 +1220,7 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
 #style: fidget, <mourn, pity, pray>
-Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to <mourn, pity, pray> for them, your only thought is to get _out._ On your hands and knees, you search the floor for your light. 
+Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to <mourn, pity, pray> for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
 
 *[Search left]
 ~temp_bool = false
@@ -1319,7 +1319,6 @@ You exit the office.
 ->Stairs.Office
 *[Return to the main body of the church]
 ->Inside.Look_For_Heart
-->END
 
 
 

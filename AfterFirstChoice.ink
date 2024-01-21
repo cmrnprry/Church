@@ -2,7 +2,6 @@
 
 = Confessional_After
 ~temp_visited = true
-~visited_first = false
 You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
@@ -15,7 +14,33 @@ The stairwell at the other end of the room glows from a light, red light. Your e
 ->After_First.Back_Confessional
 
 = Take_Seat
-->END
+{
+    - light_feeling == "confused":
+        ~temp_string = "confusing"
+        
+    - light_feeling == "relief":
+        ~temp_string = "reassuring."
+        
+    - light_feeling == "worry":
+        ~temp_string = "uneasy"
+}
+
+Quickly, and quietly you a seat in the front row, and the light dims. A pastor climbs the stage and looks around, nodding at the figures. It looks at you, and tilts it's head. While it has no face, you can feel it smiling. It raises a hand, and points at you. You try to hide in your seat, and look away.
+
+A red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. { leave_light: "It warms your body, and some of the tension melts away."} { !leave_light: "Your skin tingles under it's warmth. It's uncomfortable. " } 
+
+"Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. 
+
+The pastor on stage is beckoning you to join him. All eyes are on you. { leave_light: You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't knwo the answer.} { !leave_light: A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
+
+~temp_bool = false
+
+*[Go to the stage]
+->Pews.Go_to_Stage
+
+*[Leave] 
+~temp_bool = true
+->Pews.Get_Up
 
 = Stairs_After
 There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.

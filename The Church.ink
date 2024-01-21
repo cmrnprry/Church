@@ -133,7 +133,7 @@ You watch the church through the window until it fades into a dot in the distanc
 = home
 You watch the church through the window until it fades into a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back to the church. It's waiting for you
 
-*[You _need_ to forget about the church.]
+*[You <i>need</i> to forget about the church.]
     You fear what what will happen if you can't.
     ->Job
 
@@ -221,7 +221,7 @@ But yet another takes it's place.
 
 - You mark the church email as spam and respond to the client, making sure to CC the correct person they should speak to. You close your email and rub your eyes with the palm of your hands. 
 
-_Stop thinking about it._ You tell yourself. _It's nothing but a church, so why-_
+<i>Stop thinking about it.</i> You tell yourself. <i>It's nothing but a church, so why-</i>
 
 #delay: 6 #play: knock-knock
 "Knock knock, can I talk to you?" You look up to see your supervisor at your door, holding a few sheets of paper. They look upset.
@@ -999,9 +999,9 @@ Thud!
 
 - You pull your legs to your chest and sit with your back against the door. 
 
-*_You are trapped_
+*<i>You are trapped</i>
 
-- The thought bounces around you head. _You are trapped._
+- The thought bounces around you head. <i>You are trapped.</i>
 
 {
 
@@ -1052,7 +1052,7 @@ The memory refuses to surface, only vague images and feelings. If you close your
 
 Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when- 
 
-_Riiiiipppppp_
+<i>Riiiiipppppp</i>
 ~ photo_ripped = true
 The image rips in half.
 
@@ -1060,19 +1060,19 @@ And it all clicks into place.
 
 *You have been here before.
 
-- _Riiiiipppppp_
+- <i>Riiiiipppppp</i>
 
 You don't know how you could have forgotten. How you didn't realize it before. 
 
-_Riiiiipppppp_
+<i>Riiiiipppppp</i>
 
-You have been here before. You found... something- No. Someone? You can't remember, but _you got out._
+You have been here before. You found... something- No. Someone? You can't remember, but <i>you got out.</i>
 
-_Riiiiipppppp_
+<i>Riiiiipppppp</i>
 
 There is a way out.
 
-_Riiiiipppppp_
+<i>Riiiiipppppp</i>
 
 *You just need to figure out how.
 
@@ -1122,9 +1122,9 @@ A light melody begins to play. A lullaby, you think. It was a comfort when you w
 
 You hum along to it.
 
-*Is it really so _bad_ to stay here?
+*Is it really so <i>bad</i> to stay here?
 
-*Why would you _want_ to stay here?
+*Why would you <i>want</i> to stay here?
 -> Trapped.Refuse
 
 -Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
@@ -1139,7 +1139,7 @@ You hum along to it.
     The melody harshly cuts out.
 
 }
-No. You rub your eyes. No. You can't stay. The church didn't just _let_ you out last time. It did so for this moment. For after you let your guard down. 
+No. You rub your eyes. No. You can't stay. The church didn't just <i>let</i> you out last time. It did so for this moment. For after you let your guard down. 
 
 You can't stay here. You can't get out the way you came in, but there might be another way out.
 
@@ -1325,10 +1325,12 @@ You feel...
 {
     - light_feeling == "confused":
         ~temp_string = "confusion is the only thing you can trust."
+        
     - light_feeling == "relief":
         ~temp_string = "relief is wrong."
+        
     - light_feeling != "confused" and feeling != "relief":
-        ~temp_string = "worry is a flag that something is very _wrong._"
+        ~temp_string = "worry is a flag that something is very <i>wrong.</i>"
 }
 
 {
@@ -1338,7 +1340,7 @@ You feel...
         ~ church_anger += 1
         ~ stay -= 0.5
         #delay: 6.5
-        You take a heavy step back and pull away from the light. This feeling of {light_feeling } This much you know. This much you trust. The rest is the church.
+        You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
         #play: screeching 
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and luder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
@@ -1436,7 +1438,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
 
 #effect: dark
 *[Heart...?]
-_Find and destroy the heart._ You think about what the "heart" of the church would be. A sacred artifact or...?
+<i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or...?
 
 - 
 
@@ -1453,7 +1455,7 @@ _Find and destroy the heart._ You think about what the "heart" of the church wou
 
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
 
-You have a goal now. _Find and destroy the heart._ You don't know where the "heart" of the church is, but if you have to guess it would be....
+You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
 
 *[In the pews]
 -> Pews
@@ -1465,7 +1467,7 @@ You have a goal now. _Find and destroy the heart._ You don't know where the "hea
 -> Stairs
 
 = Look_For_Heart
-You have a goal now. _Find and destroy the heart._ You don't know where the "heart" of the church is, but if you have to guess it would be....
+You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
 
 *[In the pews]
 -> Pews
@@ -1476,17 +1478,10 @@ You have a goal now. _Find and destroy the heart._ You don't know where the "hea
 *[Somewhere up the stairs]
 -> Stairs
 
-
 === Confessional ===
 {
  - !confessional_priest || !confessional_sin:
-        {
-            - leg == "worst":
-                ~temp_string = "carefully"
-            - else: 
-                ~temp_string = ""
-        }
-        You {temp_string} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.
+        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.
     - else:
         You approach the confessional booth.
 
@@ -1497,6 +1492,8 @@ You have a goal now. _Find and destroy the heart._ You don't know where the "hea
     - !confessional_priest:
         *[Enter through the door]
         ->Confessional_Door
+}
+{
     - !confessional_sin:
         *[Enter through the curtain]
         ->Confessional_Curtain

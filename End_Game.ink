@@ -171,7 +171,7 @@ The sound of a wounded animal reveberates through the room.
 
 You think of everythign you went through becasue of the church. Of the church's sight. {temp_string} Of all the people who can never leave. Will never leave.
 
-You squeeze harder, until your nails peirce your palm. The light is almost gone now. The church sqeaks pitifully in response. You drop whatever remains of the heart, and it falls to the floor with a wet _splat!_
+You squeeze harder, until your nails peirce your palm. The light is almost gone now. The church sqeaks pitifully in response. You drop whatever remains of the heart, and it falls to the floor with a wet <i>splat!</i>
 
 *[The light dies.]
 

@@ -27,6 +27,8 @@ VAR read_book = false
 VAR rip_page = false
 VAR keep_book = false
 VAR branded = false
+VAR pressed_emily = false
+VAR emily_hurt = false
 
 VAR work = 0
 VAR room = 0
@@ -39,9 +41,9 @@ VAR confessional_priest = false
 VAR confessional_sin = false
 VAR pews = false
 VAR after_first = false
-VAR temp_visited = false
-VAR saw_locks = false
-VAR visited_first = true
+VAR temp_visited = false //for the after first visit
+VAR saw_locks = false //know that there is a locked door
+VAR visited_first = true //the first place visited and explored
 
 //keys
 VAR key = false
