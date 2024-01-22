@@ -1480,7 +1480,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 === Confessional ===
 {
- - !confessional_priest || !confessional_sin:
+ - !confessional_priest && !confessional_sin:
         You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.
     - else:
         You approach the confessional booth.
@@ -1496,6 +1496,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 {
     - !confessional_sin:
         *[Enter through the curtain]
+        ~temp_bool = false
         ->Confessional_Curtain
 
 }

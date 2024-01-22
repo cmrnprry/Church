@@ -1,4 +1,5 @@
 === Stairs ===
+~temp_bool_3 = false
 {
     - leg == "worst":
         ~temp_string = "limp up"
@@ -7,33 +8,39 @@
 }
 { - room:
     - 0: You {temp_string} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
-    ~room += 1
+    ~room = 2
     
     - 1: You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
     
         This was not there last time you were here.
+        
+        ~room = 2
+        
+    - 2: You {temp_string} the short set of stairs. The door seems a little a bit shorter than you remember.
+    
+    - 3: You {temp_string} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
+    
 
-    - 2: You {temp_string} the short set of stairs.
-    - 3:
+    - else: You {temp_string} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
 
 }
-~room += 1
+
 
 *[Examine the stairs]
 -> Stairs.Examine_Stairs
-*[Enter the office]
+
+*{ room <= 3 }[Enter the office]
 ->Stairs.Office
+
 *[Return to the main body of the church]
 ->Inside.Look_For_Heart
 
-//TODO
 = Office
 {
     - object != "":
         ~temp_string = "It's the office door from earlier, but it seems shorter than you remember."
     - else:
         ~temp_string = ""
-        ~room = 2
 }
 
 {
@@ -42,16 +49,15 @@
         { - room:
 
             - 2: You see a door, and duck through the doorway. {temp_string}
-            - 3: 
+            - 3: You see a small door, and crawl through it.
+            - else: 
+                {object != "": There is no doorway. Where is the door way? You don't have time to think about it. }You run deeper into the hall, and to the stairs. You run half-way down the stairs and wait.
         }
     - else:
         { - room:
 
-            - 2: You duck through the doorway. {temp_string}
-            - 3: 
-            - 4: 
-            - else: 
-            There is no doorway.
+            - 2: You duck through the doorway.
+            - 3: You crawl through the doorway.
         }
 }
 
@@ -73,10 +79,11 @@
 }
 
 *[Return to stairwell]
-~room += 1
+~temp_bool_3 = true
+-> Stairs.Exit_Office
 
 = Desk
-~ temp_bool_3 = true
+~saw_desk = true
 {
     - temp_bool:
         {
@@ -102,11 +109,11 @@
 
 
 {
-    - saw_locks && !temp_bool_3:
+    - saw_locks && !saw_books:
         ~temp_bool = true
         *[Look for the combination lock code]
         ->Stairs.Books
-    - !saw_locks && !temp_bool_3:
+    - !saw_locks && !saw_books:
         ~temp_bool = false
         *[Look through the books]
         ->Stairs.Books
@@ -114,16 +121,18 @@
 
 *[Return to stairwell]
 ~room += 1
+->Stairs.Exit_Office
 
 = Books
-~ temp_bool_3 = false
+~ saw_books = true
 You approach the bookshelves. In addition to all the books, water-stained boxes and a decaying wooden chest littered the shelves. You pick through the boxes first, only to find them filled with more books. You grab the chest and try opening it, only to find it to be locked. You give it a shake, and hear something shaking around inside.
         
         "Probably another book..." you mutter. You look through the key hole, but can't see anything.
 
-{//TODO
+{
     - key && !key_lock:
         ~temp_bool_2 = false
+        ~temp_bool = true
         *[Try the key]
         You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
         
@@ -132,10 +141,13 @@ You approach the bookshelves. In addition to all the books, water-stained boxes 
         "God DAMMIT!"
         
         You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+        ~temp_string = "if the loss of the key was worth it"
         -> Stairs.Your_Book
     - else:
         *[Break the chest]
+        ~temp_bool = false
         You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
+        ~temp_string = "if this is indeed your book"
         -> Stairs.Your_Book
 }
 
@@ -177,11 +189,10 @@ You close the book, and place it back on the shelf. Your insides twist and lurch
 -> Stairs.Your_Book
 
 *[{temp_string}]
-
-- 
+->Stairs.Look_For_Book_Clue
+ 
 
 = Your_Book
-~temp_bool = false
 {
     - temp_bool_2:
         You pull book after book off the shelves, looking at the first page for your name, and throwing it to the floor when it's not. When you run out of books, you go through the boxes. 
@@ -192,37 +203,37 @@ You close the book, and place it back on the shelf. Your insides twist and lurch
         
         "Probably another book..." you mutter. You look through the key hole, but can't see anything. "It could be..."
 
-    {//TODO
-        - key && !key_lock:
-            ~temp_bool_2 = false
-            ~temp_bool = true
-            *[Try the key]
-            You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
-            
-            You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
-            
-            "God DAMMIT!"
-            
-            You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
-            ~temp_string = "if the loss of the key was worth it"
-            -> Stairs.Your_Book
-        - else:
-            *[Break the chest]
-            You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
-            ~temp_string = "if this is indeed your book"
-            -> Stairs.Your_Book
-    }
+        {
+            - key && !key_lock:
+                ~temp_bool_2 = false
+                ~temp_bool = true
+                *[Try the key]
+                You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
+                
+                You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
+                
+                "God DAMMIT!"
+                
+                You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+                ~temp_string = "if the loss of the key was worth it"
+                -> Stairs.Your_Book
+            - else:
+                *[Break the chest]
+                ~ broke_chest = true
+                ~temp_bool = false
+                You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
+                ~temp_string = "if this is indeed your book"
+                -> Stairs.Your_Book
+        }
     
     - temp_bool:
         You pick up the book, and trace the numbers. You look at the first page, eage to see {temp_string}. "Oh..."
         
-        You fall to the ground. <>
+        You fall to the ground. It's your book.
     
     - else:
-        You pick up the book, and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..."
+        You pick up the book, and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..." The book is about <i>you.</i>
 }
-
-It's your book.
 
 Your read the first few pages, and it detials everything you've expereinced so far, including the childhood memories you supressed. There's blank pages between your childhood expereince and your current one. Your hands shake. Is the ending already written? If it is, will reading make a difference?
 
@@ -262,7 +273,7 @@ You accepted the church.
 *[Take the book with you.]
 ->Stairs.Take_it
 
-- //TODO: Rip out the apges and hurt yourself
+- 
 ~ stay -= 0.5
 You stare at the page, and without another thought, rip it out. You feel a throbbing pain in your lower back, but ignore it. You feel a sense of relif as you stare at the blank page, your book is no longer finished.
 
@@ -343,13 +354,13 @@ You tuck the book under your arm. {temp_string}
 }
 
 *[Look through the books]
-
+->Stairs.Look_For_Book_Clue
 {
-    - saw_locks && !temp_bool_3:
+    - saw_locks && !saw_desk:
         ~temp_bool = true
         *[Look for something to break the chain lock.]
         ->Stairs.Desk
-    - !saw_locks && !temp_bool_3:
+    - !saw_locks && !saw_desk:
         ~temp_bool = false
         *[Look through the desk]
         ->Stairs.Desk
@@ -358,7 +369,7 @@ You tuck the book under your arm. {temp_string}
 *[Exit the office]
 ->Stairs.Exit_Office
 
-- 
+= Look_For_Book_Clue
 
 {
     - confessional_priest:
@@ -384,21 +395,33 @@ With the minimal knowledge you have, you skim through as many books as you can. 
         
         You're about to give up until you find someone promising: Ophelia.
 }
-
 {
     - confessional_priest or saw_locks:
         ~ temp_string = "Read the book."
     - else:
-        ~ temp_string = "Look elsewhere."
+        {
+            - !confessional_priest or !saw_locks:
+            {
+                - saw_locks && !saw_desk:
+                    ~temp_bool = true
+                    *[Look for something to break the chain lock.]
+                    ->Stairs.Desk
+                - !saw_locks && !saw_desk:
+                    ~temp_bool = false
+                    *[Look through the desk]
+                    ->Stairs.Desk
+            }
+        }
+
+        *[Exit the office.]
+        ->Stairs.Exit_Office
 }
 
-*[{temp_string}]
+*{confessional_priest or saw_locks}[Read the book.]
+
 
 -
-{
-    - !confessional_priest or !saw_locks:
-        ->END
-}
+
 ~name = true
 ~number_combo = "2755"
 You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
@@ -1279,7 +1302,12 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 ->Stairs.Office
 
 *[Return to the main body of the church]
-->After_First.Stairs_After
+{
+    - visited_first:
+        ->After_First.Side_Room_After
+    - else:
+        -> After_Second.Stairs_Second
+}
 
 = Return_Down
 {
@@ -1306,7 +1334,13 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 ->Stairs.Office
 
 *[Return to the main body of the church]
-->After_First.Stairs_After
+{
+    - visited_first:
+        ->After_First.Side_Room_After
+    - else:
+        -> After_Second.Stairs_Second
+}
+
 
 = Exit_Office
 ~room += 1
@@ -1318,7 +1352,14 @@ You exit the office.
 *[Enter the office]
 ->Stairs.Office
 *[Return to the main body of the church]
-->Inside.Look_For_Heart
+{
+    - temp_bool_3:
+        ->Inside.Look_For_Heart
+    - visited_first:
+        ->After_First.Side_Room_After
+    - else:
+        -> After_Second.Stairs_Second
+}
 
 
 

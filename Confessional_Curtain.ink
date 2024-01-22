@@ -1,6 +1,5 @@
 === Confessional_Curtain ===
 ~ confessional_sin = true
-
 {
     - visited_first:
         ~ visited_first = false
@@ -25,14 +24,23 @@
         
         "Already leaving?" You freeze. The voice is deep. "Why did you enter only to leave? Aren't you looking for somehting?"
         ->Confessional_Curtain.Why_Enter
+    //We come here if it's after the pews 1st choice
+    - temp_bool:
+        You decide to check the confessional. You saw the curtain move, someone <i>must</i> be in there. Carefully and quietly, you approach it.
+        
+        Once in front of it, you think you can hear shuffling from inside. You steel yourself, and rip the curtain open. 
+        
+        It's empty. "Ha.. Hahaha..." you laugh and step inside. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. } A small bucket sits in the corner by the divider. "What..?"
+        
+        You plop onto wooden bench, and rub your eyes. There's nothing here. There's no <i>one</i> here. Of course not. What did you expect? Why did you enter?
         
     - else:
         #play: curtain
-        You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{!confessional_priest: The grate that a priest would speak through has the same lattice work that the door does. }
+        You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. }
     
         A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
     
-        {!confessional_priest: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }
+        {temp_bool == false: {confessional_priest == false: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }}
 }
 
 *[To Confess]
@@ -61,11 +69,7 @@ Your heart races, and your entire body tenses. Another person? Here? Do they kno
 
 *["Who are you?"]
 #delay: 1
-"Does that matter?" he asks. <>
-{
-    - temp_bool: "I will ask again: What is it you have to confess?"
-    - else: "Do you have something to confess?"
-}
+"Does that matter?" he asks. {temp_bool: "I will ask again: What is it you have to confess?"} {temp_bool == false: "Do you have something to confess?"}
 
 *[Leave the booth]
 #play: curtain
@@ -457,8 +461,11 @@ On the bench sits a small key. You pick it up, and put in your pocket, hoping it
 {
     - visited_first:
         ->After_First.Confessional_After
+    - visited_second:
+        ~ temp_string = "angry"
+        -> After_Second.Confessional_Sin_Second
     - else:
-        -> After_Second
+        -> Last_Stop
 }
 
 = Look
@@ -491,10 +498,11 @@ On the bench sits a small key.
 {
 
 - temp_bool:
+    ~ temp_string = "reach through"
     #play: click-off #effect: flashlight, false
     You place the flashlight back in your pocket, and reach your arm through. blindly feeling around.  Your fingertips just barely brush the bench it's sitting on. 
 
-    You reach in deeper, your face pressing against the mangled wood. "Just a bit... more..." you mumble to yourself. 
+    You reach in deeper, your face pressing against the mangled wood. "Just a bit... more..." you mumble to yourself.
     
     Your fingers brush against the key again when a cold hand grabs your arm. You jerk away, but it holds tight, fingers digging into your wrist.
 
@@ -506,6 +514,7 @@ On the bench sits a small key.
 
 
 - else:
+    ~ temp_string = "angry"
     #play: click-off #effect: flashlight, false
     You exit through the curtain, face the priest's door. You take a deep breath, and open it. The key sits on the bench, but more surprisingly, the divider is no longer splintered, and the seperating grate is back in place.
 
@@ -519,8 +528,10 @@ On the bench sits a small key.
 {
     - visited_first:
         ->After_First.Confessional_After
+    - visited_second:]
+        -> After_Second.Confessional_Sin_Second
     - else:
-        -> After_Second
+        -> Last_Stop
 }
 
 = Agree
@@ -620,8 +631,11 @@ You wonder if you'll meet it again.
 {
     - visited_first:
         ->After_First.Confessional_After
+    - visited_second:
+        ~ temp_string = "accept"
+        -> After_Second.Confessional_Sin_Second
     - else:
-        -> After_Second
+        -> Last_Stop
 }
 
 = Reject_Version_2
@@ -1352,8 +1366,11 @@ You wonder if you'll meet it again.
 {
     - visited_first:
         ->After_First.Confessional_After
+    - visited_second:
+        ~ temp_string = "accept"
+        -> After_Second.Confessional_Sin_Second
     - else:
-        -> After_Second
+        -> Last_Stop
 }
 
 = Question

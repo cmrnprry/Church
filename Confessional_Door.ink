@@ -4,7 +4,7 @@
 
 {
     - visited_first:
-        ~ temp_visited = false
+        ~ visited_first = false
         You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
         
         You look around the cramed space and find nothing. The booth is empty. {confessional_sin: You already found a key earlier, what more could be in the booth?} { confessional_sin == false: You don't know what you were expecting. }
@@ -229,8 +229,6 @@ You step back and throw yourself at the door one last time. It gives, and you fa
 The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
 -> Confessional_Door.Exit_Booth
 
-//TODO
-
 = Yes_Confessions
 "Oh!" She perks up immediately. "I kept miss-"
 
@@ -302,20 +300,25 @@ You have many questions, but she is still a child. A sick child.
 -> Confessional_Door.Promise
 
 *[Let up]
-~ temp_bool_3 = false
-"No, no, of course not." You hear her sigh with relief. "Only making sure I understood you."
-
-"Right, right. Uhm... yeah... Mom says I feel bad because I don't pray hard enough. So I was hoping that Dad would be here...." She sniffs. "I thought we could...I feel like I pray really hard... What am I doing wrong? Will he come back if I...?"
+    ~ temp_bool_3 = false
+    "No, no, of course not." You hear her sigh with relief. "Only making sure I understood you."
+    
+    "Right, right. Uhm... yeah... Mom says I feel bad because I don't pray hard enough. So I was hoping that Dad would be here...." She sniffs. "I thought we could...I feel like I pray really hard... What am I doing wrong? Will he come back if I...?"
 
 - 
 
-* [Tell her how to pray]
+* [Help her]
+    -> Confessional_Door.help
 
 * [Ask about the church]
+"Before that, can you tell me more about your dad not leaving the church?" You keep your voice polite. "After that we can talk all about your prayer habits, okay?"
 
-- jekfj
+"But-" 
 
-->END
+"It's just information I need before I can tell you."
+
+"Promise?"
+-> Confessional_Door.Promise
 
 = Promise
 *["Promise."]
@@ -415,8 +418,7 @@ The curtain closes, and she is gone.
 
 - You didn't find the heart, but at least you learned a bit more about the church. You hope it will help you later.
 
-*[Return to your search]
--> After_First.Confessional_After
+-> Confessional_Door.Return_to_Search
 
 = Exit_Booth
 No sign of the girl. 
@@ -532,7 +534,6 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
         
 }
 
-* [Return to your search]
 -> Confessional_Door.Return_to_Search
 
 = Leave_Booth
@@ -564,14 +565,17 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 -> Stairs
 
 *[The other side of teh confessional]
+~temp_bool = false
 ->Confessional_Curtain
 
 = Return_to_Search
 {
     - visited_first:
         ->After_First.Confessional_After
+    - visited_second:
+        -> After_Second.Confessional_Priest_Second
     - else:
-        -> After_Second
+        -> Last_Stop
 }
 
 

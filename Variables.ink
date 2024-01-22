@@ -44,6 +44,10 @@ VAR after_first = false
 VAR temp_visited = false //for the after first visit
 VAR saw_locks = false //know that there is a locked door
 VAR visited_first = true //the first place visited and explored
+VAR visited_second = false
+VAR saw_books = false
+VAR saw_desk = false
+VAR broke_chest = false
 
 //keys
 VAR key = false
