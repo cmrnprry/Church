@@ -239,7 +239,7 @@ Your scream becomes a wimper as you wait for the pain to pass.
      - visited_second:
         -> After_Second.Pews_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Pews_Last
 }
 
 = Refuse_Him
@@ -333,7 +333,7 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i>}{name == false: 
      - visited_second:
         -> After_Second.Pews_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Pews_Last
 }
 
 

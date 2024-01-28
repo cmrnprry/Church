@@ -24,6 +24,7 @@ VAR finger_chopped = false
 VAR coward = false
 VAR happy = false
 VAR read_book = false
+VAR know_book = false
 VAR rip_page = false
 VAR keep_book = false
 VAR branded = false
@@ -48,6 +49,8 @@ VAR visited_second = false
 VAR saw_books = false
 VAR saw_desk = false
 VAR broke_chest = false
+VAR went_downstairs = 0 //0 = none, 1 = no stink, 2 = stink stink
+VAR went_upstairs = false
 
 //keys
 VAR key = false

@@ -575,7 +575,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
     - visited_second:
         -> After_Second.Confessional_Priest_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Confessional_Priest_Last
 }
 
 

@@ -134,15 +134,16 @@ You approach the bookshelves. In addition to all the books, water-stained boxes 
         ~temp_bool_2 = false
         ~temp_bool = true
         *[Try the key]
-        You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
-        
-        You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
-        
-        "God DAMMIT!"
-        
-        You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
-        ~temp_string = "if the loss of the key was worth it"
-        -> Stairs.Your_Book
+            ~key = -1
+            You fish the key out of yout pocket and try the lock. The key slides in easy enough, but it doesn't want to turn.
+            
+            You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
+            
+            "God DAMMIT!"
+            
+            You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+            ~temp_string = "if the loss of the key was worth it"
+            -> Stairs.Your_Book
     - else:
         *[Break the chest]
         ~temp_bool = false
@@ -193,6 +194,7 @@ You close the book, and place it back on the shelf. Your insides twist and lurch
  
 
 = Your_Book
+~ know_book = true
 {
     - temp_bool_2:
         You pull book after book off the shelves, looking at the first page for your name, and throwing it to the floor when it's not. When you run out of books, you go through the boxes. 
@@ -208,15 +210,16 @@ You close the book, and place it back on the shelf. Your insides twist and lurch
                 ~temp_bool_2 = false
                 ~temp_bool = true
                 *[Try the key]
-                You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
-                
-                You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
-                
-                "God DAMMIT!"
-                
-                You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
-                ~temp_string = "if the loss of the key was worth it"
-                -> Stairs.Your_Book
+                    ~key = -1
+                    You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
+                    
+                    You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
+                    
+                    "God DAMMIT!"
+                    
+                    You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+                    ~temp_string = "if the loss of the key was worth it"
+                    -> Stairs.Your_Book
             - else:
                 *[Break the chest]
                 ~ broke_chest = true
@@ -430,6 +433,27 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
 
 "2755, got it!" you exclaim. "Thank you, Ophelia!"
 
+*{!branded}[Rip out the page]
+->Stairs.Rip_out_Ophelia
+
+*{branded}[Rip out the page]
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office.]
+->Stairs.Exit_Office
+
+- You grab the page, but hesitate, the consequence of ripping out your own book's pages still fresh in your mind. This isn't <i>your</i> book but... 
+
 *[Rip out the page]
 ->Stairs.Rip_out_Ophelia
 
@@ -447,6 +471,204 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
 *[Exit the office.]
 ->Stairs.Exit_Office
 
+= Put_Back
+{
+    - temp_bool:
+        ~ temp_string = ""
+    - else:
+        ~ temp_string = "You don't want to know how this story ends, not when there's still something you can do. "
+}
+
+{temp_string}You put the book back on the shelf.
+
+{
+    - !temp_bool_3:
+        ~ temp_string = " or there might be something in the desk."
+    - else:
+        ~ temp_string = "."
+}
+
+{
+    - saw_locks:
+        You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
+        
+    - else:
+        You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you?
+}
+
+*[Look through the books]
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office]
+->Stairs.Exit_Office
+
+- 
+
+{
+    - confessional_priest:
+        ~ temp_string = "You look through all the books that match the story the little girl told you, searching for a mother that had a sick child, and a father that was a priest."
+    - saw_locks:
+        ~ temp_string = "You search and seach, but you don't know enough about her to even know if you've passed her book or not."
+    - else: 
+        ~ temp_string = "You search and seach, but you don't know what you're looking for.<br>After hours of searching, you decide to stop. If the code is in one of these books, you're going about it the wrong way. You decide to look again once you know more."
+}
+
+With the minimal knowledge you have, you skim through as many books as you can. {temp_string}
+
+{
+    - read_book:
+        ~ temp_string = "Much like your own ending, they never leave."
+    - else:
+        ~ temp_string = "They never leave."
+}
+{
+    - confessional_priest or saw_locks:
+        ~ stay += 0.5
+        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {temp_string} They all find peace.
+        
+        You're about to give up until you find someone promising: Ophelia.
+}
+
+{
+    - confessional_priest or saw_locks:
+        ~ temp_string = "Read the book."
+    - else:
+        ~ temp_string = "Look elsewhere."
+}
+
+*[{temp_string}]
+
+-
+{
+    - !confessional_priest or !saw_locks:
+        ->END
+}
+~name = true
+~number_combo = "2755"
+You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
+
+Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
+
+"2755, got it!" you exclaim. "Thank you, Ophelia!"
+
+*[Rip out the page]
+->Stairs.Rip_out_Ophelia
+
+{
+    - saw_locks && !temp_bool_3:
+        ~temp_bool = true
+        *[Look for something to break the chain lock.]
+        ->Stairs.Desk
+    - !saw_locks && !temp_bool_3:
+        ~temp_bool = false
+        *[Look through the desk]
+        ->Stairs.Desk
+}
+
+*[Exit the office.]
+->Stairs.Exit_Office
+
+= Rip_out_Ophelia
+#play: screeching, 1 #stop: screeching, 2
+Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balence.
+
+Whatever books are left on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
+
+*[Run out of the room]
+~room = 5
+~ rip_page = true
+
+- You make your way out of the room as fast as you can. All the books on the floor make it difficult, but you manage. Once you're about halfway to the door, you hear a sharp snapping sound. A large piece of ceiling falls to your side, just barely missing you.
+
+{
+    - leg == "worst":
+        ~temp_string = ", but your leg is not cooperating with you You're not moving as fast as you want to"
+    - else:
+        ~temp_string = ""
+}
+
+You push yourself harder{temp_string}. The door is so close. <i>You're</i> so close.
+
+*[One last push]
+
+-
+{
+    - keep_book:
+        ~temp_string = ", and tighen your grib on your book."
+    - else:
+        ~temp_string = "."
+}
+
+
+{
+    - leg == "worst":
+        You try to push your body past it's limit, but your hurt leg gives out on you. You fall, just inches from the doorway. You don't have time to get to your feet before a large chunk of ceiling lands on you.
+
+        "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
+
+        Hoping. Praying.
+
+        *[But it's no use.]
+        -> Credits
+    - else:
+        With one last burst of energy, you throw yourself out of the room. You land on the stairs hard, probably bruising something or worse. You watch as the room collapses in on itself, leaving only a caved in door way.
+
+        "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, <i>don't</i> rip anything while in here..."
+
+        You pat your pocket that holds the page{temp_string} At least you can remove one more lock with this.
+        
+        *[Exit the office.]
+        ->Stairs.Exit_Office
+}
+
+= Examine_Stairs
+You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either.
+
+*[Enter the office]
+->Stairs.Office
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
+
+*[Go upstairs]
+    ->Stairs.Upstairs
+    
+*[Go downstairs]
+    ->Stairs.Downstairs
+    
+
+= Exit_Office
+~room += 1
+
+You exit the office.
+
+*[Examine the stairs]
+-> Stairs.Examine_Stairs
+*[Enter the office]
+->Stairs.Office
+*[Return to the main body of the church]
+{
+    - temp_bool_3:
+        ->Inside.Look_For_Heart
+    - visited_first:
+        ->After_First.Side_Room_After
+    - else:
+        -> After_Second.Stairs_Second
+}
+
+
+
+////////// ENDING INTERACTIONS ////////// 
 = Unsure
 Confused, you leave the room, and wander numbly back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
@@ -648,180 +870,204 @@ They begin to sing, hands out streached for you to take. The music flows through
 *[And you deserve a very long, vey hot, bath.]
 ->Credits
 
-= Put_Back
+
+////////// DOWNSTAIRS INTERACTIONS ////////// 
+= Downstairs
+~ temp_bool = false
+
 {
-    - temp_bool:
-        ~ temp_string = ""
+    - went_downstairs == 0:
+        #play: click-on
+        You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
+
+        You tense, every fiber of your being telling you to not continue down.
     - else:
-        ~ temp_string = "You don't want to know how this story ends, not when there's still something you can do. "
+        #play: click-on
+        You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
 }
 
-{temp_string}You put the book back on the shelf.
+~ went_downstairs = 1
 
-{
-    - !temp_bool_3:
-        ~ temp_string = " or there might be something in the desk."
-    - else:
-        ~ temp_string = "."
-}
 
-{
-    - saw_locks:
-        You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
-        
-    - else:
-        You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you?
-}
+*[Continue down]
 
-*[Look through the books]
-
-{
-    - saw_locks && !temp_bool_3:
-        ~temp_bool = true
-        *[Look for something to break the chain lock.]
-        ->Stairs.Desk
-    - !saw_locks && !temp_bool_3:
-        ~temp_bool = false
-        *[Look through the desk]
-        ->Stairs.Desk
-}
-
-*[Exit the office]
-->Stairs.Exit_Office
-
+*[Turn back]
+    You turn back up the stairs. It doesn't feel right.
+    ->Stairs.Turn_Back
 - 
-
-{
-    - confessional_priest:
-        ~ temp_string = "You look through all the books that match the story the little girl told you, searching for a mother that had a sick child, and a father that was a priest."
-    - saw_locks:
-        ~ temp_string = "You search and seach, but you don't know enough about her to even know if you've passed her book or not."
-    - else: 
-        ~ temp_string = "You search and seach, but you don't know what you're looking for.<br>After hours of searching, you decide to stop. If the code is in one of these books, you're going about it the wrong way. You decide to look again once you know more."
-}
-
-With the minimal knowledge you have, you skim through as many books as you can. {temp_string}
-
-{
-    - read_book:
-        ~ temp_string = "Much like your own ending, they never leave."
-    - else:
-        ~ temp_string = "They never leave."
-}
-{
-    - confessional_priest or saw_locks:
-        ~ stay += 0.5
-        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {temp_string} They all find peace.
-        
-        You're about to give up until you find someone promising: Ophelia.
-}
-
-{
-    - confessional_priest or saw_locks:
-        ~ temp_string = "Read the book."
-    - else:
-        ~ temp_string = "Look elsewhere."
-}
-
-*[{temp_string}]
-
--
-{
-    - !confessional_priest or !saw_locks:
-        ->END
-}
-~name = true
-~number_combo = "2755"
-You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
-
-Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
-
-"2755, got it!" you exclaim. "Thank you, Ophelia!"
-
-*[Rip out the page]
-->Stairs.Rip_out_Ophelia
-
-{
-    - saw_locks && !temp_bool_3:
-        ~temp_bool = true
-        *[Look for something to break the chain lock.]
-        ->Stairs.Desk
-    - !saw_locks && !temp_bool_3:
-        ~temp_bool = false
-        *[Look through the desk]
-        ->Stairs.Desk
-}
-
-*[Exit the office.]
-->Stairs.Exit_Office
-
-= Rip_out_Ophelia
-#play: screeching, 1 #stop: screeching, 2
-Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balence.
-
-Whatever books are left on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
-
-*[Run out of the room]
-~room = 5
-~ rip_page = true
-
-- You make your way out of the room as fast as you can. All the books on the floor make it difficult, but you manage. Once you're about halfway to the door, you hear a sharp snapping sound. A large piece of ceiling falls to your side, just barely missing you.
-
 {
     - leg == "worst":
-        ~temp_string = ", but your leg is not cooperating with you You're not moving as fast as you want to"
+        ~temp_string = ", making sure to lean against the railing to take weight off your leg"
     - else:
         ~temp_string = ""
 }
 
-You push yourself harder{temp_string}. The door is so close. <i>You're</i> so close.
+Cautiously, you take another step down{temp_string}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
 
-*[One last push]
+*[Push through]
 
--
-{
-    - keep_book:
-        ~temp_string = ", and tighen your grib on your book."
-    - else:
-        ~temp_string = "."
-}
-
+*[Turn back]
+    You hurry back up the stairs, glancing over your shoulder as you do.
+    ->Stairs.Turn_Back
+- 
 
 {
     - leg == "worst":
-        You try to push your body past it's limit, but your hurt leg gives out on you. You fall, just inches from the doorway. You don't have time to get to your feet before a large chunk of ceiling lands on you.
-
-        "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
-
-        Hoping. Praying.
-
-        *[But it's no use.]
-        -> Credits
+        ~temp_string = "You grab the railing with both hands,"
     - else:
-        With one last burst of energy, you throw yourself out of the room. You land on the stairs hard, probably bruising something or worse. You watch as the room collapses in on itself, leaving only a caved in door way.
-
-        "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, <i>don't</i> rip anything while in here..."
-
-        You pat your pocket that holds the page{temp_string} At least you can remove one more lock with this.
-        
-        *[Exit the office.]
-        ->Stairs.Exit_Office
+        ~temp_string = "You grab the railing to steady yourself,"
 }
 
-= Examine_Stairs
-You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either.
+~ went_downstairs = 2
+
+About halfway down the steps, the smell of rot hits your nose, so strong you gag. {temp_string} and retch. The stench is unbareable. 
+
+It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.
+
+You cover your face with your shirt, and breathe through your mouth, but the pungent smell clings to you. 
+
+*[Keep moving]
+
+*[Turn back]
+    You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing.
+    ->Stairs.Turn_Back
+    
+- You plug your nose and keep going, only stopping to dry heave. It isn't long before the steps change from wood to... to something you can't comprehend. You stop and shine the light. 
+
+#style: fidget, <mold, fungus, flesh>
+The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the (text-style: "condense", "fidget")[<mold, fungus, flesh> shivers in response. 
+
+You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusing substance.
+
+*[See what's behind the door]
+
+*[Turn. Back.]
+    ~ went_downstairs = 3
+    #play: click-off
+    Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
+
+    The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
+    ->Stairs.Turn_Back
+
+- 
+#play: 1, squish-squash
+<i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
+
+<i>Squish</i>
+
+#stop: 3, squish-squash
+The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
+
+<i>Squelch</i>
+
+*[Open the door]
+
+- The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
+
+The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
+
+*[Find the source of the smell]
+
+*[Investigate the ooze]
+    #delay: 1.5
+    You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
+    
+    #play: click-on #play: 1, click-off #play: 1, click-on #play: 1, click-off
+    The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
+    ->Stairs.Melt
+
+- You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizeable. 
+
+You pass by what you assume is a standing coat hanger, and stare at it. It is taller than you, and has multiple edges jutting out from it. You reach out to lift the canvas covering it, but stop just before touching it. 
+
+You're not sure why, but you retract your hand. You stare at the coat hanger a little longer before conitnuing on.
+
+*[You don't check under any of the tarps.]
+
+- You continue deeper into the room, the smell getting stronger with each step. You pray that the smell won't linger after you leave, and follow your nose to the source.
+
+You find yourself in the far back corner, a tarp partially covering something scattered over the floor. It come us to about your chest, a stacked pile of... something. Firewood? But you don't remember seeing a fireplace upstairs...
+
+Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...? You swallow the lump in your throat.
+
+*[Lift the tarp]
+
+- #play: click-off
+You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
+
+#style: fidget, <mourn, pity, pray>
+Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to <mourn, pity, pray> for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
+
+*[Search left]
+~temp_bool = false
+You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
+
+You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
+
+*[Search right]
+~temp_bool = true
+You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
+
+Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
+
+- 
+
+*[Your hand starts to itch]
+->Stairs.Melt
+
+= Melt
+You wipe off any remaining ooze on your shirt, but that only causes the itching to spread. 
+
+*[It burns]
+
+- 
+{
+    - temp_bool:
+        ~temp_string = ". You have the flashlight."
+    - else:
+        ~temp_string = ", flashlight be damned."
+}
+
+Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_string} You blindly try to make your way back to the door.
+
+The ooze being to fall faster. You step in puddles. It falls on you from the ceiling. You cannot wipe it off fast enough. 
+
+*[It's eating through you]
+
+- You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
+
+*[You feel bone.]
+
+- You can't breathe.$[Your skin burns.] You can't think. Bone? How-? $[Your skin burns.] Your head swims. $[Your skin burns.]You can't get enough air in. $[Your skin burns.] Is this slime-?
+
+*[Your skin burns.]
+
+- You keep going, desperatly trying to escape. $[You can't feel your hand anymore.] You trip over yourself, and fall into puddle of the acidic ooze. $[You can't feel your legs.]
+
+*[You can't feel anything.]
+->Credits
+
+= Turn_Back
+*[Go upstairs]
+->Stairs.Upstairs
 
 *[Enter the office]
 ->Stairs.Office
 
 *[Return to the main body of the church]
-->Inside.Look_For_Heart
+{
+    - went_downstairs <= 1:
+        ->Inside.Look_For_Heart
+    - visited_first && went_downstairs > 1:
+        ->After_First.Side_Room_After
+    - visited_second && went_downstairs > 1:
+        -> After_Second.Stairs_Second
+    - else:
+        -> Last_Stop.Stairs_Last
+}
 
-*[Go upstairs]
-    ->Stairs.Upstairs
-*[Go downstairs]
-    ->Stairs.Downstairs
-    
+
+////////// UPSTAIRS INTERACTIONS ////////// 
 
 = Upstairs
 #play: click-on
@@ -1130,185 +1376,6 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         -> Stairs.Return_Down
 }
 
-= Downstairs
-~ temp_bool = false
-#play: click-on
-You approach the stairs shine your flashlight down. There are smooth walls on either side of the stairs. You cannot see the bottom. You take one step down, and deep groan wells up from below.
-
-You tense, every fiber of your being telling you to not continue down.
-
-*[Continue down]
-
-*[Turn back]
-    You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing.
-    ->Stairs.Turn_Back
-- 
-{
-    - leg == "worst":
-        ~temp_string = ", making sure to lean against the railing to take weight off your leg"
-    - else:
-        ~temp_string = ""
-}
-
-Cautiously, you take another step down{temp_string}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
-
-*[Push through]
-
-*[Turn back]
-    You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing.
-    ->Stairs.Turn_Back
-- 
-
-{
-    - leg == "worst":
-        ~temp_string = "You grab the railing with both hands,"
-    - else:
-        ~temp_string = "You grab the railing to steady yourself,"
-}
-
-About halfway down the steps, the smell of rot hits your nose, so strong you gag. {temp_string} and retch. The stench is unbareable. 
-
-It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.
-
-You cover your face with your shirt, and breathe through your mouth, but the pungent smell clings to you. 
-
-*[Keep moving]
-
-*[Turn back]
-    You decide to explore downstairs at a later point in time, and return to the hall.
-    ->Stairs.Turn_Back
-    
-- You plug your nose and keep going, only stopping to dry heave. It isn't long before the steps change from wood to... to something you can't comprehend. You stop and shine the light. 
-
-#style: fidget, <mold, fungus, flesh>
-The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the (text-style: "condense", "fidget")[<mold, fungus, flesh> shivers in response. 
-
-You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusing substance.
-
-*[See what's behind the door]
-
-*[Turn. Back.]
-    #play: click-off
-    Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
-
-    The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
-    ->Stairs.Turn_Back
-
-- 
-#play: 1, squish-squash
-<i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
-
-<i>Squish</i>
-
-#stop: 3, squish-squash
-The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
-
-<i>Squelch</i>
-
-*[Open the door]
-
--The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
-
-The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
-
-*[Find the source of the smell]
-
-*[Investigate the ooze]
-#delay: 1.5
-You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
-
-#play: click-on #play: 1, click-off #play: 1, click-on #play: 1, click-off
-The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
-->Stairs.Melt
-
-*[Your hand starts to itch]
-
-- You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizeable. 
-
-You pass by what you assume is a standing coat hanger, and stare at it. It is taller than you, and has multiple edges jutting out from it. You reach out to lift the canvas covering it, but stop just before touching it. 
-
-You're not sure why, but you retract your hand. You stare at the coat hanger a little longer before conitnuing on.
-
-*[You don't check under any of the tarps.]
-
-- You continue deeper into the room, the smell getting stronger with each step. You pray that the smell won't linger after you leave, and follow your nose to the source.
-
-You find yourself in the far back corner, a tarp partially covering something scattered over the floor. It come us to about your chest, a stacked pile of... something. Firewood? But you don't remember seeing a fireplace upstairs...
-
-Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...? You swallow the lump in your throat.
-
-*[Lift the tarp]
-
-- #play: click-off
-You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
-
-#style: fidget, <mourn, pity, pray>
-Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to <mourn, pity, pray> for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
-
-*[Search left]
-~temp_bool = false
-You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
-
-You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
-
-*[Search right]
-~temp_bool = true
-You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
-
-Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
-
-- 
-
-*[Your hand starts to itch]
-->Stairs.Melt
-
-= Melt
-You wipe off any remaining ooze on your shirt, but that only causes the itching to spread. 
-
-*[It burns]
-
-- 
-{
-    - temp_bool:
-        ~temp_string = ". You have the flashlight."
-    - else:
-        ~temp_string = ", flashlight be damned."
-}
-
-Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_string} You blindly try to make your way back to the door.
-
-The ooze being to fall faster. You step in puddles. It falls on you from the ceiling. You cannot wipe it off fast enough. 
-
-*[It's eating through you]
-
-- You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
-
-*[You feel bone.]
-
-- You can't breathe.$[Your skin burns.] You can't think. Bone? How-? $[Your skin burns.] Your head swims. $[Your skin burns.]You can't get enough air in. $[Your skin burns.] Is this slime-?
-
-*[Your skin burns.]
-
-- You keep going, desperatly trying to escape. $[You can't feel your hand anymore.] You trip over yourself, and fall into puddle of the acidic ooze. $[You can't feel your legs.]
-
-*[You can't feel anything.]
-->Credits
-
-= Turn_Back
-*[Go upstairs]
-->Stairs.Upstairs
-
-*[Enter the office]
-->Stairs.Office
-
-*[Return to the main body of the church]
-{
-    - visited_first:
-        ->After_First.Side_Room_After
-    - else:
-        -> After_Second.Stairs_Second
-}
-
 = Return_Down
 {
 - locks == 1:
@@ -1342,41 +1409,130 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 }
 
 
-= Exit_Office
-~room += 1
+= Upstairs_End
+{temp_bool == false: The locked door and soft light from under it are the same. You think you have all the pieces to open it now. {stay >= 2.5: You bounce on the balls of your feet. This is it. You'll be... able to leave soon. Go back to your... normal... life. } {stay < 2.5: You're so close to being free. } }
 
-You exit the office.
++ { key && key_lock } [Use the key.]
+    ~ temp_bool = true
+    ~ locks += 1
+    ~ key_lock = true
+    {stay >= 2.5: You fish the key out of your pocket. Your hand shakes as you try to slide it into the hole. You miss a few times before dropping the key to the floor. "Get it together..." You mutter, shaking out your hands before picking up the key and putting it into the lock. }{stay < 2.5: You fish the key out of your pocket, and try it on the only lock with a key hole. } It resists slightly, but with a little force, you're able to turn it. 
+    
+    #play: groaning-angry, 1 #stop: groaning-angry, 2
+    The chains and lock fall to the ground. The church groans angrily in response. 
+    
+    { - locks:
+        - 1: One lock down, two more to go.
+        - 2: Two locks down, one more to go.
+        - 3: All the locks have been removed.
+    }
 
-*[Examine the stairs]
--> Stairs.Examine_Stairs
-*[Enter the office]
-->Stairs.Office
-*[Return to the main body of the church]
-{
-    - temp_bool_3:
-        ->Inside.Look_For_Heart
-    - visited_first:
-        ->After_First.Side_Room_After
++ { clippers && !clippers_lock} [Use the wire cutters.]
+    ~ temp_bool = true
+    ~ locks += 1
+    ~ key_lock = true
+    ~ clippers_lock = true
+
+    {
+     - !key_lock && key:
+        ~ temp_string = "you look at the rest of the chains that are held together with the old looking lock. You try the key you found but... Instead, you cut around the lock and then some, until the lock falls."
+     - !key_lock && !key:
+        ~ temp_string = "you look at the rest of the chains that are held together with the old looking lock. You could look for a key, but... Instead, you cut around the lock and then some, until the lock falls."
+    }
+    
+    You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
+
+    #play: cut_chain
+    {finger_chopped and happy == false: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take your finger. A dull pain echos through your stump at the memory.} {finger_chopped and happy: You don't flinch at the sound out the chain snapping, but feel a slight smile come to your lips. The stump on your hand aches at the memory, but it's a soothing pain. } {coward: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take her finger. Her cries echo in your ears. }
+    
+    You shake the memory from your head and {temp_string}
+
+    { 
+        - number_lock:
+            With two locks removed, all that's left is the number lock.
+        - else:
+            All the locks have been removed.
+    }
+
++ { number_combo != "" && !number_lock} [Enter {number_lock} into number lock.]
+    ~ temp_bool = true
+    ~ locks += 1
+    ~ number_lock = true
+
+    {
+        - rip_page:
+            You pull the page from your pocket. You grab the combination lock and input the numbers 2755, and pull on the lock.
+            
+            //TODO: Maybe little "game" to input the numbers?
+            
+            It doesn't open.
+            
+            You pull it again, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
+    
+            Further down the page, it explains the number. Not a date or some random sequence, the code is differnt for everyone. To open it, you have to use your own number. The number that the church assigned you.
+            
+            
+        - name:
+            You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
+            
+            //TODO: Maybe little "game" to input the numbers?
+            
+            It doesn't open.
+            
+            You pull it again, thinking it might be stuck. Nothing. You're almost positive that was the correct number.
+    }
+    
+    {
+        - keep_book:
+            {
+                - rip_page:
+                    You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
+                
+                    You remove the lock from the metal bar, and slide it out of place. 
+                - name:
+                    "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
+                    
+                    None of them work.
+                    
+                    You check the cover of your book again. 2758. With no other options, you use your book number as the code, and the lock pops open.
+                
+                    You remove the lock from the metal bar, and slide it out of place. 
+            }
+        
+        
+        - else:
+            {
+                - rip_page:
+                    Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
+                
+                    You remove the lock from the metal bar, and slide it out of place. 
+                - name:
+                    "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
+                    
+                    None of them work.
+                    
+                    You can only properly remember your own book number. 2758. With no other options, you use your book number as the code, and the lock pops open.
+                
+                    You remove the lock from the metal bar, and slide it out of place. 
+            }
+    }
+    
+    { - locks:
+        - 1: One lock down, two more to go.
+        - 2: Two locks down, one more to go.
+        - 3: All the locks have been removed.
+    }
+
+
+- 
+{ 
+    - locks >= 3:
+        *[Open the door.]
+        ->Open_the_Door
+        
     - else:
-        -> After_Second.Stairs_Second
+        ->Stairs.Upstairs_End
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

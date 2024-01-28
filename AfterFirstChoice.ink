@@ -196,7 +196,7 @@ You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubble
 
 - You sniff, and wipe your eyes. You need to pull yourself together if you want to get out of here. You get to your feet at face the church. 
 
-{stay <= 2: "I'm <i>going</i> to get out of here." You say. "Do you hear me? I'm <i>going</i> to get out of here!"}{stay>2: <i>I will get out of here.</i> you think to yourself. <i>At least, I hope so...</i>}
+{stay <= 2: "I'm <i>going</i> to get out of here." You say. "Do you hear me? I'm <i>going</i> to get out of here!"}{stay>2: <i>I will get out of here.</i> you think to yourself. <i>I...</i>}
 
 You need to return to your search. <>
 -> After_Second.Return_to_Search
@@ -237,7 +237,7 @@ You need to return to your search. <>
         
 }
 
-There are still more places you can look for the heart or an escape. <>
+There are still more places you need to look. <>
 
 -> After_Second.Return_to_Search
 
@@ -253,40 +253,236 @@ There are still more places you can look for the heart or an escape. <>
 
 You leave the booth, {temp_string == "accept": key weighing heavily in your pocket.}{temp_string != "accept": key in your pocket.} {saw_locks and broke_chest == false: You should see if it fits the chest you found in the side office. And if it doesn't there, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{broke_chest == false: You should see if it fits the chest you found in the side office.} {saw_locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
 
-There are still more places you can look for the heart or an escape. <>
+There are still more places you need to look. <>
 
 -> After_Second.Return_to_Search
 
 = Stairs_Second
 {
-    - 
+    - know_book && name:
+        {
+            - keep_book && rip_page:
+                You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
+            - !keep_book && rip_page:
+                You keep your hand over your pocket as you return down the stairs, and to the main body of the church. <>
+            - keep_book && !rip_page:
+                You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
+        }
+        
+        You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+    - know_book && !name:
+        {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+        
+    - !know_book && name:
+        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}.
+        
+    - !know_book && !name:
+        You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
+        
+        {
+            - went_upstairs && went_downstairs == 0:
+                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there.
+            
+            - went_upstairs && went_downstairs > 1:
+                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It coulud be downstairs.
+                
+                Your skin shivers.
+                
+                You would rather remove all the locks to see what's behind that door rather than go back down there. The smell still lingers in your nose...
+                
+                You shake your head. There are still more places you need to look if you want to get out of here. <>
+            
+            - else:
+                {
+                    - went_downstairs > 1:
+                        You still haven't found the heart. Unless... It coulud be downstairs.
+                
+                        Your skin shivers.
+                
+                        You would rather remove all the locks to see what's behind that door rather than go back down there. The smell still lingers in your nose...
+                
+                        You shake your head. There are still more places you need to look if you want to get out of here. <>
+                    - went_downstairs == 1:
+                        You still haven't found the heart. Unless... It coulud be downstairs.
+                
+                        Your skin shivers.
+                
+                        You would rather remove all the locks to see what's behind that door rather than go back down there. You didn't see anything but...
+                
+                        You shake your head. There are still more places you need to look if you want to get out of here. <>
+                }
+        }
 }
-->END
 
+
+->After_Second.Return_to_Search
 
 = Return_to_Search
 ~ visited_second = false
 You decide to look...
 
-* {pews} [In the pews]
+* {!pews} [In the pews]
 -> Pews
 
 *{!confessional_sin or !confessional_priest}[In the confessional]
 -> Confessional
 
-*[Somewhere up the stairs]
+* [Somewhere up the stairs]
 -> Stairs
 
-
 === Last_Stop ===
-->END
+
+= Pews_Last
+You drop down from the stage, and walk through the pews. Everyone is gone.
+
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy == false:Your hand aches, and you lightly touch the wound.<br><br>It hurts.}{happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing.}} { coward: You stop at the pew {name:Ophelia}{name == false: the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
+
+You bow your head and squeeze the wire cutters in your hand.
+
+{went_upstairs: There's not a lot of places left to look, but you know where you what to go. {key == true && number_combo != "" : You have all the pieces to unlock the door.}{key == true && number_combo == "" : You have a key and wire cutters, you could probably figure out how to get the door open with just that.}{key != true && number_combo != "" : You have a code and wire cutters, you could probably figure out how to get the door open with just that.}} 
+
+{went_upstairs == false: {key == true && number_combo != "" : You have a key, a code and wire cutters }{key == true && number_combo == "" : You have a key and wire cutters}{key != true && number_combo != "" : You have a code and wire cutters}, but nothing to do with them. You've searched almost the entire church, but there's not a lot of places left to look.}
+
+You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces and you stare at the front door. At the end of this... maybe... <br> <br> You shake the thought from your head.}
 
 
+->Last_Stop.Return_to_Search
+
+= Confessional_Priest_Last
+
+{
+    - emily_hurt:
+        {
+            - temp_string == "Your hands tremble":
+                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
+                
+                The church can adapt and change, do anything to keep you here. {key: Does that mean you can't trust the key you found?} { number_combo != "": Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
+                
+                You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
+                
+            - temp_string == "You grimce":
+                You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
+                
+                <Shame, Guilt, Doubt, Regret> bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
+                
+                You bite the inside of your cheek. <>
+                
+            - temp_string == "You grind your teeth":
+                You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. 
+                
+                You kick a pew, hard, stubbing your toe. You curse like a sailor, and pull at your hair. You're going to lose it before you get out of here. 
+                
+                You need to get a grip. <>
+        }
+        
+        
+        
+    - else:
+        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>reallys</i> her, or just another trick of the church?
+        
+        You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
+        
+        You need to move on. <>
+        
+}
+
+-> Last_Stop.Return_to_Search
+
+= Confessional_Sin_Last
+{
+    - temp_string == "accept":
+        ~ temp_string = ""
+    - temp_string == "angry":
+        ~ temp_string = ""
+    - temp_string == "reach through":
+        ~ temp_string = ""
+}
+
+You leave the booth, {temp_string == "accept": key weighing heavily in your pocket.}{temp_string != "accept": key in your pocket.} {saw_locks and broke_chest == false: You should see if it fits the chest you found in the side office. And if it doesn't there, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{broke_chest == false: You should see if it fits the chest you found in the side office.} {saw_locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
+
+You need to move on. <>
+
+-> Last_Stop.Return_to_Search
+
+= Stairs_Last
+{
+    - know_book && name:
+        {
+            - keep_book && rip_page:
+                You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
+            - !keep_book && rip_page:
+                You keep your hand over your pocket as you return down the stairs, and to the main body of the church. <>
+            - keep_book && !rip_page:
+                You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
+        }
+        
+        You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+    - know_book && !name:
+        {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+        
+    - !know_book && name:
+        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}.
+        
+    - !know_book && !name:
+        You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
+        
+        {
+            - went_upstairs && went_downstairs == 0:
+                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there.
+            
+            - went_upstairs && went_downstairs > 1:
+                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It coulud be downstairs.
+                
+                Your skin shivers.
+                
+                You would rather remove all the locks to see what's behind that door rather than go back down there. The smell still lingers in your nose...
+                
+                You shake your head. There are still more places you need to look if you want to get out of here. <>
+            
+            - else:
+                {
+                    - went_downstairs > 1:
+                        You still haven't found the heart. Unless... It coulud be downstairs.
+                
+                        Your skin shivers.
+                
+                        You would rather remove all the locks to see what's behind that door rather than go back down there. The smell still lingers in your nose...
+                
+                        You shake your head. There are still more places you need to look if you want to get out of here. <>
+                    - went_downstairs == 1:
+                        You still haven't found the heart. Unless... It coulud be downstairs.
+                
+                        Your skin shivers.
+                
+                        You would rather remove all the locks to see what's behind that door rather than go back down there. You didn't see anything but...
+                
+                        You shake your head. There are still more places you need to look if you want to get out of here. <>
+                }
+        }
+}
 
 
+->After_Second.Return_to_Search
 
 
+= Return_to_Search
+~ visited_second = false
+You only have a few places you haven't looked yet. {went_upstairs && ((clippers or key == true) && number_combo != ""): You know where the heart probably is. Whenever you're ready, the heart is waiting.}
 
+* {!pews} [In the pews] -> Pews
+
+*{!confessional_sin or !confessional_priest}[In the confessional] -> Confessional
+
+* {!went_upstairs} [Somewhere up the stairs] ->Stairs
+
+* {went_upstairs} [Go up the spiral staircase.] 
+    ~temp_bool = false
+    You stare up the stairs. They are just as tall as you remember. You take a deep breath, shake out your limbs and begin to climb.
+
+- 
+
+*[It was easier this time around.]
+    -> Stairs.Upstairs_End
 
 
 

@@ -465,7 +465,7 @@ On the bench sits a small key. You pick it up, and put in your pocket, hoping it
         ~ temp_string = "angry"
         -> After_Second.Confessional_Sin_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Confessional_Sin_Last
 }
 
 = Look
@@ -531,7 +531,7 @@ On the bench sits a small key.
     - visited_second:]
         -> After_Second.Confessional_Sin_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Confessional_Sin_Last
 }
 
 = Agree
@@ -635,7 +635,7 @@ You wonder if you'll meet it again.
         ~ temp_string = "accept"
         -> After_Second.Confessional_Sin_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Confessional_Sin_Last
 }
 
 = Reject_Version_2
@@ -1370,7 +1370,7 @@ You wonder if you'll meet it again.
         ~ temp_string = "accept"
         -> After_Second.Confessional_Sin_Second
     - else:
-        -> Last_Stop
+        -> Last_Stop.Confessional_Sin_Last
 }
 
 = Question
