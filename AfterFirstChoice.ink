@@ -178,7 +178,6 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 ~temp_bool = false
 -> Confessional_Curtain
 
-
 ===After_Second===
 
 = Pews_Second
@@ -463,7 +462,6 @@ You need to move on. <>
 
 
 ->After_Second.Return_to_Search
-
 
 = Return_to_Search
 ~ visited_second = false

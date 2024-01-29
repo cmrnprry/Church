@@ -3,7 +3,7 @@
 body {
     font-family: 'Open Sans', sans-serif;
     font-weight: lighter;
-    background: white;
+    background: #E0E0E0;
     overflow: hidden;
 }
 
@@ -54,7 +54,7 @@ h2 {
     position: fixed;
     display: block;
     width: 100%;
-    background: white;
+    background: #E0E0E0;
     transition: color 0.6s, background 0.6s;
     margin: 0;
     padding-top: 6px;
@@ -97,35 +97,32 @@ h2 {
     margin: 0 auto;
     padding: 20px;
     padding-top: 4em;
-    background: white;
+    padding-bottom: 4em;
+    height: max-content;
+    background: #E0E0E0;
 }
 
 .switched .container {
     transition: background-color 0.6s;
 }
 
-p {
-    font-size: 13pt;
-    color: #888;
-    line-height: 1.7em;
-    font-weight: lighter;
-}
+
 
 a {
     font-weight: 700;
-    color: #b97c2c;
+    color: #a80f0f;
     font-family: sans-serif;
     transition: color 0.6s;
     text-decoration: none;
 }
 
 a:hover {
-    color: black;
+    color: #E0E0E0;
     transition: color 0.1s;
 }
 
 strong {
-    color: black;
+    color: #0A100D;
     font-weight: bold;
 }
 
@@ -146,6 +143,41 @@ img {
 .container>* {
     opacity: 1.0;
     transition: opacity 1.0s;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+}
+
+.temp {
+    color: #e2d5d5;
+    background: #222222;
+    border: 2px solid #3f1313;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.text_container {
+    font-size: 13pt;
+    color: #e2d5d5;
+    background: #222222;
+    line-height: 1.7em;
+    font-weight: lighter;
+    border: 2px solid #3f1313;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.text_container:not(:last-child):not(:hover)
+{
+    opacity: 0.4;
+    transition: 0.5s;
+}
+
+.text_container:hover {
+    opacity: 1;
+    transition: 0.5s;
 }
 
 /*
@@ -178,7 +210,7 @@ img {
 .end {
     text-align: center;
     font-weight: bold;
-    color: black;
+    color: #0A100D;
     padding-top: 20px;
     padding-bottom: 20px;
 }
@@ -192,7 +224,7 @@ img {
     right: 14px;
     top: 4px;
     user-select: none;
-    background: white;
+    background: #E0E0E0;
     transition: color 0.6s, background 0.6s;
 }
 
@@ -220,8 +252,8 @@ img {
 */
 
 body.dark {
-    background: black;
-    color: white;
+    background: #0A100D;
+    color: #E0E0E0;
 }
 
 .dark h2 {
@@ -229,24 +261,24 @@ body.dark {
 }
 
 .dark .container {
-    background: black;
+    background: #0A100D;
 }
 
 .dark .written-in-ink {
-    background: black;
+    background: #0A100D;
 }
 
 .dark a {
-    color: #cc8f1a;
+    color: #a80f0f;
     transition: color 0.6s;
 }
 
 .dark a:hover {
-    color: white;
+    color: #E0E0E0;
 }
 
 .dark strong {
-    color: white;
+    color: #E0E0E0;
 }
 
 .dark #controls [disabled] {
@@ -254,9 +286,16 @@ body.dark {
 }
 
 .dark .end {
-    color: white;
+    color: #E0E0E0;
 }
 
 .dark #controls {
-    background: black;
+    background: #0A100D;
+}
+
+
+/* STYLING */
+.Tall {
+    display: inline-block; 
+    transform: scaleY(1.5) translateY(-0.25ex);
 }

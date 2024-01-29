@@ -108,19 +108,19 @@ You stand to leave when you hear the curtain open and close from the other side 
 }
 
 = No_Confessions
-#delay: 4
+#DELAY: 4
 ~stay += 0.5
 ~ emily_hurt = true
 #play: curtain
 {pressed_emily: The curtain opens. "I'm- Leaving-" Her voice is cut off by a massive coughing fit. "You- <i>You</i>" she wheezes between coughs. "Don't-"}{ pressed_emily == false: "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank-" Her voice is cut off by a massive coughing fit. "Thank- you-" she wheezes between coughs. }
 
-#effect: typewriter #style:slide-right #delay: 2
+#effect: typewriter #style:slide-right #DELAY: 2
 RRRRIIIPPPPPP
 
-#style: fade-up #delay: 1.5
+#style: fade-up #DELAY: 1.5
 The sound or the curtain tearing-
 
-#style:slide-down #delay: 1.5
+#style:slide-down #DELAY: 1.5
 <i>THud</i>
 
 #style: fade-up

@@ -32,7 +32,20 @@
     }
 
     var storyContainer = document.querySelector('#story');
+    
+    var textContainer = document.createElement('div')
+    storyContainer.appendChild(textContainer);
+    
+    var footer = document.createElement('div')
+    var inside = document.createElement('div')
+    footer.classList.add("footer");
+    inside.classList.add("temp");
+    footer.appendChild(inside)
+
     var outerScrollContainer = document.querySelector('.outerContainer');
+    outerScrollContainer.appendChild(footer);
+
+    var lastParagraph = null;
 
     // page features setup
     setupTheme(globalTagTheme);
@@ -50,13 +63,14 @@
     function continueStory(firstTime) {
 
         var paragraphIndex = 0;
-        var delay = 0.0;
+        var delay = 200.0;
+        var DelayNextText = 0
 
         // Don't over-scroll past new content
         var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY();
 
         // Generate story text - loop through available content
-        while(story.canContinue) {
+        if(story.canContinue) {
 
             // Get ink to generate the next paragraph
             var paragraphText = story.Continue();
@@ -70,6 +84,13 @@
                 // Detect tags of the form "X: Y". Currently used for IMAGE and CLASS but could be
                 // customised to be used for other things too.
                 var splitTag = splitPropertyTag(tag);
+
+                //DELAY: time
+                if( splitTag && splitTag.property == "DELAY" ) {
+                    DelayNextText = splitTag.val * 1000;
+                    var nextText = CreateTextBox(story.Continue(), customClasses);
+                    showAfter(DelayNextText, nextText, false);
+                }
 
                 // AUDIO: src
                 if( splitTag && splitTag.property == "AUDIO" ) {
@@ -100,8 +121,8 @@
                     imageElement.src = splitTag.val;
                     storyContainer.appendChild(imageElement);
 
-                    showAfter(delay, imageElement);
-                    delay += 200.0;
+                    showAfter(delay, imageElement, false);
+                    delay += 5000.0;
                 }
 
                 // LINK: url
@@ -140,32 +161,75 @@
                 }
             }
 
-            // Create paragraph element (initially hidden)
-            var paragraphElement = document.createElement('p');
-            paragraphElement.innerHTML = paragraphText;
-            storyContainer.appendChild(paragraphElement);
+            var paragraphElement = CreateTextBox(paragraphText, customClasses);
 
-            // Add any custom classes derived from ink tags
-            for(var i=0; i<customClasses.length; i++)
-                paragraphElement.classList.add(customClasses[i]);
+            //if this is our first time, fade in text box like normal
+            //otherwise, wait until click to show next text box
+            if  (!firstTime)
+                delay = 500.0;
 
-            // Fade in paragraph after a short delay
-            showAfter(delay, paragraphElement);
-            delay += 200.0;
+            showAfter(delay, paragraphElement, false);
+
+           
         }
 
+        if (story.currentChoices.length <= 0 && DelayNextText == 0)
+        {
+            paragraphElement.addEventListener("click", OnClickEvent);
+
+            if (lastParagraph != null && lastParagraph !=undefined)
+                lastParagraph.removeEventListener("click", OnClickEvent);
+            
+            lastParagraph = paragraphElement;
+        }
+        else{
+            delay = 1500
+            if (DelayNextText)
+                delay += DelayNextText
+
+            setTimeout(function() { CreateChoices(); }, delay);
+            
+            if (lastParagraph != null && lastParagraph !=undefined)
+                lastParagraph.removeEventListener("click", OnClickEvent);
+
+        }
+
+        console.log(lastParagraph)
+
+        // Extend height to fit
+        // We do this manually so that removing elements and creating new ones doesn't
+        // cause the height (and therefore scroll) to jump backwards temporarily.
+        storyContainer.style.height = contentBottomEdgeY()+"px";
+
+        if( !firstTime )
+            scrollDown(previousBottomEdge);
+
+    }
+
+    function OnClickEvent(event)
+    {
+        // Don't follow <a> link
+        event.preventDefault();
+
+        // Aaand loop
+        continueStory(false);
+
+        lastParagraph.removeEventListener("click", OnClickEvent, true);
+    }
+
+    function CreateChoices()
+    {
         // Create HTML choices from ink choices
         story.currentChoices.forEach(function(choice) {
 
             // Create paragraph with anchor element
-            var choiceParagraphElement = document.createElement('p');
+            var choiceParagraphElement = document.createElement('div');
             choiceParagraphElement.classList.add("choice");
             choiceParagraphElement.innerHTML = `<a href='#'>${choice.text}</a>`
             storyContainer.appendChild(choiceParagraphElement);
 
             // Fade choice in after a short delay
-            showAfter(delay, choiceParagraphElement);
-            delay += 200.0;
+            showAfter(200, choiceParagraphElement, true);
 
             // Click on choice
             var choiceAnchorEl = choiceParagraphElement.querySelectorAll("a")[0];
@@ -184,18 +248,24 @@
                 savePoint = story.state.toJson();
 
                 // Aaand loop
-                continueStory();
+                continueStory(true);
             });
         });
+    }
 
-        // Extend height to fit
-        // We do this manually so that removing elements and creating new ones doesn't
-        // cause the height (and therefore scroll) to jump backwards temporarily.
-        storyContainer.style.height = contentBottomEdgeY()+"px";
+    function CreateTextBox(text, customClasses)
+    {
+        // Create paragraph element (initially hidden)
+        var paragraphElement = document.createElement('p');
+        paragraphElement.classList.add("text_container");
+        paragraphElement.innerHTML = text;
+        
 
-        if( !firstTime )
-            scrollDown(previousBottomEdge);
+        // Add any custom classes derived from ink tags
+        for(var i=0; i<customClasses.length; i++)
+            paragraphElement.classList.add(customClasses[i]);
 
+        return paragraphElement;
     }
 
     function restart() {
@@ -216,9 +286,14 @@
     // -----------------------------------
 
     // Fades in an element after a specified delay
-    function showAfter(delay, el) {
+    function showAfter(delay, el, isChoice) {
         el.classList.add("hide");
         setTimeout(function() { el.classList.remove("hide") }, delay);
+
+        if (!isChoice)
+            setTimeout(function() { textContainer.appendChild(el); }, delay);
+            setTimeout(function() { storyContainer.style.height = contentBottomEdgeY()+"px"; }, delay);
+            setTimeout(function() { scrollDown(contentBottomEdgeY()); }, delay);
     }
 
     // Scrolls the page down, but no further than the bottom edge of what you could
@@ -227,13 +302,12 @@
 
         // Line up top of screen with the bottom of where the previous content ended
         var target = previousBottomEdge;
-
         // Can't go further than the very bottom of the page
         var limit = outerScrollContainer.scrollHeight - outerScrollContainer.clientHeight;
+
         if( target > limit ) target = limit;
 
         var start = outerScrollContainer.scrollTop;
-
         var dist = target - start;
         var duration = 300 + 300*dist/100;
         var startTime = null;
@@ -251,7 +325,7 @@
     // for growing the container, and deciding how far to scroll.
     function contentBottomEdgeY() {
         var bottomElement = storyContainer.lastElementChild;
-        return bottomElement ? bottomElement.offsetTop + bottomElement.offsetHeight : 0;
+        return bottomElement ? bottomElement.offsetTop + bottomElement.offsetHeight:0;// + textContainer.offsetHeight : 0;
     }
 
     // Remove all elements that match the given selector. Used for removing choices after
@@ -314,7 +388,7 @@
     function setupTheme(globalTagTheme) {
 
         // load theme from browser memory
-        var savedTheme;
+        var savedTheme = "dark";
         try {
             savedTheme = window.localStorage.getItem('theme');
         } catch (e) {
@@ -346,7 +420,7 @@
             try {
                 window.localStorage.setItem('save-state', savePoint);
                 document.getElementById("reload").removeAttribute("disabled");
-                window.localStorage.setItem('theme', document.body.classList.contains("dark") ? "dark" : "");
+                // window.localStorage.setItem('theme', document.body.classList.contains("dark") ? "dark" : "");
             } catch (e) {
                 console.warn("Couldn't save state");
             }
@@ -372,11 +446,11 @@
             continueStory(true);
         });
 
-        let themeSwitchEl = document.getElementById("theme-switch");
-        if (themeSwitchEl) themeSwitchEl.addEventListener("click", function(event) {
-            document.body.classList.add("switched");
-            document.body.classList.toggle("dark");
-        });
+        // let themeSwitchEl = document.getElementById("theme-switch");
+        // if (themeSwitchEl) themeSwitchEl.addEventListener("click", function(event) {
+        //     document.body.classList.add("switched");
+        //     document.body.classList.toggle("dark");
+        // });
     }
 
 })(storyContent);

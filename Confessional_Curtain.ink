@@ -64,11 +64,11 @@ You look around the small space again, touching the smooth wood to find anything
 Your heart races, and your entire body tenses. Another person? Here? Do they know about the heart? Can you trust them? 
 
 *["Have you seen a heart?"]
-#delay: 1
+#DELAY: 1
 "I cannot say I have." he chuckles. "Unless you mean your own? Maybe a confession would help you find it?"
 
 *["Who are you?"]
-#delay: 1
+#DELAY: 1
 "Does that matter?" he asks. {temp_bool: "I will ask again: What is it you have to confess?"} {temp_bool == false: "Do you have something to confess?"}
 
 *[Leave the booth]
@@ -143,16 +143,16 @@ There was nothing in there, anyway. You should return to your search.
 
 "Today, I was... a little strange. I was never the best worker at my job, but today was particularly bad." You trace the wooden grooves of the wall with your finger. The words feel stuck in your throat as you recall your day. 
 
-#delay: 1.5
+#DELAY: 1.5
 {temp_string}
 
 #play: liquid-drop
 <i>Plink!</i>
 
-#delay: 3
+#DELAY: 3
 The voice is silent. You squirm uncomfortably in your seat. The next words you seem to just tumble out.
 
-- #delay: 1
+- #DELAY: 1
 {
     - work == 1:
         "I-We rarely talk, but her concern felt so foreign. I didn't know what to do with it, so I just... I just left."
@@ -180,7 +180,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
 
 {
     - temp_bool:
-        #delay: 1
+        #DELAY: 1
         You nod. Your chest is tight.
         
         #play: liquid-drop #play: 1, liquid-drop
@@ -216,7 +216,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
 *[Agree with the voice]
 {
     - temp_bool:
-        #delay: 1
+        #DELAY: 1
         You hesitate, but nod. Why? Why do you {temp_string} What's the point?
     - else:
         You hesitate, but slowly, shake your head. The more you think, the more realize the voice is right.
@@ -233,7 +233,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
             - work == 2:
                ~temp_string = "You think you do, but at the same time..."
         }
-        #delay: 1
+        #DELAY: 1
         You hesitate. Do you? {temp_string}
     - else:
         {
@@ -280,7 +280,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
     
     The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, andyou jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. Aren't you happier here?"
     
-    #delay: 1.5
+    #DELAY: 1.5
     Safe? Happy? You think about everything you've experienced up til now. {temp_string}look at the ceiling of the booth. Is this any better or worse than your day to day? You're not sure how to feel.
 
     #play: liquid-drop
@@ -317,10 +317,10 @@ The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an
 
 {
     - work == 1 or work == 3:
-        #delay: 1.5
+        #DELAY: 1.5
         "You say you are not worthy of the concern of others. You keep to yourself, so your work." The voice is gentle. "But you are here now, safe in the church's embrace. Aren't you happier here?"
     - work == 2:
-        #delay: 1.5
+        #DELAY: 1.5
         "You don't think you could have done better, that you worked harder to make up for it. And yet, your efforts fell to deaf ears." The voice is gentle. "But you are here now, safe in the church's embrace. Aren't you happier here?"
 }
 
@@ -362,11 +362,11 @@ The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an
 
 -
 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
@@ -375,11 +375,11 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #style: shudder #play: banging-confession #delay: 0.5
+- #style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
@@ -392,11 +392,11 @@ The booth could come apart at any moment. You need to get out of here.
 -> Confessional_Curtain.Look
 
 = Get_Out
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 You cover your face as wooden splinters fly toward you. You need to get OUT, before that... that THING gets IN.
@@ -417,11 +417,11 @@ You {temp_string}, and turn to see the confessional shuttering under whatever in
 
 - 
 
-    #style: shudder #play: banging-confession #delay: 0.5
+    #style: shudder #play: banging-confession #DELAY: 0.5
     Bang! <>
-    #play: banging-confession #delay: 0.5
+    #play: banging-confession #DELAY: 0.5
     Bang! <>
-    #play: banging-confession #delay: 2
+    #play: banging-confession #DELAY: 2
     Bang!
 
 
@@ -469,11 +469,11 @@ On the bench sits a small key. You pick it up, and put in your pocket, hoping it
 }
 
 = Look
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 You cover your face as wooden splinters fly toward you, and take a step closer to the hole in the divider. You raise your flashlight, and peer through the hole.
@@ -535,19 +535,19 @@ On the bench sits a small key.
 }
 
 = Agree
-#delay: 1
+#DELAY: 1
 You work everyday and for what?" 
 
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
 <i>Plink! Plink! Plink!</i>
 
-#delay: 1
+#DELAY: 1
 The words get stuck in your throat.
 
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
 <i>Plink! Plink! Plink!</i>
 
-#delay: 2
+#DELAY: 2
 "The church can feel... perplexing... at first, but it doesn't bring you here without reason. It wants to help- to heal the harm dealt to you out <i>there."</i> The voice is calming. It makes sense. Why else would you be here? "The church would never hurt you. Could never hurt you."
 {
     - know or leave_light or object != "":
@@ -597,7 +597,7 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 - ~stay += 1
 "When it brought you here, that must have been frightening. Change always is."
 
-#delay: 1
+#DELAY: 1
 You nod.
 
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
@@ -662,11 +662,11 @@ The rapid drips from the leak stop. "No...?" The voice is hard now. The calm, so
 
 -
 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
@@ -675,11 +675,11 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #style: shudder #play: banging-confession #delay: 0.5
+- #style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
@@ -825,10 +825,10 @@ Your skin crawls. The silence returns.
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
 <i>Plink! Plink! Plink!</i>
 
-#delay: 1
+#DELAY: 1
 "I see..." The voice is quiet. 
 
-#delay: 2
+#DELAY: 2
 The silence is suffocating. 
 
 The voice finally continues, and you can breathe again. "So you are picking these up projects to make up for your inadequacy? You take as many as you can get so failure to finish is inevitable?"
@@ -853,7 +853,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
     -> Confessional_Curtain.TooMuch_Choice
 
 - else:
-    #delay: 0.5
+    #DELAY: 0.5
     You shake your head. "It's not that I'm-"
     
     #play: liquid-drop 
@@ -892,7 +892,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 *["Stay?"]
 
 - 
-#delay: 0.5
+#DELAY: 0.5
 "What?" You're suddenly on edge. "Stay?"
         
 #play: liquid-drop 
@@ -938,11 +938,11 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
 *[The voice is silent.]
 
 - 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
@@ -951,11 +951,11 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #style: shudder #play: banging-confession #delay: 0.5
+- #style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
@@ -1006,11 +1006,11 @@ The bucket is filling fast. You can see the [liquid] seems... thicker than just 
 *[The voice is silent.]
 
 - 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
@@ -1019,11 +1019,11 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #style: shudder #play: banging-confession #delay: 0.5
+- #style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
@@ -1067,11 +1067,11 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almsot l
 *[The voice is silent.]
 
 - 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
@@ -1080,11 +1080,11 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #style: shudder #play: banging-confession #delay: 0.5
+- #style: shudder #play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang! <>
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
@@ -1097,13 +1097,13 @@ The booth could come apart at any moment. You need to get out of here.
 -> Confessional_Curtain.Look
 
 = No_Confession
-#delay: 1
+#DELAY: 1
 "Nothing. I have nothing to confess."
 
 #play: liquid-drop
 <i>Plink!</i>
 
-#delay: 1
+#DELAY: 1
 "Nothing at all?" The voice on the other side chuckles. "Nothing at work? At home? You haven't hurt anyone? Done anything wrong?"
 
 #play: liquid-drop
@@ -1204,7 +1204,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
             - else:
                 ~temp_string = "don't you stay"
         }
-        #delay: 1
+        #DELAY: 1
         You feel yourself nodding. "I... My job is a means to an end. It's enought to keep me alive, but not enough to... do more..."
         
         #play: liquid-drop
@@ -1218,7 +1218,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
             - else:
                 ~temp_string = "And yet you wish to stay? To choose the church?"
         }
-        #delay: 1
+        #DELAY: 1
         "No, I..." You shake your head. "My life is still mine. This is what I chose." You clench your fists.
     
         #play: liquid-drop
@@ -1287,13 +1287,13 @@ The rapid drips from the leak stop. "Hm...?" The voice laughs. "You think that n
 You squirm in your seat. Clenching and unclenching your fists.
 
 
-- #delay: 1
+- #DELAY: 1
 "Your life is a routine. A boring, worthless routine." You flinch at the words. "You struggle everyday and for what?"
 
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
 <i>Plink! Plink! Plink!</i>
 
-#delay: 2
+#DELAY: 2
 "{temp_string}"
 
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
@@ -1332,7 +1332,7 @@ You squirm in your seat. Clenching and unclenching your fists.
 ~ key = true
 "When it brought you here, that must have been frightening. Change always is."
 
-#delay: 1
+#DELAY: 1
 You nod.
 
 #play: liquid-drop #play: 1, liquid-drop #play: 1, liquid-drop
@@ -1463,17 +1463,17 @@ The growl comes from the otherside again. "I have no daughter." He says through 
     - else:
         ~temp_string = "."
 }
-#delay: 0.75
+#DELAY: 0.75
 ~ church_anger += 1
 
-#play: screeching #style: shudder #delay: 2.5
+#play: screeching #style: shudder #DELAY: 2.5
 An earpiecing shriek fills the booth{temp_string} You plug your ears to no avail.
 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! 
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang!
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 #style: dissolve
@@ -1481,14 +1481,14 @@ The wood divider splinters a bit as whatever is on the otherside slams into it. 
 
 *[Lunge for the door]
 
-- #play: lock-rattle #delay: 2.5
+- #play: lock-rattle #DELAY: 2.5
 It won't open. It's locked.
 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! 
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang!
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 #style: dissolve
@@ -1499,17 +1499,17 @@ The divider between you is barely holding up. The wood is splinters while that- 
 *[Throw yourself at the door.]
 
 -
-#delay: 0.75
+#DELAY: 0.75
 ~ church_anger += 1
 
-#play: screeching #style: shudder #delay: 2.5
+#play: screeching #style: shudder #DELAY: 2.5
 The thing shrieks again. "You will not escape this time.
 
-#style: shudder #play: banging-confession #delay: 0.5
+#style: shudder #play: banging-confession #DELAY: 0.5
 Bang! 
-#play: banging-confession #delay: 0.5
+#play: banging-confession #DELAY: 0.5
 Bang!
-#play: banging-confession #delay: 2
+#play: banging-confession #DELAY: 2
 Bang!
 
 #style: dissolve

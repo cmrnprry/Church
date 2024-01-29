@@ -8,7 +8,9 @@ INCLUDE End_Game.ink
 
 ->Start
 === Start ====
+#DELAY: 5
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
+
 
 It was dark when you passed, and you keep telling youself that your tired brain mistook a billboard for a church. They must be building one there.
 
@@ -17,7 +19,9 @@ It was dark when you passed, and you keep telling youself that your tired brain 
 - You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. A "FOR SALE" sign attached to its lawn.
 
 *You don't like it.
+
 *You feel drawn to it.
+
 *You want nothing to do with it
 
 - Your stomach churns.  You shove your hand in your pocket and rub your thumb over the worn polaroid picture inside.
@@ -58,22 +62,22 @@ You pat your pant pockets, pretending that you forgot your pass, and smile sheep
 -~window = true
 The church's windows are of stained glass, which isn't uncommon for it to have. You squint trying to make the image out, but no matter how hard you focus, you can't explain what the glass was a picture of. 
 
-*You take a step forward.
+*[You take a step forward.]
 
 -The image swims in your vision. Just as you think you've got it, it changes. You make a mental note to get your eyes checked.
 
-*You take another step forward.
+*[You take another step forward.]
 
--#delay: 1.25
+-#DELAY: 1.25
 Blood starts rushing in your ears and pressure builds behind your eyes as you strain to-
 
-#style: tall #play: honk #delay: 2.5
+#CLASS: Tall #play: honk #DELAY: 2.5
 HOOOOONNNKK!!
 
 #play: bus-sounds
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel youself nodding, heart pounding. A knot forms in your stomach.
 
-*Your eyes don't leave the church.
+*[Your eyes don't leave the church.]
 
 - You brush off the driver's questions and board the bus.
 
@@ -126,6 +130,7 @@ You watch the church through the window until it fades into a dot in the distanc
 
 *[home]
     ->Bus.home
+    
 *[You want to forget about the church.]
     You fear what what will happen if you can't.
     ->Job
@@ -149,6 +154,7 @@ You should do somthing to take your mind off it.
 
 *[Scan some documents]
 -> Job.Scan
+
 *[Catch up on emails]
 -> Job.Emails
 
@@ -207,10 +213,10 @@ You pull up your email and scroll through the new ones, only reading the subject
 -> Job.Delete
 
 = Delete
-#delay: 1
+#DELAY: 1
 You quickly delete the "church inquiry" email, and go to reply to the client. 
 
-#play: ding #delay: 2.75
+#play: ding #DELAY: 2.75
 Another email with the same subject. You don't think and delete it again.
 #play: ding
 But yet another takes it's place.
@@ -223,7 +229,7 @@ But yet another takes it's place.
 
 <i>Stop thinking about it.</i> You tell yourself. <i>It's nothing but a church, so why-</i>
 
-#delay: 6 #play: knock-knock
+#DELAY: 6 #play: knock-knock
 "Knock knock, can I talk to you?" You look up to see your supervisor at your door, holding a few sheets of paper. They look upset.
 ~ work = 2
 
@@ -254,10 +260,10 @@ But yet another takes it's place.
 - ->Walk_Home
 
 = Delete_Again
-#delay: 0.5
+#DELAY: 0.5
 As you click the button to delete the email- <>
 
-#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #delay: 1.5
+#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #DELAY: 1.5
 you get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up."
 
 #play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding
@@ -270,10 +276,10 @@ You give in, and click the latest email.
 
 *[Continue Deleting]
 
-- #play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #delay: 0.5
+- #play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #DELAY: 0.5
 You can't delete them fast enough.
 
-#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #delay: 0.5
+#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #DELAY: 0.5
 They just keep coming. You try to-
 
 "Hey are you-" A hand grabs your shoulder, and you jump up from your chair, slaping the hand away. 
@@ -640,18 +646,18 @@ Nothing. No one's there. You laugh.
 Just as it slams shut, everything goes dark...
 
 *[Wait for your eyes adjust]
-#delay: 1.5
+#DELAY: 1.5
 You hold your eyes closed and count to five.
 
-#delay: 1
+#DELAY: 1
 One.
-#delay: 1
+#DELAY: 1
 Two.
-#delay: 1
+#DELAY: 1
 Three.
-#delay: 1
+#DELAY: 1
 Four.
-#delay: 1.25
+#DELAY: 1.25
 Five.
 You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
 
@@ -682,10 +688,10 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #stop: player-walking #stop: 1, spooky-walking #play: 0.5, door-slam #delay: 2
+- #stop: player-walking #stop: 1, spooky-walking #play: 0.5, door-slam #DELAY: 2
 You fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
-#play: banging-short #style: rumble, tall #delay: 1
+#CLASS: Tall #play: banging-short #style: rumble #DELAY: 1
 BANG BANG BANG
 
 Whoever was out there is slamming themselves into the door. It takes all your strength to keep them from getting in.
@@ -699,29 +705,29 @@ Whoever was out there is slamming themselves into the door. It takes all your st
 - 
 { 
     - temp_bool:
-        #delay: 1
+        #DELAY: 1
         You wait, saying nothing. 
 
         #play: banging-short #style: rumble, tall
         BANG BANG BANG
 
-        #delay: 1.5
+        #DELAY: 1.5
         They can't keep this up forever.
 
-        #play:banging-short #style: rumble, tall
+        #CLASS: Tall #play:banging-short #style: rumble
         BANG BANG BANG
         
     - else:
-        #delay: 1
+        #DELAY: 1
         "I DON'T HAVE ANY MONEY!" 
     
-        #play:banging-short #style: rumble, tall
+        #CLASS: Tall #play:banging-short #style: rumble, tall
         BANG BANG BANG
     
-        #delay: 1
+        #DELAY: 1
         "I DON'T HAVE ANYTHING!"
     
-        #play:banging-short #style: rumble, tall
+        #CLASS: Tall #play:banging-short #style: rumble, tall
         BANG BANG BANG
 }
 
@@ -915,10 +921,10 @@ You jam the crowbar in between the door and the wall, at the latch, and pull.
 
 *The door groans.
 
-- #delay: 2  
+- #DELAY: 2  
 You pull harder, putting all your weight into it. You lean back a bit further and-
 
-#play: crowbar-snap #style: shudder, 0.5 #delay: 1
+#play: crowbar-snap #style: shudder, 0.5 #DELAY: 1
 Crack!
 
 Half the crowbar is left in your hand. You drop it, but don't hear it hit the ground.
@@ -927,24 +933,24 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 -> Trapped
 
 = Screwdriver
-#delay: 1.5
+#DELAY: 1.5
 You get to work unscrewing the top hindges of the door.
 
-#delay: 0.5 #play:clink-1 #style: slide-down
+#DELAY: 0.5 #play:clink-1 #style: slide-down
 _Clink!_
-#delay: 0.5 #play:clink-2 #style: slide-down
+#DELAY: 0.5 #play:clink-2 #style: slide-down
 _Clink!_ 
-#delay: 1.5 #play:clink-1 #style: slide-down
+#DELAY: 1.5 #play:clink-1 #style: slide-down
 _Clink!_
 
-#delay: 1
+#DELAY: 1
 The screws fall to the floor. You move to the bottom hindges.
 
-#delay: 0.5 #play:clink-2 #style: slide-down
+#DELAY: 0.5 #play:clink-2 #style: slide-down
 _Clink!_ 
-#delay: 0.5 #play:clink-1 #style: slide-down
+#DELAY: 0.5 #play:clink-1 #style: slide-down
 _Clink!_ 
-#delay: 1.5 #play:clink-2 #style: slide-down
+#DELAY: 1.5 #play:clink-2 #style: slide-down
 _Clink!_
 
 *That should be the last of them.
@@ -1339,7 +1345,7 @@ You feel...
         ~ temp_bool = true
         ~ church_anger += 1
         ~ stay -= 0.5
-        #delay: 6.5
+        #DELAY: 6.5
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
         #play: screeching 

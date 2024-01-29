@@ -969,7 +969,7 @@ The room is covered in the pink, buldging flesh, thick ooze drips from the ceili
 *[Find the source of the smell]
 
 *[Investigate the ooze]
-    #delay: 1.5
+    #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
     #play: click-on #play: 1, click-off #play: 1, click-on #play: 1, click-off
