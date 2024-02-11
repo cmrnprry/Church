@@ -298,4 +298,19 @@ body.dark {
 .Tall {
     display: inline-block; 
     transform: scaleY(1.5) translateY(-0.25ex);
+    animation: y-shake 0.75s 1;
+}
+
+@keyframes y-shake {
+    0% { transform: scaleY(1.5) translateY(-0.25ex),skewY(-15deg); }
+    5% { transform: skewY(15deg); }
+    10% { transform: skewY(-15deg); }
+    15% { transform: skewY(15deg); }
+    20% { transform: skewY(0deg); }
+    100% { transform: skewY(0deg); }
+   }
+
+.Rumble
+{
+    animation: y-shake 0.75s 1;
 }

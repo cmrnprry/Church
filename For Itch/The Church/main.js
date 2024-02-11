@@ -4,6 +4,8 @@
     var story = new inkjs.Story(storyContent);
 
     var savePoint = "";
+    var nIntervId;
+    let textInerval;
 
     let savedTheme;
     let globalTagTheme;
@@ -33,6 +35,9 @@
 
     var storyContainer = document.querySelector('#story');
     
+    //Main COntatiner that holds past text
+    var pastTextContatiner;
+    
     var textContainer = document.createElement('div')
     storyContainer.appendChild(textContainer);
     
@@ -45,7 +50,9 @@
     var outerScrollContainer = document.querySelector('.outerContainer');
     outerScrollContainer.appendChild(footer);
 
-    var lastParagraph = null;
+    let paragraphText = "";
+    var replaceParagraph = null;
+    var replace_text = ""
 
     // page features setup
     setupTheme(globalTagTheme);
@@ -65,15 +72,24 @@
         var paragraphIndex = 0;
         var delay = 200.0;
         var DelayNextText = 0
+        replace_text = ""
+
+        if  (!firstTime)
+            delay = 500.0;
 
         // Don't over-scroll past new content
         var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY();
 
+        var paragraphElement;
+        if (pastTextContatiner == null && document.getElementsByTagName('p').length > 0)
+        {
+            pastTextContatiner = document.getElementsByTagName('p')[0];
+        }
+
         // Generate story text - loop through available content
         if(story.canContinue) {
-
             // Get ink to generate the next paragraph
-            var paragraphText = story.Continue();
+            paragraphText = story.Continue();
             var tags = story.currentTags;
 
             // Any special tags included with this line
@@ -92,27 +108,94 @@
                     showAfter(DelayNextText, nextText, false);
                 }
 
-                // AUDIO: src
-                if( splitTag && splitTag.property == "AUDIO" ) {
-                  if('audio' in this) {
-                    this.audio.pause();
-                    this.audio.removeAttribute('src');
-                    this.audio.load();
-                  }
-                  this.audio = new Audio(splitTag.val);
-                  this.audio.play();
+                // PLAY: delay, src, fade in, loop
+                if( splitTag && splitTag.property == "PLAY" ) {
+                    
+                    // Check if we need to delay or fade in the audio
+                    var array;
+                    var sound = splitTag.val;
+
+                    if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                    {
+                        array = splitTag.val.split(", ")
+
+                        sound = array[1];
+                        
+                        this.audio = new Audio("./audio/" + sound + ".ogg");
+
+                        var time = 30 / (array[2] * 1000);
+
+                        //delay playing by array[0] time, then fade in over array[2] seconds to play array[1] sound. set loop using array[3]
+                        setTimeout(function() { 
+                            if('audio' in this) {
+                                this.audio.pause();
+                                this.audio.removeAttribute('src');
+                                this.audio.load();
+                            }
+
+                            this.audio.volume = 0;
+                            this.audioLoop.loop = array[3];
+                            this.audio.play();
+
+                            nIntervId = setInterval(fadeIn, 30, this.audio, time);
+                        
+                        }, (array[0] * 1000));
+                    }
+                    else //otherwise, just play the oneshot
+                    {
+                        if('audio' in this) {
+                            this.audio.pause();
+                            this.audio.removeAttribute('src');
+                            this.audio.load();
+                          }
+                          this.audio = new Audio("./audio/" + sound + ".ogg");
+                          this.audio.muted = false;
+                          this.audioLoop.loop = false;
+                          this.audio.play();
+                    }
                 }
 
-                // AUDIOLOOP: src
-                else if( splitTag && splitTag.property == "AUDIOLOOP" ) {
-                  if('audioLoop' in this) {
-                    this.audioLoop.pause();
-                    this.audioLoop.removeAttribute('src');
-                    this.audioLoop.load();
-                  }
-                  this.audioLoop = new Audio(splitTag.val);
-                  this.audioLoop.play();
-                  this.audioLoop.loop = true;
+                //TODO
+                // STOP: delay, fade out
+                else if( splitTag && splitTag.property == "STOP" ) {
+                   // Check if we need to delay or fade in the audio
+                   var array;
+                   var sound = splitTag.val;
+
+                   if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                   {
+                       array = splitTag.val.split(", ")
+                       
+                       this.audio = new Audio("./audio/" + sound + ".ogg");
+
+                       var time = 30 / (array[1] * 1000);
+
+                       //delay playing by array[0] time, then fade in over array[2] seconds to play array[1] sound.
+                       setTimeout(function() { 
+                           if('audio' in this) {
+                               this.audio.pause();
+                               this.audio.removeAttribute('src');
+                               this.audio.load();
+                           }
+                           this.audio.volume = 1;
+
+                           nIntervId = setInterval(fadeOut, 30, this.audio, time);
+                       
+                       }, (array[0] * 1000));
+                   }
+                }
+
+                //REPLACE: link, divert
+                if (splitTag && splitTag.property == "REPLACE")
+                {
+                    replace_text = splitTag.val;
+                    var indexStart = paragraphText.indexOf("[")
+                    var indexEnd= paragraphText.indexOf("]")
+                    newString = paragraphText.substring(0, indexStart) + "<a href='#'>" 
+                    + paragraphText.substring(indexStart + 1, indexEnd) + "</a>" 
+                    + paragraphText.substring(indexEnd + 1);
+
+                    paragraphText = newString;
                 }
 
                 // IMAGE: src
@@ -128,6 +211,14 @@
                 // LINK: url
                 else if( splitTag && splitTag.property == "LINK" ) {
                     window.location.href = splitTag.val;
+
+
+
+
+
+
+
+                    
                 }
 
                 // LINKOPEN: url
@@ -161,40 +252,40 @@
                 }
             }
 
-            var paragraphElement = CreateTextBox(paragraphText, customClasses);
+            if (pastTextContatiner == null)
+            {
+                paragraphElement = CreateTextBox(paragraphText, customClasses);
+                paragraphElement.setAttribute("id", "All_Text");
+                showAfter(delay, paragraphElement, false);
+            }
+            else if (document.getElementsByTagName('p').length == 1)
+            {
+                paragraphElement = CreateTextBox(paragraphText, customClasses);
+                paragraphElement.setAttribute("id", "Current_Text")
+                paragraphElement.addEventListener("click", OnClickEvent);
+                showAfter(delay, paragraphElement, false);
+            }
+            else 
+            {
+                paragraphElement = document.getElementById("Current_Text")
+                displayText(paragraphText, paragraphElement);
+                showAfter(delay, paragraphElement, true);
+            }
 
-            //if this is our first time, fade in text box like normal
-            //otherwise, wait until click to show next text box
-            if  (!firstTime)
-                delay = 500.0;
-
-            showAfter(delay, paragraphElement, false);
-
-           
+            if (replace_text != "") ClickReplaceText(paragraphElement);
         }
 
-        if (story.currentChoices.length <= 0 && DelayNextText == 0)
+
+        console.log(story.currentChoices.length <= 0)
+        //if there are no choices and no text qued to be delayed, do click stuffs
+        if (story.currentChoices.length > 0)
         {
-            paragraphElement.addEventListener("click", OnClickEvent);
-
-            if (lastParagraph != null && lastParagraph !=undefined)
-                lastParagraph.removeEventListener("click", OnClickEvent);
-            
-            lastParagraph = paragraphElement;
-        }
-        else{
             delay = 1500
             if (DelayNextText)
                 delay += DelayNextText
 
             setTimeout(function() { CreateChoices(); }, delay);
-            
-            if (lastParagraph != null && lastParagraph !=undefined)
-                lastParagraph.removeEventListener("click", OnClickEvent);
-
         }
-
-        console.log(lastParagraph)
 
         // Extend height to fit
         // We do this manually so that removing elements and creating new ones doesn't
@@ -206,21 +297,55 @@
 
     }
 
+    //On Click to continue a choice
     function OnClickEvent(event)
+    {
+        //check if there are choices here
+        if (story.currentChoices.length > 0)
+            return;
+
+        // Don't follow <a> link
+        event.preventDefault();
+
+        //add the current text to the big if that contatiner exists
+        if (pastTextContatiner != null)
+        {
+            pastTextContatiner.innerHTML += "<br><br>" + paragraphText;
+            deleteAfter(document.getElementById("Current_Text"), false);
+        }
+        else continueStory(false)
+    }
+
+    //ON clikc choice event for clickk replace text
+    function OnChoiceReplaceEvent (event)
     {
         // Don't follow <a> link
         event.preventDefault();
 
-        // Aaand loop
-        continueStory(false);
+        // Remove all existing choices
+        removeAll(".choice");
 
-        lastParagraph.removeEventListener("click", OnClickEvent, true);
+        // Tell the story where to go next
+        story.ChooseChoiceIndex(0);
+
+        // This is where the save button will save from
+        savePoint = story.state.toJson();
+
+        replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
+
+        replaceParagraph = null;
+
+        // Aaand loop
+        continueStory(true);
     }
 
     function CreateChoices()
     {
         // Create HTML choices from ink choices
         story.currentChoices.forEach(function(choice) {
+
+            if (choice.text == replace_text)
+                return;
 
             // Create paragraph with anchor element
             var choiceParagraphElement = document.createElement('div');
@@ -233,7 +358,7 @@
 
             // Click on choice
             var choiceAnchorEl = choiceParagraphElement.querySelectorAll("a")[0];
-            choiceAnchorEl.addEventListener("click", function(event) {
+            choiceAnchorEl.addEventListener("click", async function(event) {
 
                 // Don't follow <a> link
                 event.preventDefault();
@@ -247,8 +372,19 @@
                 // This is where the save button will save from
                 savePoint = story.state.toJson();
 
-                // Aaand loop
-                continueStory(true);
+                if (replaceParagraph)
+                {
+                    replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
+
+                    replaceParagraph = null;
+                }
+
+                if (pastTextContatiner != null && choice.text != "Start Game")
+                {
+                    pastTextContatiner.innerHTML += "<br><br>" + paragraphText;
+                    deleteAfter(document.getElementById("Current_Text"), true);
+                }
+                else continueStory(true)
             });
         });
     }
@@ -258,7 +394,7 @@
         // Create paragraph element (initially hidden)
         var paragraphElement = document.createElement('p');
         paragraphElement.classList.add("text_container");
-        paragraphElement.innerHTML = text;
+        displayText(text, paragraphElement);
         
 
         // Add any custom classes derived from ink tags
@@ -281,19 +417,79 @@
         outerScrollContainer.scrollTo(0, 0);
     }
 
+    function ClickReplaceText(paragraph)
+    {
+        replaceParagraph = paragraph.querySelectorAll("a")[0];
+        replaceParagraph.addEventListener("click", OnChoiceReplaceEvent );
+    }
+
+    function fadeIn(audio, delta) {
+	    if(audio.volume < (1 - delta)){
+   		    audio.volume += delta;
+        }else{
+    	    audio.volume = 1;
+            clearInterval(nIntervId)
+            nIntervId = null;
+        }
+    }
+
+    function fadeOut(audio, delta) {
+	    if(audio.volume > (0 + delta)){
+   		    audio.volume -= delta;
+        }else{
+    	    audio.volume = 0;
+            audio.pause();
+            clearInterval(nIntervId)
+            nIntervId = null;
+        }
+    }
+
+
     // -----------------------------------
     // Various Helper functions
     // -----------------------------------
 
+    function displayText (text, el) {
+        clearInterval(textInerval)
+        textInerval = null;
+
+
+        let array = text.split(" ");
+        let index = 0;
+        textInerval = setInterval(function() {
+            if(index < array.length) {
+                el.innerHTML += " " + array[index++];
+            }
+        }, 150);
+    }
+
+    async function deleteAfter (el, isChoice) {
+        clearInterval(textInerval)
+        textInerval = null;
+        let text = el.innerHTML;
+        let index = text.length;
+
+        textInerval = setInterval(function() {
+            if(index > 0) {
+                text = text.substring(0, index - 1);
+                el.innerHTML = text;
+                index -= 1;
+            }
+
+            else continueStory(isChoice)
+        }, 10);
+    }
+
     // Fades in an element after a specified delay
     function showAfter(delay, el, isChoice) {
-        el.classList.add("hide");
-        setTimeout(function() { el.classList.remove("hide") }, delay);
+        // el.classList.add("hide");
+        // setTimeout(function() { el.classList.remove("hide") }, delay);
 
         if (!isChoice)
             setTimeout(function() { textContainer.appendChild(el); }, delay);
-            setTimeout(function() { storyContainer.style.height = contentBottomEdgeY()+"px"; }, delay);
-            setTimeout(function() { scrollDown(contentBottomEdgeY()); }, delay);
+
+        setTimeout(function() { storyContainer.style.height = contentBottomEdgeY()+"px"; }, delay);
+        setTimeout(function() { scrollDown(contentBottomEdgeY()); }, delay);
     }
 
     // Scrolls the page down, but no further than the bottom edge of what you could

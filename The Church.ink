@@ -6,11 +6,11 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-->Start
+The Church at the End of the Street
+*[Start Game] ->Start
+*[Credits] ->Credits
 === Start ====
-#DELAY: 5
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
-
 
 It was dark when you passed, and you keep telling youself that your tired brain mistook a billboard for a church. They must be building one there.
 
@@ -1515,23 +1515,16 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 === Credits
 
-*The Church at the End of the Street
-->Start
-
 Writing - Ren
 
 Art - <a Sarah M Casas <a  href="https://www.instagram.com/clouddancing1995/", tagrget="_blank">@CloudDancing1995</a>
 
 Sound Design - Joe Bretz/ReverbInTheVoid
 
-Used HAL for audio support
++[Start Game] ->Start
++[Credits] ->Credits
 
 
-
-
-
-
-->END
 
 
 
