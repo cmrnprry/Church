@@ -344,7 +344,7 @@ A pit forms in your stomach. { name: Is this Emily...? You decide to probe furth
 *[Help her]
 ->Confessional_Door.help
 
-* {!name} [Press her about the church]
+* {name} [Press her about the church]
 "But your the church, Emily." You lick your lips. You're so close to answers.
 
 - "How did you know my name?" She's on edge.

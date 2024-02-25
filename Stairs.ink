@@ -162,13 +162,13 @@ All the stories are the same: They entered the church, and never left.
 
 *[Read Mary's book]
 ~temp_bool_2 = true
+Tentatively, you pick up Mary's book again, and begin to read.
+-> Staris.Mary_Book
 
 *[Look for your book]
 -> Stairs.Your_Book
 
-- 
-Tentatively, you pick up Mary's book again, and begin to read.
-
+= Mary_Book
 The start is jarrying. Mary is stuck in a storm, and stumbled upon the church while looking for a place to rest. Her version of the churchUnlike your expereince, this was her first time meeting the church. Her first thought upon seeing it was: <i>Finally, salvation.</i> 
 
 She did not hesitate to take shelter inside. 
@@ -353,11 +353,11 @@ You tuck the book under your arm. {temp_string}
         You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
         
     - else:
-        You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you?
+        You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?
 }
 
 *[Look through the books]
-->Stairs.Look_For_Book_Clue
+
 {
     - saw_locks && !saw_desk:
         ~temp_bool = true
@@ -662,8 +662,10 @@ You exit the office.
         ->Inside.Look_For_Heart
     - visited_first:
         ->After_First.Side_Room_After
-    - else:
+    - visited_second:
         -> After_Second.Stairs_Second
+    - else:
+        -> Last_Stop.Stairs_Last
 }
 
 

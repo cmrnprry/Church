@@ -53,6 +53,7 @@
     let paragraphText = "";
     var replaceParagraph = null;
     var replace_text = ""
+    let DelayNextText = false;
 
     // page features setup
     setupTheme(globalTagTheme);
@@ -72,6 +73,7 @@
         var paragraphIndex = 0;
         var delay = 200.0;
         var DelayNextText = 0
+        DelayNextText = false;
         replace_text = ""
 
         if  (!firstTime)
@@ -103,9 +105,9 @@
 
                 //DELAY: time
                 if( splitTag && splitTag.property == "DELAY" ) {
+                    DelayNextText = true;
                     DelayNextText = splitTag.val * 1000;
-                    var nextText = CreateTextBox(story.Continue(), customClasses);
-                    showAfter(DelayNextText, nextText, false);
+                    showAfter(DelayNextText, story.Continue(), false);
                 }
 
                 // PLAY: delay, src, fade in, loop
@@ -301,7 +303,7 @@
     function OnClickEvent(event)
     {
         //check if there are choices here
-        if (story.currentChoices.length > 0)
+        if (story.currentChoices.length > 0 || DelayNextText)
             return;
 
         // Don't follow <a> link
@@ -482,9 +484,6 @@
 
     // Fades in an element after a specified delay
     function showAfter(delay, el, isChoice) {
-        // el.classList.add("hide");
-        // setTimeout(function() { el.classList.remove("hide") }, delay);
-
         if (!isChoice)
             setTimeout(function() { textContainer.appendChild(el); }, delay);
 

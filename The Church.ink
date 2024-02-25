@@ -58,7 +58,6 @@ You pat your pant pockets, pretending that you forgot your pass, and smile sheep
 
 *The church windows catch your eye.
 
-
 -~window = true
 The church's windows are of stained glass, which isn't uncommon for it to have. You squint trying to make the image out, but no matter how hard you focus, you can't explain what the glass was a picture of. 
 
