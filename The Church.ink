@@ -13,14 +13,20 @@ The Church at the End of the Street
 
 - We are testing shift
 
-#CLASS: Bang_Slow #PLAY: bang-wood-door
-BANG
+#CLASS: Kick
+Testing text for angry glow
 
-#CLASS: Bang_Short #PLAY: bang-wood-door-short
-BANG
+#REMOVE: angry-glow #CLASS: intense-glow 
+Testing text for glow intense
 
-#CLASS: Bang_Confessional #PLAY: bang-wood-confession
-BANG
+#REMOVE: intense-glow  #CLASS: leave-glow
+Testing text for glow leave
+
+#REMOVE: leave-glow
+Testing text for glow leave
+
+
+no more
 
 *CHOICE_COUNT
 

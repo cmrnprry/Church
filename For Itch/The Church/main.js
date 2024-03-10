@@ -216,9 +216,41 @@
                     outerScrollContainer.style.backgroundImage = 'url('+splitTag.val+')';
                 }
 
+                else if( splitTag && splitTag.property == "REMOVE" ) {
+                    if (splitTag.val.includes("glow"))
+                    {
+                        document.getElementById("Current_Text").classList.remove(splitTag.val);
+                        document.getElementById('All_Text').classList.remove(splitTag.val);
+                    }
+                }
+
                 // CLASS: className
                 else if( splitTag && splitTag.property == "CLASS" ) {
-                    customClasses.push(splitTag.val);
+                    if (splitTag.val.includes("glow"))
+                    {
+                        document.getElementById("Current_Text").classList.add(splitTag.val);
+                        document.getElementById('All_Text').classList.add(splitTag.val);
+                    }
+                    else if (splitTag.val == "text_container_Dark")
+                    {                        
+                        document.getElementById("Current_Text").classList.add("text_container_Dark");
+                        document.getElementById('All_Text').classList.add("text_container_Dark");
+
+                        document.getElementById("Current_Text").classList.remove("text_container");
+                        document.getElementById('All_Text').classList.remove("text_container");
+                        return;
+                    }
+                    else if (splitTag.val == "text_container_UsedTo")
+                    {                        
+                        document.getElementById("Current_Text").classList.add("text_container_UsedTo");
+                        document.getElementById('All_Text').classList.add("text_container_UsedTo");
+
+                        document.getElementById("Current_Text").classList.remove("text_container_Dark");
+                        document.getElementById('All_Text').classList.remove("text_container_Dark");
+                        return;
+                    }
+                    else
+                        customClasses.push(splitTag.val);
                 }
 
                 // CLEAR - removes all existing content.
@@ -523,6 +555,7 @@
 
     function setUpFooter()
     {
+        document.body.addEventListener("mousemove", flashlightMouseFollow);
         footer.addEventListener("click", async function(event) {
             // Don't follow <a> link
             event.preventDefault();
@@ -541,11 +574,21 @@
         });
     }
 
+    function flashlightMouseFollow(event)
+    {
+        if (footer.getAttribute("status") == "off")
+            return;
+
+        let x = event.pageX - 250;
+        let y = event.pageY - 250;
+        document.getElementById("flashlight").style.top = y + "px";  
+        document.getElementById("flashlight").style.left = x+ "px";
+    }
+
     function displayText (text, el, customClasses, delay) {
         el.innerHTML = text;
         el.classList.add("hide")
 
-        console.log(customClasses)
         setTimeout(function() {
 
             if (customClasses.length > 0)
