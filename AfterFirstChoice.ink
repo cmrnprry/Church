@@ -155,7 +155,7 @@ You whip around, and just barely miss seeing someone run up the stairs.
 ->Stairs
 
 = Side_Room_After
-~temp_vsisited = true
+~temp_visited = true
 ~visited_first = false
 ~ visited_second = true
 You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.

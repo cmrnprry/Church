@@ -9,7 +9,26 @@ INCLUDE End_Game.ink
 The Church at the End of the Street
 *[Start Game] ->Start
 *[Credits] ->Credits
+*[Testing]
+
+- We are testing shift
+
+#CLASS: Bang_Slow #PLAY: bang-wood-door
+BANG
+
+#CLASS: Bang_Short #PLAY: bang-wood-door-short
+BANG
+
+#CLASS: Bang_Confessional #PLAY: bang-wood-confession
+BANG
+
+*CHOICE_COUNT
+
+- more text
+
+
 === Start ====
+
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
 It was dark when you passed, and you keep telling youself that your tired brain mistook a billboard for a church. They must be building one there.
@@ -70,7 +89,7 @@ The church's windows are of stained glass, which isn't uncommon for it to have. 
 -#DELAY: 1.25
 Blood starts rushing in your ears and pressure builds behind your eyes as you strain to-
 
-#CLASS: Tall #play: honk #DELAY: 2.5
+#CLASS: Bus_Honk #play: honk #DELAY: 2.5
 HOOOOONNNKK!!
 
 #play: bus-sounds
@@ -495,7 +514,7 @@ As you pass the front gate, it creaks open. You reach for the image in your pock
 *[Investigate]
 
 //On mouse click, change to "investigate
-*[<Continue walking home> Investigate]
+*[<Continue walking home>Investigate]
 
 - Against your better judgement, you stop, and look at the church. The gate is open.
 {
@@ -1513,12 +1532,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> Credits
 
 === Credits
-
-Writing - Ren
-
-Art - <a Sarah M Casas <a  href="https://www.instagram.com/clouddancing1995/", tagrget="_blank">@CloudDancing1995</a>
-
-Sound Design - Joe Bretz/ReverbInTheVoid
+Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninaksketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid
 
 +[Start Game] ->Start
 +[Credits] ->Credits

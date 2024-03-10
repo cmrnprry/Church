@@ -3,12 +3,49 @@
 body {
     font-family: 'Open Sans', sans-serif;
     font-weight: lighter;
-    background: #E0E0E0;
     overflow: hidden;
 }
 
 body.switched {
     transition: color 0.6s, background-color 0.6s;
+}
+
+/**
+ * cssanimation.css
+ * https://www.cssanimatio.io
+ * Created and maintained by: Pavel
+ * Find me at: https://www.linkedin.com/in/yesiamrocks/
+ * Email: hello@cssanimation.io
+ * Github: https://github.com/yesiamrocks/cssanimation.io
+ * Title: A CSS Animation Library for Developers and Ninjas
+ * Copyright (c) 2017 Pavel
+ * License: cssanimation.io is licensed under the MIT license
+ **/
+.fadeInBottom { 
+    animation-name: fadeInBottom;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+    to { opacity: 1 }
+}
+
+.fadeIn { 
+    animation-name: fadeIn;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to { opacity: 1 }
 }
 
 h1,
@@ -54,7 +91,7 @@ h2 {
     position: fixed;
     display: block;
     width: 100%;
-    background: #E0E0E0;
+    background: #222222;
     transition: color 0.6s, background 0.6s;
     margin: 0;
     padding-top: 6px;
@@ -99,7 +136,7 @@ h2 {
     padding-top: 4em;
     padding-bottom: 4em;
     height: max-content;
-    background: #E0E0E0;
+    background: #222222;
 }
 
 .switched .container {
@@ -147,10 +184,8 @@ img {
 
 .footer {
     position: fixed;
-    bottom: 0;
-}
-
-.temp {
+    bottom: 10px;
+    left: 29%;
     color: #e2d5d5;
     background: #222222;
     border: 2px solid #3f1313;
@@ -160,8 +195,8 @@ img {
 
 .text_container {
     font-size: 13pt;
-    color: #e2d5d5;
-    background: #222222;
+    color: #222222;
+    background: #E0E0E0;
     line-height: 1.7em;
     font-weight: lighter;
     border: 2px solid #3f1313;
@@ -294,23 +329,99 @@ body.dark {
 }
 
 
-/* STYLING */
-.Tall {
-    display: inline-block; 
-    transform: scaleY(1.5) translateY(-0.25ex);
-    animation: y-shake 0.75s 1;
+/* CUSTOM STYLING */
+.Bus_Honk /* used for bus honk */
+{
+    animation-name: Scale_Shake_Scale, Scale_Shake_Shake;
+    animation-duration: 1.75s, 0.25s;
+    animation-iteration-count: 1, 1;
+    animation-delay: 0s, 1.75s;
+    transform: scaleY(1.5);
+    text-align: center;
 }
 
-@keyframes y-shake {
-    0% { transform: scaleY(1.5) translateY(-0.25ex),skewY(-15deg); }
-    5% { transform: skewY(15deg); }
-    10% { transform: skewY(-15deg); }
-    15% { transform: skewY(15deg); }
-    20% { transform: skewY(0deg); }
-    100% { transform: skewY(0deg); }
-   }
-
-.Rumble
+@keyframes Scale_Shake_Scale
 {
-    animation: y-shake 0.75s 1;
+    0% { transform: scaleX(1) scaleY(0.5) translate(0px, -3.5px); }
+    25% { transform: scale(2) translate(0px, 3.5px); }
+    28% { transform: scaleX(1) scaleY(1) translate(0px, -3.5px); }
+    33% { transform: scale(2) translate(0px, 3.5px); }
+    85% { transform: scale(2) translate(0px, -3.5px); }
+    100% { transform:  scaleX(1) scaleY(1.5) translate(0px, 0px); }
+}
+
+@keyframes Scale_Shake_Shake
+{
+    0%, 100% { transform:scaleY(1.5) translate(1px, 0px) ; }
+    25% { transform: scaleY(1.5) translate(1px, -1.5px) ; }
+    75% { transform: scaleY(1.5) translate(1px, 1.5px) ; }
+}
+
+.Bang_Slow /* used for banging */
+{
+    animation-name: Bang_Slow;
+    animation-duration: .45s;
+    animation-iteration-count: 3;
+    text-align: center;
+    transform: scale(2.5);
+}
+@keyframes Bang_Slow
+{
+    0%, 100% { transform:scale(2.5) }
+    75% { transform:scaleY(1) scaleX(1.5) }
+    /* 75% { transform:scale(2.5) } */
+}
+
+.Bang_Short /* used for banging */
+{
+    animation-name: Bang_Short;
+    animation-duration: .25s;
+    animation-iteration-count: 3;
+    text-align: center;
+    transform: scale(2.5);
+}
+@keyframes Bang_Short
+{
+    0%, 100% { transform:scale(2.5) }
+    75% { transform:scaleY(1) scaleX(1.5) }
+    /* 75% { transform:scale(2.5) } */
+}
+
+.Bang_Confessional /* used for banging */
+{
+    animation-name: Bang_Confessional;
+    animation-duration: .35s;
+    animation-iteration-count: 3;
+    text-align: center;
+    transform: scale(2.5);
+}
+@keyframes Bang_Confessional
+{
+    0%, 100% { transform:scale(2.5) }
+    75% { transform:scaleY(1) scaleX(1.5) }
+    /* 75% { transform:scale(2.5) } */
+}
+/* {
+    0% { transform:scale(1.5) translate(1px, 1px) rotate(0deg); }
+    10% { transform: scaleY(1.5) translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: scaleY(1.5) translate(-3px, 0px) rotate(1deg); }
+    30% { transform:scaleY(1.5)  translate(3px, 2px) rotate(0deg); }
+    40% { transform: scaleY(1.5) translate(1px, -1px) rotate(1deg); }
+    50% { transform: scaleY(1.5) translate(-1px, 2px) rotate(-1deg); }
+    60% { transform:scaleY(1.5) translate(-3px, 1px) rotate(0deg); }
+    70% { transform: scaleY(1.5) translate(3px, 1px) rotate(-1deg); }
+    80% { transform: scaleY(1.5) translate(-1px, -1px) rotate(1deg); }
+    90% { transform: scaleY(1.5) translate(1px, 2px) rotate(0deg); }
+    100% { transform: scaleY(1.5) translate(1px, -2px) rotate(-1deg); }
+} */
+
+
+/* FLASHLIGHT */
+
+.flashlight  {
+	background-color: #000000;
+	background-image: url(https://www.mantlelabs.com/flashlight/images/flashlight.jpg);
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	cursor: crosshair;
 }

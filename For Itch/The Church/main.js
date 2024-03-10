@@ -15,18 +15,14 @@
     //  # theme: dark
     //  # author: Your Name
     var globalTags = story.globalTags;
+    globalTagTheme = "dark";
     if( globalTags ) {
         for(var i=0; i<story.globalTags.length; i++) {
             var globalTag = story.globalTags[i];
             var splitTag = splitPropertyTag(globalTag);
 
-            // THEME: dark
-            if( splitTag && splitTag.property == "theme" ) {
-                globalTagTheme = splitTag.val;
-            }
-
             // author: Your Name
-            else if( splitTag && splitTag.property == "author" ) {
+            if( splitTag && splitTag.property == "author" ) {
                 var byline = document.querySelector('.byline');
                 byline.innerHTML = "by "+splitTag.val;
             }
@@ -35,20 +31,16 @@
 
     var storyContainer = document.querySelector('#story');
     
-    //Main COntatiner that holds past text
-    var pastTextContatiner;
+    //Main Contatiner that holds past text
+    var pastTextContainer;
     
     var textContainer = document.createElement('div')
     storyContainer.appendChild(textContainer);
-    
-    var footer = document.createElement('div')
-    var inside = document.createElement('div')
-    footer.classList.add("footer");
-    inside.classList.add("temp");
-    footer.appendChild(inside)
+
+    var footer = document.getElementById("Flashlight_Button")
+    footer.setAttribute("status", "off")
 
     var outerScrollContainer = document.querySelector('.outerContainer');
-    outerScrollContainer.appendChild(footer);
 
     let paragraphText = "";
     var replaceParagraph = null;
@@ -59,6 +51,7 @@
     setupTheme(globalTagTheme);
     var hasSave = loadSavePoint();
     setupButtons(hasSave);
+    setUpFooter();
 
     // Set initial save point
     savePoint = story.state.toJson();
@@ -69,11 +62,8 @@
     // Main story processing function. Each time this is called it generates
     // all the next content up as far as the next set of choices.
     function continueStory(firstTime) {
-
-        var paragraphIndex = 0;
         var delay = 200.0;
-        var DelayNextText = 0
-        DelayNextText = false;
+        var DelayNextText = 0;
         replace_text = ""
 
         if  (!firstTime)
@@ -83,9 +73,9 @@
         var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY();
 
         var paragraphElement;
-        if (pastTextContatiner == null && document.getElementsByTagName('p').length > 0)
+        if (pastTextContainer == null && document.getElementById('All_Text') != pastTextContainer)
         {
-            pastTextContatiner = document.getElementsByTagName('p')[0];
+            pastTextContainer = document.getElementById('All_Text');
         }
 
         // Generate story text - loop through available content
@@ -105,9 +95,8 @@
 
                 //DELAY: time
                 if( splitTag && splitTag.property == "DELAY" ) {
-                    DelayNextText = true;
-                    DelayNextText = splitTag.val * 1000;
-                    showAfter(DelayNextText, story.Continue(), false);
+                    console.log("delay next line")
+                    DelayNextText = (splitTag.val * 1000) + 1000;
                 }
 
                 // PLAY: delay, src, fade in, loop
@@ -152,8 +141,10 @@
                           }
                           this.audio = new Audio("./audio/" + sound + ".ogg");
                           this.audio.muted = false;
-                          this.audioLoop.loop = false;
-                          this.audio.play();
+                        //   this.audioLoop.loop = false;
+
+                        setTimeout(function() { this.audio.play();}, 500);
+                          
                     }
                 }
 
@@ -206,21 +197,13 @@
                     imageElement.src = splitTag.val;
                     storyContainer.appendChild(imageElement);
 
-                    showAfter(delay, imageElement, false);
+                    scrollPage(delay, imageElement, false);
                     delay += 5000.0;
                 }
 
                 // LINK: url
                 else if( splitTag && splitTag.property == "LINK" ) {
                     window.location.href = splitTag.val;
-
-
-
-
-
-
-
-                    
                 }
 
                 // LINKOPEN: url
@@ -254,31 +237,59 @@
                 }
             }
 
-            if (pastTextContatiner == null)
+            if (pastTextContainer == null)
             {
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
                 paragraphElement.setAttribute("id", "All_Text");
-                showAfter(delay, paragraphElement, false);
+                scrollPage(delay, paragraphElement, false);
             }
-            else if (document.getElementsByTagName('p').length == 1)
+            else if (document.getElementById('All_Text') && !document.getElementById('Current_Text'))
             {
+                //removing css from the all_text
+                const temp = document.getElementById('All_Text').firstChild;
+                temp.classList.remove("fadeInBottom")
+                temp.classList.remove("hide")
+
+                //creating the current text box
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
                 paragraphElement.setAttribute("id", "Current_Text")
+                paragraphElement.setAttribute("click_listener", "true")
                 paragraphElement.addEventListener("click", OnClickEvent);
-                showAfter(delay, paragraphElement, false);
+                scrollPage(delay, paragraphElement, false);
             }
             else 
             {
-                paragraphElement = document.getElementById("Current_Text")
-                displayText(paragraphText, paragraphElement);
-                showAfter(delay, paragraphElement, true);
+                //all text boxes exist, now populate
+                const box = document.getElementById("Current_Text")
+                paragraphElement = box.firstChild
+                
+                //if our last line was delayed, readd our click listener
+                if (box.getAttribute("click_listener") == "false"){
+                    box.addEventListener("click", OnClickEvent);
+                    box.setAttribute("click_listener", "true")
+                }
+
+                //we are delayed, after our delay add the new text and remove the click listener
+                if (DelayNextText > 0)
+                {
+                    box.setAttribute("click_listener", "false")
+                    box.removeEventListener("click", OnClickEvent);
+                    setTimeout(function() { 
+                        pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+                        deleteAfter(document.getElementById("Current_Text").firstChild, false);
+                    
+                    }, DelayNextText);
+                    
+                }
+                
+                displayText(paragraphText, paragraphElement, customClasses, 500);                
+                scrollPage(delay, paragraphElement, true);
             }
 
             if (replace_text != "") ClickReplaceText(paragraphElement);
         }
 
 
-        console.log(story.currentChoices.length <= 0)
         //if there are no choices and no text qued to be delayed, do click stuffs
         if (story.currentChoices.length > 0)
         {
@@ -310,10 +321,10 @@
         event.preventDefault();
 
         //add the current text to the big if that contatiner exists
-        if (pastTextContatiner != null)
+        if (pastTextContainer != null)
         {
-            pastTextContatiner.innerHTML += "<br><br>" + paragraphText;
-            deleteAfter(document.getElementById("Current_Text"), false);
+            pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+            deleteAfter(document.getElementById("Current_Text").firstChild, false);
         }
         else continueStory(false)
     }
@@ -349,17 +360,40 @@
             if (choice.text == replace_text)
                 return;
 
+            // check if this is click replace text
+            let isReplaceChoiceText = ""
+            if (choice.text.startsWith('<'))
+            {
+                console.log("here")
+                var index = choice.text.indexOf('>');
+                var shownText = choice.text.substring(1, index);
+                isReplaceChoiceText = choice.text.substring(1 + index);
+                choice.text = shownText;
+            }
+                
+
             // Create paragraph with anchor element
             var choiceParagraphElement = document.createElement('div');
             choiceParagraphElement.classList.add("choice");
+            choiceParagraphElement.classList.add("fadeIn");
             choiceParagraphElement.innerHTML = `<a href='#'>${choice.text}</a>`
             storyContainer.appendChild(choiceParagraphElement);
 
-            // Fade choice in after a short delay
-            showAfter(200, choiceParagraphElement, true);
+            // scroll after the choices are visible
+            scrollPage(200, choiceParagraphElement, true);
 
             // Click on choice
             var choiceAnchorEl = choiceParagraphElement.querySelectorAll("a")[0];
+
+            if (isReplaceChoiceText != "")
+            {
+                choiceAnchorEl.addEventListener("click", ClickReplaceChoiceText);
+                choiceParagraphElement.setAttribute("replace_text", isReplaceChoiceText)
+                choiceParagraphElement.setAttribute("index", choice.index)
+                choiceParagraphElement.setAttribute("Id", "Replaceable Text")
+                return;
+            }
+
             choiceAnchorEl.addEventListener("click", async function(event) {
 
                 // Don't follow <a> link
@@ -381,27 +415,64 @@
                     replaceParagraph = null;
                 }
 
-                if (pastTextContatiner != null && choice.text != "Start Game")
+                if (pastTextContainer != null && choice.text != "Start Game")
                 {
-                    pastTextContatiner.innerHTML += "<br><br>" + paragraphText;
-                    deleteAfter(document.getElementById("Current_Text"), true);
+                    pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+                    deleteAfter(document.getElementById("Current_Text").firstChild, true);
                 }
                 else continueStory(true)
             });
         });
     }
 
+    function ClickReplaceChoiceText(event)
+    {
+        // Don't follow <a> link
+        event.preventDefault();
+
+        var element = document.getElementById("Replaceable Text")
+
+        var text = element.getAttribute("replace_text")
+        var index = parseInt(element.getAttribute("index"))
+
+        element.innerHTML = `<a href='#'>${text}</a>`
+
+        var el = element.querySelectorAll("a")[0];
+        el.removeEventListener("click", ClickReplaceChoiceText);
+        el.addEventListener("click", async function(event) {
+
+            // Don't follow <a> link
+            event.preventDefault();
+
+            // Remove all existing choices
+            removeAll(".choice");
+
+            // Tell the story where to go next
+            story.ChooseChoiceIndex(index);
+
+            // This is where the save button will save from
+            savePoint = story.state.toJson();
+
+            //continue
+            if (pastTextContainer != null)
+                {
+                    pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+                    deleteAfter(document.getElementById("Current_Text").firstChild, true);
+                }
+            else continueStory(true)
+        });
+    }
+
     function CreateTextBox(text, customClasses)
     {
         // Create paragraph element (initially hidden)
-        var paragraphElement = document.createElement('p');
-        paragraphElement.classList.add("text_container");
-        displayText(text, paragraphElement);
-        
+        var paragraphElement = document.createElement('div');
+        var textElement = document.createElement('p');
+        paragraphElement.appendChild(textElement);
 
-        // Add any custom classes derived from ink tags
-        for(var i=0; i<customClasses.length; i++)
-            paragraphElement.classList.add(customClasses[i]);
+        paragraphElement.classList.add("text_container");
+        paragraphElement.classList.add("fadeIn");
+        displayText(text, textElement, customClasses, 500);
 
         return paragraphElement;
     }
@@ -446,44 +517,62 @@
         }
     }
 
-
     // -----------------------------------
     // Various Helper functions
     // -----------------------------------
 
-    function displayText (text, el) {
-        clearInterval(textInerval)
-        textInerval = null;
+    function setUpFooter()
+    {
+        footer.addEventListener("click", async function(event) {
+            // Don't follow <a> link
+            event.preventDefault();
 
-
-        let array = text.split(" ");
-        let index = 0;
-        textInerval = setInterval(function() {
-            if(index < array.length) {
-                el.innerHTML += " " + array[index++];
+            if (footer.getAttribute("status") == "off")
+            {
+                footer.classList.add("flashlight")
+                footer.setAttribute("status", "on")
             }
-        }, 150);
+            else if (footer.getAttribute("status") == "on")
+            {
+                footer.classList.remove("flashlight")
+                footer.setAttribute("status", "off")
+            }
+            
+        });
+    }
+
+    function displayText (text, el, customClasses, delay) {
+        el.innerHTML = text;
+        el.classList.add("hide")
+
+        console.log(customClasses)
+        setTimeout(function() {
+
+            if (customClasses.length > 0)
+            {
+                for(var i=0; i<customClasses.length; i++)
+                    el.classList.add(customClasses[i]);
+            }
+            else
+            {
+                el.classList.add("fadeInBottom"); 
+            }         
+
+            el.classList.remove("hide");
+        }, delay);
+
+        
     }
 
     async function deleteAfter (el, isChoice) {
-        clearInterval(textInerval)
-        textInerval = null;
-        let text = el.innerHTML;
-        let index = text.length;
+        el.innerHTML = "";
+        el.removeAttribute("class")
 
-        textInerval = setInterval(function() {
-            if(index > 0) {
-                text = text.substring(0, index - 1);
-                el.innerHTML = text;
-                index -= 1;
-            }
-
-            else continueStory(isChoice)
-        }, 10);
+        setTimeout(function() { continueStory(isChoice);}, 100);
     }
 
     // Fades in an element after a specified delay
-    function showAfter(delay, el, isChoice) {
+    function scrollPage(delay, el, isChoice) {
         if (!isChoice)
             setTimeout(function() { textContainer.appendChild(el); }, delay);
 

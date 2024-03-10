@@ -163,7 +163,7 @@ All the stories are the same: They entered the church, and never left.
 *[Read Mary's book]
 ~temp_bool_2 = true
 Tentatively, you pick up Mary's book again, and begin to read.
--> Staris.Mary_Book
+-> Stairs.Mary_Book
 
 *[Look for your book]
 -> Stairs.Your_Book
