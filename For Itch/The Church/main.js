@@ -562,12 +562,14 @@
 
             if (footer.getAttribute("status") == "off")
             {
-                footer.classList.add("flashlight")
+                document.getElementById("flashlight").style.display = ""             
+                footer.innerHTML = "Turn off"
                 footer.setAttribute("status", "on")
             }
             else if (footer.getAttribute("status") == "on")
             {
-                footer.classList.remove("flashlight")
+                footer.innerHTML = "Turn on"
+                document.getElementById("flashlight").style.display = "none"
                 footer.setAttribute("status", "off")
             }
             
@@ -578,6 +580,8 @@
     {
         if (footer.getAttribute("status") == "off")
             return;
+        
+            
 
         let x = event.pageX - 250;
         let y = event.pageY - 250;
