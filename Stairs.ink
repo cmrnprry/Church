@@ -579,7 +579,7 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
 ->Stairs.Exit_Office
 
 = Rip_out_Ophelia
-#play: screeching, 1 #stop: screeching, 2
+#PLAY: screeching, 1 #stop: screeching, 2
 Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balence.
 
 Whatever books are left on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
@@ -879,12 +879,12 @@ They begin to sing, hands out streached for you to take. The music flows through
 
 {
     - went_downstairs == 0:
-        #play: click-on
+        #PLAY: click-on
         You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
 
         You tense, every fiber of your being telling you to not continue down.
     - else:
-        #play: click-on
+        #PLAY: click-on
         You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
 }
 
@@ -936,8 +936,8 @@ You cover your face with your shirt, and breathe through your mouth, but the pun
     
 - You plug your nose and keep going, only stopping to dry heave. It isn't long before the steps change from wood to... to something you can't comprehend. You stop and shine the light. 
 
-#style: fidget, <mold, fungus, flesh>
-The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the (text-style: "condense", "fidget")[<mold, fungus, flesh> shivers in response. 
+#CYCLE: Fidget, mold, fungus, flesh
+The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the @ shivers in response. 
 
 You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusing substance.
 
@@ -945,14 +945,14 @@ You shine your light to the end of the staircase, and see a door at the end of t
 
 *[Turn. Back.]
     ~ went_downstairs = 3
-    #play: click-off
+    #PLAY: click-off
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
     The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
     ->Stairs.Turn_Back
 
 - 
-#play: 1, squish-squash
+#PLAY: 1, squish-squash
 <i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
 <i>Squish</i>
@@ -974,7 +974,7 @@ The room is covered in the pink, buldging flesh, thick ooze drips from the ceili
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #play: click-on #play: 1, click-off #play: 1, click-on #play: 1, click-off
+    #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
 
@@ -994,11 +994,11 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 
 *[Lift the tarp]
 
-- #play: click-off
+- #PLAY: click-off
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
-#style: fidget, <mourn, pity, pray>
-Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to <mourn, pity, pray> for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
+#CYCLE: Fidget, mourn, pity, pray
+Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to @ for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
 
 *[Search left]
 ~temp_bool = false
@@ -1072,7 +1072,7 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 ////////// UPSTAIRS INTERACTIONS ////////// 
 
 = Upstairs
-#play: click-on
+#PLAY: click-on
 You start up the stairs, holding the hand rail as you go.
 
 {
@@ -1165,7 +1165,7 @@ You pull at the chain lock, but it's tightly fastened to the door. You grab at t
 ~ key_lock = true
 You fish the key out of your pocket, and try it on the only lock with a key hole. It resists slightly, but after messing with it, you're able to slot it in and turn it. 
 
-#play: groaning-angry, 1 
+#PLAY: groaning-angry, 1 
 The chains and lock fall to the ground. <>
 
 #stop: groaning-angry, 2
@@ -1264,7 +1264,7 @@ The church groans angrily in response.
 
 You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
 
-#play: cut_chain
+#PLAY: cut_chain
 {temp_string}
 
 { - locks:
@@ -1420,7 +1420,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     ~ key_lock = true
     {stay >= 2.5: You fish the key out of your pocket. Your hand shakes as you try to slide it into the hole. You miss a few times before dropping the key to the floor. "Get it together..." You mutter, shaking out your hands before picking up the key and putting it into the lock. }{stay < 2.5: You fish the key out of your pocket, and try it on the only lock with a key hole. } It resists slightly, but with a little force, you're able to turn it. 
     
-    #play: groaning-angry, 1 #stop: groaning-angry, 2
+    #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
     The chains and lock fall to the ground. The church groans angrily in response. 
     
     { - locks:
@@ -1444,7 +1444,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     
     You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
 
-    #play: cut_chain
+    #PLAY: cut_chain
     {finger_chopped and happy == false: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take your finger. A dull pain echos through your stump at the memory.} {finger_chopped and happy: You don't flinch at the sound out the chain snapping, but feel a slight smile come to your lips. The stump on your hand aches at the memory, but it's a soothing pain. } {coward: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take her finger. Her cries echo in your ears. }
     
     You shake the memory from your head and {temp_string}

@@ -163,7 +163,7 @@ a {
 }
 
 a:hover {
-    color: #E0E0E0;
+    color: #3f1313;
     transition: color 0.1s;
 }
 
@@ -186,6 +186,11 @@ img {
     display: none;
 }
 
+.hidden {
+    visibility: hidden;
+    display: none;
+}
+
 .container>* {
     opacity: 1.0;
     transition: opacity 1.0s;
@@ -202,6 +207,98 @@ img {
     position: fixed;
     z-index: 10;
 }
+
+.options_container {
+    font-size: 15pt;
+    color: #222222;
+    background: #E0E0E0;
+    line-height: 1.7em;
+    font-weight: lighter;
+    border: 3px solid #3f1313;
+    border-radius: 8px;
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 4em;
+    padding-bottom: 4em;
+    height: max-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 50%;
+    text-align: center;
+}
+
+.options_container_inner {
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 20px;
+    height: max-content;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 50%;
+    text-align: center;
+
+}
+
+.options_button {
+    font-size: 15pt;
+    color: #222222;
+    background: #E0E0E0;
+    line-height: 1.7em;
+    font-weight: lighter;
+    border: 2px solid #3f1313;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px;
+
+}
+
+.slider {
+    position: absolute;top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 500px;
+    height: 60px;
+    padding: 30px;
+    padding-left: 40px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+.slider p {
+    font-size: 26px;
+    font-weight: 600;
+    font-family: Open Sans;
+    padding-left: 30px;
+    color: black;
+}
+.slider input[type="range"] {
+  	-webkit-appearance: none !important;
+  	width: 420px;
+ 	height: 2px;
+  	background: #222222;
+  	border: none;
+  	outline: none;
+}
+.slider input[type="range"]::-webkit-slider-thumb {
+   	-webkit-appearance: none !important;
+    width: 30px;
+    height:30px;
+    background: #222222;
+    border: 2px solid #222222;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.slider input[type="range"]::-webkit-slider-thumb:hover {
+    background: #222222;
+ } 
+
 
 .text_container {
     font-size: 13pt;
@@ -226,6 +323,7 @@ img {
     color:#e0e0e021;
     position: relative;
     z-index: 10;
+    background-color: #ff000000;
 }
 
 .text_container_UsedTo {
@@ -235,10 +333,25 @@ img {
     border: 2px solid #3f1313;
     border-radius: 8px;
     padding: 15px;    
-    color: #e0e0e075!important;
+    color: #e0e0e030;
     position: relative;
     z-index: 10;
+    background-color: #ff000000;
 }
+
+.text_container_After {
+    font-size: 13pt;
+    line-height: 1.7em;
+    font-weight: lighter;
+    border: 2px solid #3f1313;
+    border-radius: 8px;
+    padding: 15px;    
+    color: #e0e0e075;
+    position: relative;
+    z-index: 10;
+    background-color: #ff000000;
+}
+
 
 .text_container_flashlight{
     font-size: 13pt;
@@ -250,6 +363,7 @@ img {
     color: #0A100D!important;
     position: relative;
     z-index: 10;
+    background-color: #ff000000;
 }
 
 .text_container:not(:last-child):not(:hover)
@@ -360,7 +474,7 @@ body.dark {
 }
 
 .dark a:hover {
-    color: #E0E0E0;
+    color: #3f1313;
 }
 
 .dark strong {
@@ -381,6 +495,43 @@ body.dark {
 
 
 /* CUSTOM STYLING */
+.Blur{
+    text-shadow:  #222222 0em 0em 0.1em;
+    color: transparent;
+}
+
+.Blurrier{
+    text-shadow:  #222222 0em 0em 0.2em;
+    color: transparent;
+}
+
+/* bascially the samething from twine harlowe */
+.Fidget {
+    animation-name: Fidget;
+    animation-duration: 45s;
+    animation-iteration-count: infinite;
+    text-align: center;
+    animation-timing-function: step-end;
+}
+
+@keyframes Fidget {
+    0%, 8.1%, 82.1%, 31.1%, 38.1%, 44.1%, 40.1%, 47.1%, 74.1%, 16.1%, 27.1%, 72.1%, 24.1%, 95.1%, 6.1%, 36.1%, 20.1%, 4.1%, 91.1%, 14.1%, 87.1%, 100% {
+        transform: translate(0px, 0px);
+    }
+    8%, 82%, 31%, 38%, 44% {
+        transform: translate(-1px, 0px);
+    }
+    40%, 47%, 74%, 16%, 27% {
+        transform: translate(1px, 0px);
+    }
+    72%, 24%, 95%, 6%, 36% {
+        transform: translate(0px, -1px);
+    }
+    20%, 4%, 91%, 14%, 87% {
+        transform: translate(0px, 1px);
+    }
+}
+
 .Bus_Honk /* used for bus honk */
 {
     animation-name: Scale_Shake_Scale, Scale_Shake_Shake;
@@ -563,19 +714,84 @@ body.dark {
     100% { transform:translate(0px, 0px) }
 }
 
-/* {
-    0% { transform:scale(1.5) translate(1px, 1px) rotate(0deg); }
-    10% { transform: scaleY(1.5) translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: scaleY(1.5) translate(-3px, 0px) rotate(1deg); }
-    30% { transform:scaleY(1.5)  translate(3px, 2px) rotate(0deg); }
-    40% { transform: scaleY(1.5) translate(1px, -1px) rotate(1deg); }
-    50% { transform: scaleY(1.5) translate(-1px, 2px) rotate(-1deg); }
-    60% { transform:scaleY(1.5) translate(-3px, 1px) rotate(0deg); }
-    70% { transform: scaleY(1.5) translate(3px, 1px) rotate(-1deg); }
-    80% { transform: scaleY(1.5) translate(-1px, -1px) rotate(1deg); }
-    90% { transform: scaleY(1.5) translate(1px, 2px) rotate(0deg); }
-    100% { transform: scaleY(1.5) translate(1px, -2px) rotate(-1deg); }
-} */
+.Angry-Screeching
+{
+    animation-name: Angry-Screeching;
+    animation-duration: .1s;
+    animation-delay: 0.25s;
+    animation-iteration-count: 25;
+    text-align: center;
+}
+@keyframes Angry-Screeching
+{
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+
+
+/* CSS Typewriter Animation by lemmin (@lemmin) */
+.typewriter {
+    font-size:200%;
+  }
+  .typewriter:after {
+    content:'';
+    animation:write 2s linear;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes write {
+    1% {
+      content:'R';
+    }
+    15% {
+      content:'RR';
+    }
+    30% {
+      content:'RRR';
+    }
+    45% {
+      content:'RRRR';
+    }
+    60% {
+      content:'RRRRI';
+    }
+    75% {
+      content:'RRRRII';
+    }
+    80% {
+      content:'RRRRIII';
+    }
+    90% {
+      content:'RRRRIIIP';
+    }
+    
+    93% {
+      content:'RRRRIIIPP';
+    }
+    95% {
+      content:'RRRRIIIPPP';
+    }
+    97% {
+      content:'RRRRIIIPPPP';
+    }
+    99% {
+        content:'RRRRIIIPPPP';
+      }    
+    100% {
+      content:'RRRRIIIPPPPP';
+    }
+  }
+
 
 
 /* FLASHLIGHT */

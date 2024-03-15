@@ -9,6 +9,32 @@
 
     let savedTheme;
     let globalTagTheme;
+    let hasFlashlight = false;
+
+
+    //HUGE LIST OF HOWLS FOR ALL OUR AUDIO
+    var cat_meow = new Howl({
+        src: ['./Audio/cat-meow.ogg'],
+        loop: true,
+        volume: 1,
+        html5:true,
+        onend: function() {
+          console.log('Finished!');
+        },
+        onfade: function() {
+            console.log("fade finished")
+            if (cat_meow.volume == 0)
+            {
+                cat_meow.stop();
+                cat_meow.volume = 1;
+            }
+        }
+      });
+
+    //AUDIO LIST
+    const  AudioList = {
+        "cat_meow": cat_meow
+    }
 
     // Global tags - those at the top of the ink file
     // We support:
@@ -30,6 +56,7 @@
     }
 
     var storyContainer = document.querySelector('#story');
+    var optionsContainer = document.getElementById('Options Menu');
     
     //Main Contatiner that holds past text
     var pastTextContainer;
@@ -45,7 +72,11 @@
     let paragraphText = "";
     var replaceParagraph = null;
     var replace_text = ""
-    let DelayNextText = false;
+    let DelayNextText = 0;
+    let CyclingText = null;
+    let paragraphElement = null;
+
+
 
     // page features setup
     setupTheme(globalTagTheme);
@@ -62,9 +93,12 @@
     // Main story processing function. Each time this is called it generates
     // all the next content up as far as the next set of choices.
     function continueStory(firstTime) {
+        console.log(hasSave)
+        console.log(firstTime)
         var delay = 200.0;
-        var DelayNextText = 0;
-        replace_text = ""
+        DelayNextText = 0;
+        replace_text = "";
+        CyclingText = null;
 
         if  (!firstTime)
             delay = 500.0;
@@ -72,14 +106,18 @@
         // Don't over-scroll past new content
         var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY();
 
-        var paragraphElement;
         if (pastTextContainer == null && document.getElementById('All_Text') != pastTextContainer)
         {
+            console.log("getting all text")
             pastTextContainer = document.getElementById('All_Text');
         }
 
         // Generate story text - loop through available content
         if(story.canContinue) {
+            //save on every canContinue
+            savePoint = story.state.toJson();
+            window.localStorage.setItem('save-state', savePoint);
+
             // Get ink to generate the next paragraph
             paragraphText = story.Continue();
             var tags = story.currentTags;
@@ -95,11 +133,11 @@
 
                 //DELAY: time
                 if( splitTag && splitTag.property == "DELAY" ) {
-                    console.log("delay next line")
                     DelayNextText = (splitTag.val * 1000) + 1000;
                 }
 
-                // PLAY: delay, src, fade in, loop
+                // PLAY: src (assumes no looping, fade in or out)
+                // PLAY: src, fade in
                 if( splitTag && splitTag.property == "PLAY" ) {
                     
                     // Check if we need to delay or fade in the audio
@@ -110,74 +148,53 @@
                     {
                         array = splitTag.val.split(", ")
 
-                        sound = array[1];
-                        
-                        this.audio = new Audio("./audio/" + sound + ".ogg");
+                        sound = array[0];
+                        var fadeIn = array[1] * 1000;
 
-                        var time = 30 / (array[2] * 1000);
-
-                        //delay playing by array[0] time, then fade in over array[2] seconds to play array[1] sound. set loop using array[3]
-                        setTimeout(function() { 
-                            if('audio' in this) {
-                                this.audio.pause();
-                                this.audio.removeAttribute('src');
-                                this.audio.load();
-                            }
-
-                            this.audio.volume = 0;
-                            this.audioLoop.loop = array[3];
-                            this.audio.play();
-
-                            nIntervId = setInterval(fadeIn, 30, this.audio, time);
-                        
-                        }, (array[0] * 1000));
+                        PlayOrStopAudio (AudioList[sound], true, fadeIn);          
                     }
                     else //otherwise, just play the oneshot
-                    {
-                        if('audio' in this) {
-                            this.audio.pause();
-                            this.audio.removeAttribute('src');
-                            this.audio.load();
-                          }
-                          this.audio = new Audio("./audio/" + sound + ".ogg");
-                          this.audio.muted = false;
-                        //   this.audioLoop.loop = false;
-
-                        setTimeout(function() { this.audio.play();}, 500);
-                          
-                    }
+                        PlayOrStopAudio (AudioList[sound], true, 0);
                 }
 
                 //TODO
-                // STOP: delay, fade out
+                // STOP: src
+                // STOP: src, delay, fade out
                 else if( splitTag && splitTag.property == "STOP" ) {
-                   // Check if we need to delay or fade in the audio
-                   var array;
-                   var sound = splitTag.val;
+                    // Check if we need to delay or fade in the audio
+                    var array;
+                    var sound = splitTag.val;
 
-                   if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
-                   {
-                       array = splitTag.val.split(", ")
-                       
-                       this.audio = new Audio("./audio/" + sound + ".ogg");
-
-                       var time = 30 / (array[1] * 1000);
-
-                       //delay playing by array[0] time, then fade in over array[2] seconds to play array[1] sound.
-                       setTimeout(function() { 
-                           if('audio' in this) {
-                               this.audio.pause();
-                               this.audio.removeAttribute('src');
-                               this.audio.load();
-                           }
-                           this.audio.volume = 1;
-
-                           nIntervId = setInterval(fadeOut, 30, this.audio, time);
-                       
-                       }, (array[0] * 1000));
-                   }
+                    if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                    {
+                        
+                        array = splitTag.val.split(", ")
+                        sound = array[0];
+                        var fadeOut = array[1] * 1000;
+                        
+                        PlayOrStopAudio (AudioList[sound], false, fadeOut);
+                    }                    
+                    else //otherwise, just play the oneshot
+                        PlayOrStopAudio (AudioList[sound], false, 0);
+                   
                 }
 
+                //CYCLE: style, [word list]
+                if (splitTag && splitTag.property == "CYCLE") {
+                    var list = splitTag.val.split(', ')
+
+                    // CyclingText = document.createElement('a');
+                    CyclingText = true;
+                    let style = "";
+
+                    if (list[0] == "Fidget")
+                    {
+                        style = list[0];
+                        list.shift();
+                    }
+
+                    paragraphText = paragraphText.slice(0, paragraphText.indexOf('@')) + `<a href=\'#\' class="${style}" Index=0 Cycle=${list}> ${list[0]} </a>` + paragraphText.slice(paragraphText.indexOf('@') + 1);
+                }
                 //REPLACE: link, divert
                 if (splitTag && splitTag.property == "REPLACE")
                 {
@@ -201,6 +218,30 @@
                     delay += 5000.0;
                 }
 
+                if( splitTag && splitTag.property == "EFFECT" ) {
+                    if (splitTag.val == "flashlight")
+                    {
+                        if (!hasFlashlight)
+                        {
+                            hasFlashlight = true;
+                            footer.classList.remove("hidden")
+                        }
+
+                        if (footer.getAttribute("status") == "off")
+                        {
+                            footer.setAttribute("status", "on")
+                            document.getElementById("flashlight").style.display = ""             
+                            footer.innerHTML = "Turn off"
+                        }
+                        else
+                        {
+                            footer.innerHTML = "Turn on"
+                            document.getElementById("flashlight").style.display = "none"
+                            footer.setAttribute("status", "off")
+                        }
+                    }
+                }
+
                 // LINK: url
                 else if( splitTag && splitTag.property == "LINK" ) {
                     window.location.href = splitTag.val;
@@ -216,40 +257,24 @@
                     outerScrollContainer.style.backgroundImage = 'url('+splitTag.val+')';
                 }
 
+                // REMOVE: class
+                // Effects the text box specifically
                 else if( splitTag && splitTag.property == "REMOVE" ) {
-                    if (splitTag.val.includes("glow"))
-                    {
                         document.getElementById("Current_Text").classList.remove(splitTag.val);
                         document.getElementById('All_Text').classList.remove(splitTag.val);
-                    }
+                }
+
+                // TEXTBOX: class
+                // Effects the text box specifically
+                else if( splitTag && splitTag.property == "TEXTBOX" ) {
+                    console.log("here")
+                        document.getElementById("Current_Text").classList.add(splitTag.val);
+                        document.getElementById('All_Text').classList.add(splitTag.val);
                 }
 
                 // CLASS: className
+                // Effects the text
                 else if( splitTag && splitTag.property == "CLASS" ) {
-                    if (splitTag.val.includes("glow"))
-                    {
-                        document.getElementById("Current_Text").classList.add(splitTag.val);
-                        document.getElementById('All_Text').classList.add(splitTag.val);
-                    }
-                    else if (splitTag.val == "text_container_Dark")
-                    {                        
-                        document.getElementById("Current_Text").classList.add("text_container_Dark");
-                        document.getElementById('All_Text').classList.add("text_container_Dark");
-
-                        document.getElementById("Current_Text").classList.remove("text_container");
-                        document.getElementById('All_Text').classList.remove("text_container");
-                        return;
-                    }
-                    else if (splitTag.val == "text_container_UsedTo")
-                    {                        
-                        document.getElementById("Current_Text").classList.add("text_container_UsedTo");
-                        document.getElementById('All_Text').classList.add("text_container_UsedTo");
-
-                        document.getElementById("Current_Text").classList.remove("text_container_Dark");
-                        document.getElementById('All_Text').classList.remove("text_container_Dark");
-                        return;
-                    }
-                    else
                         customClasses.push(splitTag.val);
                 }
 
@@ -271,16 +296,32 @@
 
             if (pastTextContainer == null)
             {
+                console.log("no text boxes")
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
                 paragraphElement.setAttribute("id", "All_Text");
+
                 scrollPage(delay, paragraphElement, false);
+                if (hasSave && firstTime && story.currentChoices.length <= 0)
+                {
+                    console.log("here")
+                    paragraphElement.addEventListener("click", OnClickOneTimeEvent);                    
+                }
             }
             else if (document.getElementById('All_Text') && !document.getElementById('Current_Text'))
             {
+                console.log("adding current text boxes")
                 //removing css from the all_text
                 const temp = document.getElementById('All_Text').firstChild;
-                temp.classList.remove("fadeInBottom")
-                temp.classList.remove("hide")
+                if (temp && temp.classList.length > 0)
+                {
+                    console.log(temp)
+                    if (temp.innerHTML != "")
+                    {
+                        temp.classList.remove("fadeInBottom")
+                        temp.classList.remove("hide")
+                    }
+                    
+                }                
 
                 //creating the current text box
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
@@ -291,6 +332,7 @@
             }
             else 
             {
+                console.log("all text boxes made")
                 //all text boxes exist, now populate
                 const box = document.getElementById("Current_Text")
                 paragraphElement = box.firstChild
@@ -326,7 +368,7 @@
         if (story.currentChoices.length > 0)
         {
             delay = 1500
-            if (DelayNextText)
+            if (DelayNextText > 0)
                 delay += DelayNextText
 
             setTimeout(function() { CreateChoices(); }, delay);
@@ -342,11 +384,60 @@
 
     }
 
+    function PlayOrStopAudio(audio, shouldPlay, fade)
+    {
+        if (audio)
+        {
+            setTimeout(function() { 
+                
+                if (shouldPlay) { 
+                    var id = audio.play(); 
+                    audio.fade(0, 1, fade, id); 
+                }
+                else { 
+                    console.log(fade)
+
+                    var id = audio.play(); 
+                    audio.fade(1, 0, fade, id); 
+                }
+            }, 500);
+        }
+        else
+            console.error("Audio Error. Could not find: " + audio)
+    }
+
+    function OnClickCycle(event)
+    {
+        CyclingText = "clicked"
+        // Don't follow <a> link
+        event.preventDefault();
+
+        let cycle = paragraphElement.querySelectorAll("a")[0];
+        let list = cycle.getAttribute("cycle").split(',');
+        let index = parseInt(cycle.getAttribute("index"));
+
+        index += 1;
+        if (index >= list.length)
+            index = 0;
+
+        cycle.setAttribute("index", index)
+
+        let newText = ""
+        newText = list[index]
+
+        cycle.innerHTML = newText;
+    }
+
+    function AfterClickCycle(event)
+    {
+        CyclingText = true
+    }
+
     //On Click to continue a choice
     function OnClickEvent(event)
     {
         //check if there are choices here
-        if (story.currentChoices.length > 0 || DelayNextText)
+        if (story.currentChoices.length > 0 || DelayNextText || CyclingText == "clicked")
             return;
 
         // Don't follow <a> link
@@ -355,10 +446,51 @@
         //add the current text to the big if that contatiner exists
         if (pastTextContainer != null)
         {
-            pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+            if (CyclingText)
+            {
+                var text = paragraphText;
+                let start = text.indexOf('<');
+                let end = text.indexOf('>');
+                text = text.substring(0,start) + text.substring(end + 1);
+                paragraphText = text;
+                CyclingText = null;
+            }
+
+            pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;           
             deleteAfter(document.getElementById("Current_Text").firstChild, false);
         }
         else continueStory(false)
+    }
+
+    //On Click to continue IF there was a refresh
+    function OnClickOneTimeEvent(event)
+    {
+        //check if there are choices here
+        if (story.currentChoices.length > 0 || DelayNextText || CyclingText == "clicked")
+            return;
+
+        // Don't follow <a> link
+        event.preventDefault();
+
+        //add the current text to the big if that contatiner exists
+        if (pastTextContainer != null)
+        {
+            if (CyclingText)
+            {
+                var text = paragraphText;
+                let start = text.indexOf('<');
+                let end = text.indexOf('>');
+                text = text.substring(0,start) + text.substring(end + 1);
+                paragraphText = text;
+                CyclingText = null;
+            }
+
+            pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;           
+            deleteAfter(document.getElementById("Current_Text").firstChild, false);
+        }
+        else continueStory(false)
+
+        document.getElementById('All_Text').removeEventListener("click", OnClickOneTimeEvent);
     }
 
     //ON clikc choice event for clickk replace text
@@ -375,13 +507,14 @@
 
         // This is where the save button will save from
         savePoint = story.state.toJson();
+        window.localStorage.setItem('save-state', savePoint);
 
         replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
 
         replaceParagraph = null;
 
         // Aaand loop
-        continueStory(true);
+        continueStory(false);
     }
 
     function CreateChoices()
@@ -394,10 +527,9 @@
 
             // check if this is click replace text
             let isReplaceChoiceText = ""
-            if (choice.text.startsWith('<'))
+            if (choice.text.startsWith('('))
             {
-                console.log("here")
-                var index = choice.text.indexOf('>');
+                var index = choice.text.indexOf(')');
                 var shownText = choice.text.substring(1, index);
                 isReplaceChoiceText = choice.text.substring(1 + index);
                 choice.text = shownText;
@@ -439,6 +571,7 @@
 
                 // This is where the save button will save from
                 savePoint = story.state.toJson();
+                window.localStorage.setItem('save-state', savePoint);
 
                 if (replaceParagraph)
                 {
@@ -484,6 +617,7 @@
 
             // This is where the save button will save from
             savePoint = story.state.toJson();
+            window.localStorage.setItem('save-state', savePoint);
 
             //continue
             if (pastTextContainer != null)
@@ -510,16 +644,33 @@
     }
 
     function restart() {
-        story.ResetState();
-
         setVisible(".header", true);
+
+        OnRestartOrLoad();
+        pastTextContainer = null;
 
         // set save point to here
         savePoint = story.state.toJson();
 
+        story.ResetState();
+
         continueStory(true);
 
         outerScrollContainer.scrollTo(0, 0);
+    }
+
+    function OnRestartOrLoad()
+    {
+        var element = document.getElementById('All_Text')
+        if (element)
+            element.remove()
+
+        element = document.getElementById('Current_Text')
+        if (element)
+            element.remove()
+    
+        removeAll(".choice");
+        
     }
 
     function ClickReplaceText(paragraph)
@@ -581,8 +732,6 @@
         if (footer.getAttribute("status") == "off")
             return;
         
-            
-
         let x = event.pageX - 250;
         let y = event.pageY - 250;
         document.getElementById("flashlight").style.top = y + "px";  
@@ -606,8 +755,14 @@
             }         
 
             el.classList.remove("hide");
-        }, delay);
 
+            if (CyclingText)
+            {
+                let cycle = el.querySelectorAll("a")[0];
+                cycle.addEventListener("click", OnClickCycle );
+                cycle.addEventListener("mouseleave", AfterClickCycle );
+            }
+        }, delay);
         
     }
 
@@ -706,7 +861,7 @@
         try {
             let savedState = window.localStorage.getItem('save-state');
             if (savedState) {
-                story.state.LoadJson(savedState);
+                console.log(story.state.LoadJson(savedState));
                 return true;
             }
         } catch (e) {
@@ -735,6 +890,15 @@
             document.body.classList.add("dark");
     }
 
+    function openOptions(visible)
+    {
+        if (visible)
+            optionsContainer.classList.remove("hidden")
+        else
+            optionsContainer.classList.add("hidden")
+
+    }
+
     // Used to hook up the functionality for global functionality buttons
     function setupButtons(hasSave) {
 
@@ -746,36 +910,54 @@
             restart();
         });
 
-        let saveEl = document.getElementById("save");
-        if (saveEl) saveEl.addEventListener("click", function(event) {
-            try {
-                window.localStorage.setItem('save-state', savePoint);
-                document.getElementById("reload").removeAttribute("disabled");
-                // window.localStorage.setItem('theme', document.body.classList.contains("dark") ? "dark" : "");
-            } catch (e) {
-                console.warn("Couldn't save state");
-            }
+        let optionsEl = document.getElementById("options");
 
+        if (optionsEl) optionsEl.addEventListener("click", function(event) {
+            if (storyContainer.classList.contains("hidden"))
+            {
+                storyContainer.classList.remove("hidden")
+                openOptions(false);
+            }
+            else
+            {
+                storyContainer.classList.add("hidden")
+                openOptions(true);
+            }
+            
         });
 
-        let reloadEl = document.getElementById("reload");
-        if (!hasSave) {
-            reloadEl.setAttribute("disabled", "disabled");
-        }
-        reloadEl.addEventListener("click", function(event) {
-            if (reloadEl.getAttribute("disabled"))
-                return;
+        // let saveEl = document.getElementById("save");
+        // if (saveEl) saveEl.addEventListener("click", function(event) {
+        //     try {
+        //         window.localStorage.setItem('save-state', savePoint);
+        //         document.getElementById("reload").removeAttribute("disabled");
+        //         // window.localStorage.setItem('theme', document.body.classList.contains("dark") ? "dark" : "");
+        //     } catch (e) {
+        //         console.warn("Couldn't save state");
+        //     }
 
-            removeAll("p");
-            removeAll("img");
-            try {
-                let savedState = window.localStorage.getItem('save-state');
-                if (savedState) story.state.LoadJson(savedState);
-            } catch (e) {
-                console.debug("Couldn't load save state");
-            }
-            continueStory(true);
-        });
+        // });
+
+        // let reloadEl = document.getElementById("reload");
+        // if (!hasSave) {
+        //     reloadEl.setAttribute("disabled", "disabled");
+        // }
+        // reloadEl.addEventListener("click", function(event) {
+        //     if (reloadEl.getAttribute("disabled"))
+        //         return;
+
+        //     removeAll("p");
+        //     removeAll("img");
+            
+        //     try {
+        //         let savedState = window.localStorage.getItem('save-state');
+        //         if (savedState) story.state.LoadJson(savedState);
+        //     } catch (e) {
+        //         console.debug("Couldn't load save state");
+        //     }
+
+        //    OnRestartOrLoad();
+        // });
 
         // let themeSwitchEl = document.getElementById("theme-switch");
         // if (themeSwitchEl) themeSwitchEl.addEventListener("click", function(event) {

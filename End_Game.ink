@@ -80,7 +80,7 @@ You look back at the glowing heart.
         ~temp_string = "It's disgusting."
 }
 
-#play: groan
+#PLAY: groan
 Carefully, you reach out and take the heart out of the water. The church groans, and heart softly pulses in your hand.
 
 {temp_string}
@@ -319,12 +319,6 @@ A surge of uncontrollable laughter escapes you. You can't stop it. You laugh unt
 *[It's time to go home.]
 ->Credits
 
-
-
-
-
-//TODO
-
 = Eat_it
 The heart beats in your hand, a lovely red color. Almost like a sweet apple. You raise the heart to your lips.
 
@@ -333,7 +327,7 @@ Are you certain?
 *[Take a bite]
 
 - 
-#play: shriek
+#PLAY: shriek #CLASS: Angry-Screeching
 The church shrieks in response. It shakes and shutters. The ghostly figures grab their heads in agony.
 
 Cool, sweet juice slides down your face. Yes. It tastes just like an apple. The sweetest, crispest apple you've ever had.

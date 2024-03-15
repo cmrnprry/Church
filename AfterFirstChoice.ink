@@ -142,10 +142,10 @@ You drop down from the stage, and walk through the pews. Everyone is gone.
 
 You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubble up in your chest, and tears form in your eyes. 
 
-#play: child-wood-footsteps, 1 #play: curtain
+#PLAY: child-wood-footsteps, 1 #PLAY: curtain
 You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional.
 
-#play: child-wood-footsteps
+#PLAY: child-wood-footsteps
 You whip around, and just barely miss seeing someone run up the stairs.
 
 *[Check inside the confessional]

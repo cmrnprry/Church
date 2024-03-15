@@ -36,7 +36,7 @@
 
 -
 
-#play: curtain
+#PLAY: curtain
 You stand to leave when you hear the curtain open and close from the other side of the divider. There are footsteps, then a soft thud of someone sitting on the bench.
 ~temp_bool = false
 
@@ -111,19 +111,18 @@ You stand to leave when you hear the curtain open and close from the other side 
 #DELAY: 4
 ~stay += 0.5
 ~ emily_hurt = true
-#play: curtain
+#PLAY: curtain
 {pressed_emily: The curtain opens. "I'm- Leaving-" Her voice is cut off by a massive coughing fit. "You- <i>You</i>" she wheezes between coughs. "Don't-"}{ pressed_emily == false: "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank-" Her voice is cut off by a massive coughing fit. "Thank- you-" she wheezes between coughs. }
 
-#effect: typewriter #style:slide-right #DELAY: 2
-RRRRIIIPPPPPP
+#CLASS: typewriter
+​
 
-#style: fade-up #DELAY: 1.5
+#DELAY: 1.5
 The sound or the curtain tearing-
 
-#style:slide-down #DELAY: 1.5
+#CLASS: Slide_Down #DELAY: 1.5
 <i>THud</i>
 
-#style: fade-up
 Something, no <i>someone</i>, hits the ground. Hard.
 
 *[Rush out of the booth]
@@ -134,30 +133,30 @@ Something, no <i>someone</i>, hits the ground. Hard.
 - 
 You can hear wheezing, but she does not answer. 
 
-#effect: fidget #style: blur
+#CLASS: Fidget #CLASS: Blur
 Your eyes find the doorknob, transfixed by it.
 
-#effect: fidget #style: blurrier
+#CLASS: Fidget #CLASS: Blurrier
 You need get up, and help her.
 
 *["Are you okay?"]
 
 - You can hear scratching on the floor, but she does not answer.
 
-#effect: fidget #style: blur
+#CLASS: Fidget #CLASS: Blur
 Your vision starts to blur, but you can't look away.
 
-#effect: fidget #style: blurrier
+#CLASS: Fidget #CLASS: Blurrier
 Why aren't you moving?
 
 *["Hello...?"]
 
 - You don't hear anything. She does not answer.
 
-#effect: fidget #style: blur
+#CLASS: Fidget #CLASS: Blur
 You blink and the spell is broken.
 
-#effect: fidget #style: blurrier
+#CLASS: Fidget #CLASS: Blurrier
 MOVE.
 
 *[Exit the booth.]
@@ -409,7 +408,7 @@ You're not a priest, and you are not entirely sure what the correct thing to say
 
 "Yes, really."
 
-#play: curtain
+#PLAY: curtain
 "Okay, I'll... I'll do that." She sniffs, and the curtain opens. "Thank you."
 
 The curtain closes, and she is gone.

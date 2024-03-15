@@ -9,29 +9,6 @@ INCLUDE End_Game.ink
 The Church at the End of the Street
 *[Start Game] ->Start
 *[Credits] ->Credits
-*[Testing]
-
-- We are testing shift
-
-#CLASS: Kick
-Testing text for angry glow
-
-#REMOVE: angry-glow #CLASS: intense-glow 
-Testing text for glow intense
-
-#REMOVE: intense-glow  #CLASS: leave-glow
-Testing text for glow leave
-
-#REMOVE: leave-glow
-Testing text for glow leave
-
-
-no more
-
-*CHOICE_COUNT
-
-- more text
-
 
 === Start ====
 
@@ -73,7 +50,7 @@ The church feels...
 The bus arrives and you're no closer to understanding this {feeling} church that spontaneously appeared. Your stomach lurches.
 
 *[Get on the bus]
-#play: bus-sounds
+#PLAY: bus-sounds
 -> Bus
 *[Investigate the church]
 -> Investigate
@@ -95,10 +72,10 @@ The church's windows are of stained glass, which isn't uncommon for it to have. 
 -#DELAY: 1.25
 Blood starts rushing in your ears and pressure builds behind your eyes as you strain to-
 
-#CLASS: Bus_Honk #play: honk #DELAY: 2.5
+#CLASS: Bus_Honk #PLAY: honk #DELAY: 2.5
 HOOOOONNNKK!!
 
-#play: bus-sounds
+#PLAY: bus-sounds
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel youself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church.]
@@ -167,7 +144,7 @@ You watch the church through the window until it fades into a dot in the distanc
     ->Job
 
 === Job ===
-#play: office-sounds
+#PLAY: office-sounds
 You get less done than usual at work. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does.
@@ -187,14 +164,14 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 ~ work += 1
 *Maybe the monotony will take your mind off things.
 
-- #play: scanning
+- #PLAY: scanning
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
 Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place-
 
 *"Hey- What are you doing?"
 
-- #stop: scanning, 3
+- #STOP: scanning, 3
 You jump and look up to see a coworker from your departmenr. You don't talk to her often, but she's nice enough. She looks... concerned?
 
 *"Just sending out some scans."
@@ -228,7 +205,7 @@ All the papers repeat what you coworker said. Over and over again. All in handwr
 - ->Walk_Home
 
 = Emails
-#play: ding
+#PLAY: ding
 You pull up your email and scroll through the new ones, only reading the subject lines for anything important. Meeting invitation, spam, spam, client question, church inquiry, meeting- Wait. Church inquiry?
 
 *[Open church inquiry email]
@@ -240,9 +217,9 @@ You pull up your email and scroll through the new ones, only reading the subject
 #DELAY: 1
 You quickly delete the "church inquiry" email, and go to reply to the client. 
 
-#play: ding #DELAY: 2.75
+#PLAY: ding #DELAY: 2.75
 Another email with the same subject. You don't think and delete it again.
-#play: ding
+#PLAY: ding
 But yet another takes it's place.
 
 *[Delete it again]
@@ -253,7 +230,7 @@ But yet another takes it's place.
 
 <i>Stop thinking about it.</i> You tell yourself. <i>It's nothing but a church, so why-</i>
 
-#DELAY: 6 #play: knock-knock
+#DELAY: 6 #PLAY: knock-knock
 "Knock knock, can I talk to you?" You look up to see your supervisor at your door, holding a few sheets of paper. They look upset.
 ~ work = 2
 
@@ -287,10 +264,10 @@ But yet another takes it's place.
 #DELAY: 0.5
 As you click the button to delete the email- <>
 
-#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #DELAY: 1.5
+#PLAY: ding #PLAY: 0.25, ding #PLAY: 0.25, ding #PLAY: 0.25, ding #DELAY: 1.5
 you get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up."
 
-#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding
+#PLAY: ding #PLAY: 0.25, ding #PLAY: 0.25, ding #PLAY: 0.25, ding
 You try to delete them, but they just keep coming. "Where are you?" "Come home." "(No Subject. Image Attached)."
 
 *[Open Email]
@@ -300,10 +277,10 @@ You give in, and click the latest email.
 
 *[Continue Deleting]
 
-- #play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #DELAY: 0.5
+- #PLAY: ding #PLAY: 0.25, ding #PLAY: 0.25, ding #PLAY: 0.25, ding #DELAY: 0.5
 You can't delete them fast enough.
 
-#play: ding #play: 0.25, ding #play: 0.25, ding #play: 0.25, ding #DELAY: 0.5
+#PLAY: ding #PLAY: 0.25, ding #PLAY: 0.25, ding #PLAY: 0.25, ding #DELAY: 0.5
 They just keep coming. You try to-
 
 "Hey are you-" A hand grabs your shoulder, and you jump up from your chair, slaping the hand away. 
@@ -366,7 +343,7 @@ Your coworker stares at you, waiting for an answer. You shove your hand into you
 - ->Walk_Home
 
 === Walk_Home ===
-#stop: office-sounds 10
+#STOP: office-sounds 10
 
 { work:
     - 1:"Maybe you should take some sick days..." she says, her voice trails off. You nod, and return to your desk to gather your things.
@@ -389,7 +366,7 @@ Your coworker stares at you, waiting for an answer. You shove your hand into you
 }
 
 The bus ride home is shorter than it's ever been. You get off at your regular stop.
-#stop: office-sounds
+#STOP: office-sounds
 The church is still there.
 
 *[Take a different path home]
@@ -410,7 +387,7 @@ You get off at the same bus stop you normally do. You don't look at the church, 
 *[Walk faster]
 
 - 
-#play: walking-quickly, 1
+#PLAY: walking-quickly, 1
 You shove your hand in your pocket and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you.
 
 *[Turn around]
@@ -420,7 +397,7 @@ You shove your hand in your pocket and pick up the pace. The corner where you ne
 
 - 
 ~turn = "running"
-#stop: walking-quickly, 0.5 #play: running-stop, 1
+#STOP: walking-quickly, 0.5 #PLAY: running-stop, 1
 You break out into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
 You hear something on the wind. A voice?
@@ -430,14 +407,14 @@ You hear something on the wind. A voice?
 
 *[Almost. There.]
 
-- #stop: running-stop
+- #STOP: running-stop
     You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
 *[ignore]
 ->Stop_Sign
 
 = Turn_Around
-#stop: running-stop #stop: walking-quickly
+#STOP: running-stop #STOP: walking-quickly
 You stop {turn}, and face the church. All sensations stop. There is nothing strange about the church. It's dark. It's quiet. 
 
 It's just another building.
@@ -473,12 +450,12 @@ You stop in your tracks and ball your hands into fists. You spin around to find 
 ->Walk_Home.Stop_Sign
 
 -
-#play: walking-quickly, 1
+#PLAY: walking-quickly, 1
 You ignore it, and keep going. Each step feels like wading through thick jelly. You can almost touch the stop sign on the corner.
 
 *[Almost. There.]
 
-- #stop: walking-quickly #stop: running-stop
+- #STOP: walking-quickly #STOP: running-stop
     You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
 *[ignore]
@@ -491,11 +468,11 @@ It looms over you, taller than you remember. Your hands tightly grip the front g
 But how did it...? You were at...?
 
 *[Open the gates]
-#play: gate-open
+#PLAY: gate-open
 You throw the gates open, and the edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 
 *[Let go]
-#play: gate-open
+#PLAY: gate-open
 You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 - 
 
@@ -512,7 +489,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 
 = Usual
 
-#play: gate-open
+#PLAY: gate-open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
 {- know: You should keep moving.}
@@ -560,12 +537,12 @@ You take a few steps before stopping, and looking back at the open gate. You wan
 
 *What if a kid gets lost? 
 ~ temp_bool = true
-#play: child-running #stop: child-running 3
+#PLAY: child-running #STOP: child-running 3
 No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
 
 *Or an animal gets trapped.
 ~ temp_bool = false
-#play: meow
+#PLAY: meow
 No sooner than you think it, you hear the sound of growling and meowing on the property. 
 
 - 
@@ -610,14 +587,14 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 === Walk_Up_Path ===
-#play: player-walking
+#PLAY: player-walking
 *You take one step forward.
 
 - 
 *And keep walking.
 
 -
-#play: spooky-walking
+#PLAY: spooky-walking
 *And walking.
 
 -{- know: You're moving automatically. You want to go home. }
@@ -633,7 +610,7 @@ The church door is open and inviting. You can't see inside.
 ~ temp_bool = false
 ->Walk_Up_Path.Run
 
-- #stop: player-walking, 0.5 #stop: 1, spooky-walking
+- #STOP: player-walking, 0.5 #STOP: 1, spooky-walking
 Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up...
 
 Someone is behind you, and they know you know. Your only option is the church or confrontation. Your heart pounds in your chest. { -know: It has to be another trick.}
@@ -666,7 +643,7 @@ Nothing. No one's there. You laugh.
 
 *Pull the gate closed.
 
-- #play: gate-closed
+- #PLAY: gate-closed #TEXTBOX: text_container_Dark
 Just as it slams shut, everything goes dark...
 
 *[Wait for your eyes adjust]
@@ -683,6 +660,8 @@ Three.
 Four.
 #DELAY: 1.25
 Five.
+
+#TEXTBOX: text_container_UsedTo
 You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
 
 *[Try to open the gate.]
@@ -690,14 +669,14 @@ You blindly feel for the latch of the gate, but instead of cool metal your hands
 
 - Somehow you are inside the church.
 
-#play: lock-rattle
+#PLAY: lock-rattle
 You try the knob.
 
 *It's locked.
 -> Locked
 
 = Run
-#play: player-walking #play:spooky-walking
+#PLAY: player-walking #PLAY:spooky-walking
 { 
     - temp_bool: 
     Adreneline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
@@ -712,10 +691,10 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #stop: player-walking #stop: 1, spooky-walking #play: 0.5, door-slam #DELAY: 2
+- #STOP: player-walking #STOP: 1, spooky-walking #PLAY: 0.5, door-slam #DELAY: 2 #TEXTBOX: text_container_Dark
 You fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
-#CLASS: Tall #play: banging-short #style: rumble #DELAY: 1
+#CLASS: Bang_Short #PLAY: banging-short #DELAY: 1
 BANG BANG BANG
 
 Whoever was out there is slamming themselves into the door. It takes all your strength to keep them from getting in.
@@ -732,26 +711,26 @@ Whoever was out there is slamming themselves into the door. It takes all your st
         #DELAY: 1
         You wait, saying nothing. 
 
-        #play: banging-short #style: rumble, tall
+        #CLASS: Bang_Short #PLAY: banging-short
         BANG BANG BANG
 
         #DELAY: 1.5
         They can't keep this up forever.
 
-        #CLASS: Tall #play:banging-short #style: rumble
+        #CLASS: Bang_Short #PLAY: banging-short
         BANG BANG BANG
         
     - else:
         #DELAY: 1
         "I DON'T HAVE ANY MONEY!" 
     
-        #CLASS: Tall #play:banging-short #style: rumble, tall
+        #CLASS: Bang_Short #PLAY: banging-short
         BANG BANG BANG
     
         #DELAY: 1
         "I DON'T HAVE ANYTHING!"
     
-        #CLASS: Tall #play:banging-short #style: rumble, tall
+        #CLASS: Bang_Short #PLAY: banging-short
         BANG BANG BANG
 }
 
@@ -767,7 +746,7 @@ When you feel safe again, you try to open the knob.
 === Locked ===
 Locked? { -know: The blood drains from your face as you realize what you've done.}
 
-#play: lock-rattle
+#PLAY: lock-rattle
 You jiggle the handle again. 
 
 *The door won't budge.
@@ -783,7 +762,7 @@ You jiggle the handle again.
 = Kick
 You size up the door and kick at the latch.
 
-#style: shudder #play: thud
+#CLASS: Kick #PLAY: thud
 Thud!
 
 The door shutters, but stands firm.
@@ -797,12 +776,12 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "hurt"
 You kick again in the same place.
 
-#style: shudder #play: thud
+#CLASS: Kick  #PLAY: thud
 Thud!
 
 *How is the door this strong...?
 
-- #style: shudder #play: thud
+- #CLASS: Kick #PLAY: thud
 Thud!
 
 The door still stands.
@@ -816,12 +795,12 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "pain"
 You keep kicking at it. You breathing starts to get heavy and your leg aches. It feels as if you are hitting steel.
 
-#style: shudder #play: thud
+#CLASS: Kick #PLAY: thud
 Thud!
 
 *You want to leave.
 
-- #style: shudder #play: thud
+- #CLASS: Kick #PLAY: thud
 Thud!
 
 The door shows no signs of breaking.
@@ -835,22 +814,22 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "worst"
 Something in you allows you to keep going, even as your leg throbs and it feels like you can barely take in anymore air. 
 
-#style: shudder #play: thud
+#CLASS: Kick  #PLAY: thud
 Thud!
 
 *You need to get out.
 
-- #style: shudder #play: thud
+- #CLASS: Kick  #PLAY: thud
 Thud!
 
 *Evey fiber of your being is telling you to get _out._
 
-- #style: shudder #play: thud
+- #CLASS: Kick  #PLAY: thud
 Thud!
 
 *But the church will not let you.
 
-- #style: shudder #play: thud
+- #CLASS: Kick  #PLAY: thud
 Thud!
 
 *The door does not move.
@@ -948,7 +927,7 @@ You jam the crowbar in between the door and the wall, at the latch, and pull.
 - #DELAY: 2  
 You pull harder, putting all your weight into it. You lean back a bit further and-
 
-#play: crowbar-snap #style: shudder, 0.5 #DELAY: 1
+#PLAY: crowbar-snap #CLASS: Kick #DELAY: 1
 Crack!
 
 Half the crowbar is left in your hand. You drop it, but don't hear it hit the ground.
@@ -960,22 +939,22 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 #DELAY: 1.5
 You get to work unscrewing the top hindges of the door.
 
-#DELAY: 0.5 #play:clink-1 #style: slide-down
-_Clink!_
-#DELAY: 0.5 #play:clink-2 #style: slide-down
-_Clink!_ 
-#DELAY: 1.5 #play:clink-1 #style: slide-down
-_Clink!_
+#DELAY: 0.5 #PLAY:clink-1 #CLASS: Slide_Down
+<i>Clink!</i>
+#DELAY: 0.5 #PLAY:clink-2 #CLASS: Slide_Down
+<i>Clink!</i> 
+#DELAY: 1.5 #PLAY:clink-1 #CLASS: Slide_Down
+<i>Clink!</i>
 
 #DELAY: 1
 The screws fall to the floor. You move to the bottom hindges.
 
-#DELAY: 0.5 #play:clink-2 #style: slide-down
-_Clink!_ 
-#DELAY: 0.5 #play:clink-1 #style: slide-down
-_Clink!_ 
-#DELAY: 1.5 #play:clink-2 #style: slide-down
-_Clink!_
+#DELAY: 0.5 #PLAY:clink-2 #CLASS: Slide_Down
+<i>Clink!</i> 
+#DELAY: 0.5 #PLAY:clink-1 #CLASS: Slide_Down
+<i>Clink!</i> 
+#DELAY: 1.5 #PLAY:clink-2 #CLASS: Slide_Down
+<i>Clink!</i>
 
 *That should be the last of them.
 
@@ -997,18 +976,18 @@ You can't find them.
 = Sledgehammer
 You lift up the large hammer and begin to smash it into the door.
 
-#play: thud #style: shudder
+#PLAY: thud #CLASS: Kick
 Thud!
 
 *It's stronger than you anticipated.
 
 
--#play: thud #style: shudder
+-#PLAY: thud #CLASS: Kick
 Thud!
 
 *It's not working...?
 
--#play: thud #style: shudder
+-#PLAY: thud #CLASS: Kick
 Thud!
 
 *The door looks untouched.
@@ -1047,11 +1026,11 @@ You can barely see, not a single drop of light shines through the windows. Your 
 //Click replace with new text
 {
     - know == false:
-    *[<Wait until morning> Remember]
+    *[(Wait until morning)Remember]
         ->Trapped.Remember
-    *[<Look for a different exit> Remember]
+    *[(Look for a different exit)Remember]
         ->Trapped.Remember
-    *[<Accept the Church> Remember]
+    *[(Accept the Church)Remember]
         ->Trapped.Remember
  - else:
     *[Wait until morning]
@@ -1108,8 +1087,9 @@ There is a way out.
 
 - You blink rapidly, shaking yourself out of the memory, and look down at what's left of the image in your hand. Tiny pieces sit in a pile on the ground in front of you. Did you...?
 
-You swallow th elump in your throat and carefully pick up pieces, ensuring you get every little piece. You delicately place them back in your pocket. Once you're out of here, you can fix it.
+You swallow the lump in your throat and carefully pick up pieces, ensuring you get every little piece. You delicately place them back in your pocket. Once you're out of here, you can fix it.
 
+#TEXTBOX: text_container_UsedTo
 It's still dark, but your eyes have adjusted a bit more. You can't get out the way you came in, but there might be another way out.
 
 *[Wait until morning]
@@ -1165,7 +1145,7 @@ You hum along to it.
 = Refuse
 {
     - stay >= 1.5:
-    #play: groaning-angry #stop: groaning-angry, 2
+    #PLAY: groaning-angry #STOP: groaning-angry, 2
     The melody harshly cuts out.
 
 }
@@ -1372,14 +1352,14 @@ You feel...
         #DELAY: 6.5
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
-        #play: screeching 
+        #PLAY: screeching CLASS: Angry-Screeching
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and luder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *You can barely stand it.
         -> Inside
         
     - else:
-        #play: groaning-happy, 0.25 #stop: groaning-happy, 1.5
+        #PLAY: groaning-happy, 0.25 #STOP: groaning-happy, 1.5
         ~ temp_bool = false
         ~ stay += 1
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
@@ -1410,7 +1390,7 @@ You feel...
 
 { 
 - temp_bool:
-    #stop: screeching
+    #STOP: screeching
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
     The pressure alleviates, the burning stops, and all the { temp_string } with it.
@@ -1428,34 +1408,31 @@ You feel...
 ->Inside.Flashlight
 
 *[Read the note]
-->Inside.Dark
 
-= Dark
-The paper feels thin. It's too dark to read.
+- The paper feels thin. It's too dark to read.
 
 *[Pick up the flashlight]
 ->Inside.Flashlight
 
 = Flashlight
- ~ lanturn =  true
+~ lanturn =  true
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
 *[Read the note]
 ->Inside.Note
 
 = Note
-#play: click-on #effect: flashlight
+#PLAY: click-on #EFFECT: flashlight #TEXTBOX: text_container_flashlight
 The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-#effect: dark
 "Find the heart and destroy it./nThe church will try to stop you./nIt will do anything to keep you here. Stay out of it's sight./n Do not become it's next meal."
 
-#effect: dark
 *[Meal...?]
+#TEXTBOX: text_container_After
 You shutter at the thought. You wonder how long you have until it fully digests you.
 
-#effect: dark
 *[Sight...?]
+#TEXTBOX: text_container_After
 { 
     - temp_bool_2:
         ~ temp_string = "How you had to pull yourself out."
@@ -1466,12 +1443,11 @@ Well.... You glance up at the swirling window.
 
 You remember how the church's sight warped your thoughts and reasoning. { temp_string } You cannot let that happen again. If the church sees you again...
 
-#effect: dark
 *[Heart...?]
+#TEXTBOX: text_container_After
 <i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or...?
 
 - 
-
 *You try not to think too hard about it.
 
 - 
@@ -1538,7 +1514,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> Credits
 
 === Credits
-Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninaksketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid
+Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninaksketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid<br><br>Howler (used for audio) Copyright (c) 2013-2021 James Simpson and GoldFire Studios, Inc.
 
 +[Start Game] ->Start
 +[Credits] ->Credits
