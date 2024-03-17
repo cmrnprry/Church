@@ -19,26 +19,43 @@
         <div id="controls" class="buttons">
           <a id="rewind" title="Restart story from beginning">restart</a>
           <a id="options" title="Open Options Menu">options</a>
+          <a id="endings" title="Endings Gathered">endings</a>
         </div>
         <div id="flashlight" style="display:none"></div>
         <div id="Options Menu" class="options_container hidden">
-            <div id="Options Menu" class="options_container_inner">
-                <h1>Volume</h1><br>
-                <div class="slider">
-                    <input type="range" min="0" max="200" value="100" oninput="rangeValue.innerText = this.value">
-                    <p id="rangeValue">100</p>   
-                <div id="Mute_Button" class="options_button">
+            <div class="option_volume">
+                <h1>Audio</h1><br>
+                <div  class="slider">
+                    <input id="Volume_Button" title="Volume slider" type="range" min="0" max="100" value="50" oninput="rangeValue.innerText = this.value">
+                    <p id="rangeValue">50</p>   
+                </div>
+                <div id="Mute_Button" title="Mute all volume" status="off" class="options_button">
                     Mute
                 </div>
+            </div>
+            <div class="option_text">
                 <br>
                 <h1>Text Effects</h1><br>
-                <div id="Mute_Button" class="options_button">
+                <div id="Shake_Button" title="Turn off all text movement." status="on" class="options_button">
                     Text Shake: ON
                 </div>
-                <div id="Mute_Button" class="options_button">
-                    Dimmable Text: ON
+                <div id="Dimmable_Button" title="Turn off all visual effects to text boxes." status="on" class="options_button">
+                    Text Effects: ON
                 </div>
             </div>
+        </div>
+        <div id="Endings Menu" class="endings_container hidden">
+            <div class="ending1"><h1>Endings</h1></div>
+            <div class="ending2">Bad Ending: Melted</div>
+            <div class="ending3">Bad Ending: Crushed</div>
+            <div class="ending4">Bad Ending: Sleeping Forever</div>
+            <div class="ending5">Bad Ending: Why Shouldn't I stay?</div>
+            <div class="ending6">Bad Ending: Finding Solace</div>
+            <div class="ending7">Bad Ending: Eating Forever</div>
+            <div class="ending8">Bad? Ending: Finding Peace</div>
+            <div class="ending9">???? Ending: What Have You Done?</div>
+            <div class="ending10">Good Ending: It Has Been a Long, Long Night</div>
+            <div class="ending11">???? Ending: You Are the Church</div>
         </div>
         <div id="story" class="container">
             <div class="header">
@@ -51,7 +68,6 @@
         </div>
     </div>
 
-    <script src="./Howler/howler.js"></script>
     <script src="ink.js"></script>
     <script src="The Church.js"></script>
     <script src="main.js"></script>

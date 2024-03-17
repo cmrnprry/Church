@@ -1432,7 +1432,7 @@ It won't open. It's locked.
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The divider between you is barely holding up. The wood is splinters while that- that _thing_ shouts and curses you.
+The divider between you is barely holding up. The wood is splinters while that- that <i>thing</i> shouts and curses you.
 
 "I hate hate hate hate hate HATE you. You DARE speak of things you don't understand?!"
 
@@ -1454,14 +1454,15 @@ The divder splits and falls, revealing the thing on the other side. You fall to 
 
 - It takes a step into your booth, impossibly tall. Impossibly long. Your eyes can't accept what they're seeing. 
 
-It has no legs except when it does. Deer hooves that disappear as soon as they step down, only to replaced with a newer one with it's next step, like a cascading waterfall of legs. It grabs the edge of the booth with its  <hands, claws, tentacles, paws, wings>. A human hand morphing into a infinitiely splitting claw morphing into a featherd limb that curls and grabs anything within reach.
+#CYCLE: hands, claws, tentacles, paws, wings
+It has no legs except when it does. Deer hooves that disappear as soon as they step down, only to replaced with a newer one with it's next step, like a cascading waterfall of legs. It grabs the edge of the booth with its @. A human hand morphing into a infinitiely splitting claw morphing into a featherd limb that curls and grabs anything within reach.
 
 It says something that reverberates inside your brain. Words that hold meaning you understand in a way that you can't explain. Changing your thoughts, your feelings. Something wet sharply forces your face up, and your eyes lock on it's face. It's true face.
 
 *A single tear rolls down your cheek.
 
 - 
-
+#ENDING: Finding Solace
 *You've never known solace like this.
 ->Credits
 

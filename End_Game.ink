@@ -53,6 +53,7 @@ You keep eating and drinking, never satisified. Always needing more.
 *[And there is always more for you.]
 
 - 
+#ENDING: Eating Forever
 *[The church makes sure of it]
 ->Credits
 
@@ -279,7 +280,8 @@ A surge of uncontrollable laughter escapes you. You can't stop it. You laugh unt
 *[{temp_string}]
 {
     - stay < 2.5:
-    ->Credits
+        #ENDING: It Has Been a Long, Long Night
+        ->Credits
 }
 
 - Through blury eyes you being to dig into the soft earth.
@@ -314,7 +316,9 @@ A surge of uncontrollable laughter escapes you. You can't stop it. You laugh unt
 
 *[It's over.]
 
-- You stand, and dust yourself off.
+-
+#ENDING: What Have You Done?
+You stand, and dust yourself off.
 
 *[It's time to go home.]
 ->Credits
@@ -350,7 +354,7 @@ You are gone.
 
 *[You are the church.]
 
-- 
+- #ENDING: You Are the Church
 *[And the church is you]
 ->Credits
 

@@ -6,9 +6,20 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-The Church at the End of the Street
+The Church at the End of the Street<br><br><i>This game will autosave your progress. Using the restart button will rest your game and save. <br><br> Closing the window will reset any progress.</i>
+
 *[Start Game] ->Start
 *[Credits] ->Credits
+* [Testing]
+
+- ewbsuiff
+
+#PLAY: meow
+Ending 2013
+
+#TEXTBOX: text_container_Dark
+Ending a'silent
+
 
 === Start ====
 
@@ -1137,7 +1148,9 @@ You hum along to it.
 *Why would you <i>want</i> to stay here?
 -> Trapped.Refuse
 
--Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
+-
+#ENDING: Why Shouldn't I stay?
+Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
 
 *The church offers solace.
 -> Endings.Bad_End_1
@@ -1285,7 +1298,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 
 *[You fall asleep.]
 
-- 
+- #ENDING: Sleeping Forever
 
 *But you don't wake up.
 ->Credits

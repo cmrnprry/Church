@@ -11,30 +11,96 @@
     let globalTagTheme;
     let hasFlashlight = false;
 
+    //OPTIONS VARIABLES
+    let volume = window.localStorage.getItem('save-volume')
+    let mute = window.localStorage.getItem('save-mute')
+    let shake = window.localStorage.getItem('save-shake')
+    let dim = window.localStorage.getItem('save-dim')
 
-    //HUGE LIST OF HOWLS FOR ALL OUR AUDIO
-    var cat_meow = new Howl({
-        src: ['./Audio/cat-meow.ogg'],
-        loop: true,
-        volume: 1,
-        html5:true,
-        onend: function() {
-          console.log('Finished!');
-        },
-        onfade: function() {
-            console.log("fade finished")
-            if (cat_meow.volume == 0)
-            {
-                cat_meow.stop();
-                cat_meow.volume = 1;
-            }
-        }
-      });
+    //HUGE LIST OF AUDIO OBJECTS FOR ALL OUR AUDIO
+    var audioTest = new Audio('./Audio/cat-meow.ogg')
+    var audioTest2 = new Audio('./Audio/crowbar-break.ogg')
 
     //AUDIO LIST
     const  AudioList = {
         "cat_meow": cat_meow
     }
+
+    //ENDINGS
+    let ending1 = {
+        name: "Melted",
+        description: "This is a description.",
+        type:"Bad",
+        achieved: false
+    }
+    let ending2 = {
+        name: "Crushed",
+        description: "This is a description.",
+        type:"Bad",
+        achieved: false
+    }
+    let ending3 = {
+        name: "Sleeping Forever",
+        description: "This is a description.",
+        type:"Bad",
+        achieved: false
+    }
+    let ending4 = {
+        name: "Why Shouldn't I stay?",
+        description: "This is a description.",
+        type:"Bad",
+        achieved: false
+    }
+    let ending5 = {
+        name: "Finding Solace",
+        description: "This is a description.",
+        type:"Bad",
+        achieved: false
+    }
+    let ending6 = {
+        name: "Eating Forever",
+        description: "This is a description.",
+        type:"Bad",
+        achieved: false
+    }
+    let ending7 = {
+        name: "Finding Peace",
+        description: "This is a description.",
+        type:"Bad?",
+        achieved: false
+    }
+    let ending8 = {
+        name: "What Have You Done?",
+        description: "This is a description.",
+        type:"???",
+        achieved: false
+    }
+    let ending9 = {
+        name: "You Are the Church",
+        description: "This is a description.",
+        type:"???",
+        achieved: false
+    }
+    let ending10 = {
+        name: "It Has Been a Long, Long Night",
+        description: "This is a description.",
+        type:"Good",
+        achieved: false
+    }
+    const EndingsList = [
+        ending1,
+        ending2,
+        ending3,
+        ending4,
+        ending5,
+        ending6,
+        ending7,
+        ending8,
+        ending9,
+        ending10,
+    ]
+
+    let EndingsAchieved = window.localStorage.getItem('save-endings')
 
     // Global tags - those at the top of the ink file
     // We support:
@@ -57,6 +123,7 @@
 
     var storyContainer = document.querySelector('#story');
     var optionsContainer = document.getElementById('Options Menu');
+    var endingsContainer = document.getElementById('Endings Menu');
     
     //Main Contatiner that holds past text
     var pastTextContainer;
@@ -81,7 +148,7 @@
     // page features setup
     setupTheme(globalTagTheme);
     var hasSave = loadSavePoint();
-    setupButtons(hasSave);
+    setupButtons();
     setUpFooter();
 
     // Set initial save point
@@ -93,8 +160,6 @@
     // Main story processing function. Each time this is called it generates
     // all the next content up as far as the next set of choices.
     function continueStory(firstTime) {
-        console.log(hasSave)
-        console.log(firstTime)
         var delay = 200.0;
         DelayNextText = 0;
         replace_text = "";
@@ -108,7 +173,6 @@
 
         if (pastTextContainer == null && document.getElementById('All_Text') != pastTextContainer)
         {
-            console.log("getting all text")
             pastTextContainer = document.getElementById('All_Text');
         }
 
@@ -136,6 +200,21 @@
                     DelayNextText = (splitTag.val * 1000) + 1000;
                 }
 
+                //ENDING: name
+                if(splitTag && splitTag.property == "ENDING")
+                {
+                    for (let i = 0; i < EndingsList.length; i++) {
+                        if (splitTag.val == EndingsList[i].name)
+                        {
+                            EndingsAchieved[i] = true;
+                            break;
+                        }
+                    }
+
+                    window.localStorage.setItem('save-endings', JSON.stringify(EndingsAchieved))   
+                    setupEndings()
+                }
+
                 // PLAY: src (assumes no looping, fade in or out)
                 // PLAY: src, fade in
                 if( splitTag && splitTag.property == "PLAY" ) {
@@ -154,7 +233,11 @@
                         PlayOrStopAudio (AudioList[sound], true, fadeIn);          
                     }
                     else //otherwise, just play the oneshot
-                        PlayOrStopAudio (AudioList[sound], true, 0);
+                    {
+                        audioTest.play();
+                        audioTest2.play();
+
+                    }
                 }
 
                 //TODO
@@ -267,14 +350,17 @@
                 // TEXTBOX: class
                 // Effects the text box specifically
                 else if( splitTag && splitTag.property == "TEXTBOX" ) {
-                    console.log("here")
+                    if (dim !== "false")
+                    {    
                         document.getElementById("Current_Text").classList.add(splitTag.val);
                         document.getElementById('All_Text').classList.add(splitTag.val);
-                }
+                    }
+            }
 
                 // CLASS: className
                 // Effects the text
                 else if( splitTag && splitTag.property == "CLASS" ) {
+                    if (shake !== "false")
                         customClasses.push(splitTag.val);
                 }
 
@@ -296,25 +382,21 @@
 
             if (pastTextContainer == null)
             {
-                console.log("no text boxes")
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
                 paragraphElement.setAttribute("id", "All_Text");
 
                 scrollPage(delay, paragraphElement, false);
                 if (hasSave && firstTime && story.currentChoices.length <= 0)
                 {
-                    console.log("here")
                     paragraphElement.addEventListener("click", OnClickOneTimeEvent);                    
                 }
             }
             else if (document.getElementById('All_Text') && !document.getElementById('Current_Text'))
             {
-                console.log("adding current text boxes")
                 //removing css from the all_text
                 const temp = document.getElementById('All_Text').firstChild;
                 if (temp && temp.classList.length > 0)
                 {
-                    console.log(temp)
                     if (temp.innerHTML != "")
                     {
                         temp.classList.remove("fadeInBottom")
@@ -332,7 +414,6 @@
             }
             else 
             {
-                console.log("all text boxes made")
                 //all text boxes exist, now populate
                 const box = document.getElementById("Current_Text")
                 paragraphElement = box.firstChild
@@ -395,8 +476,6 @@
                     audio.fade(0, 1, fade, id); 
                 }
                 else { 
-                    console.log(fade)
-
                     var id = audio.play(); 
                     audio.fade(1, 0, fade, id); 
                 }
@@ -650,7 +729,7 @@
         pastTextContainer = null;
 
         // set save point to here
-        savePoint = story.state.toJson();
+        savePoint = story.state.toJson();        
 
         story.ResetState();
 
@@ -671,6 +750,8 @@
     
         removeAll(".choice");
         
+        openOptions(false);
+        storyContainer.classList.remove("hide")
     }
 
     function ClickReplaceText(paragraph)
@@ -861,7 +942,6 @@
         try {
             let savedState = window.localStorage.getItem('save-state');
             if (savedState) {
-                console.log(story.state.LoadJson(savedState));
                 return true;
             }
         } catch (e) {
@@ -893,14 +973,27 @@
     function openOptions(visible)
     {
         if (visible)
-            optionsContainer.classList.remove("hidden")
+        {
+            optionsContainer.classList.remove("hidden");
+            endingsContainer.classList.add("hidden");
+        }
         else
-            optionsContainer.classList.add("hidden")
+            optionsContainer.classList.add("hidden");
+    }
 
+    function openEndings(visible)
+    {
+        if (visible)
+        {
+            endingsContainer.classList.remove("hidden");
+            optionsContainer.classList.add("hidden");
+        }
+        else
+            endingsContainer.classList.add("hidden");
     }
 
     // Used to hook up the functionality for global functionality buttons
-    function setupButtons(hasSave) {
+    function setupButtons() {
 
         let rewindEl = document.getElementById("rewind");
         if (rewindEl) rewindEl.addEventListener("click", function(event) {
@@ -913,57 +1006,205 @@
         let optionsEl = document.getElementById("options");
 
         if (optionsEl) optionsEl.addEventListener("click", function(event) {
-            if (storyContainer.classList.contains("hidden"))
+            if (storyContainer.classList.contains("hide") && !optionsContainer.classList.contains("hidden"))
             {
-                storyContainer.classList.remove("hidden")
+                storyContainer.classList.remove("hide")
                 openOptions(false);
+
+                if (document.getElementById("Current_Text"))
+                    scrollDown(contentBottomEdgeY());
+                else
+                    scrollDown(0);                
             }
             else
             {
-                storyContainer.classList.add("hidden")
+                storyContainer.classList.add("hide")
                 openOptions(true);
             }
             
         });
 
-        // let saveEl = document.getElementById("save");
-        // if (saveEl) saveEl.addEventListener("click", function(event) {
-        //     try {
-        //         window.localStorage.setItem('save-state', savePoint);
-        //         document.getElementById("reload").removeAttribute("disabled");
-        //         // window.localStorage.setItem('theme', document.body.classList.contains("dark") ? "dark" : "");
-        //     } catch (e) {
-        //         console.warn("Couldn't save state");
-        //     }
+        let endingsEl = document.getElementById("endings");
 
-        // });
+        if (endingsEl) endingsEl.addEventListener("click", function(event) {
+            if (storyContainer.classList.contains("hide") && !endingsContainer.classList.contains("hidden"))
+            {
+                storyContainer.classList.remove("hide")
+                openEndings(false);
 
-        // let reloadEl = document.getElementById("reload");
-        // if (!hasSave) {
-        //     reloadEl.setAttribute("disabled", "disabled");
-        // }
-        // reloadEl.addEventListener("click", function(event) {
-        //     if (reloadEl.getAttribute("disabled"))
-        //         return;
-
-        //     removeAll("p");
-        //     removeAll("img");
+                if (document.getElementById("Current_Text"))
+                    scrollDown(contentBottomEdgeY());
+                else
+                    scrollDown(0);
+                
+            }
+            else
+            {
+                storyContainer.classList.add("hide")
+                openEndings(true);
+            }
             
-        //     try {
-        //         let savedState = window.localStorage.getItem('save-state');
-        //         if (savedState) story.state.LoadJson(savedState);
-        //     } catch (e) {
-        //         console.debug("Couldn't load save state");
-        //     }
+        });
 
-        //    OnRestartOrLoad();
-        // });
+        setupMute()
+        setupShake()
+        setupDimmable()
+        setupVolume()
+        setupEndings()
+    }
 
-        // let themeSwitchEl = document.getElementById("theme-switch");
-        // if (themeSwitchEl) themeSwitchEl.addEventListener("click", function(event) {
-        //     document.body.classList.add("switched");
-        //     document.body.classList.toggle("dark");
-        // });
+    function setupEndings()
+    {
+        try {         
+            if (EndingsAchieved) {
+                if (typeof(EndingsAchieved) == "string")
+                    EndingsAchieved = JSON.parse(EndingsAchieved);
+
+                for (let i = 0; i < EndingsList.length; i++) {
+                    
+                    EndingsList[i].achieved = EndingsAchieved[i];
+                    
+                }
+            }
+            else
+            {
+                EndingsAchieved = [false, false, false, false, false, false, false, false, false, false]
+                window.localStorage.setItem('save-endings', JSON.stringify(EndingsAchieved))   
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+        let children = document.getElementById("Endings Menu").querySelectorAll("div");
+        if (children)
+        {
+            for (let i = 1; i < children.length; i++) {
+                if (EndingsList[i-1].achieved)
+                    children[i].innerHTML = `${EndingsList[i-1].type} Ending: ${EndingsList[i-1].name}<br>${EndingsList[i-1].description}`
+                else
+                    children[i].innerHTML = "Hidden Ending"
+            }
+        }
+        
+
+    }
+
+    function setupVolume()
+    {
+        let element = document.getElementById("Volume_Button");
+
+        try {            
+            if (volume) {
+                element.value = volume
+                document.getElementById("rangeValue").innerHTML = volume;
+            }
+        } catch (e) {
+            console.debug("Couldn't load save state");
+        }
+
+        element.addEventListener("change", function(event) {
+            let value = element.value;
+            window.localStorage.setItem('save-volume', value);
+        });
+    }
+
+    function setupMute()
+    {
+        let element = document.getElementById("Mute_Button");
+
+        console.log(typeof(mute))
+        try {
+            if (typeof(mute) === "string") {
+                element.setAttribute("status", mute)
+                element.innerHTML = (mute === "false") ? "Audio not Muted" : "Audio Muted"
+
+            }
+            else
+            {
+                element.setAttribute("status", false)
+                window.localStorage.setItem('save-mute', element.getAttribute("status"));
+            }
+        } catch (e) {
+            console.debug("Couldn't load save state");
+        }
+
+        element.addEventListener("click", function(event) {
+
+            var status = (element.getAttribute("status") === "true")
+            if (!status)
+            {
+                element.setAttribute("status", true)
+                element.innerHTML = "Audio Muted"
+            }
+            else
+            {
+                element.setAttribute("status", false)
+                element.innerHTML = "Audio not Muted"
+            }
+
+            window.localStorage.setItem('save-mute', element.getAttribute("status"));            
+        });
+    }
+
+    function setupShake()
+    {
+        let element = document.getElementById("Shake_Button");
+
+            try {
+                if (typeof(shake) === "string") {
+                    element.setAttribute("status", shake)
+                    element.innerHTML = (shake === "false") ? "Text Shake: OFF" : "Text Shake: ON"
+
+            }
+        } catch (e) {
+            console.debug("Couldn't load save state");
+        }
+
+        element.addEventListener("click", function(event) {
+            var status = (element.getAttribute("status") === "true")
+            if (!status)
+            {
+                element.setAttribute("status", true)
+                element.innerHTML = "Text Shake: ON"
+            }
+            else
+            {
+                element.setAttribute("status", false)
+                element.innerHTML = "Text Shake: OFF"
+            }
+            
+            window.localStorage.setItem('save-shake', element.getAttribute("status"));       
+        });
+    }
+
+    function setupDimmable()
+    {
+        let element = document.getElementById("Dimmable_Button");
+
+        try {
+            if (typeof(dim) === "string") {
+                element.setAttribute("status", dim)
+                element.innerHTML = (dim === "false") ? "Text Effects: OFF" : "Text Effects: ON"
+            }
+        } catch (e) {
+            console.debug("Couldn't load save state");
+        }
+
+        element.addEventListener("click", function(event) {
+            var status = (element.getAttribute("status") === "true")
+            if (!status)
+                {
+                    element.setAttribute("status", true)
+                    element.innerHTML = "Text Effects: ON"
+                }
+                else
+                {
+                    element.setAttribute("status", false)
+                    element.innerHTML = "Text Effects: OFF"
+                }
+            
+            window.localStorage.setItem('save-dim', element.getAttribute("status"));       
+        });
     }
 
 })(storyContent);

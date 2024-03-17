@@ -616,6 +616,7 @@ You push yourself harder{temp_string}. The door is so close. <i>You're</i> so cl
 
         "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
 
+        #ENDING: Crushed
         Hoping. Praying.
 
         *[But it's no use.]
@@ -861,14 +862,14 @@ They begin to sing, hands out streached for you to take. The music flows through
 
 *[Take their hands.]
 
-- 
+- #ENDING: Finding Peace
 *[And find peace.]
 ->Credits
 
 = Leave
 *[It has been a long night.]
 
-- 
+- #ENDING: It Has Been a Long, Long Night
 *[And you deserve a very long, vey hot, bath.]
 ->Credits
 
@@ -1044,7 +1045,9 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 
 *[Your skin burns.]
 
-- You keep going, desperatly trying to escape. $[You can't feel your hand anymore.] You trip over yourself, and fall into puddle of the acidic ooze. $[You can't feel your legs.]
+- 
+#ENDING: Melted
+You keep going, desperatly trying to escape. $[You can't feel your hand anymore.] You trip over yourself, and fall into puddle of the acidic ooze. $[You can't feel your legs.]
 
 *[You can't feel anything.]
 ->Credits
