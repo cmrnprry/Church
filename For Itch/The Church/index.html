@@ -29,18 +29,21 @@
                     <input id="Volume_Button" title="Volume slider" type="range" min="0" max="100" value="50" oninput="rangeValue.innerText = this.value">
                     <p id="rangeValue">50</p>   
                 </div>
-                <div id="Mute_Button" title="Mute all volume" status="off" class="options_button">
+                <div id="Mute_Button" title="Mute all volume" status=false class="options_button">
                     Mute
                 </div>
             </div>
             <div class="option_text">
                 <br>
                 <h1>Text Effects</h1><br>
-                <div id="Shake_Button" title="Turn off all text movement." status="on" class="options_button">
+                <div id="Shake_Button" title="Turn off all text movement." status=true class="options_button">
                     Text Shake: ON
                 </div>
-                <div id="Dimmable_Button" title="Turn off all visual effects to text boxes." status="on" class="options_button">
+                <div id="Dimmable_Button" title="Turn off all visual effects to text boxes." status=true class="options_button">
                     Text Effects: ON
+                </div>
+                <div id="Scroll_Button" title="Auto scrolls the main page." status=true class="options_button">
+                    Auto Scroll Page: ON
                 </div>
             </div>
         </div>
@@ -57,11 +60,15 @@
             <div class="ending10">Good Ending: It Has Been a Long, Long Night</div>
             <div class="ending11">???? Ending: You Are the Church</div>
         </div>
+
+        <div class="header">
+            <h1>The Church</h1>
+            <h2 class="byline"></h2>
+        </div>
+        <img id="Background Image" src="" alt="Image" class="hidden" />
+
         <div id="story" class="container">
-            <div class="header">
-                <h1>The Church</h1>
-                <h2 class="byline"></h2>
-            </div>
+            
             <div id="Flashlight_Button" class="footer hide">
                 Flashlight: Turn on
             </div>

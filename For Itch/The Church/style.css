@@ -148,6 +148,8 @@ h2 {
     padding-bottom: 4em;
     height: max-content;
     background: #222222;
+    margin-top: -65px;
+    margin-bottom: 250px;
 }
 
 .switched .container {
@@ -175,9 +177,12 @@ strong {
 }
 
 img {
-    display: block;
+    max-width: 50%;
+    height: auto;
+    display: table;
     margin: 0 auto;
-    max-width: 100%;
+    position: relative;
+    border-radius: 8px;
 }
 
 .container .hide {
@@ -342,7 +347,10 @@ img {
     .ending10 { grid-area: 10 / 1 / 11 / 2; }
     .ending11 { grid-area: 11 / 1 / 12 / 2; }
 
-
+.scrolling {
+    max-height: 150px;
+    overflow-y: auto;
+}
 .text_container {
     font-size: 13pt;
     color: #222222;
@@ -351,8 +359,8 @@ img {
     font-weight: lighter;
     border: 2px solid #3f1313;
     border-radius: 8px;
-    padding: 15px;
-    margin: 10px;
+    padding: 10px;
+    margin: 5px;
 
 }
 

@@ -6,19 +6,18 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-The Church at the End of the Street<br><br><i>This game will autosave your progress. Using the restart button will rest your game and save. <br><br> Closing the window will reset any progress.</i>
+<i>This game will autosave your progress. Using the restart button will rest your game and save. <br><br> Closing the window will reset any progress.</i>
 
-*[Start Game] ->Start
-*[Credits] ->Credits
-* [Testing]
++ [Start Game] ->Start
++ [Credits] ->Credits
++ [Content Warnings] ->Content_Warnings
++ [Testing]
 
 - ewbsuiff
 
-#PLAY: meow
-Ending 2013
+#IMAGE: BusStop
+Playing meow
 
-#TEXTBOX: text_container_Dark
-Ending a'silent
 
 
 === Start ====
@@ -1527,15 +1526,18 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> Credits
 
 === Credits
-Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninaksketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid<br><br>Howler (used for audio) Copyright (c) 2013-2021 James Simpson and GoldFire Studios, Inc.
+<h1>Credits</h1><br>Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid
 
-+[Start Game] ->Start
-+[Credits] ->Credits
-
-
++ [Start Game] ->Start
++ [Content Warnings] ->Content_Warnings
 
 
 
+=== Content_Warnings
+<h1>Content Warnings</h1><br><ul><li>Mild gore / dead body descriptions</li><br><li>General Christan/Catholic discomfort</li><br><li>General violence towards player/blood/bodily fluids mention. All through text</li><br><li>Potential child harm/child in distress where player is unable to help</li><br><li>Some demeaning speech yelled at the player from a male character</li></ul>
+
++ [Start Game] ->Start
++ [Credits] ->Credits
 
 
 

@@ -11,19 +11,84 @@
     let globalTagTheme;
     let hasFlashlight = false;
 
+    //IMAGES
+    let BackgroundImage = document.getElementById("Background Image")
+
     //OPTIONS VARIABLES
     let volume = window.localStorage.getItem('save-volume')
     let mute = window.localStorage.getItem('save-mute')
     let shake = window.localStorage.getItem('save-shake')
     let dim = window.localStorage.getItem('save-dim')
+    let scroll = window.localStorage.getItem('save-scroll')
 
     //HUGE LIST OF AUDIO OBJECTS FOR ALL OUR AUDIO
-    var audioTest = new Audio('./Audio/cat-meow.ogg')
-    var audioTest2 = new Audio('./Audio/crowbar-break.ogg')
+    let bus_ambience = new Audio('./Audio/ambience-bussy.ogg')
+    let office_ambience = new Audio('./Audio/ambience-office.ogg')
+    let bang_confessional = new Audio('./Audio/bang-wood-confession.ogg')
+    let bang_normal = new Audio('./Audio/bang-wood-door.ogg')
+    let bang_short = new Audio('./Audio/bang-wood-door-short.ogg')
+    let meow = new Audio('./Audio/cat-meow.ogg')
+    let crowbar_break = new Audio('./Audio/crowbar-break.ogg')
+    let curtain = new Audio('./Audio/curtain-opening.ogg')
+    let door_slam = new Audio('./Audio/door-slam.ogg')
+    let dor_thud = new Audio('./Audio/door-thud.ogg')
+    let email_ding = new Audio('./Audio/email-ding.ogg')
+    let flashlight_off = new Audio('./Audio/flashlight-off.ogg')
+    let flashlight_on = new Audio('./Audio/flashlight-on.ogg')
+    let footsteps_player = new Audio('./Audio/footsteps-player.ogg')
+    let footsteps_child_grass = new Audio('./Audio/footsteps-running-grass-child-barefoot.ogg')
+    let footsteps_scary = new Audio('./Audio/footsteps-spooky-v2.ogg')
+    let footsteps_squishy = new Audio('./Audio/footsteps-squishy.ogg')
+    let gate_close = new Audio('./Audio/gate-close.ogg')
+    let gate_open = new Audio('./Audio/gate-open.ogg')
+    let groaning_angry = new Audio('./Audio/groaning-angry.ogg')
+    let groaning_happy = new Audio('./Audio/groaning-happy.ogg')
+    let groaning_normal = new Audio('./Audio/groaning-normal.ogg')
+    let honk = new Audio('./Audio/honk.ogg')
+    let knocking = new Audio('./Audio/knocking.ogg')
+    let leak = new Audio('./Audio/leak.ogg')
+    let lock_rattle = new Audio('./Audio/lock-rattle.ogg')
+    let running_pavement = new Audio('./Audio/run-pavement-sneaker.ogg')
+    let scanner = new Audio('./Audio/scan-documents.ogg')
+    let screeching = new Audio('./Audio/screeching-short.ogg')
+    let screw_fall_1 = new Audio('./Audio/screw-fall-to-floor-1.ogg')
+    let screw_fall_2 = new Audio('./Audio/screw-fall-to-floor-2.ogg')
+    let walking_wast_pavement = new Audio('./Audio/walk-fast-pavement-sneaker.ogg')
 
-    //AUDIO LIST
+    // //AUDIO LIST
     const  AudioList = {
-        "cat_meow": cat_meow
+        "bus_ambience" : bus_ambience,
+        "office_ambience" : office_ambience,
+        "bang_confessional" : bang_confessional,
+        "bang_normal" : bang_normal,
+        "bang_short" : bang_short,
+        "meow" : meow,
+        "crowbar_break" : crowbar_break,
+        "curtain" : curtain,
+        "door_slam" : door_slam,
+        "door_thud" : dor_thud,
+        "email_ding" : email_ding,
+        "flashlight_off" : flashlight_off,
+        "flashlight_on" : flashlight_on,
+        "footsteps_player" : footsteps_player,
+        "footsteps_child_grass" : footsteps_child_grass,
+        "footsteps_scary" : footsteps_scary,
+        "footsteps_squishy" : footsteps_squishy,
+        "gate_close" : gate_close,
+        "gate_open" : gate_open,
+        "groaning_angry" : groaning_angry,
+        "groaning_happy" : groaning_happy,
+        "groaning_normal" : groaning_normal,
+        "honk" : honk,
+        "knocking" : knocking,
+        "leak" : leak,
+        "lock_rattle" : lock_rattle,
+        "running_pavement" : running_pavement,
+        "scanner" : scanner,
+        "screeching" : screeching,
+        "screw_fall_1" : screw_fall_1,
+        "screw_fall_2" : screw_fall_2,
+        "walking_wast_pavement" : walking_wast_pavement
     }
 
     //ENDINGS
@@ -169,7 +234,7 @@
             delay = 500.0;
 
         // Don't over-scroll past new content
-        var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY();
+        var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY(outerScrollContainer);
 
         if (pastTextContainer == null && document.getElementById('All_Text') != pastTextContainer)
         {
@@ -216,50 +281,54 @@
                 }
 
                 // PLAY: src (assumes no looping, fade in or out)
-                // PLAY: src, fade in
+                // PLAY: src, loop, fade in
+                // PLAY: src, loop, fade in, delay
                 if( splitTag && splitTag.property == "PLAY" ) {
                     
                     // Check if we need to delay or fade in the audio
                     var array;
                     var sound = splitTag.val;
+                    var fade = 0.5;
+                    var delay = 500;
+                    var loop = false;
 
-                    if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                    if (mute === "false")
                     {
-                        array = splitTag.val.split(", ")
+                        if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                        {
+                            array = splitTag.val.split(", ")
 
-                        sound = array[0];
-                        var fadeIn = array[1] * 1000;
+                            sound = array[0];
+                            loop = array[1]                       
+                            fade = 30 / (array[2] * 1000);
+                            delay  = (array.length > 3) ? array[3] : 500     
+                        }
 
-                        PlayOrStopAudio (AudioList[sound], true, fadeIn);          
-                    }
-                    else //otherwise, just play the oneshot
-                    {
-                        audioTest.play();
-                        audioTest2.play();
-
-                    }
+                        if (AudioList[sound])
+                        PlayAudio (AudioList[sound], loop, fade, delay);   
+                    } 
                 }
 
-                //TODO
                 // STOP: src
-                // STOP: src, delay, fade out
+                // STOP: src, fade out
+                // STOP: src, fade out, delay
                 else if( splitTag && splitTag.property == "STOP" ) {
                     // Check if we need to delay or fade in the audio
                     var array;
                     var sound = splitTag.val;
+                    var fade = 0.5;
+                    var delay = 500;
 
                     if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
                     {
-                        
                         array = splitTag.val.split(", ")
+
                         sound = array[0];
-                        var fadeOut = array[1] * 1000;
-                        
-                        PlayOrStopAudio (AudioList[sound], false, fadeOut);
-                    }                    
-                    else //otherwise, just play the oneshot
-                        PlayOrStopAudio (AudioList[sound], false, 0);
-                   
+                        fade = 30 / (array[1] * 1000);                        
+                        delay  = (array.length > 2) ? array[2] * 1000 : 500     
+                    }
+
+                    StopAudio (AudioList[sound], fade, delay);                   
                 }
 
                 //CYCLE: style, [word list]
@@ -293,12 +362,8 @@
 
                 // IMAGE: src
                 if( splitTag && splitTag.property == "IMAGE" ) {
-                    var imageElement = document.createElement('img');
-                    imageElement.src = splitTag.val;
-                    storyContainer.appendChild(imageElement);
-
-                    scrollPage(delay, imageElement, false);
-                    delay += 5000.0;
+                    
+                    BackgroundImage.src = `./Images/Backgrounds/${splitTag.val}.png`;
                 }
 
                 if( splitTag && splitTag.property == "EFFECT" ) {
@@ -384,6 +449,7 @@
             {
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
                 paragraphElement.setAttribute("id", "All_Text");
+                paragraphElement.classList.add("scrolling")
 
                 scrollPage(delay, paragraphElement, false);
                 if (hasSave && firstTime && story.currentChoices.length <= 0)
@@ -437,8 +503,11 @@
                     
                 }
                 
-                displayText(paragraphText, paragraphElement, customClasses, 500);                
+                displayText(paragraphText, paragraphElement, customClasses, 500);
                 scrollPage(delay, paragraphElement, true);
+
+                if (story.currentChoices.length <= 0)
+                    setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 750);
             }
 
             if (replace_text != "") ClickReplaceText(paragraphElement);
@@ -455,34 +524,81 @@
             setTimeout(function() { CreateChoices(); }, delay);
         }
 
-        // Extend height to fit
-        // We do this manually so that removing elements and creating new ones doesn't
-        // cause the height (and therefore scroll) to jump backwards temporarily.
-        storyContainer.style.height = contentBottomEdgeY()+"px";
-
         if( !firstTime )
-            scrollDown(previousBottomEdge);
+            setTimeout(function() { scrollDown(previousBottomEdge, outerScrollContainer); }, 750);
 
     }
 
-    function PlayOrStopAudio(audio, shouldPlay, fade)
+    function PlayAudio(audio, loop, fade, delay)
     {
         if (audio)
         {
             setTimeout(function() { 
-                
-                if (shouldPlay) { 
-                    var id = audio.play(); 
-                    audio.fade(0, 1, fade, id); 
+                if (loop)
+                {
+                    audio.loop = true;
+                    audio.addEventListener("ended", function(){
+                        audio.currentTime = 0;
+                        audio.play();
+                    })
                 }
-                else { 
-                    var id = audio.play(); 
-                    audio.fade(1, 0, fade, id); 
+                    
+                if (fade > 0)
+                {  
+                    audio.volume = 0
+                    nIntervId = setInterval(fadeIn, 30, audio, fade);
                 }
-            }, 500);
+
+                audio.play();
+            }, delay);
         }
         else
             console.error("Audio Error. Could not find: " + audio)
+    }
+
+    function StopAudio(audio, fade, delay)
+    {
+        if (audio)
+        {
+            setTimeout(function() {
+                if (fade > 0)
+                {
+                    audio.volume = parseInt(volume) / 100;
+                    nIntervId = setInterval(fadeOut, 30, audio, fade);
+                }
+                    
+                else
+                {
+                    audio.pause();
+                    audio.currentTime = 0;
+                }
+                    
+            }, delay);
+        }
+        else
+            console.error("Audio Error. Could not find: " + audio)
+    }
+
+    function fadeIn(audio, delta) {
+        var currentVolume = parseInt(volume) / 100
+	    if((audio.volume < (currentVolume)) && (audio.volume + delta < 1)){
+   		    audio.volume += delta;
+        }else{
+    	    audio.volume = currentVolume;
+            clearInterval(nIntervId)
+            nIntervId = null;
+        }
+    }
+
+    function fadeOut(audio, delta) {
+	    if((audio.volume > (0)) && (audio.volume - delta > 0)){
+   		    audio.volume -= delta;
+        }else{
+    	    audio.volume = 0;
+            audio.pause();
+            clearInterval(nIntervId)
+            nIntervId = null;
+        }
     }
 
     function OnClickCycle(event)
@@ -624,7 +740,6 @@
 
             // scroll after the choices are visible
             scrollPage(200, choiceParagraphElement, true);
-
             // Click on choice
             var choiceAnchorEl = choiceParagraphElement.querySelectorAll("a")[0];
 
@@ -667,6 +782,8 @@
                 else continueStory(true)
             });
         });
+
+        setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 500);
     }
 
     function ClickReplaceChoiceText(event)
@@ -760,27 +877,6 @@
         replaceParagraph.addEventListener("click", OnChoiceReplaceEvent );
     }
 
-    function fadeIn(audio, delta) {
-	    if(audio.volume < (1 - delta)){
-   		    audio.volume += delta;
-        }else{
-    	    audio.volume = 1;
-            clearInterval(nIntervId)
-            nIntervId = null;
-        }
-    }
-
-    function fadeOut(audio, delta) {
-	    if(audio.volume > (0 + delta)){
-   		    audio.volume -= delta;
-        }else{
-    	    audio.volume = 0;
-            audio.pause();
-            clearInterval(nIntervId)
-            nIntervId = null;
-        }
-    }
-
     // -----------------------------------
     // Various Helper functions
     // -----------------------------------
@@ -848,7 +944,7 @@
     }
 
     async function deleteAfter (el, isChoice) {
-        el.innerHTML = "";
+        el.innerHTML = "<br><br>";
         el.removeAttribute("class")
 
         setTimeout(function() { continueStory(isChoice);}, 100);
@@ -859,22 +955,24 @@
         if (!isChoice)
             setTimeout(function() { textContainer.appendChild(el); }, delay);
 
-        setTimeout(function() { storyContainer.style.height = contentBottomEdgeY()+"px"; }, delay);
-        setTimeout(function() { scrollDown(contentBottomEdgeY()); }, delay);
+        var element = (document.getElementById('All_Text')) ? document.getElementById('All_Text') : el
+        setTimeout(function() { scrollDown(contentBottomEdgeY(element), element); }, 50);
     }
 
     // Scrolls the page down, but no further than the bottom edge of what you could
     // see previously, so it doesn't go too far.
-    function scrollDown(previousBottomEdge) {
+    function scrollDown(previousBottomEdge, element) {
+        if (scroll === "false" && element.id != "All_Text")
+            return;
 
         // Line up top of screen with the bottom of where the previous content ended
         var target = previousBottomEdge;
         // Can't go further than the very bottom of the page
-        var limit = outerScrollContainer.scrollHeight - outerScrollContainer.clientHeight;
+        var limit = element.scrollHeight - element.clientHeight;
 
         if( target > limit ) target = limit;
 
-        var start = outerScrollContainer.scrollTop;
+        var start = element.scrollTop;
         var dist = target - start;
         var duration = 300 + 300*dist/100;
         var startTime = null;
@@ -882,7 +980,7 @@
             if( startTime == null ) startTime = time;
             var t = (time-startTime) / duration;
             var lerp = 3*t*t - 2*t*t*t; // ease in/out
-            outerScrollContainer.scrollTo(0, (1.0-lerp)*start + lerp*target);
+            element.scrollTo(0, (1.0-lerp)*start + lerp*target);
             if( t < 1 ) requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
@@ -890,8 +988,9 @@
 
     // The Y coordinate of the bottom end of all the story content, used
     // for growing the container, and deciding how far to scroll.
-    function contentBottomEdgeY() {
-        var bottomElement = storyContainer.lastElementChild;
+    function contentBottomEdgeY(element) {
+        console.log(element)
+        var bottomElement = (element.lastElementChild) ? element.lastElementChild : element ;
         return bottomElement ? bottomElement.offsetTop + bottomElement.offsetHeight:0;// + textContainer.offsetHeight : 0;
     }
 
@@ -1012,9 +1111,9 @@
                 openOptions(false);
 
                 if (document.getElementById("Current_Text"))
-                    scrollDown(contentBottomEdgeY());
+                    setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 750);
                 else
-                    scrollDown(0);                
+                    setTimeout(function() { scrollDown(0, outerScrollContainer); }, 750);              
             }
             else
             {
@@ -1033,9 +1132,9 @@
                 openEndings(false);
 
                 if (document.getElementById("Current_Text"))
-                    scrollDown(contentBottomEdgeY());
+                    setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 750);
                 else
-                    scrollDown(0);
+                    setTimeout(function() { scrollDown(0, outerScrollContainer); }, 750);     
                 
             }
             else
@@ -1051,6 +1150,7 @@
         setupDimmable()
         setupVolume()
         setupEndings()
+        setupScroll()
     }
 
     function setupEndings()
@@ -1105,6 +1205,9 @@
         element.addEventListener("change", function(event) {
             let value = element.value;
             window.localStorage.setItem('save-volume', value);
+            volume = window.localStorage.getItem('save-volume')
+
+            onVolumeChange();
         });
     }
 
@@ -1139,23 +1242,76 @@
             else
             {
                 element.setAttribute("status", false)
+                
                 element.innerHTML = "Audio not Muted"
             }
-
-            window.localStorage.setItem('save-mute', element.getAttribute("status"));            
+            
+            window.localStorage.setItem('save-mute', element.getAttribute("status"));
+            mute = window.localStorage.getItem('save-mute')
+            onVolumeChange()  
         });
     }
+
+    function onVolumeChange()
+    {
+        if (mute === "true")        
+            for (const [key] of Object.entries(AudioList))
+            {
+                AudioList[key].volume = 0;
+            }
+        
+        else
+            for (const [key] of Object.entries(AudioList))
+            {
+                let newVolume = parseInt(volume) / 100;
+                AudioList[key].volume = newVolume;
+            }
+    }
+
+    function setupScroll()
+    {
+        let element = document.getElementById("Scroll_Button");
+
+        try {
+            if (typeof(scroll) === "string") {
+                element.setAttribute("status", scroll)
+                element.innerHTML = (scroll === "false") ? "Auto Scroll Page: OFF" : "Auto Scroll Page: ON"
+
+        }
+        } catch (e) {
+            console.debug("Couldn't load save state");
+        }
+
+        element.addEventListener("click", function(event) {
+            var status = (element.getAttribute("status") === "true")
+            if (!status)
+            {
+                element.setAttribute("status", true)
+                element.innerHTML = "Auto Scroll Page: ON"
+            }
+            else
+            {
+                element.setAttribute("status", false)
+                element.innerHTML = "Auto Scroll Page: OFF"
+            }
+            
+            window.localStorage.setItem('save-scroll', element.getAttribute("status")); 
+            scroll = window.localStorage.getItem('save-scroll')    
+        });
+    }
+
+
 
     function setupShake()
     {
         let element = document.getElementById("Shake_Button");
 
-            try {
-                if (typeof(shake) === "string") {
-                    element.setAttribute("status", shake)
-                    element.innerHTML = (shake === "false") ? "Text Shake: OFF" : "Text Shake: ON"
+        try {
+            if (typeof(shake) === "string") {
+                element.setAttribute("status", shake)
+                element.innerHTML = (shake === "false") ? "Text Shake: OFF" : "Text Shake: ON"
 
-            }
+        }
         } catch (e) {
             console.debug("Couldn't load save state");
         }
@@ -1173,7 +1329,8 @@
                 element.innerHTML = "Text Shake: OFF"
             }
             
-            window.localStorage.setItem('save-shake', element.getAttribute("status"));       
+            window.localStorage.setItem('save-shake', element.getAttribute("status")); 
+            shake = window.localStorage.getItem('save-shake')      
         });
     }
 
@@ -1203,7 +1360,8 @@
                     element.innerHTML = "Text Effects: OFF"
                 }
             
-            window.localStorage.setItem('save-dim', element.getAttribute("status"));       
+            window.localStorage.setItem('save-dim', element.getAttribute("status"));
+            dim = window.localStorage.getItem('save-dim')    
         });
     }
 
