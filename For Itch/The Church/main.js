@@ -3,7 +3,7 @@
     // Create ink story from the content using inkjs
     var story = new inkjs.Story(storyContent);
 
-    var savePoint = "";
+    let savePoint = "";
     var nIntervId;
     let textInerval;
 
@@ -20,6 +20,9 @@
     let shake = window.localStorage.getItem('save-shake')
     let dim = window.localStorage.getItem('save-dim')
     let scroll = window.localStorage.getItem('save-scroll')
+
+    //HISTORY VARIABLE
+    let history = window.localStorage.getItem('save-history') == null ? "" : window.localStorage.getItem('save-history')
 
     //HUGE LIST OF AUDIO OBJECTS FOR ALL OUR AUDIO
     let bus_ambience = new Audio('./Audio/ambience-bussy.ogg')
@@ -167,28 +170,10 @@
 
     let EndingsAchieved = window.localStorage.getItem('save-endings')
 
-    // Global tags - those at the top of the ink file
-    // We support:
-    //  # theme: dark
-    //  # author: Your Name
-    var globalTags = story.globalTags;
-    globalTagTheme = "dark";
-    if( globalTags ) {
-        for(var i=0; i<story.globalTags.length; i++) {
-            var globalTag = story.globalTags[i];
-            var splitTag = splitPropertyTag(globalTag);
-
-            // author: Your Name
-            if( splitTag && splitTag.property == "author" ) {
-                var byline = document.querySelector('.byline');
-                byline.innerHTML = "by "+splitTag.val;
-            }
-        }
-    }
-
     var storyContainer = document.querySelector('#story');
     var optionsContainer = document.getElementById('Options Menu');
     var endingsContainer = document.getElementById('Endings Menu');
+    var historyContainer = document.getElementById('History Menu');
     
     //Main Contatiner that holds past text
     var pastTextContainer;
@@ -202,7 +187,7 @@
     var outerScrollContainer = document.querySelector('.outerContainer');
 
     let paragraphText = "";
-    var replaceParagraph = null;
+    var replaceParagraph = null; //box that holds all current text
     var replace_text = ""
     let DelayNextText = 0;
     let CyclingText = null;
@@ -211,16 +196,21 @@
 
 
     // page features setup
-    setupTheme(globalTagTheme);
-    var hasSave = loadSavePoint();
     setupButtons();
     setUpFooter();
 
-    // Set initial save point
-    savePoint = story.state.toJson();
+    //BEFORE starting the game, ceck for any save data
+    CheckSave();
 
     // Kick off the start of the story!
     continueStory(true);
+
+    function CheckSave()
+    {
+        if (loadSavePoint())
+            savePoint = window.localStorage.getItem('save-state');
+            story.state.LoadJson(savePoint)
+    }
 
     // Main story processing function. Each time this is called it generates
     // all the next content up as far as the next set of choices.
@@ -231,21 +221,17 @@
         CyclingText = null;
 
         if  (!firstTime)
-            delay = 500.0;
-
-        // Don't over-scroll past new content
-        var previousBottomEdge = firstTime ? 0 : contentBottomEdgeY(outerScrollContainer);
-
-        if (pastTextContainer == null && document.getElementById('All_Text') != pastTextContainer)
         {
-            pastTextContainer = document.getElementById('All_Text');
-        }
+            console.log("new save")
+            delay = 500.0;
+            savePoint = story.state.toJson();
+            window.localStorage.setItem('save-state', savePoint);
+        }        
 
         // Generate story text - loop through available content
         if(story.canContinue) {
             //save on every canContinue
-            savePoint = story.state.toJson();
-            window.localStorage.setItem('save-state', savePoint);
+            
 
             // Get ink to generate the next paragraph
             paragraphText = story.Continue();
@@ -445,69 +431,42 @@
                 }
             }
 
-            if (pastTextContainer == null)
-            {
-                paragraphElement = CreateTextBox(paragraphText, customClasses);
-                paragraphElement.setAttribute("id", "All_Text");
-                paragraphElement.classList.add("scrolling")
-
-                scrollPage(delay, paragraphElement, false);
-                if (hasSave && firstTime && story.currentChoices.length <= 0)
-                {
-                    paragraphElement.addEventListener("click", OnClickOneTimeEvent);                    
-                }
-            }
-            else if (document.getElementById('All_Text') && !document.getElementById('Current_Text'))
-            {
-                //removing css from the all_text
-                const temp = document.getElementById('All_Text').firstChild;
-                if (temp && temp.classList.length > 0)
-                {
-                    if (temp.innerHTML != "")
-                    {
-                        temp.classList.remove("fadeInBottom")
-                        temp.classList.remove("hide")
-                    }
-                    
-                }                
-
+            if (!document.getElementById('Current_Text'))
+            {       
+                console.log("creating text box")
                 //creating the current text box
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
                 paragraphElement.setAttribute("id", "Current_Text")
-                paragraphElement.setAttribute("click_listener", "true")
-                paragraphElement.addEventListener("click", OnClickEvent);
+                paragraphElement.setAttribute("click_listener", "false")
                 scrollPage(delay, paragraphElement, false);
             }
             else 
             {
-                //all text boxes exist, now populate
-                const box = document.getElementById("Current_Text")
-                paragraphElement = box.firstChild
-                
-                //if our last line was delayed, readd our click listener
-                if (box.getAttribute("click_listener") == "false"){
-                    box.addEventListener("click", OnClickEvent);
-                    box.setAttribute("click_listener", "true")
+                console.log("updating text box")
+
+                let childElement = paragraphElement.firstChild
+                //if our last line didn't have the click listener, read our click listener
+                if (paragraphElement.getAttribute("click_listener") == "false"){
+                    paragraphElement.addEventListener("click", OnClickEvent);
+                    paragraphElement.setAttribute("click_listener", "true")
                 }
 
                 //we are delayed, after our delay add the new text and remove the click listener
                 if (DelayNextText > 0)
                 {
-                    box.setAttribute("click_listener", "false")
-                    box.removeEventListener("click", OnClickEvent);
+                    paragraphElement.setAttribute("click_listener", "false")
+                    paragraphElement.removeEventListener("click", OnClickEvent);
                     setTimeout(function() { 
-                        pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+                        history += "<br><br>" + paragraphText;
+                        window.localStorage.setItem('save-history', history)
                         deleteAfter(document.getElementById("Current_Text").firstChild, false);
                     
                     }, DelayNextText);
                     
                 }
                 
-                displayText(paragraphText, paragraphElement, customClasses, 500);
+                displayText(paragraphText, childElement, customClasses, 500);
                 scrollPage(delay, paragraphElement, true);
-
-                if (story.currentChoices.length <= 0)
-                    setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 750);
             }
 
             if (replace_text != "") ClickReplaceText(paragraphElement);
@@ -523,10 +482,6 @@
 
             setTimeout(function() { CreateChoices(); }, delay);
         }
-
-        if( !firstTime )
-            setTimeout(function() { scrollDown(previousBottomEdge, outerScrollContainer); }, 750);
-
     }
 
     function PlayAudio(audio, loop, fade, delay)
@@ -639,7 +594,7 @@
         event.preventDefault();
 
         //add the current text to the big if that contatiner exists
-        if (pastTextContainer != null)
+        if (document.getElementById('Current_Text'))
         {
             if (CyclingText)
             {
@@ -651,7 +606,13 @@
                 CyclingText = null;
             }
 
-            pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;           
+            if (paragraphElement != null)
+            {
+                history += "<br><br>" + paragraphText;
+                window.localStorage.setItem('save-history', history)
+            }
+            
+                   
             deleteAfter(document.getElementById("Current_Text").firstChild, false);
         }
         else continueStory(false)
@@ -774,16 +735,22 @@
                     replaceParagraph = null;
                 }
 
-                if (pastTextContainer != null && choice.text != "Start Game")
+                if (choice.text != "Start Game")
                 {
-                    pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
+                    history += "<br><br>" + paragraphText;
+                    window.localStorage.setItem('save-history', history)
+
                     deleteAfter(document.getElementById("Current_Text").firstChild, true);
                 }
-                else continueStory(true)
+                else 
+                {
+                    history += paragraphText;
+                    window.localStorage.setItem('save-history', history)
+                    continueStory(false)
+                }
             });
         });
 
-        setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 500);
     }
 
     function ClickReplaceChoiceText(event)
@@ -821,22 +788,22 @@
                     pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
                     deleteAfter(document.getElementById("Current_Text").firstChild, true);
                 }
-            else continueStory(true)
+            else continueStory(false)
         });
     }
 
     function CreateTextBox(text, customClasses)
     {
         // Create paragraph element (initially hidden)
-        var paragraphElement = document.createElement('div');
+        var paraElement = document.createElement('div');
         var textElement = document.createElement('p');
-        paragraphElement.appendChild(textElement);
+        paraElement.appendChild(textElement);
 
-        paragraphElement.classList.add("text_container");
-        paragraphElement.classList.add("fadeIn");
+        paraElement.classList.add("text_container");
+        paraElement.classList.add("fadeIn");
         displayText(text, textElement, customClasses, 500);
 
-        return paragraphElement;
+        return paraElement;
     }
 
     function restart() {
@@ -857,9 +824,8 @@
 
     function OnRestartOrLoad()
     {
-        var element = document.getElementById('All_Text')
-        if (element)
-            element.remove()
+        history = ""
+        history = window.localStorage.setItem('save-history', history)
 
         element = document.getElementById('Current_Text')
         if (element)
@@ -916,8 +882,12 @@
     }
 
     function displayText (text, el, customClasses, delay) {
-        el.innerHTML = text;
         el.classList.add("hide")
+        el.classList.remove("fadeInBottom"); 
+        el.classList.remove("fadeOut"); 
+
+        el.innerHTML = text;
+
 
         setTimeout(function() {
 
@@ -944,19 +914,16 @@
     }
 
     async function deleteAfter (el, isChoice) {
-        el.innerHTML = "<br><br>";
         el.removeAttribute("class")
+        el.classList.add("fadeOut")
 
-        setTimeout(function() { continueStory(isChoice);}, 100);
+        setTimeout(function() { continueStory(false);}, 275);
     }
 
     // Fades in an element after a specified delay
     function scrollPage(delay, el, isChoice) {
         if (!isChoice)
             setTimeout(function() { textContainer.appendChild(el); }, delay);
-
-        var element = (document.getElementById('All_Text')) ? document.getElementById('All_Text') : el
-        setTimeout(function() { scrollDown(contentBottomEdgeY(element), element); }, 50);
     }
 
     // Scrolls the page down, but no further than the bottom edge of what you could
@@ -1049,32 +1016,13 @@
         return false;
     }
 
-    // Detects which theme (light or dark) to use
-    function setupTheme(globalTagTheme) {
-
-        // load theme from browser memory
-        var savedTheme = "dark";
-        try {
-            savedTheme = window.localStorage.getItem('theme');
-        } catch (e) {
-            console.debug("Couldn't load saved theme");
-        }
-
-        // Check whether the OS/browser is configured for dark mode
-        var browserDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-        if (savedTheme === "dark"
-            || (savedTheme == undefined && globalTagTheme === "dark")
-            || (savedTheme == undefined && globalTagTheme == undefined && browserDark))
-            document.body.classList.add("dark");
-    }
-
     function openOptions(visible)
     {
         if (visible)
         {
             optionsContainer.classList.remove("hidden");
             endingsContainer.classList.add("hidden");
+            historyContainer.classList.add("hidden");
         }
         else
             optionsContainer.classList.add("hidden");
@@ -1086,9 +1034,25 @@
         {
             endingsContainer.classList.remove("hidden");
             optionsContainer.classList.add("hidden");
+            historyContainer.classList.add("hidden");
         }
         else
             endingsContainer.classList.add("hidden");
+    }
+
+    function openHistory(visible)
+    {
+        if (visible)
+        {
+            historyContainer.classList.remove("hidden");
+            optionsContainer.classList.add("hidden");
+            endingsContainer.classList.add("hidden");
+
+            document.getElementById("All_Text").innerHTML = history
+            historyContainer.scrollTop = historyContainer.scrollHeight;
+        }
+        else
+            historyContainer.classList.add("hidden");
     }
 
     // Used to hook up the functionality for global functionality buttons
@@ -1108,12 +1072,7 @@
             if (storyContainer.classList.contains("hide") && !optionsContainer.classList.contains("hidden"))
             {
                 storyContainer.classList.remove("hide")
-                openOptions(false);
-
-                if (document.getElementById("Current_Text"))
-                    setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 750);
-                else
-                    setTimeout(function() { scrollDown(0, outerScrollContainer); }, 750);              
+                openOptions(false);        
             }
             else
             {
@@ -1129,18 +1088,28 @@
             if (storyContainer.classList.contains("hide") && !endingsContainer.classList.contains("hidden"))
             {
                 storyContainer.classList.remove("hide")
-                openEndings(false);
-
-                if (document.getElementById("Current_Text"))
-                    setTimeout(function() { scrollDown(contentBottomEdgeY(outerScrollContainer), outerScrollContainer); }, 750);
-                else
-                    setTimeout(function() { scrollDown(0, outerScrollContainer); }, 750);     
-                
+                openEndings(false);                
             }
             else
             {
                 storyContainer.classList.add("hide")
                 openEndings(true);
+            }
+            
+        });
+
+        let historyEl = document.getElementById("history");
+
+        if (historyEl) historyEl.addEventListener("click", function(event) {
+            if (storyContainer.classList.contains("hide") && !historyContainer.classList.contains("hidden"))
+            {
+                storyContainer.classList.remove("hide")
+                openHistory(false);                
+            }
+            else
+            {
+                storyContainer.classList.add("hide")
+                openHistory(true);
             }
             
         });
@@ -1152,6 +1121,7 @@
         setupEndings()
         setupScroll()
     }
+
 
     function setupEndings()
     {
@@ -1299,8 +1269,6 @@
             scroll = window.localStorage.getItem('save-scroll')    
         });
     }
-
-
 
     function setupShake()
     {

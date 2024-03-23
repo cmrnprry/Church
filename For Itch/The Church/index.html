@@ -19,10 +19,11 @@
         <div id="controls" class="buttons">
           <a id="rewind" title="Restart story from beginning">restart</a>
           <a id="options" title="Open Options Menu">options</a>
+          <a id="history" title="Open History of Text">history</a>
           <a id="endings" title="Endings Gathered">endings</a>
         </div>
         <div id="flashlight" style="display:none"></div>
-        <div id="Options Menu" class="options_container hidden">
+        <div id="Options Menu" class="overlay_container options hidden">
             <div class="option_volume">
                 <h1>Audio</h1><br>
                 <div  class="slider">
@@ -47,7 +48,7 @@
                 </div>
             </div>
         </div>
-        <div id="Endings Menu" class="endings_container hidden">
+        <div id="Endings Menu" class="overlay_container endings hidden">
             <div class="ending1"><h1>Endings</h1></div>
             <div class="ending2">Bad Ending: Melted</div>
             <div class="ending3">Bad Ending: Crushed</div>
@@ -61,14 +62,18 @@
             <div class="ending11">???? Ending: You Are the Church</div>
         </div>
 
-        <div class="header">
-            <h1>The Church</h1>
-            <h2 class="byline"></h2>
+        <div id="History Menu" class="overlay_container history hidden">
+            <div class="ending1">
+                <h1>History</h1>
+                <p id="All_Text">History</p>
+            </div>
         </div>
-        <img id="Background Image" src="" alt="Image" class="hidden" />
 
-        <div id="story" class="container">
-            
+        <div class="img_container">
+            <img id="Background Image" src="./Images/Backgrounds/BusStop.png" alt="Image" class="" />
+        </div>
+        
+        <div id="story" class="container">            
             <div id="Flashlight_Button" class="footer hide">
                 Flashlight: Turn on
             </div>
