@@ -810,12 +810,13 @@
         setVisible(".header", true);
 
         OnRestartOrLoad();
-        pastTextContainer = null;
-
-        // set save point to here
-        savePoint = story.state.toJson();        
+        pastTextContainer = null;     
 
         story.ResetState();
+
+        // set save point to here
+        savePoint = story.state.toJson(); 
+        window.localStorage.setItem('save-state', savePoint);  
 
         continueStory(true);
 

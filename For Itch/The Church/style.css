@@ -191,7 +191,7 @@ strong {
 }
 
 img {
-    max-width: 50%;
+    max-width: 100%;
     height: auto;
     /* display: table;
     margin: 0 auto;
@@ -199,10 +199,48 @@ img {
     border-radius: 8px;
 }
 
+.box{
+    display: block;
+    width: 21.75%;
+    height: 47.5%;
+    bottom: 24%;
+    left: 7%;
+  position: absolute;
+  background-color: rgb(168 15 15 / 10%);
+}
+
+.box .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+  }
+  
+.box:hover .tooltiptext {
+    visibility: visible;
+  }
+
+.box:hover
+{
+    background-color: rgb(168 15 15 / 35%);
+}
+
 .img_container {
     display: flex;
+    width: max-content;
+    height: 65%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    position: relative;
+    margin-top: 10px;
     justify-content: center;
-    align-items: center;
 }
 
 .container .hide {
