@@ -1129,7 +1129,6 @@
         setupDimmable()
         setupVolume()
         setupEndings()
-        setupScroll()
     }
 
 
@@ -1246,38 +1245,6 @@
                 let newVolume = parseInt(volume) / 100;
                 AudioList[key].volume = newVolume;
             }
-    }
-
-    function setupScroll()
-    {
-        let element = document.getElementById("Scroll_Button");
-
-        try {
-            if (typeof(scroll) === "string") {
-                element.setAttribute("status", scroll)
-                element.innerHTML = (scroll === "false") ? "Auto Scroll Page: OFF" : "Auto Scroll Page: ON"
-
-        }
-        } catch (e) {
-            console.debug("Couldn't load save state");
-        }
-
-        element.addEventListener("click", function(event) {
-            var status = (element.getAttribute("status") === "true")
-            if (!status)
-            {
-                element.setAttribute("status", true)
-                element.innerHTML = "Auto Scroll Page: ON"
-            }
-            else
-            {
-                element.setAttribute("status", false)
-                element.innerHTML = "Auto Scroll Page: OFF"
-            }
-            
-            window.localStorage.setItem('save-scroll', element.getAttribute("status")); 
-            scroll = window.localStorage.getItem('save-scroll')    
-        });
     }
 
     function setupShake()
