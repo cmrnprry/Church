@@ -872,14 +872,23 @@
     }
 
     function flashlightMouseFollow(event)
-    {
-        if (footer.getAttribute("status") == "off")
-            return;
+    {        
+        // if (footer.getAttribute("status") == "off") { return; }
+        const flash = document.getElementById("flashlight");
         
-        let x = event.pageX - 250;
-        let y = event.pageY - 250;
-        document.getElementById("flashlight").style.top = y + "px";  
-        document.getElementById("flashlight").style.left = x+ "px";
+
+        const styling = window.getComputedStyle(flash);
+        let newPos =`radial-gradient(circle at ${event.pageX / window.innerWidth * 100}% ${event.pageY / window.innerHeight * 100}%, transparent 160px, #0a100dde 200px}`;
+        
+        // styling.setProperty("background", newPos);
+        flash.style.setProperty( '--cursorXPos', `${event.pageX}px`);
+        flash.style.setProperty( '--cursorYPos', `${event.pageY}px`);
+        // flash.style.background = newPos;
+        
+        // let x = event.pageX - 250;
+        // let y = event.pageY - 250;
+        // document.getElementById("flashlight").style.top = y + "px";  
+        // document.getElementById("flashlight").style.left = x+ "px";
     }
 
     function displayText (text, el, customClasses, delay) {

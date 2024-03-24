@@ -22,7 +22,7 @@
           <a id="history" title="Open History of Text">history</a>
           <a id="endings" title="Endings Gathered">endings</a>
         </div>
-        <div id="flashlight" style="display:none"></div>
+        <div id="flashlight" style="display:none;"></div>
         <div id="Options Menu" class="overlay_container options hidden">
             <div class="option_volume">
                 <h1>Audio</h1><br>
@@ -42,9 +42,6 @@
                 </div>
                 <div id="Dimmable_Button" title="Turn off all visual effects to text boxes." status=true class="options_button">
                     Text Effects: ON
-                </div>
-                <div id="Scroll_Button" title="Auto scrolls the main page." status=true class="options_button">
-                    Auto Scroll Page: ON
                 </div>
             </div>
         </div>
@@ -70,8 +67,14 @@
         </div>
 
         <div class="img_container">
-            <div class="box"><span class="tooltiptext">Tooltip text</span></div>
-            <img id="Background Image" src="./Images/Backgrounds/Church_Inside.png" alt="Image" class="" />
+            
+            <div id="Main Room">
+                <div class="box stairs"><span class="tooltiptext">Go up the stairs?</span></div>
+                <div class="box pews"><span class="tooltiptext">Investigate the pews?</span></div>
+                <div class="box confessional"><span class="tooltiptext">Enter the confessional?</span></div>
+            </div>
+            <div class="img_overlay" ></div>
+                <img id="Background Image" src="./Images/Backgrounds/Church_Inside.png" alt="Image" class="" />
         </div>
         
         <div id="story" class="container">            

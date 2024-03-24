@@ -1434,7 +1434,7 @@ It looks battery operated, and gives off enough light to see around you. You sho
 ->Inside.Note
 
 = Note
-#PLAY: click-on #EFFECT: flashlight #TEXTBOX: text_container_flashlight
+#PLAY: click-on #EFFECT: flashlight
 The note is from an old piece of parchment. It feels like it could crumple into dust.
 
 "Find the heart and destroy it./nThe church will try to stop you./nIt will do anything to keep you here. Stay out of it's sight./n Do not become it's next meal."
