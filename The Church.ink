@@ -13,12 +13,26 @@ INCLUDE End_Game.ink
 + [Content Warnings] ->Content_Warnings
 + [Testing]
 
-- ewbsuiff
+- Starting Test
 
-#IMAGE: BusStop
-Playing meow
+#TEXTBOX: text_container_Dark
+I am so scared bc it is dark
+*[blink]
+    #DELAY: 5 #REMOVE: text_container_Dark #TEXTBOX: text_container_UsedTo
+    blink blink
+    
+    wow i can see better now
+*[don't]
+#REMOVE: text_container_Dark #TEXTBOX: text_container_After
 
 
+- 
+#EFFECT: flashlight
+i can use a flashlight now
+
+#REMOVE: text_container_UsedTo #TEXTBOX: text_container_After
+look around. this is what everything should look like now that it's dark
+-> END
 
 === Start ====
 
@@ -761,7 +775,7 @@ You jiggle the handle again.
 
 *The door won't budge.
 
-- You don't understand. It can't be locked. { -know != true:Maybe it got jammed?}
+- You don't understand. It can't be locked. { -know != true: Maybe it got jammed?}
 
 *[Look around for something to pry open the door]
 ->Locked.Look

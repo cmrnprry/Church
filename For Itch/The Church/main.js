@@ -14,6 +14,9 @@
     //IMAGES
     let BackgroundImage = document.getElementById("Background Image")
 
+    //STYLING TO KEEP ON A TEXT BOX
+    let styling = ""
+
     //OPTIONS VARIABLES
     let volume = window.localStorage.getItem('save-volume')
     let mute = window.localStorage.getItem('save-mute')
@@ -203,13 +206,29 @@
     CheckSave();
 
     // Kick off the start of the story!
-    continueStory(true);
+    
 
     function CheckSave()
     {
+            styling = window.localStorage.getItem('save-styles')
+
+            if (!styling && dim !== "false")
+            {
+                styling = ""
+                window.localStorage.setItem('save-styles', styling)
+            }
+                
+
         if (loadSavePoint())
+        {
             savePoint = window.localStorage.getItem('save-state');
             story.state.LoadJson(savePoint)
+            continueStory(false);
+        }
+        else
+            continueStory(true);
+        
+
     }
 
     // Main story processing function. Each time this is called it generates
@@ -220,18 +239,16 @@
         replace_text = "";
         CyclingText = null;
 
-        if  (!firstTime)
+        if  (firstTime)
         {
             console.log("new save")
             delay = 500.0;
             savePoint = story.state.toJson();
-            window.localStorage.setItem('save-state', savePoint);
         }        
 
         // Generate story text - loop through available content
         if(story.canContinue) {
             //save on every canContinue
-            
 
             // Get ink to generate the next paragraph
             paragraphText = story.Continue();
@@ -355,23 +372,28 @@
                 if( splitTag && splitTag.property == "EFFECT" ) {
                     if (splitTag.val == "flashlight")
                     {
-                        if (!hasFlashlight)
+                        console.log("flash here")
+                        if (hasFlashlight)
                         {
-                            hasFlashlight = true;
-                            footer.classList.remove("hidden")
+                            if (footer.getAttribute("status") == "off")
+                            {
+                                footer.setAttribute("status", "on")
+                                document.getElementById("flashlight").style.display = ""             
+                                footer.innerHTML = "Turn off"
+                            }
+                            else
+                            {
+                                footer.innerHTML = "Turn on"
+                                document.getElementById("flashlight").style.display = "none"
+                                footer.setAttribute("status", "off")
+                            }
                         }
 
-                        if (footer.getAttribute("status") == "off")
+                        if (!hasFlashlight)
                         {
-                            footer.setAttribute("status", "on")
-                            document.getElementById("flashlight").style.display = ""             
-                            footer.innerHTML = "Turn off"
-                        }
-                        else
-                        {
-                            footer.innerHTML = "Turn on"
-                            document.getElementById("flashlight").style.display = "none"
-                            footer.setAttribute("status", "off")
+                            console.log("here")
+                            hasFlashlight = true;
+                            footer.classList.remove("hide")
                         }
                     }
                 }
@@ -393,18 +415,28 @@
 
                 // REMOVE: class
                 // Effects the text box specifically
-                else if( splitTag && splitTag.property == "REMOVE" ) {
-                        document.getElementById("Current_Text").classList.remove(splitTag.val);
-                        document.getElementById('All_Text').classList.remove(splitTag.val);
-                }
+                else if( paragraphElement && splitTag && splitTag.property == "REMOVE" ) {
+                        paragraphElement.classList.remove(splitTag.val);
+                        if (styling.includes(splitTag.val))
+                            var index = styling.indexOf(splitTag.val)
+                            styling = styling.substring(0, index - 1) + styling.substring(splitTag.val.length + index)
+                            window.localStorage.setItem('save-styles', styling)
+
+                    }
 
                 // TEXTBOX: class
                 // Effects the text box specifically
-                else if( splitTag && splitTag.property == "TEXTBOX" ) {
+                else if( paragraphElement && splitTag && splitTag.property == "TEXTBOX" ) {
                     if (dim !== "false")
                     {    
-                        document.getElementById("Current_Text").classList.add(splitTag.val);
-                        document.getElementById('All_Text').classList.add(splitTag.val);
+                        paragraphElement.classList.add(splitTag.val);
+                        styling += splitTag.val + " "
+                        window.localStorage.setItem('save-styles', styling)
+
+                        if (splitTag.val === "text_container_Dark")
+                            document.getElementById("Overlay").classList.remove("hide")
+                        else if (splitTag.val === "text_container_UsedTo" || splitTag.val === "text_container_After")
+                            document.getElementById("Overlay").classList.add("img_used")
                     }
             }
 
@@ -431,7 +463,7 @@
                 }
             }
 
-            if (!document.getElementById('Current_Text'))
+            if (!paragraphElement)
             {       
                 console.log("creating text box")
                 //creating the current text box
@@ -439,11 +471,16 @@
                 paragraphElement.setAttribute("id", "Current_Text")
                 paragraphElement.setAttribute("click_listener", "false")
                 scrollPage(delay, paragraphElement, false);
+
+                //if we are not staring at the begninngin or at a place with choices
+                if (story.currentChoices.length <= 0 && !firstTime)
+                {
+                    paragraphElement.addEventListener("click", OnClickEvent);
+                    paragraphElement.setAttribute("click_listener", "true")
+                }
             }
             else 
             {
-                console.log("updating text box")
-
                 let childElement = paragraphElement.firstChild
                 //if our last line didn't have the click listener, read our click listener
                 if (paragraphElement.getAttribute("click_listener") == "false"){
@@ -459,7 +496,7 @@
                     setTimeout(function() { 
                         history += "<br><br>" + paragraphText;
                         window.localStorage.setItem('save-history', history)
-                        deleteAfter(document.getElementById("Current_Text").firstChild, false);
+                        deleteAfter(paragraphElement.firstChild, false);
                     
                     }, DelayNextText);
                     
@@ -612,8 +649,9 @@
                 window.localStorage.setItem('save-history', history)
             }
             
-                   
-            deleteAfter(document.getElementById("Current_Text").firstChild, false);
+            savePoint = story.state.toJson();
+            window.localStorage.setItem('save-state', savePoint);       
+            deleteAfter(paragraphElement.firstChild, false);
         }
         else continueStory(false)
     }
@@ -642,7 +680,7 @@
             }
 
             pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;           
-            deleteAfter(document.getElementById("Current_Text").firstChild, false);
+            deleteAfter(paragraphElement.firstChild, false);
         }
         else continueStory(false)
 
@@ -740,7 +778,7 @@
                     history += "<br><br>" + paragraphText;
                     window.localStorage.setItem('save-history', history)
 
-                    deleteAfter(document.getElementById("Current_Text").firstChild, true);
+                    deleteAfter(paragraphElement.firstChild, true);
                 }
                 else 
                 {
@@ -786,7 +824,7 @@
             if (pastTextContainer != null)
                 {
                     pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
-                    deleteAfter(document.getElementById("Current_Text").firstChild, true);
+                    deleteAfter(paragraphElement.firstChild, true);
                 }
             else continueStory(false)
         });
@@ -801,7 +839,24 @@
 
         paraElement.classList.add("text_container");
         paraElement.classList.add("fadeIn");
-        displayText(text, textElement, customClasses, 500);
+
+        if (styling !== "")
+        {
+            var split = styling.split(" ")
+            split.forEach(element => {
+                if (element != "")
+                    paraElement.classList.add(element);
+            });
+            
+            if (styling.includes("text_container_Dark"))
+                document.getElementById("Overlay").classList.remove("hide")
+            else if (styling.includes("text_container_UsedTo") || styling.includes("text_container_After"))
+                document.getElementById("Overlay").classList.remove("hide")
+                document.getElementById("Overlay").classList.add("img_used")
+        }
+            
+
+        displayText(text, textElement, customClasses, 500);        
 
         return paraElement;
     }
@@ -816,7 +871,7 @@
 
         // set save point to here
         savePoint = story.state.toJson(); 
-        window.localStorage.setItem('save-state', savePoint);  
+        window.localStorage.setItem('save-state', null);  
 
         continueStory(true);
 
@@ -825,16 +880,32 @@
 
     function OnRestartOrLoad()
     {
-        history = ""
-        history = window.localStorage.setItem('save-history', history)
+        history = "";
+        window.localStorage.setItem('save-history', history)
+
+        styling = "";
+        window.localStorage.setItem('save-styles', styling)
 
         element = document.getElementById('Current_Text')
+
         if (element)
             element.remove()
+
+        paragraphElement = null
+
+
+        hasFlashlight = false;
+        footer.innerHTML = "Turn on"
+        document.getElementById("flashlight").style.display = "none"
+        footer.classList.add("hide")
+        footer.setAttribute("status", "off")
+        document.getElementById("Overlay").classList.add("hide")
     
         removeAll(".choice");
         
         openOptions(false);
+        openHistory(false);
+        openEndings(false);
         storyContainer.classList.remove("hide")
     }
 
@@ -873,22 +944,10 @@
 
     function flashlightMouseFollow(event)
     {        
-        // if (footer.getAttribute("status") == "off") { return; }
         const flash = document.getElementById("flashlight");
         
-
-        const styling = window.getComputedStyle(flash);
-        let newPos =`radial-gradient(circle at ${event.pageX / window.innerWidth * 100}% ${event.pageY / window.innerHeight * 100}%, transparent 160px, #0a100dde 200px}`;
-        
-        // styling.setProperty("background", newPos);
         flash.style.setProperty( '--cursorXPos', `${event.pageX}px`);
         flash.style.setProperty( '--cursorYPos', `${event.pageY}px`);
-        // flash.style.background = newPos;
-        
-        // let x = event.pageX - 250;
-        // let y = event.pageY - 250;
-        // document.getElementById("flashlight").style.top = y + "px";  
-        // document.getElementById("flashlight").style.left = x+ "px";
     }
 
     function displayText (text, el, customClasses, delay) {
@@ -1017,7 +1076,7 @@
 
         try {
             let savedState = window.localStorage.getItem('save-state');
-            if (savedState) {
+            if (savedState !== "null" && savedState) {
                 return true;
             }
         } catch (e) {
