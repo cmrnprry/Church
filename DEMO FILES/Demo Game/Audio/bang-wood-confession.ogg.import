@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/bang-wood-confession.ogg-c3a014fefbad48ac1a9ab25e0cc8422d.oggstr"
+
+[deps]
+
+source_file="res://audio/bang-wood-confession.ogg"
+dest_files=[ "res://.import/bang-wood-confession.ogg-c3a014fefbad48ac1a9ab25e0cc8422d.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

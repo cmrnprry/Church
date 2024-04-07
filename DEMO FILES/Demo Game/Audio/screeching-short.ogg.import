@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/screeching-short.ogg-e2bbd4d6b97f09d1f29b29b06cb99b61.oggstr"
+
+[deps]
+
+source_file="res://audio/screeching-short.ogg"
+dest_files=[ "res://.import/screeching-short.ogg-e2bbd4d6b97f09d1f29b29b06cb99b61.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

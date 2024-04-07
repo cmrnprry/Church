@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/flashlight-on.ogg-4b82aff99e63f3f0a286262010c31fcf.oggstr"
+
+[deps]
+
+source_file="res://audio/flashlight-on.ogg"
+dest_files=[ "res://.import/flashlight-on.ogg-4b82aff99e63f3f0a286262010c31fcf.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

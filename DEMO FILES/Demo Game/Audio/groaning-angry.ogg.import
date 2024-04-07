@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/groaning-angry.ogg-96b78fa19de663e98189c084477505ae.oggstr"
+
+[deps]
+
+source_file="res://audio/groaning-angry.ogg"
+dest_files=[ "res://.import/groaning-angry.ogg-96b78fa19de663e98189c084477505ae.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

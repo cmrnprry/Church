@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/curtain-opening.ogg-12c62983e528d97c8b60ead86def9811.oggstr"
+
+[deps]
+
+source_file="res://audio/curtain-opening.ogg"
+dest_files=[ "res://.import/curtain-opening.ogg-12c62983e528d97c8b60ead86def9811.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
