@@ -17,12 +17,14 @@
         <h3 class="written-in-ink"><a href="https://www.inklestudios.com/ink">WRITTEN IN INK</a></h3>
 
         <div id="controls" class="buttons">
-          <a id="rewind" title="Restart story from beginning">restart</a>
+          <a id="rewind" title="Restart story from beginning and delete ALL save data">restart</a>
           <a id="options" title="Open Options Menu">options</a>
+          <a id="checkpoint" title="Open Checkpoints">checkpoints</a>
           <a id="history" title="Open History of Text">history</a>
           <a id="endings" title="Endings Gathered">endings</a>
         </div>
         <div id="flashlight" style="display:none;"></div>
+
         <div id="Options Menu" class="overlay_container options hidden">
             <div class="option_volume">
                 <h1>Audio</h1><br>
@@ -45,6 +47,7 @@
                 </div>
             </div>
         </div>
+
         <div id="Endings Menu" class="overlay_container endings hidden">
             <div class="ending1"><h1>Endings</h1></div>
             <div class="ending2">Bad Ending: Melted</div>
@@ -57,6 +60,18 @@
             <div class="ending9">???? Ending: What Have You Done?</div>
             <div class="ending10">Good Ending: It Has Been a Long, Long Night</div>
             <div class="ending11">???? Ending: You Are the Church</div>
+        </div>
+
+        <div id="Checkpoints Menu" class="overlay_container endings hidden">
+            <div class=""><h1>Checkpoints</h1></div>
+            <div id="point1">Locked</a></div> <!-- work -->
+            <div id="point2">Locked</div> <!-- before explore 1st area -->
+            <div id="point3">Locked</div> <!-- after explore 1st area -->
+            <div id="point4">Locked</div> <!-- before explore 2nd area -->
+            <div id="point5">Locked</div> <!-- after explore 2nd area -->
+            <div id="point6">Locked</div> <!-- before explore 3rd area -->
+            <div id="point7">Locked</div> <!-- after explore 3rd area -->
+            <div id="point8">Locked</div> <!-- enter heart area -->
         </div>
 
         <div id="History Menu" class="overlay_container history hidden">
@@ -84,7 +99,12 @@
                 <img id="Background Image" src="./Images/Backgrounds/Church_Inside.png" alt="Image" class="" />
         </div>
         
-        <div id="story" class="container">            
+        <div id="story" class="container">
+            <div id="Current_Text" click_listener="false" class="text_container fadeIn">
+                <p style="user-select:none;"></p>
+                <div id="Continue_Arrow" class="arrow hidden">
+                </div>
+            </div>
             <div id="Flashlight_Button" class="footer hide">
                 Turn on
             </div>

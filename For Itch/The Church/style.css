@@ -554,7 +554,7 @@ img {
     text-align: center;
     padding-bottom: 6px;
     position: fixed;
-    right: 14px;
+    right: 3%;
     top: 4px;
     user-select: none;
     background: #0A100D;
@@ -990,3 +990,49 @@ body.dark {
     z-index: 10;
 	/* background-image: url(https://www.mantlelabs.com/flashlight/images/flashlight.jpg); */
 }
+
+
+
+/* ORGINAL ARROW CODE FROM @poopsplat on CODE PEN https://codepen.io/poopsplat/pen/EPaeEE */
+.arrow {
+    width: 12px;
+    height: 12px;
+    border: none;
+    background: none;
+    position: relative;
+    display: inline-block;
+    transform: scale(2.5);
+    position: relative;
+    left: 97%;
+    cursor: pointer;
+    &::before {
+      top: 2px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      content: '';
+      position: absolute;
+      transform: rotate(-45deg);
+      box-shadow: 2px 2px 0 #a80f0f, 3px 2px 0 #a80f0f, 2px 3px 0 #a80f0f, 3px 3px 0 #a80f0f;
+    }
+    &::after {
+      width: 0;
+      height: 0;
+      left: -1px;
+      bottom: 50%;
+      content: '•';
+      color: #a80f0f;
+      line-height: 0;
+      font-size: 14px;
+      position: absolute;
+      transition: left .1s ease-out, bottom .1s ease-out, letter-spacing .1s ease-out;
+    }
+    
+    &:hover,
+    &:focus {
+      outline: none;
+      &::after {
+        left: 1px;
+      }
+    }
+  }

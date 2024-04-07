@@ -446,15 +446,7 @@ On the bench sits a small key. You pick it up, and put in your pocket, hoping it
 ~ key = true
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-{
-    - visited_first:
-        ->After_First.Confessional_After
-    - visited_second:
-        ~ temp_string = "angry"
-        -> After_Second.Confessional_Sin_Second
-    - else:
-        -> Last_Stop.Confessional_Sin_Last
-}
+-> END_DEMO
 
 = Look
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
@@ -509,14 +501,7 @@ On the bench sits a small key.
 
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-{
-    - visited_first:
-        ->After_First.Confessional_After
-    - visited_second:
-        -> After_Second.Confessional_Sin_Second
-    - else:
-        -> Last_Stop.Confessional_Sin_Last
-}
+-> END_DEMO
 
 = Agree
 #DELAY: 1
@@ -612,15 +597,7 @@ You wonder if you'll meet it again.
 
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-{
-    - visited_first:
-        ->After_First.Confessional_After
-    - visited_second:
-        ~ temp_string = "accept"
-        -> After_Second.Confessional_Sin_Second
-    - else:
-        -> Last_Stop.Confessional_Sin_Last
-}
+-> END_DEMO
 
 = Reject_Version_2
 The rapid drips from the leak stop. "No...?" The voice is hard now. The calm, softness it used to speak to you before is gone. "What do you mean, no?"
@@ -1318,15 +1295,7 @@ You wonder if you'll meet it again.
 
 ~ confessional_priest = true
 *[Exit the confessional booth.]
-{
-    - visited_first:
-        ->After_First.Confessional_After
-    - visited_second:
-        ~ temp_string = "accept"
-        -> After_Second.Confessional_Sin_Second
-    - else:
-        -> Last_Stop.Confessional_Sin_Last
-}
+-> END_DEMO
 
 = Question
 You don't think you will get an answer. The voice is pushing you to confess.
@@ -1470,13 +1439,10 @@ It says something that reverberates inside your brain. Words that hold meaning y
 - 
 #ENDING: Finding Solace
 *You've never known solace like this.
-->Credits
+-> END_DEMO
 
 = Leave
 ~confessional_sin = false
-
-*[In the pews]
--> Pews
 
 *[Somewhere up the stairs]
 -> Stairs

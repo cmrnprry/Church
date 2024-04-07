@@ -1,56 +1,12 @@
 INCLUDE Variables.ink
-INCLUDE AfterFirstChoice.ink
 INCLUDE Confessional_Door.ink
 INCLUDE Confessional_Curtain.ink
-INCLUDE Pews.ink
-INCLUDE Stairs.ink
-INCLUDE End_Game.ink
 
 <i>This game will autosave your progress. Using the restart button will rest your game and ALL save data. <br><br> Closing the window will reset any progress.</i>
 
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
-+ [Testing]
-
-- footsteps
-
-#DELAY: 2
-You can't breathe.
-
-#CLASS: Blur #DELAY: 2
-Your skin burns.
-
-#DELAY: 2
-You can't think. Bone? How-? 
-
-#CLASS: Blur #DELAY: 2
-Your skin burns.
-
-#DELAY: 2
-Your head swims. This can't be-
-
-#CLASS: Blur #DELAY: 2
-Your skin burns.
-
-#DELAY: 2
-You can't get enough air in. Is this actually slime-?
-
-*[Your skin burns.]
-
-- 
-#ENDING: Melted #DELAY: 2
-You keep going, desperatly trying to escape. 
-
-#CLASS: Blur #DELAY: 2
-You can't feel your hand anymore.
-
-#DELAY: 2
-You trip over yourself, and fall into puddle of the acidic ooze. 
-
-#CLASS: Blur
-You can't feel your legs.
-
 
 === Start ====
 #IMAGE: Default
@@ -1529,8 +1485,6 @@ The flashlight gives off enough light for you to see what's near you. You can ma
 #CHECKPOINT: 2, You are told to find the heart.
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
 
-*[In the pews]
--> Pews
 
 *[In the confessional]
 -> Confessional
@@ -1541,14 +1495,311 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 = Look_For_Heart
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
 
-*[In the pews]
--> Pews
-
 *[In the confessional]
 -> Confessional
 
 *[Somewhere up the stairs]
 -> Stairs
+
+=== Stairs ===
+~temp_bool_3 = false
+{
+    - leg == "worst":
+        ~temp_string = "limp up"
+    - else:
+        ~temp_string = "climb"
+}
+{ - room:
+    - 0: You {temp_string} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
+    ~room = 2
+    
+    - 1: You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
+    
+        This was not there last time you were here.
+        
+        ~room = 2
+}
+
+~temp_bool_3 = false
+*[Examine the stairs]
+-> Stairs.Examine_Stairs
+
+*[Enter the office]
+->Stairs.Office
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
+
+= Office
+~temp_bool_3 = true
+You try the door only to find it locked.
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
+
+*[Examine the stairs]
+-> Stairs.Examine_Stairs
+
+= Examine_Stairs
+You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either.
+
+* { temp_bool_3 == false} [Go back to the office] ->Stairs.Office
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
+
+*[Go upstairs]
+    ->Stairs.Upstairs
+    
+*[Go downstairs]
+    ->Stairs.Downstairs
+
+////////// STAIRS INTERACTIONS ////////// 
+
+= Downstairs
+~ temp_bool = false
+
+{
+    - went_downstairs == 0:
+        #PLAY: click-on
+        You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
+
+        You tense, every fiber of your being telling you to not continue down.
+    - else:
+        #PLAY: click-on
+        You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
+}
+
+~ went_downstairs = 1
+
+*[Continue down]
+
+*[Turn back]
+    You turn back up the stairs. It doesn't feel right.
+    ->Stairs.Turn_Back
+- 
+{
+    - leg == "worst":
+        ~temp_string = ", making sure to lean against the railing to take weight off your leg"
+    - else:
+        ~temp_string = ""
+}
+
+Cautiously, you take another step down{temp_string}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
+
+*[Push through]
+
+*[Turn back]
+    You hurry back up the stairs, glancing over your shoulder as you do.
+    ->Stairs.Turn_Back
+- 
+
+{
+    - leg == "worst":
+        ~temp_string = "You grab the railing with both hands,"
+    - else:
+        ~temp_string = "You grab the railing to steady yourself,"
+}
+
+~ went_downstairs = 2
+
+About halfway down the steps, the smell of rot hits your nose, so strong you gag. {temp_string} and retch. The stench is unbareable. 
+
+It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.
+
+You cover your face with your shirt, and breathe through your mouth, but the pungent smell clings to you. 
+
+*[Keep moving]
+
+*[Turn back]
+    You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing.
+    ->Stairs.Turn_Back
+    
+- You plug your nose and keep going, only stopping to dry heave. It isn't long before the steps change from wood to... to something you can't comprehend. You stop and shine the light. 
+
+#CYCLE: Fidget, mold, fungus, flesh
+The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the @ shivers in response. 
+
+You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusing substance.
+
+*[See what's behind the door]
+
+*[Turn. Back.]
+    ~ went_downstairs = 3
+    #PLAY: click-off
+    Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
+
+    The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
+    ->Stairs.Turn_Back
+
+- 
+#PLAY: 1, squish-squash
+<i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
+
+<i>Squish</i>
+
+#stop: 3, squish-squash
+The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
+
+<i>Squelch</i>
+
+*[Open the door]
+
+- The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
+
+The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
+
+*[Find the source of the smell]
+
+*[Investigate the ooze]
+    #DELAY: 1.5
+    You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
+    
+    #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+    The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
+    ->Stairs.Melt
+
+- You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizeable. 
+
+You pass by what you assume is a standing coat hanger, and stare at it. It is taller than you, and has multiple edges jutting out from it. You reach out to lift the canvas covering it, but stop just before touching it. 
+
+You're not sure why, but you retract your hand. You stare at the coat hanger a little longer before conitnuing on.
+
+*[You don't check under any of the tarps.]
+
+- You continue deeper into the room, the smell getting stronger with each step. You pray that the smell won't linger after you leave, and follow your nose to the source.
+
+You find yourself in the far back corner, a tarp partially covering something scattered over the floor. It come us to about your chest, a stacked pile of... something. Firewood? But you don't remember seeing a fireplace upstairs...
+
+Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...? You swallow the lump in your throat.
+
+*[Lift the tarp]
+
+- #PLAY: click-off
+You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
+
+#CYCLE: Fidget, mourn, pity, pray
+Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to @ for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
+
+*[Search left]
+~temp_bool = false
+You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
+
+You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
+
+*[Search right]
+~temp_bool = true
+You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
+
+Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
+
+- 
+
+*[Your hand starts to itch]
+->Stairs.Melt
+
+= Melt
+You wipe off any remaining ooze on your shirt, but that only causes the itching to spread. 
+
+*[It burns]
+
+- 
+{
+    - temp_bool:
+        ~temp_string = ". You have the flashlight."
+    - else:
+        ~temp_string = ", flashlight be damned."
+}
+
+Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_string} You blindly try to make your way back to the door.
+
+The ooze being to fall faster. You step in puddles. It falls on you from the ceiling. You cannot wipe it off fast enough. 
+
+*[It's eating through you]
+
+- You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
+
+*[You feel bone.]
+
+- You can't breathe.
+
+#CLASS: Blur
+Your skin burns.
+
+You can't think. Bone? How-? 
+
+#CLASS: Blur
+Your skin burns.
+
+Your head swims. This can't be-
+
+#CLASS: Blur
+Your skin burns.
+
+You can't get enough air in. Is this actually slime-?
+
+*[Your skin burns.]
+
+- 
+#ENDING: Melted
+You keep going, desperatly trying to escape. 
+
+#CLASS: Blur
+You can't feel your hand anymore.
+
+You trip over yourself, and fall into puddle of the acidic ooze. 
+
+#CLASS: Blur
+You can't feel your legs.
+
+*[You can't feel anything.]
+-> END_DEMO
+
+= Turn_Back
+*[Go upstairs]
+->Stairs.Upstairs
+
+*[Enter the office]
+->Stairs.Office
+
+
+////////// UPSTAIRS INTERACTIONS ////////// 
+
+= Upstairs
+#PLAY: click-on
+You start up the stairs, holding the hand rail as you go.
+
+{
+    - leg == "worst":
+        ~temp_string="The longer you climb, the harder it's getting with your leg."
+    - else:
+        ~temp_string=""
+}
+
+You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost treating the stairs as a ladder, they're so steep. {temp_string}
+
+You stop to rest every 3 or 4 flights. If your count is right, you've stopped at least 12 times.
+
+*[How tall is this church?]
+
+- 
+{
+    - leg == "worst":
+        ~temp_string=" Any longer, and you think you may have fallen."
+    - else:
+        ~temp_string=""
+}
+
+After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{temp_string} The landing is small and square, maybe only five feet by five feet.
+
+The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
+
+*[Look closer]
+
+- You walk closer to the door, and tug at the door knob. The door jigles, but doesn't budge. Ther is a small keyhole that red light pours out of.
+
+*[Peak through the key hole]
+-> END_DEMO
 
 === Confessional ===
 {
@@ -1556,7 +1807,6 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
         You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.
     - else:
         You approach the confessional booth.
-
 }
 
 {
@@ -1591,7 +1841,12 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 + [Start Game] ->Start
 + [Credits] ->Credits
 
+=== END_DEMO
+That is the end of the demo, thank you so much for playing! The full version is coming soon. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
 
++ [Restart Game] 
+    #RESTART
+    ->END
 
 
 

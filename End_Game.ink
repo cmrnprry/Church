@@ -1,4 +1,5 @@
 === Open_the_Door ===
+#CHECKPOINT: 8, You open the locked door.
 The door opens with a groan. The walls are bare, and the ceiling is low. The room inside is cramped, with a knee high table in the center. On the table is a glass, and bread. Behind it, an ornate bowl with a glowing, stained glass heart inside.
 
 "The heart...?"

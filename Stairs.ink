@@ -1041,13 +1041,36 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 
 *[You feel bone.]
 
-- You can't breathe.$[Your skin burns.] You can't think. Bone? How-? $[Your skin burns.] Your head swims. $[Your skin burns.]You can't get enough air in. $[Your skin burns.] Is this slime-?
+- 
+#DELAY: 2
+You can't think. Bone? How-? 
+
+#CLASS: Blur #DELAY: 2
+Your skin burns.
+
+#DELAY: 2
+Your head swims. This can't be-
+
+#CLASS: Blur #DELAY: 2
+Your skin burns.
+
+#DELAY: 2
+You can't get enough air in. Is this actually slime-?
 
 *[Your skin burns.]
 
 - 
-#ENDING: Melted
-You keep going, desperatly trying to escape. $[You can't feel your hand anymore.] You trip over yourself, and fall into puddle of the acidic ooze. $[You can't feel your legs.]
+#ENDING: Melted #DELAY: 2
+You keep going, desperatly trying to escape. 
+
+#CLASS: Blur #DELAY: 2
+You can't feel your hand anymore.
+
+#DELAY: 2
+You trip over yourself, and fall into puddle of the acidic ooze. 
+
+#CLASS: Blur
+You can't feel your legs.
 
 *[You can't feel anything.]
 ->Credits

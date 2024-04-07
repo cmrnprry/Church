@@ -3,6 +3,7 @@
 = Confessional_After
 ~ visited_second = true
 ~temp_visited = true
+#CHECKPOINT: 3, The pews are... full?
 You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
@@ -136,11 +137,13 @@ You hear them call your name, but you don't dare turn around.
 ~visited_first = false
 ~temp_bool = true
 ~ visited_second = true
+#CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
 {finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy == false:Your hand aches, and you lightly touch the wound.<br><br>It hurts.}{happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing.}} { coward: You stop at the pew {name:Ophelia}{name == false: the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
 
-You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubble up in your chest, and tears form in your eyes. 
+#CYCLE: null, Anxiety, Dread, Doubt, Confusion
+You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
 
 #PLAY: child-wood-footsteps, 1 #PLAY: curtain
 You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional.
@@ -158,6 +161,7 @@ You whip around, and just barely miss seeing someone run up the stairs.
 ~temp_visited = true
 ~visited_first = false
 ~ visited_second = true
+#CHECKPOINT: 3, The pews are... full?
 You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The confessional at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
@@ -181,6 +185,7 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 ===After_Second===
 
 = Pews_Second
+#CHECKPOINT: 4, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
 {finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy == false:Your hand aches, and you lightly touch the wound.<br><br>It hurts.}{happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing.}} { coward: You stop at the pew {name:Ophelia}{name == false: the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
@@ -201,11 +206,11 @@ You need to return to your search. <>
 -> After_Second.Return_to_Search
 
 = Confessional_Priest_Second
-
 {
     - emily_hurt:
         {
             - temp_string == "Your hands tremble":
+                #CHECKPOINT: 4, You know what you saw.
                 You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
                 
                 The church can adapt and change, do anything to keep you here. {key: Does that mean you can't trust the key you found?} { number_combo != "": Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
@@ -213,6 +218,7 @@ You need to return to your search. <>
                 You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
                 
             - temp_string == "You grimce":
+                #CHECKPOINT: 4, What have you done?
                 You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
                 
                 <Shame, Guilt, Doubt, Regret> bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
@@ -220,6 +226,7 @@ You need to return to your search. <>
                 You bite the inside of your cheek. <>
                 
             - temp_string == "You grind your teeth":
+                #CHECKPOINT: 4, Is this all just a sick game?
                 You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. 
                 
                 You kick a pew, hard, stubbing your toe. You curse like a sailor, and pull at your hair. You're going to lose it before you get out of here. 
@@ -228,6 +235,7 @@ You need to return to your search. <>
         You need to return to your search. <>
         
     - else:
+        #CHECKPOINT: 4, Did you do the right thing?
         You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>reallys</i> her, or just another trick of the church?
         
         You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
@@ -241,6 +249,7 @@ There are still more places you need to look. <>
 -> After_Second.Return_to_Search
 
 = Confessional_Sin_Second
+#CHECKPOINT: 4, You gained a key, but...
 {
     - temp_string == "accept":
         ~ temp_string = ""
@@ -259,6 +268,7 @@ There are still more places you need to look. <>
 = Stairs_Second
 {
     - know_book && name:
+        #CHECKPOINT: 4, You found your book... and a code
         {
             - keep_book && rip_page:
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
@@ -270,9 +280,11 @@ There are still more places you need to look. <>
         
         You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
     - know_book && !name:
+        #CHECKPOINT: 4, You found your book...
         {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
         
     - !know_book && name:
+    #CHECKPOINT: 4, You found a code
         {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}.
         
     - !know_book && !name:
@@ -280,9 +292,11 @@ There are still more places you need to look. <>
         
         {
             - went_upstairs && went_downstairs == 0:
+                #CHECKPOINT: 4, You found a locked room.
                 You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there.
             
             - went_upstairs && went_downstairs > 1:
+                #CHECKPOINT: 4, You found a locked room.
                 You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It coulud be downstairs.
                 
                 Your skin shivers.
@@ -292,6 +306,7 @@ There are still more places you need to look. <>
                 You shake your head. There are still more places you need to look if you want to get out of here. <>
             
             - else:
+                #CHECKPOINT: 4, You found a locked room.
                 {
                     - went_downstairs > 1:
                         You still haven't found the heart. Unless... It coulud be downstairs.
@@ -318,6 +333,7 @@ There are still more places you need to look. <>
 
 = Return_to_Search
 ~ visited_second = false
+#CHECKPOINT: 5, You need to keep searching.
 You decide to look...
 
 * {!pews} [In the pews]
@@ -332,6 +348,7 @@ You decide to look...
 === Last_Stop ===
 
 = Pews_Last
+#CHECKPOINT: 6, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
 {finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy == false:Your hand aches, and you lightly touch the wound.<br><br>It hurts.}{happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing.}} { coward: You stop at the pew {name:Ophelia}{name == false: the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
@@ -348,11 +365,11 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
 ->Last_Stop.Return_to_Search
 
 = Confessional_Priest_Last
-
 {
     - emily_hurt:
         {
             - temp_string == "Your hands tremble":
+                #CHECKPOINT: 6, You know what you saw.
                 You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
                 
                 The church can adapt and change, do anything to keep you here. {key: Does that mean you can't trust the key you found?} { number_combo != "": Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
@@ -360,13 +377,16 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
                 You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
                 
             - temp_string == "You grimce":
+                #CHECKPOINT: 6, What have you done?
                 You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
                 
-                <Shame, Guilt, Doubt, Regret> bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
+                #CYCLE: null, Shame, Guilt, Doubt, Regret
+                @ bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
                 
                 You bite the inside of your cheek. <>
                 
             - temp_string == "You grind your teeth":
+                #CHECKPOINT: 6, Is this all just a sick game?
                 You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. 
                 
                 You kick a pew, hard, stubbing your toe. You curse like a sailor, and pull at your hair. You're going to lose it before you get out of here. 
@@ -377,6 +397,7 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
         
         
     - else:
+        #CHECKPOINT: 6, Did you do the right thing?
         You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>reallys</i> her, or just another trick of the church?
         
         You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
@@ -388,6 +409,7 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
 -> Last_Stop.Return_to_Search
 
 = Confessional_Sin_Last
+#CHECKPOINT: 6, You found a key, but...
 {
     - temp_string == "accept":
         ~ temp_string = ""
@@ -406,6 +428,7 @@ You need to move on. <>
 = Stairs_Last
 {
     - know_book && name:
+        #CHECKPOINT: 6, You found your book... and a code
         {
             - keep_book && rip_page:
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
@@ -417,9 +440,11 @@ You need to move on. <>
         
         You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
     - know_book && !name:
+        #CHECKPOINT: 6, You found your book...
         {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
         
     - !know_book && name:
+        #CHECKPOINT: 6, You found a code
         {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}.
         
     - !know_book && !name:
@@ -427,9 +452,11 @@ You need to move on. <>
         
         {
             - went_upstairs && went_downstairs == 0:
+                #CHECKPOINT: 6, You found a locked room.
                 You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there.
             
             - went_upstairs && went_downstairs > 1:
+                #CHECKPOINT: 6, You found a locked room.
                 You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It coulud be downstairs.
                 
                 Your skin shivers.
@@ -439,9 +466,10 @@ You need to move on. <>
                 You shake your head. There are still more places you need to look if you want to get out of here. <>
             
             - else:
+                #CHECKPOINT: 6, You found a locked room.
                 {
                     - went_downstairs > 1:
-                        You still haven't found the heart. Unless... It coulud be downstairs.
+                        You still haven't found the heart. Unless... It could be downstairs.
                 
                         Your skin shivers.
                 
@@ -465,6 +493,7 @@ You need to move on. <>
 
 = Return_to_Search
 ~ visited_second = false
+#CHECKPOINT: 7, There's only a few places left to look.
 You only have a few places you haven't looked yet. {went_upstairs && ((clippers or key == true) && number_combo != ""): You know where the heart probably is. Whenever you're ready, the heart is waiting.}
 
 * {!pews} [In the pews] -> Pews

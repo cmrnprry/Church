@@ -11,6 +11,10 @@
     let globalTagTheme;
     let hasFlashlight = false;
 
+    //CONTINUE ARROW
+    let Continue = document.getElementById("Continue_Arrow")
+    let ContinueID = null
+
     //IMAGES
     let BackgroundImage = document.getElementById("Background Image")
 
@@ -22,7 +26,6 @@
     let mute = window.localStorage.getItem('save-mute')
     let shake = window.localStorage.getItem('save-shake')
     let dim = window.localStorage.getItem('save-dim')
-    let scroll = window.localStorage.getItem('save-scroll')
 
     //HISTORY VARIABLE
     let history = window.localStorage.getItem('save-history') == null ? "" : window.localStorage.getItem('save-history')
@@ -172,11 +175,14 @@
     ]
 
     let EndingsAchieved = window.localStorage.getItem('save-endings')
+    let StoryCheckpoint = window.localStorage.getItem('save-checkpoint')
+    
 
     var storyContainer = document.querySelector('#story');
     var optionsContainer = document.getElementById('Options Menu');
     var endingsContainer = document.getElementById('Endings Menu');
     var historyContainer = document.getElementById('History Menu');
+    var checkpointsContainer = document.getElementById('Checkpoints Menu');
     
     //Main Contatiner that holds past text
     var pastTextContainer;
@@ -223,18 +229,18 @@
         {
             savePoint = window.localStorage.getItem('save-state');
             story.state.LoadJson(savePoint)
-            continueStory(false);
+            continueStory(false, 500);
         }
         else
-            continueStory(true);
+            continueStory(true, 500);
         
 
     }
 
     // Main story processing function. Each time this is called it generates
     // all the next content up as far as the next set of choices.
-    function continueStory(firstTime) {
-        var delay = 200.0;
+    function continueStory(firstTime, delta) {
+        var delay = delta;
         DelayNextText = 0;
         replace_text = "";
         CyclingText = null;
@@ -242,7 +248,6 @@
         if  (firstTime)
         {
             console.log("new save")
-            delay = 500.0;
             savePoint = story.state.toJson();
         }        
 
@@ -259,10 +264,33 @@
             for(var i=0; i<tags.length; i++) {
                 var tag = tags[i];
 
+                
                 // Detect tags of the form "X: Y". Currently used for IMAGE and CLASS but could be
                 // customised to be used for other things too.
                 var splitTag = splitPropertyTag(tag);
 
+                //CHECKPOINT: index, name
+                if (splitTag && splitTag.property == "CHECKPOINT") {
+                    var temp = {name: "Locked",
+                        point: ""}
+                    var checkpoint_list = [temp, temp, temp, temp, temp, temp, temp, temp]
+                    
+                    if (!StoryCheckpoint)
+                        StoryCheckpoint = checkpoint_list;
+
+                    array = splitTag.val.split(", ")
+                    var temp_save = story.state.toJson();
+                    var temp_object = { 
+                        name: array[1],
+                        index: array[0],
+                        point: temp_save
+                    }
+                    StoryCheckpoint[array[0] - 1] = temp_object
+                    StoryCheckpoint = JSON.stringify(StoryCheckpoint);
+                    window.localStorage.setItem('save-checkpoint', StoryCheckpoint)
+
+                    setupCheckpoints();
+                }
                 //DELAY: time
                 if( splitTag && splitTag.property == "DELAY" ) {
                     DelayNextText = (splitTag.val * 1000) + 1000;
@@ -449,27 +477,17 @@
 
                 // CLEAR - removes all existing content.
                 // RESTART - clears everything and restarts the story from the beginning
-                else if( tag == "CLEAR" || tag == "RESTART" ) {
-                    removeAll("p");
-                    removeAll("img");
-
-                    // Comment out this line if you want to leave the header visible when clearing
-                    setVisible(".header", false);
-
-                    if( tag == "RESTART" ) {
-                        restart();
-                        return;
-                    }
+                else if( tag == "RESTART" ) {
+                    restart();
+                    return;
                 }
             }
 
-            if (!paragraphElement)
+            if (!paragraphElement || firstTime)
             {       
                 console.log("creating text box")
                 //creating the current text box
                 paragraphElement = CreateTextBox(paragraphText, customClasses);
-                paragraphElement.setAttribute("id", "Current_Text")
-                paragraphElement.setAttribute("click_listener", "false")
                 scrollPage(delay, paragraphElement, false);
 
                 //if we are not staring at the begninngin or at a place with choices
@@ -481,7 +499,7 @@
             }
             else 
             {
-                let childElement = paragraphElement.firstChild
+                let childElement = paragraphElement.querySelectorAll("p")[0]
                 //if our last line didn't have the click listener, read our click listener
                 if (paragraphElement.getAttribute("click_listener") == "false"){
                     paragraphElement.addEventListener("click", OnClickEvent);
@@ -496,13 +514,13 @@
                     setTimeout(function() { 
                         history += "<br><br>" + paragraphText;
                         window.localStorage.setItem('save-history', history)
-                        deleteAfter(paragraphElement.firstChild, false);
+                        deleteAfter(paragraphElement.querySelectorAll("p")[0]);
                     
                     }, DelayNextText);
                     
                 }
                 
-                displayText(paragraphText, childElement, customClasses, 500);
+                displayText(paragraphText, childElement, customClasses, delay);
                 scrollPage(delay, paragraphElement, true);
             }
 
@@ -630,6 +648,8 @@
         // Don't follow <a> link
         event.preventDefault();
 
+        clearTimeout(ContinueID);
+
         //add the current text to the big if that contatiner exists
         if (document.getElementById('Current_Text'))
         {
@@ -651,9 +671,9 @@
             
             savePoint = story.state.toJson();
             window.localStorage.setItem('save-state', savePoint);       
-            deleteAfter(paragraphElement.firstChild, false);
+            deleteAfter(paragraphElement.querySelectorAll("p")[0]);
         }
-        else continueStory(false)
+        else continueStory(false, 500)
     }
 
     //On Click to continue IF there was a refresh
@@ -680,9 +700,9 @@
             }
 
             pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;           
-            deleteAfter(paragraphElement.firstChild, false);
+            deleteAfter(paragraphElement.querySelectorAll("p")[0]);
         }
-        else continueStory(false)
+        else continueStory(false, 500)
 
         document.getElementById('All_Text').removeEventListener("click", OnClickOneTimeEvent);
     }
@@ -708,7 +728,7 @@
         replaceParagraph = null;
 
         // Aaand loop
-        continueStory(false);
+        continueStory(false, 5);
     }
 
     function CreateChoices()
@@ -776,15 +796,16 @@
                 if (choice.text != "Start Game")
                 {
                     history += "<br><br>" + paragraphText;
+                    history += "<br><br>" + choice.text;
                     window.localStorage.setItem('save-history', history)
 
-                    deleteAfter(paragraphElement.firstChild, true);
+                    deleteAfter(paragraphElement.querySelectorAll("p")[0]);
                 }
                 else 
                 {
                     history += paragraphText;
                     window.localStorage.setItem('save-history', history)
-                    continueStory(false)
+                    continueStory(false, 500)
                 }
             });
         });
@@ -824,21 +845,24 @@
             if (pastTextContainer != null)
                 {
                     pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
-                    deleteAfter(paragraphElement.firstChild, true);
+                    deleteAfter(paragraphElement.querySelectorAll("p")[0]);
                 }
-            else continueStory(false)
+            else continueStory(false, 500)
         });
     }
 
     function CreateTextBox(text, customClasses)
     {
         // Create paragraph element (initially hidden)
-        var paraElement = document.createElement('div');
-        var textElement = document.createElement('p');
-        paraElement.appendChild(textElement);
+        var paraElement = document.getElementById("Current_Text");
+        var textElement = paraElement.querySelectorAll("p")[0];
 
-        paraElement.classList.add("text_container");
-        paraElement.classList.add("fadeIn");
+        if (!textElement)
+        {
+            textElement = document.createElement('p')
+            textElement.style = "user-select:none;"
+            paraElement.insertBefore(textElement, paraElement.firstChild)
+        }
 
         if (styling !== "")
         {
@@ -873,7 +897,7 @@
         savePoint = story.state.toJson(); 
         window.localStorage.setItem('save-state', null);  
 
-        continueStory(true);
+        continueStory(true, 500);
 
         outerScrollContainer.scrollTo(0, 0);
     }
@@ -886,13 +910,11 @@
         styling = "";
         window.localStorage.setItem('save-styles', styling)
 
-        element = document.getElementById('Current_Text')
+        StoryCheckpoint = "";
+        window.localStorage.setItem('save-checkpoint', StoryCheckpoint)
 
-        if (element)
-            element.remove()
-
-        paragraphElement = null
-
+        EndingsAchieved = "";
+        window.localStorage.setItem('save-endings', EndingsAchieved)
 
         hasFlashlight = false;
         footer.innerHTML = "Turn on"
@@ -906,6 +928,7 @@
         openOptions(false);
         openHistory(false);
         openEndings(false);
+        openCheckpoints(false);
         storyContainer.classList.remove("hide")
     }
 
@@ -955,6 +978,9 @@
         el.classList.remove("fadeInBottom"); 
         el.classList.remove("fadeOut"); 
 
+        Continue.classList.add("hidden")
+        Continue.classList.remove("fadeOut")
+
         el.innerHTML = text;
 
 
@@ -977,16 +1003,26 @@
                 let cycle = el.querySelectorAll("a")[0];
                 cycle.addEventListener("click", OnClickCycle );
                 cycle.addEventListener("mouseleave", AfterClickCycle );
-            }
+            }           
+
         }, delay);
-        
+
+        if (story.currentChoices.length <= 0 && DelayNextText <= 0)
+            ContinueID = setTimeout(function () { Continue.classList.add("fadeInBottom"); Continue.classList.remove("hidden") } , 2550);
     }
 
-    async function deleteAfter (el, isChoice) {
-        el.removeAttribute("class")
-        el.classList.add("fadeOut")
+    async function deleteAfter (el) {
+        if (el.classList)
+            el.removeAttribute("class")
 
-        setTimeout(function() { continueStory(false);}, 275);
+        el.classList.add("fadeOut")
+        if (!Continue.classList.contains("hidden"))
+        {
+            Continue.classList.remove("fadeInBottom")
+            Continue.classList.add("fadeOut")
+        }
+
+        setTimeout(function() { continueStory(false, 500);}, 275);
     }
 
     // Fades in an element after a specified delay
@@ -1092,6 +1128,7 @@
             optionsContainer.classList.remove("hidden");
             endingsContainer.classList.add("hidden");
             historyContainer.classList.add("hidden");
+            checkpointsContainer.classList.add("hidden");
         }
         else
             optionsContainer.classList.add("hidden");
@@ -1104,9 +1141,23 @@
             endingsContainer.classList.remove("hidden");
             optionsContainer.classList.add("hidden");
             historyContainer.classList.add("hidden");
+            checkpointsContainer.classList.add("hidden");
         }
         else
             endingsContainer.classList.add("hidden");
+    }
+
+    function openCheckpoints(visible)
+    {
+        if (visible)
+        {
+            checkpointsContainer.classList.remove("hidden");
+            optionsContainer.classList.add("hidden");
+            historyContainer.classList.add("hidden");
+            endingsContainer.classList.add("hidden");            
+        }
+        else
+            checkpointsContainer.classList.add("hidden");
     }
 
     function openHistory(visible)
@@ -1116,6 +1167,7 @@
             historyContainer.classList.remove("hidden");
             optionsContainer.classList.add("hidden");
             endingsContainer.classList.add("hidden");
+            checkpointsContainer.classList.add("hidden");
 
             document.getElementById("All_Text").innerHTML = history
             historyContainer.scrollTop = historyContainer.scrollHeight;
@@ -1183,13 +1235,96 @@
             
         });
 
+        let checkpointEl = document.getElementById("checkpoint");
+
+        if (checkpointEl) checkpointEl.addEventListener("click", function(event) {
+            if (storyContainer.classList.contains("hide") && !checkpointsContainer.classList.contains("hidden"))
+            {
+                storyContainer.classList.remove("hide")
+                openCheckpoints(false);                
+            }
+            else
+            {
+                storyContainer.classList.add("hide")
+                openCheckpoints(true);
+            }
+            
+        });
+
         setupMute()
         setupShake()
         setupDimmable()
         setupVolume()
         setupEndings()
+        setupCheckpoints()
     }
 
+    function setupCheckpoints()
+    {
+        try {         
+            if (StoryCheckpoint) {
+                if (typeof(StoryCheckpoint) == "string")
+                {
+                    StoryCheckpoint = JSON.parse(StoryCheckpoint);
+                    var children = document.getElementById("Checkpoints Menu").querySelectorAll("div");
+
+                    if (children)
+                    {
+                        for (let i = 1; i < children.length; i++) {
+                            if (StoryCheckpoint[i-1].name != "Locked")
+                            {
+                                children[i].innerHTML = `<a href="#">${StoryCheckpoint[i-1].name}</a>`
+                                var point = children[i].querySelectorAll("a")[0];
+                                var storyPoint = StoryCheckpoint[i-1];
+                                point.addEventListener("click", function (event) {
+                                    // Don't follow <a> link
+                                    event.preventDefault();
+
+                                    //check if we need to kill flashlight or overlay stuffs
+                                    if (storyPoint.index <= 1)
+                                    {
+                                        hasFlashlight = false;
+                                        
+                                        footer.classList.add("hide")
+                                        document.getElementById("Overlay").classList.add("hide")
+                                        styling = "";
+                                        window.localStorage.setItem('save-styles', styling)
+                                    }
+                                    else if (storyPoint.index > 1 && dim !== "false")
+                                    {
+                                        document.getElementById("Overlay").classList.remove("hide")
+                                        document.getElementById("Overlay").classList.add("img_used")
+
+                                        paragraphElement.classList.add("text_container_After");
+                                        styling += "text_container_After"
+                                        window.localStorage.setItem('save-styles', styling)
+                                    }
+
+
+                                    //flick off any flashlight stuffs
+                                    footer.innerHTML = "Turn on"
+                                    footer.setAttribute("status", "off")
+                                    document.getElementById("flashlight").style.display = "none"
+
+                                    // Remove all existing choices
+                                    removeAll(".choice");
+
+                                    //load save point and continue
+                                    story.state.LoadJson(storyPoint.point)
+                                    continueStory(true, 500);
+                                })
+                            }                                
+                            else
+                                children[i].innerHTML = "Locked"
+                        }
+                    } 
+                }
+            }
+            
+        } catch (e) {
+            console.log(e);
+        }      
+    }
 
     function setupEndings()
     {
