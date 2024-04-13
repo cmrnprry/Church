@@ -10,6 +10,7 @@
     let savedTheme;
     let globalTagTheme;
     let hasFlashlight = false;
+    let ChoicesID = null;
 
     //CONTINUE ARROW
     let Continue = document.getElementById("Continue_Arrow")
@@ -17,6 +18,8 @@
 
     //IMAGES
     let BackgroundImage = document.getElementById("Background Image")
+    let img = window.localStorage.getItem('save-img')
+
 
     //STYLING TO KEEP ON A TEXT BOX
     let styling = ""
@@ -76,7 +79,7 @@
         "curtain" : curtain,
         "door_slam" : door_slam,
         "door_thud" : dor_thud,
-        "email_ding" : email_ding,
+        "ding" : email_ding,
         "flashlight_off" : flashlight_off,
         "flashlight_on" : flashlight_on,
         "footsteps_player" : footsteps_player,
@@ -319,7 +322,7 @@
                     // Check if we need to delay or fade in the audio
                     var array;
                     var sound = splitTag.val;
-                    var fade = 0.5;
+                    var fade = 0;
                     var delay = 500;
                     var loop = false;
 
@@ -336,7 +339,7 @@
                         }
 
                         if (AudioList[sound])
-                        PlayAudio (AudioList[sound], loop, fade, delay);   
+                            PlayAudio (AudioList[sound], loop, fade, delay);   
                     } 
                 }
 
@@ -393,8 +396,12 @@
 
                 // IMAGE: src
                 if( splitTag && splitTag.property == "IMAGE" ) {
-                    
-                    BackgroundImage.src = `./Images/Backgrounds/${splitTag.val}.png`;
+                    FadeImage(splitTag.val)
+                }
+
+                if( splitTag && splitTag.property == "PROP" ) {
+                    var array = splitTag.val.split(", ")
+                    FadeProp(array[0], array[1])
                 }
 
                 if( splitTag && splitTag.property == "EFFECT" ) {
@@ -505,23 +512,22 @@
                     paragraphElement.addEventListener("click", OnClickEvent);
                     paragraphElement.setAttribute("click_listener", "true")
                 }
-
-                //we are delayed, after our delay add the new text and remove the click listener
-                if (DelayNextText > 0)
-                {
-                    paragraphElement.setAttribute("click_listener", "false")
-                    paragraphElement.removeEventListener("click", OnClickEvent);
-                    setTimeout(function() { 
-                        history += "<br><br>" + paragraphText;
-                        window.localStorage.setItem('save-history', history)
-                        deleteAfter(paragraphElement.querySelectorAll("p")[0]);
-                    
-                    }, DelayNextText);
-                    
-                }
                 
                 displayText(paragraphText, childElement, customClasses, delay);
                 scrollPage(delay, paragraphElement, true);
+            }
+
+            //we are delayed, after our delay add the new text and remove the click listener
+            if (DelayNextText > 0)
+            {
+                paragraphElement.setAttribute("click_listener", "false")
+                paragraphElement.removeEventListener("click", OnClickEvent);
+                setTimeout(function() { 
+                    history += "<br><br>" + paragraphText;
+                    window.localStorage.setItem('save-history', history)
+                    deleteAfter(paragraphElement.querySelectorAll("p")[0]);
+                
+                }, DelayNextText);                    
             }
 
             if (replace_text != "") ClickReplaceText(paragraphElement);
@@ -535,8 +541,86 @@
             if (DelayNextText > 0)
                 delay += DelayNextText
 
-            setTimeout(function() { CreateChoices(); }, delay);
+            if (ChoicesID == null)
+                ChoicesID = setTimeout(function() { CreateChoices(); }, delay);
         }
+    }
+
+    function FadeImage(src)
+    {
+        img = src;
+        window.localStorage.setItem('save-img', img)
+        var delta = 30 / 250;
+        var inter = setInterval(function () { 
+            if((BackgroundImage.style.opacity > 0) && (BackgroundImage.style.opacity - delta > 0)){
+                BackgroundImage.style.opacity -= delta
+            }
+            else {
+                BackgroundImage.style.visibility='visible'
+                BackgroundImage.src = `./Images/Backgrounds/${src}.png`;
+                BackgroundImage.style.opacity = 0;
+                clearInterval(inter)                
+            }
+        }, 30);        
+
+        setTimeout(function () { 
+            inter = null;
+            
+            inter = setInterval(function () { 
+                if((parseFloat(BackgroundImage.style.opacity) <= 1) && (parseFloat(BackgroundImage.style.opacity) + delta <= 1)){
+                    BackgroundImage.style.opacity = parseFloat(BackgroundImage.style.opacity) + delta;
+                    console.log(parseFloat(BackgroundImage.style.opacity) + delta);
+                    console.log(BackgroundImage.style.opacity);
+                }
+                else {
+                    BackgroundImage.style.opacity = 1;
+                    console.log("ghere")
+                    clearInterval(inter)
+                    inter = null;
+                    
+                }
+                
+             }, 30)   
+        } , 300);
+             
+    }
+
+    function FadeProp(src, isOn)
+    {
+        var element = document.getElementById(src)
+        var delta = 30 / 250;
+        if (isOn === "true")
+        {
+            var inter = setInterval(function () { 
+                if((element.style.opacity > 0) && (element.style.opacity - delta > 0)){
+                    element.style.opacity -= delta
+                }
+                else {
+                    element.style.opacity = 0;
+                    clearInterval(inter)       
+                    inter = null;         
+                }
+            }, 30); 
+            return
+        }
+        else{
+            inter = setInterval(function () { 
+                if((parseFloat(element.style.opacity) <= 1) && (parseFloat(element.style.opacity) + delta <= 1)){
+                    element.style.opacity = parseFloat(element.style.opacity) + delta
+                }
+                else {
+                    element.style.opacity = 1;
+                    console.log("here")
+                    clearInterval(inter)
+                    inter = null;
+                }
+                
+            }, 30);``
+        }
+            
+            
+            
+             
     }
 
     function PlayAudio(audio, loop, fade, delay)
@@ -593,7 +677,8 @@
         var currentVolume = parseInt(volume) / 100
 	    if((audio.volume < (currentVolume)) && (audio.volume + delta < 1)){
    		    audio.volume += delta;
-        }else{
+        }
+        else{
     	    audio.volume = currentVolume;
             clearInterval(nIntervId)
             nIntervId = null;
@@ -726,6 +811,7 @@
         replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
 
         replaceParagraph = null;
+        ChoicesID = null;
 
         // Aaand loop
         continueStory(false, 5);
@@ -807,6 +893,8 @@
                     window.localStorage.setItem('save-history', history)
                     continueStory(false, 500)
                 }
+
+                ChoicesID = null;
             });
         });
 
@@ -922,8 +1010,11 @@
         footer.classList.add("hide")
         footer.setAttribute("status", "off")
         document.getElementById("Overlay").classList.add("hide")
+
+        FadeImage("Default")
     
         removeAll(".choice");
+        ChoicesID = null;
         
         openOptions(false);
         openHistory(false);
@@ -1257,6 +1348,9 @@
         setupVolume()
         setupEndings()
         setupCheckpoints()
+
+        if (img != "")
+            BackgroundImage.src = `./Images/Backgrounds/${img}.png`;
     }
 
     function setupCheckpoints()

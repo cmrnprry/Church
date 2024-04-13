@@ -9,7 +9,6 @@ INCLUDE Confessional_Curtain.ink
 + [Content Warnings] ->Content_Warnings
 
 === Start ====
-#IMAGE: Default
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
 It was dark when you passed, and you keep telling youself that your tired brain mistook a billboard for a church. They must be building one there.
@@ -50,7 +49,7 @@ The church feels...
 The bus arrives and you're no closer to understanding this {feeling} church that spontaneously appeared. Your stomach lurches.
 
 *[Get on the bus]
-#PLAY: bus-sounds
+#PLAY: bus_ambience
 -> Bus
 *[Investigate the church]
 -> Investigate
@@ -75,7 +74,7 @@ Blood starts rushing in your ears and pressure builds behind your eyes as you st
 #CLASS: Bus_Honk #PLAY: honk #DELAY: 2.5
 HOOOOONNNKK!!
 
-#PLAY: bus-sounds
+#PLAY: bus_ambience
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel youself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church.]
@@ -96,13 +95,14 @@ You stumble backwards as the bus swerves, narrowly avoiding you. The driver open
 
 - You grip his arm as you ask. Your nails dig into his arm and he winces.
 
-"I'm going to need you to let go." He looks [perturbed, afraid, nervous, tense]. "Do I need to call someone?"
+#CYCLE: perturbed, afraid, nervous, tense
+"I'm going to need you to let go." He looks @. "Do I need to call someone?"
 
 Your eyes dart from him to the church behind him and back. You're losing it. Over a building. You need to calm down.
 
 "I'm sorry-" You release the bus driver. "I- I-'m sorry."
 
-*You scurry to the back of the bus.
+*[You scurry to the back of the bus.]
     You find a seat where you can look at the church through the window.
     -> Bus.Seat
 
@@ -147,7 +147,7 @@ You watch the church through the window until it fades into a dot in the distanc
     ->Job
 
 === Job ===
-#PLAY: office-sounds
+#PLAY: office_ambience #IMAGE: Default
 You get less done than usual at work. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does.
@@ -167,14 +167,14 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 ~ work += 1
 *[Maybe the monotony will take your mind off things.]
 
-- #PLAY: scanning
+- #PLAY: scanner
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
 Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place-
 
 *["Hey- What are you doing?"]
 
-- #STOP: scanning, 3
+- #STOP: scanner, 3
 You jump and look up to see a coworker from your departmenr. You don't talk to her often, but she's nice enough. She looks... concerned?
 
 *["Just sending out some scans."]
@@ -467,17 +467,17 @@ You ignore it, and keep going. Each step feels like wading through thick jelly. 
 ->Stop_Sign
 
 = Stop_Sign
-#IMAGE: Chuch_Looming #PROP: closed_gates
+#IMAGE: Chuch_Looming #PROP: closed_gates, false
 It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. 
 
 But how did it...? You were at...?
 
 *[Open the gates]
-#PLAY: gate-open #PROP: open_gates
+#PLAY: gate_open #PROP: closed_gates, true #PROP: open_gates, false
 You throw the gates open, and the edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 
 *[Let go]
-#PLAY: gate-open #PROP: open_gates
+#PLAY: gate_open #PROP: closed_gates, true #PROP: open_gates, false
 You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 - 
 
@@ -494,7 +494,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 
 = Usual
 
-#PLAY: gate-open
+#PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
 {- know: You should keep moving.}
@@ -542,7 +542,7 @@ You take a few steps before stopping, and looking back at the open gate. You wan
 
 *[What if a kid gets lost?]
 ~ temp_bool = true
-#PLAY: child-running #STOP: child-running 3
+#PLAY: footsteps_child_grass #STOP: footsteps_child_grass, 3
 No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
 
 *[Or an animal gets trapped.]
@@ -592,13 +592,13 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 === Walk_Up_Path ===
-#PLAY: player-walking
+#PLAY: footsteps_player
 You take one step forward.
 
 *[And keep walking.]
 
 -
-#PLAY: spooky-walking
+#PLAY: footsteps_scary
 And walking.
 
 -{- know: You're moving automatically. You want to go home. }
@@ -647,7 +647,7 @@ Nothing. No one's there. You laugh.
 
 *[Pull the gate closed.]
 
-- #PLAY: gate-closed #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
+- #PLAY: gate_closed #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
 Just as it slams shut, everything goes dark...
 
 *[Wait for your eyes adjust]
@@ -672,14 +672,14 @@ You blindly feel for the latch of the gate, but instead of cool metal your hands
 
 - Somehow you are inside the church.
 
-#PLAY: lock-rattle
+#PLAY: lock_rattle
 You try the knob.
 
 *It's locked.
 -> Locked
 
 = Run
-#PLAY: player-walking #PLAY:spooky-walking
+#PLAY: footsteps_player #PLAY: footsteps_scary
 { 
     - temp_bool: 
     Adreneline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
@@ -694,10 +694,10 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #STOP: player-walking #STOP: 1, spooky-walking #PLAY: 0.5, door-slam #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
+- #STOP: footsteps_player #STOP: 1, footsteps_scary #PLAY: 0.5, door_slam #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
 You fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
-#CLASS: Bang_Short #PLAY: banging-short #DELAY: 2
+#CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
 BANG BANG BANG
 
 Whoever was out there is slamming themselves into the door. It takes all your strength to keep them from getting in.
@@ -714,27 +714,27 @@ Whoever was out there is slamming themselves into the door. It takes all your st
         #DELAY: 1
         You wait, saying nothing. 
 
-        #CLASS: Bang_Short #PLAY: banging-short
-        BANG BANG BANG
+        #CLASS: Bang_Short #PLAY: bang_short
+        BANG
 
         #DELAY: 1.5
         They can't keep this up forever.
 
-        #CLASS: Bang_Short #PLAY: banging-short
-        BANG BANG BANG
+        #CLASS: Bang_Short #PLAY: bang_short
+        BANG
         
     - else:
         #DELAY: 1
         "I DON'T HAVE ANY MONEY!" 
     
-        #CLASS: Bang_Short #PLAY: banging-short
-        BANG BANG BANG
+        #CLASS: Bang_Short #PLAY: bang_short
+        BANG
     
         #DELAY: 1
         "I DON'T HAVE ANYTHING!"
     
-        #CLASS: Bang_Short #PLAY: banging-short
-        BANG BANG BANG
+        #CLASS: Bang_Short #PLAY: bang_short
+        BANG
 }
 
 *[Wait]
@@ -749,7 +749,7 @@ When you feel safe again, you try to open the knob.
 === Locked ===
 Locked? { -know: The blood drains from your face as you realize what you've done.}
 
-#PLAY: lock-rattle
+#PLAY: lock_rattle
 You jiggle the handle again. 
 
 *[The door won't budge.]
@@ -765,7 +765,7 @@ You jiggle the handle again.
 = Kick
 You size up the door and kick at the latch.
 
-#CLASS: Kick #PLAY: thud
+#CLASS: Kick #PLAY: door_thud
 Thud!
 
 The door shutters, but stands firm.
@@ -779,12 +779,12 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "hurt"
 You kick again in the same place.
 
-#CLASS: Kick  #PLAY: thud
+#CLASS: Kick  #PLAY: door_thud
 Thud!
 
 *[How is the door this strong...?]
 
-- #CLASS: Kick #PLAY: thud
+- #CLASS: Kick #PLAY: door_thud
 Thud!
 
 The door still stands.
@@ -798,12 +798,12 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "pain"
 You keep kicking at it. You breathing starts to get heavy and your leg aches. It feels as if you are hitting steel.
 
-#CLASS: Kick #PLAY: thud
+#CLASS: Kick #PLAY: door_thud
 Thud!
 
 *[You want to leave.]
 
-- #CLASS: Kick #PLAY: thud
+- #CLASS: Kick #PLAY: door_thud
 Thud!
 
 The door shows no signs of breaking.
@@ -817,22 +817,22 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "worst"
 Something in you allows you to keep going, even as your leg throbs and it feels like you can barely take in anymore air. 
 
-#CLASS: Kick  #PLAY: thud
+#CLASS: Kick  #PLAY: door_thud
 Thud!
 
 *[You need to get out.]
 
-- #CLASS: Kick  #PLAY: thud
+- #CLASS: Kick  #PLAY: door_thud
 Thud!
 
 *[Evey fiber of your being is telling you to get <i>out.</i>]
 
-- #CLASS: Kick  #PLAY: thud
+- #CLASS: Kick  #PLAY: door_thud
 Thud!
 
 *[But the church will not let you.]
 
-- #CLASS: Kick  #PLAY: thud
+- #CLASS: Kick  #PLAY: door_thud
 Thud!
 
 *[The door does not move.]
@@ -897,7 +897,7 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 }
 On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
-~ room += 1
+~ room = true
 
 *[Pick up the {object}.]
 ~ temp_bool = false
@@ -946,7 +946,7 @@ You jam the crowbar in between the door and the wall, at the latch, and pull.
 - #DELAY: 2  
 You pull harder, putting all your weight into it. You lean back a bit further and-
 
-#PLAY: crowbar-snap #CLASS: Kick #DELAY: 1
+#PLAY: crowbar_break #CLASS: Kick #DELAY: 1
 Crack!
 
 Half the crowbar is left in your hand. You drop it, but don't hear it hit the ground.
@@ -958,21 +958,21 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 #DELAY: 1.5
 You get to work unscrewing the top hindges of the door.
 
-#DELAY: 0.5 #PLAY:clink-1 #CLASS: Slide_Down
+#DELAY: 0.5 #PLAY: screw_fall_1 #CLASS: Slide_Down
 <i>Clink!</i>
-#DELAY: 0.5 #PLAY:clink-2 #CLASS: Slide_Down
+#DELAY: 0.5 #PLAY: screw_fall_2 #CLASS: Slide_Down
 <i>Clink!</i> 
-#DELAY: 1.5 #PLAY:clink-1 #CLASS: Slide_Down
+#DELAY: 1.5 #PLAY: screw_fall_1 #CLASS: Slide_Down
 <i>Clink!</i>
 
 #DELAY: 1
 The screws fall to the floor. You move to the bottom hindges.
 
-#DELAY: 0.5 #PLAY:clink-2 #CLASS: Slide_Down
+#DELAY: 0.5 #PLAY: screw_fall_2 #CLASS: Slide_Down
 <i>Clink!</i> 
-#DELAY: 0.5 #PLAY:clink-1 #CLASS: Slide_Down
+#DELAY: 0.5 #PLAY: screw_fall_1 #CLASS: Slide_Down
 <i>Clink!</i> 
-#DELAY: 1.5 #PLAY:clink-2 #CLASS: Slide_Down
+#DELAY: 1.5 #PLAY: screw_fall_2 #CLASS: Slide_Down
 <i>Clink!</i>
 
 *[That should be the last of them.]
@@ -995,13 +995,13 @@ You can't find them.
 = Sledgehammer
 You lift up the large hammer and begin to smash it into the door.
 
-#PLAY: thud #CLASS: Kick
+#PLAY: door_thud #CLASS: Kick
 Thud!
 
 *[It's stronger than you anticipated.]
 
 
--#PLAY: thud #CLASS: Kick
+-#PLAY: door_thud #CLASS: Kick
 Thud!
 
 *[It's not working...?]
@@ -1166,7 +1166,7 @@ Your eyelids grow heavy, and you think you understand why the church released yo
 = Refuse
 {
     - stay >= 1.5:
-    #PLAY: groaning-angry #STOP: groaning-angry, 2
+    #PLAY: groaning_angry #STOP: groaning_angry, 2
     The melody harshly cuts out.
 
 }
@@ -1286,7 +1286,7 @@ Wind blows around you, and before you stop yourself you call out.
 -> Trapped.Light
 
 = Ignore
-You pay it no attention. { - sleep == "sleep": It is helping you to fall asleep.} { - sleep != "sleep":It's comforting, but idlely listening will only make you more tired.}
+You pay it no attention. { sleep == "sleep": It is helping you to fall asleep.} { sleep != "sleep":It's comforting, but idlely listening will only make you more tired.}
 
 It's a soothing sound, but there's something else there, just underneath, that you can't make out.
 
@@ -1309,7 +1309,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 - #ENDING: Sleeping Forever
 
 *[But you don't wake up.]
-->Credits
+->END_DEMO
 
 = Light
 *[Look at the light.]
@@ -1377,10 +1377,10 @@ You feel...
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and luder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *[You can barely stand it.]
-        -> Inside
+        -> Trapped.Light_Leave
         
     - else:
-        #PLAY: groaning-happy, 0.25 #STOP: groaning-happy, 1.5
+        #PLAY: groaning_happy, 0.25 #STOP: groaning_happy, 1.5
         ~ temp_bool = false
         ~ stay += 1
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
@@ -1396,21 +1396,17 @@ You feel...
 
         With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
 
-        *[Tear your eyes from the window]
-        -> Inside
+
 }
 
-=== Inside ===
-
+=Light_Leave
 { 
-    - feeling == "confused":
+    - light_feeling == "confused":
         ~ temp_string = "confused emotions go"
     - else:
-        ~ temp_string = "{feeling} goes"
+        ~ temp_string = "{light_feeling} goes"
 }
 
-{ 
-- temp_bool:
     #STOP: screeching
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
@@ -1419,11 +1415,11 @@ You feel...
     You dig your nails into your hand.
 
     *[Turn away from the window]
-    ~ temp_bool = false
-    -> Inside
-}
+        ~ temp_bool = false
+        -> Inside
 
-- On the ground in front of you sits a flashlight and a note.
+=== Inside ===
+On the ground in front of you sits a flashlight and a note.
 
 *[Pick up the flashlight]
 ->Inside.Flashlight
@@ -1443,10 +1439,10 @@ It looks battery operated, and gives off enough light to see around you. You sho
 ->Inside.Note
 
 = Note
-#PLAY: click-on #EFFECT: flashlight
+#PLAY: flashlight_on #EFFECT: flashlight
 The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-"Find the heart and destroy it./nThe church will try to stop you./nIt will do anything to keep you here. Stay out of it's sight./n Do not become it's next meal."
+"Find the heart and destroy it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's sight.<br><br>Do not become it's next meal."
 
 *[Meal...?]
 #TEXTBOX: text_container_After
@@ -1469,7 +1465,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
 <i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or...?
 
 - 
-*You try not to think too hard about it.
+*[You try not to think too hard about it.]
 
 - 
 { 
@@ -1502,25 +1498,21 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> Stairs
 
 === Stairs ===
-~temp_bool_3 = false
 {
     - leg == "worst":
         ~temp_string = "limp up"
     - else:
         ~temp_string = "climb"
 }
-{ - room:
-    - 0: You {temp_string} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
-    ~room = 2
+{ - !room:
+        You {temp_string} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
     
-    - 1: You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
+    - else: 
+        You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
     
         This was not there last time you were here.
-        
-        ~room = 2
 }
 
-~temp_bool_3 = false
 *[Examine the stairs]
 -> Stairs.Examine_Stairs
 
@@ -1531,7 +1523,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 ->Inside.Look_For_Heart
 
 = Office
-~temp_bool_3 = true
+~ temp_bool_3 = true
 You try the door only to find it locked.
 
 *[Return to the main body of the church]
@@ -1561,12 +1553,12 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 
 {
     - went_downstairs == 0:
-        #PLAY: click-on
+        #PLAY: flashlight_on
         You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
 
         You tense, every fiber of your being telling you to not continue down.
     - else:
-        #PLAY: click-on
+        #PLAY: flashlight_on
         You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
 }
 
@@ -1626,19 +1618,19 @@ You shine your light to the end of the staircase, and see a door at the end of t
 
 *[Turn. Back.]
     ~ went_downstairs = 3
-    #PLAY: click-off
+    #PLAY: flashlight_off
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
     The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
     ->Stairs.Turn_Back
 
 - 
-#PLAY: 1, squish-squash
-<i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
+#PLAY: 1, footsteps_squishy
+<i>You've made it this far, might as well see it it toward the end,</i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
 <i>Squish</i>
 
-#stop: 3, squish-squash
+#stop: 3, footsteps_squishy
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
 <i>Squelch</i>
@@ -1655,7 +1647,7 @@ The room is covered in the pink, buldging flesh, thick ooze drips from the ceili
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+    #EFFECT: flashlight-flicker #PLAY: flashlight_on #PLAY: 1, flashlight_off #PLAY: 1, flashlight_on #PLAY: 1, flashlight_off
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
 
@@ -1675,7 +1667,7 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 
 *[Lift the tarp]
 
-- #PLAY: click-off
+- #PLAY: flashlight_off #EFFECT: flashlight-gone
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
 #CYCLE: Fidget, mourn, pity, pray
@@ -1759,14 +1751,16 @@ You can't feel your legs.
 *[Go upstairs]
 ->Stairs.Upstairs
 
-*[Enter the office]
-->Stairs.Office
+* { temp_bool_3 == false} [Enter the office.] ->Stairs.Office
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
 
 
 ////////// UPSTAIRS INTERACTIONS ////////// 
 
 = Upstairs
-#PLAY: click-on
+#PLAY: flashlight_on
 You start up the stairs, holding the hand rail as you go.
 
 {
@@ -1827,7 +1821,7 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 
 = Bad_End_1
 *[You close your eyes, and fall into a void of relief and comfort.]
--> Credits
+-> END_DEMO
 
 === Credits
 <h1>Credits</h1><br>Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid

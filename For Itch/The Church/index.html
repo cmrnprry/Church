@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
 
-    <title>The Church</title>
+    <title>The Church at the End of the Street</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -83,20 +83,20 @@
 
         <div class="img_container">
             
-            <div id="Main Room" class="hide">
-                <div class="box stairs"><span class="tooltiptext">Go up the stairs?</span></div>
-                <div class="box pews"><span class="tooltiptext">Investigate the pews?</span></div>
-                <div class="box confessional"><span class="tooltiptext">Enter the confessional?</span></div>
+            <div id="Main Room">
+                <div class="box stairs hide"><span class="tooltiptext">Go up the stairs?</span></div>
+                <div class="box pews hide"><span class="tooltiptext">Investigate the pews?</span></div>
+                <div class="box confessional hide"><span class="tooltiptext">Enter the confessional?</span></div>
             </div>
-            <div id="prop older" class="hide">
-                <img id="Prop Image" src="./Images/Props/Prop 3.png" alt="Image" class="gate-closed" />
-                <img id="Prop Image" src="./Images/Props/Prop 1.png" alt="Image" class="gate-open" /> 
-                <img id="Prop Image" src="./Images/Props/head.png" alt="Image" class="head Fidget" />
+            <div id="prop older">
+                <img id="closed_gates" src="./Images/Props/closed_gates.png" alt="Image" class="gate-closed hide" />
+                <img id="open_gates" src="./Images/Props/open_gates.png" alt="Image" class="gate-open hide" /> 
+                <img id="head" src="./Images/Props/head.png" alt="Image" class="head Fidget hide" />
                 
             </div>
             <div id="Overlay" class="img_overlay hide" ></div>
                 <!-- <img id="Prop Image" src="./Images/Props/Prop 5.png" alt="Image" class="note" /> -->
-                <img id="Background Image" src="./Images/Backgrounds/Church_Inside.png" alt="Image" class="" />
+                <img id="Background Image" src="./Images/Backgrounds/Default.png" style="opacity:1.0;" onerror="this.style.visibility='hidden'" alt="Image" class="" />
         </div>
         
         <div id="story" class="container">
@@ -112,7 +112,7 @@
     </div>
 
     <script src="ink.js"></script>
-    <script src="The Church.js"></script>
+    <script src="Demo Sctipt.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

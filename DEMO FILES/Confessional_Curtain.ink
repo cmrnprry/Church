@@ -1,48 +1,13 @@
 === Confessional_Curtain ===
 ~ confessional_sin = true
-{
-    - visited_first:
-        ~ visited_first = false
-        #PLAY: curtain
-        You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{!confessional_priest: The grate that a priest would speak through has the same lattice work that the door does. }
 
-        A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
+    #PLAY: curtain
+    You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. }
 
-        {!confessional_priest: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }
+    A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
 
-    - temp_visited:
-        ~ temp_visited = false
-        While you wait for the service to be over, you look around the cramed space for something useful.
+    {confessional_priest == false: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }
     
-        A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
-    
-        You find nothing. The booth is empty.
-    
-        The rumbling of the sound outside have gone quiet, and when you peak out again, the people and red light are gone. It's probably safe to leave now.
-        
-        You sigh in relief, and move to leave when you hear a voice float through the grate. 
-        
-        "Already leaving?" You freeze. The voice is deep. "Why did you enter only to leave? Aren't you looking for somehting?"
-        ->Confessional_Curtain.Why_Enter
-    //We come here if it's after the pews 1st choice
-    - temp_bool:
-        You decide to check the confessional. You saw the curtain move, someone <i>must</i> be in there. Carefully and quietly, you approach it.
-        
-        Once in front of it, you think you can hear shuffling from inside. You steel yourself, and rip the curtain open. 
-        
-        It's empty. "Ha.. Hahaha..." you laugh and step inside. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. } A small bucket sits in the corner by the divider. "What..?"
-        
-        You plop onto wooden bench, and rub your eyes. There's nothing here. There's no <i>one</i> here. Of course not. What did you expect? Why did you enter?
-        
-    - else:
-        #PLAY: curtain
-        You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. }
-    
-        A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
-    
-        {temp_bool == false: {confessional_priest == false: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }}
-}
-
 *[To Confess]
 ~temp_bool = true
 "What is it you have to confess?" You jump at the deep voice comes from the other side of the screen. "I am here to listen."

@@ -1001,7 +1001,7 @@ body.dark {
     background: none;
     position: relative;
     display: inline-block;
-    transform: scale(2.5);
+    transform: scale(1.5);
     position: relative;
     left: 97%;
     cursor: pointer;
