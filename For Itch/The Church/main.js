@@ -11,6 +11,7 @@
     let globalTagTheme;
     let hasFlashlight = false;
     let ChoicesID = null;
+    let CurrentAudio = null;
 
     //CONTINUE ARROW
     let Continue = document.getElementById("Continue_Arrow")
@@ -19,6 +20,7 @@
     //IMAGES
     let BackgroundImage = document.getElementById("Background Image")
     let img = window.localStorage.getItem('save-img')
+    let prop = window.localStorage.getItem('save-prop')
 
 
     //STYLING TO KEEP ON A TEXT BOX
@@ -100,7 +102,7 @@
         "screeching" : screeching,
         "screw_fall_1" : screw_fall_1,
         "screw_fall_2" : screw_fall_2,
-        "walking_wast_pavement" : walking_wast_pavement
+        "walking_fast_pavement" : walking_wast_pavement
     }
 
     //ENDINGS
@@ -247,6 +249,7 @@
         DelayNextText = 0;
         replace_text = "";
         CyclingText = null;
+        var AudioArray = []
 
         if  (firstTime)
         {
@@ -314,55 +317,8 @@
                     setupEndings()
                 }
 
-                // PLAY: src (assumes no looping, fade in or out)
-                // PLAY: src, loop, fade in
-                // PLAY: src, loop, fade in, delay
-                if( splitTag && splitTag.property == "PLAY" ) {
-                    
-                    // Check if we need to delay or fade in the audio
-                    var array;
-                    var sound = splitTag.val;
-                    var fade = 0;
-                    var delay = 500;
-                    var loop = false;
-
-                    if (mute === "false")
-                    {
-                        if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
-                        {
-                            array = splitTag.val.split(", ")
-
-                            sound = array[0];
-                            loop = array[1]                       
-                            fade = 30 / (array[2] * 1000);
-                            delay  = (array.length > 3) ? array[3] : 500     
-                        }
-
-                        if (AudioList[sound])
-                            PlayAudio (AudioList[sound], loop, fade, delay);   
-                    } 
-                }
-
-                // STOP: src
-                // STOP: src, fade out
-                // STOP: src, fade out, delay
-                else if( splitTag && splitTag.property == "STOP" ) {
-                    // Check if we need to delay or fade in the audio
-                    var array;
-                    var sound = splitTag.val;
-                    var fade = 0.5;
-                    var delay = 500;
-
-                    if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
-                    {
-                        array = splitTag.val.split(", ")
-
-                        sound = array[0];
-                        fade = 30 / (array[1] * 1000);                        
-                        delay  = (array.length > 2) ? array[2] * 1000 : 500     
-                    }
-
-                    StopAudio (AudioList[sound], fade, delay);                   
+                if( splitTag && (splitTag.property == "PLAY" || splitTag.property == "STOP")) {
+                    AudioArray.push(splitTag);
                 }
 
                 //CYCLE: style, [word list]
@@ -531,6 +487,61 @@
             }
 
             if (replace_text != "") ClickReplaceText(paragraphElement);
+
+            for (var ii = 0; ii < AudioArray.length; ii++)
+            {
+                var splitTag = AudioArray[ii];
+                // PLAY: src (assumes no looping, fade in or out)
+                // PLAY: src, loop, fade in
+                // PLAY: src, loop, fade in, delay
+                if( splitTag && splitTag.property == "PLAY" ) {
+                    
+                    // Check if we need to delay or fade in the audio
+                    var array;
+                    var sound = splitTag.val;
+                    var fade = 0;
+                    var delay = 0;
+                    var loop = false;
+
+                    if (mute === "false")
+                    {
+                        if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                        {
+                            array = splitTag.val.split(", ")
+
+                            sound = array[0];
+                            loop = (array[1] === "true")                     
+                            fade = (array.length > 2) ? 30 / (array[2] * 1000): 0;
+                            delay  = (array.length > 3) ? (array[3] * 1000) : 0     
+                        }
+
+                        if (AudioList[sound])
+                            PlayAudio (AudioList[sound], loop, fade, delay);   
+                    } 
+                }
+
+                // STOP: src
+                // STOP: src, fade out
+                // STOP: src, fade out, delay
+                else if( splitTag && splitTag.property == "STOP" ) {
+                    // Check if we need to delay or fade in the audio
+                    var array;
+                    var sound = splitTag.val;
+                    var fade = 0;
+                    var delay = 0;
+
+                    if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
+                    {
+                        array = splitTag.val.split(", ")
+
+                        sound = array[0];
+                        fade = (parseFloat(array[1]) <= 0) ? 0: 30 / (array[1] * 1000);                        
+                        delay  = (array.length > 2) ? array[2] * 1000 : 0     
+                    }
+
+                    StopAudio (AudioList[sound], fade, delay);                   
+                }
+            }
         }
 
 
@@ -548,39 +559,24 @@
 
     function FadeImage(src)
     {
+        var temp = BackgroundImage.src
+        if (temp.includes(src) || !BackgroundImage)
+            return;
+
         img = src;
         window.localStorage.setItem('save-img', img)
-        var delta = 30 / 250;
-        var inter = setInterval(function () { 
-            if((BackgroundImage.style.opacity > 0) && (BackgroundImage.style.opacity - delta > 0)){
-                BackgroundImage.style.opacity -= delta
-            }
-            else {
-                BackgroundImage.style.visibility='visible'
-                BackgroundImage.src = `./Images/Backgrounds/${src}.png`;
-                BackgroundImage.style.opacity = 0;
-                clearInterval(inter)                
-            }
-        }, 30);        
 
-        setTimeout(function () { 
-            inter = null;
+        var inter = setInterval(FadeOutImage, 30, BackgroundImage, inter)
+
+        setTimeout(function () {
+            BackgroundImage.style.opacity = 0;
+            BackgroundImage.style.visibility='visible'
+            BackgroundImage.src = `./Images/Backgrounds/${src}.png`;
             
-            inter = setInterval(function () { 
-                if((parseFloat(BackgroundImage.style.opacity) <= 1) && (parseFloat(BackgroundImage.style.opacity) + delta <= 1)){
-                    BackgroundImage.style.opacity = parseFloat(BackgroundImage.style.opacity) + delta;
-                    console.log(parseFloat(BackgroundImage.style.opacity) + delta);
-                    console.log(BackgroundImage.style.opacity);
-                }
-                else {
-                    BackgroundImage.style.opacity = 1;
-                    console.log("ghere")
-                    clearInterval(inter)
-                    inter = null;
-                    
-                }
-                
-             }, 30)   
+            clearInterval(inter)     
+            inter = null;   
+
+            inter = setInterval(FadeInImage, 30, BackgroundImage, inter) 
         } , 300);
              
     }
@@ -588,39 +584,50 @@
     function FadeProp(src, isOn)
     {
         var element = document.getElementById(src)
-        var delta = 30 / 250;
+
+        if (!element)
+        return;
+
         if (isOn === "true")
         {
-            var inter = setInterval(function () { 
-                if((element.style.opacity > 0) && (element.style.opacity - delta > 0)){
-                    element.style.opacity -= delta
-                }
-                else {
-                    element.style.opacity = 0;
-                    clearInterval(inter)       
-                    inter = null;         
-                }
-            }, 30); 
+            prop = "";
+            
+            var inter = setInterval(FadeOutImage, 30, element, inter)
             return
         }
-        else{
-            inter = setInterval(function () { 
-                if((parseFloat(element.style.opacity) <= 1) && (parseFloat(element.style.opacity) + delta <= 1)){
-                    element.style.opacity = parseFloat(element.style.opacity) + delta
-                }
-                else {
-                    element.style.opacity = 1;
-                    console.log("here")
-                    clearInterval(inter)
-                    inter = null;
-                }
-                
-            }, 30);``
+        else 
+        {
+            prob = src;
+            var inter = setInterval(FadeInImage, 30, element, inter) 
+        }       
+
+        window.localStorage.setItem('save-prop', prop)        
+    }
+
+    function FadeOutImage(element, inter)
+    {
+        var delta = 30 / 250;
+        if((element.style.opacity > 0) && (element.style.opacity - delta > 0)){
+            element.style.opacity -= delta
         }
-            
-            
-            
-             
+        else {
+            element.style.opacity = 0;
+            clearInterval(inter)     
+            inter = null;           
+        }
+    }
+
+    function FadeInImage(element, inter)
+    {
+        var delta = 30 / 250;
+        if((element.style.opacity <= 1) && (element.style.opacity + delta <= 1)){
+            element.style.opacity = parseFloat(element.style.opacity) + delta
+        }
+        else {
+            element.style.opacity = 1;
+            clearInterval(inter)     
+            inter = null;           
+        }
     }
 
     function PlayAudio(audio, loop, fade, delay)
@@ -634,6 +641,13 @@
                     audio.addEventListener("ended", function(){
                         audio.currentTime = 0;
                         audio.play();
+                    })
+                }
+                else
+                {
+                    audio.loop = false;
+                    audio.addEventListener("ended", function(){
+                        //do nothing
                     })
                 }
                     
@@ -968,7 +982,8 @@
         }
             
 
-        displayText(text, textElement, customClasses, 500);        
+        displayText(text, textElement, customClasses, 500);     
+        setTimeout(function () {  paraElement.classList.remove("fadeIn") } , 1000);   
 
         return paraElement;
     }
@@ -1010,8 +1025,10 @@
         footer.classList.add("hide")
         footer.setAttribute("status", "off")
         document.getElementById("Overlay").classList.add("hide")
+        paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
 
         FadeImage("Default")
+        FadeProp(prop, "true")
     
         removeAll(".choice");
         ChoicesID = null;
@@ -1082,11 +1099,8 @@
                 for(var i=0; i<customClasses.length; i++)
                     el.classList.add(customClasses[i]);
             }
-            else
-            {
-                el.classList.add("fadeInBottom"); 
-            }         
 
+            el.classList.add("fadeInBottom"); 
             el.classList.remove("hide");
 
             if (CyclingText)
@@ -1098,22 +1112,26 @@
 
         }, delay);
 
+        setTimeout(function () {  el.classList.remove("fadeInBottom") } , delay + 1000);
+
         if (story.currentChoices.length <= 0 && DelayNextText <= 0)
             ContinueID = setTimeout(function () { Continue.classList.add("fadeInBottom"); Continue.classList.remove("hidden") } , 2550);
     }
 
     async function deleteAfter (el) {
-        if (el.classList)
-            el.removeAttribute("class")
-
         el.classList.add("fadeOut")
+
         if (!Continue.classList.contains("hidden"))
         {
             Continue.classList.remove("fadeInBottom")
             Continue.classList.add("fadeOut")
         }
 
-        setTimeout(function() { continueStory(false, 500);}, 275);
+        setTimeout(function() {         
+            if (el.classList)
+                el.removeAttribute("class")
+            continueStory(false, 500);
+        }, 275);
     }
 
     // Fades in an element after a specified delay
@@ -1349,8 +1367,13 @@
         setupEndings()
         setupCheckpoints()
 
-        if (img != "")
+        if (img)
             BackgroundImage.src = `./Images/Backgrounds/${img}.png`;
+        else
+            BackgroundImage.src = `./Images/Backgrounds/Default.png`;
+
+        if (prop)
+            document.getElementById(prop).style.opacity = 1;
     }
 
     function setupCheckpoints()

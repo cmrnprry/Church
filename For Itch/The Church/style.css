@@ -499,18 +499,6 @@ img {
     to { background-color: #575d5a; }
   }
 
-
-.text_container:not(:last-child):not(:hover)
-{
-    opacity: 0.4;
-    transition: 0.5s;
-}
-
-.text_container:hover {
-    opacity: 1;
-    transition: 0.5s;
-}
-
 /*
   Class applied to all choices
   (Will always appear inside <p> element by default.)
@@ -815,20 +803,21 @@ body.dark {
     animation-duration: .25s;
     animation-iteration-count: 1;
     text-align: center;
+    transform: scale(2.5);
 }
 @keyframes Kick
 {
-    0% { transform: translate(1px, 0px); }
-    10% { transform: translate(-1px,0px); }
-    20% { transform: translate(-3px, 0px); }
-    30% { transform: translate(3px, 0px); }
-    40% { transform: translate(1px, 0px); }
-    50% { transform: translate(-1px, 0px); }
-    60% { transform: translate(-3px, 0px); }
-    70% { transform: translate(3px, 0px); }
-    80% { transform: translate(-1px, 0px); }
-    90% { transform: translate(1px, 0px); }
-    100% { transform: translate(1px, 0px); }
+    0% { transform: translate(1px, 0px) scale(2.5); }
+    10% { transform: translate(-1px,0px) scale(2.5); }
+    20% { transform: translate(-3px, 0px) scale(2.5); }
+    30% { transform: translate(3px, 0px) scale(2.5); }
+    40% { transform: translate(1px, 0px) scale(2.5); }
+    50% { transform: translate(-1px, 0px) scale(2.5); }
+    60% { transform: translate(-3px, 0px) scale(2.5); }
+    70% { transform: translate(3px, 0px) scale(2.5); }
+    80% { transform: translate(-1px, 0px) scale(2.5); }
+    90% { transform: translate(1px, 0px) scale(2.5); }
+    100% { transform: translate(1px, 0px) scale(2.5); }
 }
 
 .Drop_Screw /* used for screw */
