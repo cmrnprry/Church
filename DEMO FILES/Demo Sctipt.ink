@@ -9,7 +9,7 @@ INCLUDE Confessional_Curtain.ink
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
 +[TESTING]
--> Walk_Home
+-> Walk_Up_Path
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -518,6 +518,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 = Usual
+#IMAGE: Default #PROP: closed_gates, true
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
@@ -726,7 +727,7 @@ You still cannot see in church.
 *[You're so close to safety]
 
 - #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
-You fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
+You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
 BANG
@@ -770,7 +771,8 @@ Whoever was out there is slamming themselves into the door. It takes all your st
 
 *[Wait]
 
-- You don't know how long you sit there, holding the door closed, body braced against it. Eventually the banging stops, but you wait longer, just in case.
+- 
+You don't know how long you sit there, holding the door closed, body braced against it. Eventually the banging stops, but you wait longer, just in case.
 
 #PLAY: lock_rattle, false, 0, 0.5
 When you feel safe again, you try to open the knob.
@@ -917,15 +919,15 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 
 {
 - object == "crowbar": 
-    #PROP: crowbar
+    #PROP: crowbar, false
 }
 {
 - object == "screwdriver":
-    #PROP: screwdriver
+    #PROP: screwdriver, false
 }
 {
 - object == "sledgehammer":
-    #PROP: sledgehammer
+    #PROP: sledgehammer, false
 }
 On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
@@ -938,7 +940,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 ~ temp_bool = true
 
 - 
-#PROP: none
+#PROP: sledgehammer, true #PROP: screwdriver, true #PROP: crowbar, true #IMAGE: Default
 {
     - temp_bool:
         { 
@@ -946,7 +948,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
         - else: Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you.
         }
     
-        #IMAGE: Default
+        
         You return to the front door.
         
         You stare at it. It stares back.
@@ -990,21 +992,21 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 #DELAY: 1.5
 You get to work unscrewing the top hindges of the door.
 
-#DELAY: 0.5 #PLAY: screw_fall_1 #CLASS: Slide_Down
+#CLASS: Drop_Screw 0.75 #PLAY: screw_fall_1 
 <i>Clink!</i>
-#DELAY: 0.5 #PLAY: screw_fall_2 #CLASS: Slide_Down
+#CLASS: Drop_Screw #DELAY: 0.75 #PLAY: screw_fall_2
 <i>Clink!</i> 
-#DELAY: 1.5 #PLAY: screw_fall_1 #CLASS: Slide_Down
+#CLASS: Drop_Screw #DELAY: 1.5 #PLAY: screw_fall_1
 <i>Clink!</i>
 
 #DELAY: 1
 The screws fall to the floor. You move to the bottom hindges.
 
-#DELAY: 0.5 #PLAY: screw_fall_2 #CLASS: Slide_Down
+#DELAY: 0.75 #PLAY: screw_fall_2 #CLASS: Drop_Screw
 <i>Clink!</i> 
-#DELAY: 0.5 #PLAY: screw_fall_1 #CLASS: Slide_Down
+#DELAY: 0.75 #PLAY: screw_fall_1 #CLASS: Drop_Screw
 <i>Clink!</i> 
-#DELAY: 1.5 #PLAY: screw_fall_2 #CLASS: Slide_Down
+#PLAY: screw_fall_2 #CLASS: Drop_Screw
 <i>Clink!</i>
 
 *[That should be the last of them.]

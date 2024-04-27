@@ -828,19 +828,19 @@ body.dark {
 
 .Drop_Screw /* used for screw */
 {
-    animation-name: Slide_Down;
+    animation-name: Drop_Screw;
     animation-duration: .4s;
     animation-iteration-count: 1;
     text-align: center;
     animation-fill-mode: forwards;
 }
-@keyframes Slide_Down
+@keyframes Drop_Screw
 {
-    0% { transform:translate(0px, -250px) }
+    0% { transform:translate(0px, -135%) }
     10% { transform:translate(0px, 0px) }
-    50% { transform:translate(0px, -30px) }
+    50% { transform:translate(0px, -30%) }
     75% { transform:translate(0px, 0px) }
-    90% { transform:translate(0px, -10px) }
+    90% { transform:translate(0px, -10%) }
     100% { transform:translate(0px, 0px) }
 }
 
@@ -1013,7 +1013,7 @@ body.dark {
     bottom: -19%;
     right: -3%;
     clip-path: inset(0 6.5% 24.5% 0)!important;
-    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 2.5s ease;
+    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 2.5s ease 0.5s;
 }
 
 .zoom {
@@ -1064,7 +1064,7 @@ body.dark {
     bottom: -24%;
     right: -4%;
     clip-path: inset(0 6% 25% 0)!important;
-    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 2.5s ease;
+    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 2.5s ease 0.5s;
 }
 
 /* FLASHLIGHT */

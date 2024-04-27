@@ -1025,7 +1025,9 @@
         footer.classList.add("hide")
         footer.setAttribute("status", "off")
         document.getElementById("Overlay").classList.add("hide")
-        paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
+
+        if (paragraphElement)
+            paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
 
         FadeImage("Default")
         FadeProp(prop, "true")
@@ -1101,6 +1103,7 @@
             }
             else
                el.classList.add("fadeInBottom"); 
+
             el.classList.remove("hide");
 
             if (CyclingText)
@@ -1112,7 +1115,8 @@
 
         }, delay);
 
-        setTimeout(function () {  el.classList.remove("fadeInBottom") } , delay + 1000);
+        if (customClasses.length <= 0)
+            setTimeout(function () {  el.classList.remove("fadeInBottom") } , delay + 1000);
 
         if (story.currentChoices.length <= 0 && DelayNextText <= 0)
             ContinueID = setTimeout(function () { Continue.classList.add("fadeInBottom"); Continue.classList.remove("hidden") } , 2550);
