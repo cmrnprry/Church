@@ -244,6 +244,7 @@
 
     // Main story processing function. Each time this is called it generates
     // all the next content up as far as the next set of choices.
+    //first time: 0 == no save, 1 == has save, 2 == has save, reload
     function continueStory(firstTime, delta) {
         var delay = delta;
         DelayNextText = 0;
@@ -350,6 +351,27 @@
                     paragraphText = newString;
                 }
 
+                //ZOOM: [transform], [clip-path] ((this assumes BG image ONLY))
+                if (splitTag && splitTag.property == "ZOOM") {
+                    var list = splitTag.val.split('|')
+                    var transfrom = list[0];
+                    var clip = list[1];
+
+                    ZoomImage(transfrom, clip);
+                }
+                //ICLASS: elementID, [classes to remove], [classese to add]
+                if (splitTag && splitTag.property == "ICLASS") {
+                    var list = splitTag.val.split('|')
+                    var element = document.getElementById(list[0])
+
+                    if (list[1] !== "")
+                        element.classList.remove(list[1])
+
+                    if (list[2] !== "")
+                        element.classList.add(list[2])
+                       
+                }
+
                 // IMAGE: src
                 if( splitTag && splitTag.property == "IMAGE" ) {
                     FadeImage(splitTag.val)
@@ -357,6 +379,7 @@
 
                 if( splitTag && splitTag.property == "PROP" ) {
                     var array = splitTag.val.split(", ")
+                    
                     FadeProp(array[0], array[1])
                 }
 
@@ -390,23 +413,23 @@
                 }
 
                 // LINK: url
-                else if( splitTag && splitTag.property == "LINK" ) {
+                if( splitTag && splitTag.property == "LINK" ) {
                     window.location.href = splitTag.val;
                 }
 
                 // LINKOPEN: url
-                else if( splitTag && splitTag.property == "LINKOPEN" ) {
+                if( splitTag && splitTag.property == "LINKOPEN" ) {
                     window.open(splitTag.val);
                 }
 
                 // BACKGROUND: src
-                else if( splitTag && splitTag.property == "BACKGROUND" ) {
+                if( splitTag && splitTag.property == "BACKGROUND" ) {
                     outerScrollContainer.style.backgroundImage = 'url('+splitTag.val+')';
                 }
 
                 // REMOVE: class
                 // Effects the text box specifically
-                else if( paragraphElement && splitTag && splitTag.property == "REMOVE" ) {
+                if( paragraphElement && splitTag && splitTag.property == "REMOVE" ) {
                         paragraphElement.classList.remove(splitTag.val);
                         if (styling.includes(splitTag.val))
                             var index = styling.indexOf(splitTag.val)
@@ -417,7 +440,7 @@
 
                 // TEXTBOX: class
                 // Effects the text box specifically
-                else if( paragraphElement && splitTag && splitTag.property == "TEXTBOX" ) {
+                if( paragraphElement && splitTag && splitTag.property == "TEXTBOX" ) {
                     if (dim !== "false")
                     {    
                         paragraphElement.classList.add(splitTag.val);
@@ -433,14 +456,14 @@
 
                 // CLASS: className
                 // Effects the text
-                else if( splitTag && splitTag.property == "CLASS" ) {
+                if( splitTag && splitTag.property == "CLASS" ) {
                     if (shake !== "false")
                         customClasses.push(splitTag.val);
                 }
 
                 // CLEAR - removes all existing content.
                 // RESTART - clears everything and restarts the story from the beginning
-                else if( tag == "RESTART" ) {
+                if( tag == "RESTART" ) {
                     restart();
                     return;
                 }
@@ -500,7 +523,7 @@
                     var array;
                     var sound = splitTag.val;
                     var fade = 0;
-                    var delay = 0;
+                    var delay = 500;
                     var loop = false;
 
                     if (mute === "false")
@@ -512,7 +535,7 @@
                             sound = array[0];
                             loop = (array[1] === "true")                     
                             fade = (array.length > 2) ? 30 / (array[2] * 1000): 0;
-                            delay  = (array.length > 3) ? (array[3] * 1000) : 0     
+                            delay  = (array.length > 3) ? (array[3] * 1000) : 500     
                         }
 
                         if (AudioList[sound])
@@ -566,18 +589,13 @@
         img = src;
         window.localStorage.setItem('save-img', img)
 
-        var inter = setInterval(FadeOutImage, 30, BackgroundImage, inter)
+        BackgroundImage.style.opacity = 0;
 
         setTimeout(function () {
-            BackgroundImage.style.opacity = 0;
+            BackgroundImage.style.opacity = 1;
             BackgroundImage.style.visibility='visible'
             BackgroundImage.src = `./Images/Backgrounds/${src}.png`;
-            
-            clearInterval(inter)     
-            inter = null;   
-
-            inter = setInterval(FadeInImage, 30, BackgroundImage, inter) 
-        } , 300);
+        } , 501);
              
     }
 
@@ -586,52 +604,34 @@
         var element = document.getElementById(src)
 
         if (!element)
-        return;
+            return;
 
         if (isOn === "true")
         {
             prop = "";
             
-            var inter = setInterval(FadeOutImage, 30, element, inter)
+            element.style.opacity = 0;
             return
         }
         else 
         {
+            if (element.classList.contains("hide"))
+                element.classList.remove("hide")
             prob = src;
-            var inter = setInterval(FadeInImage, 30, element, inter) 
+            element.style.opacity = 1; 
         }       
 
         window.localStorage.setItem('save-prop', prop)        
     }
 
-    function FadeOutImage(element, inter)
-    {
-        var delta = 30 / 250;
-        if((element.style.opacity > 0) && (element.style.opacity - delta > 0)){
-            element.style.opacity -= delta
-        }
-        else {
-            element.style.opacity = 0;
-            clearInterval(inter)     
-            inter = null;           
-        }
-    }
-
-    function FadeInImage(element, inter)
-    {
-        var delta = 30 / 250;
-        if((element.style.opacity <= 1) && (element.style.opacity + delta <= 1)){
-            element.style.opacity = parseFloat(element.style.opacity) + delta
-        }
-        else {
-            element.style.opacity = 1;
-            clearInterval(inter)     
-            inter = null;           
-        }
+    function ZoomImage(transform, clip) {
+        BackgroundImage.style.transform = transform;
+        BackgroundImage.style.clipPath = clip;
     }
 
     function PlayAudio(audio, loop, fade, delay)
     {
+        console.log("play audio")
         if (audio)
         {
             setTimeout(function() { 
@@ -1099,8 +1099,8 @@
                 for(var i=0; i<customClasses.length; i++)
                     el.classList.add(customClasses[i]);
             }
-
-            el.classList.add("fadeInBottom"); 
+            else
+               el.classList.add("fadeInBottom"); 
             el.classList.remove("hide");
 
             if (CyclingText)

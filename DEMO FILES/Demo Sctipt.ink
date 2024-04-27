@@ -58,26 +58,30 @@ The bus arrives and you're no closer to understanding this {feeling} church that
 -> Investigate
 
 === Investigate
+
 You pat your pant pockets, pretending that you forgot your pass, and smile sheepishly. The driver rolls her eyes and drives off. It's still early enough where you can just catch the next one. You steel yourself and look back at the church.
 
 *[The church windows catch your eye.]
 
 -~window = true
+#ZOOM: scale(1.5) translate(-26%, 22%)|inset(0 0 32.5% 50%) #ICLASS: Background Image||Swimming
 The church's windows are of stained glass, which isn't uncommon for it to have. You squint trying to make the image out, but no matter how hard you focus, you can't explain what the glass was a picture of. 
 
 *[You take a step forward.]
 
+#ZOOM: scale(2) translate(-26%, 35%)|inset(0 0 55.5% 50%) #ICLASS: Background Image|Swimming|Swimming-2
 -The image swims in your vision. Just as you think you've got it, it changes. You make a mental note to get your eyes checked.
 
 *[You take another step forward.]
 
--#DELAY: 1.25
+-#DELAY: 1.25 #ZOOM: scale(3) translate(-30%, 35%)|inset(9% 9% 69.5% 67%) #ICLASS: Background Image|Swimming-2|Swimming-3
 Blood starts rushing in your ears and pressure builds behind your eyes as you strain to-
 
-#CLASS: Bus_Honk #PLAY: honk #DELAY: 2.5
+#DELAY: 1.5
+#CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true
+#PLAY: bus_ambience, true #ZOOM: unset|unset #ICLASS: Background Image|Swimming-3|
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel youself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church.]
@@ -393,6 +397,7 @@ You get off at the same bus stop you normally do. You don't look at the church, 
 *[Walk faster]
 
 - 
+#ZOOM: skewX(15deg) scale(1.25)|inset(0px 0px 5% 5%)
 #PLAY: walking_fast_pavement, true, 1
 You shove your hand in your pocket and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you.
 
@@ -403,6 +408,7 @@ You shove your hand in your pocket and pick up the pace. The corner where you ne
 
 - 
 ~turn = "running"
+#ZOOM: skewX(30deg) scale(1.5) translate(-12%, 16%)|inset(0px 0px 26% 17%)
 #STOP: walking_fast_pavement, 0.5 #PLAY: running_pavement, true, 0.5, 1
 You break out into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
@@ -413,24 +419,37 @@ You hear something on the wind. A voice?
 
 *[Almost. There.]
 
-- #STOP: running_pavement #REPLACE: stop sign.
-    You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
+- 
+#ZOOM: skewX(30deg) scale(2) translate(-12%, 21%)|inset(0px 0px 39% 21%)
+#STOP: running_pavement #REPLACE: stop sign.
+You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
 *[stop sign.]
 ->Stop_Sign
 
 = Turn_Around
-#STOP: running_pavement #STOP: walking_fast_pavement
-You stop {turn}, and face the church. All sensations stop. There is nothing strange about the church. It's dark. It's quiet. 
+#ZOOM: unset|unset #STOP: running_pavement #STOP: walking_fast_pavement
+You stop {turn}, and ball your fists. All sensations stop.
 
-It's just another building.
+*[Face the church]
+
+- 
+#IMAGE: Chuch_Looming #PROP: closed_gates, false
+You spin around to face it, and find yourself.. in front... of the church? 
+
+You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
 {
     - know:
-        But you know it's more than that.
+        It's following you. You wipe sweat from your brow.
+        
+        It can move.
     - else:
+        Was it always this far down the road? This morning you were able to clearly see it from the bus stop...
+        
         You take a breath, and reach into your pocket. The feeling of the worn poleroid calms you. You're being unreasonable. It's just a building. Just a church. A {feeling} church.
 }
+
 
 *[Continue walking the long way home]
 
@@ -439,7 +458,7 @@ It's just another building.
     ->Walk_Home.Usual
     
 - 
-
+#IMAGE: Stop_Sign #PROP: closed_gates, true
 {
     - know:
         It wants you back, but you refuse to let it have you.
@@ -452,17 +471,20 @@ As soon as you start walking again, the burning sensation flares up again, ten t
 *[Ignore it]
 
 *[Turn back]
-#IMAGE: Chuch_Looming #PROP: closed_gates
+#IMAGE: Chuch_Looming #PROP: closed_gates, false
 You stop in your tracks and ball your hands into fists. You spin around to find yourself at the front of the church. Your hands tightly grip the front gates.
 ->Walk_Home.Stop_Sign
 
 -
 #PLAY: walking_fast_pavement, true, 1
+#ZOOM: skewX(30deg) scale(1.5) translate(-12%, 16%)|inset(0px 0px 26% 17%)
 You ignore it, and keep going. Each step feels like wading through thick jelly. You can almost touch the stop sign on the corner.
 
 *[Almost. There.]
 
-- #STOP: walking_fast_pavement #STOP: running_pavement #REPLACE: stop sign.
+- 
+#ZOOM: skewX(30deg) scale(2) translate(-12%, 21%)|inset(0px 0px 39% 21%)
+#STOP: walking_fast_pavement #STOP: running_pavement #REPLACE: stop sign.
     You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
 *[stop sign.]
@@ -470,7 +492,7 @@ You ignore it, and keep going. Each step feels like wading through thick jelly. 
 ->Stop_Sign
 
 = Stop_Sign
-#IMAGE: Chuch_Looming #PROP: closed_gates, false
+#ZOOM: unset|unset #IMAGE: Chuch_Looming #PROP: closed_gates, false
 It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. 
 
 But how did it...? You were at...?
@@ -496,7 +518,6 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 = Usual
-
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
@@ -507,7 +528,10 @@ As you pass the front gate, it creaks open. You reach for the image in your pock
 //On mouse click, change to "investigate
 *[(Continue walking home)Investigate]
 
-- Against your better judgement, you stop, and look at the church. The gate is open.
+
+- 
+#IMAGE: Chuch_Looming #PROP: open_gates, false
+Against your better judgement, you stop, and look at the church. The gate is open.
 {
 - know: 
     You should keep moving. It's waiting for you. It's making the choice easy.
@@ -601,7 +625,7 @@ You take one step forward.
 *[And keep walking.]
 
 -
-#PLAY: footsteps_scary, true
+#PLAY: footsteps_scary, true, 2
 And walking.
 
 -{- know: You're moving automatically. You want to go home. }
@@ -617,7 +641,7 @@ The church door is open and inviting. You can't see inside.
 ~ temp_bool = false
 ->Walk_Up_Path.Run
 
-- #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0, 1
+- #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 1
 Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up...
 
 Someone is behind you, and they know you know. Your only option is the church or confrontation. Your heart pounds in your chest. { -know: It has to be another trick.}
@@ -650,14 +674,18 @@ Nothing. No one's there. You laugh.
 
 *[Pull the gate closed.]
 
-- #PLAY: gate_closed #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
-Just as it slams shut, everything goes dark...
+- 
+#PLAY: gate_close #DELAY: 2 #PROP: open_gates, true
+Just as it slams shut...
+
+#TEXTBOX: text_container_Dark #IMAGE: Default 
+Everything goes dark.
 
 *[Wait for your eyes adjust]
-#DELAY: 1.5 #TEXTBOX: text_container_UsedTo
+#DELAY: 1.5 
 You hold your eyes closed and count to five.
 
-#DELAY: 1
+#DELAY: 1 #TEXTBOX: text_container_UsedTo
 One.
 #DELAY: 1
 Two.
@@ -678,7 +706,7 @@ You blindly feel for the latch of the gate, but instead of cool metal your hands
 #PLAY: lock_rattle
 You try the knob.
 
-*It's locked.
+*[It's locked.]
 -> Locked
 
 = Run

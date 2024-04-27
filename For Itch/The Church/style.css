@@ -161,9 +161,11 @@ h2 {
     /* padding-top: 4em; */
     padding-bottom: 4em;
     height: max-content;
-    background: #0A100D;
+    /* background: #0A100D; */
     /* margin-top: 50px; */
     margin-bottom: 10%;
+    z-index: 100;
+    position: relative;
 }
 
 .switched .container {
@@ -197,6 +199,7 @@ img {
     margin: 0 auto;
     position: relative; */
     border-radius: 8px;
+    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 0.5s ease;
 }
 
 .box{
@@ -218,6 +221,8 @@ img {
 .img_used {
     background-color: #0a100df2!important;
 }
+
+
 
 .stairs {
     width: 21.75%;
@@ -476,7 +481,7 @@ img {
     color: black;
     position: relative;
     z-index: 10;
-    animation: usedto 5.0s forwards;
+    animation: usedto 5.5s forwards;
     animation-delay: 1000ms;
     background-color: #262b28;
 }
@@ -508,6 +513,7 @@ img {
     line-height: 1.7em;
     position: relative;
     z-index: 10;
+    user-select: none;
 }
 
 /* 
@@ -861,6 +867,91 @@ body.dark {
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+.Swimming
+{
+    animation-name: Swimming;
+    animation-duration: 45s;
+    animation-iteration-count: infinite;
+    animation-timing-function: step-end;
+    clip-path: inset(0px 0px 0px 0px);
+
+}
+
+@keyframes Swimming {
+    0%, 8.1%, 82.1%, 31.1%, 38.1%, 44.1%, 40.1%, 47.1%, 74.1%, 16.1%, 27.1%, 72.1%, 24.1%, 95.1%, 6.1%, 36.1%, 20.1%, 4.1%, 91.1%, 14.1%, 87.1%, 100% {
+        -webkit-filter: blur(0px);
+    }
+    8%, 82%, 31%, 38%, 44% {
+        -webkit-filter: blur(1px);
+    }
+    40%, 47%, 74%, 16%, 27% {
+        -webkit-filter: blur(2px);
+    }
+    72%, 24%, 95%, 6%, 36% {
+        -webkit-filter: blur(1px);
+    }
+    20%, 4%, 91%, 14%, 87% {
+        -webkit-filter: blur(3px);
+    }
+}
+
+.Swimming-2
+{
+    animation-name: Swimming-2;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    clip-path: inset(0px 0px 0px 0px);
+
+}
+
+@keyframes Swimming-2 {
+    0%,
+    100% {
+      -webkit-filter: blur(1.5px) contrast(150%);
+    }
+    80% {
+      -webkit-filter: blur(3px);
+    }
+    65% {
+      -webkit-filter: blur(5px);
+    }
+    60% {
+      -webkit-filter: blur(3px);
+    }
+    35% {
+      -webkit-filter: blur(1px) contrast(75%);
+    }
+}
+
+.Swimming-3
+{
+    animation-name: Swimming-3;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease;
+    clip-path: inset(0px 0px 0px 0px);
+
+}
+
+@keyframes Swimming-3 {
+    0%,
+    100% {
+      -webkit-filter: blur(0.5px) contrast(150%);
+    }
+    80% {
+      -webkit-filter: blur(3px);
+    }
+    65% {
+      -webkit-filter: blur(2px);
+    }
+    60% {
+      -webkit-filter: blur(5px);
+    }
+    35% {
+      -webkit-filter: blur(2px);
+    }
+}
 
 
 /* CSS Typewriter Animation by lemmin (@lemmin) */
@@ -921,7 +1012,16 @@ body.dark {
     position: fixed;
     bottom: -19%;
     right: -3%;
-    clip-path: inset(0 6.5% 24.5% 0);
+    clip-path: inset(0 6.5% 24.5% 0)!important;
+    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 2.5s ease;
+}
+
+.zoom {
+    transform: scale(1.5) translate(-26%, 22%);
+    clip-path: inset(0 0 32.5% 50%)!important;
+
+    /* transform: scale(2) translate(-26%, 35%);
+    clip-path: inset(0 0 55.5% 50%); */
 }
 
 .head {
@@ -963,7 +1063,8 @@ body.dark {
     position: fixed;
     bottom: -24%;
     right: -4%;
-    clip-path: inset(0 6% 25% 0);
+    clip-path: inset(0 6% 25% 0)!important;
+    transition: transform 1s ease-in-out, clip-path 1s ease-in-out, opacity 2.5s ease;
 }
 
 /* FLASHLIGHT */
