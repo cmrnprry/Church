@@ -879,10 +879,12 @@
 
             if (isReplaceChoiceText != "")
             {
-                choiceAnchorEl.addEventListener("click", ClickReplaceChoiceText);
                 choiceParagraphElement.setAttribute("replace_text", isReplaceChoiceText)
-                choiceParagraphElement.setAttribute("index", choice.index)
-                choiceParagraphElement.setAttribute("Id", "Replaceable Text")
+                choiceAnchorEl.addEventListener("click", function(event) {                   
+
+                    ClickReplaceChoiceText(choiceParagraphElement, choice.index, isReplaceChoiceText)
+                });
+
                 return;
             }
 
@@ -929,20 +931,11 @@
 
     }
 
-    function ClickReplaceChoiceText(event)
+    function ClickReplaceChoiceText(element, index, replaceText)
     {
-        // Don't follow <a> link
-        event.preventDefault();
-
-        var element = document.getElementById("Replaceable Text")
-
-        var text = element.getAttribute("replace_text")
-        var index = parseInt(element.getAttribute("index"))
-
-        element.innerHTML = `<a href='#'>${text}</a>`
+        element.innerHTML = `<a href='#'>${replaceText}</a>`
 
         var el = element.querySelectorAll("a")[0];
-        el.removeEventListener("click", ClickReplaceChoiceText);
         el.addEventListener("click", async function(event) {
 
             // Don't follow <a> link
@@ -950,6 +943,7 @@
 
             // Remove all existing choices
             removeAll(".choice");
+            ChoicesID = null;
 
             // Tell the story where to go next
             story.ChooseChoiceIndex(index);
