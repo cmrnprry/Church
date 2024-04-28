@@ -1,3 +1,12 @@
+VAR CurrentImage = ""
+VAR CurrentProp = ""
+VAR LoopedAudio = ""
+VAR Volume = 100
+VAR Mute = false
+VAR Shake = false
+VAR Dim = false
+VAR Styling = ""
+
 VAR feeling = ""
 VAR turn = ""
 VAR object = ""

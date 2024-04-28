@@ -9,7 +9,7 @@ INCLUDE Confessional_Curtain.ink
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
 +[TESTING]
--> Walk_Up_Path
+-> Trapped
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -671,15 +671,17 @@ Nothing. No one's there. You laugh.
 
 *[You walk to the gate.]
 
-- You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
+- 
+#IMAGE: Chuch_Looming #PROP: open_gates, false
+You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
 
 *[Pull the gate closed.]
 
 - 
-#PLAY: gate_close #DELAY: 2 #PROP: open_gates, true
+#PLAY: gate_close #DELAY: 1.73 #PROP: open_gates, true #PROP: closed_gates, false
 Just as it slams shut...
 
-#TEXTBOX: text_container_Dark #IMAGE: Default 
+#TEXTBOX: text_container_Dark #IMAGE: Default #PROP: closed_gates, true
 Everything goes dark.
 
 *[Wait for your eyes adjust]
@@ -915,7 +917,7 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 }
 
 #IMAGE: Office_Final
-You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls were book shelfs full of books. The far wall has a desk with a stained glass window above it. You avoid looking at the window.
+You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls were book shelfs full of books. The far wall has a desk with a stained glass window above it. {window: You avoid looking at the window. }
 
 {
 - object == "crowbar": 
@@ -1029,18 +1031,18 @@ You can't find them.
 = Sledgehammer
 You lift up the large hammer and begin to smash it into the door.
 
-#PLAY: door_thud #CLASS: Kick
+#PLAY: door_slam #CLASS: Kick
 Thud!
 
 *[It's stronger than you anticipated.]
 
 
--#PLAY: door_thud #CLASS: Kick
+-#PLAY: door_slam #CLASS: Kick
 Thud!
 
 *[It's not working...?]
 
--#PLAY: thud #CLASS: Kick
+-#PLAY: door_slam #CLASS: Kick
 Thud!
 
 *[The door looks untouched.]

@@ -11,7 +11,6 @@
     let globalTagTheme;
     let hasFlashlight = false;
     let ChoicesID = null;
-    let CurrentAudio = null;
 
     //CONTINUE ARROW
     let Continue = document.getElementById("Continue_Arrow")
@@ -19,55 +18,58 @@
 
     //IMAGES
     let BackgroundImage = document.getElementById("Background Image")
-    let img = window.localStorage.getItem('save-img')
-    let prop = window.localStorage.getItem('save-prop')
 
-
-    //STYLING TO KEEP ON A TEXT BOX
-    let styling = ""
+    //INK STORED VARIABLES
+    let CurrentImage = "";
+    let CurrentProp = "";
+    let LoopedAudio = "";
 
     //OPTIONS VARIABLES
-    let volume = window.localStorage.getItem('save-volume')
-    let mute = window.localStorage.getItem('save-mute')
-    let shake = window.localStorage.getItem('save-shake')
-    let dim = window.localStorage.getItem('save-dim')
+    let Volume = Number(story.variablesState["Volume"]);
+    let Mute = (story.variablesState["Mute"] === "true");
+    let Shake = (story.variablesState["Shake"] === "true");
+    let Dim = (story.variablesState["Dim"] === "true");
+    let Styling = story.variablesState["Styling"] + "";
+
+    
 
     //HISTORY VARIABLE
     let history = window.localStorage.getItem('save-history') == null ? "" : window.localStorage.getItem('save-history')
 
     //HUGE LIST OF AUDIO OBJECTS FOR ALL OUR AUDIO
-    let bus_ambience = new Audio('./Audio/ambience-bussy.ogg')
-    let office_ambience = new Audio('./Audio/ambience-office.ogg')
-    let bang_confessional = new Audio('./Audio/bang-wood-confession.ogg')
-    let bang_normal = new Audio('./Audio/bang-wood-door.ogg')
-    let bang_short = new Audio('./Audio/bang-wood-door-short.ogg')
-    let meow = new Audio('./Audio/cat-meow.ogg')
-    let crowbar_break = new Audio('./Audio/crowbar-break.ogg')
-    let curtain = new Audio('./Audio/curtain-opening.ogg')
-    let door_slam = new Audio('./Audio/door-slam.ogg')
-    let dor_thud = new Audio('./Audio/door-thud.ogg')
-    let email_ding = new Audio('./Audio/email-ding.ogg')
-    let flashlight_off = new Audio('./Audio/flashlight-off.ogg')
-    let flashlight_on = new Audio('./Audio/flashlight-on.ogg')
-    let footsteps_player = new Audio('./Audio/footsteps-player.ogg')
-    let footsteps_child_grass = new Audio('./Audio/footsteps-running-grass-child-barefoot.ogg')
-    let footsteps_scary = new Audio('./Audio/footsteps-spooky-v2.ogg')
-    let footsteps_squishy = new Audio('./Audio/footsteps-squishy.ogg')
-    let gate_close = new Audio('./Audio/gate-close.ogg')
-    let gate_open = new Audio('./Audio/gate-open.ogg')
-    let groaning_angry = new Audio('./Audio/groaning-angry.ogg')
-    let groaning_happy = new Audio('./Audio/groaning-happy.ogg')
-    let groaning_normal = new Audio('./Audio/groaning-normal.ogg')
+    let bus_ambience = new Audio('./Audio/bus_ambience.ogg')
+    let office_ambience = new Audio('./Audio/office_ambience.ogg')
+    let bang_confessional = new Audio('./Audio/bang_confessional.ogg')
+    let bang_normal = new Audio('./Audio/bang_normal.ogg')
+    let bang_short = new Audio('./Audio/bang_short.ogg')
+    let meow = new Audio('./Audio/meow.ogg')
+    let crowbar_break = new Audio('./Audio/crowbar_break.ogg')
+    let curtain = new Audio('./Audio/curtain.ogg')
+    let door_slam = new Audio('./Audio/door_slam.ogg')
+    let door_thud = new Audio('./Audio/door_thud.ogg')
+    let email_ding = new Audio('./Audio/email_ding.ogg')
+    let flashlight_off = new Audio('./Audio/flashlight_off.ogg')
+    let flashlight_on = new Audio('./Audio/flashlight_on.ogg')
+    let footsteps_player = new Audio('./Audio/footsteps_player.ogg')
+    let footsteps_child_grass = new Audio('./Audio/footsteps_child_grass.ogg')
+    let footsteps_scary = new Audio('./Audio/footsteps_scary.ogg')
+    let footsteps_squishy = new Audio('./Audio/footsteps_squishy.ogg')
+    let gate_close = new Audio('./Audio/gate_close.ogg')
+    let gate_open = new Audio('./Audio/gate_open.ogg')
+    let groaning_angry = new Audio('./Audio/groaning_angry.ogg')
+    let groaning_happy = new Audio('./Audio/groaning_happy.ogg')
+    let groaning_normal = new Audio('./Audio/groaning_normal.ogg')
     let honk = new Audio('./Audio/honk.ogg')
+    let key_plop = new Audio('./Audio/key_plop.ogg')
     let knocking = new Audio('./Audio/knocking.ogg')
     let leak = new Audio('./Audio/leak.ogg')
-    let lock_rattle = new Audio('./Audio/lock-rattle.ogg')
-    let running_pavement = new Audio('./Audio/run-pavement-sneaker.ogg')
-    let scanner = new Audio('./Audio/scan-documents.ogg')
-    let screeching = new Audio('./Audio/screeching-short.ogg')
-    let screw_fall_1 = new Audio('./Audio/screw-fall-to-floor-1.ogg')
-    let screw_fall_2 = new Audio('./Audio/screw-fall-to-floor-2.ogg')
-    let walking_wast_pavement = new Audio('./Audio/walk-fast-pavement-sneaker.ogg')
+    let lock_rattle = new Audio('./Audio/lock_rattle.ogg')
+    let running_pavement = new Audio('./Audio/running_pavement.ogg')
+    let scanner = new Audio('./Audio/scanner.ogg')
+    let screeching = new Audio('./Audio/screeching.ogg')
+    let screw_fall_1 = new Audio('./Audio/screw_fall_1.ogg')
+    let screw_fall_2 = new Audio('./Audio/screw_fall_2.ogg')
+    let walking_wast_pavement = new Audio('./Audio/walking_wast_pavement.ogg')
 
     // //AUDIO LIST
     const  AudioList = {
@@ -80,7 +82,7 @@
         "crowbar_break" : crowbar_break,
         "curtain" : curtain,
         "door_slam" : door_slam,
-        "door_thud" : dor_thud,
+        "door_thud" : door_thud,
         "ding" : email_ding,
         "flashlight_off" : flashlight_off,
         "flashlight_on" : flashlight_on,
@@ -94,6 +96,7 @@
         "groaning_happy" : groaning_happy,
         "groaning_normal" : groaning_normal,
         "honk" : honk,
+        "key_plop" : key_plop,
         "knocking" : knocking,
         "leak" : leak,
         "lock_rattle" : lock_rattle,
@@ -208,26 +211,23 @@
     let paragraphElement = null;
 
 
+    //BEFORE starting the game, ceck for any save data
+    CheckSave();
 
     // page features setup
     setupButtons();
     setUpFooter();
-
-    //BEFORE starting the game, ceck for any save data
-    CheckSave();
 
     // Kick off the start of the story!
     
 
     function CheckSave()
     {
-            styling = window.localStorage.getItem('save-styles')
-
-            if (!styling && dim !== "false")
+        if (!Styling && Dim)
             {
-                styling = ""
-                window.localStorage.setItem('save-styles', styling)
-            }
+                Styling = ""
+                story.variablesState["Styling"] = Styling;
+        }
                 
 
         if (loadSavePoint())
@@ -235,6 +235,12 @@
             savePoint = window.localStorage.getItem('save-state');
             story.state.LoadJson(savePoint)
             continueStory(false, 500);
+
+            //set ink side variables
+            CurrentImage = story.variablesState["CurrentImage"] + "";
+            CurrentProp = story.variablesState["CurrentProp"] + "";
+            LoopedAudio = story.variablesState["LoopedAudio"] + "";
+
         }
         else
             continueStory(true, 500);
@@ -374,11 +380,14 @@
 
                 // IMAGE: src
                 if( splitTag && splitTag.property == "IMAGE" ) {
+                    story.variablesState["CurrentImage"] = splitTag.val;
+                    
                     FadeImage(splitTag.val)
                 }
 
                 if( splitTag && splitTag.property == "PROP" ) {
                     var array = splitTag.val.split(", ")
+                    story.variablesState["CurrentProp"] = array[0];
                     
                     FadeProp(array[0], array[1])
                 }
@@ -431,21 +440,21 @@
                 // Effects the text box specifically
                 if( paragraphElement && splitTag && splitTag.property == "REMOVE" ) {
                         paragraphElement.classList.remove(splitTag.val);
-                        if (styling.includes(splitTag.val))
-                            var index = styling.indexOf(splitTag.val)
-                            styling = styling.substring(0, index - 1) + styling.substring(splitTag.val.length + index)
-                            window.localStorage.setItem('save-styles', styling)
+                        if (Styling.includes(splitTag.val))
+                            var index = Styling.indexOf(splitTag.val)
+                            Styling = Styling.substring(0, index - 1) + Styling.substring(splitTag.val.length + index)
+                            story.variablesState["Styling"] = Styling
 
                     }
 
                 // TEXTBOX: class
                 // Effects the text box specifically
                 if( paragraphElement && splitTag && splitTag.property == "TEXTBOX" ) {
-                    if (dim !== "false")
+                    if (Dim !== "false")
                     {    
                         paragraphElement.classList.add(splitTag.val);
-                        styling += splitTag.val + " "
-                        window.localStorage.setItem('save-styles', styling)
+                        Styling += splitTag.val + " "
+                        window.localStorage.setItem('save-styles', Styling)
 
                         if (splitTag.val === "text_container_Dark")
                             document.getElementById("Overlay").classList.remove("hide")
@@ -457,7 +466,7 @@
                 // CLASS: className
                 // Effects the text
                 if( splitTag && splitTag.property == "CLASS" ) {
-                    if (shake !== "false")
+                    if (Shake !== "false")
                         customClasses.push(splitTag.val);
                 }
 
@@ -526,7 +535,7 @@
                     var delay = 500;
                     var loop = false;
 
-                    if (mute === "false")
+                    if (!Mute)
                     {
                         if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
                         {
@@ -586,8 +595,8 @@
         if (temp.includes(src) || !BackgroundImage)
             return;
 
-        img = src;
-        window.localStorage.setItem('save-img', img)
+        CurrentImage = src;
+        window.localStorage.setItem('save-img', CurrentImage)
 
         BackgroundImage.style.opacity = 0;
 
@@ -608,7 +617,7 @@
 
         if (isOn === "true")
         {
-            prop = "";
+            CurrentProp = "";
             
             element.style.opacity = 0;
             return
@@ -621,7 +630,7 @@
             element.style.opacity = 1; 
         }       
 
-        window.localStorage.setItem('save-prop', prop)        
+        window.localStorage.setItem('save-prop', CurrentProp)        
     }
 
     function ZoomImage(transform, clip) {
@@ -637,6 +646,10 @@
             setTimeout(function() { 
                 if (loop)
                 {
+                    var index = audio.src.lastIndexOf('/')
+                    var end = audio.src.lastIndexOf('.')
+                    console.log(audio.src.substring(index, end))
+                    story.variablesState["LoopedAudio"] = (audio.src.substring(index + 1, end))
                     audio.loop = true;
                     audio.addEventListener("ended", function(){
                         audio.currentTime = 0;
@@ -668,10 +681,12 @@
     {
         if (audio)
         {
+            if (audio.src == story.variablesState["LoopedAudio"])
+                story.variablesState["LoopedAudio"] = null
             setTimeout(function() {
                 if (fade > 0)
                 {
-                    audio.volume = parseInt(volume) / 100;
+                    audio.volume = parseInt(Volume) / 100;
                     nIntervId = setInterval(fadeOut, 30, audio, fade);
                 }
                     
@@ -688,7 +703,7 @@
     }
 
     function fadeIn(audio, delta) {
-        var currentVolume = parseInt(volume) / 100
+        var currentVolume = parseInt(Volume) / 100
 	    if((audio.volume < (currentVolume)) && (audio.volume + delta < 1)){
    		    audio.volume += delta;
         }
@@ -966,17 +981,17 @@
             paraElement.insertBefore(textElement, paraElement.firstChild)
         }
 
-        if (styling !== "")
+        if (Styling !== "")
         {
-            var split = styling.split(" ")
+            var split = Styling.split(" ")
             split.forEach(element => {
                 if (element != "")
                     paraElement.classList.add(element);
             });
             
-            if (styling.includes("text_container_Dark"))
+            if (Styling.includes("text_container_Dark"))
                 document.getElementById("Overlay").classList.remove("hide")
-            else if (styling.includes("text_container_UsedTo") || styling.includes("text_container_After"))
+            else if (Styling.includes("text_container_UsedTo") || Styling.includes("text_container_After"))
                 document.getElementById("Overlay").classList.remove("hide")
                 document.getElementById("Overlay").classList.add("img_used")
         }
@@ -1010,8 +1025,8 @@
         history = "";
         window.localStorage.setItem('save-history', history)
 
-        styling = "";
-        window.localStorage.setItem('save-styles', styling)
+        Styling = "";
+        story.variablesState["Styling"] = ""
 
         StoryCheckpoint = "";
         window.localStorage.setItem('save-checkpoint', StoryCheckpoint)
@@ -1030,7 +1045,7 @@
             paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
 
         FadeImage("Default")
-        FadeProp(prop, "true")
+        FadeProp(CurrentProp, "true")
     
         removeAll(".choice");
         ChoicesID = null;
@@ -1371,13 +1386,17 @@
         setupEndings()
         setupCheckpoints()
 
-        if (img)
-            BackgroundImage.src = `./Images/Backgrounds/${img}.png`;
+        if (CurrentImage && CurrentImage !== "")
+            BackgroundImage.src = `./Images/Backgrounds/${CurrentImage}.png`;
         else
             BackgroundImage.src = `./Images/Backgrounds/Default.png`;
 
-        if (prop)
-            document.getElementById(prop).style.opacity = 1;
+        if (CurrentProp && CurrentProp !== "")
+            FadeProp(CurrentProp, "false")
+
+        if (LoopedAudio && LoopedAudio !== "")
+            PlayAudio (AudioList[LoopedAudio], true, 0, 500);
+
     }
 
     function setupCheckpoints()
@@ -1408,17 +1427,17 @@
                                         
                                         footer.classList.add("hide")
                                         document.getElementById("Overlay").classList.add("hide")
-                                        styling = "";
-                                        window.localStorage.setItem('save-styles', styling)
+                                        Styling = "";
+                                        window.localStorage.setItem('save-styles', Styling)
                                     }
-                                    else if (storyPoint.index > 1 && dim !== "false")
+                                    else if (storyPoint.index > 1 && Dim !== "false")
                                     {
                                         document.getElementById("Overlay").classList.remove("hide")
                                         document.getElementById("Overlay").classList.add("img_used")
 
                                         paragraphElement.classList.add("text_container_After");
-                                        styling += "text_container_After"
-                                        window.localStorage.setItem('save-styles', styling)
+                                        Styling += "text_container_After"
+                                        window.localStorage.setItem('save-styles', Styling)
                                     }
 
 
@@ -1488,9 +1507,9 @@
         let element = document.getElementById("Volume_Button");
 
         try {            
-            if (volume) {
-                element.value = volume
-                document.getElementById("rangeValue").innerHTML = volume;
+            if (Volume) {
+                element.value = Volume
+                document.getElementById("rangeValue").innerHTML = Volume;
             }
         } catch (e) {
             console.debug("Couldn't load save state");
@@ -1498,8 +1517,8 @@
 
         element.addEventListener("change", function(event) {
             let value = element.value;
-            window.localStorage.setItem('save-volume', value);
-            volume = window.localStorage.getItem('save-volume')
+            story.variablesState["Volume"] = value;
+            Volume = Number(story.variablesState["Volume"]);
 
             onVolumeChange();
         });
@@ -1509,18 +1528,11 @@
     {
         let element = document.getElementById("Mute_Button");
 
-        console.log(typeof(mute))
         try {
-            if (typeof(mute) === "string") {
-                element.setAttribute("status", mute)
-                element.innerHTML = (mute === "false") ? "Audio not Muted" : "Audio Muted"
+            element.setAttribute("status", Mute)
+            element.innerHTML = (!Mute) ? "Audio not Muted" : "Audio Muted"
 
-            }
-            else
-            {
-                element.setAttribute("status", false)
-                window.localStorage.setItem('save-mute', element.getAttribute("status"));
-            }
+            
         } catch (e) {
             console.debug("Couldn't load save state");
         }
@@ -1540,15 +1552,15 @@
                 element.innerHTML = "Audio not Muted"
             }
             
-            window.localStorage.setItem('save-mute', element.getAttribute("status"));
-            mute = window.localStorage.getItem('save-mute')
+            story.variablesState["Mute"] = element.getAttribute("status")
+            Mute = (story.variablesState["Mute"] === "true")
             onVolumeChange()  
         });
     }
 
     function onVolumeChange()
     {
-        if (mute === "true")        
+        if (Mute === "true")        
             for (const [key] of Object.entries(AudioList))
             {
                 AudioList[key].volume = 0;
@@ -1557,7 +1569,7 @@
         else
             for (const [key] of Object.entries(AudioList))
             {
-                let newVolume = parseInt(volume) / 100;
+                let newVolume = parseInt(Volume) / 100;
                 AudioList[key].volume = newVolume;
             }
     }
@@ -1567,11 +1579,9 @@
         let element = document.getElementById("Shake_Button");
 
         try {
-            if (typeof(shake) === "string") {
-                element.setAttribute("status", shake)
-                element.innerHTML = (shake === "false") ? "Text Shake: OFF" : "Text Shake: ON"
+            element.setAttribute("status", Shake)
+            element.innerHTML = (!Shake) ? "Text Shake: OFF" : "Text Shake: ON"
 
-        }
         } catch (e) {
             console.debug("Couldn't load save state");
         }
@@ -1589,8 +1599,8 @@
                 element.innerHTML = "Text Shake: OFF"
             }
             
-            window.localStorage.setItem('save-shake', element.getAttribute("status")); 
-            shake = window.localStorage.getItem('save-shake')      
+            story.variablesState["Shake"] = element.getAttribute("status") 
+            Shake = (story.variablesState["Shake"] === "true")      
         });
     }
 
@@ -1599,10 +1609,8 @@
         let element = document.getElementById("Dimmable_Button");
 
         try {
-            if (typeof(dim) === "string") {
-                element.setAttribute("status", dim)
-                element.innerHTML = (dim === "false") ? "Text Effects: OFF" : "Text Effects: ON"
-            }
+            element.setAttribute("status", Dim)
+            element.innerHTML = (!Dim) ? "Text Effects: OFF" : "Text Effects: ON"
         } catch (e) {
             console.debug("Couldn't load save state");
         }
@@ -1620,8 +1628,8 @@
                     element.innerHTML = "Text Effects: OFF"
                 }
             
-            window.localStorage.setItem('save-dim', element.getAttribute("status"));
-            dim = window.localStorage.getItem('save-dim')    
+            story.variablesState["Dim"] = element.getAttribute("status")
+            Dim = (story.variablesState["Dim"] === "true")    
         });
     }
 
