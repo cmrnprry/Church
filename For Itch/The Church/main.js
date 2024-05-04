@@ -25,11 +25,11 @@
     let LoopedAudio = "";
 
     //OPTIONS VARIABLES
-    let Volume = Number(story.variablesState["Volume"]);
-    let Mute = (story.variablesState["Mute"] === "true");
-    let Shake = (story.variablesState["Shake"] === "true");
-    let Dim = (story.variablesState["Dim"] === "true");
-    let Styling = story.variablesState["Styling"] + "";
+    let Volume = 100;
+    let Mute = false;
+    let Shake = false;
+    let Dim = false;
+    let Styling = "";
 
     
 
@@ -220,28 +220,47 @@
 
     // Kick off the start of the story!
     
+    function SetSaveGame()
+    {
+        savePoint = story.state.toJson();
+        window.localStorage.setItem('save-state', savePoint);   
+    }
+
+    function GetSaveGame()
+    {
+        return window.localStorage.getItem('save-state');
+    } 
 
     function CheckSave()
     {
-        if (!Styling && Dim)
-            {
-                Styling = ""
-                story.variablesState["Styling"] = Styling;
-        }
-                
 
         if (loadSavePoint())
         {
-            savePoint = window.localStorage.getItem('save-state');
+            savePoint = GetSaveGame();
             story.state.LoadJson(savePoint)
-            continueStory(false, 500);
 
             //set ink side variables
             CurrentImage = story.variablesState["CurrentImage"] + "";
             CurrentProp = story.variablesState["CurrentProp"] + "";
             LoopedAudio = story.variablesState["LoopedAudio"] + "";
 
-        }
+
+            //OPTIONS VARIABLES
+            Volume = Number(story.variablesState["Volume"]);
+            Mute = (story.variablesState["Mute"] === "true");
+            Shake = (story.variablesState["Shake"] === "true");
+            Dim = (story.variablesState["Dim"] === "true");
+            Styling = story.variablesState["Styling"] + "";
+
+            if (!Styling && Dim)
+            {
+                Styling = ""
+                story.variablesState["Styling"] = Styling;
+            }
+
+            continueStory(false, 500);
+
+        }            
         else
             continueStory(true, 500);
         
@@ -454,7 +473,7 @@
                     {    
                         paragraphElement.classList.add(splitTag.val);
                         Styling += splitTag.val + " "
-                        window.localStorage.setItem('save-styles', Styling)
+                        story.variablesState["Styling"] = Styling;
 
                         if (splitTag.val === "text_container_Dark")
                             document.getElementById("Overlay").classList.remove("hide")
@@ -587,6 +606,8 @@
             if (ChoicesID == null)
                 ChoicesID = setTimeout(function() { CreateChoices(); }, delay);
         }
+
+        SetSaveGame();
     }
 
     function FadeImage(src)
@@ -596,7 +617,7 @@
             return;
 
         CurrentImage = src;
-        window.localStorage.setItem('save-img', CurrentImage)
+        story.variablesState["CurrentImage"] = CurrentImage
 
         BackgroundImage.style.opacity = 0;
 
@@ -617,7 +638,7 @@
 
         if (isOn === "true")
         {
-            CurrentProp = "";
+            CurrentProp = "";            
             
             element.style.opacity = 0;
             return
@@ -630,7 +651,7 @@
             element.style.opacity = 1; 
         }       
 
-        window.localStorage.setItem('save-prop', CurrentProp)        
+        story.variablesState["CurrentProp"] = CurrentProp;   
     }
 
     function ZoomImage(transform, clip) {
@@ -652,8 +673,9 @@
                     story.variablesState["LoopedAudio"] = (audio.src.substring(index + 1, end))
                     audio.loop = true;
                     audio.addEventListener("ended", function(){
-                        audio.currentTime = 0;
-                        audio.play();
+                        if (Mute !== "true")
+                            audio.currentTime = 0;
+                            audio.play();                        
                     })
                 }
                 else
@@ -784,7 +806,7 @@
             }
             
             savePoint = story.state.toJson();
-            window.localStorage.setItem('save-state', savePoint);       
+            SetSaveGame();      
             deleteAfter(paragraphElement.querySelectorAll("p")[0]);
         }
         else continueStory(false, 500)
@@ -835,7 +857,7 @@
 
         // This is where the save button will save from
         savePoint = story.state.toJson();
-        window.localStorage.setItem('save-state', savePoint);
+        SetSaveGame();
 
         replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
 
@@ -901,7 +923,7 @@
 
                 // This is where the save button will save from
                 savePoint = story.state.toJson();
-                window.localStorage.setItem('save-state', savePoint);
+                SetSaveGame();
 
                 if (replaceParagraph)
                 {
@@ -950,7 +972,7 @@
 
             // This is where the save button will save from
             savePoint = story.state.toJson();
-            window.localStorage.setItem('save-state', savePoint);
+            SetSaveGame();
 
             //continue
             if (pastTextContainer != null)
@@ -1233,7 +1255,7 @@
     function loadSavePoint() {
 
         try {
-            let savedState = window.localStorage.getItem('save-state');
+            let savedState = GetSaveGame();
             if (savedState !== "null" && savedState) {
                 return true;
             }
@@ -1422,7 +1444,7 @@
                                         footer.classList.add("hide")
                                         document.getElementById("Overlay").classList.add("hide")
                                         Styling = "";
-                                        window.localStorage.setItem('save-styles', Styling)
+                                        story.variablesState["Styling"] = Styling
                                     }
                                     else if (storyPoint.index > 1 && Dim !== "false")
                                     {
@@ -1431,7 +1453,7 @@
 
                                         paragraphElement.classList.add("text_container_After");
                                         Styling += "text_container_After"
-                                        window.localStorage.setItem('save-styles', Styling)
+                                        story.variablesState["Styling"] = Styling
                                     }
 
 
@@ -1511,8 +1533,8 @@
 
         element.addEventListener("change", function(event) {
             let value = element.value;
-            story.variablesState["Volume"] = value;
-            Volume = Number(story.variablesState["Volume"]);
+            Volume = value;
+            story.variablesState["Volume"] = Volume;
 
             onVolumeChange();
         });
@@ -1548,7 +1570,7 @@
             
             story.variablesState["Mute"] = element.getAttribute("status")
             Mute = (story.variablesState["Mute"] === "true")
-            onVolumeChange()  
+            onVolumeChange()              
         });
     }
 
@@ -1564,8 +1586,11 @@
             for (const [key] of Object.entries(AudioList))
             {
                 let newVolume = parseInt(Volume) / 100;
-                AudioList[key].volume = newVolume;
+                AudioList[key].volume = newVolume;                
             }
+        
+        console.log(story.variablesState["Volume"])
+        SetSaveGame()
     }
 
     function setupShake()

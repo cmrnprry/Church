@@ -3,13 +3,13 @@ INCLUDE Confessional_Door.ink
 INCLUDE Confessional_Curtain.ink
 
 #IMAGE: Default
-<i>This game will autosave your progress. Using the restart button will rest your game and ALL save data. <br><br> Closing the window will reset any progress.</i>
+<i>This game will autosave your progress. Use the restart button will rest your game and ALL save data. Use the checkpoints button to jump to previous points of the story. <br><br> Closing the window will reset any progress.</i>
 
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
 +[TESTING]
--> Trapped
+-> Walk_Up_Path
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -397,7 +397,7 @@ You get off at the same bus stop you normally do. You don't look at the church, 
 *[Walk faster]
 
 - 
-#ZOOM: skewX(15deg) scale(1.25)|inset(0px 0px 5% 5%)
+#ZOOM: scale(1.25)|inset(0px 0px 5% 5%)
 #PLAY: walking_fast_pavement, true, 1
 You shove your hand in your pocket and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you.
 
@@ -408,7 +408,7 @@ You shove your hand in your pocket and pick up the pace. The corner where you ne
 
 - 
 ~turn = "running"
-#ZOOM: skewX(30deg) scale(1.5) translate(-12%, 16%)|inset(0px 0px 26% 17%)
+#ZOOM: scale(1.5) translate(-12%, 16%)|inset(0px 0px 26% 17%)
 #STOP: walking_fast_pavement, 0.5 #PLAY: running_pavement, true, 0.5, 1
 You break out into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
@@ -420,7 +420,7 @@ You hear something on the wind. A voice?
 *[Almost. There.]
 
 - 
-#ZOOM: skewX(30deg) scale(2) translate(-12%, 21%)|inset(0px 0px 39% 21%)
+#ZOOM: scale(2) translate(-12%, 21%)|inset(0px 0px 39% 21%)
 #STOP: running_pavement #REPLACE: stop sign.
 You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
@@ -477,13 +477,13 @@ You stop in your tracks and ball your hands into fists. You spin around to find 
 
 -
 #PLAY: walking_fast_pavement, true, 1
-#ZOOM: skewX(30deg) scale(1.5) translate(-12%, 16%)|inset(0px 0px 26% 17%)
+#ZOOM: scale(1.5) translate(-12%, 16%)|inset(0px 0px 26% 17%)
 You ignore it, and keep going. Each step feels like wading through thick jelly. You can almost touch the stop sign on the corner.
 
 *[Almost. There.]
 
 - 
-#ZOOM: skewX(30deg) scale(2) translate(-12%, 21%)|inset(0px 0px 39% 21%)
+#ZOOM: scale(2) translate(-12%, 21%)|inset(0px 0px 39% 21%)
 #STOP: walking_fast_pavement #STOP: running_pavement #REPLACE: stop sign.
     You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
@@ -681,7 +681,8 @@ You grab the gate with both hands, and look up at the church one last time. It's
 #PLAY: gate_close #DELAY: 1.73 #PROP: open_gates, true #PROP: closed_gates, false
 Just as it slams shut...
 
-#TEXTBOX: text_container_Dark #IMAGE: Default #PROP: closed_gates, true
+#TEXTBOX: text_container_Dark #IMAGE: Default #PROP: closed_gates, true 
+~CurrentProp = ""
 Everything goes dark.
 
 *[Wait for your eyes adjust]
@@ -921,15 +922,15 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 
 {
 - object == "crowbar": 
-    #PROP: crowbar, false
+    #ICLASS: Overlay||overlay-spotlight #PROP: item, false #PROP: crowbar, false
 }
 {
 - object == "screwdriver":
-    #PROP: screwdriver, false
+    #ICLASS: Overlay||overlay-spotlight #PROP: item, false #PROP: screwdriver, false
 }
 {
 - object == "sledgehammer":
-    #PROP: sledgehammer, false
+    #ICLASS: Overlay||overlay-spotlight #PROP: item, false #PROP: sledgehammer, false
 }
 On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
@@ -942,7 +943,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 ~ temp_bool = true
 
 - 
-#PROP: sledgehammer, true #PROP: screwdriver, true #PROP: crowbar, true #IMAGE: Default
+#PROP: item, true #PROP: sledgehammer, true #PROP: screwdriver, true #PROP: crowbar, true #IMAGE: #ICLASS: Overlay|overlay-spotlight|
 {
     - temp_bool:
         { 
@@ -950,7 +951,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
         - else: Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you.
         }
     
-        
+        #IMAGE: Default
         You return to the front door.
         
         You stare at it. It stares back.
