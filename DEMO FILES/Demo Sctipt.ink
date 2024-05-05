@@ -9,7 +9,8 @@ INCLUDE Confessional_Curtain.ink
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
 +[TESTING]
--> Walk_Up_Path
+#TEXTBOX: text_container_After
+-> Inside.Look_For_Heart
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -225,7 +226,7 @@ You pull up your email and scroll through the new ones, only reading the subject
 #DELAY: 1.5
 You quickly delete the "church inquiry" email, and go to reply to the client. 
 
-#PLAY: ding, false, 0, 0.5 #DELAY: 1.5
+#PLAY: ding, false, 0, 0.5 #DELAY: 2.5
 Another email with the same subject quickly replaces it. You don't think and delete it again.
 
 #PLAY: ding, false, 0, 0.5
@@ -274,10 +275,10 @@ But yet another takes it's place.
 #DELAY: 0.5
 As you click the button to delete the email- <>
 
-#PLAY: ding, true #STOP: ding, 0, 2 #DELAY: 1.5
+#PLAY: ding, true #STOP: ding, 0, 2 #DELAY: 2.5
 you get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up."
 
-#PLAY: ding, true #STOP: ding, 0, 2.5
+#PLAY: ding, true #STOP: ding, 0, 3
 You try to delete them, but they just keep coming. "Where are you?" "Come home." "(No Subject. Image Attached)."
 
 *[Open Email]
@@ -652,30 +653,29 @@ Someone is behind you, and they know you know. Your only option is the church or
 
 *[Confront them]
 
-- You take a breath and quickly spin around, ready for whatever may await you, and see...
+- 
+#DELAY: 2
+You take a breath and quickly spin around, ready for whatever may await you, and see...
 
 Nothing. No one's there. You laugh.
 { 
     -know: The church will do anything to lure you in.
-    - else: It was probably the wind.
+    - else: Your mind is playing tricks on you. It was probably the wind.
 }
 
-*[Return home]
-
-- 
 { 
     - know: You decide that you've been too close for too long and start for the gate. You think you deserve a long, hot bath after today.
     
     - else: You decide that you've trespassed for long enough, and start for the gate. You think you deserve a long, hot bath after today. 
 }
 
-*[You walk to the gate.]
+*[Walk to the gate]
 
 - 
 #IMAGE: Chuch_Looming #PROP: open_gates, false
 You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
 
-*[Pull the gate closed.]
+*[Pull the gate closed]
 
 - 
 #PLAY: gate_close #DELAY: 1.73 #PROP: open_gates, true #PROP: closed_gates, false
@@ -710,7 +710,7 @@ You blindly feel for the latch of the gate, but instead of cool metal your hands
 #PLAY: lock_rattle
 You try the knob.
 
-*[It's locked.]
+*[It's locked]
 -> Locked
 
 = Run
@@ -780,7 +780,7 @@ You don't know how long you sit there, holding the door closed, body braced agai
 #PLAY: lock_rattle, false, 0, 0.5
 When you feel safe again, you try to open the knob.
 
-*[It's locked.]
+*[It's locked]
 ->Locked
 
 === Locked ===
@@ -789,7 +789,7 @@ Locked? { -know: The blood drains from your face as you realize what you've done
 #PLAY: lock_rattle
 You jiggle the handle again. 
 
-*[The door won't budge.]
+*[The door won't budge]
 
 - You don't understand. It can't be locked. { -know != true: Maybe it got jammed?}
 
@@ -826,9 +826,9 @@ Thud!
 
 The door still stands.
 
-*[Again.]
+*[Again]
 
-*[Stop.]
+*[Stop]
 You stop, fall to the floor, and stare at the untouched door in front of you. Your leg throbs from effort. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
 ->Trapped
 
@@ -845,9 +845,9 @@ Thud!
 
 The door shows no signs of breaking.
 
-*[Again.]
+*[Again]
 
-*[Stop.]
+*[Stop]
 You stop, fall to the floor, and stare at the untouched door in front of you. Your leg throbs from effort. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
 ->Trapped
 
@@ -857,7 +857,7 @@ Something in you allows you to keep going, even as your leg throbs and it feels 
 #CLASS: Kick  #PLAY: door_thud
 Thud!
 
-*[You need to get out.]
+*[You need to get out]
 
 - #CLASS: Kick  #PLAY: door_thud
 Thud!
@@ -867,12 +867,12 @@ Thud!
 - #CLASS: Kick  #PLAY: door_thud
 Thud!
 
-*[But the church will not let you.]
+*[But the church will not let you]
 
 - #CLASS: Kick  #PLAY: door_thud
 Thud!
 
-*[The door does not move.]
+*[The door does not move]
 
 - You stop, fall to the floor, and stare at the untouched door in front of you. Your leg throbs from effort. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
 ->Trapped
@@ -889,17 +889,17 @@ It's dark, but you can make out vague shapes.
 
 You look everywhere, arms outstretched, blindly feeling around your surroundings. On and under what you imagine are pews, the floor, past the curtain? Into a... cupboard? Closet? As you search, you get the feeling of deja vu. You've done this before.
 
-*[Nothing.]
+*[Nothing]
 
 - You go further into the church, up a few steps, feeling the walls as you do, and find a closed door at the end of the hall. It might have what you're looking for.
 
-*[You hope for a crowbar.]
+*[You hope for a crowbar]
 ~ object = "crowbar"
 
-*[You hope for a screwdriver.]
+*[You hope for a screwdriver]
 ~ object = "screwdriver"
 
-*[You hope for a sledgehammer.]
+*[You hope for a sledgehammer]
 ~ object = "sledgehammer"
 
 
@@ -936,10 +936,10 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 
 ~ room = true
 
-*[Pick up the {object}.]
+*[Pick up the {object}]
 ~ temp_bool = false
 
-*[Leave it.]
+*[Leave it]
 ~ temp_bool = true
 
 - 
@@ -976,6 +976,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 }
 
 = Crowbar
+#IMAGE: Default
 You jam the crowbar in between the door and the wall, at the latch, and pull. 
 
 *[The door groans.]
@@ -992,7 +993,7 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 -> Trapped
 
 = Screwdriver
-#DELAY: 1.5
+#DELAY: 1.5 #IMAGE: Default
 You get to work unscrewing the top hindges of the door.
 
 #CLASS: Drop_Screw 0.75 #PLAY: screw_fall_1 
@@ -1030,6 +1031,7 @@ You can't find them.
 -> Trapped
 
 = Sledgehammer
+#IMAGE: Default
 You lift up the large hammer and begin to smash it into the door.
 
 #PLAY: door_slam #CLASS: Kick
@@ -1117,6 +1119,7 @@ The memory refuses to surface, only vague images and feelings. If you close your
 
 Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when- 
 
+#DELAY: 1.5
 <i>Riiiiipppppp</i>
 ~ photo_ripped = true
 The image rips in half.
@@ -1125,14 +1128,18 @@ And it all clicks into place.
 
 *[You have been here before.]
 
-- <i>Riiiiipppppp</i>
+- 
+#DELAY: 1.5
+<i>Riiiiipppppp</i>
 
 You don't know how you could have forgotten. How you didn't realize it before. 
 
+#DELAY: 1.5
 <i>Riiiiipppppp</i>
 
 You have been here before. You found... something- No. Someone? You can't remember, but <i>you got out.</i>
 
+#DELAY: 1.5
 <i>Riiiiipppppp</i>
 
 There is a way out.
@@ -1351,7 +1358,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 = Light
 *[Look at the light.]
 - 
-#Effect: glow
+#TEXTBOX: glow
 The light comes from the window above the door. The stained glass eye staring down at you.
 
 You stagger backward, deeper into the church, an intense pressure pressing down on you. Your chest tightens, and your limbs fill with static. The air becomes heavier. Your mouth goes dry.
@@ -1367,7 +1374,9 @@ You feel...
 *[Confused]
 ~ light_feeling = "confused"
 
-- The back of your throat goes tight as you hold back tears, but you don't know why. 
+- 
+#REMOVE: glow #TEXTBOX: intense-glow
+The back of your throat goes tight as you hold back tears, but you don't know why. 
 
 {
 
@@ -1407,36 +1416,41 @@ You feel...
         ~ temp_bool = true
         ~ church_anger += 1
         ~ stay -= 0.5
-        #DELAY: 6.5
+        #DELAY: 6.5 #REMOVE: intense-glow #TEXTBOX: angry-glow
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
-        #PLAY: screeching CLASS: Angry-Screeching
+        #PLAY: screeching #CLASS: Angry-Screeching 
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and luder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *[You can barely stand it.]
         -> Trapped.Light_Leave
         
     - else:
-        #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
+        #REMOVE: intense-glow #TEXTBOX: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
         ~ temp_bool = false
         ~ stay += 1
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
 
-{
-    - light_feeling == "confused":
-        ~temp_string = "confused emotions go"
-    - else:
-        ~temp_string = "{light_feeling} goes"
-}
+        {
+            - light_feeling == "confused":
+                ~temp_string = "confused emotions go"
+            - else:
+                ~temp_string = "{light_feeling} goes"
+        }
 
+        #REMOVE: leave-glow
         "N-no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 
 
         With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
+        
+       *[Turn away from the window]
+        ~ temp_bool = false
+        -> Inside
 
 
 }
 
-=Light_Leave
+= Light_Leave
 { 
     - light_feeling == "confused":
         ~ temp_string = "confused emotions go"
@@ -1444,7 +1458,7 @@ You feel...
         ~ temp_string = "{light_feeling} goes"
 }
 
-    #STOP: screeching
+    #STOP: screeching #REMOVE: angry-glow
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
     The pressure alleviates, the burning stops, and all the { temp_string } with it.
@@ -1469,14 +1483,15 @@ On the ground in front of you sits a flashlight and a note.
 ->Inside.Flashlight
 
 = Flashlight
-~ lanturn =  true
+~ lanturn =  true 
+#PROP: flash, false
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
 *[Read the note]
 ->Inside.Note
 
 = Note
-#PLAY: flashlight_on #EFFECT: flashlight
+#PROP: flash, false #PLAY: flashlight_on #EFFECT: flashlight #PROP: note, false
 The note is from an old piece of parchment. It feels like it could crumple into dust.
 
 "Find the heart and destroy it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's sight.<br><br>Do not become it's next meal."
@@ -1512,7 +1527,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
         ~ temp_string = ""
 }
 
-
+#PROP: note, true #IMAGE: Church_Inside
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
 
 #CHECKPOINT: 2, You are told to find the heart.
@@ -1833,6 +1848,8 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 -> END_DEMO
 
 === Confessional ===
+
+#IMAGE: Confessional_CloseUp #PROP: Open_curtain, false
 {
  - !confessional_priest && !confessional_sin:
         You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.

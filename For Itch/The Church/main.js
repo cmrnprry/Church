@@ -625,7 +625,7 @@
             BackgroundImage.style.opacity = 1;
             BackgroundImage.style.visibility='visible'
             BackgroundImage.src = `./Images/Backgrounds/${src}.png`;
-        } , 501);
+        } , 550);
              
     }
 
