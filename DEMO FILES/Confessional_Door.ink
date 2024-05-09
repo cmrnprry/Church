@@ -25,9 +25,6 @@ You stand to leave when you hear the curtain open and close from the other side 
 *[Wait]
 -> Confessional_Door.Wait_Curtain
 
-*[Call out]
--> Confessional_Door.CallOut
-
 *[Leave the booth]
 -> Confessional_Door.Leave_Booth
 
@@ -46,7 +43,7 @@ You stand to leave when you hear the curtain open and close from the other side 
         *[Leave the booth]
             -> Confessional_Door.Leave_Real
     - else:
-        ~temp_bool = true
+        ~temp_bool = false
         "Um.. hello? Is anyone in there?"
 
         It's almost same voice from earlier. The one that gave you the flashlight and note. But her voice is softer? Younger...?
@@ -60,10 +57,10 @@ You stand to leave when you hear the curtain open and close from the other side 
 
 = CallOut
 {
-    - temp_bool:
+    - temp_bool == false:
         "Hello?" You call out, tentatively.
         
-        "Oh, it's not..." her voice tapers off. Shes disappointed. "Are you still taking confessions...?"
+        "Oh, it's not..." her voice tapers off. She's disappointed. "Are you still taking confessions...?"
         
         *["Yes, I am."]
             ->Confessional_Door.Yes_Confessions
@@ -151,11 +148,11 @@ You fall out of the booth, and check the other side. There's a splatter of blood
             ->Confessional_Door.Rush_Out
     - 2:
         You hear the sound of scratching at the floor.
-        *[The knob _won't_ turn.]
+        *[The knob <i>won't</i> turn.]
             ->Confessional_Door.Rush_Out
     - 3:
         She says something between coughs that you can't make out.
-        *[The _knob_ won't _turn._]
+        *[The <i>knob</i> won't <i>turn.</i>]
             ->Confessional_Door.Rush_Out
     - 4:
         *[Break down the door]
