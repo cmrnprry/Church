@@ -6,6 +6,7 @@ VAR Mute = false
 VAR Shake = false
 VAR Dim = false
 VAR Styling = ""
+VAR haveFlashlight = false
 
 VAR feeling = ""
 VAR turn = ""

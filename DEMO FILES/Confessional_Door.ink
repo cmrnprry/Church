@@ -1,4 +1,5 @@
 === Confessional_Door
+#IMAGE: Default #PROP: curtain_full, true
 You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
         
 You look around the cramed space and find nothing. The booth is empty. {confessional_sin: You already found a key earlier, what more could be in the booth?} { confessional_sin == false: You don't know what you were expecting. }
@@ -89,13 +90,13 @@ You stand to leave when you hear the curtain open and close from the other side 
 #PLAY: curtain
 {pressed_emily: The curtain opens. "I'm- Leaving-" Her voice is cut off by a massive coughing fit. "You- <i>You</i>" she wheezes between coughs. "Don't-"}{ pressed_emily == false: "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank-" Her voice is cut off by a massive coughing fit. "Thank- you-" she wheezes between coughs. }
 
-#CLASS: typewriter
+#CLASS:  #DELAY: 2.5
 ​
 
 #DELAY: 1.5
-The sound or the curtain tearing-
+The sound of the curtain tearing-
 
-#CLASS: Slide_Down #DELAY: 1.5
+#CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5
 <i>THud</i>
 
 Something, no <i>someone</i>, hits the ground. Hard.
@@ -109,27 +110,45 @@ Something, no <i>someone</i>, hits the ground. Hard.
 You can hear wheezing, but she does not answer. 
 
 #CLASS: Fidget #CLASS: Blur
-Your eyes find the doorknob, transfixed by it.
+Your eyes find the doorknob, and you tell yourself to open it.
 
 #CLASS: Fidget #CLASS: Blurrier
-You need get up, and help her.
+An invisible force presses down on you. You feel like you're moving in slow motion.
 
 *["Are you okay?"]
 
-- You can hear scratching on the floor, but she does not answer.
+- 
+#CYCLE: Fidget, easy, smoothly, effortless, fluid 
+The words come out @. Your hand is barely halfway to the door.
 
 #CLASS: Fidget #CLASS: Blur
-Your vision starts to blur, but you can't look away.
+It seems like the harder you fight against the force, the slower you move.
+
+You can hear scratching on the floor. 
 
 #CLASS: Fidget #CLASS: Blurrier
-Why aren't you moving?
+You just need to turn the knob. Why can't you just turn the knob?
+
+There is no answer from outside.
 
 *["Hello...?"]
 
-- You don't hear anything. She does not answer.
+- 
+#CYCLE: Fidget, frustrated, annoyed, afraid, anxious 
+You feel @ as you continue to stare at the closed door. Your hand is so close.
 
 #CLASS: Fidget #CLASS: Blur
-You blink and the spell is broken.
+What if it's too late?
+
+You don't hear anything outside. 
+
+#CLASS: Fidget #CLASS: Blur
+You need to move.
+
+There is no answer from outside.
+
+#CLASS: Fidget #CLASS: Blur
+Just move.
 
 #CLASS: Fidget #CLASS: Blurrier
 MOVE.
@@ -385,6 +404,7 @@ The curtain closes, and she is gone.
 -> Confessional_Door.Return_to_Search
 
 = Exit_Booth
+#IMAGE: Confessional_CloseUp #PROP: curtain_torn, false
 No sign of the girl. 
 
 You kneel in front of the booth. 
@@ -395,7 +415,7 @@ You feel...
 ~ priest_feeling = "anger"
 ~stay -= 0.5
 ~temp_string = "You grind your teeth"
-
+#IMAGE: Default #PROP: curtain_torn, true
 You slam your fist into the ground. {pressed_emily: <i>You</i> pressed her. <i>You</i> did this.} {pressed_emily == false: Was any of that real? Is this all just a sick game to the church? }
 
 You grab the fabric and start pulling it apart. <i>Riiiippp</i> {pressed_emily: She's not here, was it real? } {pressed_emily == false: Is anything in here real? } <i>Riiiippp</i> {pressed_emily: If she isn't real, is it still your fault? } {pressed_emily == false: Can you trust your ears? Your eyes? } <i>Riiiippp</i>  {name: You know she was once a real person, but was that her? Or was that the church? } {pressed_emily == false: What can you trust in here if your own sense are compromised? } <i>Riiiippp</i> 
@@ -406,7 +426,7 @@ You stop and hold the scraps in your hand. You look at the blood splatter, then 
 ~ priest_feeling = "guilt"
 ~stay += 0.5
 ~temp_string = "You grimce"
-
+#IMAGE: Default #PROP: curtain_torn, true
 You gather up the fabric in your hands. You swallow back the lump growing in your throat. {pressed_emily: You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. } {pressed_emily == false: Is this... your... fault? } 
 
 You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? You look at the blood splatter, then up at the confessional.
@@ -419,6 +439,7 @@ You put your hand over the scratch marks, and feel the deep grooves left chipped
 - else:
     ~temp_string = "You heard her. You- You can <i>see</i> the curtain was affected."
 }
+#IMAGE: Default #PROP: curtain_torn, true
 You touch the ripped fabric. {pressed_emily: Would this still have happened if you didn't press her...? }{pressed_emily == false: Was any of that real...? }
 
 {temp_string}
@@ -429,6 +450,8 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
 ~temp_string = "Your hands tremble"
 - 
 
+#IMAGE: Confessional_CloseUp #PROP: curtain_full, false
+What...?
 *[{temp_string}]
 
 - 
@@ -436,6 +459,7 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
     - temp_string == "Your hands tremble":
         You stare at the intact curtain in front of you. You grip the fabric in your hands tightly, afraid it will disappear the moment you can no longer feel it.
 
+        #IMAGE: Church_Inside #PROP: curtain_full, true
         "Why...?" you mutter as you try to stand, your legs shakey. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to...?"
 
         Your voice is quiet, but you know the church heard you. Deep in your gut, you know, and you waited for its response. 
@@ -445,6 +469,7 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
     - temp_string == "You grimce":
         Your eyes dart back and forth between the fabric in your hands, and the intact curtain in front of you. You can't understand it.
 
+        #IMAGE: Church_Inside #PROP: curtain_full, true
         "What is this...?" your voice warbles, and you slowly stand. You turn to face the main body of the church. You throw out your hands, holding the fabric up like an offering. "What- what is this...?!"
 
         You let out a wet croak. You look around, looking for some response. 
@@ -452,6 +477,7 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
         Any response.
     
     - temp_string == "You grind your teeth":
+        #IMAGE: Church_Inside #PROP: curtain_full, true
         "What is this?" You stand and throw the scaps in your hands at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
 
         You can't help but laugh. Laugh at the absurdity. At your stupidity. You remember the words on the note you were given. 
@@ -463,7 +489,7 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
         You spit on the ground.
 }
 
-*The church is slient.
+*[The church is slient.]
 
 - 
 
@@ -476,15 +502,30 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
         You face the church, and close your eyes. "Please, was any of it real...?"
         
         When you open them, the fabric is gone, the wood floor is smooth, and there is no indication that blood was ever spilled.
+        
+        You nod, getting the answer you expected. <i>It will do anything to keep you here.</i> 
+        
+        You should keep that in mind. You do not want to become another victim of the church. You will make it out of here.
+        
+        {
+            - stay >= 1.25:
+                You hope.
+            - else:
+                You are sure of it.
+        }
     
     - temp_string == "You grimce":
         You fold the ripped fabric as best you can, and place it over the scarred wood and blood.
 
         "I'm sorry."
         
-        You place a hand over the make-shift grave, close your eyes, and say a prayer. "I- I'm so sorry."]
+        You place a hand over the make-shift grave, close your eyes, and say a prayer. "I- I'm so sorry."
     
         When you open them, the fabric is gone, the wood floor is smooth, and there is no indication that blood was ever spilled.
+        
+        You nod, getting the answer you expected. <i>It will do anything to keep you here.</i> 
+        
+        You should keep that in mind.
     
     - temp_string == "You grind your teeth":
         You scoft. Of course now the church has nothing to say. You don't give the confessional another glance. You will get out of here. You will not be just another victim.
@@ -498,6 +539,8 @@ It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hes
         
 }
 
+
+*[Continue your search]
 -> Confessional_Door.Return_to_Search
 
 = Leave_Booth

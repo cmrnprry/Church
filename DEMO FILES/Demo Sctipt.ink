@@ -10,7 +10,8 @@ INCLUDE Confessional_Curtain.ink
 + [Content Warnings] ->Content_Warnings
 +[TESTING]
 #TEXTBOX: text_container_After
--> Inside.Look_For_Heart
+#EFFECT: flashlight-flicker #PLAY: flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off #STOP: flashlight_off, 0, .5 #PLAY: 1, flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off
+    The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -1483,25 +1484,26 @@ On the ground in front of you sits a flashlight and a note.
 ->Inside.Flashlight
 
 = Flashlight
-~ lanturn =  true 
-#PROP: flash, false
+~ haveFlashlight = true
+#PROP: flash, false #PLAY: flashlight_on #EFFECT: FlashBeam
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
 *[Read the note]
 ->Inside.Note
 
 = Note
-#PROP: flash, false #PLAY: flashlight_on #EFFECT: flashlight #PROP: note, false
+#EFFECT: FlashBeam #PROP: flash, true #EFFECT: flashlight #PROP: note, false
 The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-"Find the heart and destroy it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's sight.<br><br>Do not become it's next meal."
+#CLASS: end
+"Find the heart and <span style="color: \#3f1313">destroy</span> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <span style="color: \#3f1313">sight.</span><br><br>Do not become it's next <span style="color: \#3f1313">meal.</span>"
 
 *[Meal...?]
-#TEXTBOX: text_container_After
+#PROP: note, true #TEXTBOX: text_container_After
 You shutter at the thought. You wonder how long you have until it fully digests you.
 
 *[Sight...?]
-#TEXTBOX: text_container_After
+#PROP: note, true #TEXTBOX: text_container_After
 { 
     - temp_bool_2:
         ~ temp_string = "How you had to pull yourself out."
@@ -1513,7 +1515,7 @@ Well.... You glance up at the swirling window.
 You remember how the church's sight warped your thoughts and reasoning. { temp_string } You cannot let that happen again. If the church sees you again...
 
 *[Heart...?]
-#TEXTBOX: text_container_After
+#PROP: note, true #TEXTBOX: text_container_After
 <i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or...?
 
 - 
@@ -1527,17 +1529,17 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
         ~ temp_string = ""
 }
 
-#PROP: note, true #IMAGE: Church_Inside
+#IMAGE: Church_Inside
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
 
-#CHECKPOINT: 2, You are told to find the heart.
-You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
+#CHECKPOINT: 2, You are told to find the heart. #EFFECT: main_area
+You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
 
-*[In the confessional]
+*[confessional]
 -> Confessional
 
-*[Somewhere up the stairs]
+*[stairs]
 -> Stairs
 
 = Look_For_Heart
@@ -1550,6 +1552,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> Stairs
 
 === Stairs ===
+#IMAGE: Default
 {
     - leg == "worst":
         ~temp_string = "limp up"
@@ -1576,6 +1579,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 = Office
 ~ temp_bool_3 = true
+#PLAY: lock_rattle
 You try the door only to find it locked.
 
 *[Return to the main body of the church]
@@ -1593,9 +1597,11 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 ->Inside.Look_For_Heart
 
 *[Go upstairs]
+    #IMAGE: Stairs_Up
     ->Stairs.Upstairs
     
 *[Go downstairs]
+    #IMAGE: Stairs_Down
     ->Stairs.Downstairs
 
 ////////// STAIRS INTERACTIONS ////////// 
@@ -1605,12 +1611,12 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 
 {
     - went_downstairs == 0:
-        #PLAY: flashlight_on
+        #PLAY: flashlight_on #EFFECT: flashlight-on
         You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
 
         You tense, every fiber of your being telling you to not continue down.
     - else:
-        #PLAY: flashlight_on
+        #PLAY: flashlight_on #EFFECT: flashlight-on
         You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
 }
 
@@ -1677,19 +1683,21 @@ You shine your light to the end of the staircase, and see a door at the end of t
     ->Stairs.Turn_Back
 
 - 
-#PLAY: footsteps_squishy, true, 1
+#PLAY: footsteps_squishy, true, 1.5
 <i>You've made it this far, might as well see it it toward the end,</i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
 <i>Squish</i>
 
-#stop: footsteps_squishy, 0, 3
+#STOP: footsteps_squishy, 3, 0
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
 <i>Squelch</i>
 
 *[Open the door]
 
-- The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
+- 
+#IMAGE: Basement
+The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
 
 The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
 
@@ -1699,7 +1707,7 @@ The room is covered in the pink, buldging flesh, thick ooze drips from the ceili
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #EFFECT: flashlight-flicker #PLAY: flashlight_on #PLAY: 1, flashlight_off #PLAY: 1, flashlight_on #PLAY: 1, flashlight_off
+    #EFFECT: flashlight-flicker #PLAY: flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off #STOP: flashlight_off, 0, .5 #PLAY: 1, flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
 
@@ -1719,7 +1727,9 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 
 *[Lift the tarp]
 
-- #PLAY: flashlight_off #EFFECT: flashlight-gone
+- 
+~ haveFlashlight = false
+#PLAY: flashlight_off #EFFECT: flashlight
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
 #CYCLE: Fidget, mourn, pity, pray
@@ -1743,6 +1753,7 @@ Eventually, your hand bumps into something hard and metal. The flashlight. You g
 ->Stairs.Melt
 
 = Melt
+#ICLASS: Background Image||Swimming
 You wipe off any remaining ooze on your shirt, but that only causes the itching to spread. 
 
 *[It burns]
@@ -1761,7 +1772,9 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 
 *[It's eating through you]
 
-- You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
+- 
+#ICLASS: Background Image|Swimming|Swimming-2
+You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
 
 *[You feel bone.]
 
@@ -1775,6 +1788,7 @@ You can't think. Bone? How-?
 #CLASS: Blur
 Your skin burns.
 
+#ICLASS: Background Image|Swimming-2|Swimming-3
 Your head swims. This can't be-
 
 #CLASS: Blur
@@ -1797,6 +1811,7 @@ You trip over yourself, and fall into puddle of the acidic ooze.
 You can't feel your legs.
 
 *[You can't feel anything.]
+#ICLASS: Background Image|Swimming-3|
 -> END_DEMO
 
 = Turn_Back
@@ -1822,7 +1837,9 @@ You start up the stairs, holding the hand rail as you go.
         ~temp_string=""
 }
 
-You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost treating the stairs as a ladder, they're so steep. {temp_string}
+You continue up the stairs for what feels like 5 or 6 flights, but they show no sign of stopping. Tighter and tighter they spiral, the hand rail shrinking lower and lower, and the stairs getting steeper and steeper. 
+
+You end up climbing on all fours, treating the stairs as a ladder. {temp_string}
 
 You stop to rest every 3 or 4 flights. If your count is right, you've stopped at least 12 times.
 
@@ -1842,30 +1859,32 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 
 *[Look closer]
 
-- You walk closer to the door, and tug at the door knob. The door jigles, but doesn't budge. Ther is a small keyhole that red light pours out of.
+- 
+#PLAY: lock_rattle
+You walk closer to the door, and tug at the door knob. The door jigles, but doesn't budge. Through a small keyhole, a red light pours out.
 
 *[Peak through the key hole]
 -> END_DEMO
 
 === Confessional ===
 
-#IMAGE: Confessional_CloseUp #PROP: Open_curtain, false
+#IMAGE: Confessional_CloseUp #PROP: curtain_full, false #EFFECT: main_area
 {
  - !confessional_priest && !confessional_sin:
-        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess.
+        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. (click highlighted image)
     - else:
-        You approach the confessional booth.
+        You approach the confessional booth. (click highlighted image)
 }
 
 {
 
     - !confessional_priest:
-        *[Enter through the door]
+        *[door_confessional]
         ->Confessional_Door
 }
 {
     - !confessional_sin:
-        *[Enter through the curtain]
+        *[curtain_confessional]
         ~temp_bool = false
         ->Confessional_Curtain
 
@@ -1890,6 +1909,7 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 + [Credits] ->Credits
 
 === END_DEMO
+#IMAGE: Default
 That is the end of the demo, thank you so much for playing! The full version is coming soon. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
 
 + [Restart Game] 

@@ -9,7 +9,6 @@
 
     let savedTheme;
     let globalTagTheme;
-    let hasFlashlight = false;
     let ChoicesID = null;
 
     //CONTINUE ARROW
@@ -23,6 +22,7 @@
     let CurrentImage = "";
     let CurrentProp = "";
     let LoopedAudio = "";
+    let hasFlashlight = false;
 
     //OPTIONS VARIABLES
     let Volume = 100;
@@ -31,7 +31,8 @@
     let Dim = false;
     let Styling = "";
 
-    
+    //FOR CLICKING CHOICES AS BOXES
+    let WhereGO = false;    
 
     //HISTORY VARIABLE
     let history = window.localStorage.getItem('save-history') == null ? "" : window.localStorage.getItem('save-history')
@@ -243,14 +244,36 @@
             CurrentImage = story.variablesState["CurrentImage"] + "";
             CurrentProp = story.variablesState["CurrentProp"] + "";
             LoopedAudio = story.variablesState["LoopedAudio"] + "";
+            hasFlashlight = (story.variablesState["haveFlashlight"] === "true")
 
 
             //OPTIONS VARIABLES
             Volume = Number(story.variablesState["Volume"]);
-            Mute = (story.variablesState["Mute"] === "true");
-            Shake = (story.variablesState["Shake"] === "true");
-            Dim = (story.variablesState["Dim"] === "true");
+            Mute = (story.variablesState["Mute"].toString() === "true");
+            Shake = (story.variablesState["Shake"].toString() === "true");
+            Dim = (story.variablesState["Dim"].toString() === "true");
             Styling = story.variablesState["Styling"] + "";
+
+
+            //flashlight
+            if (hasFlashlight)
+            {
+                if (footer.classList.contains("hide"))
+                    footer.classList.remove("hide")
+
+                if (footer.getAttribute("status") == "off")
+                {
+                    footer.setAttribute("status", "on")
+                    document.getElementById("flashlight").style.display = ""             
+                    footer.innerHTML = "Turn off"
+                }
+                else
+                {
+                    footer.innerHTML = "Turn on"
+                    document.getElementById("flashlight").style.display = "none"
+                    footer.setAttribute("status", "off")
+                }
+            }
 
             if (!Styling && Dim)
             {
@@ -406,18 +429,36 @@
 
                 if( splitTag && splitTag.property == "PROP" ) {
                     var array = splitTag.val.split(", ")
-                    story.variablesState["CurrentProp"] = array[0];
-                    
+                                        
                     FadeProp(array[0], array[1])
                 }
 
                 if( splitTag && splitTag.property == "EFFECT" ) {
-                    if (splitTag.val == "flashlight")
+                    if (splitTag.val === "main_area")
                     {
-                        console.log("flash here")
-                        if (hasFlashlight)
+                        WhereGO = true;
+                    }                    
+                    else if (splitTag.val === "FlashBeam")
+                    {
+                        var element = document.getElementById("flash beam")
+
+                        if (element.classList.contains("hide"))
                         {
-                            if (footer.getAttribute("status") == "off")
+                            element.classList.remove("hide")
+                        }
+                        else
+                        {
+                            element.classList.add("hide")
+                        }
+                    }
+                    else if (splitTag.val.includes("flashlight"))
+                    {
+                        if (story.variablesState["haveFlashlight"].toString() === "true")
+                        {
+                            if (footer.classList.contains("hide"))
+                                footer.classList.remove("hide")
+
+                            if (splitTag.val === "flashlight-on" || footer.getAttribute("status") == "off")
                             {
                                 footer.setAttribute("status", "on")
                                 document.getElementById("flashlight").style.display = ""             
@@ -430,13 +471,13 @@
                                 footer.setAttribute("status", "off")
                             }
                         }
-
-                        if (!hasFlashlight)
+                        else
                         {
-                            console.log("here")
-                            hasFlashlight = true;
-                            footer.classList.remove("hide")
-                        }
+                            footer.innerHTML = "Turn on"
+                            document.getElementById("flashlight").style.display = "none"
+                            footer.classList.add("hide")
+                            footer.setAttribute("status", "off")
+                        }                        
                     }
                 }
 
@@ -478,6 +519,7 @@
                         if (splitTag.val === "text_container_Dark")
                             document.getElementById("Overlay").classList.remove("hide")
                         else if (splitTag.val === "text_container_UsedTo" || splitTag.val === "text_container_After")
+                            document.getElementById("Overlay").classList.remove("hide")
                             document.getElementById("Overlay").classList.add("img_used")
                     }
             }
@@ -599,12 +641,53 @@
         //if there are no choices and no text qued to be delayed, do click stuffs
         if (story.currentChoices.length > 0)
         {
-            delay = 1500
+            if (WhereGO)
+            {
+                var places = document.getElementById("Main Room").children
+                story.currentChoices.forEach(function(choice) {
+                    for (var ii = 0; ii <= places.length - 1; ii++)
+                    {
+                        if (choice.text == places[ii].children[0].id)
+                        {
+                            places[ii].addEventListener("click", function (event){
+                                event.preventDefault();
+
+                                //turn eveyone off
+                                for (var ii = 0; ii <= places.length - 1; ii++)
+                                {
+                                    if (!places[ii].classList.contains("hide"))
+                                        places[ii].classList.add("hide")
+                                }
+
+                                // Tell the story where to go next
+                                story.ChooseChoiceIndex(choice.index);
+
+                                // This is where the save button will save from
+                                savePoint = story.state.toJson();
+                                SetSaveGame();
+
+                                history += "<br><br>" + paragraphText;
+                                window.localStorage.setItem('save-history', history)
+
+                                WhereGO = false;
+                                deleteAfter(paragraphElement.querySelectorAll("p")[0]);
+                            });
+
+                            places[ii].classList.remove("hide");
+                        }
+                    }
+                });
+            }
+            else
+            {
+                delay = 1500
             if (DelayNextText > 0)
                 delay += DelayNextText
 
             if (ChoicesID == null)
                 ChoicesID = setTimeout(function() { CreateChoices(); }, delay);
+            }
+            
         }
 
         SetSaveGame();
@@ -625,7 +708,7 @@
             BackgroundImage.style.opacity = 1;
             BackgroundImage.style.visibility='visible'
             BackgroundImage.src = `./Images/Backgrounds/${src}.png`;
-        } , 550);
+        } , 501);
              
     }
 
@@ -638,7 +721,8 @@
 
         if (isOn === "true")
         {
-            CurrentProp = "";            
+            
+            story.variablesState["CurrentProp"] = (story.variablesState["CurrentProp"].includes(" ")) ? "" : story.variablesState["CurrentProp"].replace(src, "");           
             
             element.style.opacity = 0;
             return
@@ -649,9 +733,11 @@
                 element.classList.remove("hide")
             prob = src;
             element.style.opacity = 1; 
+
+            story.variablesState["CurrentProp"] = (story.variablesState["CurrentProp"] === "") ? src : story.variablesState["CurrentProp"] + " " + src;
         }       
 
-        story.variablesState["CurrentProp"] = CurrentProp;   
+        CurrentProp = story.variablesState["CurrentProp"];   
     }
 
     function ZoomImage(transform, clip) {
@@ -1044,27 +1130,49 @@
         Styling = "";
         story.variablesState["Styling"] = ""
 
+        hasFlashlight = false;
+        story.variablesState["haveFlashlight"] = false
+
         StoryCheckpoint = "";
         window.localStorage.setItem('save-checkpoint', StoryCheckpoint)
 
         EndingsAchieved = "";
         window.localStorage.setItem('save-endings', EndingsAchieved)
 
-        hasFlashlight = false;
         footer.innerHTML = "Turn on"
         document.getElementById("flashlight").style.display = "none"
         footer.classList.add("hide")
         footer.setAttribute("status", "off")
         document.getElementById("Overlay").classList.add("hide")
 
+        if (!document.getElementById("flash beam").classList.contains("hide"))
+        {
+            document.getElementById("flash beam").classList.add("hide")
+        }
+
         if (paragraphElement)
             paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
 
         FadeImage("Default")
-        FadeProp(CurrentProp, "true")
+        if (CurrentProp.includes(" "))
+        {
+            var array = CurrentProp.split(" ")
+            array.forEach(index => FadeProp(index, "true"))
+        }
+        else
+            FadeProp(CurrentProp, "true")
     
         removeAll(".choice");
         ChoicesID = null;
+
+         //turn eveyone off
+         var places = document.getElementById("Main Room").children
+         for (var ii = 0; ii <= places.length - 1; ii++)
+         {
+            if (!places[ii].classList.contains("hide"))
+                places[ii].classList.add("hide")
+         }
+
         
         openOptions(false);
         openHistory(false);

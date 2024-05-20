@@ -1,12 +1,12 @@
 === Confessional_Curtain ===
 ~ confessional_sin = true
 
-    #PLAY: curtain
-    You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. }
+#PLAY: curtain #IMAGE: Default #PROP: curtain_full, true
+You sit on the cold wooden bench. {confessional_priest: It's almost identical to the other side.}{confessional_priest == false: The grate that a priest would speak through has the same lattice work that the door does. }
 
-    A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
+A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
 
-    {confessional_priest == false: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }
+{confessional_priest == false: There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter? }{confessional_priest: What are you expecting to find here? Why did you enter? }
     
 *[To Confess]
 ~temp_bool = true

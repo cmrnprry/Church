@@ -84,9 +84,11 @@
         <div class="img_container">
             
             <div id="Main Room">
-                <div id ="stairs" class="box stairs hide"><span class="tooltiptext">Go up the stairs?</span></div>
-                <!-- <div class="box pews hide"><span class="tooltiptext">Investigate the pews?</span></div> -->
-                <div id ="confessional" class="box confessional hide"><span class="tooltiptext">Enter the confessional?</span></div>
+                <a href="#" class="stairs hide"><div id ="stairs" class="box"><span class="tooltiptext">Go up the stairs?</span></div></a>
+                <a href="#" class="pews hide"><div id="pews" class="box"><span class="tooltiptext">Investigate the pews?</span></div></a>
+                <a href="#" class="confessional hide"><div id ="confessional" class="box"><span class="tooltiptext">Enter the confessional?</span></div></a>
+                <a href="#" class="door_confessional hide"><div id ="door_confessional" class="box"><span class="tooltiptext">Enter through the door?</span></div></a>
+                <a href="#" class="curtain_confessional hide"><div id ="curtain_confessional" class="box"><span class="tooltiptext">Enter through the curtain?</span></div></a>
             </div>
             <div id="prop older">
                 <img id="closed_gates" src="./Images/Props/closed_gates.png" alt="Image" class="gate-closed hide" />
@@ -95,6 +97,14 @@
                 
                 <img id="note" src="./Images/Props/Note.png" alt="Image" class="prop hide" />
                 <img id="flash" src="./Images/Props/Flashlight.png" alt="Image" class="prop hide" />
+                <div id="flash beam" class="hide">
+                    <div class="flash-beam"></div>
+                    <div class="flash-circle"></div>
+                </div>
+
+                <!-- curtain -->
+                <img id="curtain_torn" src="./Images/Props/Torned_curtain.png" alt="Image" class="prop-curtain hide" />
+                <img id="curtain_full" src="./Images/Props/Open_curtain.png" alt="Image" class="prop-curtain hide" />
                 
                 <!-- items -->
                 <img id="crowbar" src="./Images/Props/Crowbar.png" alt="Image" class="prop-door hide" />                
@@ -104,7 +114,6 @@
             </div>
 
             <div id="Overlay" class="img_overlay hide" ></div>
-                <!-- <img id="Prop Image" src="./Images/Props/Prop 5.png" alt="Image" class="note" /> -->
                 <img id="Background Image" src="./Images/Backgrounds/Default.png" style="opacity:1.0;" onerror="this.style.visibility='hidden'" alt="Image" class="" />
         </div>
         
