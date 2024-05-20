@@ -8,10 +8,6 @@ INCLUDE Confessional_Curtain.ink
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
-+[TESTING]
-#TEXTBOX: text_container_After
-#EFFECT: flashlight-flicker #PLAY: flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off #STOP: flashlight_off, 0, .5 #PLAY: 1, flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off
-    The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
