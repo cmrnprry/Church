@@ -306,6 +306,7 @@
             savePoint = story.state.toJson();
         }        
 
+        console.log(paragraphText = story.Continue());
         // Generate story text - loop through available content
         if(story.canContinue) {
             //save on every canContinue
@@ -1677,14 +1678,14 @@
             }
             
             story.variablesState["Mute"] = element.getAttribute("status")
-            Mute = (story.variablesState["Mute"] === "true")
+            Mute = (story.variablesState["Mute"].toString() === "true")
             onVolumeChange()              
         });
     }
 
     function onVolumeChange()
     {
-        if (Mute === "true")        
+        if (Mute)        
             for (const [key] of Object.entries(AudioList))
             {
                 AudioList[key].volume = 0;
@@ -1697,7 +1698,6 @@
                 AudioList[key].volume = newVolume;                
             }
         
-        console.log(story.variablesState["Volume"])
         SetSaveGame()
     }
 
