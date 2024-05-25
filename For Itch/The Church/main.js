@@ -303,10 +303,9 @@
         if  (firstTime)
         {
             console.log("new save")
-            savePoint = story.state.toJson();
+            SetSaveGame();
         }        
 
-        console.log(paragraphText = story.Continue());
         // Generate story text - loop through available content
         if(story.canContinue) {
             //save on every canContinue
@@ -664,7 +663,7 @@
                                 story.ChooseChoiceIndex(choice.index);
 
                                 // This is where the save button will save from
-                                savePoint = story.state.toJson();
+                                
                                 SetSaveGame();
 
                                 history += "<br><br>" + paragraphText;
@@ -691,7 +690,7 @@
             
         }
 
-        SetSaveGame();
+        // SetSaveGame();
     }
 
     function FadeImage(src)
@@ -892,7 +891,7 @@
                 window.localStorage.setItem('save-history', history)
             }
             
-            savePoint = story.state.toJson();
+            
             SetSaveGame();      
             deleteAfter(paragraphElement.querySelectorAll("p")[0]);
         }
@@ -943,7 +942,7 @@
         story.ChooseChoiceIndex(0);
 
         // This is where the save button will save from
-        savePoint = story.state.toJson();
+        
         SetSaveGame();
 
         replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
@@ -1009,7 +1008,7 @@
                 story.ChooseChoiceIndex(choice.index);
 
                 // This is where the save button will save from
-                savePoint = story.state.toJson();
+                
                 SetSaveGame();
 
                 if (replaceParagraph)
@@ -1058,7 +1057,7 @@
             story.ChooseChoiceIndex(index);
 
             // This is where the save button will save from
-            savePoint = story.state.toJson();
+            
             SetSaveGame();
 
             //continue
@@ -1115,7 +1114,7 @@
         story.ResetState();
 
         // set save point to here
-        savePoint = story.state.toJson(); 
+         
         window.localStorage.setItem('save-state', null);  
 
         continueStory(true, 500);
