@@ -112,10 +112,9 @@ There was nothing in there, anyway. You should return to your search.
 
 "Today, I was... a little strange. I was never the best worker at my job, but today was particularly bad." You trace the wooden grooves of the wall with your finger. The words feel stuck in your throat as you recall your day. 
 
-#DELAY: 1.5
 {temp_string}
 
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 #DELAY: 3
@@ -134,7 +133,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
         ~temp_string = "often ignore or push away the ones who reach out first?\""
 }
 
-#PLAY: liquid-drop #PLAY: 2, liquid-drop
+#PLAY: liquid-drop #PLAY: 2, liquid-drop #DELAY: 1.5
 <i>Plink! Plink!</i>
 
 "I see..." The voice is quiet for a moment before continuing, "Do you {temp_string}
@@ -152,7 +151,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
         #DELAY: 1
         You nod. Your chest is tight.
         
-        #PLAY: liquid-drop #PLAY: 1, liquid-drop
+        #PLAY: liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
         <i>Plink! Plink!</i>
         
         {
@@ -252,7 +251,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
     #DELAY: 1.5
     Safe? Happy? You think about everything you've experienced up til now. {temp_string}look at the ceiling of the booth. Is this any better or worse than your day to day? You're not sure how to feel.
 
-    #PLAY: liquid-drop #REPLACE: liquid
+    #PLAY: liquid-drop #REPLACE: liquid 
     <i>Plink!</i> The bucket is filling fast. You can see that the [liquid] seems... thicker than just water.
     
     *[liquid]
@@ -281,19 +280,17 @@ The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an
 ->Confessional_Curtain.Agree
 
 = Middle
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 {
     - work == 1 or work == 3:
-        #DELAY: 1.5
         "You say you are not worthy of the concern of others. You keep to yourself, so your work." The voice is gentle. "But you are here now, safe in the church's embrace. Aren't you happier here?"
     - work == 2:
-        #DELAY: 1.5
         "You don't think you could have done better, that you worked harder to make up for it. And yet, your efforts fell to deaf ears." The voice is gentle. "But you are here now, safe in the church's embrace. Aren't you happier here?"
 }
 
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 #REPLACE: liquid
@@ -341,8 +338,9 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
-Bang! <>
+- 
+#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
 
@@ -447,7 +445,7 @@ On the bench sits a small key.
     
     Your fingers brush against the key again when a cold hand grabs your arm. You jerk away, but it holds tight, fingers digging into your wrist.
 
-    "Making the church angry will not help you." It's the gruff voice from earlier. "Fighting against it is meaningless."
+    "The more you fight, the sweeter the meal you will be." The gruff voice from eariler growls. It's guttural and low. "Don't mistake this for kindness."
 
     Something cold and metal is placed into your palm, and you're released. You yank your arm back through the opening, falling into the opposite side. In your hand is the key.
     
@@ -469,19 +467,16 @@ On the bench sits a small key.
 -> END_DEMO
 
 = Agree
-#DELAY: 1
 You work everyday and for what?" 
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
-#DELAY: 1
 The words get stuck in your throat.
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
-#DELAY: 2
 "The church can feel... perplexing... at first, but it doesn't bring you here without reason. It wants to help- to heal the harm dealt to you out <i>there."</i> The voice is calming. It makes sense. Why else would you be here? "The church would never hurt you. Could never hurt you."
 {
     - know or leave_light or object != "":
@@ -490,7 +485,7 @@ The words get stuck in your throat.
         ~temp_string = "The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then..."
 }
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 You clench and unclench your hands. {temp_string}
@@ -508,7 +503,7 @@ You clench and unclench your hands. {temp_string}
 ->Confessional_Curtain.Reject_Version_2
 
 -
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 The leak is dripping faster now. The bucket is spilling over. The viscous liquid contains small bubbles as it crawls over the floor. 
@@ -531,10 +526,9 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 - ~stay += 1
 "When it brought you here, that must have been frightening. Change always is."
 
-#DELAY: 1
 You nod.
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 The liquid crawls towards your shoes. You don't think it's water at all. 
@@ -624,7 +618,7 @@ The booth could come apart at any moment. You need to get out of here.
 = Motivation
 "I have no drive to do... anything. Even the things I want to do." You tap your fingers against the cold, wood bench. "I pick up a hobby only to drop it after a week. I <i>want</i> to do things, but..."
 
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 The voice is silent.
@@ -641,7 +635,7 @@ The voice is silent.
 = Too_much
 "I somehow am doing too much all the damn time." You stare up at the celing, focusing on a cobweb. "I can't commit to anything to completion, but I also can't stop picking up more things to do."
 
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 The voice is silent.
@@ -693,7 +687,7 @@ Your skin crawls. The silence returns.
     -> Confessional_Curtain.Leave
 
 = Personal_Motivation
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 "I see..." The voice was quiet for a moment before continuing, "Perhaps there's another reason for this? Is work too draining?"
@@ -709,7 +703,7 @@ Your skin crawls. The silence returns.
     - temp_bool:
         You feel yourself nodding. After work all you want to do is sleep. How is that you're fault?
 
-        #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+        #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
         <i>Plink! Plink! Plink!</i>
     
         "It's not your fault that the outside world is unsympathetic." The voice is gentle. Soft. "So aren't you so glad you can stay?"
@@ -741,13 +735,13 @@ Your skin crawls. The silence returns.
 }
 
 = Personal_TooMuch
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
-#DELAY: 1
+#DELAY: 2
 "I see..." The voice is quiet. 
 
-#DELAY: 2
+#DELAY: 3
 The silence is suffocating. 
 
 The voice finally continues, and you can breathe again. "So you are picking these up projects to make up for your inadequacy? You take as many as you can get so failure to finish is inevitable?"
@@ -764,7 +758,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 - temp_bool:
     You don't answer. You're inadequate? It's all inevitable? You bite you lip.
 
-    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
     <i>Plink! Plink! Plink!</i>
 
     "I think you are sabotaging yourself on purpose." The voice is gentle. Soft. " Something, out <i>there</i> is making you this way. So aren't you so glad you can stay?"
@@ -880,7 +874,7 @@ The booth could come apart at any moment. You need to get out of here.
 -> Confessional_Curtain.Look
 
 = Personal_End
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 The bucket is filling fast. You can see the [liquid] seems... thicker than just water.
@@ -994,16 +988,14 @@ The booth could come apart at any moment. You need to get out of here.
 -> Confessional_Curtain.Look
 
 = No_Confession
-#DELAY: 1
 "Nothing. I have nothing to confess."
 
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
-#DELAY: 1
 "Nothing at all?" The voice on the other side chuckles. "Nothing at work? At home? You haven't hurt anyone? Done anything wrong?"
 
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 You hesitate before answering.
@@ -1080,7 +1072,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     
 
 = No_Talk
-#PLAY: liquid-drop
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 "A routine..." The voice trails off. "Would you say you become bored of this? That you wish for more than what you have?"
@@ -1115,10 +1107,9 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
             - else:
                 ~temp_string = "And yet you wish to stay? To choose the church?"
         }
-        #DELAY: 1
         "No, I..." You shake your head. "My life is still mine. This is what I chose." You clench your fists.
     
-        #PLAY: liquid-drop
+        #PLAY: liquid-drop #DELAY: 1.5
         <i>Plink!</i>
         
         {temp_string}
@@ -1130,7 +1121,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 *[Stay silent.]
 ~ temp_bool_2 = true
 
-- #PLAY: liquid-drop
+- 
+#PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
 
@@ -1165,7 +1157,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
     "You can say you're content with your life <i>out there,</i> but we both know you want to stay <i>here"</i> The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {temp_string}"
 
-    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
     <i>Plink! Plink! Plink!</i>
 
 }
@@ -1187,13 +1179,13 @@ You squirm in your seat. Clenching and unclenching your fists.
 - #DELAY: 1
 "Your life is a routine. A boring, worthless routine." You flinch at the words. "You struggle everyday and for what?"
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 #DELAY: 2
 "{temp_string}"
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 "The church is scary at first, but all change is. The church doesn't bring you here without reason." The voice is calming. It makes sense. Why else would you be here? "It would never hurt you."
@@ -1229,10 +1221,9 @@ You squirm in your seat. Clenching and unclenching your fists.
 ~ key = true
 "When it brought you here, that must have been frightening. Change always is."
 
-#DELAY: 1
 You nod.
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
 The liquid crawls towards your shoes. You don't think it's water at all. 

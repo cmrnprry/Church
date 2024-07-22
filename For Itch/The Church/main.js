@@ -1133,8 +1133,14 @@
         hasFlashlight = false;
         story.variablesState["haveFlashlight"] = false
 
-        StoryCheckpoint = "";
+        var temp = {name: "Locked",
+            point: ""}
+        var checkpoint_list = [temp, temp, temp, temp, temp, temp, temp, temp]
+        StoryCheckpoint = checkpoint_list;
+
+        StoryCheckpoint = JSON.stringify(StoryCheckpoint);
         window.localStorage.setItem('save-checkpoint', StoryCheckpoint)
+        setupCheckpoints();
 
         EndingsAchieved = "";
         window.localStorage.setItem('save-endings', EndingsAchieved)
@@ -1668,23 +1674,24 @@
             {
                 element.setAttribute("status", true)
                 element.innerHTML = "Audio Muted"
+                Mute = true;
             }
             else
             {
                 element.setAttribute("status", false)
                 
                 element.innerHTML = "Audio not Muted"
+                Mute = false;
             }
             
             story.variablesState["Mute"] = element.getAttribute("status")
-            Mute = (story.variablesState["Mute"].toString() === "true")
             onVolumeChange()              
         });
     }
 
     function onVolumeChange()
     {
-        if (Mute)        
+        if (Mute === true || Mute === "true")        
             for (const [key] of Object.entries(AudioList))
             {
                 AudioList[key].volume = 0;
@@ -1696,6 +1703,8 @@
                 let newVolume = parseInt(Volume) / 100;
                 AudioList[key].volume = newVolume;                
             }
+            
+            meow.play();
         
         SetSaveGame()
     }

@@ -154,7 +154,7 @@ You watch the church through the window until it fades into a dot in the distanc
 You get less done than usual at work. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does.
-
+~feeling = "uncomfortable"
 That {feeling} church.
 
 You should do somthing to take your mind off it.
@@ -726,7 +726,7 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: none
+- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: open_gates, true
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
@@ -1100,6 +1100,7 @@ You can barely see, not a single drop of light shines through the windows. Your 
 
 
 = Remember
+#PROP: poleroid, false
 You pull the polaroid out from your pocket, hoping to think about better times. It's dark, but you can see enough to make out shapes. You trace the image of your younger self, and the gate behind them with your finger, then the church behind-
 
 Church? 
@@ -1112,6 +1113,7 @@ Church?
 
 - The image isn't fake, somehow you know this. The church always felt {feeling} in a way you didn't understand why.
 
+#PROP: poleroid, true
 The memory refuses to surface, only vague images and feelings. If you close your eyes... You're scared. You're trapped. You're... inside? Inside where-?
 
 Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when- 
@@ -1298,6 +1300,7 @@ You claw at your mouth, attempting to grab hands silencing you, and stand up. "L
 
 "You don't... remember..." The hands fall away, and the room goes still. "This is all I can do."
 
+#CLASS: light-above
 The hands fall away. The voice goies quiet. A red light glows from above you.
 -> Trapped.Light
 
@@ -1323,6 +1326,7 @@ Wind blows around you, and before you stop yourself you call out.
 
 *["The rest? What-!"]
 
+#CLASS: light-above
 - The room turns still. Silent. A red light glows from above you.
 -> Trapped.Light
 
@@ -1455,7 +1459,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         ~ temp_string = "{light_feeling} goes"
 }
 
-    #STOP: screeching #REMOVE: angry-glow
+    #STOP: screeching #REMOVE: angry-glow #REMOVE: light-above
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
     The pressure alleviates, the burning stops, and all the { temp_string } with it.
@@ -1893,7 +1897,7 @@ You walk closer to the door, and tug at the door knob. The door jigles, but does
 -> END_DEMO
 
 === Credits
-<h1>Credits</h1><br>Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid
+<h1>Credits</h1><br><b>Writing, Design and Code</b><br><a  href="https:\/\/www.renmakesgames.com/", target="_blank">Ren - @n0t_cameron</a><br><br><b>Artists</b><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><br><b>Sound Design</b><br>Joe Bretz/ReverbInTheVoid
 
 + [Start Game] ->Start
 + [Content Warnings] ->Content_Warnings
