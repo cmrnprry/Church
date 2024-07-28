@@ -50,7 +50,7 @@ The church feels...
 The bus arrives and you're no closer to understanding this {feeling} church that spontaneously appeared. Your stomach lurches.
 
 *[Get on the bus]
-#PLAY: bus_ambience, true
+#PLAY: bus_ambience, true, 1
 -> Bus
 *[Investigate the church]
 -> Investigate
@@ -79,7 +79,7 @@ Blood starts rushing in your ears and pressure builds behind your eyes as you st
 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true #ZOOM: unset|unset #ICLASS: Background Image|Swimming-3|
+#PLAY: bus_ambience, true, 1 #ZOOM: unset|unset #ICLASS: Background Image|Swimming-3|
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel youself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church.]
@@ -150,7 +150,7 @@ You watch the church through the window until it fades into a dot in the distanc
     ->Job
 
 === Job ===
-#CHECKPOINT: 1, You arrive at work. #PLAY: office_ambience, true, 1 #IMAGE: Default
+#STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1 #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
 You get less done than usual at work. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does.
@@ -211,7 +211,7 @@ All the papers repeat what you coworker said. Over and over again. All in handwr
 - ->Walk_Home
 
 = Emails
-#PLAY: ding, false, 0, 1
+#PLAY: email_ding, false, 0, 1
 You pull up your email and scroll through the new ones, only reading the subject lines for anything important. Meeting invitation, spam, spam, client question, church inquiry, meeting- Wait. Church inquiry?
 
 *[Open church inquiry email]
@@ -223,10 +223,10 @@ You pull up your email and scroll through the new ones, only reading the subject
 #DELAY: 1.5
 You quickly delete the "church inquiry" email, and go to reply to the client. 
 
-#PLAY: ding, false, 0, 0.5 #DELAY: 2.5
+#PLAY: email_ding, false, 0, 0.5 #DELAY: 2.5
 Another email with the same subject quickly replaces it. You don't think and delete it again.
 
-#PLAY: ding, false, 0, 0.5
+#PLAY: email_ding, false, 0, 0.5
 But yet another takes it's place.
 
 *[Delete it again]
@@ -272,10 +272,10 @@ But yet another takes it's place.
 #DELAY: 0.5
 As you click the button to delete the email- <>
 
-#PLAY: ding, true #STOP: ding, 0, 2 #DELAY: 2.5
+#PLAY: email_ding, true #STOP: email_ding, 0, 2 #DELAY: 2.5
 you get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up."
 
-#PLAY: ding, true #STOP: ding, 0, 3
+#PLAY: email_ding, true #STOP: email_ding, 0, 3
 You try to delete them, but they just keep coming. "Where are you?" "Come home." "(No Subject. Image Attached)."
 
 *[Open Email]
@@ -286,13 +286,13 @@ You give in, and click the latest email.
 *[Continue Deleting]
 
 - 
-#PLAY: ding, true #DELAY: 1.5
+#PLAY: email_ding, true #DELAY: 1.5
 You can't delete them fast enough.
 
 #DELAY: 1.5
 They just keep coming. You try to-
 
-#STOP: ding
+#STOP: email_ding
 "Hey are you-" A hand grabs your shoulder, and you jump up from your chair, slaping the hand away. 
 
 "Leave me ALONE!" you shout, breathing heavy.

@@ -27,8 +27,8 @@
     //OPTIONS VARIABLES
     let Volume = 100;
     let Mute = false;
-    let Shake = false;
-    let Dim = false;
+    // let Shake = false;
+    // let Dim = false;
     let Styling = "";
 
     //FOR CLICKING CHOICES AS BOXES
@@ -84,7 +84,7 @@
         "curtain" : curtain,
         "door_slam" : door_slam,
         "door_thud" : door_thud,
-        "ding" : email_ding,
+        "email_dings" : email_ding,
         "flashlight_off" : flashlight_off,
         "flashlight_on" : flashlight_on,
         "footsteps_player" : footsteps_player,
@@ -240,8 +240,9 @@
             savePoint = GetSaveGame();
             story.state.LoadJson(savePoint)
 
-            //set ink side variables
+            //set ink side variables            
             CurrentImage = story.variablesState["CurrentImage"] + "";
+            console.log(CurrentImage)
             CurrentProp = story.variablesState["CurrentProp"] + "";
             LoopedAudio = story.variablesState["LoopedAudio"] + "";
             hasFlashlight = (story.variablesState["haveFlashlight"] === "true")
@@ -250,8 +251,8 @@
             //OPTIONS VARIABLES
             Volume = Number(story.variablesState["Volume"]);
             Mute = (story.variablesState["Mute"].toString() === "true");
-            Shake = (story.variablesState["Shake"].toString() === "true");
-            Dim = (story.variablesState["Dim"].toString() === "true");
+            // Shake = (story.variablesState["Shake"].toString() === "true");
+            // Dim = (story.variablesState["Dim"].toString() === "true");
             Styling = story.variablesState["Styling"] + "";
 
 
@@ -275,7 +276,7 @@
                 }
             }
 
-            if (!Styling && Dim)
+            if (!Styling)
             {
                 Styling = ""
                 story.variablesState["Styling"] = Styling;
@@ -367,6 +368,7 @@
                 }
 
                 if( splitTag && (splitTag.property == "PLAY" || splitTag.property == "STOP")) {
+                    console.log(splitTag)
                     AudioArray.push(splitTag);
                 }
 
@@ -510,24 +512,20 @@
                 // TEXTBOX: class
                 // Effects the text box specifically
                 if( paragraphElement && splitTag && splitTag.property == "TEXTBOX" ) {
-                    if (Dim !== "false")
-                    {    
-                        paragraphElement.classList.add(splitTag.val);
-                        Styling += splitTag.val + " "
-                        story.variablesState["Styling"] = Styling;
+                    paragraphElement.classList.add(splitTag.val);
+                    Styling += splitTag.val + " "
+                    story.variablesState["Styling"] = Styling;
 
-                        if (splitTag.val === "text_container_Dark")
-                            document.getElementById("Overlay").classList.remove("hide")
-                        else if (splitTag.val === "text_container_UsedTo" || splitTag.val === "text_container_After")
-                            document.getElementById("Overlay").classList.remove("hide")
-                            document.getElementById("Overlay").classList.add("img_used")
-                    }
-            }
+                    if (splitTag.val === "text_container_Dark")
+                        document.getElementById("Overlay").classList.remove("hide")
+                    else if (splitTag.val === "text_container_UsedTo" || splitTag.val === "text_container_After")
+                        document.getElementById("Overlay").classList.remove("hide")
+                        document.getElementById("Overlay").classList.add("img_used")
+                }
 
                 // CLASS: className
                 // Effects the text
                 if( splitTag && splitTag.property == "CLASS" ) {
-                    if (Shake !== "false")
                         customClasses.push(splitTag.val);
                 }
 
@@ -596,21 +594,18 @@
                     var delay = 500;
                     var loop = false;
 
-                    if (!Mute)
+                    if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
                     {
-                        if (splitTag.val.includes(", ")) // if there are any parameters, use all of them
-                        {
-                            array = splitTag.val.split(", ")
+                        array = splitTag.val.split(", ")
 
-                            sound = array[0];
-                            loop = (array[1] === "true")                     
-                            fade = (array.length > 2) ? 30 / (array[2] * 1000): 0;
-                            delay  = (array.length > 3) ? (array[3] * 1000) : 500     
-                        }
+                        sound = array[0];
+                        loop = (array[1] === "true")                     
+                        fade = (array.length > 2) ? 30 / (array[2] * 1000): 0;
+                        delay  = (array.length > 3) ? (array[3] * 1000) : 500     
+                    }
 
-                        if (AudioList[sound])
-                            PlayAudio (AudioList[sound], loop, fade, delay);   
-                    } 
+                    if (AudioList[sound])
+                        PlayAudio (AudioList[sound], loop, fade, delay);   
                 }
 
                 // STOP: src
@@ -701,6 +696,7 @@
 
         CurrentImage = src;
         story.variablesState["CurrentImage"] = CurrentImage
+        console.log(CurrentImage)
 
         BackgroundImage.style.opacity = 0;
 
@@ -745,12 +741,12 @@
         BackgroundImage.style.clipPath = clip;
     }
 
-    function PlayAudio(audio, loop, fade, delay)
+    async function PlayAudio(audio, loop, fade, delay)
     {
         console.log("play audio")
         if (audio)
         {
-            setTimeout(function() { 
+            setTimeout(async function() { 
                 if (loop)
                 {
                     var index = audio.src.lastIndexOf('/')
@@ -759,9 +755,8 @@
                     story.variablesState["LoopedAudio"] = (audio.src.substring(index + 1, end))
                     audio.loop = true;
                     audio.addEventListener("ended", function(){
-                        if (Mute !== "true")
-                            audio.currentTime = 0;
-                            audio.play();                        
+                        audio.currentTime = 0;
+                        audio.play();                        
                     })
                 }
                 else
@@ -778,7 +773,13 @@
                     nIntervId = setInterval(fadeIn, 30, audio, fade);
                 }
 
-                audio.play();
+                try {
+                    await audio.play();
+                  } catch (error) {
+                    audio.pause();
+                    console.log(error)
+                  }
+                
             }, delay);
         }
         else
@@ -1129,6 +1130,8 @@
 
         Styling = "";
         story.variablesState["Styling"] = ""
+        ZoomImage("unset", "unset")
+        document.getElementById("Background Image").className = ""
 
         hasFlashlight = false;
         story.variablesState["haveFlashlight"] = false
@@ -1510,8 +1513,8 @@
         });
 
         setupMute()
-        setupShake()
-        setupDimmable()
+        // setupShake()
+        // setupDimmable()
         setupVolume()
         setupEndings()
         setupCheckpoints()
@@ -1560,7 +1563,7 @@
                                         Styling = "";
                                         story.variablesState["Styling"] = Styling
                                     }
-                                    else if (storyPoint.index > 1 && Dim !== "false")
+                                    else if (storyPoint.index > 1)
                                     {
                                         document.getElementById("Overlay").classList.remove("hide")
                                         document.getElementById("Overlay").classList.add("img_used")
@@ -1581,7 +1584,9 @@
 
                                     //load save point and continue
                                     story.state.LoadJson(storyPoint.point)
-                                    continueStory(true, 500);
+                                    window.localStorage.setItem('save-state', storyPoint.point);   
+                                    paragraphElement = null;
+                                    continueStory(false, 500);
                                 })
                             }                                
                             else
@@ -1650,7 +1655,7 @@
             Volume = value;
             story.variablesState["Volume"] = Volume;
 
-            onVolumeChange();
+            onVolumeChange(false);
         });
     }
 
@@ -1685,11 +1690,11 @@
             }
             
             story.variablesState["Mute"] = element.getAttribute("status")
-            onVolumeChange()              
+            onVolumeChange(true)              
         });
     }
 
-    function onVolumeChange()
+    function onVolumeChange(isMuting)
     {
         if (Mute === true || Mute === "true")        
             for (const [key] of Object.entries(AudioList))
@@ -1704,68 +1709,74 @@
                 AudioList[key].volume = newVolume;                
             }
             
-            meow.play();
+            if (isMuting === false)
+            {
+                meow.pause();
+                meow.currentTime = 0;
+                meow.play();
+            }
+                
         
         SetSaveGame()
     }
 
-    function setupShake()
-    {
-        let element = document.getElementById("Shake_Button");
+    // function setupShake()
+    // {
+    //     let element = document.getElementById("Shake_Button");
 
-        try {
-            element.setAttribute("status", Shake)
-            element.innerHTML = (!Shake) ? "Text Shake: OFF" : "Text Shake: ON"
+    //     try {
+    //         element.setAttribute("status", Shake)
+    //         element.innerHTML = (!Shake) ? "Text Shake: OFF" : "Text Shake: ON"
 
-        } catch (e) {
-            console.debug("Couldn't load save state");
-        }
+    //     } catch (e) {
+    //         console.debug("Couldn't load save state");
+    //     }
 
-        element.addEventListener("click", function(event) {
-            var status = (element.getAttribute("status") === "true")
-            if (!status)
-            {
-                element.setAttribute("status", true)
-                element.innerHTML = "Text Shake: ON"
-            }
-            else
-            {
-                element.setAttribute("status", false)
-                element.innerHTML = "Text Shake: OFF"
-            }
+    //     element.addEventListener("click", function(event) {
+    //         var status = (element.getAttribute("status") === "true")
+    //         if (!status)
+    //         {
+    //             element.setAttribute("status", true)
+    //             element.innerHTML = "Text Shake: ON"
+    //         }
+    //         else
+    //         {
+    //             element.setAttribute("status", false)
+    //             element.innerHTML = "Text Shake: OFF"
+    //         }
             
-            story.variablesState["Shake"] = element.getAttribute("status") 
-            Shake = (story.variablesState["Shake"] === "true")      
-        });
-    }
+    //         story.variablesState["Shake"] = element.getAttribute("status") 
+    //         Shake = (story.variablesState["Shake"] === "true")      
+    //     });
+    // }
 
-    function setupDimmable()
-    {
-        let element = document.getElementById("Dimmable_Button");
+    // function setupDimmable()
+    // {
+    //     let element = document.getElementById("Dimmable_Button");
 
-        try {
-            element.setAttribute("status", Dim)
-            element.innerHTML = (!Dim) ? "Text Effects: OFF" : "Text Effects: ON"
-        } catch (e) {
-            console.debug("Couldn't load save state");
-        }
+    //     try {
+    //         element.setAttribute("status", Dim)
+    //         element.innerHTML = (!Dim) ? "Text Effects: OFF" : "Text Effects: ON"
+    //     } catch (e) {
+    //         console.debug("Couldn't load save state");
+    //     }
 
-        element.addEventListener("click", function(event) {
-            var status = (element.getAttribute("status") === "true")
-            if (!status)
-                {
-                    element.setAttribute("status", true)
-                    element.innerHTML = "Text Effects: ON"
-                }
-                else
-                {
-                    element.setAttribute("status", false)
-                    element.innerHTML = "Text Effects: OFF"
-                }
+    //     element.addEventListener("click", function(event) {
+    //         var status = (element.getAttribute("status") === "true")
+    //         if (!status)
+    //             {
+    //                 element.setAttribute("status", true)
+    //                 element.innerHTML = "Text Effects: ON"
+    //             }
+    //             else
+    //             {
+    //                 element.setAttribute("status", false)
+    //                 element.innerHTML = "Text Effects: OFF"
+    //             }
             
-            story.variablesState["Dim"] = element.getAttribute("status")
-            Dim = (story.variablesState["Dim"] === "true")    
-        });
-    }
+    //         story.variablesState["Dim"] = element.getAttribute("status")
+    //         Dim = (story.variablesState["Dim"] === "true")    
+    //     });
+    // }
 
 })(storyContent);
