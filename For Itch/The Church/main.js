@@ -238,11 +238,10 @@
         if (loadSavePoint())
         {
             savePoint = GetSaveGame();
-            story.state.LoadJson(savePoint)
+            // story.state.LoadJson(savePoint)
 
             //set ink side variables            
             CurrentImage = story.variablesState["CurrentImage"] + "";
-            console.log(CurrentImage)
             CurrentProp = story.variablesState["CurrentProp"] + "";
             LoopedAudio = story.variablesState["LoopedAudio"] + "";
             hasFlashlight = (story.variablesState["haveFlashlight"] === "true")
@@ -256,25 +255,7 @@
             Styling = story.variablesState["Styling"] + "";
 
 
-            //flashlight
-            if (hasFlashlight)
-            {
-                if (footer.classList.contains("hide"))
-                    footer.classList.remove("hide")
 
-                if (footer.getAttribute("status") == "off")
-                {
-                    footer.setAttribute("status", "on")
-                    document.getElementById("flashlight").style.display = ""             
-                    footer.innerHTML = "Turn off"
-                }
-                else
-                {
-                    footer.innerHTML = "Turn on"
-                    document.getElementById("flashlight").style.display = "none"
-                    footer.setAttribute("status", "off")
-                }
-            }
 
             if (!Styling)
             {
@@ -282,11 +263,11 @@
                 story.variablesState["Styling"] = Styling;
             }
 
-            continueStory(false, 500);
+            continueStory(1, 500);
 
         }            
         else
-            continueStory(true, 500);
+            continueStory(0, 500);
         
 
     }
@@ -301,7 +282,7 @@
         CyclingText = null;
         var AudioArray = []
 
-        if  (firstTime)
+        if  (firstTime == 0)
         {
             console.log("new save")
             SetSaveGame();
@@ -537,7 +518,7 @@
                 }
             }
 
-            if (!paragraphElement || firstTime)
+            if (!paragraphElement || firstTime > -1)
             {       
                 console.log("creating text box")
                 //creating the current text box
@@ -545,7 +526,7 @@
                 scrollPage(delay, paragraphElement, false);
 
                 //if we are not staring at the begninngin or at a place with choices
-                if (story.currentChoices.length <= 0 && !firstTime)
+                if (story.currentChoices.length <= 0 && firstTime < 0)
                 {
                     paragraphElement.addEventListener("click", OnClickEvent);
                     paragraphElement.setAttribute("click_listener", "true")
@@ -680,7 +661,7 @@
                 delay += DelayNextText
 
             if (ChoicesID == null)
-                ChoicesID = setTimeout(function() { CreateChoices(); }, delay);
+                ChoicesID = setTimeout(function() { CreateChoices(firstTime); }, delay);
             }
             
         }
@@ -896,7 +877,7 @@
             SetSaveGame();      
             deleteAfter(paragraphElement.querySelectorAll("p")[0]);
         }
-        else continueStory(false, 500)
+        else continueStory(-1, 500)
     }
 
     //On Click to continue IF there was a refresh
@@ -925,7 +906,7 @@
             pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;           
             deleteAfter(paragraphElement.querySelectorAll("p")[0]);
         }
-        else continueStory(false, 500)
+        else continueStory(-1, 500)
 
         document.getElementById('All_Text').removeEventListener("click", OnClickOneTimeEvent);
     }
@@ -952,19 +933,29 @@
         ChoicesID = null;
 
         // Aaand loop
-        continueStory(false, 5);
+        continueStory(-1, 5);
     }
 
-    function CreateChoices()
+    function CreateChoices(firstTime)
     {
+        
         // Create HTML choices from ink choices
-        story.currentChoices.forEach(function(choice) {
+        for (let ii = 0; ii < story.currentChoices.length; ii++) {
+
+            var choice = story.currentChoices[ii];
 
             if (choice.text == replace_text)
                 return;
 
             // check if this is click replace text
             let isReplaceChoiceText = ""
+
+            let choice_text = choice.text
+            let choice_index = choice.index
+
+            if (firstTime == 1 && ii == 1 && loadSavePoint())
+                choice_text = "Continue"
+
             if (choice.text.startsWith('('))
             {
                 var index = choice.text.indexOf(')');
@@ -972,13 +963,12 @@
                 isReplaceChoiceText = choice.text.substring(1 + index);
                 choice.text = shownText;
             }
-                
 
             // Create paragraph with anchor element
             var choiceParagraphElement = document.createElement('div');
             choiceParagraphElement.classList.add("choice");
             choiceParagraphElement.classList.add("fadeIn");
-            choiceParagraphElement.innerHTML = `<a href='#'>${choice.text}</a>`
+            choiceParagraphElement.innerHTML = `<a href='#'>${choice_text}</a>`            
             storyContainer.appendChild(choiceParagraphElement);
 
             // scroll after the choices are visible
@@ -997,47 +987,96 @@
                 return;
             }
 
-            choiceAnchorEl.addEventListener("click", async function(event) {
+            if (firstTime == 1 && ii == 1 && loadSavePoint())
+            {
+                choiceAnchorEl.addEventListener("click", async function(event) {
 
-                // Don't follow <a> link
-                event.preventDefault();
+                    // Don't follow <a> link
+                    event.preventDefault();
 
-                // Remove all existing choices
-                removeAll(".choice");
+                    // Remove all existing choices
+                    removeAll(".choice");
 
-                // Tell the story where to go next
-                story.ChooseChoiceIndex(choice.index);
+                    //flashlight
+                    if (hasFlashlight)
+                    {
+                        if (footer.classList.contains("hide"))
+                            footer.classList.remove("hide")
 
-                // This is where the save button will save from
-                
-                SetSaveGame();
+                        if (footer.getAttribute("status") == "off")
+                        {
+                            footer.setAttribute("status", "on")
+                            document.getElementById("flashlight").style.display = ""             
+                            footer.innerHTML = "Turn off"
+                        }
+                        else
+                        {
+                            footer.innerHTML = "Turn on"
+                            document.getElementById("flashlight").style.display = "none"
+                            footer.setAttribute("status", "off")
+                        }
+                    }
 
-                if (replaceParagraph)
-                {
-                    replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
-
-                    replaceParagraph = null;
-                }
-
-                if (choice.text != "Start Game")
-                {
-                    history += "<br><br>" + paragraphText;
-                    history += "<br><br>" + choice.text;
-                    window.localStorage.setItem('save-history', history)
-
-                    deleteAfter(paragraphElement.querySelectorAll("p")[0]);
-                }
-                else 
-                {
                     history += paragraphText;
                     window.localStorage.setItem('save-history', history)
-                    continueStory(false, 500)
-                }
 
-                ChoicesID = null;
-            });
-        });
+                    ChoicesID = null;
 
+                    // Tell the story where to go next
+                    story.state.LoadJson(savePoint);
+                    paragraphElement = null;
+                });
+                
+                
+                
+
+                //reset so it loops properly
+                firstTime = 0;
+                ii = 0;
+            }
+            else
+            {
+                choiceAnchorEl.addEventListener("click", async function(event) {
+
+                        // Don't follow <a> link
+                        event.preventDefault();
+    
+                        // Remove all existing choices
+                        removeAll(".choice");
+    
+                        // Tell the story where to go next
+                        story.ChooseChoiceIndex(choice_index);
+    
+                        // This is where the save button will save from
+                        
+                        SetSaveGame();
+    
+                        if (replaceParagraph)
+                        {
+                            replaceParagraph.removeEventListener("click", OnChoiceReplaceEvent, true);
+    
+                            replaceParagraph = null;
+                        }
+    
+                        if (choice_text != "Start Game")
+                        {
+                            history += "<br><br>" + paragraphText;
+                            history += "<br><br>" + choice_text;
+                            window.localStorage.setItem('save-history', history)
+    
+                            deleteAfter(paragraphElement.querySelectorAll("p")[0]);
+                        }
+                        else 
+                        {
+                            history += paragraphText;
+                            window.localStorage.setItem('save-history', history)
+                            continueStory(-1, 500)
+                        }
+    
+                        ChoicesID = null;
+                    });
+            }
+        }
     }
 
     function ClickReplaceChoiceText(element, index, replaceText)
@@ -1067,7 +1106,7 @@
                     pastTextContainer.firstChild.innerHTML += "<br><br>" + paragraphText;
                     deleteAfter(paragraphElement.querySelectorAll("p")[0]);
                 }
-            else continueStory(false, 500)
+            else continueStory(-1, 500)
         });
     }
 
@@ -1118,7 +1157,7 @@
          
         window.localStorage.setItem('save-state', null);  
 
-        continueStory(true, 500);
+        continueStory(0, 500);
 
         outerScrollContainer.scrollTo(0, 0);
     }
@@ -1282,7 +1321,7 @@
         setTimeout(function() {         
             if (el.classList)
                 el.removeAttribute("class")
-            continueStory(false, 500);
+            continueStory(-1, 500);
         }, 275);
     }
 
@@ -1586,7 +1625,7 @@
                                     story.state.LoadJson(storyPoint.point)
                                     window.localStorage.setItem('save-state', storyPoint.point);   
                                     paragraphElement = null;
-                                    continueStory(false, 500);
+                                    continueStory(-1, 500);
                                 })
                             }                                
                             else
