@@ -1099,10 +1099,10 @@ body.dark {
     position: absolute;
     background-color: rgb(168 15 15 / 55%);
     border-radius: 50%;
-    width: 63%;
-    height: 84%;
-    bottom: 8%;
-    left: 18.5%;
+    width: 66%;
+    height: 88%;
+    bottom: 3.5%;
+    left: 17%;
     transition: opacity .25s ease 0.5s;
 }
 

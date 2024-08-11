@@ -139,6 +139,7 @@ You watch the church through the window until it fades into a dot in the distanc
     ->Bus.home
     
 *[You want to forget about the church.]
+    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
@@ -146,18 +147,19 @@ You watch the church through the window until it fades into a dot in the distanc
 You watch the church through the window until it fades into a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back to the church. It's waiting for you.
 
 *[You <i>need</i> to forget about the church.]
+    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
 === Job ===
-#STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1 #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+#STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1
 You get less done than usual at work. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does.
 ~feeling = "uncomfortable"
 That {feeling} church.
 
-You should do somthing to take your mind off it.
+You should do something to take your mind off it.
 
 *[Scan some documents]
 -> Job.Scan
@@ -170,7 +172,8 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 ~ work += 1
 *[Maybe the monotony will take your mind off things.]
 
-- #PLAY: scanner, false, 0.5
+- 
+#PLAY: scanner, false, 0.5
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
 Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place-
@@ -194,11 +197,11 @@ She cuts you off as she starts to read off what's on the page. "'Do you know abo
 
 The hairs on the back of your neck stand up.
 
-*[<i>No</i>]
+*[<i>No.</i>]
 
 - "The church at the end of the street knows me but I don't know it." She continues. Your chest tightens, and you frantically go through the rest of the papers. You know these were marketing reports. "It waits and waits for me to come back. It has gotten impatient."
 
-All the papers repeat what you coworker said. Over and over again. All in handwriting. <i>Your</i> handwriting. You clutch the papers tightly, until your knuckles go white and your nails pierce through. <i>When did they change?</i>
+All the papers repeat what you coworker said. Over and over again. All in neat handwriting. <i>Your</i> handwriting. You clutch the papers tightly, until your knuckles go white and your nails pierce through. <i>When did they change?</i>
 
 "Did you write this?" She purses her lips at you. "Is this your idea of a bad joke?"
 
@@ -372,7 +375,7 @@ Your coworker stares at you, waiting for an answer. You shove your hand into you
     - know == true:
         You need to avoid the church. It wants you back, and everything in screams that you cannot go back. That if you do, you won't come out again.
 }
-#STOP: office_ambience, 1.5
+#STOP: office_ambience, 1 #IMAGE: BusStop
 The bus ride home is shorter than it's ever been. You get off at your regular stop.
 
 The church is still there.
@@ -516,7 +519,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 = Usual
-#IMAGE: Default #PROP: closed_gates, true
+#IMAGE: Chuch_Looming #PROP: open_gates, false
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
@@ -730,7 +733,7 @@ You still cannot see in church.
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
-BANG
+BANG!
 
 Whoever was out there is slamming themselves into the door. It takes all your strength to keep them from getting in.
 
@@ -747,26 +750,26 @@ Whoever was out there is slamming themselves into the door. It takes all your st
         You wait, saying nothing. 
 
         #CLASS: Bang_Short #PLAY: bang_short #DELAY: 1.5
-        BANG
+        BANG!
 
         #DELAY: 1.5
         They can't keep this up forever.
 
         #CLASS: Bang_Short #PLAY: bang_short
-        BANG
+        BANG!
         
     - else:
         #DELAY: 1
         "I DON'T HAVE ANY MONEY!" 
     
         #CLASS: Bang_Short #PLAY: bang_short #DELAY: 1.5
-        BANG
+        BANG!
     
         #DELAY: 1
         "I DON'T HAVE ANYTHING!"
     
         #CLASS: Bang_Short #PLAY: bang_short
-        BANG
+        BANG!
 }
 
 *[Wait]

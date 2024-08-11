@@ -21,7 +21,7 @@
     //INK STORED VARIABLES
     let CurrentImage = "";
     let CurrentProp = "";
-    let LoopedAudio = "";
+    let LoopedAudio = [];
     let hasFlashlight = false;
 
     //OPTIONS VARIABLES
@@ -39,38 +39,71 @@
 
     //HUGE LIST OF AUDIO OBJECTS FOR ALL OUR AUDIO
     let bus_ambience = new Audio('./Audio/bus_ambience.ogg')
+    bus_ambience.title = "bus_ambience"
     let office_ambience = new Audio('./Audio/office_ambience.ogg')
+    office_ambience.title = "office_ambience"
     let bang_confessional = new Audio('./Audio/bang_confessional.ogg')
+    bang_confessional.title = "bang_confessional"
     let bang_normal = new Audio('./Audio/bang_normal.ogg')
+    bang_normal.title = "bang_normal"
     let bang_short = new Audio('./Audio/bang_short.ogg')
+    bang_short.title = "bang_short"
     let meow = new Audio('./Audio/meow.ogg')
+    meow.title = "meow"
     let crowbar_break = new Audio('./Audio/crowbar_break.ogg')
+    crowbar_break.title = "crowbar_break"
     let curtain = new Audio('./Audio/curtain.ogg')
+    curtain.title = "curtain"
     let door_slam = new Audio('./Audio/door_slam.ogg')
+    door_slam.title = "door_slam"
     let door_thud = new Audio('./Audio/door_thud.ogg')
+    door_thud.title = "door_thud"
     let email_ding = new Audio('./Audio/email_ding.ogg')
+    email_ding.title = "email_ding"
     let flashlight_off = new Audio('./Audio/flashlight_off.ogg')
+    flashlight_off.title = "flashlight_off"
     let flashlight_on = new Audio('./Audio/flashlight_on.ogg')
+    flashlight_on.title = "flashlight_on"
     let footsteps_player = new Audio('./Audio/footsteps_player.ogg')
+    footsteps_player.title = "footsteps_player"
     let footsteps_child_grass = new Audio('./Audio/footsteps_child_grass.ogg')
+    footsteps_child_grass.title = "footsteps_child_grass"
     let footsteps_scary = new Audio('./Audio/footsteps_scary.ogg')
+    footsteps_scary.title = "footsteps_scary"
     let footsteps_squishy = new Audio('./Audio/footsteps_squishy.ogg')
+    footsteps_squishy.title = "footsteps_squishy"
     let gate_close = new Audio('./Audio/gate_close.ogg')
+    gate_close.title = "gate_close"
     let gate_open = new Audio('./Audio/gate_open.ogg')
+    gate_open.title = "gate_open"
     let groaning_angry = new Audio('./Audio/groaning_angry.ogg')
+    groaning_angry.title = "groaning_angry"
     let groaning_happy = new Audio('./Audio/groaning_happy.ogg')
+    groaning_happy.title = "groaning_happy"
     let groaning_normal = new Audio('./Audio/groaning_normal.ogg')
+    groaning_normal.title = "groaning_normal"
     let honk = new Audio('./Audio/honk.ogg')
+    honk.title = "honk"
     let key_plop = new Audio('./Audio/key_plop.ogg')
+    key_plop.title = "key_plop"
     let knocking = new Audio('./Audio/knocking.ogg')
+    knocking.title = "knocking"
     let leak = new Audio('./Audio/leak.ogg')
+    leak.title = "leak"
     let lock_rattle = new Audio('./Audio/lock_rattle.ogg')
+    lock_rattle.title = "lock_rattle"
     let running_pavement = new Audio('./Audio/running_pavement.ogg')
+    running_pavement.title = "running_pavement"
     let scanner = new Audio('./Audio/scanner.ogg')
+    scanner.title = "scanner"
     let screeching = new Audio('./Audio/screeching.ogg')
+    screeching.title = "screeching"
     let screw_fall_1 = new Audio('./Audio/screw_fall_1.ogg')
+    screw_fall_1.title = "screw_fall_1"
     let screw_fall_2 = new Audio('./Audio/screw_fall_2.ogg')
+    screw_fall_2.title = "screw_fall_2"
     let walking_wast_pavement = new Audio('./Audio/walking_wast_pavement.ogg')
+    walking_wast_pavement.title = "walking_wast_pavement"
 
     // //AUDIO LIST
     const  AudioList = {
@@ -84,7 +117,7 @@
         "curtain" : curtain,
         "door_slam" : door_slam,
         "door_thud" : door_thud,
-        "email_dings" : email_ding,
+        "email_ding" : email_ding,
         "flashlight_off" : flashlight_off,
         "flashlight_on" : flashlight_on,
         "footsteps_player" : footsteps_player,
@@ -238,30 +271,28 @@
         if (loadSavePoint())
         {
             savePoint = GetSaveGame();
-            // story.state.LoadJson(savePoint)
-
+            
             //set ink side variables            
-            CurrentImage = story.variablesState["CurrentImage"] + "";
+            // CurrentImage = story.variablesState["CurrentImage"] + "";
             CurrentProp = story.variablesState["CurrentProp"] + "";
-            LoopedAudio = story.variablesState["LoopedAudio"] + "";
+            // LoopedAudio = story.variablesState["LoopedAudio"];
             hasFlashlight = (story.variablesState["haveFlashlight"] === "true")
-
 
             //OPTIONS VARIABLES
             Volume = Number(story.variablesState["Volume"]);
             Mute = (story.variablesState["Mute"].toString() === "true");
             // Shake = (story.variablesState["Shake"].toString() === "true");
             // Dim = (story.variablesState["Dim"].toString() === "true");
-            Styling = story.variablesState["Styling"] + "";
+            // Styling = story.variablesState["Styling"] + "";
 
 
 
 
-            if (!Styling)
-            {
-                Styling = ""
-                story.variablesState["Styling"] = Styling;
-            }
+            // if (!Styling)
+            // {
+            //     Styling = ""
+            //     story.variablesState["Styling"] = Styling;
+            // }
 
             continueStory(1, 500);
 
@@ -677,7 +708,7 @@
 
         CurrentImage = src;
         story.variablesState["CurrentImage"] = CurrentImage
-        console.log(CurrentImage)
+        console.log(story.variablesState["CurrentImage"])
 
         BackgroundImage.style.opacity = 0;
 
@@ -697,8 +728,7 @@
             return;
 
         if (isOn === "true")
-        {
-            
+        {           
             story.variablesState["CurrentProp"] = (story.variablesState["CurrentProp"].includes(" ")) ? "" : story.variablesState["CurrentProp"].replace(src, "");           
             
             element.style.opacity = 0;
@@ -730,10 +760,9 @@
             setTimeout(async function() { 
                 if (loop)
                 {
-                    var index = audio.src.lastIndexOf('/')
-                    var end = audio.src.lastIndexOf('.')
-                    console.log(audio.src.substring(index, end))
-                    story.variablesState["LoopedAudio"] = (audio.src.substring(index + 1, end))
+                    LoopedAudio.push(audio.title)
+                    LoopedAudio.forEach((element) => story.variablesState["LoopedAudio"] += (element + " "))
+
                     audio.loop = true;
                     audio.addEventListener("ended", function(){
                         audio.currentTime = 0;
@@ -769,14 +798,29 @@
 
     function StopAudio(audio, fade, delay)
     {
-        if (audio)
+        if (audio && !audio.paused)
         {
-            if (audio.src == story.variablesState["LoopedAudio"])
-                story.variablesState["LoopedAudio"] = null
+            if (audio.loop)
+            {
+                if (LoopedAudio.length > 0 && LoopedAudio.includes(audio.src))
+                    var index = LoopedAudio.indexOf(audio.title)
+                    if (index > -1) {
+                        LoopedAudio.splice(index, 1);
+                    }
+
+                story.variablesState["LoopedAudio"] = "";
+                if (LoopedAudio.length > 0)
+                    LoopedAudio.forEach((element) => story.variablesState["LoopedAudio"] += (element + " "))
+            }
+                
             setTimeout(function() {
                 if (fade > 0)
                 {
                     audio.volume = parseInt(Volume) / 100;
+                    if (nIntervId != null)
+                        clearInterval(nIntervId)
+                        nIntervId = null;
+
                     nIntervId = setInterval(fadeOut, 30, audio, fade);
                 }
                     
@@ -794,7 +838,7 @@
 
     function fadeIn(audio, delta) {
         var currentVolume = parseInt(Volume) / 100
-	    if((audio.volume < (currentVolume)) && (audio.volume + delta < 1)){
+	    if((audio.volume < (currentVolume)) && (audio.volume + delta < currentVolume)){
    		    audio.volume += delta;
         }
         else{
@@ -805,13 +849,16 @@
     }
 
     function fadeOut(audio, delta) {
-	    if((audio.volume > (0)) && (audio.volume - delta > 0)){
+	    if((audio.volume - delta > 0) && (audio.volume > (0))){
    		    audio.volume -= delta;
         }else{
-    	    audio.volume = 0;
             audio.pause();
+            audio.volume = parseInt(Volume) / 100;
+            audio.currentTime = 0;
+
             clearInterval(nIntervId)
             nIntervId = null;
+            return;
         }
     }
 
@@ -945,7 +992,7 @@
             var choice = story.currentChoices[ii];
 
             if (choice.text == replace_text)
-                return;
+                continue;
 
             // check if this is click replace text
             let isReplaceChoiceText = ""
@@ -961,7 +1008,7 @@
                 var index = choice.text.indexOf(')');
                 var shownText = choice.text.substring(1, index);
                 isReplaceChoiceText = choice.text.substring(1 + index);
-                choice.text = shownText;
+                choice_text = shownText;
             }
 
             // Create paragraph with anchor element
@@ -1024,10 +1071,39 @@
 
                     // Tell the story where to go next
                     story.state.LoadJson(savePoint);
+
+                    if (story.variablesState["LoopedAudio"] !== "")
+                    {
+                        var arr = story.variablesState["LoopedAudio"].split(" ");
+                        arr.forEach((element) => {
+                            if (element !== "" && element !== " ")
+                                PlayAudio (AudioList[element], true, 0, 0)
+                        });  
+                    }
+
+                    if (story.variablesState["CurrentImage"] !=="" && story.variablesState["CurrentImage"] !== "Default")
+                    {
+                        FadeImage(story.variablesState["CurrentImage"]);
+                    }
+
+                    if (story.variablesState["Styling"] !=="")
+                    {
+                        Styling = story.variablesState["Styling"] + "";
+                    }
+                    else {
+                        Styling = ""
+                        story.variablesState["Styling"] = Styling;
+                    }
+                    
+                    console.log(story.variablesState["LoopedAudio"])
+                    console.log(story.variablesState["CurrentImage"])
+                    console.log(story.variablesState["Styling"])
+
                     paragraphElement = null;
+                    setTimeout(function () {  continueStory(-1, 500) } , 500);   
+                    
                 });
-                
-                
+                               
                 
 
                 //reset so it loops properly
@@ -1068,6 +1144,7 @@
                         }
                         else 
                         {
+                            // story.ResetState();
                             history += paragraphText;
                             window.localStorage.setItem('save-history', history)
                             continueStory(-1, 500)
@@ -1171,6 +1248,10 @@
         story.variablesState["Styling"] = ""
         ZoomImage("unset", "unset")
         document.getElementById("Background Image").className = ""
+
+        LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
+        LoopedAudio = null;
+        CurrentImage = ""
 
         hasFlashlight = false;
         story.variablesState["haveFlashlight"] = false
@@ -1557,18 +1638,11 @@
         setupVolume()
         setupEndings()
         setupCheckpoints()
-
-        if (CurrentImage && CurrentImage !== "")
-            BackgroundImage.src = `./Images/Backgrounds/${CurrentImage}.png`;
-        else
-            BackgroundImage.src = `./Images/Backgrounds/Default.png`;
+        
+        BackgroundImage.src = `./Images/Backgrounds/Default.png`;
 
         if (CurrentProp && CurrentProp !== "")
             FadeProp(CurrentProp, "false")
-
-        if (LoopedAudio && LoopedAudio !== "")
-            PlayAudio (AudioList[LoopedAudio], true, 0, 500);
-
     }
 
     function setupCheckpoints()
@@ -1621,11 +1695,31 @@
                                     // Remove all existing choices
                                     removeAll(".choice");
 
+                                    if (LoopedAudio && LoopedAudio.length > 0)
+                                        LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
+                                        LoopedAudio = null;
+                                        story.variablesState["LoopedAudio"] = ""
+
                                     //load save point and continue
                                     story.state.LoadJson(storyPoint.point)
+
+                                    if (story.variablesState["LoopedAudio"] !== "")
+                                    {
+                                        var arr = story.variablesState["LoopedAudio"].split(" ");
+                                        arr.forEach((element) => {
+                                            if (element !== "" && element !== " ")
+                                                PlayAudio (AudioList[element], true, 0, 0)
+                                        });  
+                                    }
+
+                                    if (story.variablesState["CurrentImage"] !=="")
+                                    {
+                                        FadeImage(story.variablesState["CurrentImage"]);
+                                    }
+
                                     window.localStorage.setItem('save-state', storyPoint.point);   
                                     paragraphElement = null;
-                                    continueStory(-1, 500);
+                                    setTimeout(function () {  continueStory(-1, 500) } , 500);   
                                 })
                             }                                
                             else
