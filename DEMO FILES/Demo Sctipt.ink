@@ -47,10 +47,10 @@ The church feels...
 
 - It is small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. You're surprised the building is still standing.
 
+#PLAY: bus_ambience, true, 2
 The bus arrives and you're no closer to understanding this {feeling} church that spontaneously appeared. Your stomach lurches.
 
 *[Get on the bus]
-#PLAY: bus_ambience, true, 1
 -> Bus
 *[Investigate the church]
 -> Investigate
@@ -571,7 +571,7 @@ You take a few steps before stopping, and looking back at the open gate. You wan
 
 *[What if a kid gets lost?]
 ~ temp_bool = true
-#PLAY: footsteps_child_grass, true #STOP: footsteps_child_grass, 3
+#PLAY: footsteps_child_grass, false #STOP: footsteps_child_grass, 3
 No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
 
 *[Or an animal gets trapped.]
@@ -643,7 +643,7 @@ The church door is open and inviting. You can't see inside.
 ~ temp_bool = false
 ->Walk_Up_Path.Run
 
-- #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 1
+- #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 2
 Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up...
 
 Someone is behind you, and they know you know. Your only option is the church or confrontation. Your heart pounds in your chest. { -know: It has to be another trick.}
@@ -784,6 +784,7 @@ When you feel safe again, you try to open the knob.
 ->Locked
 
 === Locked ===
+#CHECKPOINT: 2, Locked?
 Locked? { -know: The blood drains from your face as you realize what you've done.}
 
 #PLAY: lock_rattle
@@ -1292,7 +1293,9 @@ You try to focus harder. You can just barely make it out.
 
 "You... came back. Why... Why did you come back...?" over and over again.
 
-- You slowly stand and look around for the source, taking a few steps into the church. You open your mouth, but before any words can leave your lips, cold, unseen hands covers your mouth. You freeze.
+- 
+#TEXTBOX: text_container_UsedTo
+You slowly stand and look around for the source, taking a few steps into the church. You open your mouth, but before any words can leave your lips, cold, unseen hands covers your mouth. You freeze.
 
 "Don't," is whispered into your ear, a woman's voice.
 
@@ -1304,7 +1307,7 @@ You claw at your mouth, attempting to grab hands silencing you, and stand up. "L
 "You don't... remember..." The hands fall away, and the room goes still. "This is all I can do."
 
 #CLASS: light-above
-The hands fall away. The voice goies quiet. A red light glows from above you.
+The hands fall away. The voice goies quiet. The room turns still.
 -> Trapped.Light
 
 - "Look up." The hands removes themselves from your mouth, and rest on your shoulder. You look where the voice told you to. The window above the door has morphed into a stained glass eye. It's pupil darts around, looking for something. "It looks for you."
@@ -1330,7 +1333,8 @@ Wind blows around you, and before you stop yourself you call out.
 *["The rest? What-!"]
 
 #CLASS: light-above
-- The room turns still. Silent. A red light glows from above you.
+- 
+The room turns still. Silent.
 -> Trapped.Light
 
 = Ignore
@@ -1360,10 +1364,12 @@ It's a soothing sound, but there's something else there, just underneath, that y
 ->END_DEMO
 
 = Light
+A red light glows from above you.
 *[Look at the light.]
+
 - 
 #TEXTBOX: glow
-The light comes from the window above the door. The stained glass eye staring down at you.
+The light comes from the window above the door. A stained glass eye staring down at you.
 
 You stagger backward, deeper into the church, an intense pressure pressing down on you. Your chest tightens, and your limbs fill with static. The air becomes heavier. Your mouth goes dry.
 
@@ -1535,7 +1541,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
 #IMAGE: Church_Inside
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
 
-#CHECKPOINT: 2, You are told to find the heart. #EFFECT: main_area
+#CHECKPOINT: 3, You are told to find the heart. #EFFECT: main_area
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
 
@@ -1585,19 +1591,16 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 #PLAY: lock_rattle
 You try the door only to find it locked.
 
-*[Return to the main body of the church]
-->Inside.Look_For_Heart
-
 *[Examine the stairs]
 -> Stairs.Examine_Stairs
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
 
 = Examine_Stairs
 You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either.
 
 * { temp_bool_3 == false} [Go back to the office] ->Stairs.Office
-
-*[Return to the main body of the church]
-->Inside.Look_For_Heart
 
 *[Go upstairs]
     #IMAGE: Stairs_Up
@@ -1606,6 +1609,9 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 *[Go downstairs]
     #IMAGE: Stairs_Down
     ->Stairs.Downstairs
+    
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
 
 ////////// STAIRS INTERACTIONS ////////// 
 
@@ -1912,14 +1918,15 @@ You walk closer to the door, and tug at the door knob. The door jigles, but does
 + [Credits] ->Credits
 
 === END_DEMO
-#IMAGE: Default
+#IMAGE: Default #REMOVE: Overlay #REMOVE: text_container_Dark #REMOVE: text_container_UsedTo #REMOVE: text_container_After
 That is the end of the demo, thank you so much for playing! The full version is coming soon. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
 
 + [Restart Game] 
-    #RESTART
+    
+
+- 
+#RESTART
     ->END
-
-
 
 
 

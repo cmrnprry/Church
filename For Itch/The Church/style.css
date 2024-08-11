@@ -546,7 +546,7 @@ img {
     color: black;
     position: relative;
     z-index: 10;
-    animation: usedto 5.5s forwards;
+    animation: usedto 10s forwards;
     animation-delay: 1000ms;
     background-color: #262b28;
 }

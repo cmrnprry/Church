@@ -4,7 +4,8 @@
     var story = new inkjs.Story(storyContent);
 
     let savePoint = "";
-    var nIntervId;
+    var playIntervId;
+    var stopIntervId;
     let textInerval;
 
     let savedTheme;
@@ -513,13 +514,17 @@
                 // REMOVE: class
                 // Effects the text box specifically
                 if( paragraphElement && splitTag && splitTag.property == "REMOVE" ) {
-                        paragraphElement.classList.remove(splitTag.val);
-                        if (Styling.includes(splitTag.val))
-                            var index = Styling.indexOf(splitTag.val)
-                            Styling = Styling.substring(0, index - 1) + Styling.substring(splitTag.val.length + index)
-                            story.variablesState["Styling"] = Styling
-
+                    if (splitTag.val == "Overlay")
+                    {
+                        document.getElementById("Overlay").classList.add("hide")
                     }
+                    paragraphElement.classList.remove(splitTag.val);
+                    if (Styling.includes(splitTag.val))
+                        var index = Styling.indexOf(splitTag.val)
+                        Styling = Styling.substring(0, index - 1) + Styling.substring(splitTag.val.length + index)
+                        story.variablesState["Styling"] = Styling
+
+                }
 
                 // TEXTBOX: class
                 // Effects the text box specifically
@@ -780,10 +785,11 @@
                 if (fade > 0)
                 {  
                     audio.volume = 0
-                    nIntervId = setInterval(fadeIn, 30, audio, fade);
+                    playIntervId = setInterval(fadeIn, 30, audio, fade);
                 }
 
                 try {
+                    audio.volume = parseInt(Volume) / 100;
                     await audio.play();
                   } catch (error) {
                     audio.pause();
@@ -793,7 +799,7 @@
             }, delay);
         }
         else
-            console.error("Audio Error. Could not find: " + audio)
+            console.error("Audio Error. Could not find: " + audio.title)
     }
 
     function StopAudio(audio, fade, delay)
@@ -803,7 +809,13 @@
             if (audio.loop)
             {
                 if (LoopedAudio.length > 0 && LoopedAudio.includes(audio.src))
-                    var index = LoopedAudio.indexOf(audio.title)
+                    var index = -1;
+                    for (i=0; i < LoopedAudio.length; i++)
+                    {
+                        if (LoopedAudio[i] == audio.title)
+                            index = i;
+                            break;
+                    }
                     if (index > -1) {
                         LoopedAudio.splice(index, 1);
                     }
@@ -817,11 +829,13 @@
                 if (fade > 0)
                 {
                     audio.volume = parseInt(Volume) / 100;
-                    if (nIntervId != null)
-                        clearInterval(nIntervId)
-                        nIntervId = null;
+                    if (stopIntervId !== null)
+                    {
+                        clearInterval(stopIntervId)
+                        stopIntervId = null;
+                    }
 
-                    nIntervId = setInterval(fadeOut, 30, audio, fade);
+                    stopIntervId = setInterval(fadeOut, 30, audio, fade);
                 }
                     
                 else
@@ -843,8 +857,8 @@
         }
         else{
     	    audio.volume = currentVolume;
-            clearInterval(nIntervId)
-            nIntervId = null;
+            clearInterval(playIntervId)
+            playIntervId = null;
         }
     }
 
@@ -853,11 +867,10 @@
    		    audio.volume -= delta;
         }else{
             audio.pause();
-            audio.volume = parseInt(Volume) / 100;
             audio.currentTime = 0;
 
-            clearInterval(nIntervId)
-            nIntervId = null;
+            clearInterval(stopIntervId)
+            stopIntervId = null;
             return;
         }
     }
@@ -1026,12 +1039,16 @@
             if (isReplaceChoiceText != "")
             {
                 choiceParagraphElement.setAttribute("replace_text", isReplaceChoiceText)
-                choiceAnchorEl.addEventListener("click", function(event) {                   
+                choiceParagraphElement.id = "Replace " + choice_index;
+                choiceAnchorEl.addEventListener("click", async function(event) {                   
 
-                    ClickReplaceChoiceText(choiceParagraphElement, choice.index, isReplaceChoiceText)
+                    event.preventDefault();
+
+                    var element = document.getElementById("Replace " + choice_index)
+                    ClickReplaceChoiceText(element, choice_index, isReplaceChoiceText)
                 });
 
-                return;
+                continue;
             }
 
             if (firstTime == 1 && ii == 1 && loadSavePoint())
@@ -1249,8 +1266,9 @@
         ZoomImage("unset", "unset")
         document.getElementById("Background Image").className = ""
 
-        LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
-        LoopedAudio = null;
+        if (LoopedAudio && LoopedAudio.length > 0)
+            LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
+        LoopedAudio = [];
         CurrentImage = ""
 
         hasFlashlight = false;
@@ -1279,8 +1297,9 @@
             document.getElementById("flash beam").classList.add("hide")
         }
 
-        if (paragraphElement)
-            paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
+        if (paragraphElement === null)
+            paragraphElement = document.getElementById("Current_Text")
+        paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
 
         FadeImage("Default")
         if (CurrentProp.includes(" "))
@@ -1667,7 +1686,7 @@
                                     event.preventDefault();
 
                                     //check if we need to kill flashlight or overlay stuffs
-                                    if (storyPoint.index <= 1)
+                                    if (storyPoint.index <= 2)
                                     {
                                         hasFlashlight = false;
                                         
@@ -1675,15 +1694,20 @@
                                         document.getElementById("Overlay").classList.add("hide")
                                         Styling = "";
                                         story.variablesState["Styling"] = Styling
+                                        document.getElementById("flashlight").style.display = "none"
                                     }
-                                    else if (storyPoint.index > 1)
+                                    else if (storyPoint.index > 2)
                                     {
                                         document.getElementById("Overlay").classList.remove("hide")
                                         document.getElementById("Overlay").classList.add("img_used")
 
+                                        if (paragraphElement === null)
+                                            paragraphElement = document.getElementById("Current_Text")
+
                                         paragraphElement.classList.add("text_container_After");
                                         Styling += "text_container_After"
                                         story.variablesState["Styling"] = Styling
+                                        footer.classList.remove("hide")
                                     }
 
 
@@ -1692,12 +1716,14 @@
                                     footer.setAttribute("status", "off")
                                     document.getElementById("flashlight").style.display = "none"
 
+                                    
+
                                     // Remove all existing choices
                                     removeAll(".choice");
 
                                     if (LoopedAudio && LoopedAudio.length > 0)
                                         LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
-                                        LoopedAudio = null;
+                                        LoopedAudio = [];
                                         story.variablesState["LoopedAudio"] = ""
 
                                     //load save point and continue
