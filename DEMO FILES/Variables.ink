@@ -5,8 +5,12 @@ VAR Volume = 100
 VAR Mute = false
 VAR Shake = false
 VAR Dim = false
-VAR Styling = ""
+VAR Effects = false
+VAR Styling_Text = ""
+VAR Styling_Box = ""
+VAR Styling_Image = ""
 VAR haveFlashlight = false
+VAR WhereGO = false
 
 VAR feeling = ""
 VAR turn = ""

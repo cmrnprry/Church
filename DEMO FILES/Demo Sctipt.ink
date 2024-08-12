@@ -8,6 +8,9 @@ INCLUDE Confessional_Curtain.ink
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
+* [job] -> Bus.Seat
+* [locked] -> Locked
+* [Inside] -> Inside
 
 === Start ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -56,7 +59,7 @@ The bus arrives and you're no closer to understanding this {feeling} church that
 -> Investigate
 
 === Investigate
-
+#STOP: bus_ambience, 2
 You pat your pant pockets, pretending that you forgot your pass, and smile sheepishly. The driver rolls her eyes and drives off. It's still early enough where you can just catch the next one. You steel yourself and look back at the church.
 
 *[The church windows catch your eye.]
@@ -519,7 +522,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 = Usual
-#IMAGE: Chuch_Looming #PROP: open_gates, false
+#IMAGE: Chuch_Looming #PROP: open_gates, false #PROP: closed_gates, true
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
@@ -1359,7 +1362,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 *[You fall asleep.]
 
 - #ENDING: Sleeping Forever
-
+...
 *[But you don't wake up.]
 ->END_DEMO
 
@@ -1538,17 +1541,21 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
         ~ temp_string = ""
 }
 
-#IMAGE: Church_Inside
+#IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
 
-#CHECKPOINT: 3, You are told to find the heart. #EFFECT: main_area
+
+#EFFECT: main_area
+~ WhereGO = true
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
 
 *[confessional]
+~ WhereGO = false
 -> Confessional
 
 *[stairs]
+~ WhereGO = false
 -> Stairs
 
 = Look_For_Heart

@@ -306,6 +306,29 @@ img {
     right: 7%;
 }
 
+.options_button .tooltiptext {
+    visibility: hidden; 
+    width: 55%;
+    background-color: #E0E0E0;
+    color: #3f1313;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 12pt;
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    border: 2px solid #3f1313;
+    transform: translate(-50%, -50%);
+    display: block;
+    top: 61%;
+    height: auto;
+}
+
+.options_button p {
+    margin: 1px;
+}
+
 .box .tooltiptext {
     visibility: hidden;
     width: 55%;
@@ -323,8 +346,12 @@ img {
     display: block;
     top: 50%;
     height: auto;
-  }
+}
   
+.options_button:hover .tooltiptext {
+visibility: visible;
+}
+
 .box:hover .tooltiptext {
     visibility: visible;
   }
@@ -413,7 +440,7 @@ img {
     grid-template-rows: repeat(1, 1fr);
     grid-column-gap: 0px;
     grid-row-gap: 3px;
-    max-height: 45%;
+    max-height: 55%;
     align-items: center;
     /* z-index: 101; */
 }

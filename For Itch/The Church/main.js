@@ -23,14 +23,17 @@
     let CurrentImage = "";
     let CurrentProp = "";
     let LoopedAudio = [];
+    let Styling_Box = [];
+    let Styling_Text = [];
+    let Styling_Image = [];
     let hasFlashlight = false;
 
     //OPTIONS VARIABLES
     let Volume = 100;
     let Mute = false;
-    // let Shake = false;
-    // let Dim = false;
-    let Styling = "";
+    let Dim = true;
+    let Effects = true;
+// let Shake = false;
 
     //FOR CLICKING CHOICES AS BOXES
     let WhereGO = false;    
@@ -274,32 +277,26 @@
             savePoint = GetSaveGame();
             
             //set ink side variables            
-            // CurrentImage = story.variablesState["CurrentImage"] + "";
             CurrentProp = story.variablesState["CurrentProp"] + "";
-            // LoopedAudio = story.variablesState["LoopedAudio"];
-            hasFlashlight = (story.variablesState["haveFlashlight"] === "true")
 
             //OPTIONS VARIABLES
-            Volume = Number(story.variablesState["Volume"]);
-            Mute = (story.variablesState["Mute"].toString() === "true");
-            // Shake = (story.variablesState["Shake"].toString() === "true");
-            // Dim = (story.variablesState["Dim"].toString() === "true");
-            // Styling = story.variablesState["Styling"] + "";
-
-
-
-
-            // if (!Styling)
-            // {
-            //     Styling = ""
-            //     story.variablesState["Styling"] = Styling;
-            // }
+            Volume = Number(window.localStorage.getItem('save-volume'));
+            Mute = (window.localStorage.getItem('save-mute') === "true");
+            Dim = (window.localStorage.getItem('save-dim') === "true");
+            Effects = (window.localStorage.getItem('save-effects') === "true");
 
             continueStory(1, 500);
 
         }            
         else
+        {
+            window.localStorage.setItem('save-volume', Volume);
+            window.localStorage.setItem('save-mute', Mute);
+            window.localStorage.setItem('save-dim', Dim);
+            window.localStorage.setItem('save-effects', Effects);
+
             continueStory(0, 500);
+        }
         
 
     }
@@ -415,7 +412,7 @@
                 }
 
                 //ZOOM: [transform], [clip-path] ((this assumes BG image ONLY))
-                if (splitTag && splitTag.property == "ZOOM") {
+                if (splitTag && splitTag.property == "ZOOM") {                   
                     var list = splitTag.val.split('|')
                     var transfrom = list[0];
                     var clip = list[1];
@@ -424,14 +421,46 @@
                 }
                 //ICLASS: elementID, [classes to remove], [classese to add]
                 if (splitTag && splitTag.property == "ICLASS") {
+
                     var list = splitTag.val.split('|')
                     var element = document.getElementById(list[0])
 
                     if (list[1] !== "")
+                    {
+                        if (Styling_Image.length > 0 && Styling_Image.includes(list[1])) {
+                            var index = -1;
+                            for (i=0; i < Styling_Image.length; i++)
+                            {
+                                if (Styling_Image[i] == list[1])
+                                    index = i;
+                                    break;
+                            }
+
+                            if (index > -1) {
+                                Styling_Image.splice(index, 1);
+                            }
+                        }
+        
+                        story.variablesState["Styling_Image"] = "";
+                        if (Styling_Image.length > 0) {
+                            Styling_Image.forEach((element) => story.variablesState["Styling_Image"] += (element + " "))
+                        }
+                        
                         element.classList.remove(list[1])
+                    }
+                        
 
                     if (list[2] !== "")
+                    {
+                        Styling_Image.push(list[2])
+                        Styling_Image.forEach((element) => story.variablesState["Styling_Image"] += (element + " "))
+                        
+                        if (!Dim && splitTag.val.includes("Background Image"))
+                            continue;
+
                         element.classList.add(list[2])
+                    }
+                        
                        
                 }
 
@@ -451,7 +480,7 @@
                 if( splitTag && splitTag.property == "EFFECT" ) {
                     if (splitTag.val === "main_area")
                     {
-                        WhereGO = true;
+                        WhereGO = story.variablesState["WhereGO"];
                     }                    
                     else if (splitTag.val === "FlashBeam")
                     {
@@ -468,7 +497,7 @@
                     }
                     else if (splitTag.val.includes("flashlight"))
                     {
-                        if (story.variablesState["haveFlashlight"].toString() === "true")
+                        if (story.variablesState["haveFlashlight"])
                         {
                             if (footer.classList.contains("hide"))
                                 footer.classList.remove("hide")
@@ -485,6 +514,8 @@
                                 document.getElementById("flashlight").style.display = "none"
                                 footer.setAttribute("status", "off")
                             }
+
+                            hasFlashlight = story.variablesState["haveFlashlight"]
                         }
                         else
                         {
@@ -518,26 +549,46 @@
                     {
                         document.getElementById("Overlay").classList.add("hide")
                     }
-                    paragraphElement.classList.remove(splitTag.val);
-                    if (Styling.includes(splitTag.val))
-                        var index = Styling.indexOf(splitTag.val)
-                        Styling = Styling.substring(0, index - 1) + Styling.substring(splitTag.val.length + index)
-                        story.variablesState["Styling"] = Styling
 
+                    if (Styling_Box.length > 0 && Styling_Box.includes(splitTag.val)) {
+                        var index = -1;
+                        for (i=0; i < Styling_Box.length; i++)
+                        {
+                            if (Styling_Box[i] == splitTag.val)
+                                index = i;
+                                break;
+                        }
+
+                        if (index > -1) {
+                            Styling_Box.splice(index, 1);
+                        }
+                    }
+    
+                    story.variablesState["Styling_Box"] = "";
+                    if (Styling_Box.length > 0) {
+                        Styling_Box.forEach((element) => story.variablesState["Styling_Box"] += (element + " "))
+                    }
+
+                    paragraphElement.classList.remove(splitTag.val);
                 }
 
                 // TEXTBOX: class
                 // Effects the text box specifically
                 if( paragraphElement && splitTag && splitTag.property == "TEXTBOX" ) {
-                    paragraphElement.classList.add(splitTag.val);
-                    Styling += splitTag.val + " "
-                    story.variablesState["Styling"] = Styling;
+                    Styling_Box.push(splitTag.val)
+                    Styling_Box.forEach((element) => story.variablesState["Styling_Box"] += (element + " "))
 
+                    
                     if (splitTag.val === "text_container_Dark")
                         document.getElementById("Overlay").classList.remove("hide")
                     else if (splitTag.val === "text_container_UsedTo" || splitTag.val === "text_container_After")
                         document.getElementById("Overlay").classList.remove("hide")
                         document.getElementById("Overlay").classList.add("img_used")
+
+                    if (!Effects)
+                        continue;
+
+                    paragraphElement.classList.add(splitTag.val);
                 }
 
                 // CLASS: className
@@ -653,7 +704,7 @@
         //if there are no choices and no text qued to be delayed, do click stuffs
         if (story.currentChoices.length > 0)
         {
-            if (WhereGO)
+            if (story.variablesState["WhereGO"])
             {
                 var places = document.getElementById("Main Room").children
                 story.currentChoices.forEach(function(choice) {
@@ -682,6 +733,7 @@
                                 window.localStorage.setItem('save-history', history)
 
                                 WhereGO = false;
+                                story.variablesState["WhereGO"] = WhereGO
                                 deleteAfter(paragraphElement.querySelectorAll("p")[0]);
                             });
 
@@ -782,14 +834,14 @@
                     })
                 }
                     
-                if (fade > 0)
+                if (fade > 0 && !Mute)
                 {  
                     audio.volume = 0
                     playIntervId = setInterval(fadeIn, 30, audio, fade);
                 }
 
                 try {
-                    audio.volume = parseInt(Volume) / 100;
+                    audio.volume = (!Mute) ? parseInt(Volume) / 100 : 0;
                     await audio.play();
                   } catch (error) {
                     audio.pause();
@@ -847,7 +899,7 @@
             }, delay);
         }
         else
-            console.error("Audio Error. Could not find: " + audio)
+            console.warn("Audio Error. Audio is either already paused or does not exist: " + audio.title )
     }
 
     function fadeIn(audio, delta) {
@@ -1059,27 +1111,7 @@
                     event.preventDefault();
 
                     // Remove all existing choices
-                    removeAll(".choice");
-
-                    //flashlight
-                    if (hasFlashlight)
-                    {
-                        if (footer.classList.contains("hide"))
-                            footer.classList.remove("hide")
-
-                        if (footer.getAttribute("status") == "off")
-                        {
-                            footer.setAttribute("status", "on")
-                            document.getElementById("flashlight").style.display = ""             
-                            footer.innerHTML = "Turn off"
-                        }
-                        else
-                        {
-                            footer.innerHTML = "Turn on"
-                            document.getElementById("flashlight").style.display = "none"
-                            footer.setAttribute("status", "off")
-                        }
-                    }
+                    removeAll(".choice");                   
 
                     history += paragraphText;
                     window.localStorage.setItem('save-history', history)
@@ -1088,6 +1120,22 @@
 
                     // Tell the story where to go next
                     story.state.LoadJson(savePoint);
+
+                    hasFlashlight = (story.variablesState["haveFlashlight"])
+
+                    //flashlight
+                    if (hasFlashlight)
+                    {
+                        if (footer.classList.contains("hide"))
+                            footer.classList.remove("hide")
+
+                        if (footer.getAttribute("status") == "on")
+                        {
+                            footer.innerHTML = "Turn on"
+                            document.getElementById("flashlight").style.display = "none"
+                            footer.setAttribute("status", "off")
+                        }
+                    }
 
                     if (story.variablesState["LoopedAudio"] !== "")
                     {
@@ -1103,19 +1151,47 @@
                         FadeImage(story.variablesState["CurrentImage"]);
                     }
 
-                    if (story.variablesState["Styling"] !=="")
+                    if (story.variablesState["Styling_Text"] !=="")
                     {
-                        Styling = story.variablesState["Styling"] + "";
+                        Styling_Text = story.variablesState["Styling_Text"] + "";
                     }
                     else {
-                        Styling = ""
-                        story.variablesState["Styling"] = Styling;
+                        Styling_Text = ""
+                        story.variablesState["Styling_Text"] = Styling_Text;
                     }
-                    
-                    console.log(story.variablesState["LoopedAudio"])
-                    console.log(story.variablesState["CurrentImage"])
-                    console.log(story.variablesState["Styling"])
 
+                    if (story.variablesState["Styling_Box"] !== "" && (typeof story.variablesState["Styling_Box"] === 'string' || story.variablesState["Styling_Box"] instanceof String))
+                        {
+                            Styling_Box = story.variablesState["Styling_Box"].split(" ");
+                            
+                            if (paragraphElement === null)
+                                paragraphElement = document.getElementById("Current_Text")
+
+                            Styling_Box.forEach((element) => {
+                                if (element !== " " && element !== "")
+                                    paragraphElement.classList.add(element)
+                                })
+                        }
+                        else {
+                            Styling_Box = []
+                            story.variablesState["Styling_Box"] = Styling_Box;
+                        }
+            
+                        if (story.variablesState["Styling_Image"] !=="" && (typeof story.variablesState["Styling_Image"] === 'string' || story.variablesState["Styling_Image"] instanceof String))
+                        {
+                            Styling_Image = story.variablesState["Styling_Image"].split(" ");
+                            let background_image = document.getElementById("Background Image")
+                            
+                            Styling_Image.forEach((element) => {
+                                if (element !== " " && element !== "")
+                                    background_image.classList.add(element)
+                                })
+                        }
+                        else {
+                            Styling_Image = []
+                            story.variablesState["Styling_Image"] = Styling_Image;
+                        }
+                
                     paragraphElement = null;
                     setTimeout(function () {  continueStory(-1, 500) } , 500);   
                     
@@ -1217,21 +1293,21 @@
             paraElement.insertBefore(textElement, paraElement.firstChild)
         }
 
-        if (Styling !== "")
+        if (Styling_Box !== null && Styling_Box.length > 0)
         {
-            var split = Styling.split(" ")
-            split.forEach(element => {
+            Styling_Box.forEach(element => {
                 if (element != "")
                     paraElement.classList.add(element);
             });
             
-            if (Styling.includes("text_container_Dark"))
+            if (Styling_Box.includes("text_container_Dark"))
                 document.getElementById("Overlay").classList.remove("hide")
-            else if (Styling.includes("text_container_UsedTo") || Styling.includes("text_container_After"))
+            else if (Styling_Box.includes("text_container_UsedTo") || Styling_Box.includes("text_container_After"))
                 document.getElementById("Overlay").classList.remove("hide")
                 document.getElementById("Overlay").classList.add("img_used")
         }
-            
+
+                   
 
         displayText(text, textElement, customClasses, 500);     
         setTimeout(function () {  paraElement.classList.remove("fadeIn") } , 1000);   
@@ -1251,7 +1327,7 @@
          
         window.localStorage.setItem('save-state', null);  
 
-        continueStory(0, 500);
+        CheckSave();
 
         outerScrollContainer.scrollTo(0, 0);
     }
@@ -1261,13 +1337,22 @@
         history = "";
         window.localStorage.setItem('save-history', history)
 
-        Styling = "";
-        story.variablesState["Styling"] = ""
+        Styling_Text = [];
+        story.variablesState["Styling_Text"] = ""
+
+        Styling_Box = [];
+        story.variablesState["Styling_Box"] = ""
+
+        Styling_Image = [];
+        story.variablesState["Styling_Image"] = ""
+
+
         ZoomImage("unset", "unset")
         document.getElementById("Background Image").className = ""
 
         if (LoopedAudio && LoopedAudio.length > 0)
             LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
+
         LoopedAudio = [];
         CurrentImage = ""
 
@@ -1320,7 +1405,8 @@
             if (!places[ii].classList.contains("hide"))
                 places[ii].classList.add("hide")
          }
-
+         WhereGO = false;
+         story.variablesState["WhereGO"] = WhereGO;
         
         openOptions(false);
         openHistory(false);
@@ -1653,7 +1739,8 @@
 
         setupMute()
         // setupShake()
-        // setupDimmable()
+        setupVisual()
+        setupEffects()
         setupVolume()
         setupEndings()
         setupCheckpoints()
@@ -1678,9 +1765,11 @@
                         for (let i = 1; i < children.length; i++) {
                             if (StoryCheckpoint[i-1].name != "Locked")
                             {
+                                if (children[i].innerHTML !== "Locked")
+                                    continue;
                                 children[i].innerHTML = `<a href="#">${StoryCheckpoint[i-1].name}</a>`
-                                var point = children[i].querySelectorAll("a")[0];
-                                var storyPoint = StoryCheckpoint[i-1];
+                                let point = children[i].querySelectorAll("a")[0];
+                                let storyPoint = StoryCheckpoint[i-1];
                                 point.addEventListener("click", function (event) {
                                     // Don't follow <a> link
                                     event.preventDefault();
@@ -1688,13 +1777,13 @@
                                     //check if we need to kill flashlight or overlay stuffs
                                     if (storyPoint.index <= 2)
                                     {
-                                        hasFlashlight = false;
-                                        
-                                        footer.classList.add("hide")
                                         document.getElementById("Overlay").classList.add("hide")
-                                        Styling = "";
-                                        story.variablesState["Styling"] = Styling
-                                        document.getElementById("flashlight").style.display = "none"
+
+                                        if (paragraphElement === null)
+                                            paragraphElement = document.getElementById("Current_Text")
+                                        
+                                        paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
+                                
                                     }
                                     else if (storyPoint.index > 2)
                                     {
@@ -1703,12 +1792,17 @@
 
                                         if (paragraphElement === null)
                                             paragraphElement = document.getElementById("Current_Text")
-
-                                        paragraphElement.classList.add("text_container_After");
-                                        Styling += "text_container_After"
-                                        story.variablesState["Styling"] = Styling
-                                        footer.classList.remove("hide")
                                     }
+
+                                    //turn eveyone off
+                                    var places = document.getElementById("Main Room").children
+                                    for (var ii = 0; ii <= places.length - 1; ii++)
+                                    {
+                                        if (!places[ii].classList.contains("hide"))
+                                            places[ii].classList.add("hide")
+                                    }
+                                    WhereGO = false;
+                                    story.variablesState["WhereGO"] = false;
 
 
                                     //flick off any flashlight stuffs
@@ -1716,11 +1810,15 @@
                                     footer.setAttribute("status", "off")
                                     document.getElementById("flashlight").style.display = "none"
 
-                                    
+                                    if (!document.getElementById("flash beam").classList.contains("hide"))
+                                    {
+                                        document.getElementById("flash beam").classList.add("hide")
+                                    }                                   
 
                                     // Remove all existing choices
                                     removeAll(".choice");
 
+                                    //turn off any looped audio
                                     if (LoopedAudio && LoopedAudio.length > 0)
                                         LoopedAudio.forEach((element) => StopAudio(AudioList[element], 0, 0));
                                         LoopedAudio = [];
@@ -1728,6 +1826,19 @@
 
                                     //load save point and continue
                                     story.state.LoadJson(storyPoint.point)
+
+                                    hasFlashlight = (story.variablesState["haveFlashlight"])
+
+                                    //check flashlight
+                                    if (hasFlashlight)
+                                    {
+                                        if (footer.classList.contains("hide"))
+                                            footer.classList.remove("hide")
+                                    }
+                                    else {
+                                        if (!footer.classList.contains("hide"))
+                                            footer.classList.add("hide")
+                                    }
 
                                     if (story.variablesState["LoopedAudio"] !== "")
                                     {
@@ -1743,8 +1854,41 @@
                                         FadeImage(story.variablesState["CurrentImage"]);
                                     }
 
+                                    if (story.variablesState["Styling_Box"] !=="" && (typeof story.variablesState["Styling_Box"] === 'string' || story.variablesState["Styling_Box"] instanceof String))
+                                    {
+                                        Styling_Box = story.variablesState["Styling_Box"].split(" ");
+                                        
+                                        if (paragraphElement === null)
+                                            paragraphElement = document.getElementById("Current_Text")
+
+                                        Styling_Box.forEach((element) => {
+                                            if (element !== " " && element !== "")
+                                                paragraphElement.classList.add(element)
+                                            })
+                                    }
+                                    else {
+                                        Styling_Box = []
+                                        story.variablesState["Styling_Box"] = Styling_Box;
+                                    }
+                        
+                                    if (story.variablesState["Styling_Image"] !=="" && (typeof story.variablesState["Styling_Image"] === 'string' || story.variablesState["Styling_Image"] instanceof String))
+                                    {
+                                        Styling_Image = story.variablesState["Styling_Image"].split(" ");
+                                        let background_image = document.getElementById("Background Image")
+                                        
+                                        Styling_Image.forEach((element) => {
+                                            if (element !== " " && element !== "")
+                                                background_image.classList.add(element)
+                                            })
+                                    }
+                                    else {
+                                        Styling_Image = []
+                                        story.variablesState["Styling_Image"] = Styling_Image;
+                                    }
+
                                     window.localStorage.setItem('save-state', storyPoint.point);   
                                     paragraphElement = null;
+                                    ChoicesID = null;
                                     setTimeout(function () {  continueStory(-1, 500) } , 500);   
                                 })
                             }                                
@@ -1812,7 +1956,7 @@
         element.addEventListener("change", function(event) {
             let value = element.value;
             Volume = value;
-            story.variablesState["Volume"] = Volume;
+            window.localStorage.setItem('save-volume', Volume);
 
             onVolumeChange(false);
         });
@@ -1848,35 +1992,39 @@
                 Mute = false;
             }
             
-            story.variablesState["Mute"] = element.getAttribute("status")
+            window.localStorage.setItem('save-mute', Mute);
             onVolumeChange(true)              
         });
     }
 
     function onVolumeChange(isMuting)
     {
-        if (Mute === true || Mute === "true")        
+        let newVolume = parseInt(Volume) / 100;
+        if (isMuting === true)
+        {
+            if (Mute) {newVolume = 0;}        
             for (const [key] of Object.entries(AudioList))
             {
-                AudioList[key].volume = 0;
+                AudioList[key].volume = newVolume;
             }
-        
+        }
         else
-            for (const [key] of Object.entries(AudioList))
+        {
+             for (const [key] of Object.entries(AudioList))
             {
-                let newVolume = parseInt(Volume) / 100;
                 AudioList[key].volume = newVolume;                
             }
             
-            if (isMuting === false)
+            if (Mute === false)
             {
                 meow.pause();
                 meow.currentTime = 0;
                 meow.play();
             }
+        }
                 
         
-        SetSaveGame()
+        // SetSaveGame()
     }
 
     // function setupShake()
@@ -1909,33 +2057,105 @@
     //     });
     // }
 
-    // function setupDimmable()
-    // {
-    //     let element = document.getElementById("Dimmable_Button");
+    function setupVisual()
+    {
+        let element = document.getElementById("Dimmable_Button");
 
-    //     try {
-    //         element.setAttribute("status", Dim)
-    //         element.innerHTML = (!Dim) ? "Text Effects: OFF" : "Text Effects: ON"
-    //     } catch (e) {
-    //         console.debug("Couldn't load save state");
-    //     }
+        try {
+            element.setAttribute("status", Dim)
+            var text = element.children[0]
+            text.innerHTML = (!Dim) ? "Visual Overlay: OFF" : "Visual Overlay: ON"
+        } catch (e) {
+            console.debug("Issue setting up visual settings");
+        }
 
-    //     element.addEventListener("click", function(event) {
-    //         var status = (element.getAttribute("status") === "true")
-    //         if (!status)
-    //             {
-    //                 element.setAttribute("status", true)
-    //                 element.innerHTML = "Text Effects: ON"
-    //             }
-    //             else
-    //             {
-    //                 element.setAttribute("status", false)
-    //                 element.innerHTML = "Text Effects: OFF"
-    //             }
+        element.addEventListener("click", function(event) {
+            var status = (element.getAttribute("status") === "true")
+            let background_image = document.getElementById("Background Image")
+            if (!status)
+                {
+                    element.setAttribute("status", true)
+                    var text = element.children[0]
+                    text.innerHTML = "Visual Overlay: ON"
+
+                    //remove overlay
+                    let overlay =  document.getElementById("Overlay");
+                    if (overlay.classList.contains("hidden"))
+                    {
+                        overlay.classList.remove("hidden")
+                    }
+
+                    //put the image styling back
+                    
+                    Styling_Image.forEach((element) => background_image.classList.add(element))
+                }
+                else
+                {
+                    element.setAttribute("status", false)
+                    var text = element.children[0]
+                    text.innerHTML = "Visual Overlay: OFF"
+
+                    //turn off overlay
+                    var overlay =  document.getElementById("Overlay");
+                    overlay.classList.add("hidden")
+
+                    //remove any image styling
+                    let bg_classlist = background_image.classList
+                    while (bg_classlist && bg_classlist.length > 0) {
+                        bg_classlist.remove(bg_classlist.item(0));
+                    }
+                }
             
-    //         story.variablesState["Dim"] = element.getAttribute("status")
-    //         Dim = (story.variablesState["Dim"] === "true")    
-    //     });
-    // }
+            Dim = !status;
+            window.localStorage.setItem('save-dim', Dim);
+        });
+    }
+
+    function setupEffects()
+    {
+        let element = document.getElementById("Effects_Button");
+        if (paragraphElement === null)
+            paragraphElement = document.getElementById("Current_Text")
+
+        try {
+            element.setAttribute("status", Effects)
+            var text = element.children[0]
+            text.innerHTML = (!Effects) ? "Text Effects: OFF" : "Text Effects: ON"
+        } catch (e) {
+            console.debug("Couldn't load save state");
+        }
+
+        element.addEventListener("click", function(event) {
+            var status = (element.getAttribute("status") === "true")
+            if (!status)
+                {
+                    element.setAttribute("status", true)
+                    var text = element.children[0]
+                    text.innerHTML = "Text Effects: ON"
+
+                    Styling_Box.forEach((element) => {
+                        if (element !== " " && element !== "")
+                            paragraphElement.classList.add(element)
+                        })
+                }
+                else
+                {
+                    element.setAttribute("status", false)
+                    var text = element.children[0]
+                    text.innerHTML = "Text Effects: OFF"
+
+                    let para_classlist = paragraphElement.classList
+                    while(para_classlist.length> 0) {
+                        para_classlist.remove(para_classlist.item(0));
+                    }
+
+                    para_classlist.add("text_container");
+                }
+            
+            Effects = !status;
+            window.localStorage.setItem('save-effects', Effects);
+        });
+    }
+
 
 })(storyContent);
