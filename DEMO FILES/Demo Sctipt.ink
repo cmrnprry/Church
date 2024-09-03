@@ -2,17 +2,15 @@ INCLUDE Variables.ink
 INCLUDE Confessional_Door.ink
 INCLUDE Confessional_Curtain.ink
 
-#IMAGE: Default
+#IMAGE: Title
 <i>This game will autosave your progress. Use the restart button will rest your game and ALL save data. Use the checkpoints button to jump to previous points of the story. <br><br> Closing the window will reset any progress.</i>
 
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
-* [job] -> Bus.Seat
-* [locked] -> Locked
-* [Inside] -> Inside
 
 === Start ====
+#PLAY: background, true, 1.5
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
 It was dark when you passed, and you keep telling youself that your tired brain mistook a billboard for a church. They must be building one there.
@@ -1913,7 +1911,7 @@ You walk closer to the door, and tug at the door knob. The door jigles, but does
 -> END_DEMO
 
 === Credits
-<h1>Credits</h1><br><b>Writing, Design and Code</b><br><a  href="https:\/\/www.renmakesgames.com/", target="_blank">Ren - @n0t_cameron</a><br><br><b>Artists</b><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><br><b>Sound Design</b><br>Joe Bretz/ReverbInTheVoid
+<h1>Credits</h1><br><b>Writing, Design and Code</b><br><a  href="https:\/\/www.renmakesgames.com/", target="_blank">Ren Perry - @n0t_cameron</a><br><br><b>Artists</b><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><br><b>Sound Design</b><br>Joe Bretz/ReverbInTheVoid
 
 + [Start Game] ->Start
 + [Content Warnings] ->Content_Warnings
@@ -1925,8 +1923,10 @@ You walk closer to the door, and tug at the door knob. The door jigles, but does
 + [Credits] ->Credits
 
 === END_DEMO
-#IMAGE: Default #REMOVE: Overlay #REMOVE: text_container_Dark #REMOVE: text_container_UsedTo #REMOVE: text_container_After
-That is the end of the demo, thank you so much for playing! The full version is coming soon. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
+#IMAGE: Title #REMOVE: Overlay #REMOVE: text_container_Dark #REMOVE: text_container_UsedTo #REMOVE: text_container_After
+That is the end of the demo, thank you so much for playing! The full version is coming sometime in 2025. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
+
+Restart the game to replay or use the "checkpoints" menu to retrace your steps and make different choices.
 
 + [Restart Game] 
     
@@ -1944,3 +1944,4 @@ That is the end of the demo, thank you so much for playing! The full version is 
 
 
 
+ 

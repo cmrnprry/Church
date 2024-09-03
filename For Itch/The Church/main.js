@@ -108,9 +108,11 @@
     screw_fall_2.title = "screw_fall_2"
     let walking_wast_pavement = new Audio('./Audio/walking_wast_pavement.ogg')
     walking_wast_pavement.title = "walking_wast_pavement"
-
+    let background = new Audio('./Audio/BG.ogg')
+    background.title = "BG"
     // //AUDIO LIST
     const  AudioList = {
+        "background" : background,
         "bus_ambience" : bus_ambience,
         "office_ambience" : office_ambience,
         "bang_confessional" : bang_confessional,
@@ -1146,7 +1148,7 @@
                         });  
                     }
 
-                    if (story.variablesState["CurrentImage"] !=="" && story.variablesState["CurrentImage"] !== "Default")
+                    if (story.variablesState["CurrentImage"] !=="" && story.variablesState["CurrentImage"] !== "Title")
                     {
                         FadeImage(story.variablesState["CurrentImage"]);
                     }
@@ -1386,7 +1388,7 @@
             paragraphElement = document.getElementById("Current_Text")
         paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
 
-        FadeImage("Default")
+        FadeImage("Title")
         if (CurrentProp.includes(" "))
         {
             var array = CurrentProp.split(" ")
@@ -1745,7 +1747,7 @@
         setupEndings()
         setupCheckpoints()
         
-        BackgroundImage.src = `./Images/Backgrounds/Default.png`;
+        BackgroundImage.src = `./Images/Backgrounds/Title.png`;
 
         if (CurrentProp && CurrentProp !== "")
             FadeProp(CurrentProp, "false")
