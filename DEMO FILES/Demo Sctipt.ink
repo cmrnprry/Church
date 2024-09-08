@@ -13,7 +13,7 @@ INCLUDE Confessional_Curtain.ink
 #PLAY: background, true, 1.5
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
-It was dark when you passed, and you keep telling youself that your tired brain mistook a billboard for a church. They must be building one there.
+It was dark when you passed, and you keep telling yourself that your tired brain mistook a billboard for a church. They must be building one there.
 
 *[It's impossible for a church to spring up overnight.]
 
@@ -31,7 +31,7 @@ You pass by again, on your walk to the bus stop this morning, and stop dead in y
 
 *[You quickly cross the street.]
 
-- You mess around on your phone, trying to ignore the building. You keep looking up at it, confiriming for yourself that the church is really there. 
+- You mess around on your phone, trying to ignore the building. You keep looking up at it, confirming for yourself that the church is really there. 
 
 It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so... You glance up at it again, and something pulls at the back of your mind.
 
@@ -81,7 +81,7 @@ Blood starts rushing in your ears and pressure builds behind your eyes as you st
 HOOOOONNNKK!!
 
 #PLAY: bus_ambience, true, 1 #ZOOM: unset|unset #ICLASS: Background Image|Swimming-3|
-You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel youself nodding, heart pounding. A knot forms in your stomach.
+You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church.]
 
@@ -182,7 +182,7 @@ Place page. Enter email. Send it off. Place page. Enter email. Send it off. Plac
 *["Hey- What are you doing?"]
 
 - #STOP: scanner, 1.5
-You jump and look up to see a coworker from your departmenr. You don't talk to her often, but she's nice enough. She looks... concerned?
+You jump and look up to see a coworker from your department. You don't talk to her often, but she's nice enough. She looks... concerned?
 
 *["Just sending out some scans."]
 
@@ -297,11 +297,11 @@ You can't delete them fast enough.
 They just keep coming. You try to-
 
 #STOP: email_ding
-"Hey are you-" A hand grabs your shoulder, and you jump up from your chair, slaping the hand away. 
+"Hey are you-" A hand grabs your shoulder, and you jump up from your chair, slapping the hand away. 
 
 "Leave me ALONE!" you shout, breathing heavy.
 
-"What's your problem?!" You realize all too late that this was not the church, but your coworker. You stumble over yourself trying to appologize. "We all have rought days but.... What the hell?!"
+"What's your problem?!" You realize all too late that this was not the church, but your coworker. You stumble over yourself trying to apologize. "We all have rough days but.... What the hell?!"
 ~work = 3
 
 *["I'm- I'm going home early."]
@@ -334,7 +334,7 @@ You slam the laptop shut. A fuzzy memory tickles the back of your mind, and sudd
 
 The memory refuses to surface, only vague images and feelings. You see yourself inside. You're scared. You're trapped. But that's all you can remember. You hit the desk again, harder. 
 
-"It's right there, so just..." You murmer to yourself. "I was...?"
+"It's right there, so just..." You murmur to yourself. "I was...?"
 
 You found something. It let you out? No. It wouldn't-
 
@@ -342,9 +342,9 @@ You found something. It let you out? No. It wouldn't-
 
 - It's your coworker. You wave him away, and focus. You escaped. It wants you back. You can see the door opening, but the younger you didn't feel relief. No, they felt... afraid? Why...? You got out so why-
 
-Your coworker grabs your sholder, "Hey what's-" You jump up from your chair and smack his hand away. You lean on the wall to support yourself, breathing heavy. "What's your problem?!"
+Your coworker grabs your shoulder, "Hey what's-" You jump up from your chair and smack his hand away. You lean on the wall to support yourself, breathing heavy. "What's your problem?!"
 
-Your coworker stares at you, waiting for an answer. You shove your hand into your pocket, searching for the poleroid inside, hoping to calm yourself.
+Your coworker stares at you, waiting for an answer. You shove your hand into your pocket, searching for the polaroid inside, hoping to calm yourself.
 
 "No no no, where...?" You franticly searching every pocket, only to find it all empty. You look to your desk and find small, ripped pieces of a once comforting memory. "Did I...?"
 
@@ -363,7 +363,7 @@ Your coworker stares at you, waiting for an answer. You shove your hand into you
     - 3: "Yeah, whatever." He says as he leaves. You quickly start packing up your things.
         {
             - know:
-            You lay out the pieces of the poleroid, all too small to really make anything out. You can't bring youurself to throw it away, instead placing each piece in the small drawer of your desk.
+            You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring youurself to throw it away, instead placing each piece in the small drawer of your desk.
             
             You'll try to fix this tomorrow, after a good night's sleep.
         }
@@ -449,7 +449,7 @@ You look up and down the street. You're not any further from the corner, and the
     - else:
         Was it always this far down the road? This morning you were able to clearly see it from the bus stop...
         
-        You take a breath, and reach into your pocket. The feeling of the worn poleroid calms you. You're being unreasonable. It's just a building. Just a church. A {feeling} church.
+        You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {feeling} church.
 }
 
 
@@ -589,7 +589,7 @@ No sooner than you think it, you hear the sound of growling and meowing on the p
         *["Hey, this isn't a place to play!"]
         -> Walk_Home.Close
 
-        *["That's tresspassing, come on out now."]
+        *["That's trespassing, come on out now."]
         -> Walk_Home.Close
     - else:
         A cat might be in there, and from the sound of it, in trouble. You should get them out.
@@ -718,11 +718,11 @@ You try the knob.
 #PLAY: footsteps_player, true #PLAY: footsteps_scary, true
 { 
     - temp_bool: 
-    Adreneline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
+    Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
     - else:
     { 
-    -know: Against your better instincts, you pick up the pace, and you hear the footseps getting closer. Adreneline floods your veins, and you can't think straight. You start running, and so do they.
-    - else: You pick up the pace, and you hear the footseps getting closer. Adreneline floods your veins, and you can't think straight. You start running, and so do they.
+    -know: Against your better instincts, you pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.
+    - else: You pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.
     }
 }
 
@@ -864,7 +864,7 @@ Thud!
 - #CLASS: Kick  #PLAY: door_thud
 Thud!
 
-*[Evey fiber of your being is telling you to get <i>out.</i>]
+*[Every fiber of your being is telling you to get <i>out.</i>]
 
 - #CLASS: Kick  #PLAY: door_thud
 Thud!
@@ -884,7 +884,7 @@ Thud!
 It's dark, but you can make out vague shapes.
 
 { 
-- know != true: You quickly glance around the church. It's small, but seemingly abandonded. There must be something that was left behind by preivous squatters or looters. 
+- know != true: You quickly glance around the church. It's small, but seemingly abandoned. There must be something that was left behind by previous squatters or looters. 
 
 - else: You know it's useless, but fear overtakes the rational part of your brain. There has to be SOMETHING.
 }
@@ -910,7 +910,7 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 - object == "crowbar": 
     You want to pry the door open with it
 - object == "screwdriver":
-    You want to take the door off it's hindges
+    You want to take the door off it's hinges
 - else:
     You want to smash the door down
 }<>
@@ -920,7 +920,7 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 }
 
 #IMAGE: Office_Final
-You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls were book shelfs full of books. The far wall has a desk with a stained glass window above it. {window: You avoid looking at the window. }
+You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls were book shelves full of books. The far wall has a desk with a stained glass window above it. {window: You avoid looking at the window. }
 
 {
 - object == "crowbar": 
@@ -962,7 +962,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
         ->Locked.Kick
         
     - else:
-        You enter the room and pick up the {object}. It weighs heavy in your hands. You tighen your grip on the {object}, and return to the door. { - know: Hopeless or not, you need to try.}
+        You enter the room and pick up the {object}. It weighs heavy in your hands. You tighten your grip on the {object}, and return to the door. { - know: Hopeless or not, you need to try.}
         {
             - object == "crowbar": 
                 *[Time to get out of here]
@@ -996,7 +996,7 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 
 = Screwdriver
 #DELAY: 1.5 #IMAGE: Default
-You get to work unscrewing the top hindges of the door.
+You get to work unscrewing the top hinges of the door.
 
 #CLASS: Drop_Screw 0.75 #PLAY: screw_fall_1 
 <i>Clink!</i>
@@ -1006,7 +1006,7 @@ You get to work unscrewing the top hindges of the door.
 <i>Clink!</i>
 
 #DELAY: 1
-The screws fall to the floor. You move to the bottom hindges.
+The screws fall to the floor. You move to the bottom hinges.
 
 #DELAY: 0.75 #PLAY: screw_fall_2 #CLASS: Drop_Screw
 <i>Clink!</i> 
@@ -1017,7 +1017,7 @@ The screws fall to the floor. You move to the bottom hindges.
 
 *[That should be the last of them.]
 
-- You grab at the sides and try to lift the door, but it doesn't budge. You frown, and check the hindges. Did you miss one? Even if you did, it should still at least wiggle. 
+- You grab at the sides and try to lift the door, but it doesn't budge. You frown, and check the hinges. Did you miss one? Even if you did, it should still at least wiggle. 
 
 You check the top.
 
@@ -1105,20 +1105,20 @@ You can barely see, not a single drop of light shines through the windows. Your 
 
 
 = Remember
-#PROP: poleroid, false
+#PROP: polaroid, false
 You pull the polaroid out from your pocket, hoping to think about better times. It's dark, but you can see enough to make out shapes. You trace the image of your younger self, and the gate behind them with your finger, then the church behind-
 
 Church? 
 
 *[Your mouth goes dry.]
 
-- The image is different. It has changed. Insead of a comforting memory, it has morphed into one you don't know. Something that tickles the back of your brain, but you don't know why.
+- The image is different. It has changed. Instead of a comforting memory, it has morphed into one you don't know. Something that tickles the back of your brain, but you don't know why.
 
 *[You grip the picture tightly in your hands.]
 
 - The image isn't fake, somehow you know this. The church always felt {feeling} in a way you didn't understand why.
 
-#PROP: poleroid, true
+#PROP: polaroid, true
 The memory refuses to surface, only vague images and feelings. If you close your eyes... You're scared. You're trapped. You're... inside? Inside where-?
 
 Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when- 
@@ -1237,7 +1237,7 @@ You can't stay here. You can't get out the way you came in, but there might be a
         You attempt to stand, but your legs are like jelly, and you fall back to the floor. <>
 }
 
- Everything suddenly hits you at once, and you realize how exhauseted you are. You can barely see anything. <>
+ Everything suddenly hits you at once, and you realize how exhausted you are. You can barely see anything. <>
  
  { 
     - object != "": You only found the {object} because the church wanted you to. 
@@ -1247,7 +1247,7 @@ You rest your head on your knees.
 
 *[Try to sleep]
 ~ sleep = "sleep"
-You probably shouldn't, but it's the quickest way to pass time. And maybe your subconscious will remind you of things your conscious forgot. Or something your concious doesn't want to remember.
+You probably shouldn't, but it's the quickest way to pass time. And maybe your subconscious will remind you of things your conscious forgot. Or something your conscious doesn't want to remember.
 
 *[Stay awake]
 ~ sleep = "stay awake"
@@ -1308,7 +1308,7 @@ You claw at your mouth, attempting to grab hands silencing you, and stand up. "L
 "You don't... remember..." The hands fall away, and the room goes still. "This is all I can do."
 
 #CLASS: light-above
-The hands fall away. The voice goies quiet. The room turns still.
+The hands fall away. The voice goes quiet. The room turns still.
 -> Trapped.Light
 
 - "Look up." The hands removes themselves from your mouth, and rest on your shoulder. You look where the voice told you to. The window above the door has morphed into a stained glass eye. It's pupil darts around, looking for something. "It looks for you."
@@ -1339,7 +1339,7 @@ The room turns still. Silent.
 -> Trapped.Light
 
 = Ignore
-You pay it no attention. { sleep == "sleep": It is helping you to fall asleep.} { sleep != "sleep":It's comforting, but idlely listening will only make you more tired.}
+You pay it no attention. { sleep == "sleep": It is helping you to fall asleep.} { sleep != "sleep":It's comforting, but idly listening will only make you more tired.}
 
 It's a soothing sound, but there's something else there, just underneath, that you can't make out.
 
@@ -1431,7 +1431,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
         #PLAY: screeching #CLASS: Angry-Screeching 
-        An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and luder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
+        An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *[You can barely stand it.]
         -> Trapped.Light_Leave
@@ -1667,7 +1667,7 @@ Cautiously, you take another step down{temp_string}. And then another. And anoth
 
 ~ went_downstairs = 2
 
-About halfway down the steps, the smell of rot hits your nose, so strong you gag. {temp_string} and retch. The stench is unbareable. 
+About halfway down the steps, the smell of rot hits your nose, so strong you gag. {temp_string} and retch. The stench is unbearable. 
 
 It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.
 
@@ -1684,7 +1684,7 @@ You cover your face with your shirt, and breathe through your mouth, but the pun
 #CYCLE: Fidget, mold, fungus, flesh
 The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the @ shivers in response. 
 
-You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusing substance.
+You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusting substance.
 
 *[See what's behind the door]
 
@@ -1711,25 +1711,25 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
 
 - 
 #IMAGE: Basement
-The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
+The door opens, and you are assaulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
 
-The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
+The room is covered in the pink, bulging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
 
 *[Find the source of the smell]
 
 *[Investigate the ooze]
     #DELAY: 1.5
-    You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
+    You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistently falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
     #EFFECT: flashlight-flicker #PLAY: flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off #STOP: flashlight_off, 0, .5 #PLAY: 1, flashlight_on #STOP: flashlight_on, 0, .5 #PLAY: 1, flashlight_off
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
 
-- You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizeable. 
+- You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizable. 
 
 You pass by what you assume is a standing coat hanger, and stare at it. It is taller than you, and has multiple edges jutting out from it. You reach out to lift the canvas covering it, but stop just before touching it. 
 
-You're not sure why, but you retract your hand. You stare at the coat hanger a little longer before conitnuing on.
+You're not sure why, but you retract your hand. You stare at the coat hanger a little longer before continuing on.
 
 *[You don't check under any of the tarps.]
 
@@ -1814,7 +1814,7 @@ You can't get enough air in. Is this actually slime-?
 
 - 
 #ENDING: Melted
-You keep going, desperatly trying to escape. 
+You keep going, desperately trying to escape. 
 
 #CLASS: Blur
 You can't feel your hand anymore.
@@ -1875,7 +1875,7 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 
 - 
 #PLAY: lock_rattle
-You walk closer to the door, and tug at the door knob. The door jigles, but doesn't budge. Through a small keyhole, a red light pours out.
+You walk closer to the door, and tug at the door knob. The door jiggles, but doesn't budge. Through a small keyhole, a red light pours out.
 
 *[Peak through the key hole]
 -> END_DEMO
@@ -1917,7 +1917,7 @@ You walk closer to the door, and tug at the door knob. The door jigles, but does
 + [Content Warnings] ->Content_Warnings
 
 === Content_Warnings
-<h1>Content Warnings</h1><br><ul><li>Mild gore / dead body descriptions</li><br><li>General Christan/Catholic discomfort</li><br><li>General violence towards player/blood/bodily fluids mention. All through text</li><br><li>Potential child harm/child in distress where player is unable to help</li><br><li>Some demeaning speech yelled at the player from a male character</li></ul>
+<h1>Content Warnings</h1><br><ul><li>Mild gore / dead body descriptions</li><br><li>General Christian/Catholic discomfort</li><br><li>General violence towards player/blood/bodily fluids mention. All through text</li><br><li>Potential child harm/child in distress where player is unable to help</li><br><li>Some demeaning speech yelled at the player from a male character</li></ul>
 
 + [Start Game] ->Start
 + [Credits] ->Credits

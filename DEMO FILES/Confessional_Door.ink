@@ -2,7 +2,7 @@
 #IMAGE: Default #PROP: curtain_full, true
 You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
         
-You look around the cramed space and find nothing. The booth is empty. {confessional_sin: You already found a key earlier, what more could be in the booth?} { confessional_sin == false: You don't know what you were expecting. }
+You look around the crammed space and find nothing. The booth is empty. {confessional_sin: You already found a key earlier, what more could be in the booth?} { confessional_sin == false: You don't know what you were expecting. }
     
 *[Exit the booth]
 ~temp_bool = false
@@ -238,7 +238,7 @@ She is cut off by a coughing fit. Harsh, loud, wet coughs.
 
 - You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Eventually, she stops.
 
-"Sorry," she weezes. "I'm really sick... I was hoping that my dad was... He's a priest so..."
+"Sorry," she wheezes. "I'm really sick... I was hoping that my dad was... He's a priest so..."
 
 *[Say nothing]
     ~temp_bool = true
@@ -318,7 +318,7 @@ You have many questions, but she is still a child. A sick child.
 
 -
 
-"Well... He used to go once a week, to pray for me, at our old church. As I got sicker, he got recommened this one, and it was okay for a while. I got a little better, but he stopped coming home..." She sniffs. "I only see him if mom brings me here, but she only ever lets me talk to him from the gate. He didn't show up this time so I..." 
+"Well... He used to go once a week, to pray for me, at our old church. As I got sicker, he got recommended this one, and it was okay for a while. I got a little better, but he stopped coming home..." She sniffs. "I only see him if mom brings me here, but she only ever lets me talk to him from the gate. He didn't show up this time so I..." 
 
 "You...?"
 
@@ -425,7 +425,7 @@ You stop and hold the scraps in your hand. You look at the blood splatter, then 
 *[Guilty]
 ~ priest_feeling = "guilt"
 ~stay += 0.5
-~temp_string = "You grimce"
+~temp_string = "You grimace"
 #IMAGE: Default #PROP: curtain_torn, true
 You gather up the fabric in your hands. You swallow back the lump growing in your throat. {pressed_emily: You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. } {pressed_emily == false: Is this... your... fault? } 
 
@@ -460,13 +460,13 @@ What...?
         You stare at the intact curtain in front of you. You grip the fabric in your hands tightly, afraid it will disappear the moment you can no longer feel it.
 
         #IMAGE: Church_Inside #PROP: curtain_full, true
-        "Why...?" you mutter as you try to stand, your legs shakey. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to...?"
+        "Why...?" you mutter as you try to stand, your legs shaky. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to...?"
 
         Your voice is quiet, but you know the church heard you. Deep in your gut, you know, and you waited for its response. 
         
         Any response.
     
-    - temp_string == "You grimce":
+    - temp_string == "You grimace":
         Your eyes dart back and forth between the fabric in your hands, and the intact curtain in front of you. You can't understand it.
 
         #IMAGE: Church_Inside #PROP: curtain_full, true
@@ -478,7 +478,7 @@ What...?
     
     - temp_string == "You grind your teeth":
         #IMAGE: Church_Inside #PROP: curtain_full, true
-        "What is this?" You stand and throw the scaps in your hands at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
+        "What is this?" You stand and throw the scraps in your hands at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
 
         You can't help but laugh. Laugh at the absurdity. At your stupidity. You remember the words on the note you were given. 
         
@@ -489,7 +489,7 @@ What...?
         You spit on the ground.
 }
 
-*[The church is slient.]
+*[The church is silent.]
 
 - 
 
@@ -514,7 +514,7 @@ What...?
                 You are sure of it.
         }
     
-    - temp_string == "You grimce":
+    - temp_string == "You grimace":
         You fold the ripped fabric as best you can, and place it over the scarred wood and blood.
 
         "I'm sorry."
@@ -528,7 +528,7 @@ What...?
         You should keep that in mind.
     
     - temp_string == "You grind your teeth":
-        You scoft. Of course now the church has nothing to say. You don't give the confessional another glance. You will get out of here. You will not be just another victim.
+        You scoff. Of course now the church has nothing to say. You don't give the confessional another glance. You will get out of here. You will not be just another victim.
         
         {
             - stay >= 2:

@@ -129,7 +129,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
         "My supervisor has always looked out for me even though I never meet their standards. I think this was the straw that broke the camel's back."
         ~temp_string = "think you did all you could?\""
     - work == 3:
-        "I had never spoken to him before, I mianly keep to myself at work. I didn't know how to handle his help, so I pushed him away and left."
+        "I had never spoken to him before, I mainly keep to myself at work. I didn't know how to handle his help, so I pushed him away and left."
         ~temp_string = "often ignore or push away the ones who reach out first?\""
 }
 
@@ -174,7 +174,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
 
         "A fluke? A one off?" The voice sneers. "Are you so sure about that?"
 
-        You flinch at it's tone, and look at your shoes. Did you say something wrong? You mumble an appology and kick the floor.
+        You flinch at it's tone, and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.
         
         "I'm not scolding you." The voice softens, and some of your anxiety alleviates. "But can you really say this was a one off event?" 
         
@@ -239,14 +239,14 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
         - else:
         {
             - know: 
-                ~temp_string = "Of your poleroid sitting in pieces in your desk. You "
+                ~temp_string = "Of your polaroid sitting in pieces in your desk. You "
             - else:
-                ~temp_string = "You touch the pocket that holds the pieces of your poleroid, and"
+                ~temp_string = "You touch the pocket that holds the pieces of your polaroid, and"
         }
     }
     "I don't think-"
     
-    The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, andyou jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. Aren't you happier here?"
+    The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. Aren't you happier here?"
     
     #DELAY: 1.5
     Safe? Happy? You think about everything you've experienced up til now. {temp_string}look at the ceiling of the booth. Is this any better or worse than your day to day? You're not sure how to feel.
@@ -266,7 +266,7 @@ The voice is silent. You squirm uncomfortably in your seat. The next words you s
 }
 
 = liquid
-You look closer. The liquid in the bucket is slightly viscous. It looks almsot like-
+You look closer. The liquid in the bucket is slightly viscous. It looks almost like-
 
 "Well?" The voice is growing impatient. You tense. "Aren't you happier here?"
 
@@ -332,7 +332,7 @@ The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
+The wood divider splinters as whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
 
 The bucket tips over, and the liquid spills out. It sticks to your shoes, much thicker than water.
 
@@ -342,7 +342,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
+"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
 
 The booth could come apart at any moment. You need to get out of here.
 
@@ -403,7 +403,7 @@ Bang!
 
 -
 
-Inside, the booth is empty, and pristine. The divider is not splintered, and the seperating grate is back in place. It looks almost identical to the side you had been on. 
+Inside, the booth is empty, and pristine. The divider is not splintered, and the separating grate is back in place. It looks almost identical to the side you had been on. 
 
 On the bench sits a small key. You pick it up, and put in your pocket, hoping it will be useful later.
 ~ key = true
@@ -423,7 +423,7 @@ You cover your face as wooden splinters fly toward you, and take a step closer t
 #PLAY: click-on #EFFECT: flashlight
 The flash light clicks on, and everything stops.
 
-Tthe otherside is pristine. It looks almost identical to the side you had been on. No one is insdie.
+The other side is pristine. It looks almost identical to the side you had been on. No one is inside.
 
 On the bench sits a small key. 
 ~ key = true
@@ -445,7 +445,7 @@ On the bench sits a small key.
     
     Your fingers brush against the key again when a cold hand grabs your arm. You jerk away, but it holds tight, fingers digging into your wrist.
 
-    "The more you fight, the sweeter the meal you will be." The gruff voice from eariler growls. It's guttural and low. "Don't mistake this for kindness."
+    "The more you fight, the sweeter the meal you will be." The gruff voice from earlier growls. It's guttural and low. "Don't mistake this for kindness."
 
     Something cold and metal is placed into your palm, and you're released. You yank your arm back through the opening, falling into the opposite side. In your hand is the key.
     
@@ -455,7 +455,7 @@ On the bench sits a small key.
 - else:
     ~ temp_string = "angry"
     #PLAY: click-off #EFFECT: flashlight
-    You exit through the curtain, face the priest's door. You take a deep breath, and open it. The key sits on the bench, but more surprisingly, the divider is no longer splintered, and the seperating grate is back in place.
+    You exit through the curtain, face the priest's door. You take a deep breath, and open it. The key sits on the bench, but more surprisingly, the divider is no longer splintered, and the separating grate is back in place.
 
     The church fixed itself. 
     
@@ -497,7 +497,7 @@ You clench and unclench your hands. {temp_string}
     - know or leave_light:
        You need to stay strong. You didn't come here of your own will. You've wanted to leave from the start.
     -else:
-       You shake the thought from your head. You can't let the voice's sweet words posin your mind.
+       You shake the thought from your head. You can't let the voice's sweet words poison your mind.
 }
 
 ->Confessional_Curtain.Reject_Version_2
@@ -542,7 +542,7 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 #PLAY: key-thrown
 <i>Plunk!</i>
 
-A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid streches like you stepped in gum. Is this...? You gag.
+A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid stretches like you stepped in gum. Is this...? You gag.
 
 "A gift for you. An olive branch of sorts." You hear the door close, and you know you are alone.
 ~ key = true
@@ -585,7 +585,7 @@ The rapid drips from the leak stop. "No...?" The voice is hard now. The calm, so
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
+The wood divider splinters as whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
 
 The bucket tips over, and the liquid spills out. It sticks to your shoes, much thicker than water.
 
@@ -595,7 +595,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
+"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
 
 The booth could come apart at any moment. You need to get out of here.
 
@@ -633,7 +633,7 @@ The voice is silent.
 }
 
 = Too_much
-"I somehow am doing too much all the damn time." You stare up at the celing, focusing on a cobweb. "I can't commit to anything to completion, but I also can't stop picking up more things to do."
+"I somehow am doing too much all the damn time." You stare up at the ceiling, focusing on a cobweb. "I can't commit to anything to completion, but I also can't stop picking up more things to do."
 
 #PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
@@ -829,7 +829,7 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
     You say nothing, the voice's words rolling around in your mind. It's... tempting. If the voice is right....
     -> Confessional_Curtain.Personal_End
 
-- - The drips from the leak stop. "No...?" The voice scofts at you. "What do you mean, no?"
+- - The drips from the leak stop. "No...?" The voice scoffs at you. "What do you mean, no?"
 ~temp_string = ""
 {
     - avoid: 
@@ -854,7 +854,7 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
+The wood divider splinters as whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
 
 The bucket tips over, and the liquid spills out. It sticks to your shoes, much thicker than water.
 
@@ -864,7 +864,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
+"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
 
 The booth could come apart at any moment. You need to get out of here.
 
@@ -890,7 +890,7 @@ The bucket is filling fast. You can see the [liquid] seems... thicker than just 
 
 *["No."]
 
-- The drips from the leak stop. "No...?" The voice scofts at you. "What do you mean, no?"
+- The drips from the leak stop. "No...?" The voice scoffs at you. "What do you mean, no?"
 ~temp_string = ""
 {
     - avoid: 
@@ -914,7 +914,7 @@ The bucket is filling fast. You can see the [liquid] seems... thicker than just 
 - 
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
-The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
+The wood divider splinters as whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
 
 The bucket tips over, and the liquid spills out. It sticks to your shoes, much thicker than water.
 
@@ -924,7 +924,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
+"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
 
 The booth could come apart at any moment. You need to get out of here.
 
@@ -934,7 +934,7 @@ The booth could come apart at any moment. You need to get out of here.
 -> Confessional_Curtain.Look
 
 = liquid_2 
-You look closer. The liquid in the bucket is slightly viscous. It looks almsot like-
+You look closer. The liquid in the bucket is slightly viscous. It looks almost like-
 
 "Well?" The voice is growing impatient.
 
@@ -943,7 +943,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almsot l
 
 *["I don't want to be here."]
 
-- The drips from the leak stop. "You don't...?" The voice scofts at you. "What do you mean, you don't want to be here? How could-"
+- The drips from the leak stop. "You don't...?" The voice scoffs at you. "What do you mean, you don't want to be here? How could-"
 ~temp_string = ""
 {
     - avoid: 
@@ -968,7 +968,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almsot l
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The wood divider splinters as whatever is on the otherside slams into it. "HOW could you be so IGNORANT? So UNGRATFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
+The wood divider splinters as whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness it used to speak to you before is gone. It's angry.
 
 The bucket tips over, and the liquid spills out. It sticks to your shoes, much thicker than water.
 
@@ -978,7 +978,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery sylable it slams into the wood. The grate it has been talking through falls onto your side of the conessional. It's voice screetches. "STUPID STUPID STUPID STUPID!"
+"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
 
 The booth could come apart at any moment. You need to get out of here.
 
@@ -1005,7 +1005,7 @@ The voice says nothing.
 ~temp_bool = true
 
 *[Recall a work event.]
-"Well, work is..." You wring your hands together, embaressed. "It's a routine. There's nothing to tell...."
+"Well, work is..." You wring your hands together, embarrassed. "It's a routine. There's nothing to tell...."
 
 "You don't sound very sure." The voice presses. "Nothing leaves this conversation. You can trust me."
 ~temp_bool = false
@@ -1054,7 +1054,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     ~stubborn = true
 - Finally, the voice breaks the silence.
 
-"You are more... stuborn than expected." The voice spits out the words. "But I can wait for as long as you need. I have <i>all</i> the time in the world."
+"You are more... stubborn than expected." The voice spits out the words. "But I can wait for as long as you need. I have <i>all</i> the time in the world."
 
     Your skin crawls. The silence returns.
 
@@ -1094,7 +1094,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
                 ~temp_string = "don't you stay"
         }
         #DELAY: 1
-        You feel yourself nodding. "I... My job is a means to an end. It's enought to keep me alive, but not enough to... do more..."
+        You feel yourself nodding. "I... My job is a means to an end. It's enough to keep me alive, but not enough to... do more..."
         
         #PLAY: liquid-drop
         <i>Plink!</i>
@@ -1198,7 +1198,7 @@ You squirm in your seat. Clenching and unclenching your fists.
 
 - The leak is dripping faster now. The bucket is spilling over. The viscous liquid contains small bubbles as it crawls over the floor.
 
-"Tell me, has the church ever harmed you?" the voice envlops you. Has the church harmed you? You find yourself doubting your memory. "Hmm?"
+"Tell me, has the church ever harmed you?" the voice envelops you. Has the church harmed you? You find yourself doubting your memory. "Hmm?"
 
 "I..."
 
@@ -1237,7 +1237,7 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 #PLAY: key-thrown
 <i>Plunk!</i>
 
-A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid streches like you stepped in gum. Is this...? You gag.
+A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid stretches like you stepped in gum. Is this...? You gag.
 
 "A gift for you. An olive branch of sorts." You hear the door close, and you know you are alone.
 
@@ -1319,7 +1319,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 - "No, the father of that girl."
 
 #PLAY: groaning-angry, 2
-The growl comes from the otherside again. "I have no daughter." He says through gritted teeth.
+The growl comes from the other side again. "I have no daughter." He says through gritted teeth.
 
 "I talked to-"
 
@@ -1348,12 +1348,12 @@ The growl comes from the otherside again. "I have no daughter." He says through 
 ~ church_anger += 1
 
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 2.5
-An earpiecing shriek fills the booth{temp_string} You plug your ears to no avail.
+An ear piecing shriek fills the booth{temp_string} You plug your ears to no avail.
 
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The wood divider splinters a bit as whatever is on the otherside slams into it. "Shut up shut up shut up SHUT UP" His voice warms and contorts into something non-human.
+The wood divider splinters a bit as whatever is on the other side slams into it. "Shut up shut up shut up SHUT UP" His voice warms and contorts into something non-human.
 
 *[Lunge for the door]
 
@@ -1379,14 +1379,14 @@ The thing shrieks again. "You will not escape this time.
 #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
 Bang!
 
-The divder splits and falls, revealing the thing on the other side. You fall to the floor and push yourself against the wall, trying to get as far away as yuo possibly can.
+The divider splits and falls, revealing the thing on the other side. You fall to the floor and push yourself against the wall, trying to get as far away as yuo possibly can.
 
 *[You can't... What is...]
 
 - It takes a step into your booth, impossibly tall. Impossibly long. Your eyes can't accept what they're seeing. 
 
 #CYCLE: hands, claws, tentacles, paws, wings
-It has no legs except when it does. Deer hooves that disappear as soon as they step down, only to replaced with a newer one with it's next step, like a cascading waterfall of legs. It grabs the edge of the booth with its @. A human hand morphing into a infinitiely splitting claw morphing into a featherd limb that curls and grabs anything within reach.
+It has no legs except when it does. Deer hooves that disappear as soon as they step down, only to replaced with a newer one with it's next step, like a cascading waterfall of legs. It grabs the edge of the booth with its @. A human hand morphing into a infinitely splitting claw morphing into a feathered limb that curls and grabs anything within reach.
 
 It says something that reverberates inside your brain. Words that hold meaning you understand in a way that you can't explain. Changing your thoughts, your feelings. Something wet sharply forces your face up, and your eyes lock on it's face. It's true face.
 
