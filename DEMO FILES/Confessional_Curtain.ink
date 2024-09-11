@@ -41,7 +41,7 @@ Your heart races, and your entire body tenses. Another person? Here? Do they kno
 You quickly leave the booth, and stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
     
 There was nothing in there, anyway. You should return to your search.
--> Confessional_Curtain.Leave
+->Inside.Look_For_Heart
 
 - 
 #PLAY: liquid-drop
@@ -96,7 +96,7 @@ There was nothing in there, anyway. You should return to your search.
         You don't care to find out and quickly leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
         
         There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
-        -> Confessional_Curtain.Leave
+        ->Inside.Look_For_Heart
 }
 
 = Work_Confession
@@ -684,7 +684,7 @@ Your skin crawls. The silence returns.
     You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
         
     You should look for the heart elsewhere for now. You look...
-    -> Confessional_Curtain.Leave
+    ->Inside.Look_For_Heart
 
 = Personal_Motivation
 #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
@@ -1067,7 +1067,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
         
     You should look for the heart elsewhere for now. You look...
-    -> Confessional_Curtain.Leave
+    ->Inside.Look_For_Heart
     
     
 
@@ -1283,7 +1283,7 @@ You take a deep breath. You need to confess something? Fine.
 You quickly leave the booth, and stare at the confessional. It's quiet. Whatever is in there, it won't tell you anything important. And you don't like that it was pushing you to "confess."
     
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
--> Confessional_Curtain.Leave
+->Inside.Look_For_Heart
 
 = Know_Father
 ~ church_anger += 0.5
@@ -1314,7 +1314,7 @@ You take a deep breath. You need to confess something? Fine.
 Without a second thought, you rush out of the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it, let alone confess.
         
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
--> Confessional_Curtain.Leave
+->Inside.Look_For_Heart
 
 - "No, the father of that girl."
 
@@ -1396,9 +1396,3 @@ It says something that reverberates inside your brain. Words that hold meaning y
 #ENDING: Finding Solace
 *You've never known solace like this.
 -> END_DEMO
-
-= Leave
-~confessional_sin = false
-
-*[Somewhere up the stairs]
--> Stairs

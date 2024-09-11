@@ -11,6 +11,7 @@
     let savedTheme;
     let globalTagTheme;
     let ChoicesID = null;
+    let TimeOutID = null;
 
     //CONTINUE ARROW
     let Continue = document.getElementById("Continue_Arrow")
@@ -109,7 +110,7 @@
     let walking_wast_pavement = new Audio('./Audio/walking_wast_pavement.ogg')
     walking_wast_pavement.title = "walking_wast_pavement"
     let background = new Audio('./Audio/BG.ogg')
-    background.title = "BG"
+    background.title = "background"
     // //AUDIO LIST
     const  AudioList = {
         "background" : background,
@@ -367,10 +368,10 @@
                 //ENDING: name
                 if(splitTag && splitTag.property == "ENDING")
                 {
-                    for (let i = 0; i < EndingsList.length; i++) {
-                        if (splitTag.val == EndingsList[i].name)
+                    for (let tt = 0; tt < EndingsList.length; tt++) {
+                        if (splitTag.val == EndingsList[tt].name)
                         {
-                            EndingsAchieved[i] = true;
+                            EndingsAchieved[tt] = true;
                             break;
                         }
                     }
@@ -431,10 +432,10 @@
                     {
                         if (Styling_Image.length > 0 && Styling_Image.includes(list[1])) {
                             var index = -1;
-                            for (i=0; i < Styling_Image.length; i++)
+                            for (kk=0; kk < Styling_Image.length; kk++)
                             {
-                                if (Styling_Image[i] == list[1])
-                                    index = i;
+                                if (Styling_Image[kk] == list[1])
+                                    index = kk;
                                     break;
                             }
 
@@ -554,11 +555,13 @@
 
                     if (Styling_Box.length > 0 && Styling_Box.includes(splitTag.val)) {
                         var index = -1;
-                        for (i=0; i < Styling_Box.length; i++)
+                        for (jj=0; jj < Styling_Box.length; jj++)
                         {
-                            if (Styling_Box[i] == splitTag.val)
-                                index = i;
+                            if (Styling_Box[jj] == splitTag.val)
+                            {
+                                index = jj;
                                 break;
+                            }
                         }
 
                         if (index > -1) {
@@ -864,10 +867,10 @@
             {
                 if (LoopedAudio.length > 0 && LoopedAudio.includes(audio.src))
                     var index = -1;
-                    for (i=0; i < LoopedAudio.length; i++)
+                    for (ii=0; ii < LoopedAudio.length; ii++)
                     {
-                        if (LoopedAudio[i] == audio.title)
-                            index = i;
+                        if (LoopedAudio[ii] == audio.title)
+                            index = ii;
                             break;
                     }
                     if (index > -1) {
@@ -1506,7 +1509,7 @@
             Continue.classList.add("fadeOut")
         }
 
-        setTimeout(function() {         
+        TimeOutID = setTimeout(function() {         
             if (el.classList)
                 el.removeAttribute("class")
             continueStory(-1, 500);
@@ -1776,24 +1779,36 @@
                                     // Don't follow <a> link
                                     event.preventDefault();
 
+                                    //clear timeout
+                                    if (TimeOutID != null)
+                                    {
+                                        clearTimeout(TimeOutID)
+                                        TimeOutID = null
+                                    }
+                                        
+
+                                    if (paragraphElement === null)
+                                        paragraphElement = document.getElementById("Current_Text")
+
+                                    //remove all styling
+                                    document.getElementById("Overlay").classList.remove("light-above")
+                                    let pg_classlist = paragraphElement.classList
+                                    while (pg_classlist && pg_classlist.length > 0) {
+                                        pg_classlist.remove(pg_classlist.item(0));
+                                    }
+
+                                    pg_classlist.add("text_container")
+
                                     //check if we need to kill flashlight or overlay stuffs
-                                    if (storyPoint.index <= 2)
+                                    if (storyPoint.index <= 1)
                                     {
                                         document.getElementById("Overlay").classList.add("hide")
 
-                                        if (paragraphElement === null)
-                                            paragraphElement = document.getElementById("Current_Text")
-                                        
-                                        paragraphElement.classList.remove("text_container_Dark", "text_container_UsedTo", "text_container_After")
-                                
                                     }
-                                    else if (storyPoint.index > 2)
+                                    else if (storyPoint.index > 1)
                                     {
                                         document.getElementById("Overlay").classList.remove("hide")
                                         document.getElementById("Overlay").classList.add("img_used")
-
-                                        if (paragraphElement === null)
-                                            paragraphElement = document.getElementById("Current_Text")
                                     }
 
                                     //turn eveyone off
@@ -1859,9 +1874,6 @@
                                     if (story.variablesState["Styling_Box"] !=="" && (typeof story.variablesState["Styling_Box"] === 'string' || story.variablesState["Styling_Box"] instanceof String))
                                     {
                                         Styling_Box = story.variablesState["Styling_Box"].split(" ");
-                                        
-                                        if (paragraphElement === null)
-                                            paragraphElement = document.getElementById("Current_Text")
 
                                         Styling_Box.forEach((element) => {
                                             if (element !== " " && element !== "")

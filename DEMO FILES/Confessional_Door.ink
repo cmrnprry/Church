@@ -174,6 +174,8 @@ You fall out of the booth, and check the other side. There's a splatter of blood
         *[The <i>knob</i> won't <i>turn.</i>]
             ->Confessional_Door.Rush_Out
     - 4:
+        ...
+        It's quiet.
         *[Break down the door]
             ->Confessional_Door.Rush_Prt_2
 }
@@ -563,15 +565,7 @@ You frantically grab at the the door, not wanting to face whatever is on the oth
 You quickly leave the booth, and stare at the confessional. It's quiet. You're not sure what's in there, but you don't think it's the same person that helped you before.
 
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
-~confessional_priest = false
-
-
-*[Somewhere up the stairs]
--> Stairs
-
-*[The other side of the confessional]
-~temp_bool = false
-->Confessional_Curtain
+->Inside.Look_For_Heart
 
 = Return_to_Search
 -> END_DEMO

@@ -992,7 +992,8 @@ Crack!
 Half the crowbar is left in your hand. You drop it, but don't hear it hit the ground.
 
 *[The door looks untouched.]
--> Trapped
+    You stop, fall to the floor, and stare at the untouched door in front of you. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
+    -> Trapped
 
 = Screwdriver
 #DELAY: 1.5 #IMAGE: Default
@@ -1030,6 +1031,8 @@ You check the top.
 You drop to the floor, and feel you the screws you heard fall.
 
 You can't find them.
+
+You stop searching, drop the screwdriver and stare at the untouched door in front of you. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
 -> Trapped
 
 = Sledgehammer
@@ -1051,18 +1054,10 @@ Thud!
 Thud!
 
 *[The door looks untouched.]
-->Trapped
+    You stop and drop to the floor, sledgehammer falling to your side, and stare at the untouched door in front of you. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
+    ->Trapped
 
 === Trapped ===
-{
-    - object == "crowbar": 
-        You stop, fall to the floor, and stare at the untouched door in front of you. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
-    - object == "screwdriver":
-        You stop searching, drop the screwdriver and stare at the untouched door in front of you. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
-    - object == "sledgehammer":
-        You stop and drop to the floor, sledgehammer falling to your side, and stare at the untouched door in front of you. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
-}
-
 *[You are trapped inside.]
 ~ stay = 1
 
@@ -1307,7 +1302,7 @@ You claw at your mouth, attempting to grab hands silencing you, and stand up. "L
 
 "You don't... remember..." The hands fall away, and the room goes still. "This is all I can do."
 
-#CLASS: light-above
+#ICLASS: Overlay||light-above
 The hands fall away. The voice goes quiet. The room turns still.
 -> Trapped.Light
 
@@ -1333,7 +1328,6 @@ Wind blows around you, and before you stop yourself you call out.
 
 *["The rest? What-!"]
 
-#CLASS: light-above
 - 
 The room turns still. Silent.
 -> Trapped.Light
@@ -1410,6 +1404,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
 
 - 
 
+#ICLASS: Overlay|light-above|
 {
     - light_feeling == "confused":
         ~temp_string = "confusion is the only thing you can trust."
@@ -1469,7 +1464,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         ~ temp_string = "{light_feeling} goes"
 }
 
-    #STOP: screeching #REMOVE: angry-glow #REMOVE: light-above
+    #STOP: screeching #REMOVE: angry-glow
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
     The pressure alleviates, the burning stops, and all the { temp_string } with it.
@@ -1543,7 +1538,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
 
 
-#EFFECT: main_area
+#EFFECT: click-move
 ~ WhereGO = true
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
@@ -1557,12 +1552,17 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> Stairs
 
 = Look_For_Heart
-You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
+#IMAGE: Church_Inside #EFFECT: click-move
+~ WhereGO = true
+<i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
-*[In the confessional]
+
+*[confessional]
+~ WhereGO = false
 -> Confessional
 
-*[Somewhere up the stairs]
+*[stairs]
+~ WhereGO = false
 -> Stairs
 
 === Stairs ===
@@ -1882,12 +1882,14 @@ You walk closer to the door, and tug at the door knob. The door jiggles, but doe
 
 === Confessional ===
 
-#IMAGE: Confessional_CloseUp #PROP: curtain_full, false #EFFECT: main_area
+#IMAGE: Confessional_CloseUp #PROP: curtain_full, false #EFFECT: click-move
 {
  - !confessional_priest && !confessional_sin:
         You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. (click highlighted image)
+            ~ WhereGO = true
     - else:
         You approach the confessional booth. (click highlighted image)
+        ~ WhereGO = true
 }
 
 {
@@ -1895,13 +1897,14 @@ You walk closer to the door, and tug at the door knob. The door jiggles, but doe
     - !confessional_priest:
         *[door_confessional]
         ->Confessional_Door
+        ~ WhereGO = false
 }
 {
     - !confessional_sin:
         *[curtain_confessional]
         ~temp_bool = false
         ->Confessional_Curtain
-
+        ~ WhereGO = false
 }
 
 === Endings ===

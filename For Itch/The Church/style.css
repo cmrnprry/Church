@@ -190,6 +190,7 @@ h2 {
     width: 100%;
     height: 50%;
     z-index: 10;
+    transition: background 1s ease-in-out;
     background: linear-gradient(#7f2a2ad1, #9f1010a3, #7f2a2a);
     mask: linear-gradient(#000000, #00000000);
 }
