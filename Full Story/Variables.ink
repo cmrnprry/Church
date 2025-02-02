@@ -21,15 +21,15 @@ VAR temp_string = ""
 VAR priest_feeling = ""
 VAR light_feeling = ""
 
-
 VAR name = false
+VAR know_name = false
 VAR lanturn = false
 VAR temp_bool = false
 VAR temp_bool_2 = false
 VAR temp_bool_3 = false
 VAR window = false
 VAR know = false
-VAR avoid = false
+VAR avoid_church = false
 VAR photo_ripped = false
 VAR leave_light = false
 VAR trapped_reject = false
@@ -51,15 +51,30 @@ VAR stay = 0
 VAR church_anger  = 0
 VAR temp_num = 0
 
-//visited
-VAR confessional_priest = false
-VAR confessional_sin = false
+//Confessional Variables
+VAR confessional_door_side = false
+VAR confessional_curtain_side = false
+VAR killed_girl = false
+VAR angered_priest = false
+VAR reached_through = false
+VAR talked_to_girl = false
+
+
+//where the player has been already
+LIST have_visited = Main_Body, Confessional_DoorSide, Confessional_CurtainSide, Enter_Pews, Enter_Office, Stairs_Up, Stairs_Down
+
+VAR current_area = -1
+VAR previous_area = -1
+VAR visited_state = 0
+
+LIST items_obtained = Key, Clippers, Combo
+
 VAR pews = false
 VAR after_first = false
 VAR temp_visited = false //for the after first visit
 VAR saw_locks = false //know that there is a locked door
-VAR visited_first = true //the first place visited and explored
-VAR visited_second = false
+VAR visited_second = 0
+VAR visited_first = 0
 VAR saw_books = false
 VAR saw_desk = false
 VAR broke_chest = false

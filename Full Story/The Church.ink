@@ -7,8 +7,10 @@ INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
 #IMAGE: Title
-<i>This game will autosave your progress. Use the restart button will rest your game and ALL save data. Use the checkpoints button to jump to previous points of the story. <br><br> Closing the window will reset any progress.</i>
+<i>This game will autosave your progress. Use the restart button will rest your game and ALL save data. Use the checkpoints button to jump to previous points of the story. <br><br> Closing the window may reset any progress.</i>
 
++ [Testing]
+    -> Confessional
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
@@ -316,13 +318,8 @@ They just keep coming. You try to-
 
 = Open
 ~ work = 3
-{
-    - know != true:
-        You click the email.
-        ~ know = true
-}
 
-- It shows an image of the church, but in a different place. Not at the end of your street, but near your grandparents house, several states away. You see a younger version of yourself standing outside and smiling. 
+- {know: You click the email.} It shows an image of the church, but in a different place. Not at the end of your street, but near your grandparents house, several states away. You see a younger version of yourself standing outside and smiling. 
 
 Your mouth goes dry.
 
@@ -365,21 +362,14 @@ Your coworker stares at you, waiting for an answer. You shove your hand into you
     - 1:"Maybe you should take some sick days..." she says, her voice trails off. You nod, and return to your desk to gather your things.
     - 2: "I want an apology sent to them within the day, or don't come back at all." They say, as you gather your things. You nod, and they shake their head muttering curses, leaving you alone in the cubicle.
     - 3: "Yeah, whatever." He says as he leaves. You quickly start packing up your things.
-        {
-            - know:
-            You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring youurself to throw it away, instead placing each piece in the small drawer of your desk.
-            
-            You'll try to fix this tomorrow, after a good night's sleep.
-        }
+    
+        {know: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring youurself to throw it away, instead placing each piece in the small drawer of your desk.<br><br>You'll try to fix this tomorrow, after a good night's sleep.}
     
     - else:
         Error
 }
 
-{ 
-    - know == true:
-        You need to avoid the church. It wants you back, and everything in screams that you cannot go back. That if you do, you won't come out again.
-}
+{know: You need to avoid the church. It wants you back, and everything in screams that you cannot go back. That if you do, you won't come out again.}
 #STOP: office_ambience, 1 #IMAGE: BusStop
 The bus ride home is shorter than it's ever been. You get off at your regular stop.
 
@@ -394,7 +384,7 @@ Tentatively, you walk your usual path home, and try not to look at the church.
 
 = Different
 ~turn = "walking"
-~avoid = true
+~avoid_church = true
 #IMAGE: Stop_Sign
 You get off at the same bus stop you normally do. You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, almost as if someone is staring you down.
 *[Turn around]
@@ -445,32 +435,18 @@ You spin around to face it, and find yourself.. in front... of the church?
 
 You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
-{
-    - know:
-        It's following you. You wipe sweat from your brow.
-        
-        It can move.
-    - else:
-        Was it always this far down the road? This morning you were able to clearly see it from the bus stop...
-        
-        You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {feeling} church.
-}
+{know:It's following you. You wipe sweat from your brow.<br><br>It can move.|Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {feeling} church.}
 
 
 *[Continue walking the long way home]
 
 *[Take your usual path]
-    { - know: You know you shouldn't, but you can't stop yourself.} You try not to look at the church as you walk past. 
+    {know: You know you shouldn't, but you can't stop yourself.} You try not to look at the church as you walk past. 
     ->Walk_Home.Usual
     
 - 
 #IMAGE: Stop_Sign #PROP: closed_gates, true
-{
-    - know:
-        It wants you back, but you refuse to let it have you.
-    - else:
-        You decide to continue the long way home, hoping the fresh air will ease your mind.
-}
+{know:It wants you back, but you refuse to let it have you.|You decide to continue the long way home, hoping the fresh air will ease your mind.}
 
 As soon as you start walking again, the burning sensation flares up again, ten times worse than before, bleeding down your back. 
 
@@ -528,7 +504,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. 
 
-{- know: You should keep moving.}
+{know: You should keep moving.}
 
 *[Investigate]
 
@@ -539,13 +515,7 @@ As you pass the front gate, it creaks open. You reach for the image in your pock
 - 
 #IMAGE: Chuch_Looming #PROP: open_gates, false
 Against your better judgement, you stop, and look at the church. The gate is open.
-{
-- know: 
-    You should keep moving. It's waiting for you. It's making the choice easy.
-- else: 
-    Probably the wind.
-    Probably.
-}
+{know: You should keep moving. It's waiting for you. It's making the choice easy.| Probably the wind.Probably.}
 
 *[Close the gate]
 
@@ -553,12 +523,8 @@ Against your better judgement, you stop, and look at the church. The gate is ope
 ->Walk_Home.Lost
 
 - You take a single step onto the property to reach the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path. 
-{
-- know: 
-    A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking.
-- else: 
-    Motion activated maybe?
-}
+
+{know: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking.|Motion activated maybe?}
 
 *[Take a closer look]
 
@@ -584,8 +550,7 @@ No sooner than you think it, you hear the sound of little feet and laugher carri
 #PLAY: meow
 No sooner than you think it, you hear the sound of growling and meowing on the property. 
 
-- 
-{ - know:It's the church. You know it's the church. It has to be, but what if- }
+- {know:It's the church. You know it's the church. It has to be, but what if- }
 
 { 
     -temp_bool:
@@ -607,12 +572,7 @@ You stick your head past the gates and look around. You don't see anything, the 
 *[Close the gate]
 
 - You take a single step onto the property to reach the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path. 
-{
-- know: 
-    A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking.
-- else: 
-    Motion activated maybe?
-}
+{ know: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking.| Motion activated maybe?}
 
 *[Take a closer look]
 
@@ -635,7 +595,7 @@ You take one step forward.
 #PLAY: footsteps_scary, true, 2
 And walking.
 
--{- know: You're moving automatically. You want to go home. }
+-{know: You're moving automatically. You want to go home.}
 
 Around halfway up the path, you hear another set of footsteps.
 
@@ -651,7 +611,7 @@ The church door is open and inviting. You can't see inside.
 - #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 2
 Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up...
 
-Someone is behind you, and they know you know. Your only option is the church or confrontation. Your heart pounds in your chest. { -know: It has to be another trick.}
+Someone is behind you, and they know you know. Your only option is the church or confrontation. Your heart pounds in your chest. {know: It has to be another trick.}
 
 *[Run to the church]
 ->Walk_Up_Path.Run
@@ -663,16 +623,9 @@ Someone is behind you, and they know you know. Your only option is the church or
 You take a breath and quickly spin around, ready for whatever may await you, and see...
 
 Nothing. No one's there. You laugh.
-{ 
-    -know: The church will do anything to lure you in.
-    - else: Your mind is playing tricks on you. It was probably the wind.
-}
+{know: The church will do anything to lure you in.| Your mind is playing tricks on you. It was probably the wind.}
 
-{ 
-    - know: You decide that you've been too close for too long and start for the gate. You think you deserve a long, hot bath after today.
-    
-    - else: You decide that you've trespassed for long enough, and start for the gate. You think you deserve a long, hot bath after today. 
-}
+{ know: You decide that you've been too close for too long and start for the gate. You think you deserve a long, hot bath after today.| You decide that you've trespassed for long enough, and start for the gate. You think you deserve a long, hot bath after today. }
 
 *[Walk to the gate]
 
@@ -724,10 +677,7 @@ You try the knob.
     - temp_bool: 
     Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
     - else:
-    { 
-    -know: Against your better instincts, you pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.
-    - else: You pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.
-    }
+    {know: Against your better instincts, you pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.| You pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.}
 }
 
 You still cannot see in church. 
@@ -790,14 +740,14 @@ When you feel safe again, you try to open the knob.
 
 === Locked ===
 #CHECKPOINT: 2, Locked?
-Locked? { -know: The blood drains from your face as you realize what you've done.}
+Locked? {know: The blood drains from your face as you realize what you've done.}
 
 #PLAY: lock_rattle
 You jiggle the handle again. 
 
 *[The door won't budge]
 
-- You don't understand. It can't be locked. { -know != true: Maybe it got jammed?}
+- You don't understand. It can't be locked. {know: |Maybe it got jammed?}
 
 *[Look around for something to pry open the door]
 ->Locked.Look
@@ -887,11 +837,7 @@ Thud!
 #IMAGE: Church_Inside
 It's dark, but you can make out vague shapes.
 
-{ 
-- know != true: You quickly glance around the church. It's small, but seemingly abandoned. There must be something that was left behind by previous squatters or looters. 
-
-- else: You know it's useless, but fear overtakes the rational part of your brain. There has to be SOMETHING.
-}
+{ know: You know it's useless, but fear overtakes the rational part of your brain. There has to be SOMETHING. | You quickly glance around the church. It's small, but seemingly abandoned. There must be something that was left behind by previous squatters or looters. }
 
 You look everywhere, arms outstretched, blindly feeling around your surroundings. On and under what you imagine are pews, the floor, past the curtain? Into a... cupboard? Closet? As you search, you get the feeling of deja vu. You've done this before.
 
@@ -918,10 +864,7 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 - else:
     You want to smash the door down
 }<>
-{
-    - know: . You hope it won't be able to survive that.
-    - else: . You know it won't be able to survive that.
-}
+{know: . You hope it won't be able to survive that.| . You know it won't be able to survive that.}
 
 #IMAGE: Office_Final
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls were book shelves full of books. The far wall has a desk with a stained glass window above it. {window: You avoid looking at the window. }
@@ -1231,16 +1174,9 @@ You can't stay here. You can't get out the way you came in, but there might be a
 
 = Wait_Morning
 
-{
-    - temp_bool:
-        You attempt to stand, but your legs are like jelly, and you fall back to the floor. <>
-}
+{temp_bool: You attempt to stand, but your legs are like jelly, and you fall back to the floor. <>}
 
- Everything suddenly hits you at once, and you realize how exhausted you are. You can barely see anything. <>
- 
- { 
-    - object != "": You only found the {object} because the church wanted you to. 
- } { - !temp_bool: You think you should wait until there's some light- any light. } { - temp_bool: You think you should look around after regaining your strength. You don't want to stay in the church any longer than you need to, but pushing past your limits won't help you escape. } 
+ Everything suddenly hits you at once, and you realize how exhausted you are. You can barely see anything. {object != "": You only found the {object} because the church wanted you to.} {temp_bool: You think you should look around after regaining your strength. You don't want to stay in the church any longer than you need to, but pushing past your limits won't help you escape. | You think you should wait until there's some light- any light. }
 
 You rest your head on your knees.
 
@@ -1263,19 +1199,7 @@ You refuse to sleep, and dig your nails into your arm.
 }
 
 = Lullaby
--
-{ 
-    - stay >= 1.5: 
-        ~ temp_string = "The hauntingly familiar melody starts again, and the room warms up." 
-    - stay < 1.5: 
-        ~ temp_string = "A light melody begins to play, and the room warms up. The lullaby is... familiar." 
-}
-
-You try to {sleep}. {temp_string} But it's... different than <>
-{
-    - stay >= 1.5: earlier.
-    - else: you remember.
-}
+- You try to {sleep}. {stay >= 1.5: The hauntingly familiar melody starts again, and the room warms up. | A light melody begins to play, and the room warms up. The lullaby is... familiar.} But it's... different than {stay >=1.5: earlier.| you remember.}
 
 *[Listen closer]
 -> Trapped.Listen
@@ -1337,7 +1261,7 @@ The room turns still. Silent.
 -> Trapped.Light
 
 = Ignore
-You pay it no attention. { sleep == "sleep": It is helping you to fall asleep.} { sleep != "sleep":It's comforting, but idly listening will only make you more tired.}
+You pay it no attention. { sleep == "sleep": It is helping you to fall asleep. | It's comforting, but idly listening will only make you more tired.}
 
 It's a soothing sound, but there's something else there, just underneath, that you can't make out.
 
@@ -1346,14 +1270,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 
 *[Ignore it]
 
-- { 
-
-    - sleep == "sleep": 
-        That doesn't matter. The only thing that matters is this lullaby. It's so...
-    - else:
-        You don't want to admit it, but the sound comforts you in a way you can't describe. It's... reassuring... 
-        And against your better judgement...
-}
+- { sleep == "sleep": That doesn't matter. The only thing that matters is this lullaby. It's so... | You don't want to admit it, but the sound comforts you in a way you can't describe. It's... reassuring... <br><br> And against your better judgement... }
 
 *[You fall asleep.]
 
@@ -1461,17 +1378,10 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
 }
 
 = Light_Leave
-{ 
-    - light_feeling == "confused":
-        ~ temp_string = "confused emotions go"
-    - else:
-        ~ temp_string = "{light_feeling} goes"
-}
-
     #STOP: screeching #REMOVE: angry-glow
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
-    The pressure alleviates, the burning stops, and all the { temp_string } with it.
+    The pressure alleviates, the burning stops, and all the { light_feeling == "confused": confused emotions go| {light_feeling} goes} with it.
 
     You dig your nails into your hand.
 
@@ -1513,15 +1423,9 @@ You shutter at the thought. You wonder how long you have until it fully digests 
 
 *[Sight...?]
 #PROP: note, true #TEXTBOX: text_container_After
-{ 
-    - temp_bool_2:
-        ~ temp_string = "How you had to pull yourself out."
-    - else:
-        ~ temp_string = "How you would have done anything to stay there a little longer."
-}
 Well.... You glance up at the swirling window.
 
-You remember how the church's sight warped your thoughts and reasoning. { temp_string } You cannot let that happen again. If the church sees you again...
+You remember how the church's sight warped your thoughts and reasoning. { temp_bool_2: How you had to pull yourself out. | How you would have done anything to stay there a little longer.} You cannot let that happen again. If the church sees you again...
 
 *[Heart...?]
 #PROP: note, true #TEXTBOX: text_container_After
@@ -1539,24 +1443,27 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_s
 }
 
 #IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
-The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{temp_string}.
+The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{object != "":, which you know has a small office to the right}.
 
 
 #EFFECT: click-move
 ~ WhereGO = true
-You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
+You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... //(click highlighted image)
 
-*[In the pews]
--> Pews //TODO
+*[In the pews (NOTE: You can but I would rather you didn't yet)]
+-> Pews_First
 
-*[In the confessional]
+*[In the confessional (NOTE: Preferred)]
 -> Confessional
 
-*[Somewhere up the stairs]
--> Stairs //TODO
+*[Somewhere up the stairs (NOTE: You can but I would rather you didn't yet)]
+-> Inside.Stairs_First
 
 = Look_For_Heart
-You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be....
+#EFFECT: click-move
+~ WhereGO = true
+TODO: update this based on where we last were and punch up a bit
+You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... //(click highlighted image)
 
 *[In the pews]
 -> Pews
@@ -1567,27 +1474,107 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 *[Somewhere up the stairs]
 -> Stairs
 
+= Pews_First
+//TODO: add in bits about the people reflecting the books?
+~ temp_string = ""
+~pews = true
+{
+    - confessional_door_side:
+        ~ temp_string += " Another key maybe?"
+}
+
+{
+    - saw_locks && confessional_door_side:
+        ~ temp_string += " Or maybe something to cut the sliding chain?"
+    - saw_locks:
+        ~ temp_string += " Maybe something to cut the sliding chain?"
+}
+
+{
+    - number_combo == "":
+        ~temp_string += " The code for the combination lock?"
+}
+
+{
+    - !confessional_door_side || !saw_locks:
+        ~temp_string += " You don't know exactly what for. A heart wouldn't really make sense to live in the pews. Maybe you should check the stage."
+}
+{
+    - visited_first:
+        ~ visited_first = false
+        You make your way to the pews, and begin to search them for anything important.{temp_string}
+    
+    - else:
+        Tentativly, you make your way to the pews. They are empty, and there is no sign of the figures you saw before. You hope it stays that way, while you search them for anything important.{temp_string}
+
+}
+
+There's eight pews, two columns, with four pews each. You seach from front to back, left to right. You feel underneath and the back to make sure nothing is glued or taped to it. You move slowly and methodically, making sure you don't miss anything. 
+
+You don't find much of anything. With a huff you plop onto the last pew you searched, taking a well deserved break. You close your eyes and rub your face. What are you even looking for?
+
+You lean back in your seat, eyes still closed. There's no use sitting here. 
+
+* {visited_first == false} [You should move on with your search.]
+
+= Stairs_First
+~temp_bool_3 = false
+{
+    - leg == "worst":
+        ~temp_string = "limp up"
+    - else:
+        ~temp_string = "climb"
+}
+{ - room:
+    - 0: You {temp_string} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
+    ~room = 2
+    
+    - 1: You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
+    
+        This was not there last time you were here.
+        
+        ~room = 2
+        
+    - 2: You {temp_string} the short set of stairs. The door seems a little a bit shorter than you remember.
+    
+    - 3: You {temp_string} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
+    
+
+    - else: You {temp_string} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+
+}
+
+
+*[Examine the stairs]
+-> Stairs.Examine_Stairs
+
+*{ room <= 3 }[Enter the office]
+->Stairs.Office
+
+*[Return to the main body of the church]
+->Inside.Look_For_Heart
+
 === Confessional ===
 #IMAGE: Confessional_CloseUp #PROP: curtain_full, false #EFFECT: click-move
 {
- - !confessional_priest && !confessional_sin:
-        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail was the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. (click highlighted image)
+ - !confessional_door_side && !confessional_door_side:
+        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. //(click highlighted image)
             ~ WhereGO = true
     - else:
-        You approach the confessional booth. (click highlighted image)
+        You approach the confessional booth. {confessional_door_side: } {killed_girl: Your eyes linger on the curtain.}//(click highlighted image)
         ~ WhereGO = true
 }
 
 {
 
-    - !confessional_priest:
-        *[door_confessional]
+    - !confessional_door_side:
+        *[Enter throught the door] //door_confessional]
         ->Confessional_Door
         ~ WhereGO = false
 }
 {
-    - !confessional_sin:
-        *[curtain_confessional]
+    - !confessional_door_side:
+        *[Enter through the curtain]//curtain_confessional]
         ~temp_bool = false
         ->Confessional_Curtain
         ~ WhereGO = false
@@ -1599,13 +1586,13 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 *[You close your eyes, and fall into a void of relief and comfort.]
 -> Credits
 
-=== Credits
+=== Credits ===
 <h1>Credits</h1><br>Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid
 
 + [Start Game] ->Start
 + [Content Warnings] ->Content_Warnings
 
-=== Content_Warnings
+=== Content_Warnings ===
 <h1>Content Warnings</h1><br><ul><li>Mild gore / dead body descriptions</li><br><li>General Christan/Catholic discomfort</li><br><li>General violence towards player/blood/bodily fluids mention. All through text</li><br><li>Potential child harm/child in distress where player is unable to help</li><br><li>Some demeaning speech yelled at the player from a male character</li></ul>
 
 + [Start Game] ->Start

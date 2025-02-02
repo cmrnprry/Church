@@ -338,23 +338,10 @@ You take a deep breath, and close the book. The church can think what it wants, 
 
 = Take_it
 ~ keep_book = true
-{
-    - temp_bool:
-        ~ temp_string = "You may already know how this could end, but you take it with you none the less."
-    - else:
-        ~ temp_string = "You don't want to know how this story ends, but in case you change your mind... "
-}
 
+You tuck the book under your arm. {temp_bool: You may already know how this could end, but you take it with you none the less. | You don't want to know how this story ends, but in case you change your mind...}
 
-You tuck the book under your arm. {temp_string}
-
-{
-    - saw_locks:
-        You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
-        
-    - else:
-        You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?
-}
+{saw_locks: You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}
 
 *[Look through the books]
 
@@ -375,7 +362,7 @@ You tuck the book under your arm. {temp_string}
 = Look_For_Book_Clue
 
 {
-    - confessional_priest:
+    - confessional_curtain_side:
         ~ temp_string = "You look through all the books that match the story the little girl told you, searching for a mother that had a sick child, and a father that was a priest."
     - saw_locks:
         ~ temp_string = "You search and seach, but you don't know enough about her to even know if you've passed her book or not."
@@ -386,24 +373,18 @@ You tuck the book under your arm. {temp_string}
 With the minimal knowledge you have, you skim through as many books as you can. {temp_string}
 
 {
-    - read_book:
-        ~ temp_string = "Much like your own ending, they never leave."
-    - else:
-        ~ temp_string = "They never leave."
-}
-{
-    - confessional_priest or saw_locks:
+    - confessional_curtain_side or saw_locks:
         ~ stay += 0.5
-        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {temp_string} They all find peace.
+        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {read_book: Much like your own ending, they never leave. | They never leave.} They all find peace.
         
         You're about to give up until you find someone promising: Ophelia.
 }
 {
-    - confessional_priest or saw_locks:
+    - confessional_curtain_side or saw_locks:
         ~ temp_string = "Read the book."
     - else:
         {
-            - !confessional_priest or !saw_locks:
+            - !confessional_curtain_side or !saw_locks:
             {
                 - saw_locks && !saw_desk:
                     ~temp_bool = true
@@ -420,7 +401,7 @@ With the minimal knowledge you have, you skim through as many books as you can. 
         ->Stairs.Exit_Office
 }
 
-*{confessional_priest or saw_locks}[Read the book.]
+*{confessional_curtain_side or saw_locks}[Read the book.]
 
 
 -
@@ -476,10 +457,10 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
     - temp_bool:
         ~ temp_string = ""
     - else:
-        ~ temp_string = "You don't want to know how this story ends, not when there's still something you can do. "
+        ~ temp_string = " "
 }
 
-{temp_string}You put the book back on the shelf.
+{temp_bool: |You don't want to know how this story ends, not when there's still something you can do.} You put the book back on the shelf.
 
 {
     - !temp_bool_3:
@@ -488,13 +469,7 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
         ~ temp_string = "."
 }
 
-{
-    - saw_locks:
-        You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is.
-        
-    - else:
-        You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you?
-}
+{saw_locks: You suddenly rememeber the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the pile of books surrounding you. Maybe their stories could help you? }
 
 *[Look through the books]
 
@@ -515,7 +490,7 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
 - 
 
 {
-    - confessional_priest:
+    - confessional_curtain_side:
         ~ temp_string = "You look through all the books that match the story the little girl told you, searching for a mother that had a sick child, and a father that was a priest."
     - saw_locks:
         ~ temp_string = "You search and seach, but you don't know enough about her to even know if you've passed her book or not."
@@ -526,21 +501,15 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
 With the minimal knowledge you have, you skim through as many books as you can. {temp_string}
 
 {
-    - read_book:
-        ~ temp_string = "Much like your own ending, they never leave."
-    - else:
-        ~ temp_string = "They never leave."
-}
-{
-    - confessional_priest or saw_locks:
+    - confessional_curtain_side or saw_locks:
         ~ stay += 0.5
-        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {temp_string} They all find peace.
+        You read book after book, story after story about the victims of the church. Many stories mimick your own, but some never knew they were ever in danger. Some got very close to escaping, but none succeeded. All of them had the same ending. {read_book: Much like your own ending, they never leave. | They never leave.} They all find peace.
         
         You're about to give up until you find someone promising: Ophelia.
 }
 
 {
-    - confessional_priest or saw_locks:
+    - confessional_curtain_side or saw_locks:
         ~ temp_string = "Read the book."
     - else:
         ~ temp_string = "Look elsewhere."
@@ -550,7 +519,7 @@ With the minimal knowledge you have, you skim through as many books as you can. 
 
 -
 {
-    - !confessional_priest or !saw_locks:
+    - !confessional_curtain_side or !saw_locks:
         ->END
 }
 ~name = true
@@ -590,26 +559,11 @@ Whatever books are left on the shelves fall off, and the far book shelf falls ov
 
 - You make your way out of the room as fast as you can. All the books on the floor make it difficult, but you manage. Once you're about halfway to the door, you hear a sharp snapping sound. A large piece of ceiling falls to your side, just barely missing you.
 
-{
-    - leg == "worst":
-        ~temp_string = ", but your leg is not cooperating with you You're not moving as fast as you want to"
-    - else:
-        ~temp_string = ""
-}
-
-You push yourself harder{temp_string}. The door is so close. <i>You're</i> so close.
+You push yourself harder{leg == "worst": , but your leg is not cooperating with you You're not moving as fast as you want to |}. The door is so close. <i>You're</i> so close.
 
 *[One last push]
 
 -
-{
-    - keep_book:
-        ~temp_string = ", and tighen your grib on your book."
-    - else:
-        ~temp_string = "."
-}
-
-
 {
     - leg == "worst":
         You try to push your body past it's limit, but your hurt leg gives out on you. You fall, just inches from the doorway. You don't have time to get to your feet before a large chunk of ceiling lands on you.
@@ -626,7 +580,7 @@ You push yourself harder{temp_string}. The door is so close. <i>You're</i> so cl
 
         "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but deosn't feel like anything's broken. "Note to self, <i>don't</i> rip anything while in here..."
 
-        You pat your pocket that holds the page{temp_string} At least you can remove one more lock with this.
+        You pat your pocket that holds the page{keep_book: , and tighen your grib on your book.|.} At least you can remove one more lock with this.
         
         *[Exit the office.]
         ->Stairs.Exit_Office
@@ -688,15 +642,8 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
 - You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 
 {
-    - name:
-        ~temp_string = ", Emily."
-    - else:
-        ~temp_string = "."
-}
-
-{
     - emily_hurt:
-        "You're leaving me?" You stop. It's the little girl{temp_string} She's crying. "You're leaving me all alone? Again?"
+        "You're leaving me?" You stop. It's the little girl{name: , Emily |.} She's crying. "You're leaving me all alone? Again?"
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
         {
@@ -783,14 +730,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
         }
         
     - coward:
-        {
-           - name:
-                ~temp_string = ", Ophelia."
-            - else:
-                ~temp_string = "."
-        }
-        
-        "Coward." You stop. It's the woman who helped you{temp_string} "You're just going to leave?"
+        "Coward." You stop. It's the woman who helped you{name:, Ophelia." |.} "You're just going to leave?"
         
         {
             - stay >= 2.5:
@@ -826,12 +766,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                 - stay >= 2.5:
                     What are you fighting so hard for?
                     
-                    {
-                        - happy:
-                            You look down at the hand that's missing a finger.
-                        - else:
-                            You think about all you've been through.
-                    }
+                    {happy: You look down at the hand that's missing a finger. | You think about all you've been through. }
                     
                     *[You've already given up so much.]
                         ->Stairs.Sit_Pews
@@ -897,15 +832,8 @@ They begin to sing, hands out streached for you to take. The music flows through
 *[Turn back]
     You turn back up the stairs. It doesn't feel right.
     ->Stairs.Turn_Back
-- 
-{
-    - leg == "worst":
-        ~temp_string = ", making sure to lean against the railing to take weight off your leg"
-    - else:
-        ~temp_string = ""
-}
-
-Cautiously, you take another step down{temp_string}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
+-
+Cautiously, you take another step down{leg == "worst":, making sure to lean against the railing to take weight off your leg}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
 
 *[Push through]
 
@@ -913,17 +841,9 @@ Cautiously, you take another step down{temp_string}. And then another. And anoth
     You hurry back up the stairs, glancing over your shoulder as you do.
     ->Stairs.Turn_Back
 - 
-
-{
-    - leg == "worst":
-        ~temp_string = "You grab the railing with both hands,"
-    - else:
-        ~temp_string = "You grab the railing to steady yourself,"
-}
-
 ~ went_downstairs = 2
 
-About halfway down the steps, the smell of rot hits your nose, so strong you gag. {temp_string} and retch. The stench is unbareable. 
+About halfway down the steps, the smell of rot hits your nose, so strong you gag. {leg == "worst": You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. The stench is unbareable. 
 
 It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.
 
@@ -1023,15 +943,7 @@ You wipe off any remaining ooze on your shirt, but that only causes the itching 
 
 *[It burns]
 
-- 
-{
-    - temp_bool:
-        ~temp_string = ". You have the flashlight."
-    - else:
-        ~temp_string = ", flashlight be damned."
-}
-
-Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_string} You blindly try to make your way back to the door.
+- Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_bool: . You have the flashlight. |, flashlight be damned.} You blindly try to make your way back to the door.
 
 The ooze being to fall faster. You step in puddles. It falls on you from the ceiling. You cannot wipe it off fast enough. 
 
@@ -1101,28 +1013,13 @@ You can't feel your legs.
 #PLAY: click-on
 You start up the stairs, holding the hand rail as you go.
 
-{
-    - leg == "worst":
-        ~temp_string="The longer you climb, the harder it's getting with your leg."
-    - else:
-        ~temp_string=""
-}
-
-You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost treating the stairs as a ladder, they're so steep. {temp_string}
+You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost treating the stairs as a ladder, they're so steep. {leg == "worst": The longer you climb, the harder it's getting with your leg.}
 
 You stop to rest every 3 or 4 flights. If your count is right, you've stopped at least 12 times.
 
 *[How tall is this church?]
 
-- 
-{
-    - leg == "worst":
-        ~temp_string=" Any longer, and you think you may have fallen."
-    - else:
-        ~temp_string=""
-}
-
-After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{temp_string} The landing is small and square, maybe only five feet by five feet.
+- After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{leg == "worst": Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
 
 The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
 
@@ -1132,18 +1029,9 @@ The only thing on the landing is a door. It's old and wooden, much like the rest
 *[Head back down]
 -> Stairs.Return_Down
 
-- 
-{
-- key or clippers:
-    ~temp_string = "Maybe you could..."
-- else:
-    ~temp_string = ""
-}
+- You take a closer look at the locks. There are three main ones, all are slightly different. 
 
-
-You take a closer look at the locks. There are three main ones, all are slightly different. 
-
-The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {temp_string}
+The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {key or clippers: Maybe you could...}
 
 The middle lock seems to be slightly newer. It doesn't require a key, but a four digit number code. It is attched to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
 

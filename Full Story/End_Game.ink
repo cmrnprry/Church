@@ -37,7 +37,7 @@ You decide against it. You can always eat after you escape.
 
 Your stomach growls and you stop drinking, only long enough to take a breath, and snatch the bread from the table. You rip into it, tearing the flesh from the bone.
 
-The bread is <chewy, soft, meaty, exquisite>. You can't chew fast enough, taking bigger and bigger bites, barely stopping to swallow. When it's gone, you lick the {temp_string} clean.
+The bread is <chewy, soft, meaty, exquisite>. You can't chew fast enough, taking bigger and bigger bites, barely stopping to swallow. When it's gone, you lick the {stay >= 2.5: bone | [bone]} clean.
 
 *[You need more.]
 
@@ -108,15 +108,7 @@ Carefully, you reach out and take the heart out of the water. The church groans,
 = Front_Door
 You don't know what will happen to you or the church if you destroy the heart up here, and you don't really want to find out. You don't think the church will pull anything while your holding it's heart, but...
 
-{
-    - pews:
-        ~ temp_string = "The pews are full again. The ghostly, faceless beings are all standing, watching you."
-    - else:
-        ~ temp_string = "The pews are dull of ghostly, faceless beings, all standing. All watching you."
-    
-}
-
-You hold onto the heart tightly, and leave the room. The door opens for you, and the stairs turn into a ramp leading back into the main body of the church. {temp_string}
+You hold onto the heart tightly, and leave the room. The door opens for you, and the stairs turn into a ramp leading back into the main body of the church. {pews: The pews are full again. The ghostly, faceless beings are all standing, watching you. | The pews are dull of ghostly, faceless beings, all standing. All watching you.}
 
 *[The church is afraid.]
 
@@ -151,7 +143,7 @@ The sound of a wounded animal reveberates through the room.
 - It shakes. It pleads. It begs you to stop.
 ~temp_string = ""
 {
-    - confessional_priest:
+    - confessional_door_side:
         ~temp_string += "Of the little girl you couldn't save."
 }
 
@@ -177,15 +169,7 @@ You squeeze harder, until your nails peirce your palm. The light is almost gone 
 
 *[The light dies.]
 
-- 
-{
-    - temp_bool_2:
-        The building begins to shake. You try the door, but it is gone.
-        
-    - else:
-        The room goes dark, and the building begins to shake. You try the door, but it is gone.
-
-}
+- {temp_bool_2: The building begins to shake. You try the door, but it is gone. | The room goes dark, and the building begins to shake. You try the door, but it is gone.}
 
 *[The church whimpers.]
 
@@ -242,15 +226,7 @@ You are alone. You are free.
 
 *[You made it out ]
 
-- 
-{
-    - stay >= 2.5:
-        ~temp_string = "?"
-    - else:
-        ~temp_string = "."
-}
-
-You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{temp_string}
+- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{stay >= 2.5: ?:.}
 
 *[You escaped.]
 

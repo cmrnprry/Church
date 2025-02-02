@@ -3,12 +3,12 @@
 ~ temp_string = ""
 ~pews = true
 {
-    - confessional_sin:
+    - confessional_curtain_side:
         ~ temp_string += " Another key maybe?"
 }
 
 {
-    - saw_locks && confessional_sin:
+    - saw_locks && confessional_curtain_side:
         ~ temp_string += " Or maybe something to cut the sliding chain?"
     - saw_locks:
         ~ temp_string += " Maybe something to cut the sliding chain?"
@@ -20,7 +20,7 @@
 }
 
 {
-    - !confessional_sin || !saw_locks:
+    - !confessional_curtain_side || !saw_locks:
         ~temp_string += " You don't know exactly what for. A heart wouldn't really make sense to live in the pews. Maybe you should check the stage."
 }
 {
@@ -89,11 +89,11 @@ Reading it will probably pass the time, but you can also still sneak away.
 *[Sneak away]
 ->Pews.Get_Up
 
-- You reach for the bible, when a red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. { leave_light: It warms your body, and some of the tension melts away.} { leave_light == false: Your skin tingles under it's warmth. It's uncomfortable. } 
+- You reach for the bible, when a red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. { leave_light: It warms your body, and some of the tension melts away. | Your skin tingles under it's warmth. It's uncomfortable. } 
 
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. 
 
-The pastor on stage is beckoning you to join him. All eyes are on you. { leave_light: You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't knwo the answer.} { leave_light == false: A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
+The pastor on stage is beckoning you to join him. All eyes are on you. { leave_light: You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't knwo the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
 
 ~temp_bool = false
 
@@ -104,7 +104,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. { leave_l
 ->Pews.Try_Leave
 
 = Get_Up
-Slowly you rise to your feet, intending to leave the area. <br><br> "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. <br><br> The pastor on stage is beckoning you to join him. All eyes are on you. { leave_light: You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't know the answer.}{ leave_light == false: A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
+Slowly you rise to your feet, intending to leave the area. <br><br> "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. <br><br> The pastor on stage is beckoning you to join him. All eyes are on you. { leave_light: You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
 
 * [Go to the stage] ->Pews.Go_to_Stage
 * [Try to Leave] -> Try_Leave
@@ -116,9 +116,9 @@ You wave your hands in front of you, shake your head, and try to leave. The ligh
 
 "Wrong way... The stage is... this way."
 
-The pastor grabs you by the shoulders, and leads you to the stage. { leave_light: "The pastors hands are cold, as it guides you, but the warmth from the light counters it." } { leave_light == false: "You try to worm your way out, but he holds his grip tight. his icy hands growing colder the more you try to resist." }
+The pastor grabs you by the shoulders, and leads you to the stage. { leave_light: "The pastors hands are cold, as it guides you, but the warmth from the light counters it." | "You try to worm your way out, but he holds his grip tight. his icy hands growing colder the more you try to resist." }
 
-The pastor pushes you up the stage, and stand next to you. It grabs your hand and raises it to the air. It says something in that gutteral language, then laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. } { stay < 1.5: You grit your teeth. }
+The pastor pushes you up the stage, and stand next to you. It grabs your hand and raises it to the air. It says something in that gutteral language, then laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
 
 *[Pull your hand from the pastor]
 ~ temp_bool = false
@@ -130,7 +130,7 @@ The pastor pushes you up the stage, and stand next to you. It grabs your hand an
 = Go_to_Stage
 You exit into the aisle, and slowly make your way to the stage. No one here has a face or eyes, but you can feel their stares boring into you. The light follows your movements as you approach the stage.
 
-You make it to the stage, and stand next to the ghostly pastor. It grabs your hand and raises it to the air. It says something in that gutteral language, then laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. } { stay < 1.5: You grit your teeth. }
+You make it to the stage, and stand next to the ghostly pastor. It grabs your hand and raises it to the air. It says something in that gutteral language, then laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along.| You grit your teeth. }
 
 *[Pull your hand from the pastor]
 ~ temp_bool = false
@@ -140,7 +140,7 @@ You make it to the stage, and stand next to the ghostly pastor. It grabs your ha
 - ->Pews.On_Stage
 
 = On_Stage
-{ temp_bool: It ignores the question, and releases your hand.} {temp_bool == false: You jerk your hand from it, and it laughs again.} "Stand... Here..."
+{ temp_bool: It ignores the question, and releases your hand. | You jerk your hand from it, and it laughs again.} "Stand... Here..."
 
 "What is-" You try to ask, but the pastor once again grabs you and moves you to be center stage. Another person appears, wheeling over a cart that has a container of water on it. Their left hand is missing a few fingers. The paster grabs something from behind the podium. "Can you explain to me what's-"
 
@@ -163,9 +163,7 @@ You make it to the stage, and stand next to the ghostly pastor. It grabs your ha
 ~ temp_string = ""
 
 -
-{ temp_string != "": "{temp_string}, I guess, but for <i>what?</i>" you ask, exasperated. <br><br> "Prove your... faith." It holds out a hand, expecting yours. "Every member does it. It only hurts... a pinch." <br><br> "What are you going to do?" }
-
-{ temp_string == "": "I'm not doing <i>anything</i> until you tell me <i>what is going on!</i>" You borderline shout. } 
+{ temp_string != "": "{temp_string}, I guess, but for <i>what?</i>" you ask, exasperated. <br><br> "Prove your... faith." It holds out a hand, expecting yours. "Every member does it. It only hurts... a pinch." <br><br> "What are you going to do?" | "I'm not doing <i>anything</i> until you tell me <i>what is going on!</i>" You borderline shout. } 
 
 "Cleanse. You... need to be... willing..." The pastor tilts it's head to the side. It's voice sounds more threatening than it did a moment ago. "Now, hand."
 
@@ -220,17 +218,14 @@ Your scream becomes a wimper as you wait for the pain to pass.
 *[You shake your head.]
 
 -
-{ temp_bool: It reaches out, and pulls you into a standing position. You craddle your fingerless hand. The pastor gently holds you, and brings you back to the main stage. It dips your hand in the water again before pulling out a bandage, and carefully wrappying up your finger stump. The crowd claps. <br><br> "Now... let us bow our heads... and pray." The crowd bows their heads, and you follow suit. <br><br> The pastor says a prayer in the non-human language, but, strangely enough, you think you understand it. Not fully, not like you could translate it, but more... innately. You could not speak this language, but understand the meaning in the words. <br><br> When it finishes you look up, smiling, only to see you are alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had been standing, and a dull pain where your finger used to be. }
-
-
-{ temp_bool == false: It rips off a piece of cloth, dabs it's not mouth with it, and throws it at you. "We don't need... dirty blood... staining a holy area." <br><br> It returns to center stage, and the crowd claps. "Now... let us bow our heads... and pray." <br><br> As they pray, you wrap up the bloody stump on your hand, hoping to escape while they're distracted. The prayer stops, and you look up, afraid of what will come next, only to see that it is gone. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor in front of you, and a dull pain where your finger used to be. }
+{ temp_bool: It reaches out, and pulls you into a standing position. You craddle your fingerless hand. The pastor gently holds you, and brings you back to the main stage. It dips your hand in the water again before pulling out a bandage, and carefully wrappying up your finger stump. The crowd claps. <br><br> "Now... let us bow our heads... and pray." The crowd bows their heads, and you follow suit. <br><br> The pastor says a prayer in the non-human language, but, strangely enough, you think you understand it. Not fully, not like you could translate it, but more... innately. You could not speak this language, but understand the meaning in the words. <br><br> When it finishes you look up, smiling, only to see you are alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had been standing, and a dull pain where your finger used to be. | It rips off a piece of cloth, dabs it's not mouth with it, and throws it at you. "We don't need... dirty blood... staining a holy area." <br><br> It returns to center stage, and the crowd claps. "Now... let us bow our heads... and pray." <br><br> As they pray, you wrap up the bloody stump on your hand, hoping to escape while they're distracted. The prayer stops, and you look up, afraid of what will come next, only to see that it is gone. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor in front of you, and a dull pain where your finger used to be. }
 
 * [Pick up the wire cutters]
     ~ clippers = true
 
-- You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.}{saw_locks == false:. It might be useful later.}
+- You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. It might be useful later.}
 
-{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her}{coward == false:your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. }{temp_bool == false: You stare out at the empty pews, and wonder if this happens often. Or if it only happened becasue you are here.}
+{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened becasue you are here.}
 
 *[Return to your search]
 {
@@ -299,7 +294,7 @@ The pastor places the wire cutter on the tray with the container of now bloodied
 
 She looks up at you sobbing. "After everything I've done for you? This is how you repay me?"
 
-You feel sick, and stumble backwards. {name: <i>Ophelia...?</i>}{name == false: <i>Is she...?</i>}
+You feel sick, and stumble backwards. {name: <i>Ophelia...?</i> | <i>Is she...?</i>}
 
 *[Look away]
 ~stay += 0.5
@@ -307,7 +302,7 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i>}{name == false: 
 
     "Coward. Coward!"
 
-    Her voice rings in your ears, and eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {name:Ophelia is gone.}{name == false: The woman is gone.} All that's left of the encounter is the wire cutters sitting on the floor at your feet.
+    Her voice rings in your ears, and eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {name:Ophelia is gone.| The woman is gone.} All that's left of the encounter is the wire cutters sitting on the floor at your feet.
 
 *[Appologize]
 ~stay -= 0.5
@@ -315,16 +310,16 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i>}{name == false: 
 
     "Coward. Coward!" Her voice is full of hate. She clambers to her feet, and grabs the wire cutters with her non-hurt hand. She throws them at your feet. "After <i>everything</i> I did for you!"
 
-    Her voice rings in your ears, and you look away. Eventually goes silent. When you turn back, only to see you are alone on stage. The crowd is gone. {name:Ophelia is gone.}{name == false: The woman is gone.} All that's left of the encounter is the wire cutters sitting at your feet.
+    Her voice rings in your ears, and you look away. Eventually goes silent. When you turn back, only to see you are alone on stage. The crowd is gone. {name:Ophelia is gone. | The woman is gone.} All that's left of the encounter is the wire cutters sitting at your feet.
 - 
 
 *[Pick up the wire cutters]
     ~ clippers = true
     ~ finger_chopped = true
 
-- You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.}{saw_locks == false:. They might be useful later.}
+- You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}
 
-{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her}{coward == false:your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. }{temp_bool == false: You stare out at the empty pews, and wonder if this happens often. Or if it only happened becasue you are here.}
+{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened becasue you are here.}
 
 *[Return to your search]
 {

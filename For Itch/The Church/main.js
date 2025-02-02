@@ -338,6 +338,11 @@
                 // customised to be used for other things too.
                 var splitTag = splitPropertyTag(tag);
 
+                //TODO REMOVE LATER
+                if (splitTag && (splitTag.property == "IMAGE" || splitTag.property == "PLAY" || splitTag.property == "STOP"|| splitTag.property == "ZOOM"|| splitTag.property == "ICLASS" || splitTag.property == "PROP"|| splitTag.property == "EFFECT" )) {
+                    continue;
+                }
+
                 //CHECKPOINT: index, name
                 if (splitTag && splitTag.property == "CHECKPOINT") {
                     var temp = {name: "Locked",
@@ -1750,10 +1755,10 @@
         setupEndings()
         setupCheckpoints()
         
-        BackgroundImage.src = `./Images/Backgrounds/Title.png`;
+        //BackgroundImage.src = `./Images/Backgrounds/Title.png`;
 
-        if (CurrentProp && CurrentProp !== "")
-            FadeProp(CurrentProp, "false")
+        // if (CurrentProp && CurrentProp !== "")
+        //     FadeProp(CurrentProp, "false")
     }
 
     function setupCheckpoints()
@@ -1812,12 +1817,12 @@
                                     }
 
                                     //turn eveyone off
-                                    var places = document.getElementById("Main Room").children
-                                    for (var ii = 0; ii <= places.length - 1; ii++)
-                                    {
-                                        if (!places[ii].classList.contains("hide"))
-                                            places[ii].classList.add("hide")
-                                    }
+                                    // var places = document.getElementById("Main Room").children
+                                    // for (var ii = 0; ii <= places.length - 1; ii++)
+                                    // {
+                                    //     if (!places[ii].classList.contains("hide"))
+                                    //         places[ii].classList.add("hide")
+                                    // }
                                     WhereGO = false;
                                     story.variablesState["WhereGO"] = false;
 
