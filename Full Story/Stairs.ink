@@ -634,10 +634,10 @@ Confused, you leave the room, and wander numbly back into the main body of the c
 But the church looks at you again, bathing you in the wonderfully comfortable red light. The door stay open. You feel like...
 
 *[Laughing]
-~ feeling = "laugh"
+~ church_feeling = "laugh"
 
 *[Crying]
-~ feeling = "cry"
+~ church_feeling = "cry"
 
 - You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 
@@ -701,7 +701,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                 }
             
             - priest_feeling == "anger":
-                You throw the fabric to the ground. "Do you think this will work the second time?" You {feeling}.
+                You throw the fabric to the ground. "Do you think this will work the second time?" You {church_feeling}.
                 
                 "Don't leave me. <i>Please</i> don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
                 

@@ -1,3 +1,4 @@
+//JS variables
 VAR CurrentImage = ""
 VAR CurrentProp = ""
 VAR LoopedAudio = ""
@@ -12,7 +13,13 @@ VAR Styling_Image = ""
 VAR haveFlashlight = false
 VAR WhereGO = false
 
-VAR feeling = ""
+//Before Work Variables
+VAR church_feeling = ""
+VAR church_interest = ""
+VAR called_number = false
+
+
+
 VAR turn = ""
 VAR object = ""
 VAR leg = ""

@@ -9,8 +9,6 @@ INCLUDE End_Game.ink
 #IMAGE: Title
 <i>This game will autosave your progress. Use the restart button will rest your game and ALL save data. Use the checkpoints button to jump to previous points of the story. <br><br> Closing the window may reset any progress.</i>
 
-+ [Testing]
-    -> Confessional
 + [Start Game] ->Start
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
@@ -28,46 +26,152 @@ It was dark when you passed, and you keep telling yourself that your tired brain
 You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. A "FOR SALE" sign attached to its lawn.
 
 *[You don't like it.]
-
+    ~church_interest = "like"
+    #CYCLE: uncomfortable, interesting, awkward, rough
+    The feeling isn't strong, you just know you don't like that there's a church there. You've always had a... @ relationship with religion and you haven't step foot in a church since you were a kid. You've seen other churches, but none have made you feel so...
+    
 *[You feel drawn to it.]
+    ~church_interest = "drawn"
+    #CYCLE: uncomfortable, interesting, awkward, rough
+    It's a slight tugging in your gut that pulls you to it. You've always had a... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. You've seen other churches, but none have made you feel so...
 
 *[You want nothing to do with it]
+    ~church_interest = "nothing"
+    #CYCLE: uncomfortable, interesting, awkward, rough
+    You've never been so repulsed by a building before. You've always had a... @ relationship with religion, but this church makes you want to get in a car and keep driving until the tank runs dry. You've seen other churches, but none have made you feel so...
+    
+- Your stomach churns. You shove your hand in your pocket and rub your thumb over the worn polaroid picture inside. <>
 
-- Your stomach churns.  You shove your hand in your pocket and rub your thumb over the worn polaroid picture inside.
+{   church_interest:
+
+    - "like":
+    You hope it disappears as quickly a it appeared.
+    
+    - "drawn":
+    You wonder if you should call the number on the sign.
+    
+    - "nothing":
+    You kick yourself for leaving the house earlier than usual and pray the bus comes quickly.
+}
 
 *[You quickly cross the street.]
 
-- You mess around on your phone, trying to ignore the building. You keep looking up at it, confirming for yourself that the church is really there. 
+- You mess around on your phone, { church_interest == "drawn": keeping your hands busy and trying to keep yourself from staring at the church. It keeps pulling your eye, like it's always somehow in your periphery. | looking for any information about the church while trying to ignore it. You keep looking up at it, confirming for yourself that it is really there. }
 
 It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so... You glance up at it again, and something pulls at the back of your mind.
 
 The church feels...
 
 *[Familiar]
-~feeling = "familiar"
+    ~church_feeling = "familiar"
 
 *[Uncomfortable]
-~feeling = "uncomfortable"
+    ~church_feeling = "uncomfortable"
 
 *[Evocative]
-~feeling = "evocative"
+    ~church_feeling = "evocative"
 
 - It is small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. You're surprised the building is still standing.
 
 #PLAY: bus_ambience, true, 2
-The bus arrives and you're no closer to understanding this {feeling} church that spontaneously appeared. Your stomach lurches.
+{   church_interest:
+
+    - "like":
+    The bus arrives and you're no closer to understanding this {church_feeling} church that spontaneously appeared. You give it one last glance and you wrinkle your nose.
+    
+    - "drawn":
+    The bus arrives and you feel a pang of disappointment now that you can't spend more time with the {church_feeling} church. You give it one last glance and you bite your lip.
+    
+    - "nothing":
+    The bus arrives late and you jump to your feet. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance and your mouth taste like pennies.
+}
 
 *[Get on the bus]
--> Bus
-*[Investigate the church]
--> Investigate
+    -> Bus
+    
+* {church_interest != "nothing"}[Investigate the church]
+    You need to know more. You don't know if it will still be here after work. You don't know what you're going to do, but you need to do <i>something.</i>
+    -> Investigate
+    
+* {church_interest == "nothing"}[Confront the church]
+    You should just go to work, but this church feels like it's taunting you by just sitting there. You don't know what you're going to do, but you need to do <i>something.</i>
+    -> Investigate
 
 === Investigate
 #STOP: bus_ambience, 2
 You pat your pant pockets, pretending that you forgot your pass, and smile sheepishly. The driver rolls her eyes and drives off. It's still early enough where you can just catch the next one. You steel yourself and look back at the church.
 
-*[The church windows catch your eye.]
+*[The church windows catch your eye]
+    -> Investigate.Window
 
+*[Call the number on the sign]
+    -> Investigate.Call
+
+*[Break in]
+    -> Investigate.Break_in
+
+= Call
+~ called_number = true
+You cross the street and type the number into your phone. {church_interest == "drawn": You hang on the gate as the phone rings. | You turn your back to the church and pace as the phone rings.} It rings and rings, and just when you think better of it, someone picks up.
+
+A bored voice, obnoxiously chewing gum answers. "Can I help you?"
+
+*["I'm calling about the church on Grant Street?"]
+    You tap your fingers against your thigh. Should you be doing this?
+
+*{church_interest == "drawn"}["I'm looking to tour the church on Grant Street?"]
+    Your heart beats hard and slow. You stare at the church.
+
+- "The what?" she snorts. "The hell you talking about?"
+
+*["I need to know more about it."]
+
+*{church_interest == "drawn"}["Please. I just-"]
+
+*[Hang up.]
+
+- "I don't know who you think you're calling, but you got the wrong number."
+
+* ["But-"]
+
+- The call goes dead.
+
+*[Call the number again]
+
+*[The church windows catch your eye]
+    -> Investigate.Window
+
+*[Break in]
+    -> Investigate.Break_in
+
+- You dial the number again, prepared to ask better questions, but you're sent staright to voicemail.
+
+"You've reached the voicemail box of 555-555-5555. Please leave a message after the tone. Beeeep!"
+
+*[Leave a message]
+    You leave a quick message asking about the church, with your name and callback number.<>
+
+*[Hang up]
+    Annoyed, you hang up the phone.<>
+    
+- You learned nothing from that and now you're late for work. {church_interest == "drawn": You want to investigate further, but y | Y}ou should get going.
+
+*[The church windows catch your eye]
+    -> Investigate.Window
+
+* {church_interest == "drawn"} [Call again]
+    
+*[Wait for the bus]
+    {church_interest == "drawn": Dejected, you| You} walk back to the bus stop and wait for the next bus. It comes {church_interest == "drawn": all too } quickly{church_interest 1= "drawn": , and you are thankful you won't be too late.| .} <>
+    ->Bus
+
+- 
+->Job
+= Break_in
+five
+
+
+= Window
 -~window = true
 #ZOOM: scale(1.5) translate(-26%, 22%)|inset(0 0 32.5% 50%) #ICLASS: Background Image||Swimming
 The church's windows are of stained glass, which isn't uncommon for it to have. You squint trying to make the image out, but no matter how hard you focus, you can't explain what the glass was a picture of. 
@@ -163,8 +267,7 @@ You watch the church through the window until it fades into a dot in the distanc
 You get less done than usual at work. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does.
-~feeling = "uncomfortable"
-That {feeling} church.
+That {church_feeling} church.
 
 You should do something to take your mind off it.
 
@@ -435,7 +538,7 @@ You spin around to face it, and find yourself.. in front... of the church?
 
 You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
-{know:It's following you. You wipe sweat from your brow.<br><br>It can move.|Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {feeling} church.}
+{know:It's following you. You wipe sweat from your brow.<br><br>It can move.|Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {church_feeling} church.}
 
 
 *[Continue walking the long way home]
@@ -1058,7 +1161,7 @@ Church?
 
 *[You grip the picture tightly in your hands.]
 
-- The image isn't fake, somehow you know this. The church always felt {feeling} in a way you didn't understand why.
+- The image isn't fake, somehow you know this. The church always felt {church_feeling} in a way you didn't understand why.
 
 #PROP: polaroid, true
 The memory refuses to surface, only vague images and feelings. If you close your eyes... You're scared. You're trapped. You're... inside? Inside where-?
@@ -1333,7 +1436,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     - light_feeling == "relief":
         ~temp_string = "relief is wrong."
         
-    - light_feeling != "confused" and feeling != "relief":
+    - light_feeling != "confused" and church_feeling != "relief":
         ~temp_string = "worry is a flag that something is very <i>wrong.</i>"
 }
 
