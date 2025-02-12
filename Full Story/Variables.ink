@@ -65,6 +65,7 @@ VAR killed_girl = false
 VAR angered_priest = false
 VAR reached_through = false
 VAR talked_to_girl = false
+VAR saw_her = false
 
 
 //where the player has been already

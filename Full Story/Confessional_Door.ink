@@ -1,5 +1,5 @@
 === Confessional_Door
-TODO: Rememeber to unset if the player just leaves and to set previous if we do do something
+TODO: Beef up this section a LOT. it's shorter and shit just happens
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_DoorSide // set the current area
 ~ have_visited += Confessional_DoorSide //set that we have visisted the area
@@ -9,7 +9,7 @@ TODO: Rememeber to unset if the player just leaves and to set previous if we do 
 {
     //if this is the first area we are visiting
     - previous_area == -1:
-        ~ visited_state = 1
+        ~ visited_state = 0
         You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable bench. A lumpy looking red cushion sits on the bench, offering a small comfort.
         
         You think you'd know if there were anything else in here.
@@ -146,7 +146,7 @@ Something, no <i>someone</i>, hits the ground. Hard.
 You can hear wheezing, but she does not answer. 
 
 #CLASS: Fidget #CLASS: Blur
-Your eyes find the doorknob, and you tell yourself to open it.
+Your eyes find the doorknob, and you reach out to open it.
 
 #CLASS: Fidget #CLASS: Blurrier
 An invisible force presses down on you. You feel like you're moving in slow motion.
@@ -155,42 +155,27 @@ An invisible force presses down on you. You feel like you're moving in slow moti
 
 - 
 #CYCLE: Fidget, easy, smoothly, effortless, fluid 
-The words come out @. Your hand is barely halfway to the door.
+The words come out @. Your hand sits on the knob.
+
+You can hear scratching on the floor. 
 
 #CLASS: Fidget #CLASS: Blur
 It seems like the harder you fight against the force, the slower you move.
 
-You can hear scratching on the floor. 
+<i>What if it's too late?</i> You think, and tighten their grip on the door. <i>It's all your fault.</i>
+
+It is deathly quiet outside.
+
+<i>If you had just moved faster,</i> you squeeze the knob. <i>Then maybe she might still be-</i>
 
 #CLASS: Fidget #CLASS: Blurrier
 You just need to turn the knob. Why can't you just turn the knob?
 
-There is no answer from outside.
+*[It is deathly quiet outside.]
 
-*["Hello...?"]
+- You throw the door open and fall out of the booth. You scramble to check the other side, but are stopped in your tracks. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
 
-- 
-#CYCLE: Fidget, frustrated, annoyed, afraid, anxious 
-You feel @ as you continue to stare at the closed door. Your hand is so close.
-
-#CLASS: Fidget #CLASS: Blur
-What if it's too late?
-
-You don't hear anything outside. 
-
-#CLASS: Fidget #CLASS: Blur
-You need to move.
-
-There is no answer from outside.
-
-#CLASS: Fidget #CLASS: Blur
-Just move.
-
-#CLASS: Fidget #CLASS: Blurrier
-MOVE.
-
-*[Exit the booth.]
-You fall out of the booth, and check the other side. There's a splatter of blood just outside it, next to the ripped off piece of curtain. Scratch marks are etched into the wooden floor. Your flashlight shines on broken pieces of nail.
+There's a splatter of blood just outside it, next to the ripped off piece of curtain. Scratch marks are etched into the wooden floor. Your flashlight shines on broken pieces of nail.
 -> Confessional_Door.Exit_Booth
 
 = Rush_Out
@@ -244,7 +229,7 @@ The ripped piece of curtain lays just outside of the booth. There's a splatter o
 
 - 
 
-~temp_bool = true
+~saw_her = true
 You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
 
 *[You need to get to her.]
@@ -350,9 +335,7 @@ TODO: not the best choice here
 = Promise
 *["Promise."]
 
--
-
-"Well... He used to go once a week, to pray for me, at our old church. As I got sicker, he got recommended this one, and it was okay for a while. I got a little better, but he stopped coming home..." She sniffs. "I only see him if mom brings me here, but she only ever lets me talk to him from the gate. He didn't show up this time so I..." 
+- "Well... Daddy used to go once a week, to pray for me, at our old church. As I got sicker, he got recommended this one, and it was okay for a while. I got a little better, but he stopped coming home..." She sniffs. "I only see him if Mommy brings me here, but she only ever lets me talk to him from the gate. Daddy didn't show up this time so I..." 
 
 "You...?"
 
@@ -362,8 +345,27 @@ A pit forms in your stomach.
 
 "I just want us to be together again! I pray for it all the time!" Her voice trembles with a mix of anger and misery. "How do I fix it? Please, tell me how to fix it!"
 
+{know_name: You think you can get more from her. You're almost positive that you can. | You don't think you'll be able to get anything more from her.}
+
+* {know_name} [Press her further]
+
 *[Help her]
-->Confessional_Door.help
+    ->Confessional_Door.help
+
+*[Tell her to leave]
+    ~ pressed_emily = true
+    You're not a priest, you don't know how to help her. So you do the only thing you can think of: tell her to leave.
+    
+    "You don't need to do anymore than you do now. Just leave with your mom today, and don't come back."
+    
+    "What?" You don't answer, instead, you stand up and open the door. She starts coughing. "But you said-"
+    -> Confessional_Door.No_Confessions
+
+- "Emily, you need to tell me everything you know about the church. It's very important."
+
+"How do you knwo my name?" 
+
+You freeze. Did she not say it earlier?
 
 *[Your dad told me]
 ~ temp_bool_2 = true
@@ -389,7 +391,7 @@ A pit forms in your stomach.
 
 "It just showed up?" Your heart pounds.
 
-"I guess it was newly built or something. The first time we went, I didn't remember it being in the area it was. It was on a road we would drive down sometimes to get to our old church."
+"I guess? The first time we went, I didn't remember it being in the area it was. It was on a road we would drive down sometimes to get to our old church."
 
 You ball your fists. It's not the same as what happened to you, but it's similar enough.
 
@@ -418,7 +420,7 @@ You're not a priest, and you are not entirely sure what the correct thing to say
 "All you need to do is....
 
 *["pray your mom will join you and your dad here."]
-~stay += 0.5
+    ~stay += 0.5
 
 *["leave the church and go find your mom."]
 
@@ -439,49 +441,69 @@ The curtain closes, and she is gone.
 
 = Exit_Booth
 #IMAGE: Confessional_CloseUp #PROP: curtain_torn, false
-No sign of the girl. 
+<i>This is your fault.</i>
+
+There's no sign of the girl. 
+
+<i>This is <b>your</b> fault.</i>
 
 You kneel in front of the booth. 
 
 You feel...
 
 *[Angry]
-~ priest_feeling = "anger"
-~stay -= 0.5
-~temp_string = "You grind your teeth"
-#IMAGE: Default #PROP: curtain_torn, true
-You slam your fist into the ground. {pressed_emily: <i>You</i> pressed her. <i>You</i> did this. | Was any of that real? Is this all just a sick game to the church? }
-
-You grab the fabric and start pulling it apart. <i>Riiiippp</i> {pressed_emily: She's not here, was it real? | Is anything in here real? } <i>Riiiippp</i> {pressed_emily: If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp</i>  {name: You know she was once a real person, but was that her? Or was that the church? } {pressed_emily: | What can you trust in here if your own sense are compromised? } <i>Riiiippp</i> 
-
-You stop and hold the scraps in your hand. You look at the blood splatter, then up at the confessional.
+    ~ priest_feeling = "anger"
+    ~stay -= 0.5
+    ~temp_string = "You grind your teeth"
+    #IMAGE: Default #PROP: curtain_torn, true
+    You slam your fist into the ground. {pressed_emily: <i>You</i> pressed her. <i>You</i> did this. | Was any of that real? Is this all just a sick game to the church? }
+    
+    You grab the fabric and start pulling it apart. <i>Riiiippp</i> {pressed_emily: She's not here, was it real? | Is anything in here real? } <i>Riiiippp</i> {pressed_emily: If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp</i>  {name: You know she was once a real person, but was that her? Or was that the church? } {pressed_emily: | What can you trust in here if your own sense are compromised? } <i>Riiiippp</i> 
+    
+    You stop and hold the scraps in your hand. You look at the blood splatter, then up at the confessional.
 
 *[Guilty]
-~ priest_feeling = "guilt"
-~stay += 0.5
-~temp_string = "You grimace"
-#IMAGE: Default #PROP: curtain_torn, true
-You gather up the fabric in your hands. You swallow back the lump growing in your throat. {pressed_emily: You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | Is this... your... fault? } 
+    ~ priest_feeling = "guilt"
+    ~stay += 0.5
+    ~temp_string = "You grimace"
+    #IMAGE: Default #PROP: curtain_torn, true
+    You gather up the fabric in your hands. You swallow back the lump growing in your throat. {pressed_emily: You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } 
+    
+    You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? 
+    
+    "I'm sorry." You hold the fabric close. You clasp your hands together, grasping the fabric tightly. You bow your head and shut your eyes. "Forgive me."
+	You feel a hand rest on the top of their head. A deep, gruff voice. {confessional_curtain_side && know_name: Your body shutters, realizing who it was.} "For what, my child?"
+	
+	"My inaction. I need her to know-"
+	
+	"Who?" {confessional_curtain_side && know_name: He | It} asks. 
+	
+	"The girl. The one who-" You bite your tongue. You can't bring yourself to say it. "Who was in there."
+	
+	"Tell me, how did she die? How was it your fault?" The voice is calm, soft. {confessional_curtain_side && know_name: He | It} doesn't blame you.
+	
+	"I {saw_her: just watched | did nothing}!" You all but yell. "She needed my help and I wasn't there!"
+	
+	"I see." The voice is quiet, and {confessional_curtain_side && know_name: he | it} removes {confessional_curtain_side && know_name: his | its} hand from your head. "Inaction in such a situation is quite a large sin."
+	
+	"I'll do anything to repent." You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
+	
+    "I forgive you." The voice morphs and it's hers. "You were scared too."
+    Your head snaps up. She's okay? She's here? She forgives-
 
-You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? You look at the blood splatter, then up at the confessional.
 
 *[Dread]
-~ priest_feeling = "dread"
-{
-- temp_bool:
-    ~temp_string = "You saw her. You <i>SAW</i> her. The curtain is <i>ripped.</i>"
-- else:
-    ~temp_string = "You heard her. You- You can <i>see</i> the curtain was affected."
-}
-#IMAGE: Default #PROP: curtain_torn, true
-You touch the ripped fabric. {pressed_emily: Would this still have happened if you didn't press her...? | Was any of that real...? }
-
-{temp_string}
-
-It <i>had</i> to be real. You trace a finger over the scratch marks and feel the chipped wood. What can you trust in here if your own sense are compromised? 
-
-It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hesitantly, look back up at the confessional.
-~temp_string = "Your hands tremble"
+    ~ priest_feeling = "dread"
+    
+    #IMAGE: Default #PROP: curtain_torn, true
+    You touch the ripped fabric. {pressed_emily: Would this still have happened if you didn't press her...? | Was any of that real...? }
+    
+    {saw_her: You saw her. You <i>SAW</i> her. The curtain is <i>ripped.</i> | You heard her. You- You can <i>see</i> the curtain was affected.}
+    
+    It <i>had</i> to be real. You trace a finger over the scratch marks and feel the chipped wood. What can you trust in here if your own sense are compromised? 
+    
+    It <i>had</i> to be real, for your own sake. You grab the ripped fabric, and hesitantly, look back up at the confessional.
+    ~temp_string = "Your hands tremble"
 - 
 
 #IMAGE: Confessional_CloseUp #PROP: curtain_full, false
@@ -501,7 +523,9 @@ What...?
         Any response.
     
     - temp_string == "You grimace":
-        Your eyes dart back and forth between the fabric in your hands, and the intact curtain in front of you. You can't understand it.
+        You stare at the intact curtain in front of you. You grip the fabric tightly in your hands, only to find your nails digging into your flesh. The fabric is gone.
+        
+        Your eyes dart back and forth between your empty hands, and the intact curtain in front of you. You can't understand it.
 
         #IMAGE: Church_Inside #PROP: curtain_full, true
         "What is this...?" your voice warbles, and you slowly stand. You turn to face the main body of the church. You throw out your hands, holding the fabric up like an offering. "What- what is this...?!"
@@ -544,15 +568,11 @@ What...?
         { stay >= 1.25: You hope. | You are sure of it. }
     
     - temp_string == "You grimace":
-        You fold the ripped fabric as best you can, and place it over the scarred wood and blood.
-
-        "I'm sorry."
-        
-        You place a hand over the make-shift grave, close your eyes, and say a prayer. "I- I'm so sorry."
+        You laugh. A harsh, absurd laugh. You place a hand over the scarred wood, close your eyes, and say a prayer. "I- I'm so sorry."
     
-        When you open them, the fabric is gone, the wood floor is smooth, and there is no indication that blood was ever spilled.
+        When you open them, the wood floor is smooth, and there is no indication that blood was ever spilled.
         
-        You nod, getting the answer you expected. <i>It will do anything to keep you here.</i> 
+        You nod, and laugh again, getting the answer you expected. <i>It will do anything to keep you here.</i> 
         
         You should keep that in mind.
     
@@ -564,7 +584,7 @@ What...?
 }
 
 *[Continue your search]
--> Confessional_Door.Return_to_Search
+    -> Confessional_Door.Return_to_Search
 
 = Leave_Real
 You don't hesitate and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you don't think it's the same person that helped you before.
@@ -579,16 +599,16 @@ TODO: is the above variable needed?
 ~ current_area = Main_Body // set the current area
 ~ have_visited += Confessional_DoorSide //set that we have visisted the area
 ~ visited_state += 1
-{- visited_state:
+{visited_state:
     
     - 1:
+       <b> This is I think about the 20 min mark! You can keep going but I have no idea what will/won't break! If you want more go back and choose the other confessional door :)</b>
         ->After_First.Confessional_After
     - 2:
         -> After_Second.Confessional_Sin_Second
     - else:
         -> Last_Stop.Confessional_Sin_Last
 }
-
 
 = Leave_NoProgress
 ~confessional_door_side = false
