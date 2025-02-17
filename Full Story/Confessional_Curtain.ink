@@ -6,7 +6,7 @@ TODO: Rememeber to unset if the player just leaves and to set previous if we do 
 {
     //if this is the first area we are visiting
     - previous_area == -1:
-        ~ visited_state = 1
+        ~ visited_state = 0
         #PLAY: curtain
         You push aside the curtain and find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable bench, and a small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
         
@@ -1238,6 +1238,7 @@ TODO: is the above variable needed?
 {- visited_state:
     
     - 1:
+    <b> This is I think about the 20 min mark! You can keep going but I have no idea what will/won't break! If you want more go back and choose the other confessional door :)</b>
         ->After_First.Confessional_After
     - 2:
         -> After_Second.Confessional_Sin_Second
