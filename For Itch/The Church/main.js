@@ -421,7 +421,7 @@
 
                 //ZOOM: [transform], [clip-path] ((this assumes BG image ONLY))
                 if (splitTag && splitTag.property == "ZOOM") {                   
-                    var list = splitTag.val.split('|')
+                    var list = splitTag.val.split(',')
                     var transfrom = list[0];
                     var clip = list[1];
 
@@ -430,7 +430,7 @@
                 //ICLASS: elementID, [classes to remove], [classese to add]
                 if (splitTag && splitTag.property == "ICLASS") {
 
-                    var list = splitTag.val.split('|')
+                    var list = splitTag.val.split(',')
                     var element = document.getElementById(list[0])
 
                     if (list[1] !== "")

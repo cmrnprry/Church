@@ -16,7 +16,13 @@ VAR WhereGO = false
 //Before Work Variables
 VAR church_feeling = ""
 VAR church_interest = ""
+VAR entered_feeling = -1
 VAR called_number = false
+VAR dropped_phone = false
+VAR entered_church = false
+VAR church_teleported = false
+VAR saw_windows = false
+VAR was_fired = false
 
 
 
@@ -34,7 +40,6 @@ VAR lanturn = false
 VAR temp_bool = false
 VAR temp_bool_2 = false
 VAR temp_bool_3 = false
-VAR window = false
 VAR know = false
 VAR avoid_church = false
 VAR photo_ripped = false

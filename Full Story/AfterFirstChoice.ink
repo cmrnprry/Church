@@ -138,9 +138,9 @@ You hear them call your name, but you don't dare turn around.
 ~temp_bool = true
 ~ visited_second = true
 #CHECKPOINT: 3, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the pews. Everyone is gone.
+You drop down from the stage and walk past the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing. | Your hand aches, and you lightly touch the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed-legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand- your intact hand- on the wooden pew before taking a seat yourself.}
 
 #CYCLE: null, Anxiety, Dread, Doubt, Confusion
 You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
@@ -188,7 +188,7 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 #CHECKPOINT: 4, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing. | Your hand aches, and you lightly touch the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed-legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand- your intact hand- on the wooden pew before taking a seat yourself.}
 
 You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubbles up in your chest, and tears form in your eyes. Your body shutters as you cry. Deep, heavy sobs wrack your body.
 
@@ -259,7 +259,7 @@ There are still more places you need to look. <>
         ~ temp_string = ""
 }
 
-You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {saw_locks and broke_chest == false: You should see if it fits the chest you found in the side office. And if it doesn't there, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{broke_chest == false: You should see if it fits the chest you found in the side office.} {saw_locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
+You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {saw_locks and broke_chest == false: You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{broke_chest == false: You should see if it fits the chest you found in the side office.} {saw_locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
 
 There are still more places you need to look. <>
 
@@ -351,11 +351,11 @@ You decide to look...
 #CHECKPOINT: 6, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, and at the window. It's eye is closed. You sit on the floor, crossed legged, and stare at the window. {happy: You feel a twinge in your hand. You can't say it hurts anymore. Instead it feels...<br><br> Soothing. | Your hand aches, and you lightly touch the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand, your intact hand, on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed-legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand- your intact hand- on the wooden pew before taking a seat yourself.}
 
 You bow your head and squeeze the wire cutters in your hand.
 
-{went_upstairs: There's not a lot of places left to look, but you know where you what to go. {key == true && number_combo != "" : You have all the pieces to unlock the door.}{key == true && number_combo == "" : You have a key and wire cutters, you could probably figure out how to get the door open with just that.}{key != true && number_combo != "" : You have a code and wire cutters, you could probably figure out how to get the door open with just that.}} 
+{went_upstairs: There' are not many places left to look, but you know where you what to go. {key == true && number_combo != "" : You have all the pieces to unlock the door.}{key == true && number_combo == "" : You have a key and wire cutters, you could probably figure out how to get the door open with just that.}{key != true && number_combo != "" : You have a code and wire cutters, you could probably figure out how to get the door open with just that.}} 
 
 {went_upstairs == false: {key == true && number_combo != "" : You have a key, a code and wire cutters }{key == true && number_combo == "" : You have a key and wire cutters}{key != true && number_combo != "" : You have a code and wire cutters}, but nothing to do with them. You've searched almost the entire church, but there's not a lot of places left to look.}
 
@@ -419,7 +419,7 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
         ~ temp_string = ""
 }
 
-You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {saw_locks and broke_chest == false: You should see if it fits the chest you found in the side office. And if it doesn't there, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{broke_chest == false: You should see if it fits the chest you found in the side office.} {saw_locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
+You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {saw_locks and broke_chest == false: You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{broke_chest == false: You should see if it fits the chest you found in the side office.} {saw_locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
 
 You need to move on. <>
 
