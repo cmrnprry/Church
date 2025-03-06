@@ -23,7 +23,7 @@ VAR entered_church = false
 VAR church_teleported = false
 VAR saw_windows = false
 VAR was_fired = false
-
+VAR late_for_work = false
 
 
 VAR turn = ""

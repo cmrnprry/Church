@@ -6,59 +6,84 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
+->Start
+=== Start===
 #IMAGE: Title
-<i>This game will autosave your progress. Use the restart button will rest your game and ALL save data. Use the checkpoints button to jump to previous points of the story. <br><br> Closing the window may reset any progress.</i>
+<i>This game will autosave your progress. Use the restart button to reset ALL saved data, including checkpoints and history. Use the checkpoints button to jump to previous points of the story. <br><br> Click the textbox to continue when no choices are presented. Use the options menu to adjust audio volume and toggle any text or sscreen effects on or off.</i>
 
-+ [Start Game] ->Start
+
++ [Start Game] 
+    ->StartGame
++ [Skip To...]
+    This is for players who have played the main game already, but want to skip to certain areas more quickly. Important questions will be asked to jump to the chosen area.
+    
+    ++[Return to Main]
+        ->Start
+    ++[Skip to Work]
+        ->Skip.Skip_Work 
+    ++[Skip to After Work]
+        ->Skip.Skip_AfterWork
+    ++[Skip to Inside Church]
+        ->Skip.Skip_InsideChurch
+    
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
 
-=== Start ====
+=== Skip ===
+
+= Skip_Work
+-> Job
+
+= Skip_AfterWork
+-> Walk_Home
+
+= Skip_InsideChurch
+-> Locked
+
+=== StartGame ====
 #PLAY: background, true, 1.5
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
-It was dark when you passed, and you keep telling yourself that your tired brain mistook a billboard for a church. They must be building one there.
+It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
 
 *[It's impossible for a church to spring up overnight.]
 
 - 
 #IMAGE: BusStop
-You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. A "FOR SALE" sign attached to its lawn.
+You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. A faded "FOR SALE" sign attached to its lawn. It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so...
 
-*[You don't like it.]
-    ~church_interest = "like"
+*[You don't care for it]
+    ~church_interest = "care"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    The feeling isn't strong, you just know you don't like that there's a church there. You've always had a... @ relationship with religion and you haven't step foot in a church since you were a kid. You've seen other churches, but none have made you feel so...
+    The feeling isn't strong, you just know you don't particularly like that there's a church there. You've always had a... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
-*[You feel drawn to it.]
+*[You feel drawn to it]
     ~church_interest = "drawn"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    It's a slight tugging in your gut that pulls you to it. You've always had a... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. You've seen other churches, but none have made you feel so...
+    It's a slight tugging in your gut that pulls you to it. You've always had a... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
 
-*[You want nothing to do with it]
+*[You're nauseous just looking at it]
     ~church_interest = "nothing"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    You've never been so repulsed by a building before. You've always had a... @ relationship with religion, but this church makes you want to get in a car and keep driving until the tank runs dry. You've seen other churches, but none have made you feel so...
+    You've never been so repulsed by a building before. You've always had a... @ relationship with religion, but this church makes you want to get in a car and keep driving until the tank runs dry. You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
 - Your stomach churns. You shove your hand in your pocket and rub your thumb over the worn polaroid picture inside. <>
 
 {   church_interest:
 
-    - "like":
-    You hope it disappears as quickly a it appeared.
+    - "care":
+        You turn away and attempt to ignore it. Its appearence doesn't mean you should stress over it.
     
     - "drawn":
-    You wonder if you should call the number on the sign.
+        You wonder if you should call the number on the sign.
     
     - "nothing":
-    You kick yourself for leaving the house earlier than usual and pray the bus comes quickly.
+        You hope it disappears as quickly a it appeared and pray the bus comes quickly.
 }
 
-*[You quickly cross the street.]
+*[{ church_interest != "care": Quickly c| C}ross the street]
 
 - You mess around on your phone, { church_interest == "drawn": keeping your hands busy and trying to keep yourself from staring at the church. It keeps pulling your eye, like it's always somehow in your periphery. | looking for any information about the church while trying to ignore it. You keep looking up at it, confirming for yourself that it is really there. }
-
-It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so... You glance up at it again, and something pulls at the back of your mind.
 
 The church feels...
 
@@ -71,26 +96,26 @@ The church feels...
 *[Evocative]
     ~church_feeling = "evocative"
 
-- It is small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. You're surprised the building is still standing.
+- It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. You're surprised the building is still standing.
 
 #PLAY: bus_ambience, true, 2
 {   church_interest:
 
-    - "like":
-    The bus arrives and you're no closer to understanding this {church_feeling} church that spontaneously appeared. You give it one last glance and you wrinkle your nose.
+    - "care":
+        The bus arrives and you're no closer to understanding this {church_feeling} church that spontaneously appeared. You give it one last glance and you wrinkle your nose.
     
     - "drawn":
-    The bus arrives and you feel a pang of disappointment now that you can't spend more time with the {church_feeling} church. You give it one last glance and you bite your lip.
+        The bus arrives and you feel a pang of disappointment now that you can't spend more time with the {church_feeling} church. You give it one last glance, and bite your lip.
     
     - "nothing":
-    The bus arrives late and you jump to your feet. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance and your mouth taste like pennies.
+        The bus arrives late and you jump to your feet. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance, your mouth tasting like pennies.
 }
 
 *[Get on the bus]
     -> Bus
     
 * {church_interest != "nothing"}[Investigate the church]
-    You need to know more. You don't know if it will still be here after work. You don't know what you're going to do, but you need to do <i>something.</i>
+    You { church_interest != "drawn" : want | need} to know more. You don't know if it will still be here after work. You don't know what you're going to do, but you need to do <i>something.</i>
     -> Investigate
     
 * {church_interest == "nothing"}[Confront the church]
@@ -112,7 +137,7 @@ You pat your pant pockets, pretending that you forgot your pass, and smile sheep
 
 = Call
 ~ called_number = true
-You cross the street, typing the number displayed into your phone. {church_interest == "drawn": You hang on the gate as the phone rings. | You turn your back to the church and pace as the phone rings.} 
+You cross the street, typing the number displayed into your phone. {church_interest == "drawn": You hang your arms over the fence as the phone rings. | You turn your back to the church and pace as the phone rings.} 
 
 TODO: SFX for this
 <i>Brrring! Brrring!<i/>
@@ -122,10 +147,10 @@ You almost drop your phone as you hear the sound of a phone ringing drift from {
 "Hello?" the voice is gruff and deep.
 
 *{church_interest != "drawn"} [Hang up]
-    You can't hit the "end call" button fast enough, but no matter how many times you pres it, the call persists. "We're waiting for you." The voice drifts from your phone, then the line goes dead. The church door creaks open.
+    You can't hit the "end call" button fast enough, but no matter how many times you press it, the call persists. "We're waiting for you." The voice drifts from your phone, then the line goes dead. The church door creaks open.
 
 *["Hello?"]
-    "Ah. It's you. Come in, come in. We're waiting for you."The line goes dead and the church door creaks open.
+    "Ah. It's you. Come in, come in. We're waiting for you." The line goes dead and the church door creaks open.
 
 *{church_interest == "drawn"}[Enter the church]
     ~ church_teleported = true
@@ -144,20 +169,21 @@ You almost drop your phone as you hear the sound of a phone ringing drift from {
 *[Enter the church]
     ~ church_teleported = true
     #DELAY: 2.5
-    You {church_interest != "drawn": push | throw} the gate open, {church_interest != "drawn": walking up the path, not entirely sure why you're doing this. | triping over yourself as you run down the path and to the door.} You enter through the church door and-
+    You {church_interest != "drawn": push | throw} the gate open, {church_interest != "drawn": walking up the path, not entirely sure why you're doing this. | triping over yourself as you run up the path and to the door.} You enter through the church door and-
     -> Job.Teleport
 
 = Break_in
 ~ entered_church = true
 #DELAY: 2.5
-You cross the street and push the gates open. {church_interest == "drawn": You trip over yourself as you run down the path and to the door. You push through the church door and- | You walk up the path, not entirely sure why you're doing this. You enter through the church door and- }
+You cross the street and push the gates open. {church_interest == "drawn": You trip over yourself as you run down the path and to the door. {saw_windows: You hear the driver curse and the bus drives off. You know whatever you find is worth being late for work for.} You push through the church door and- | You walk up the path, not entirely sure why you're doing this. {saw_windows: You hear the driver curse and the bus drives off. You hope this is worth being late for work.} You enter through the church door and- }
 
-You are standing in an old church. One that doesn't seem fully structurally stable. It's empty and dusty and- "It's jsut a church?" You feel...
+You're standing in an old church. The floor boards creek under your weight and eveything is covered in a thin layer of dirt and grime. It's empty and dusty and- "It's just a church?" You feel...
 
 * [Disappointed]
     ~ stay += 0.5
     ~ entered_feeling = 0
     You thought it would be more than just... this? You shake your head. No. This makes sense. Of courses it's just this. Why would it be more? You slink out of the church, and return to the bus stop. You stare at it, waiting for something to happen that never does, until the bus comes.
+
 
 * [Satisfied]
     ~ entered_feeling = 1
@@ -165,38 +191,54 @@ You are standing in an old church. One that doesn't seem fully structurally stab
 
 * [Anxious]
     ~ entered_feeling = 2
-    Something about this feel wrong. Like the church is tryiong to lull you into a false sense of security. This is not it's true form. You try to shake off the feeling as you leave, and return to the bus stop. You ignore the slimey feeling and mess around on your phone until the bud comes.
+    Something about this feel wrong. Like the church is tryiong to lull you into a false sense of security. This is not it's true form. You try to shake off the feeling as you leave, and return to the bus stop. You ignore the slimey feeling and mess around on your phone until the bus comes.
 
-- 
+-
+~ late_for_work = true
+It takes an agonizing 20 more minutes to arrive. You check your Slack messages and see multiple from your boss. 
 
-*[Get on the bus]
+#PLAY: email_ding #DELAY: 1.5
+"Where are you????"
+
+#PLAY: email_ding #DELAY: 1.5
+"This is the 3rd time this month!"
+
+#PLAY: email_ding #DELAY: 1.5
+"You can't keeep doing this."
+
+#PLAY: email_ding #DELAY: 1.5
+Your job is emails, can you not check them on the bus?!"
+
+#PLAY: bus_ambience, true, 2
+"You okay, man?" You jump at the voice, not realizing the next bus had arrived. You nod, and fumble with the your wallet to find your ticket. "Come <i>on,</i> man."
+
+*[Board the bus]
     -> Bus
 
 = Window
--~saw_windows = true
+~saw_windows = true
 #ZOOM: scale(1.5) translate(-26%, 22%), inset(0 0 32.5% 50%) #ICLASS: Background Image,,Swimming
 The church's windows are made of stained glass, which isn’t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-*[You take a step forward.]
+#CYCLE: depiction of christ, cross, eye, bird #ZOOM: scale(2) translate(-26%, 35%),inset(0 0 55.5% 50%) #ICLASS: Background Image,Swimming,Swimming-2
+The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
 
-#ZOOM: scale(2) translate(-26%, 35%),inset(0 0 55.5% 50%) #ICLASS: Background Image,Swimming,Swimming-2
--The image swims in your vision. Just as you think you've got it, it changes. You make a mental note to get your eyes checked.
+#DELAY: 2.25 #ZOOM: scale(3) translate(-30%, 35%),inset(9% 9% 69.5% 67%) #ICLASS: Background Image,Swimming-2,Swimming-3
+Blood thunders in your ears as pressure builds behind your eyes. You strain to-
 
-*[You take another step forward.]
-
--#DELAY: 1.25 #ZOOM: scale(3) translate(-30%, 35%),inset(9% 9% 69.5% 67%) #ICLASS: Background Image,Swimming-2,Swimming-3
-Blood starts rushing in your ears and pressure builds behind your eyes as you strain to-
-
-#DELAY: 1.5
-#CLASS: Bus_Honk #PLAY: honk 
+#DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
 #PLAY: bus_ambience, true, 1 #ZOOM: unset,unset #ICLASS: Background Image,Swimming-3,
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
-*[Your eyes don't leave the church.]
+*[Your eyes don't leave the church]
 
-- You brush off the driver's questions and board the bus.
+- You brush off the driver's questions, and force yourself to stare at that stained glass window until it the image focused into an eye. It blinks at you.
+
+*[Go into the church]
+    You ignore the driver's further proding and walk around the bus, pressing a hand against it to steady yourelf. The driver continues to shout after you, but you ignore him. <>
+    ->Break_in
 
 *[Take a seat]
     You drift to the back of the bus, and sit where you can look at the church through the window.
@@ -210,14 +252,11 @@ You stumble backwards as the bus swerves, narrowly avoiding you. The driver open
 
 *["So it was here yesterday?"]
 
-- You grip his arm as you ask. Your nails dig into his arm and he winces.
-
+- 
 #CYCLE: perturbed, afraid, nervous, tense
-"I'm going to need you to let go." He looks @. "Do I need to call someone?"
+You grip his arm as you ask. Your nails dig into his arm and he winces. "I'm going to need you to let go." He looks @. "Do I need to call someone?"
 
-Your eyes dart from him to the church behind him and back. You're losing it. Over a building. You need to calm down.
-
-"I'm sorry-" You release the bus driver. "I- I-'m sorry."
+Your eyes dart from him to the church behind him and back. You're losing it. Over a building. You need to calm down. "I'm sorry-" You release the bus driver. "I- I-'m sorry."
 
 *[You scurry to the back of the bus.]
     You find a seat where you can look at the church through the window.
@@ -231,16 +270,17 @@ You board the the bus, and scan your ticket.
 
 *["Do you know when they built that church?"]
 
-- The bus driver looks over her shoulder, then back at you. She frowns.
-"Looks older... Maybe 10, 20 years ago?"
+- 
+The bus driver looks over her shoulder, then back at you. She frowns.
+{late_for_work: "I don't know. Does it matter?" | "Looks older... Maybe 10, 20 years ago?"}
 
 *["So it was here yesterday?"]
-"I assume as much." She closes the bus doors.
+    {late_for_work: "Unless they built it yesterday, yeah? Can you just take a seat?" | "I assume as much."} She closes the bus doors.
 
 *["How long have you been working this bus route?"]
-"Too long. You should know, I see you often enough." She closes the bus doors.
+    {late_for_work: "Man, just take a seat." | "Too long. You should know, I see you often enough."} She closes the bus doors.
 
-- You nod and take a seat.
+- {late_for_work: You mumble an apology | You nod } and take a seat.
 -> Bus.Seat
 
 = Seat
@@ -265,9 +305,60 @@ You watch the church through the window until it fades into a dot in the distanc
 
 === Job ===
 #STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1
+{late_for_work: -> Late}
 At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 There is only one thing on your mind, one thing that shouldn't exist but it does. That {church_feeling} church.
+
+You should do something to take your mind off it.
+
+*[Scan some documents]
+-> Job.Scan
+
+*[Catch up on emails]
+-> Job.Emails
+
+=Late
+You find yourself in your boss' office, staring at the floor as her eyes bore into you. She says nothing for a long time, the only sound is the ticking clock and the tapping of her nails against the desk. You chew on the inside of your cheek and pick at your nails as you wait for her to say something- anything. After an eternity, she lets out a long and deep, disappointed sigh.
+
+"Care to explain yourself?" You snap up, and she stares at you, waiting. "You know how I feel about tardiness. And on today of all dayss too!"
+~temp TempBool = false
+
+* [Apologize]
+    "I'm sorry. Did I-"
+    
+* [Make an excuse]
+    "The bus was running late and then with traffic-"
+    
+* [Tell the truth]
+    ~ TempBool = true
+    "I was at the church by my house and then-"   
+    
+- "I don't want to hear excuses, I want answers! You're lucky Jenny has an eagle eye and was able to cover for you!" She's not yelling, but loud enough that anyone outside the room could hear. Loud enough that your ear drums warble. You grip the photo in your pocket and clench your jaw. "I swear, you <i>try</i> to make my life harder. I give you the <i>easiest</i> jobs at the company, all you have to do is check your email and print documents. EMAILS. That's something you can monitor on your way in, and YET-"
+
+The whole office was quiet as your boss got louder and louder.
+
+* [Apologize]
+    You apologize, but it doesns't seem to matter as she continues to scream at you. <>
+    
+* [Stay silent]
+    She continues to scream at you, not caring that everyone could hear. Some even stared at you through the office windows. <>
+
+* [Go home]
+    ~work = 4
+    ~ was_fired = true
+    You were 40 minutes late for the first time ever. Any other lateness was minutes at best. Why do you need to sit here and be screamed at for a one time occurance? Your coworker is late everyday and she greets him with a <i>smile.</i> You stand up, and start for the door. "Why are you going?! I'm not done talking!" Her voice rings in your ears.
+    
+        ** [Flip her off]
+            You turn and flip her off. <>
+        
+        ** [Ignore her]
+            You ignore her. <>
+            
+        --  "You, you- <i>YOU-</i>" She sputters. "You're FIRED!" You flinch, but leave all the same. This job sucked anyway.
+            ->Walk_Home
+
+- You sit there and take it. It goes on for 20 more minutes before she tells you that you're "on thin ice" and to "clean up your act if you want to keep your job". You nod and leave her office, returning to your computer. There's an electricity in the air as everyone slosly returns to their tasks. You can hear the whispers.
 
 You should do something to take your mind off it.
 
@@ -303,7 +394,6 @@ TODO:check thnis after writing break in.
 * [Apologize]
     "I'm sorry. Did I-"
     
-
 * [Make an excuse]
     "I walked into the wrong meeting room by mistake and-"
     
@@ -751,33 +841,33 @@ You take one step forward.
 #PLAY: footsteps_scary, true, 2
 And walking.
 
--{know: You're moving automatically. You want to go home.} The church door is open and inviting. You can't see inside. 
+- You're moving automatically. {church_interest == "drawn" || entered_feeling == 0: Your heart pounds in your chest. | {know || church_interest == "nothing" || entered_feeling != 0: You want to go home.}} The church door is open and inviting. You can't see inside. 
 
 Around halfway up the path, you hear another set of footsteps.
 
 *[Stop]
-~ temp_bool = true
+    ~ temp_bool = true
 
-*[Walk faster]
-~ temp_bool = false
-->Walk_Up_Path.Run
+*[Ignore it]
+    ~ temp_bool = false
+    ->Walk_Up_Path.Run
 
 - #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 2
-Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up...
+Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {know || entered_feeling == 2: It has to be another trick. | {entered_feeling == 0 || church_interest == "drawn":  | {entered_feeling == 1: }}} 
+TODO: ^^^^
 
-Someone is behind you, and they know you know. Your only option is the church or confrontation. Your heart pounds in your chest. {know: It has to be another trick.}
+<s>Something</s> Someone is behind you, and they know you know. Your only choice is the church or confrontation. Your knees lock as your mind race. You must choose.
 
-*[Run to the church]
-->Walk_Up_Path.Run
+*[The church]
+    ->Walk_Up_Path.Run
 
-*[Confront them]
+*[Confrontation]
 
-- 
-#DELAY: 2
+- #DELAY: 2
 You take a breath and quickly spin around, ready for whatever may await you, and see...
 
 Nothing. No one's there. You laugh.
-{know: The church will do anything to lure you in.| Your mind is playing tricks on you. It was probably the wind.}
+{know || entered_feeling == 0 || church_teleported: The church will do anything to lure you in.| Your mind is playing tricks on you. It was probably the wind.}
 
 { know: You decide that you've been too close for too long and start for the gate. You think you deserve a long, hot bath after today.| You decide that you've trespassed for long enough, and start for the gate. You think you deserve a long, hot bath after today. }
 
@@ -798,24 +888,24 @@ Just as it slams shut...
 Everything goes dark.
 
 *[Wait for your eyes adjust]
-#DELAY: 1.5 
-You hold your eyes closed and count to five.
-
-#DELAY: 1 #TEXTBOX: text_container_UsedTo
-One.
-#DELAY: 1
-Two.
-#DELAY: 1
-Three.
-#DELAY: 1
-Four.
-#DELAY: 1.25
-Five.
-
-You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
+    #DELAY: 1.5 
+    You hold your eyes closed and count to five.
+    
+    #DELAY: 1 #TEXTBOX: text_container_UsedTo
+    One.
+    #DELAY: 1
+    Two.
+    #DELAY: 1
+    Three.
+    #DELAY: 1
+    Four.
+    #DELAY: 1.25
+    Five.
+    
+    You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
 
 *[Try to open the gate.]
-You blindly feel for the latch of the gate, but instead of cool metal your hands meet damp wood, and eventually a knob. 
+    You blindly feel for the latch of the gate, but instead of cool metal your hands meet damp wood, and eventually a knob. 
 
 - Somehow you are inside the church.
 
@@ -823,15 +913,15 @@ You blindly feel for the latch of the gate, but instead of cool metal your hands
 You try the knob.
 
 *[It's locked]
--> Locked
+    -> Locked
 
 = Run
 #PLAY: footsteps_player, true #PLAY: footsteps_scary, true
 { 
     - temp_bool: 
-    Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
+        Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
     - else:
-    {know: Against your better instincts, you pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.| You pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.}
+        {know: Against your better instincts, you pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.| You pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.}
 }
 
 You still cannot see in church. 
@@ -847,10 +937,10 @@ BANG!
 Whoever was out there is slamming themselves into the door. It takes all your strength to keep them from getting in.
 
 *["GO AWAY"]
-~ temp_bool = false
+    ~ temp_bool = false
 
 *[Stay silent]
-~ temp_bool = true
+    ~ temp_bool = true
 
 - 
 { 
@@ -890,7 +980,7 @@ You don't know how long you sit there, holding the door closed, body braced agai
 When you feel safe again, you try to open the knob.
 
 *[It's locked]
-->Locked
+    ->Locked
 
 === Locked ===
 #CHECKPOINT: 2, Locked?
