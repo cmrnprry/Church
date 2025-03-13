@@ -1,0 +1,19 @@
+.bannerblock {
+  padding: 1rem;
+  font-size: 2em;
+  text-align: center;
+  line-height: normal;
+  border-top: 1px solid var(--fg-color);
+  border-bottom: 1px solid var(--fg-color);
+  color: var(--fg-color);
+}
+  
+.accent {
+  border-top: 1px solid var(--accent-fg-color);
+  border-bottom: 1px solid var(--accent-fg-color);
+  color: var(--accent-fg-color);
+}
+
+.allcaps {
+  text-transform: uppercase;
+}
