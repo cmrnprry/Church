@@ -13,9 +13,13 @@ VAR Styling_Image = ""
 VAR haveFlashlight = false
 VAR WhereGO = false
 
+//SKIP
+VAR skip_counter = -1
+
 //Before Work Variables
 VAR church_feeling = ""
 VAR church_interest = ""
+VAR investigated = false
 VAR entered_feeling = -1
 VAR called_number = false
 VAR dropped_phone = false

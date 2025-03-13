@@ -19,20 +19,90 @@ INCLUDE End_Game.ink
     
     ++[Return to Main]
         ->Start
+    ++[Skip to Investigation]
+        ~ skip_counter = 1
+        ->Skip 
     ++[Skip to Work]
-        ->Skip.Skip_Work 
+        ~ skip_counter = 2
+        ->Skip 
     ++[Skip to After Work]
-        ->Skip.Skip_AfterWork
+        ~ skip_counter = 3
+        ->Skip
     ++[Skip to Inside Church]
-        ->Skip.Skip_InsideChurch
+        ~ skip_counter = 4
+        ->Skip
     
 + [Credits] ->Credits
 + [Content Warnings] ->Content_Warnings
 
 === Skip ===
+When you passed the church how did you feel about it?
 
-= Skip_Work
--> Job
+*[You don't care for it]
+    ~church_interest = "care"
+    
+*[You feel drawn to it]
+    ~church_interest = "drawn"
+
+*[You're nauseous just looking at it]
+    ~church_interest = "nothing"
+
+- And what emotion did that envoke?
+
+*[Familiar]
+    ~church_feeling = "familiar"
+
+*[Uncomfortable]
+    ~church_feeling = "uncomfortable"
+
+*[Evocative]
+    ~church_feeling = "evocative"
+
+//Go to investigation if chosen
+TODO: check what image and audio hould be playing
+- {skip_counter == 1:-> Investigate}
+    
+- Did you investigate the church instead of going to work?
+
+*[Yes]
+    What did you do?
+        **[Looked at the window]
+            -> Investigate.Window
+    
+        **[Called the number]
+            Did you go inside?
+            ***[No]
+                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
+                
+            ***[Yes]
+                ~ church_teleported = true
+                { 
+                    - church_interest == "drawn": 
+                        ~ stay += 0.5
+                        ~ dropped_phone = true
+                }
+                {skip_counter == 2:-> Job.Teleport | -> Skip.Skip_AfterWork}
+        
+        **[Went inside]
+            ~late_for_work = true
+            How did you feel inside?
+            
+            ***[Disappointed]
+                ~ stay += 0.5
+                ~ entered_feeling = 0
+                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
+            
+            ***[Satisfied]
+                ~ entered_feeling = 1
+                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
+            
+            ***[Anxious]
+                ~ entered_feeling = 2
+                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
+*[No]
+    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+    {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
+
 
 = Skip_AfterWork
 -> Walk_Home
@@ -50,12 +120,15 @@ It was dark when you passed, and you keep telling yourself that your tired brain
 
 - 
 #IMAGE: BusStop
-You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. A faded "FOR SALE" sign attached to its lawn. It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so...
+You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. A faded "FOR SALE" sign attached to its lawn.
+
+#CYCLE: decrepit, worn-down, enigmatic, old
+It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so @. You swallow hard.
 
 *[You don't care for it]
     ~church_interest = "care"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    The feeling isn't strong, you just know you don't particularly like that there's a church there. You've always had a... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
+    The feeling isn't strong, you just know you don't particularly like that there's a church there. Similar to when your grandma would put raisins in her cookies, something you don't mind but wish weren't there. You've always had a... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
 *[You feel drawn to it]
     ~church_interest = "drawn"
@@ -72,7 +145,7 @@ You pass by again, on your walk to the bus stop this morning, and stop dead in y
 {   church_interest:
 
     - "care":
-        You turn away and attempt to ignore it. Its appearence doesn't mean you should stress over it.
+        You turn away and attempt to ignore it. Its appearence means nothing.
     
     - "drawn":
         You wonder if you should call the number on the sign.
@@ -96,35 +169,43 @@ The church feels...
 *[Evocative]
     ~church_feeling = "evocative"
 
-- It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. You're surprised the building is still standing.
+- 
 
 #PLAY: bus_ambience, true, 2
 {   church_interest:
 
     - "care":
-        The bus arrives and you're no closer to understanding this {church_feeling} church that spontaneously appeared. You give it one last glance and you wrinkle your nose.
+        The bus rolls to a stop in front of you and you're no closer to understanding this {church_feeling} church that spontaneously appeared. You give it one last glance and you wrinkle your nose.
     
     - "drawn":
-        The bus arrives and you feel a pang of disappointment now that you can't spend more time with the {church_feeling} church. You give it one last glance, and bite your lip.
+        The bus rolls to a stop in front of you, and you feel a pang of disappointment now that you can't spend more time with the {church_feeling} church. You give it one last glance, and bite your lip.
     
     - "nothing":
-        The bus arrives late and you jump to your feet. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance, your mouth tasting like pennies.
+        The bus rolls to an agonizingly slow stop in front of you, and you tap your foot impatiently waiting for an older woman to deboard. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance, your mouth tasting like pennies.
 }
 
 *[Get on the bus]
     -> Bus
     
-* {church_interest != "nothing"}[Investigate the church]
-    You { church_interest != "drawn" : want | need} to know more. You don't know if it will still be here after work. You don't know what you're going to do, but you need to do <i>something.</i>
-    -> Investigate
-    
-* {church_interest == "nothing"}[Confront the church]
-    You should just go to work, but this church feels like it's taunting you by just sitting there. You don't know what you're going to do, but you need to do <i>something.</i>
+* [{church_interest != "nothing": Investigate | Confront} the church]
+    Curiosity stirs in your chest. {church_interest != "nothing": You { church_interest != "drawn" : want | need} to know more, and it's still early enough where you can catch the next bus if you're quick about it. | You should just go to work, but this church feels like it's taunting you by just sitting there. It's still early enough where you can catch the next bus if you're quick about it.} You don't know if it will still be here after work. You don't know what you're going to do, but you need to do <i>something.</i>
     -> Investigate
 
 === Investigate
-#STOP: bus_ambience, 2
-You pat your pant pockets, pretending that you forgot your pass, and smile sheepishly. The driver rolls her eyes and drives off. It's still early enough where you can just catch the next one. You steel yourself and look back at the church.
+~investigated = true
+You pat your pant pockets, pretending that you forgot your pass, and smile sheepishly. The driver rolls her eyes. "I won't tell. Just don't make it a habit." She winks at you.
+
+You shift your weight, and check your watch. Your boss has been watching you like a hawk recently, so maybe thiss is some divine intervention telling you to not press your luck.
+
+TODO: make these choices a bit stronger
+* ["Thanks, that's kind of you."]
+    You decide that you don't want to be yelled at today and force a smile. <>
+    -> Bus
+
+* ["I should run home, and grab it anyway."]
+
+-  #STOP: bus_ambience, 2
+She shrugs, "Whatever you say." She closes the doors and drives off. You let out a breath and steel yourself. You need to be quick about it to avoid a 10 minute scolding later. You look back at the church.
 
 *[The windows catch your eye]
     -> Investigate.Window
@@ -175,27 +256,28 @@ You almost drop your phone as you hear the sound of a phone ringing drift from {
 = Break_in
 ~ entered_church = true
 #DELAY: 2.5
-You cross the street and push the gates open. {church_interest == "drawn": You trip over yourself as you run down the path and to the door. {saw_windows: You hear the driver curse and the bus drives off. You know whatever you find is worth being late for work for.} You push through the church door and- | You walk up the path, not entirely sure why you're doing this. {saw_windows: You hear the driver curse and the bus drives off. You hope this is worth being late for work.} You enter through the church door and- }
+You cross the street and push the gates open. {church_interest == "drawn": You trip over yourself as you run down the path and to the door. {saw_windows: You hear the driver curse and the bus drives off. You know whatever you find is worth being late for work for.} You push through the church door and- | You walk up the path, not entirely sure why you're doing this. {saw_windows: You hear the driver curse and the bus drives off. Work be damned at this point. There's something happening here.} You enter through the church door and- }
 
-You're standing in an old church. The floor boards creek under your weight and eveything is covered in a thin layer of dirt and grime. It's empty and dusty and- "It's just a church?" You feel...
+You're standing in an old church. The floor boards creek under your weight and eveything is covered in a thin layer of dirt and grime. It's empty and dusty and it's- "Just a church?" You finish the sentance out loud. You feel...
 
 * [Disappointed]
     ~ stay += 0.5
     ~ entered_feeling = 0
-    You thought it would be more than just... this? You shake your head. No. This makes sense. Of courses it's just this. Why would it be more? You slink out of the church, and return to the bus stop. You stare at it, waiting for something to happen that never does, until the bus comes.
-
+    You thought it would be more than just... this? You shake your head. {saw_windows: Then what was going on earlier? You glance at the closest window and it's frustratingly static. You rub your eyes and put a reminder in your phone to call the eye doctor after work.| No. This makes sense. Of courses it's just this. Why would it be more?} You slink out of the church, and return to the bus stop. You stare at it, waiting for something to happen that never does, until the bus comes.
 
 * [Satisfied]
     ~ entered_feeling = 1
-    You spin around taking in every corner. It's just a building. Just a run down wooden box. You stroll out of the church, and back to the bus stop. You mess around on your phone until the bus comes.
+    #CYCLE: a biblically accurate angel, a face made of birds and flowers, an abstract sunrise, people holding hands, the blood and body of christ
+    You spin around taking in every corner. It's just a building. Just a run down wooden box. {saw_windows: You glance at the closest window and it's a static image of vague geometric shapes you think is @. You rub your eyes and put a reminder in your phone to call the eye doctor after work.} You stroll out of the church, and back to the bus stop. You mess around on your phone until the bus comes.
 
 * [Anxious]
     ~ entered_feeling = 2
-    Something about this feel wrong. Like the church is tryiong to lull you into a false sense of security. This is not it's true form. You try to shake off the feeling as you leave, and return to the bus stop. You ignore the slimey feeling and mess around on your phone until the bus comes.
+    #CYCLE: a biblically accurate angel, a face made of birds and flowers, an abstract sunrise, people holding hands, the blood and body of christ
+    Something about this feel wrong. Like the church is tryiong to lull you into a false sense of security. That this is not it's true form. {saw_windows: You glance at the closest window and it's a static image of vague geometric shapes you think is @. You rub your eyes and look again and swear the image shifted.}  You try to shake off the feeling as you leave, and return to the bus stop. You ignore the slimey feeling and mess around on your phone until the bus comes.
 
 -
 ~ late_for_work = true
-It takes an agonizing 20 more minutes to arrive. You check your Slack messages and see multiple from your boss. 
+It takes an agonizing 20 more minutes for the bus to arrive. You check your Slack messages while you wait and see multiple from your boss. 
 
 #PLAY: email_ding #DELAY: 1.5
 "Where are you????"
@@ -207,7 +289,7 @@ It takes an agonizing 20 more minutes to arrive. You check your Slack messages a
 "You can't keeep doing this."
 
 #PLAY: email_ding #DELAY: 1.5
-Your job is emails, can you not check them on the bus?!"
+"Did you finish my presentation for Project Cypher??"
 
 #PLAY: bus_ambience, true, 2
 "You okay, man?" You jump at the voice, not realizing the next bus had arrived. You nod, and fumble with the your wallet to find your ticket. "Come <i>on,</i> man."
@@ -234,9 +316,11 @@ You stumble backwards as the bus swerves, narrowly avoiding you. The driver open
 
 *[Your eyes don't leave the church]
 
-- You brush off the driver's questions, and force yourself to stare at that stained glass window until it the image focused into an eye. It blinks at you.
+- #CYCLE: blinks, winks
+You brush off the driver's questions, and force yourself to stare at that stained glass window until the image focuses into an eye. It @ at you.
 
-*[Go into the church]
+*[Go to the church]
+    #STOP: bus_ambience, 2
     You ignore the driver's further proding and walk around the bus, pressing a hand against it to steady yourelf. The driver continues to shout after you, but you ignore him. <>
     ->Break_in
 
@@ -265,10 +349,10 @@ Your eyes dart from him to the church behind him and back. You're losing it. Ove
 === Bus ===
 You board the the bus, and scan your ticket.
 
-*[Take a seat]
--> Bus.Seat
+* {!investigated} [Take a seat]
+    -> Bus.Seat
 
-*["Do you know when they built that church?"]
+*["{investigated: By the way d| D}o you know when they built that church?"]
 
 - 
 The bus driver looks over her shoulder, then back at you. She frowns.
@@ -318,7 +402,7 @@ You should do something to take your mind off it.
 *[Catch up on emails]
 -> Job.Emails
 
-=Late
+= Late
 You find yourself in your boss' office, staring at the floor as her eyes bore into you. She says nothing for a long time, the only sound is the ticking clock and the tapping of her nails against the desk. You chew on the inside of your cheek and pick at your nails as you wait for her to say something- anything. After an eternity, she lets out a long and deep, disappointed sigh.
 
 "Care to explain yourself?" You snap up, and she stares at you, waiting. "You know how I feel about tardiness. And on today of all dayss too!"
@@ -358,15 +442,15 @@ The whole office was quiet as your boss got louder and louder.
         --  "You, you- <i>YOU-</i>" She sputters. "You're FIRED!" You flinch, but leave all the same. This job sucked anyway.
             ->Walk_Home
 
-- You sit there and take it. It goes on for 20 more minutes before she tells you that you're "on thin ice" and to "clean up your act if you want to keep your job". You nod and leave her office, returning to your computer. There's an electricity in the air as everyone slosly returns to their tasks. You can hear the whispers.
+- You sit there and take it. It goes on for 20 more minutes before she tells you that you're "on thin ice" and to "clean up your act if you want to keep your job". You nod and leave her office, returning to your computer. There's an electricity in the air as everyone slowly returns to their tasks. You can hear the whispers.
 
 You should do something to take your mind off it.
 
 *[Scan some documents]
--> Job.Scan
+    -> Job.Scan
 
 *[Catch up on emails]
--> Job.Emails
+    -> Job.Emails
 
 = Teleport
 "Excuse you! Is there something so important that you needed to barge in here?" You blink, confused, and find yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were just at the church. How did you? "Well?"
@@ -488,10 +572,10 @@ You pull up your email and scroll through the new ones, only reading the subject
 Wait. Church inquiry?
 
 *[Open church inquiry email]
--> Job.Open
+    -> Job.Open
 
 *[Delete the email]
--> Job.Delete
+    -> Job.Delete
 
 = Delete
 #DELAY: 1.5
@@ -508,21 +592,24 @@ But yet another takes it's place.
 
 *[Ignore it and reply to the client]
 
+*[Give in and open it]
+    -> Job.Open
+
 - You mark the church email as spam and respond to the client, making sure to CC the correct person they should speak to. You close your email and rub your eyes with the palm of your hands. 
 
 #DELAY: 3
 <i>Stop thinking about it.</i> You tell yourself. {entered_church: <i>It's nothing but a church, so why-</i> | {church_teleported: <i>It didn't want you, so why-</i> | {called_number: <i>You can't let it win-</i> }}} 
 
 #PLAY: knocking
-"Knock knock, can I talk to you?" You look up to see your manager at your door, holding a few sheets of paper. They look upset.
+"Knock knock, can I talk to you?" You look up to see your manager at your cubicle door, holding a few sheets of paper. They look upset.
 ~ work = 2
 
-*["Yeah, come in."]
-    They enter, and close the door, "I'll be quick. Can you explain what your last email meant?" They sound frustrated. "Is it a joke? A prank?"
+*["Yeah, what's up?"]
+    "I'll be quick. Can you explain what your last email meant?" They sound frustrated. "Is it a joke? A prank?"
 
 *["Now's not a good time."]
-    "Right..." they say, and enter anyway. "Can you explain what your last email meant? Our client is not happy."
-
+    "Right..." they say and continue anyway. "Can you explain what your last email meant? Our client is not happy."
+    
 - 
 
 *["What?"]
@@ -540,8 +627,6 @@ No, you didn't write this. You know you didn't. Did the church...? {entered_chur
 
 *["I'm going home early today."]
 
-*["I'm going to work from home for the rest of the day."]
-
 *[Say nothing and leave.]
 
 - ->Walk_Home
@@ -557,12 +642,12 @@ You get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. H
 You try to delete them, but they just keep coming. "Where are you?" "Come home." "(No Subject. Image Attached Is this a prank? Or is it...
 
 *[Open Email]
-~ know = true
-You give in, and click the latest email.
--> Job.Open
+    ~ know = true
+    You give in, and click the latest email. <>
+    -> Job.Open
 
 *[Continue Deleting]
-    You don't care who, or what, is doing this. You just want it to stop. {entered_church: {entered_feeling == 1: You almost feel silly thinking it's anything besides a dumb prank. A church- a building - is not emailing you. It was just a normal church. You're just on edge.}} {called_number: <i>Why is it...?</i> {church_teleported: You went inside. You- You did what it wanted. So why? | Is this because you didn't go inside? You didn't do what it wanted and now it wants to ruin you?}} 
+    You don't care who, or what, is doing this. You just want it to stop. {entered_church: {entered_feeling == 1: You almost feel silly thinking it's anything besides a dumb prank. A church- a building - is not emailing you. It was just a normal church. You're just on edge. | For a second you think it's the church before you discard the thought. That'ss not possible.}} {called_number: <i>Why is it...?</i> {church_teleported: You went inside. You- You did what it wanted. So why? | Is this because you didn't go inside? You didn't do what it wanted and now it wants to ruin you?}} 
 - 
 #PLAY: email_ding, true #DELAY: 1.5
 You can't delete them fast enough.
@@ -589,7 +674,7 @@ They just keep coming. You try to-
 
 - {know: | You click the email.} It shows an image of the church, but in a different place. Not at the end of your street, but near your grandparents house, several states away. You see a younger version of yourself standing outside and grinning. You wore clean church clothes. 
 
-Your mouth goes dry. You went to church when you lived with them, but wasn't <this<i/> one. Was it?
+Your mouth goes dry. You went to church when you lived with them, but couldn't be <i>this</i> one. Could it?
 
 *[Scroll down]
 
@@ -597,29 +682,41 @@ Your mouth goes dry. You went to church when you lived with them, but wasn't <th
 
 You slam the laptop shut. A fuzzy memory tickles the back of your mind. Suddenly, everything clicks into place.
 
-*[You know the church.]
+*[You know the church]
+    ~know = true
 
-- You don't know how, but you know it. You slam you fist against your desk. "Why can't I...?" You mutter.
+- You don't know how, but you know it. You slam you fist against your desk. "Why can't I...?" You mutter. The memory refuses to surface with only vague images and feelings coming to mind. You see yourself inside. You're scared. You're trapped. But that's all you can remember. You hit the desk again, harder. 
 
-The memory refuses to surface with only vague images and feelings coming to mind. You see yourself inside. You're scared. You're trapped. But that's all you can remember. You hit the desk again, harder. 
+"It's right there, so just..." You murmur to yourself. "I was...?" You had found something. And then it let you out? No. It wouldn't- {entered_church: But it did. Today it did too. {entered_feeling == 1: It let you think everything was okay and leave.} | {called_number: It welcomed you in today, {church_teleported: but it sent you away. | so why would it let you out as a child? When it had you? } | Or would it? Maybe it's just playing with you. }}
 
-"It's right there, so just..." You murmur to yourself. "I was...?"
+"Everything... Okay...? In here?" It's your coworker. You wave him away, and focus. You can remember...
 
-You had found something. And then it let you out? No. It wouldn't- {entered_church: But it did. Today it did. {entered_feeling == 1: It let you think everything was okay and leave.} | {called_number: It welcomed you in today, {church_teleported: but it sent you away. | so why would it let you out as a child? When it had you? } | Or would it? Maybe it's just playing with you. }}
+* [The escape]
+    You can see the door opening, but the younger you didn't feel relief. No, they felt... dread? They had to crawl because their legs shook so badly. The whole time they clutched something in their hand. Something important. They left the item behind as a... Promise? Why? Did you-
+    
+* [The fear]
+    You were terrified. It was dark. So, so dark that even in the memory all you can see is the inky darkness. The younger you curled into a ball and cried until there was nothing left to cry. Then, a warm red light illuminated you, along with a soft melody. And someone reached out...? Were you not-
 
-*["Everything... Okay...? In here?"]
+* [The aftermath]
+    Your grandmother wouldn't let you out of her grasp for at least a month after they got you back. There were a lot of cops and doctors and questions. You remember being that every church you saw for a long while was <i>the</i> church. It was following you? Stalking you? When did it stop? When-
 
-- It's your coworker. You wave him away, and focus. You escaped. It wants you back. You can see the door opening, but the younger you didn't feel relief. No, they felt... afraid? Why...? You got out so why-
+TODO: maybe a choice here about how to react?
+- "Hey, what's-" Your coworker suddenly grabs your shoulder, and you... smack his hand away, jumping up out of your chair. You lean against the wall to support yourself, breathing heavily as you do, as your coworker snaps. "What's your problem?!"
 
-"Hey, what's-" Your coworker suddenly grabs your shoulder,  and you smack his hand away, jumping up out of your chair. You lean against the wall to support yourself, breathing heavily as you do, as your coworker snaps. "What's your problem?!"
+* ["I- I'm fine!"]
+    Your voice is shrill. You force a smile. <>
 
-Your coworker stares at you, waiting for an answer. You shove your hand into your pocket, searching for the polaroid inside, hoping to calm yourself.
+* ["Why are you here?"]
+    You snap at him. You were so close to figuring it all out and he had to come and ruin it all. <>
 
-"No no no, where...?" You franticly searching every pocket, only to find it all empty. You look to your desk and find small, ripped pieces of a once comforting memory. "Did I...?"
 
-"Seriously, what's up with you?!" You gather the pieces in your hands, and begin trying to tape them together, but the pieces are too small. You swallow the lump in your throat, and face your coworker. "Uhhh... You alright?"
+- Your coworker stares at you is disbelief, and you shove your hand into your pocket, searching for the polaroid inside, hoping to calm yourself, only to find it missing.
 
 ~ photo_ripped = true
+ "No no no, where...?" You franticly search every pocket, finding them all empty. You look to your desk and find small, ripped pieces of a once comforting memory. "Did I...?"
+
+"Seriously, what's up with you?!" He asks as you gather the pieces in your hands, and begin trying to tape them together, but the pieces are too small. You swallow the lump in your throat, and face your coworker. "Uhhh... You alright?"
+
 *["I'm- I'm going home early."]
 
 *[Say nothing and leave.]
@@ -629,15 +726,17 @@ Your coworker stares at you, waiting for an answer. You shove your hand into you
 === Walk_Home ===
 TODO: is work = 4 used anywhere besides yuelled at?
 { work:
-    - 1:"Maybe you should take some sick days..." she says, her voice trails off. You nod, and return to your desk to gather your things.
+    - 1: "Maybe you should take some sick days..." she says, her voice trails off. You nod, and return to your desk to gather your things.
     
     - 2: "I want an apology sent to them within the day, or don't come back at all." They say, as you gather your things. You nod, and they shake their head muttering curses, leaving you alone in the cubicle.
     
     - 3: "Yeah, whatever." He says as he leaves. You quickly start packing up your things.
     
-        {know: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring youurself to throw it away, instead placing each piece in the small drawer of your desk.<br><br>You'll try to fix this tomorrow, after a good night's sleep.}
+        {photo_ripped: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring yourself to throw it away, instead placing each piece in the small drawer of your desk. You'll fix this tomorrow, after a good night's sleep.}
         
-    - 4: You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
+    - 4: 
+        #STOP: office_ambience, 1 #IMAGE: BusStop
+        You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
         <i>But what about the church?</i> Your stomach {church_interest != "drawn": drops | jumps}. You shake your head. Hopefully it will be gone. Hopefully it got all it wanted from you and moved on. Hopefully.
      
@@ -645,51 +744,109 @@ TODO: is work = 4 used anywhere besides yuelled at?
         Error
 }
 
-TODO: Add more here with our new silly variables
+TODO: this and the next feel like semi awkward jumps
 {know: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back- that if you do, you won't come out again.}
 
 #STOP: office_ambience, 1 #IMAGE: BusStop
-The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there.
+The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church.
 
-* {!church_teleported} [Take a different path home]
-->Walk_Home.Different
+TODO: why?
+* {!church_teleported} [Take the long way home]
+    ->Walk_Home.Different
 
 *[Take the usual path home]
-Tentatively, you walk your usual path home, and try not to look at the church.
-->Walk_Home.Usual
+    Tentatively, you walk your usual path home, and try not to look at the church.
+    ->Walk_Home.Usual
+
+= Call_Grandparents
+You dial the number for their landline. You tried to convince them to get cell phones once, but your grandfather staunchly refused, claiming something about them being "addictive cancer boxes" and your grandma agreed. The phone rings a few times before it connects.
+
+"Hello, Candice speaking!" Your grandma's cheery voice is on the other end.
+
+"Hey, it's me. I had a que-" You start, but she cuts you off with an excited gasp.
+
+"George! George! Come here! Our favourite grandchild called!" You hear your grandfather groan, and your grandma scolds him, which leads to more groaning. "Oh, hold on, sweetie." You hear a shuffling as you assume your grandma wass making her way to where your grandfather sat. You scratch at the back of your neck while the burning sensaion grows stronger.
+
+* ["Grandma? There's something important I need to ask you."]
+    "Oh, one moment dear. <>
+
+* ["Is now a bad time?"]
+    "Oh don't be silly, we're always happey to hear from you. <>
+
+- Say hi to grandpa!" You don't have time to respond before she's already talking again. Something pulls at your leg and you shake it out, but the feeling only grow stronger. "You really should call more. We're not getting any younger you know."
+
+She keeps talking, your grandfather occasionally adding a grunt to agree with her. She's not going to let you get a word in unless you cut her off. You look out at the stop sign on te corner and frown. Shouldn't it be closer by now?
+
+* ["Mhm, but grandma do you know anything about a... church?"]
+    The line goes quiet and for a second you think you were disconnected, but then your grandma says quietly, "What church?"
+    
+    TODO: it follows u to work
+    #CYCLE: weird, long, upsetting, troubling
+    "It's at the end of my street. I don't particularly... remember it being there before today, but today has been @." You bite your lip. "{know: I saw a picture today of us, all of us, there- At the church I mean. | This sounds crazy but I think it followed me to work. } Do you know anything about it?"
+
+*["Do you know anything about the church by my house?"]
+    The line goes quiet and for a second you think you were disconnected, but then your grandma says quietly, "What church?"
+    
+    TODO: it follows u to work
+    #CYCLE: weird, long, upsetting, troubling
+    "It's at the end of my street. I don't particularly... remember it being there before today, but today has been @." You bite your lip. "{know: I saw a picture today of us, all of us, there- At the church I mean. | This sounds crazy but I think it followed me to work. } Do you know anything about it?"
+
+- "Have you gone inside it?" It's your grandfather, his voice is rough. "Tell me you haven't. Are you home? You should come here."
+
+* [Say that you have ({entered_church || church_teleported: truth | lie}) ]
+    {entered_church: "Yeah but it was just-" | {church_teleported: "Kind of? It's hard to explain-" | "Yeah, but it wasn't-"}}
+    
+    Your grandma lets out a choked cry and starts to pray. 
+
+* [Say that you haven't ({entered_church || church_teleported: lie | truth})]
+    {church_teleported: "Not really? It's hard to explain-" | "No, it looks abandoned so-"}
+    
+    "Thank God, Jesus, and mother Mary." Your grandms says a prayer. 
+    
+    TODO: need to get more of the urgency here
+- <> The call starts to sound far away. You can hear your grandfather say something, but can't make it out. The closer you get to the corner, the further away your grandparents voice sounds. By the time you finally reach the corner the call goes dead. 
+
+#REPLACE: stop sign.
+You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
+    
+*[stop sign.]
+->Stop_Sign
 
 = Different
 ~turn = "walking"
 ~avoid_church = true
 #IMAGE: Stop_Sign
-You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}}
+You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imgaine of you infront of the church with your grandparents. Maybe you should give them a call{dropped_phone: once you're home and have a working phone}.}
 
 *[Face it]
     ->Walk_Home.Turn_Around
 
-*[Keep going]
+*[Scratch your neck]
+
+* {!dropped_phone && know} [Call grandparents]
+    ->Call_Grandparents
 
 - 
 #ZOOM: scale(1.25),inset(0px 0px 5% 5%)
 #PLAY: walking_fast_pavement, true, 1
-You shove your hand in your pocket and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inveitable.}
+You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inveitable.}
 
 
-*[Face it]
+*[It's waiting]
     ->Walk_Home.Turn_Around
 
-*[Keep going]
+*[Shake out your leg]
 
 - 
 ~turn = "running"
 #ZOOM: scale(1.5) translate(-12%, 16%),inset(0px 0px 26% 17%)
-#STOP: walking_fast_pavement, 0.5 #PLAY: running_pavement, true, 0.5, 1
-You break out into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
+#STOP: walking_fast_pavement, 1.5 #PLAY: running_pavement, true, 1.5, 1
+You shake out your leg, but the tugging pulls harder. You stumble forward and break into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
 You hear something on the wind. A voice?
 
-*[Face. It.]
-->Walk_Home.Turn_Around
+*[But it's growing impatient]
+    ->Walk_Home.Turn_Around
 
 *[Keep. Going.]
 
