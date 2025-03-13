@@ -1,0 +1,12 @@
+.imagebox {
+  display: flex;
+}
+
+.image {
+  margin: auto;
+  max-width: 100%;
+}
+
+.illustration {
+  max-height: 50vh;
+}
