@@ -1,6 +1,6 @@
 .table {
     border-collapse: collapse;
-    color: var(--fg-color);
+    color: var(--accent-color);
     width: 100%;
 }
 
@@ -35,9 +35,9 @@
 }
 
 .page {
-    color: var(--fg-color);
+    color: var(--accent-color);
 }
 
 .page_active {
-    color: var(--accent-fg-color);
+    color: var(--accent-color);
 }

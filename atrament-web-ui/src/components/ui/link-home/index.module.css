@@ -1,17 +1,17 @@
 .link_home {
   display: block;
-  background-color: var(--bg-color);
-  color: var(--accent-fg-color);
+  background-color: var(--light-color);
+  color: var(--dark-color);
   padding: 1rem;
   text-align: center;
   text-decoration: none;
   width: 100%;
-  border: 1px solid var(--accent-fg-color);
+  border: 2px solid var(--accent-color);
   border-radius: var(--border-radius);
   cursor: pointer;
 }
 
 .link_home:hover {
-  background-color: var(--accent-fg-color);
-  color: var(--accent-bg-color);
+  background-color: var(--accent-color);
+  color: var(--light-color);
 }

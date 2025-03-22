@@ -6,7 +6,7 @@
 .sk_cube_grid div {
   width: 33%;
   height: 33%;
-  background-color: var(--fg-color);
+  background-color: var(--accent-color);
   float: left;
   animation-name: sk-cubeGridScaleDelay;
   animation-iteration-count: infinite;

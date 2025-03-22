@@ -19,7 +19,7 @@
   cursor: pointer;
   border: none;
   background: none;
-  color: var(--font-color);
+  color: var(--accent-color);
   z-index: 150;
 }
 
@@ -42,19 +42,19 @@
 
 
 .atrament_about {
-  background-color: var(--fg-color);
-  color: var(--bg-color);
+  background-color: var(--accent-color);
+  color: var(--dark-color);
   padding: 0.2em;
 }
 
 .atrament_appversion {
   background-color: var(--shade-color);
-  color: var(--fg-color);
+  color: var(--accent-color);
   padding: 0.2em;
   padding-left: 0.3em;
 }
 
 .atrament_appversion:hover {
-  background-color: var(--fg-color);
-  color: var(--bg-color);
+  background-color: var(--accent-color);
+  color: var(--dark-color);
 }
