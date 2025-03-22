@@ -11,9 +11,9 @@
 }
 
 .side_highlight {
-  border-left: 0.3rem solid var(--fg-color);
+  border-left: 0.3rem solid var(--accent-color);
 }
 
 .side_accent {
-  border-left: 0.3rem solid var(--accent-fg-color);
+  border-left: 0.3rem solid var(--accent-color);
 }

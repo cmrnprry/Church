@@ -1,5 +1,5 @@
 .progress_frame {
-  border: 1px solid var(--fg-color);
+  border: 1px solid var(--accent-color);
   border-radius: var(--border-radius-inline);
   position: relative;
 }
@@ -12,11 +12,11 @@
 }
 
 .standard {
-  background-color: var(--fg-color);  
+  background-color: var(--accent-color);  
 }
 
 .accent {
-  background-color: var(--accent-fg-color);
+  background-color: var(--accent-color);
 }
 
 .progress_content {

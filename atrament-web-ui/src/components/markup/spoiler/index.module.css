@@ -1,5 +1,5 @@
 .hidden {
-  background-color: var(--fg-color);
+  background-color: var(--accent-color);
   cursor: pointer;
   border-radius: var(--border-radius-inline);
 }
@@ -10,6 +10,6 @@
 }
 
 .revealed {
-  background-color: var(--bg-color);
+  background-color: var(--dark-color);
   transition: background-color var(--animation-disabled, 0.2s) linear;
 }

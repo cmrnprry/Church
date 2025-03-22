@@ -1,3 +1,9 @@
+# title: Mass of Consumption
+# author: Ren Perry
+# sessions: 3
+# saves: 5
+# load_from_checkpoints
+
 INCLUDE Variables.ink
 INCLUDE AfterFirstChoice.ink
 INCLUDE Confessional_Door.ink
@@ -6,10 +12,10 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
+[picture]Images/Backgrounds/Title.png[/picture]
 ->Start
 === Start===
-#IMAGE: Title
-<i>This game will autosave your progress. Use the restart button to reset ALL saved data, including checkpoints and history. Use the checkpoints button to jump to previous points of the story. <br><br> Click the textbox to continue when no choices are presented. Use the options menu to adjust audio volume and toggle any text or sscreen effects on or off.</i>
+<i>This game will autosave your progress and keep checkpoints. Use the "Save/Load" menu to access these features. <br><br> Click the textbox to continue when no choices are presented. Use the options menu to adjust audio volume and toggle any text or screen effects on or off.</i>
 
 
 + [Start Game] 
@@ -114,13 +120,17 @@ TODO: check what image and audio hould be playing
 #PLAY: background, true, 1.5
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
-It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
++ [ ]
+
+- It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
 
 *[It's impossible for a church to spring up overnight.]
 
 - 
 #IMAGE: BusStop
 You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. A faded "FOR SALE" sign attached to its lawn.
+
++ [ ]
 
 #CYCLE: decrepit, worn-down, enigmatic, old
 It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so @. You swallow hard.
@@ -368,13 +378,16 @@ The bus driver looks over her shoulder, then back at you. She frowns.
 -> Bus.Seat
 
 = Seat
-#REPLACE: home
-You watch the church through the window until it becomes a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back [home].
+~ temp TempBool = false
 
-*[home]
+#REPLACE: home
+You watch the church through the window until it becomes a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back [link=+home]home[/link].
+
+*[+home]
+    ~ TempBool = true
     ->Bus.home
     
-*[You want to forget about the church.]
+*[You {TempBool: <i>need</i> | want} to forget about the church.]
     #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job

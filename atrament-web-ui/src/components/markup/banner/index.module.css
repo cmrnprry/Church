@@ -3,15 +3,15 @@
   font-size: 2em;
   text-align: center;
   line-height: normal;
-  border-top: 1px solid var(--fg-color);
-  border-bottom: 1px solid var(--fg-color);
-  color: var(--fg-color);
+  border-top: 2px solid var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  color: var(--dark-color);
 }
   
 .accent {
-  border-top: 1px solid var(--accent-fg-color);
-  border-bottom: 1px solid var(--accent-fg-color);
-  color: var(--accent-fg-color);
+  border-top: 2px solid var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+  color: var(--dark-color);
 }
 
 .allcaps {
