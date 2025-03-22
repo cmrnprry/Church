@@ -21,7 +21,7 @@ const Settings = () => {
       <Collapse title={translator.translate('settings.appearance')}>
         <SettingsFont />
         <SettingsText />
-        <SettingsTheme />
+        {/* <SettingsTheme /> */}
       </Collapse>
     </div>
   );

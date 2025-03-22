@@ -16,7 +16,7 @@
 .settings_fontsize_input {
   width: 100%;
   margin-top: 0.5rem;
-  accent-color: var(--fg-color);
+  accent-color: var(--accent-color);
 }
 
 .settings_font_sample {

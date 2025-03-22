@@ -5,9 +5,9 @@
 
 .checkbox_wrapper .checkbox {
   appearance: none;
-  background-color: var(--bg-color);
+  background-color: var(--dark-color);
   border-radius: 1rem;
-  border: 1px solid var(--fg-color);
+  border: 1px solid var(--accent-color);
   flex-shrink: 0;
   height: 1.1rem;
   margin: 0;
@@ -30,7 +30,7 @@
 }
 
 .checkbox_wrapper .checkbox::after {
-  background-color: var(--fg-color);
+  background-color: var(--accent-color);
   border-radius: 50%;
   content: "";
   height: 0.9rem;
@@ -45,11 +45,11 @@
 }
 
 .checkbox_wrapper .checkbox:checked {
-  background-color: var(--fg-color);
+  background-color: var(--accent-color);
 }
 
 .checkbox_wrapper .checkbox:checked::after {
-  background-color: var(--bg-color);
+  background-color: var(--dark-color);
   left: 0.95rem;
 }
 

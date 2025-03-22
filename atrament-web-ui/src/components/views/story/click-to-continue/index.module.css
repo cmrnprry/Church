@@ -15,40 +15,50 @@
     overflow: hidden;
 }
 
-.circle {
+/* ORGINAL ARROW CODE FROM @poopsplat on CODE PEN https://codepen.io/poopsplat/pen/EPaeEE */
+.arrow {
+    width: 12px;
+    height: 12px;
+    border: none;
+    background: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* center image */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5em;
-    height: 1.5em;
-    background-color: var(--fg-color);
-    border-radius: 50%;
-    opacity: 0.3;
-}
+    display: inline-block;
+    transform: scale(1.5);
+    left: 90%;
+    top: 10%;
+  }
   
-.circle:before,
-.circle:after {
+.arrow:before {
+    top: 2px;
+    right: 6px;
+    width: 8px;
+    height: 8px;
+    content: '';
     position: absolute;
-    content: "";
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    border: solid 3px var(--fg-color);
-    border-radius: 50%;
-}
-  
-.circle:before {
-    animation: ripple 4s linear infinite;
-}
-  
-.circle:after {
-    animation: ripple 4s 1s linear infinite;
-}
+    transform: rotate(-45deg);
+    box-shadow: 2px 2px 0 var(--accent-color), 3px 2px 0 var(--accent-color), 2px 3px 0 var(--accent-color), 3px 3px 0 var(--accent-color);
+  }
+
+.arrow:after {
+    width: 0;
+    height: 0;
+    left: -1px;
+    bottom: 50%;
+    content: '•';
+    color: var(--accent-color);
+    line-height: 0;
+    font-size: 14px;
+    position: absolute;
+    transition: left .1s ease-out, bottom .1s ease-out, letter-spacing .1s ease-out;
+  }
+
+.arrow:hover,
+  .arrow:focus {
+    outline: none;
+    &::after {
+        left: 1px;
+      }
+  }
   
 @keyframes ripple {
     to {

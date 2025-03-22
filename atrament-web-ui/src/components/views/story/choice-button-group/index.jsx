@@ -49,7 +49,7 @@ const ChoiceButtonGroup = ({ key, currentScene, setReady }) => {
 
   return (
     <>
-      {currentScene.choices.map((choice, index) => (
+      {currentScene.choices.filter((choice) => choice.choice.includes("+") == false).map((choice, index) => (
         <ChoiceButton
           key={`${key}-${index}`}
           choice={choice}

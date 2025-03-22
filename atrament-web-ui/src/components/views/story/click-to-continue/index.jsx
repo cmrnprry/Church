@@ -31,7 +31,7 @@ const ClickToContinue = ({ setReady, withChoice = false }) => {
     document.getElementsByClassName('atrament-container-choices')[0].addEventListener("click", continueGame, false);
     setTimeout(() => {
       setIsVisible(true);
-    }, 3000);
+    }, 1500);
     return () => {
       document.removeEventListener("keydown", kbdChoiceHandler, false);
       document.getElementsByClassName('atrament-container-scene')[0].removeEventListener("click", continueGame, false);
@@ -41,7 +41,7 @@ const ClickToContinue = ({ setReady, withChoice = false }) => {
 
   return (
     <div class={style.container}>
-      {isVisible && <div class={`${style.circle}`} title={translator.translate('game.click-to-continue')} />}
+      {isVisible && <div class={`${style.arrow}`} title={translator.translate('game.click-to-continue')} />}
     </div>
   ) 
 };

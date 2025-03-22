@@ -15,7 +15,7 @@ import GameCover from './game-cover';
 import useGameControls from './use-game-controls';
 
 
-const AboutGame = () => (<LinkMenu key="about" onClick={() => route('/about')}><Text id={'main.about'} /></LinkMenu>);
+// const AboutGame = () => (<LinkMenu key="about" onClick={() => route('/about')}><Text id={'main.about'} /></LinkMenu>);
 
 const MainMenu = ({ canBeResumed, canBeLoaded, openLoadGameMenu, about }) => {
   const { newGame, resumeGame } = useGameControls();
@@ -26,7 +26,7 @@ const MainMenu = ({ canBeResumed, canBeLoaded, openLoadGameMenu, about }) => {
         {canBeResumed ? <LinkMenu key="continuegame" onClick={resumeGame}><Text id={'main.continue'} /></LinkMenu> : ''}
         <LinkMenu key="startgame" onClick={newGame}><Text id={'main.newgame'} /></LinkMenu>
         {canBeLoaded ? <LinkMenu key="loadgame" onClick={openLoadGameMenu}><Text id={'main.loadgame'} /></LinkMenu> : ''}
-        {about ? <AboutGame /> : ''}
+        {/* {about ? <AboutGame /> : ''} */}
       </Block>
     </>
   );
@@ -52,7 +52,7 @@ export const SessionsMenuView = () => {
           <GameCover />
           <Block align='end'>
             <SessionsView newGame={newGame} resumeGame={resumeGame} canResume={canResume} loadGame={openLoadGameMenu} />
-            <AboutGame />
+            {/* <AboutGame /> */}
           </Block>
         </>
       }
