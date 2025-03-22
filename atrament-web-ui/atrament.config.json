@@ -1,13 +1,18 @@
 {
-  "name": "Atrament Web UI demo",
-  "short_name": "atrament-web-ui",
-  "description": "Atrament Web UI - shell for Ink games",
-  "theme": "light",
+  "name": "Mass of Consumption",
+  "short_name": "mass-of-consumption",
+  "description": "The church is waiting for you",
+  "theme": "default",
   "font": "System",
   "language": "en",
   "locale": "en-US",
   "game": {
     "path": "game",
-    "source": "intercept.ink"
+    "source": "The Church.ink"
+  },
+  "default": {
+    "default.title": "Mass of Consumption",
+    "author": "Ren Perry"
   }
+  
 }
