@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/groaning-happy.ogg-bbe7b50ce0770143945996597029dcb0.oggstr"
+
+[deps]
+
+source_file="res://audio/groaning-happy.ogg"
+dest_files=[ "res://.import/groaning-happy.ogg-bbe7b50ce0770143945996597029dcb0.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
