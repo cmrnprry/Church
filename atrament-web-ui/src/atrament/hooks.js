@@ -68,6 +68,10 @@ export const useAtrament = () => {
     atrament.state.setSubkey('game', 'background_page', null);
   }, [ atrament ]);
 
+  const fadeOutScene = useCallback(() =>{
+    console.log("hello please fade out")
+  }, [atrament]);
+
   return {
     atrament,
     canResume: atrament.game.canResume,
@@ -81,7 +85,8 @@ export const useAtrament = () => {
     evaluateInkFunction,
     setInkVariable,
     getInkVariable,
-    resetBackground
+    resetBackground,
+    fadeOutScene
   };
 };
 

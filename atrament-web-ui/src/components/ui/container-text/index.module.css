@@ -8,10 +8,14 @@
   line-height: calc(1ex / 0.32);
   font-family: var(--font-game);
   font-size: var(--game-font-size);
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  transition: opacity allow-discrete 1.5s;
+  -moz-transition: opacity allow-discrete 1.5s; /* Firefox 4 */
+  -webkit-transition: opacity allow-discrete 1.5s; /* Safari 和 Chrome */
+  -o-transition: opacity allow-discrete 1.5s; /* Opera */
 }
 
-/*
 .container_text::-webkit-scrollbar {
-  display: none;
+  display: none; /* for Chrome, Safari and Opera */
 }
-*/

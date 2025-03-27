@@ -5,6 +5,7 @@
     margin-inline-start: 0;
     margin-inline-end: 0;
     unicode-bidi: isolate;
+    transition: opacity 1.5s ease-out;
 }
 
 .paragraph:first-child {

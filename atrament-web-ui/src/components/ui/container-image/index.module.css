@@ -1,5 +1,9 @@
 .imagebox {
   display: flex;
+  transition: opacity allow-discrete 1.5s;
+  -moz-transition: opacity allow-discrete 1.5s; /* Firefox 4 */
+  -webkit-transition: opacity allow-discrete 1.5s; /* Safari 和 Chrome */
+  -o-transition: opacity allow-discrete 1.5s; /* Opera */
 }
 
 .image {

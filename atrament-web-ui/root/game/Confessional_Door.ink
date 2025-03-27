@@ -5,7 +5,7 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
 ~ have_visited += Confessional_DoorSide //set that we have visisted the area
 
 ~temp_bool_2 = false
-#IMAGE: Default #PROP: curtain_full, true
+#IMAGE: Images/Backgrounds/Default #PROP: curtain_full, true
 {
     //if this is the first area we are visiting
     - previous_area == -1:
@@ -440,7 +440,7 @@ The curtain closes, and she is gone.
 -> Confessional_Door.Return_to_Search
 
 = Exit_Booth
-#IMAGE: Confessional_CloseUp #PROP: curtain_torn, false
+#IMAGE: Images/Backgrounds/Confessional_CloseUp #PROP: curtain_torn, false
 <i>This is your fault.</i>
 
 There's no sign of the girl. 
@@ -466,7 +466,7 @@ You feel...
     ~ priest_feeling = "guilt"
     ~stay += 0.5
     ~temp_string = "You grimace"
-    #IMAGE: Default #PROP: curtain_torn, true
+    #IMAGE: Images/Backgrounds/Default #PROP: curtain_torn, true
     You gather up the fabric in your hands. You swallow back the lump growing in your throat. {pressed_emily: You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } 
     
     You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? 
@@ -495,7 +495,7 @@ You feel...
 *[Dread]
     ~ priest_feeling = "dread"
     
-    #IMAGE: Default #PROP: curtain_torn, true
+    #IMAGE: Images/Backgrounds/Default #PROP: curtain_torn, true
     You touch the ripped fabric. {pressed_emily: Would this still have happened if you didn't press her...? | Was any of that real...? }
     
     {saw_her: You saw her. You <i>SAW</i> her. The curtain is <i>ripped.</i> | You heard her. You- You can <i>see</i> the curtain was affected.}
@@ -506,7 +506,7 @@ You feel...
     ~temp_string = "Your hands tremble"
 - 
 
-#IMAGE: Confessional_CloseUp #PROP: curtain_full, false
+#IMAGE: Images/Backgrounds/Confessional_CloseUp #PROP: curtain_full, false
 What...?
 *[{temp_string}]
 
@@ -515,7 +515,7 @@ What...?
     - temp_string == "Your hands tremble":
         You stare at the intact curtain in front of you. You grip the fabric in your hands tightly, afraid it will disappear the moment you can no longer feel it.
 
-        #IMAGE: Church_Inside #PROP: curtain_full, true
+        #IMAGE: Images/Backgrounds/Church_Inside #PROP: curtain_full, true
         "Why...?" you mutter as you try to stand, your legs shaky. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to...?"
 
         Your voice is quiet, but you know the church heard you. Deep in your gut, you know, and you waited for its response. 
@@ -527,7 +527,7 @@ What...?
         
         Your eyes dart back and forth between your empty hands, and the intact curtain in front of you. You can't understand it.
 
-        #IMAGE: Church_Inside #PROP: curtain_full, true
+        #IMAGE: Images/Backgrounds/Church_Inside #PROP: curtain_full, true
         "What is this...?" your voice warbles, and you slowly stand. You turn to face the main body of the church. You throw out your hands, holding the fabric up like an offering. "What- what is this...?!"
 
         You let out a wet croak. You look around, looking for some response. 
@@ -535,7 +535,7 @@ What...?
         Any response.
     
     - temp_string == "You grind your teeth":
-        #IMAGE: Church_Inside #PROP: curtain_full, true
+        #IMAGE: Images/Backgrounds/Church_Inside #PROP: curtain_full, true
         "What is this?" You stand and throw the scraps in your hands at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
 
         You can't help but laugh. Laugh at the absurdity. At your stupidity. You remember the words on the note you were given. 

@@ -3,7 +3,7 @@ import style from './index.module.css';
 
 const ContainerImage = ({ src, options = {} }) => (
   <div
-    class={[style.imagebox, 'atrament-image-container'].join(' ')}
+    class={[style.imagebox, 'atrament-image-container', 'Images_FadeIn'].join(' ')}
     style={{
       'margin-left': options['leftmargin'] || 'none',
       'margin-right': options['rightmargin'] || 'none'

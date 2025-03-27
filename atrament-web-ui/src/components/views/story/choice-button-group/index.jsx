@@ -4,16 +4,17 @@ import { useAtrament } from 'src/atrament/hooks';
 import ChoiceButton from '../choice-button';
 
 const ChoiceButtonGroup = ({ key, currentScene, setReady }) => {
-  const { makeChoice, continueStory } = useAtrament();
+  const { makeChoice, continueStory, fadeOutScene } = useAtrament();
   const [ chosen, setChosen ] = useState(null);
 
   const numberOfChoices = (currentScene && currentScene.choices) ? currentScene.choices.length : -1;
 
   const selectChoice = useCallback((id) => {
-    const delay = numberOfChoices > 1 ? 350 : 150;
+    const delay = numberOfChoices > 1 ? 3500 : 1500;
     setChosen(id);
     setTimeout(() => {
       // pass choice to Atrament
+      fadeOutScene();
       setTimeout(() => {
         setChosen(null);
         setReady(false);
@@ -21,7 +22,7 @@ const ChoiceButtonGroup = ({ key, currentScene, setReady }) => {
         continueStory();
       }, delay);
     }, 0);
-  }, [ makeChoice, continueStory, setReady, numberOfChoices ]);
+  }, [ makeChoice, continueStory, setReady, numberOfChoices, fadeOutScene ]);
 
   const kbdChoiceHandler = useCallback((e) => {
     const kbdChoice = +e.key;
@@ -42,6 +43,7 @@ const ChoiceButtonGroup = ({ key, currentScene, setReady }) => {
 
   useEffect(() => {
     document.addEventListener("keydown", kbdChoiceHandler, false);
+    setReady(true)
     return () => {
       document.removeEventListener("keydown", kbdChoiceHandler, false);
     }

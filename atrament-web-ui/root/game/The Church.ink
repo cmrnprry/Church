@@ -12,7 +12,7 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-[picture]Images/Backgrounds/Title.png[/picture]
+# IMAGE: Images/Backgrounds/Title.png
 ->Start
 === Start===
 <i>This game will autosave your progress and keep checkpoints. Use the "Save/Load" menu to access these features. <br><br> Click the textbox to continue when no choices are presented. Use the options menu to adjust audio volume and toggle any text or screen effects on or off.</i>
@@ -106,7 +106,7 @@ TODO: check what image and audio hould be playing
                 ~ entered_feeling = 2
                 {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
 *[No]
-    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+    #IMAGE: Images/Backgrounds/Default #CHECKPOINT: 1, You arrive at work.
     {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
 
 
@@ -117,20 +117,16 @@ TODO: check what image and audio hould be playing
 -> Locked
 
 === StartGame ====
-#PLAY: background, true, 1.5
+#PLAY: background, true, 1.5 
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
-+ [ ]
-
-- It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
+It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
 
 *[It's impossible for a church to spring up overnight.]
 
 - 
-#IMAGE: BusStop
+# IMAGE: Images/Backgrounds/BusStop.png
 You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. A faded "FOR SALE" sign attached to its lawn.
-
-+ [ ]
 
 #CYCLE: decrepit, worn-down, enigmatic, old
 It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so @. You swallow hard.
@@ -388,7 +384,7 @@ You watch the church through the window until it becomes a dot in the distance. 
     ->Bus.home
     
 *[You {TempBool: <i>need</i> | want} to forget about the church.]
-    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+    #IMAGE: Images/Backgrounds/Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
@@ -396,7 +392,7 @@ You watch the church through the window until it becomes a dot in the distance. 
 You watch the church through the window until it fades into a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back to the church. It's waiting for you.
 
 *[You <i>need</i> to forget about the church.]
-    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+    #IMAGE: Images/Backgrounds/Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
@@ -748,7 +744,7 @@ TODO: is work = 4 used anywhere besides yuelled at?
         {photo_ripped: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring yourself to throw it away, instead placing each piece in the small drawer of your desk. You'll fix this tomorrow, after a good night's sleep.}
         
     - 4: 
-        #STOP: office_ambience, 1 #IMAGE: BusStop
+        #STOP: office_ambience, 1 #IMAGE: Images/Backgrounds/BusStop.png
         You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
         <i>But what about the church?</i> Your stomach {church_interest != "drawn": drops | jumps}. You shake your head. Hopefully it will be gone. Hopefully it got all it wanted from you and moved on. Hopefully.
@@ -760,7 +756,7 @@ TODO: is work = 4 used anywhere besides yuelled at?
 TODO: this and the next feel like semi awkward jumps
 {know: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back- that if you do, you won't come out again.}
 
-#STOP: office_ambience, 1 #IMAGE: BusStop
+#STOP: office_ambience, 1 #IMAGE: Images/Backgrounds/BusStop.png
 The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church.
 
 TODO: why?
@@ -828,7 +824,7 @@ You reach out and grab the sign with both hands. The burning is gone. Nothing ho
 = Different
 ~turn = "walking"
 ~avoid_church = true
-#IMAGE: Stop_Sign
+#IMAGE: Images/Backgrounds/Stop_Sign.png
 You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imgaine of you infront of the church with your grandparents. Maybe you should give them a call{dropped_phone: once you're home and have a working phone}.}
 
 *[Face it]
@@ -878,7 +874,7 @@ You stop {turn}, and ball your fists. All sensations stop.
 *[Face the church]
 
 - 
-#IMAGE: Chuch_Looming #PROP: closed_gates, false
+#IMAGE: Images/Backgrounds/Chuch_Looming.png #PROP: closed_gates, false
 You spin around to face it, and find yourself.. in front... of the church? You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
 {know || called_number || entered_feeling == 0: It's following you. You wipe sweat from your brow.<br><br>It can move.| {entered_church: {entered_feeling != 0: Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {church_feeling} church.}}}
@@ -888,7 +884,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     ->Walk_Home.Usual
 
 = Stop_Sign
-#ZOOM: unset,unset #IMAGE: Chuch_Looming #PROP: closed_gates, false
+#ZOOM: unset,unset #IMAGE: Images/Backgrounds/Chuch_Looming.png #PROP: closed_gates, false
 It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. 
 
 {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
@@ -918,7 +914,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
     ->Walk_Up_Path
 
 = Usual
-#IMAGE: Chuch_Looming #PROP: open_gates, false #PROP: closed_gates, true
+#IMAGE: Images/Backgrounds/Chuch_Looming.png #PROP: open_gates, false #PROP: closed_gates, true
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. {know: You should keep moving.}
 
@@ -929,7 +925,7 @@ As you pass the front gate, it creaks open. You reach for the image in your pock
 
 
 - 
-#IMAGE: Chuch_Looming #PROP: open_gates, false
+#IMAGE: Images/Backgrounds/Chuch_Looming.png #PROP: open_gates, false
 Against your better judgement, you stop, and look at the church. The gate is open. {know: You should keep moving. It's waiting for you. It's making the choice easy. | {called_number: Once again, it invites you inside. | {entered_church: {entered_feeling == 2: The slimey feeling returns as a trickle of sweat slides down your back. | {entered_feeling == 0: Your heart pounds in excitment? fear? Maybe it <i>wasn't</i> just nothing. | It's- It's just a church.}} | Probably the wind blew it open. Probably.}}}
 
 *[Close the gate]
@@ -1044,7 +1040,7 @@ Nothing. No one's there. You laugh.
 *[Walk to the gate]
 
 - 
-#IMAGE: Chuch_Looming #PROP: open_gates, false
+#IMAGE: Images/Backgrounds/Chuch_Looming.png #PROP: open_gates, false
 You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
 
 *[Pull the gate closed]
@@ -1053,7 +1049,7 @@ You grab the gate with both hands, and look up at the church one last time. It's
 #PLAY: gate_close #DELAY: 1.73 #PROP: open_gates, true #PROP: closed_gates, false
 Just as it slams shut...
 
-#TEXTBOX: text_container_Dark #IMAGE: Default #PROP: closed_gates, true 
+#TEXTBOX: text_container_Dark #IMAGE: Images/Backgrounds/Default #PROP: closed_gates, true 
 ~CurrentProp = ""
 Everything goes dark.
 
@@ -1098,7 +1094,7 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Default #PROP: open_gates, true
+- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #TEXTBOX: text_container_Dark #IMAGE: Images/Backgrounds/Default #PROP: open_gates, true
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
@@ -1248,7 +1244,7 @@ Thud!
 ->Trapped
 
 = Look
-#IMAGE: Church_Inside
+#IMAGE: Images/Backgrounds/Church_Inside.png
 It's dark, but you can make out vague shapes.
 
 { know: You know it's useless, but fear overtakes the rational part of your brain. There has to be SOMETHING. | You quickly glance around the church. It's small, but seemingly abandoned. There must be something that was left behind by previous squatters or looters. }
@@ -1280,7 +1276,7 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 }<>
 {know: . You hope it won't be able to survive that.| . You know it won't be able to survive that.}
 
-#IMAGE: Office_Final
+#IMAGE: Images/Backgrounds/Office_Final.png
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls are made of bookshelves, packed full of books and boxes. A desk sits at the far wall with a stained glass window above it.  {saw_windows: You avoid looking at it. }
 
 {
@@ -1306,7 +1302,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 ~ temp_bool = true
 
 - 
-#PROP: item, true #PROP: sledgehammer, true #PROP: screwdriver, true #PROP: crowbar, true #IMAGE: #ICLASS: Overlay,overlay-spotlight,
+#PROP: item, true #PROP: sledgehammer, true #PROP: screwdriver, true #PROP: crowbar, true #ICLASS: Overlay,overlay-spotlight,
 {
     - temp_bool:
         { 
@@ -1314,7 +1310,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
         - else: Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you.
         }
     
-        #IMAGE: Default
+        #IMAGE: Images/Backgrounds/Default
         You return to the front door.
         
         You stare at it. It stares back.
@@ -1339,7 +1335,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 }
 
 = Crowbar
-#IMAGE: Default
+#IMAGE: Images/Backgrounds/Default
 You jam the crowbar in between the door and the wall, at the latch, and pull. 
 
 *[The door groans.]
@@ -1357,7 +1353,7 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
     -> Trapped
 
 = Screwdriver
-#DELAY: 1.5 #IMAGE: Default
+#DELAY: 1.5 #IMAGE: Images/Backgrounds/Default
 You get to work unscrewing the top hinges of the door.
 
 #CLASS: Drop_Screw 0.75 #PLAY: screw_fall_1 
@@ -1397,7 +1393,7 @@ You stop searching, drop the screwdriver and stare at the untouched door in fron
 -> Trapped
 
 = Sledgehammer
-#IMAGE: Default
+#IMAGE: Images/Backgrounds/Default
 You lift up the large hammer and begin to smash it into the door.
 
 #PLAY: door_slam #CLASS: Kick
@@ -1856,7 +1852,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_b
         ~ temp_string = ""
 }
 
-#IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
+#IMAGE: Images/Backgrounds/Church_Inside.png #CHECKPOINT: 3, You are told to find the heart.
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{object != "":, which you know has a small office to the right}.
 
 
@@ -1969,7 +1965,7 @@ You lean back in your seat, eyes still closed. There's no use sitting here.
 ->Inside.Look_For_Heart
 
 === Confessional ===
-#IMAGE: Confessional_CloseUp #PROP: curtain_full, false #EFFECT: click-move
+#IMAGE: Images/Backgrounds/Confessional_CloseUp.png #PROP: curtain_full, false #EFFECT: click-move
 {
  - !confessional_door_side && !confessional_door_side:
         You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. //(click highlighted image)

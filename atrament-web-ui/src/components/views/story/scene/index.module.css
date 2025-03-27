@@ -1,6 +1,11 @@
 .scene {
   display: block;
   padding: 1rem;
+  background-color: var(--light-color);
+  color: var(--dark-color);
+  border: 3px solid var(--accent-color);
+  border-radius: var(--border-radius);
+  transition: opacity 1.5s ease-out;
 }
 
 .scene p:first-child {
@@ -9,4 +14,12 @@
 
 .scene p:last-child {
   margin-bottom: 0px;
+}
+
+.opacity
+{
+  transition: opacity allow-discrete 1.5s;
+  -moz-transition: opacity allow-discrete 1.5s; /* Firefox 4 */
+  -webkit-transition: opacity allow-discrete 1.5s; /* Safari 和 Chrome */
+  -o-transition: opacity allow-discrete 1.5s; /* Opera */
 }

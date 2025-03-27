@@ -1,6 +1,5 @@
 //JS variables
 VAR CurrentImage = ""
-VAR CurrentProp = ""
 VAR LoopedAudio = ""
 VAR Volume = 100
 VAR Mute = false
@@ -12,6 +11,10 @@ VAR Styling_Box = ""
 VAR Styling_Image = ""
 VAR haveFlashlight = false
 VAR WhereGO = false
+
+//SCRIPTING VARIBLES
+VAR SetImage = ""
+VAR CurrentProp = ""
 
 //SKIP
 VAR skip_counter = -1

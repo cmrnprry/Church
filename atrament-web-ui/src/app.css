@@ -44,27 +44,87 @@ h1, h2, h3, h4, h4, h6 {
 
 }
 
-@keyframes appear {
-  0% {
-      opacity: 0;
-  }
-  100% {
-      opacity: 1;
-  }
-}
-
 a, a:visited {
   color: var(--selected-color);
 }
 
 .animation_appear {
   animation-name: appear;
-  animation-duration: var(--animation-disabled, 0.5s);
+  animation-duration: 0.5s;
   animation-timing-function: ease-in;
+  animation-delay: 0s;
+  animation-iteration-count: 1;
+  animation-fill-mode: both;
+}
+
+@keyframes appear {
+  0% {
+      opacity: 0;
+      transform: translateY(25%);
+
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0%);
+  }
+}
+
+.animation_disappear {
+  animation-name: disappear;
+  animation-duration: var(--animation-disabled, 0.5s);
+  animation-timing-function: ease-out;
   animation-delay: 0s;
   animation-iteration-count: 1;
   animation-fill-mode: forwards;
 }
+
+
+
+/**
+ * cssanimation.css
+ * https://www.cssanimatio.io
+ * Created and maintained by: Pavel
+ * Find me at: https://www.linkedin.com/in/yesiamrocks/
+ * Email: hello@cssanimation.io
+ * Github: https://github.com/yesiamrocks/cssanimation.io
+ * Title: A CSS Animation Library for Developers and Ninjas
+ * Copyright (c) 2017 Pavel
+ * License: cssanimation.io is licensed under the MIT license
+ **/
+
+.Choices_FadeIn { 
+  animation-name: choices_fadein;
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes choices_fadein {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+.Images_FadeIn { 
+  animation-name: img_fadein;
+  animation-duration: .5s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes img_fadein {
+  0% {
+    opacity: .5;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
 
 /* scrollbars */
 
