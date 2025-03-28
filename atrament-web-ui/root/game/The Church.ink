@@ -12,14 +12,15 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-# IMAGE: Images/Backgrounds/Title.png
 ->Start
 === Start===
-<i>This game will autosave your progress and keep checkpoints. Use the "Save/Load" menu to access these features. <br><br> Click the textbox to continue when no choices are presented. Use the options menu to adjust audio volume and toggle any text or screen effects on or off.</i>
+# IMAGE: Images/Backgrounds/Title.png
+<i>This game will autosave your progress and keep checkpoints. <br><br> Click the textbox to continue when no choices are presented. Use the options menu to adjust audio volume and toggle any text or screen effects on or off.</i>
 
 
 + [Start Game] 
     ->StartGame
+    
 + [Skip To...]
     This is for players who have played the main game already, but want to skip to certain areas more quickly. Important questions will be asked to jump to the chosen area.
     
@@ -37,9 +38,6 @@ INCLUDE End_Game.ink
     ++[Skip to Inside Church]
         ~ skip_counter = 4
         ->Skip
-    
-+ [Credits] ->Credits
-+ [Content Warnings] ->Content_Warnings
 
 === Skip ===
 When you passed the church how did you feel about it?

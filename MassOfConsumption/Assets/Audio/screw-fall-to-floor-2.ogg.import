@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/screw-fall-to-floor-2.ogg-9169a34252ee3e86bc8e823aae1b7fe1.oggstr"
+
+[deps]
+
+source_file="res://audio/screw-fall-to-floor-2.ogg"
+dest_files=[ "res://.import/screw-fall-to-floor-2.ogg-9169a34252ee3e86bc8e823aae1b7fe1.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
