@@ -14,12 +14,16 @@ namespace AYellowpaper.SerializedCollections
     {
         private Story Story;
 
-        [Header("Auto Play Variables")] private float AutoPlay_TextDelay = 1.5f;
-        private float AutoPlay_ChoiceDelay = .25f;
+        [Header("Auto Play Variables")] 
         private bool AutoPlay = false;
+        private float AutoPlay_TextDelay = 1.5f; //delay between next piece of text showing up
+        private float AutoPlay_ChoiceDelay = .25f; //delay between the next choice group fading in
+        private float AutoPlay_FadeOut = .25f; //delay between the next choice group fading in
+        private float AutoPlay_TextGroupDelay = .25f; // delay between the next text group fading in
 
-        private float DeleteDelay = 0.5f;
-        private float AutoScrollDelay = 0.5f;
+        [Header("Default Variables")] 
+        private float DefaultFadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
+        private float DefaultAutoScroll = 0.5f; //default time to autoscroll
 
 
         [Header("Ink Data")] [SerializeField] private TextAsset InkJsonAsset;
@@ -33,8 +37,10 @@ namespace AYellowpaper.SerializedCollections
         [SerializeField] private ScrollRect Scroll;
 
         [Header("Image Data")] 
+        private bool WasLastDefault = false;
         [SerializeField] private Animator anim;
         [SerializeField] private Image BackgroundImage;
+        [SerializeField] private Transform DefualtImage;
         [SerializedDictionary("Background name", "Sprite")] public SerializedDictionary<string, Sprite> BackgroundDictionary;
         [SerializedDictionary("Prop name", "Sprite")] public SerializedDictionary<string, Sprite> PropDictionary;
 
@@ -54,23 +60,13 @@ namespace AYellowpaper.SerializedCollections
             StartCoroutine(ContinueStory(isStart));
         }
 
-        private float HideText()
-        {
-            Color temp = TextField.color;
-            temp.a = 0;
-            float dur = (AutoPlay) ? 0.1f : 1.5f;
-
-            TextField.DOColor(temp, dur);
-            return dur;
-        }
-
         private void CycleThroughTags(string[] Tag)
         {
             string key = Tag[0].ToString().Trim();
             switch (key)
             {
                 case "IMAGE":
-                    SetImage(Tag[1]);
+                    SetBackgroundImage(Tag[1]);
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {Tag[1]} could not be found.");
@@ -79,13 +75,58 @@ namespace AYellowpaper.SerializedCollections
 
         }
 
-        private void SetImage(string key)
+        private void SetBackgroundImage(string key)
         {
-            BackgroundImage.DOFade(0, 0.25f).OnComplete(() =>
+            if (WasLastDefault)
             {
-                BackgroundImage.sprite = BackgroundDictionary[key.Trim()];
-                BackgroundImage.DOFade(1, 0.25f);
-            });
+                if (key != "Defualt")
+                {
+                    anim.enabled = false;
+                    var children = DefualtImage.GetComponentsInChildren < Image > ();
+                    Sequence seq = DOTween.Sequence();
+                    
+                    seq.Append(children[0].DOFade(0, 0.25f)).Insert(0, children[1].DOFade(0, 0.25f)).OnComplete(() =>
+                    {
+                        BackgroundImage.sprite = BackgroundDictionary[key.Trim()];
+                        BackgroundImage.DOFade(1, 0.25f);
+                    });
+                    
+                    WasLastDefault = false;
+                }
+            }
+            else
+            {
+                if (key == "Defualt")
+                {
+                    var children = DefualtImage.GetComponentsInChildren < Image > ();
+                    Sequence seq = DOTween.Sequence();
+                    
+                    children[0].sprite = BackgroundDictionary["Defualt"];
+                    children[1].sprite = BackgroundDictionary["Defualt"];
+
+                    BackgroundImage.DOFade(0, 0.25f).OnComplete(() =>
+                    {
+                        seq.Append(children[0].DOFade(1, 0.25f)).Insert(0, children[1].DOFade(1, 0.25f)).OnComplete(
+                            () =>
+                            {
+                                anim.enabled = true;
+
+                            });
+                    });
+                    
+                    WasLastDefault = true;
+                }
+                else
+                {
+                    BackgroundImage.DOFade(0, 0.25f).OnComplete(() =>
+                    {
+                        BackgroundImage.sprite = BackgroundDictionary[key.Trim()];
+                        BackgroundImage.DOFade(1, 0.25f);
+                    });
+                    
+                    WasLastDefault = false;
+                }
+            }
         }
 
         private IEnumerator ContinueStory(bool isStart = false)
@@ -93,9 +134,9 @@ namespace AYellowpaper.SerializedCollections
             if (Story.canContinue)
             {
                 if (!isStart)
-                    yield return new WaitForSeconds(HideText());
+                    yield return new WaitForSeconds(AutoPlay ? AutoPlay_TextGroupDelay : 0.2f);
                 else
-                    yield return new WaitForSeconds(.85f);
+                    yield return new WaitForSeconds(.8f);
 
                 string text = Story.Continue(); // gets next line
                 text = text?.Trim(); // removes white space from text
@@ -124,7 +165,7 @@ namespace AYellowpaper.SerializedCollections
                 yield return new WaitForSeconds(0.01f);
 
                 Scroll.content.ForceUpdateRectTransforms();
-                Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
+                Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
                 Scroll.content.ForceUpdateRectTransforms();
             }
             else if (Story.currentChoices.Count > 0)
@@ -171,7 +212,7 @@ namespace AYellowpaper.SerializedCollections
                     ColorUtility.TryParseHtmlString("#0a100d", out color);
                     button.enabled = false;
 
-                    choice_text.DOColor(color, (AutoPlay ? AutoPlay_ChoiceDelay : DeleteDelay)).OnComplete(
+                    choice_text.DOColor(color, (AutoPlay ? AutoPlay_ChoiceDelay : DefaultFadeOut)).OnComplete(
                         () => { Destroy(button.gameObject); });
 
                 }
@@ -186,7 +227,7 @@ namespace AYellowpaper.SerializedCollections
                 {
                     Color color = Color.white;
                     ColorUtility.TryParseHtmlString("#E0E0E0", out color);
-                    child.DOColor(color, (AutoPlay ? AutoPlay_ChoiceDelay : DeleteDelay)).OnComplete(
+                    child.DOColor(color, (AutoPlay ? AutoPlay_ChoiceDelay : DefaultFadeOut)).OnComplete(
                         () => { Destroy(child.gameObject); });
                 }
             }
