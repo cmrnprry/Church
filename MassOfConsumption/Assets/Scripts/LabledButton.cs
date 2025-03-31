@@ -36,7 +36,7 @@ public class LabledButton : Selectable, IPointerClickHandler, ISubmitHandler
     }
 
     [SerializeField] private TextMeshProUGUI labelText;
-    [SerializeField] private ColorBlock labelColors = ColorBlock.defaultColorBlock;
+    [SerializeField] public ColorBlock labelColors = ColorBlock.defaultColorBlock;
 
     private Color labelColorMultiplier = Color.white;
 
