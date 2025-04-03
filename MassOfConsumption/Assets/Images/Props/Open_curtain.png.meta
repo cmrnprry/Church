@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,7 +121,28 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Open_curtain_0
+      rect:
+        serializedVersion: 2
+        x: 552
+        y: 131
+        width: 1776
+        height: 3691
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8689c327ef6a70c439035947d59b4b4f
+      internalID: 473734164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -132,7 +153,31 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Open_curtain_0: 473734164
+      Open_curtain_1: -73593929
+      Open_curtain_10: 1369087223
+      Open_curtain_11: -328065904
+      Open_curtain_12: -909228381
+      Open_curtain_13: -1153221099
+      Open_curtain_14: 1237144476
+      Open_curtain_15: -854710564
+      Open_curtain_16: 630868271
+      Open_curtain_17: 1332316449
+      Open_curtain_18: -917059951
+      Open_curtain_19: -979489622
+      Open_curtain_2: 144585916
+      Open_curtain_20: -410755717
+      Open_curtain_21: -1928661907
+      Open_curtain_22: 110365947
+      Open_curtain_23: -798542028
+      Open_curtain_3: -1468130064
+      Open_curtain_4: 1795184003
+      Open_curtain_5: -1308748138
+      Open_curtain_6: -747200762
+      Open_curtain_7: -305281905
+      Open_curtain_8: 601184841
+      Open_curtain_9: -1628817152
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

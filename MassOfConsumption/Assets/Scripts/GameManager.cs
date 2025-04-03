@@ -53,7 +53,7 @@ namespace AYellowpaper.SerializedCollections
         public SerializedDictionary<string, Sprite> BackgroundDictionary;
 
         [SerializedDictionary("Prop name", "Sprite")]
-        public SerializedDictionary<string, Sprite> PropDictionary;
+        public SerializedDictionary<string, GameObject> PropDictionary;
 
         public delegate void SetLinkData(List<string> cycle_list);
 
@@ -143,6 +143,8 @@ namespace AYellowpaper.SerializedCollections
                     SetBackgroundImage(Tag[1]);
                     break;
                 case "PROP": //set what prop is visible on screen
+                    var obj = PropDictionary[Tag[1].Trim()];
+                    obj.SetActive(!obj.activeSelf);
                     break;
                 case "PLAY": //{src, loop, fade in, delay}
                     string[] play_list = Tag[1].Split(',');
