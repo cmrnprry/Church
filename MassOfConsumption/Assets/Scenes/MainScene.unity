@@ -323,6 +323,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -36.57
       objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 618428784}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AdjustBGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AYellowpaper.SerializedCollections.AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5223989363843667660, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -940,7 +968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: f539e71cf9be84812b3a93dccc23be5b, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -2288,6 +2316,34 @@ PrefabInstance:
     - target: {fileID: 3382522465107079427, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -36.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 618428784}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AdjustSFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AYellowpaper.SerializedCollections.AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5223989363843667660, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3644,6 +3700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ddb6daf575f401da2cc54494adf947, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mixer: {fileID: 0}
   SFXDictionary:
     _serializedList:
     - Key: bang_confessional

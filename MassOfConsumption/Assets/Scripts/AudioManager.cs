@@ -2,12 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 namespace AYellowpaper.SerializedCollections
 {
     public class AudioManager : MonoBehaviour
     {
         public static AudioManager instance;
+        
+        [Header("Settings Volume")]
+        public AudioMixer mixer;
+        public Slider sfxSlider, bgmSlider;
 
         [SerializedDictionary("SFX name", "SFX")]
         public SerializedDictionary<string, AudioClip> SFXDictionary;
@@ -23,6 +29,12 @@ namespace AYellowpaper.SerializedCollections
                 Destroy(this.gameObject);
 
             DontDestroyOnLoad(gameObject);
+        }
+
+        void Start()
+        {
+            sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 0.5f);
+            bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume", 0.5f);
         }
 
         public void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
@@ -101,6 +113,18 @@ namespace AYellowpaper.SerializedCollections
             src.Stop();
             sources.Remove(src);
             Destroy(src.gameObject);
+        }
+
+        public void AdjustBGM(float value)
+        {
+            mixer.SetFloat("bgm", Mathf.Log10(value) * 20);
+            PlayerPrefs.SetFloat("BGMVolume", value);
+        }
+
+        public void AdjustSFX(float value)
+        {
+            mixer.SetFloat("sfx", Mathf.Log10(value) * 20);
+            PlayerPrefs.SetFloat("SFXVolume", value);
         }
     }
 }
