@@ -16,11 +16,13 @@ namespace AYellowpaper.SerializedCollections
         private void OnEnable()
         {
             SelectMenu(0);
+            SettingsUIButtonsHelper.OnClick += SelectMenu;
         }
 
         private void OnDisable()
         {
             SelectMenu(0);
+            SettingsUIButtonsHelper.OnClick -= SelectMenu;
         }
 
         public void SelectMenu(int index)
@@ -30,30 +32,16 @@ namespace AYellowpaper.SerializedCollections
                 if (i == index)
                 {
                     MenuParent.GetChild(i).gameObject.SetActive(true);
-                    LabledButton button = ButtonParent.GetChild(index).gameObject.GetComponent<LabledButton>();
-                    button.Select();
+                    SettingsUIButtonsHelper button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButtonsHelper>();
+                    button.IsPageSelected(true);
                 }
                 else
                 {
                     MenuParent.GetChild(i).gameObject.SetActive(false);
-                    LabledButton button = ButtonParent.GetChild(index).gameObject.GetComponent<LabledButton>();
-                    button.enabled = true;
+                    SettingsUIButtonsHelper button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButtonsHelper>();
+                    button.IsPageSelected(false);
                 }
             }
-        }
-
-        private void SelectButton(int index)
-        {
-            GameObject obj = ButtonParent.GetChild(index).gameObject;
-            LabledButton button = obj.GetComponent<LabledButton>();
-            Image img = obj.GetComponent<Image>();
-            TextMeshProUGUI text = obj.GetComponentInChildren<TextMeshProUGUI>();
-
-            button.Select();
-
-            button.enabled = false;
-            img.color = button.colors.selectedColor;
-            text.color = button.labelColors.normalColor;
         }
     }
 }

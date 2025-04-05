@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using Febucci.UI;
 using Random = UnityEngine.Random;
+using UnityEngine.EventSystems;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -19,10 +20,9 @@ namespace AYellowpaper.SerializedCollections
         private TextMeshProUGUI currentBox;
         private Color text_color;
         private float delay = -1;
-        public static string last_history;
-        
 
-        [Header("Ink Data")] [SerializeField] private TextAsset InkJsonAsset;
+
+        [Header("Ink Data")][SerializeField] private TextAsset InkJsonAsset;
 
         [Header("Auto Play Variables")] private bool AutoPlay = false;
         private float AutoPlay_TextDelay = 1.5f; //delay between next piece of text showing up
@@ -36,7 +36,8 @@ namespace AYellowpaper.SerializedCollections
         private float DefaultFadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
         private float DefaultAutoScroll = 0.5f; //default time to autoscroll
 
-        [Header("Story Objects")] [SerializeField]
+        [Header("Story Objects")]
+        [SerializeField]
         private Transform TextParent;
 
         [SerializeField] private TextMeshProUGUI TextField;
@@ -55,18 +56,63 @@ namespace AYellowpaper.SerializedCollections
         [SerializedDictionary("Prop name", "Sprite")]
         public SerializedDictionary<string, GameObject> PropDictionary;
 
-        public delegate void SetLinkData(List<string> cycle_list);
+        public Toggle Flashlight;
+        public GameObject clicktomove;
 
-        public static event SetLinkData SetLinkDataEvent;
+        private void Awake()
+        {
+            Story = new Story(InkJsonAsset.text);
+
+            SaveSystem.Init();
+            SaveSystem.SlotInit(BackgroundDictionary, PropDictionary, Story);
+        }
 
         private void Start()
         {
             DOTween.Init();
-            
+
             text_color = TextField.color;
             text_color.a = 1;
-            
-            Story = new Story(InkJsonAsset.text);
+        }
+
+        private void OnEnable()
+        {
+            SaveSlot.OnSave += SetDataOnSave;
+            SaveSystem.OnLoad += GetDataOnLoad;
+        }
+
+        private void OnDisable()
+        {
+            SaveSlot.OnSave -= SetDataOnSave;
+            SaveSystem.OnLoad -= GetDataOnLoad;
+        }
+
+        private void SetDataOnSave(string ID)
+        {
+            foreach (Transform box in TextParent)
+            {
+                var text = box.gameObject.GetComponent<TextMeshProUGUI>().text;
+                SaveSystem.SetCurrentText(text, ID);
+            }
+
+            SaveSystem.SetStory(Story.state.ToJson(), ID);
+        }
+
+        private void GetDataOnLoad()
+        {
+            DeleteOldChoices();
+            DeleteOldTextBoxes();
+
+            for (int i = 0; i < SaveSystem.GetCurrentTextLength(); i++)
+            {
+                var new_box = Instantiate(TextField, TextParent, false);
+                new_box.text = $"<br>{SaveSystem.GetCurrentText(i)}";
+                new_box.DOColor(text_color, 1.25f);
+            }
+
+            Story.state.LoadJson(SaveSystem.GetStory());
+
+            StartCoroutine(ContinueStory(false));
         }
 
         public void StartGame()
@@ -83,6 +129,8 @@ namespace AYellowpaper.SerializedCollections
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator ContinueStory(bool isStart = false)
         {
+            bool hideChoices = false;
+
             if (Story.canContinue)
             {
                 if (isStart)
@@ -98,14 +146,16 @@ namespace AYellowpaper.SerializedCollections
                 }
 
                 currentBox = Instantiate(TextField, TextParent, false);
-
                 foreach (var story_tag in Story.currentTags)
                 {
                     CycleThroughTags(story_tag.Split(':'));
+
+                    if (story_tag.Contains("click_move"))
+                        hideChoices = true;
                 }
-                
+
                 currentBox.text = $"<br>{ContinueText}";
-                last_history += $"<br>{ContinueText}";
+                SaveSystem.SetHistory($"<br>{ContinueText}");
 
                 currentBox.DOColor(text_color, 1.25f);
 
@@ -118,19 +168,25 @@ namespace AYellowpaper.SerializedCollections
                 DisplayChoices();
                 yield break;
             }
-            
-            if (Story.canContinue && delay <= 0)
+
+            if (Story.canContinue && delay < 0)
             {
                 if (AutoPlay)
                     yield return new WaitForSeconds(AutoPlay_TextDelay);
                 else
                     yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
             }
-            
-            if (delay > 0)
-                yield return new WaitForSeconds(delay);
 
-            delay = -1;
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+                delay = -1;
+            }
+
+
+            if (hideChoices)
+                yield break;
+
             DisplayNextLine();
         }
 
@@ -171,7 +227,8 @@ namespace AYellowpaper.SerializedCollections
                 case "CHECKPOINT": //sets a savepoint at specific parts in the story
                     break;
                 case "ENDING": //unlocks an ending
-                    DataManager.instance.UnlockEnding(Int32.Parse(Tag[1].Trim()));
+                    string[] endings = Tag[1].Split(",");
+                    DataManager.instance.UnlockEnding(Int32.Parse(endings[0].Trim()), endings[1].Trim());
                     break;
                 case "CYCLE": //on click, text cycles through set options
                     string[] cycle_list = Tag[1].Split(',');
@@ -193,12 +250,50 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
+        private void Effects(string key)
+        {
+
+            switch (key)
+            {
+                case "flashlight_on":
+                    if (!Flashlight.gameObject.activeSelf)
+                        Flashlight.gameObject.SetActive(true);
+                    Flashlight.isOn = true;
+                    break;
+                case "flashlight_off":
+                    Flashlight.isOn = false;
+                    break;
+                case "click_move":
+                    ClickToMove();
+                    clicktomove.SetActive(true);
+                    break;
+                default:
+                    Debug.LogWarning($"Effect {key} could not be found.");
+                    break;
+            }
+
+        }
+
+        private void ClickToMove()
+        {
+            if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
+                DeleteOldChoices();
+
+            int index = 0;
+            foreach (GameObject child in clicktomove.transform)
+            {
+                var Button = child.GetComponent<Button>();
+                Button.onClick.AddListener(() => OnClickChoiceButton(Story.currentChoices[index]));
+                index++;
+            }
+        }
+
         private void AddCycleText(string[] cycle_list)
         {
             float uniqueID = Random.Range(1f, 100f);
             string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{cycle_list[0]}</link></color>";
             ContinueText = ContinueText.Replace("@", new_text);
-            
+
             var linked = currentBox.GetComponent<LinksManager>();
             linked.enabled = true;
             linked.SetData(cycle_list.ToList());
@@ -255,10 +350,11 @@ namespace AYellowpaper.SerializedCollections
         }
 
 
-////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
+        ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
         private void DisplayChoices()
         {
-            if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0) DeleteOldChoices();
+            if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
+                DeleteOldChoices();
 
             for (int i = 0; i < Story.currentChoices.Count; i++) // iterates through all choices
             {
@@ -270,16 +366,19 @@ namespace AYellowpaper.SerializedCollections
 
         void OnClickChoiceButton(Choice choice)
         {
-            //TODO: make sure this works with replace and cycle
-            DataManager.instance.SetHistory(last_history);
+            SaveSystem.SetHistory($"<br>{choice.text}");
             Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();
+            DataManager.instance.SetHistory();
         }
 
         void DeleteOldChoices()
         {
+            if (clicktomove.activeSelf)
+                clicktomove.SetActive(false);
+
             if (ChoiceButtonContainer != null)
             {
                 foreach (LabledButton button in ChoiceButtonContainer.GetComponentsInChildren<LabledButton>())

@@ -51,12 +51,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
+    m_Left: 25
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 50
+  m_Spacing: 280
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -280,7 +280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3302043483065019360, guid: ed70c428dd9b54589824ab26945e3182, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 3302043483065019360, guid: ed70c428dd9b54589824ab26945e3182, type: 3}
       propertyPath: m_LocalPosition.x
@@ -312,11 +312,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3302043483065019360, guid: ed70c428dd9b54589824ab26945e3182, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 89.29999
+      value: 81.638374
       objectReference: {fileID: 0}
     - target: {fileID: 3302043483065019360, guid: ed70c428dd9b54589824ab26945e3182, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -51.600254
+      value: -45
       objectReference: {fileID: 0}
     - target: {fileID: 3302043483065019360, guid: ed70c428dd9b54589824ab26945e3182, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

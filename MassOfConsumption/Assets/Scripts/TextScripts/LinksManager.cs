@@ -20,11 +20,11 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
     private string color_default = "#a80f0f"; 
     private string color_hover = "#3f1313"; 
 
-    private Camera camera;
+    private Camera main_cam;
     
     private void Start()
     {
-        camera = Camera.main;
+        main_cam = Camera.main;
         Textbox = GetComponent<TextMeshProUGUI>();
         TextboxRectTransform = GetComponent<RectTransform>();
     }
@@ -58,7 +58,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
     // Callback for handling clicks.
     public void OnPointerClick(PointerEventData eventData)
     {
-        var linkIndex = TMP_TextUtilities.FindIntersectingLink(Textbox, Input.mousePosition, camera);
+        var linkIndex = TMP_TextUtilities.FindIntersectingLink(Textbox, Input.mousePosition, main_cam);
 
         if (linkIndex >= 0 &&linkIndex < Textbox.textInfo.linkInfo.Length)
         {
@@ -74,7 +74,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         Textbox.SetText(Textbox.text.Replace(cycle_text[cycle_index], cycle_text[next_index]));
         cycle_index = next_index;
         
-        GameManager.last_history = GameManager.last_history.Replace(last, Textbox.text);
+        SaveSystem.SetHistory(SaveSystem.GetHistory().Replace(last, Textbox.text));
     }
 
     private void Update()
@@ -88,7 +88,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         // For old input system use this, rest stays the same:
         Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
             
-        bool isIntersectingRectTransform = TMP_TextUtilities.IsIntersectingRectTransform(TextboxRectTransform, mousePosition, camera);
+        bool isIntersectingRectTransform = TMP_TextUtilities.IsIntersectingRectTransform(TextboxRectTransform, mousePosition, main_cam);
         if (!isIntersectingRectTransform)
         {
             if (cycle_color != color_default) EndHover(); 
@@ -96,7 +96,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         }
             
 
-        int intersectingLink = TMP_TextUtilities.FindIntersectingLink(Textbox, mousePosition, camera);
+        int intersectingLink = TMP_TextUtilities.FindIntersectingLink(Textbox, mousePosition, main_cam);
 
         if (CurrentlyActiveElement != intersectingLink)
             EndHover();

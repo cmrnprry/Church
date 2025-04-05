@@ -67,16 +67,18 @@ public class ToggleSwitchColorChange : ToggleSwitch
             if (sliderValue >= 1)
             {
                 backgroundImage.sprite = backgroundImageOn; 
-                backgroundImage.color = backgroundColorOn; 
+                backgroundImage.color = backgroundColorOn;
+                handleImage.color = handleColorOn;
             }
             else if (sliderValue <= 0)
             {
                 backgroundImage.sprite = backgroundImageOff;
                 backgroundImage.color = backgroundColorOff;
+                handleImage.color = handleColorOff;
             }
         }
             
-        if (recolorHandle && _isHandleImageNotNull)
-            handleImage.color = Color.Lerp(handleColorOff, handleColorOn, sliderValue); 
+        //if (recolorHandle && _isHandleImageNotNull)
+        //    handleImage.color = Color.Lerp(handleColorOff, handleColorOn, sliderValue); 
     }
 }

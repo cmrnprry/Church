@@ -492,7 +492,7 @@ You cover your face as wooden splinters fly toward you as tiny, stinging flecks 
 *[Turn on the flashlight]
 
 - 
-#PLAY: click-on #EFFECT: flashlight
+#PLAY: click-on #EFFECT: flashlight_on
 The flash light clicks on, and everything stops.
 
 The other side is pristine. It looks almost identical to the side you had been on. No one is inside.
@@ -501,7 +501,7 @@ On the bench sits a small key.
 
 *[Reach your arm through]
     ~ reached_through = true
-    #PLAY: click-off #EFFECT: flashlight
+    #PLAY: click-off #EFFECT: flashlight_off
     You place the flashlight back in your pocket, and reach your arm through. blindly feeling around.  Your fingertips just barely brush the bench it's sitting on. 
 
     You reach in deeper, your face pressing against the mangled wood. "Just a bit... more..." you mumble to yourself.
@@ -514,7 +514,7 @@ On the bench sits a small key.
     
     The booth is quiet, save for your own breathing. You place the key in your pocket.
 *[Go around]
-    #PLAY: click-off #EFFECT: flashlight
+    #PLAY: click-off #EFFECT: flashlight_off
     You exit through the curtain, face the priest's door. You take a deep breath, and open it. The key sits on the bench, but more surprisingly, the divider is no longer splintered, and the separating grate is back in place.
 
     The church fixed itself. 
@@ -1216,7 +1216,7 @@ It says something that reverberates inside your brain. Words that hold meaning y
 *[A single tear rolls down your cheek.]
 
 - 
-#ENDING: Finding Solace
+#ENDING: 5, Bad Ending: Finding Solace
 *You've never known solace like this.
 ->Credits
 

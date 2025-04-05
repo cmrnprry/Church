@@ -44,3 +44,9 @@ TagManager:
   - name: Ignore Global Lighting
     uniqueID: 2902042359
     locked: 0
+  - name: Eyes
+    uniqueID: 2411310219
+    locked: 0
+  - name: Bones
+    uniqueID: 684104657
+    locked: 0

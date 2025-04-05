@@ -570,7 +570,7 @@ You push yourself harder{leg == "worst": , but your leg is not cooperating with 
 
         "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
 
-        #ENDING: Crushed
+        #ENDING: 2, Bad Ending: Crushed
         Hoping. Praying.
 
         *[But it's no use.]
@@ -797,14 +797,14 @@ They begin to sing, hands out streached for you to take. The music flows through
 
 *[Take their hands.]
 
-- #ENDING: Finding Peace
+- #ENDING: 7, Bad? Ending: Finding Peace
 *[And find peace.]
 ->Credits
 
 = Leave
 *[It has been a long night.]
 
-- #ENDING: It Has Been a Long, Long Night
+- #ENDING: 9, Good Ending: It Has Been a Long, Long Night
 *[And you deserve a very long, vey hot, bath.]
 ->Credits
 
@@ -972,7 +972,7 @@ You can't get enough air in. Is this actually slime-?
 *[Your skin burns.]
 
 - 
-#ENDING: Melted #DELAY: 2
+#ENDING: 1, Bad Ending: Melted #DELAY: 2
 You keep going, desperatly trying to escape. 
 
 #CLASS: Blur #DELAY: 2

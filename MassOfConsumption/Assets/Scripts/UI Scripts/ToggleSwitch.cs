@@ -30,6 +30,11 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     private ToggleSwitchGroupManager _toggleSwitchGroupManager;
     
     protected Action transitionEffect;
+
+    public void SetValue()
+    {
+        Toggle();
+    }
     
     protected virtual void OnValidate()
     {
@@ -112,7 +117,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
         _animateSliderCoroutine = StartCoroutine(AnimateSlider());
     }
-
 
     private IEnumerator AnimateSlider()
     {

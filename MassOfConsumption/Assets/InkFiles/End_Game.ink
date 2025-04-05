@@ -49,12 +49,12 @@ The bread is <chewy, soft, meaty, exquisite>. You can't chew fast enough, taking
 
 - You look back to the table to see its covered in <bread, flesh>, and that your glass has filled itself back up with <wine, blood>. 
 
-You keep eating and drinking. Never satisified. Always needing more. 
+You keep eating and drinking. Never satisfied. Always needing more. 
 
 *[And there is always more for you.]
 
 - 
-#ENDING: Eating Forever
+#ENDING: 6, Bad Ending: Eating Forever
 *[The church makes sure of it]
 ->Credits
 
@@ -257,7 +257,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
 *[{temp_string}]
 {
     - stay < 2.5:
-        #ENDING: It Has Been a Long, Long Night
+        #ENDING: 9, Good Ending: It Has Been a Long, Long Night
         ->Credits
 }
 
@@ -294,7 +294,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
 *[It's over.]
 
 -
-#ENDING: What Have You Done?
+#ENDING: 8, ??? Ending: What Have You Done?
 You stand, wipe your eyes, and dust yourself off.
 
 *[It's time to go home.]
@@ -337,7 +337,7 @@ You are gone.
 
 *[You are the church]
 
-- #ENDING: You Are the Church
+- #ENDING: 10, ??? Ending: You Are the Church
 *[And the church is you]
 ->Credits
 
