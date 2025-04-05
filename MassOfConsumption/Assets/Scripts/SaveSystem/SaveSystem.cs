@@ -224,10 +224,10 @@ public static class SaveSystem
     //BUG: NOT SAVING THE ADD
     public static void SetCurrentText(string text, string slotID = "")
     {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-        int length = temp_data.DisplayedTextDictionary.Count;
+       // SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        int length = slotData.DisplayedTextDictionary.Count;
 
-        temp_data.DisplayedTextDictionary.Add(length, text);
+        slotData.DisplayedTextDictionary.Add(length, text);
     }
 
     public static string GetCurrentText(int index, string slotID = "")
