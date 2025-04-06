@@ -68,7 +68,6 @@ public class SaveLoadUIHelper : MonoBehaviour
             {
                 button.onClick.AddListener(() =>
                 {
-                    SaveSystem.SaveAllData(ID);
                     slot.UpdateData();
                     OverwriteSaveData.SetActive(false);
                 });

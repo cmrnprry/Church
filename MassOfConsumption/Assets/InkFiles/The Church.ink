@@ -114,7 +114,20 @@ TODO: check what image and audio hould be playing
 -> Locked
 
 === StartGame ====
-There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
+~ temp TempBool = false
+#REPLACE: home
+You watch the church through the window until it becomes a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back home.
+
+*[home]
+    ~ TempBool = true
+    ->Bus.home
+    
+*[You {TempBool: <i>need</i> | want} to forget about the church.]
+    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+    You fear what what will happen if you can't.
+    ->Job
+
+- There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
 It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
 
@@ -371,7 +384,7 @@ The bus driver looks over her shoulder, then back at you. She frowns.
 ~ temp TempBool = false
 
 #REPLACE: home
-You watch the church through the window until it becomes a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back [link=+home]home[/link].
+You watch the church through the window until it becomes a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back home.
 
 *[+home]
     ~ TempBool = true

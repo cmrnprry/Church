@@ -10,17 +10,20 @@ using DG.Tweening;
 using Febucci.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace AYellowpaper.SerializedCollections
 {
     public class GameManager : MonoBehaviour
     {
+        public static GameManager instance;
         private Story Story;
         private string ContinueText;
         private TextMeshProUGUI currentBox;
         private Color text_color;
         private float delay = -1;
-
+        private string replace = "";
+        private Choice replace_choice;
 
         [Header("Ink Data")][SerializeField] private TextAsset InkJsonAsset;
 
@@ -61,6 +64,13 @@ namespace AYellowpaper.SerializedCollections
 
         private void Awake()
         {
+            if (instance == null)
+                instance = this;
+            else
+                Destroy(this.gameObject);
+
+            DontDestroyOnLoad(gameObject);
+
             Story = new Story(InkJsonAsset.text);
 
             SaveSystem.Init();
@@ -89,12 +99,6 @@ namespace AYellowpaper.SerializedCollections
 
         private void SetDataOnSave(string ID)
         {
-            foreach (Transform box in TextParent)
-            {
-                var text = box.gameObject.GetComponent<TextMeshProUGUI>().text;
-                SaveSystem.SetCurrentText(text, ID);
-            }
-
             SaveSystem.SetStory(Story.state.ToJson(), ID);
         }
 
@@ -106,13 +110,45 @@ namespace AYellowpaper.SerializedCollections
             for (int i = 0; i < SaveSystem.GetCurrentTextLength(); i++)
             {
                 var new_box = Instantiate(TextField, TextParent, false);
-                new_box.text = $"<br>{SaveSystem.GetCurrentText(i)}";
+                SavedTextData text_data = SaveSystem.GetCurrentText(i);
+                delay = text_data.delay;
+
+                new_box.text = $"<br>{text_data.text}";
+
+                if (text_data.cycle_text != null || text_data.cycle_text.Length > 0)
+                {
+                    var link = new_box.gameObject.GetComponent<LinksManager>();
+                    link.enabled = true;
+                    link.SetDataOnLoad(text_data.cycle_text, text_data.cycle_index);
+                }
+
+
                 new_box.DOColor(text_color, 1.25f);
             }
 
             Story.state.LoadJson(SaveSystem.GetStory());
+            SetBackgroundImage(SaveSystem.GetCurrentSpriteKey());
+            Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
+            StartCoroutine(AfterLoad());
+        }
 
-            StartCoroutine(ContinueStory(false));
+        private IEnumerator AfterLoad()
+        {
+            if (Story.canContinue && delay <= 0)
+            {
+                if (AutoPlay)
+                    yield return new WaitForSeconds(AutoPlay_TextDelay);
+                else
+                    yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
+            }
+
+            if (delay > 0)
+            {
+                yield return new WaitForSeconds(delay);
+                delay = -1;
+            }
+
+            DisplayNextLine();
         }
 
         public void StartGame()
@@ -134,7 +170,7 @@ namespace AYellowpaper.SerializedCollections
             if (Story.canContinue)
             {
                 if (isStart)
-                    yield return new WaitForSeconds(.8f);
+                    yield return new WaitForSeconds(.7f);
 
                 ContinueText = Story.Continue(); // gets next line
                 ContinueText = ContinueText?.Trim(); // removes white space from text
@@ -155,9 +191,12 @@ namespace AYellowpaper.SerializedCollections
                 }
 
                 currentBox.text = $"<br>{ContinueText}";
-                SaveSystem.SetHistory($"<br>{ContinueText}");
+
+                if (replace != "")
+                    SaveSystem.SetHistory($"<br>{ContinueText}");
 
                 currentBox.DOColor(text_color, 1.25f);
+                SetSaveDataForTextBox();
 
                 Scroll.content.ForceUpdateRectTransforms();
                 Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
@@ -183,23 +222,39 @@ namespace AYellowpaper.SerializedCollections
                 delay = -1;
             }
 
-
             if (hideChoices)
                 yield break;
 
             DisplayNextLine();
         }
 
+        private void SetSaveDataForTextBox()
+        {
+            //Set Data to be saved
+            var text = currentBox.text;
+            SavedTextData data = new SavedTextData(text, delay);
+
+            var link = currentBox.gameObject.GetComponent<LinksManager>();
+            if (link.enabled)
+            {
+                data.cycle_text = link.GetCycle();
+                data.cycle_index = link.GetIndex();
+            }
+
+            SaveSystem.SetCurrentText(data);
+        }
+
         private void CycleThroughTags(string[] Tag)
         {
             string key = Tag[0].Trim();
+            string value = Tag[1].Trim();
             switch (key)
             {
                 case "IMAGE": //Sets background image
-                    SetBackgroundImage(Tag[1]);
+                    SetBackgroundImage(value);
                     break;
                 case "PROP": //set what prop is visible on screen
-                    var obj = PropDictionary[Tag[1].Trim()];
+                    var obj = PropDictionary[value];
                     obj.SetActive(!obj.activeSelf);
                     break;
                 case "PLAY": //{src, loop, fade in, delay}
@@ -220,11 +275,21 @@ namespace AYellowpaper.SerializedCollections
                     AudioManager.instance.StopSFX(stop_list[0].Trim(), stop_dur, stop_delay);
                     break;
                 case "DELAY": //delay overrider when next text block shows
-                    delay = float.Parse(Tag[1].Trim());
+                    delay = float.Parse(value);
                     break;
                 case "REPLACE": //on click, replaces text with new text
+                    float uniqueID = Random.Range(1f, 100f);
+                    string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{value}</link></color>";
+                    ContinueText = ContinueText.Replace("value", new_text);
+
+                    var linked = currentBox.GetComponent<LinksManager>();
+                    linked.SetReplaceData();
+                    linked.enabled = true;
+                    replace = value;
                     break;
                 case "CHECKPOINT": //sets a savepoint at specific parts in the story
+                    string[] checkpoints = Tag[1].Split(",");
+                    DataManager.instance.UnlockCheckpoint(Int32.Parse(checkpoints[0].Trim()), checkpoints[1].Trim());
                     break;
                 case "ENDING": //unlocks an ending
                     string[] endings = Tag[1].Split(",");
@@ -243,6 +308,7 @@ namespace AYellowpaper.SerializedCollections
                 case "REMOVE": //removes text box visuals
                     break;
                 case "EFFECT": //Special effects to happen (flashlight, click to move etc)
+                    Effects(value);
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {Tag[1]} could not be found.");
@@ -252,7 +318,6 @@ namespace AYellowpaper.SerializedCollections
 
         private void Effects(string key)
         {
-
             switch (key)
             {
                 case "flashlight_on":
@@ -291,7 +356,7 @@ namespace AYellowpaper.SerializedCollections
         private void AddCycleText(string[] cycle_list)
         {
             float uniqueID = Random.Range(1f, 100f);
-            string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{cycle_list[0]}</link></color>";
+            string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{cycle_list[0].Trim()}</link></color>";
             ContinueText = ContinueText.Replace("@", new_text);
 
             var linked = currentBox.GetComponent<LinksManager>();
@@ -316,6 +381,7 @@ namespace AYellowpaper.SerializedCollections
                     });
 
                     WasLastDefault = false;
+                    SaveSystem.SetCurrentSprite(key.Trim());
                 }
             }
             else
@@ -327,6 +393,8 @@ namespace AYellowpaper.SerializedCollections
 
                     children[0].sprite = BackgroundDictionary["Defualt"];
                     children[1].sprite = BackgroundDictionary["Defualt"];
+                    SaveSystem.SetCurrentSprite("Defualt");
+
 
                     BackgroundImage.DOFade(0, 0.25f).OnComplete(() =>
                     {
@@ -345,10 +413,16 @@ namespace AYellowpaper.SerializedCollections
                     });
 
                     WasLastDefault = false;
+                    SaveSystem.SetCurrentSprite(key.Trim());
                 }
             }
         }
 
+        public void ReplaceText()
+        {
+            if (!string.IsNullOrEmpty(replace))
+                currentBox.text = replace;
+        }
 
         ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
         private void DisplayChoices()
@@ -359,6 +433,12 @@ namespace AYellowpaper.SerializedCollections
             for (int i = 0; i < Story.currentChoices.Count; i++) // iterates through all choices
             {
                 var choice = Story.currentChoices[i];
+                if (!String.IsNullOrEmpty(replace) && choice.text == replace)
+                {
+                    replace_choice = choice;
+                    continue;
+                }                    
+
                 LabledButton button = CreateChoiceButton(choice.text); // creates a choice button
                 button.onClick.AddListener(() => OnClickChoiceButton(choice));
             }
@@ -366,9 +446,22 @@ namespace AYellowpaper.SerializedCollections
 
         void OnClickChoiceButton(Choice choice)
         {
+            if (replace != "")
+                SaveSystem.SetHistory($"<br>{ContinueText}");
+
             SaveSystem.SetHistory($"<br>{choice.text}");
+            SaveSystem.ClearCurrentTextData();
             Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
+            DeleteOldTextBoxes();
+            DisplayNextLine();
+            DataManager.instance.SetHistory();
+        }
+
+        void OnClickReplaceChoiceButton(Choice choice)
+        {
+            SaveSystem.ClearCurrentTextData();
+            Story.ChooseChoiceIndex(choice.index);
             DeleteOldTextBoxes();
             DisplayNextLine();
             DataManager.instance.SetHistory();
@@ -379,19 +472,16 @@ namespace AYellowpaper.SerializedCollections
             if (clicktomove.activeSelf)
                 clicktomove.SetActive(false);
 
+            replace = "";
+
             if (ChoiceButtonContainer != null)
             {
                 foreach (LabledButton button in ChoiceButtonContainer.GetComponentsInChildren<LabledButton>())
                 {
                     var choice_text = button.GetComponentInChildren<TextMeshProUGUI>();
-
-                    Color color = button.colors.pressedColor;
-                    choice_text.color = color;
-
-                    ColorUtility.TryParseHtmlString("#0a100d", out color);
                     button.enabled = false;
 
-                    choice_text.DOColor(color, (AutoPlay ? AutoPlay_ChoiceDelay : DefaultFadeOut)).OnComplete(
+                    choice_text.DOFade(0, (AutoPlay ? AutoPlay_ChoiceDelay : DefaultFadeOut)).OnComplete(
                         () => { Destroy(button.gameObject); });
                 }
             }
@@ -403,8 +493,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 foreach (var child in TextParent.GetComponentsInChildren<TextMeshProUGUI>())
                 {
-                    ColorUtility.TryParseHtmlString("#E0E0E0", out var color);
-                    child.DOColor(color, (AutoPlay ? AutoPlay_FadeOut : DefaultFadeOut)).OnComplete(
+                    child.DOFade(0, (AutoPlay ? AutoPlay_FadeOut : DefaultFadeOut)).OnComplete(
                         () => { Destroy(child.gameObject); });
                 }
             }

@@ -21,7 +21,7 @@ public class SaveLoadData : MonoBehaviour
 
     public void Awake()
     {
-        
+
     }
 
     void OnEnable()
@@ -83,11 +83,11 @@ namespace AYellowpaper.SerializedCollections
         public string InkStory;
         public string History;
 
-        [SerializedDictionary("index", "text chunk")]
-        public SerializedDictionary<int, string> DisplayedTextDictionary;
+        [SerializedDictionary("index", "text data")]
+        public SerializedDictionary<int, SavedTextData> DisplayedTextDictionary;
 
-        [SerializedDictionary("Sprite", "Enabled")]
-        public SerializedDictionary<Sprite, bool> BackgroundDictionary;
+        [SerializedDictionary("key", "Enabled")]
+        public SerializedDictionary<string, bool> BackgroundDictionary;
 
         [SerializedDictionary("Prop Object", "Enabled")]
         public SerializedDictionary<GameObject, bool> PropDictionary;
@@ -98,18 +98,16 @@ namespace AYellowpaper.SerializedCollections
         [SerializedDictionary("Index", "Name")]
         public SerializedDictionary<int, string> CheckpointsDictionary;
 
-        public string dateTime;
-
         public SlotData()
         {
             InkStory = string.Empty;
             History = string.Empty;
 
-            BackgroundDictionary = new SerializedDictionary<Sprite, bool>();
+            BackgroundDictionary = new SerializedDictionary<string, bool>();
             PropDictionary = new SerializedDictionary<GameObject, bool>();
             EndingsDictionary = new SerializedDictionary<int, string>();
             CheckpointsDictionary = new SerializedDictionary<int, string>();
-            DisplayedTextDictionary = new SerializedDictionary<int, string>();
+            DisplayedTextDictionary = new SerializedDictionary<int, SavedTextData>();
 
             for (int i = 0; i < 10; i++)
             {
@@ -124,8 +122,36 @@ namespace AYellowpaper.SerializedCollections
     }
 }
 
+[System.Serializable]
+public struct SavedTextData
+{
+    public string text;
+    public float delay;
+
+    [SerializeField]
+    public string[] cycle_text;
+    public int cycle_index;
+
+    [SerializeField]
+    public string[] class_text;
+
+    public SavedTextData(string t, float d)
+    {
+        text = t;
+        cycle_index = 0;
+        delay = d;
+        cycle_text = new string[0];
+        class_text = new string[0];
+    }
+}
+
+
+
 public class SettingsData
 {
+    public bool hasSaveData;
+    public string mostRecentSlot;
+
     //AUDIO
     [SerializeField]
     public bool mute;
@@ -146,6 +172,7 @@ public class SettingsData
 
     public SettingsData()
     {
+        hasSaveData = false;
         mute = false;
         BGM = 0.5f;
         SFX = 0.5f;

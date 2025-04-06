@@ -21,10 +21,6 @@ public static class SaveSystem
     private static string slotJson;
     private static string settingsJson;
 
-    //Tells us if there is ANY save data found for the application
-    public static bool hasLoadedData = false;
-    public static bool hasSettingsData = false;
-
     /// <summary>
     ///  Called to start loading system when we want to load a save file
     /// </summary>
@@ -39,7 +35,6 @@ public static class SaveSystem
         {
             string json = System.IO.File.ReadAllText(path);
             settingsData = JsonUtility.FromJson<SettingsData>(json);
-            hasSettingsData = true;
         }
     }
 
@@ -54,7 +49,7 @@ public static class SaveSystem
 
         foreach (KeyValuePair<string, Sprite> item in bg)
         {
-            slotData.BackgroundDictionary.Add(item.Value, (item.Key == "Default"));
+            slotData.BackgroundDictionary.Add(item.Key, (item.Key == "Default"));
         }
     }
 
@@ -64,7 +59,6 @@ public static class SaveSystem
 
         if (System.IO.File.Exists(path))
         {
-            hasLoadedData = true;
             var result = System.IO.File.ReadAllText(path);
             var creation = System.IO.File.GetLastWriteTime(path);
             return creation.ToShortDateString() + " " + creation.ToShortTimeString();
@@ -79,6 +73,16 @@ public static class SaveSystem
         bool isData;
         isData = System.IO.File.Exists(path);
         return isData;
+    }
+
+    public static bool HasSaveData()
+    {
+        return settingsData.hasSaveData;
+    }
+
+    public static string GetLastSave()
+    {
+        return settingsData.mostRecentSlot;
     }
 
     public static SlotData GetSlot(string slotID)
@@ -117,13 +121,14 @@ public static class SaveSystem
 
     public static void SaveAllData(string slotID)
     {
+        settingsData.hasSaveData = true;
+        settingsData.mostRecentSlot = slotID;
         SaveSlotData(slotID);
         SaveSettingsData();
     }
 
     public static void LoadSlotData(string slotID)
     {
-        hasLoadedData = true;
         string path = Application.persistentDataPath + "/" + slotID + ".json";
 
         if (System.IO.File.Exists(path))
@@ -141,18 +146,41 @@ public static class SaveSystem
 
     /*        GETTERS AND SETTERSs          */
 
-    public static Sprite GetCurrentSprite(string slotID = "")
+    public static string GetCurrentSpriteKey(string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
 
-        Sprite sprite = null;
-        foreach (KeyValuePair<Sprite, bool> pair in temp_data.BackgroundDictionary)
+        string key = "Default";
+        foreach (KeyValuePair<string, bool> pair in temp_data.BackgroundDictionary)
         {
             if (pair.Value)
                 return pair.Key;
         }
 
-        return sprite;
+        return key;
+    }
+
+    public static Sprite GetCurrentSprite(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        Sprite key = null;
+        foreach (KeyValuePair<string, bool> pair in temp_data.BackgroundDictionary)
+        {
+            if (pair.Value)
+                return GameManager.instance.BackgroundDictionary[pair.Key];
+        }
+
+        return key;
+    }
+
+    public static void SetCurrentSprite(string key)
+    {
+        List<string> Keys = new List<string>(slotData.BackgroundDictionary.Keys);
+        foreach (string item in Keys)
+        {
+            slotData.BackgroundDictionary[item] = (item == key);
+        }
     }
 
     /// <summary>
@@ -222,15 +250,17 @@ public static class SaveSystem
     }
 
     //BUG: NOT SAVING THE ADD
-    public static void SetCurrentText(string text, string slotID = "")
+    public static void SetCurrentText(SavedTextData text_data, string slotID = "")
     {
-       // SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-        int length = slotData.DisplayedTextDictionary.Count;
+        // SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
 
-        slotData.DisplayedTextDictionary.Add(length, text);
+        int length = slotData.DisplayedTextDictionary.Count;
+        slotData.DisplayedTextDictionary.Add(length, text_data);
+
+        //SaveSlotData(slotID);
     }
 
-    public static string GetCurrentText(int index, string slotID = "")
+    public static SavedTextData GetCurrentText(int index, string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
         return temp_data.DisplayedTextDictionary[index];
@@ -242,10 +272,15 @@ public static class SaveSystem
         return temp_data.DisplayedTextDictionary.Count;
     }
 
+    public static void ClearCurrentTextData(string slotID = "")
+    {
+        slotData.DisplayedTextDictionary.Clear();
+    }
+
     public static void SetStory(string text, string slotID = "")
     {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-        temp_data.InkStory = text;
+        slotData.InkStory = text;
+        //SaveSlotData(slotID);
     }
 
     public static string GetStory(string slotID = "")

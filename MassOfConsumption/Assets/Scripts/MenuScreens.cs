@@ -8,7 +8,30 @@ public class MenuScreens : MonoBehaviour
 {
     [Header("Transition Screen")]
     public Image TransitionScreen;
-    
+    public GameObject Settings, MainMenu;
+    public LabledButton LoadButton;
+
+    private float wait = 0.25f;
+
+    private void Start()
+    {
+        if (SaveSystem.HasSaveData())
+        {
+            LoadButton.gameObject.SetActive(true);
+            LoadButton.onClick.AddListener(() => SaveSystem.LoadSlotData(SaveSystem.GetLastSave()));
+        }
+    }
+
+    private void OnEnable()
+    {
+        SaveSystem.OnLoad += CloseSettingsOnLoad;
+    }
+
+    private void OnDisable()
+    {
+        SaveSystem.OnLoad -= CloseSettingsOnLoad;
+    }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -25,5 +48,21 @@ public class MenuScreens : MonoBehaviour
                 TransitionScreen.gameObject.SetActive(false);
             });
         });
+    }
+
+    private void CloseSettingsOnLoad()
+    {
+        StartCoroutine(WaitToHideSettings());
+    }
+
+    private IEnumerator WaitToHideSettings()
+    {
+        yield return new WaitForSeconds(wait);
+
+        if (Settings.activeSelf)
+            ShowScreen(Settings);
+
+        if (MainMenu.activeSelf)
+            ShowScreen(MainMenu);
     }
 }

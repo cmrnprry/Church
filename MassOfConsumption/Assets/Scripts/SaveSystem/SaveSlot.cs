@@ -57,13 +57,15 @@ public class SaveSlot : MonoBehaviour
 
     public void UpdateData()
     {
+        OnSave?.Invoke(slotID);
         Debug.Log("updating save at " + slotID);
         DateTime DateCurrent = DateTime.Now;
         text.text = String.Format("{0:d} {0:t}", DateCurrent);
 
         //TODO: either screenshot the screen or make this whatever the current BG image is
         image.sprite = SaveSystem.GetCurrentSprite();
-        OnSave?.Invoke(slotID);
+
+        SaveSystem.SaveAllData(slotID);
     }
 
     private void SaveLoadData()
@@ -77,8 +79,7 @@ public class SaveSlot : MonoBehaviour
             }
             else
             {
-                SaveSystem.SaveAllData(slotID);
-                UpdateData();
+                UpdateData();       
             }
         }
         else
