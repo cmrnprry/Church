@@ -11,21 +11,22 @@ using Febucci.UI;
 using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace AYellowpaper.SerializedCollections
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-        private Story Story;
-        private string ContinueText;
-        private TextMeshProUGUI currentBox;
-        private Color text_color;
-        private float delay = -1;
-        private string replace = "";
-        private Choice replace_choice;
 
-        [Header("Ink Data")][SerializeField] private TextAsset InkJsonAsset;
+        [Header("Ink Data")] [SerializeField] private TextAsset InkJsonAsset;
+        private Story Story;
+        private Color text_color;
+
+        private string ContinueText; // next group of text
+        private TextMeshProUGUI Current_Textbox; //current textbox
+        private float Text_Delay = -1;
+        private ReplaceChoice ReplaceData;
 
         [Header("Auto Play Variables")] private bool AutoPlay = false;
         private float AutoPlay_TextDelay = 1.5f; //delay between next piece of text showing up
@@ -34,16 +35,18 @@ namespace AYellowpaper.SerializedCollections
         private float AutoPlay_TextGroupDelay = .25f; // delay between the next text group fading in
 
         [Header("Default Variables")]
-        private float DefaultTextGroupDelay = 0.5f; //default time between next piece of text showing up
-        private float DefaultChoiceGroupDelay = 0.5f; //default time between next piece of text showing up
-        private float DefaultFadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
-        private float DefaultAutoScroll = 0.5f; //default time to autoscroll
+        private const float DefaultTextGroupDelay = 1.25f; //default time between next piece of text showing up
 
-        [Header("Story Objects")]
-        [SerializeField]
+        private const float DefaultChoiceGroupDelay = 0.5f; //default time between next piece of text showing up
+        private const float DefaultFadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
+        private const float DefaultAutoScroll = 0.5f; //default time to autoscroll
+        private const float DefaultShortWait = 0.1f; //default time between a replace choice fade change
+        private bool WaitAfterChoice = false;
+
+        [Header("Story Objects")] [SerializeField]
         private Transform TextParent;
 
-        [SerializeField] private TextMeshProUGUI TextField;
+        [SerializeField] private TextMeshProUGUI TextPrefab;
         [SerializeField] private VerticalLayoutGroup ChoiceButtonContainer;
         [SerializeField] private LabledButton ChoiceButtonPrefab;
         [SerializeField] private ScrollRect Scroll;
@@ -81,8 +84,9 @@ namespace AYellowpaper.SerializedCollections
         {
             DOTween.Init();
 
-            text_color = TextField.color;
+            text_color = TextPrefab.color;
             text_color.a = 1;
+            ReplaceData = new ReplaceChoice("", -1);
         }
 
         private void OnEnable()
@@ -109,21 +113,28 @@ namespace AYellowpaper.SerializedCollections
 
             for (int i = 0; i < SaveSystem.GetCurrentTextLength(); i++)
             {
-                var new_box = Instantiate(TextField, TextParent, false);
+                Current_Textbox = Instantiate(TextPrefab, TextParent, false);
                 SavedTextData text_data = SaveSystem.GetCurrentText(i);
-                delay = text_data.delay;
+                Text_Delay = text_data.delay;
+                
+                ContinueText = $"<br>{text_data.text}";
+                Current_Textbox.text = ContinueText;
 
-                new_box.text = $"<br>{text_data.text}";
+                var link = Current_Textbox.gameObject.GetComponent<LinksManager>();
 
-                if (text_data.cycle_text != null || text_data.cycle_text.Length > 0)
+                if (text_data.cycle_text != null && text_data.cycle_text.Length > 0)
                 {
-                    var link = new_box.gameObject.GetComponent<LinksManager>();
                     link.enabled = true;
                     link.SetDataOnLoad(text_data.cycle_text, text_data.cycle_index);
                 }
 
+                if (text_data.GetReplaceChoice().hasTextData())
+                {
+                    link.enabled = true;
+                    SetReplaceChoiceData(text_data.GetReplaceChoice().GetText());
+                }
 
-                new_box.DOColor(text_color, 1.25f);
+                Current_Textbox.DOColor(text_color, 1.25f);
             }
 
             Story.state.LoadJson(SaveSystem.GetStory());
@@ -134,7 +145,7 @@ namespace AYellowpaper.SerializedCollections
 
         private IEnumerator AfterLoad()
         {
-            if (Story.canContinue && delay <= 0)
+            if (Story.canContinue && Text_Delay <= 0)
             {
                 if (AutoPlay)
                     yield return new WaitForSeconds(AutoPlay_TextDelay);
@@ -142,10 +153,10 @@ namespace AYellowpaper.SerializedCollections
                     yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
             }
 
-            if (delay > 0)
+            if (Text_Delay > 0)
             {
-                yield return new WaitForSeconds(delay);
-                delay = -1;
+                yield return new WaitForSeconds(Text_Delay);
+                Text_Delay = -1;
             }
 
             DisplayNextLine();
@@ -153,7 +164,6 @@ namespace AYellowpaper.SerializedCollections
 
         public void StartGame()
         {
-            TextField.text = "";
             StartCoroutine(ContinueStory(true));
         }
 
@@ -181,7 +191,13 @@ namespace AYellowpaper.SerializedCollections
                     yield break;
                 }
 
-                currentBox = Instantiate(TextField, TextParent, false);
+                if (ReplaceData.hasData())
+                    yield return new WaitForSeconds(DefaultShortWait + 0.01f);
+                else if (WaitAfterChoice)
+                    yield return new WaitForSeconds((AutoPlay ? AutoPlay_FadeOut : DefaultFadeOut) + 0.01f);
+
+                WaitAfterChoice = false;
+                Current_Textbox = Instantiate(TextPrefab, TextParent, false);
                 foreach (var story_tag in Story.currentTags)
                 {
                     CycleThroughTags(story_tag.Split(':'));
@@ -190,15 +206,27 @@ namespace AYellowpaper.SerializedCollections
                         hideChoices = true;
                 }
 
-                currentBox.text = $"<br>{ContinueText}";
+                Current_Textbox.text = $"<br>{ContinueText}";
 
-                if (replace != "")
-                    SaveSystem.SetHistory($"<br>{ContinueText}");
+                //if we have all the replace data, then make sure it comes fast and then reset the replace data
+                if (ReplaceData.hasData())
+                {
+                    Current_Textbox.DOColor(text_color, 0.15f);
+                    ReplaceData = new ReplaceChoice("", -1);
+                }
+                else
+                    Current_Textbox.DOColor(text_color, AutoPlay ? AutoPlay_TextGroupDelay : DefaultTextGroupDelay);
 
-                currentBox.DOColor(text_color, 1.25f);
+
+                //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
+                if (!ReplaceData.hasTextData())
+                {
+                    SaveSystem.SetHistory($"<br><br>{ContinueText}");
+                }
+
                 SetSaveDataForTextBox();
 
-                Scroll.content.ForceUpdateRectTransforms();
+                //TODO: check this so the box doesn't jump like how it currently does
                 Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
                 Scroll.content.ForceUpdateRectTransforms();
             }
@@ -208,7 +236,7 @@ namespace AYellowpaper.SerializedCollections
                 yield break;
             }
 
-            if (Story.canContinue && delay < 0)
+            if (Story.canContinue && Text_Delay < 0)
             {
                 if (AutoPlay)
                     yield return new WaitForSeconds(AutoPlay_TextDelay);
@@ -216,14 +244,13 @@ namespace AYellowpaper.SerializedCollections
                     yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
             }
 
-            if (delay > 0)
+            if (Text_Delay > 0)
             {
-                yield return new WaitForSeconds(delay);
-                delay = -1;
+                yield return new WaitForSeconds(Text_Delay);
+                Text_Delay = -1;
             }
 
-            if (hideChoices)
-                yield break;
+            if (hideChoices) yield break;
 
             DisplayNextLine();
         }
@@ -231,17 +258,30 @@ namespace AYellowpaper.SerializedCollections
         private void SetSaveDataForTextBox()
         {
             //Set Data to be saved
-            var text = currentBox.text;
-            SavedTextData data = new SavedTextData(text, delay);
+            var text = Current_Textbox.text;
+            var replace = ReplaceData.hasTextData() ? ReplaceData : new ReplaceChoice();
+            SavedTextData data = new SavedTextData(text, Text_Delay, replace);
 
-            var link = currentBox.gameObject.GetComponent<LinksManager>();
-            if (link.enabled)
+            var link = Current_Textbox.gameObject.GetComponent<LinksManager>();
+            if (link.enabled && data.cycle_text != null && data.cycle_text.Length > 0)
             {
                 data.cycle_text = link.GetCycle();
                 data.cycle_index = link.GetIndex();
             }
 
             SaveSystem.SetCurrentText(data);
+        }
+
+        private void SetReplaceChoiceData(string value)
+        {
+            float uniqueID = Random.Range(1f, 100f);
+            string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{value}</link></color>";
+            ContinueText = ContinueText.Replace(value, new_text);
+
+            var linked = Current_Textbox.GetComponent<LinksManager>();
+            linked.SetReplaceData();
+            linked.enabled = true;
+            ReplaceData = new ReplaceChoice(value);
         }
 
         private void CycleThroughTags(string[] Tag)
@@ -275,17 +315,10 @@ namespace AYellowpaper.SerializedCollections
                     AudioManager.instance.StopSFX(stop_list[0].Trim(), stop_dur, stop_delay);
                     break;
                 case "DELAY": //delay overrider when next text block shows
-                    delay = float.Parse(value);
+                    Text_Delay = float.Parse(value);
                     break;
                 case "REPLACE": //on click, replaces text with new text
-                    float uniqueID = Random.Range(1f, 100f);
-                    string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{value}</link></color>";
-                    ContinueText = ContinueText.Replace("value", new_text);
-
-                    var linked = currentBox.GetComponent<LinksManager>();
-                    linked.SetReplaceData();
-                    linked.enabled = true;
-                    replace = value;
+                    SetReplaceChoiceData(value);
                     break;
                 case "CHECKPOINT": //sets a savepoint at specific parts in the story
                     string[] checkpoints = Tag[1].Split(",");
@@ -336,7 +369,6 @@ namespace AYellowpaper.SerializedCollections
                     Debug.LogWarning($"Effect {key} could not be found.");
                     break;
             }
-
         }
 
         private void ClickToMove()
@@ -356,10 +388,10 @@ namespace AYellowpaper.SerializedCollections
         private void AddCycleText(string[] cycle_list)
         {
             float uniqueID = Random.Range(1f, 100f);
-            string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{cycle_list[0].Trim()}</link></color>";
+            string new_text = $"<color=#a80f0f><u><link=\"{uniqueID}\">{cycle_list[0].Trim()}</link></u></color>";
             ContinueText = ContinueText.Replace("@", new_text);
 
-            var linked = currentBox.GetComponent<LinksManager>();
+            var linked = Current_Textbox.GetComponent<LinksManager>();
             linked.enabled = true;
             linked.SetData(cycle_list.ToList());
         }
@@ -420,8 +452,24 @@ namespace AYellowpaper.SerializedCollections
 
         public void ReplaceText()
         {
-            if (!string.IsNullOrEmpty(replace))
-                currentBox.text = replace;
+            if (ReplaceData.hasData())
+            {
+                //delete current text box
+                Current_Textbox.DOFade(0, DefaultShortWait).OnComplete(
+                    () => { Destroy(Current_Textbox.gameObject); });
+
+                //Delete old choices
+                DeleteOldChoices();
+
+                //tell the story what our next 
+                Story.ChooseChoiceIndex(ReplaceData.GetChoiceIndex());
+                DisplayNextLine();
+            }
+        }
+
+        private void ZoomImage()
+        {
+            
         }
 
         ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
@@ -433,11 +481,11 @@ namespace AYellowpaper.SerializedCollections
             for (int i = 0; i < Story.currentChoices.Count; i++) // iterates through all choices
             {
                 var choice = Story.currentChoices[i];
-                if (!String.IsNullOrEmpty(replace) && choice.text == replace)
+                if (ReplaceData.hasTextData() && choice.text == ReplaceData.GetText())
                 {
-                    replace_choice = choice;
+                    ReplaceData.SetChoiceIndex(choice.index);
                     continue;
-                }                    
+                }
 
                 LabledButton button = CreateChoiceButton(choice.text); // creates a choice button
                 button.onClick.AddListener(() => OnClickChoiceButton(choice));
@@ -446,22 +494,19 @@ namespace AYellowpaper.SerializedCollections
 
         void OnClickChoiceButton(Choice choice)
         {
-            if (replace != "")
-                SaveSystem.SetHistory($"<br>{ContinueText}");
+            //if we have replace data, but don't click the replace button
+            if (ReplaceData.hasData())
+            {
+                SaveSystem.SetHistory($"<br><br>{ContinueText}");
+                SetSaveDataForTextBox();
+                ReplaceData = new ReplaceChoice("", -1);
+            }
 
-            SaveSystem.SetHistory($"<br>{choice.text}");
+            WaitAfterChoice = true;
+            SaveSystem.SetHistory($"<br><br>{choice.text}");
             SaveSystem.ClearCurrentTextData();
             Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
-            DeleteOldTextBoxes();
-            DisplayNextLine();
-            DataManager.instance.SetHistory();
-        }
-
-        void OnClickReplaceChoiceButton(Choice choice)
-        {
-            SaveSystem.ClearCurrentTextData();
-            Story.ChooseChoiceIndex(choice.index);
             DeleteOldTextBoxes();
             DisplayNextLine();
             DataManager.instance.SetHistory();
@@ -471,8 +516,6 @@ namespace AYellowpaper.SerializedCollections
         {
             if (clicktomove.activeSelf)
                 clicktomove.SetActive(false);
-
-            replace = "";
 
             if (ChoiceButtonContainer != null)
             {

@@ -104,9 +104,9 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
             int next_index = (cycle_index + 1 < cycle_text.Count) ? cycle_index + 1 : 0;
             Textbox.SetText(Textbox.text.Replace(cycle_text[cycle_index], cycle_text[next_index]));
             cycle_index = next_index;
+            SaveSystem.SetHistory(SaveSystem.GetHistory().Replace(last, Textbox.text));
         }
 
-        SaveSystem.SetHistory(SaveSystem.GetHistory().Replace(last, Textbox.text));
     }
 
     private void Update()

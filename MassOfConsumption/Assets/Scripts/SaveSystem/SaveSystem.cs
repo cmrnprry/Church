@@ -77,7 +77,7 @@ public static class SaveSystem
 
     public static bool HasSaveData()
     {
-        return settingsData.hasSaveData;
+        return System.IO.Directory.GetFiles(Application.persistentDataPath).Length > 1;
     }
 
     public static string GetLastSave()
