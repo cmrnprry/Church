@@ -256,7 +256,7 @@ You accepted the church.
 
 *[You can't belive this.]
 
-- You refuse to accept this. That must be a trick of the church- it has to be.
+- You refuse to accept this. That must be a trick of the church— it has to be.
 
 {
     - stay >= 2.5:
@@ -869,7 +869,7 @@ You shine your light to the end of the staircase, and see a door at the end of t
     #PLAY: click-off
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
-    The flesh, it- it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
+    The flesh, it— it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
     ->Stairs.Turn_Back
 
 - 
@@ -955,19 +955,19 @@ The ooze being to fall faster. You step in puddles. It falls on you from the cei
 
 - 
 #DELAY: 2
-You can't think. Bone? How-? 
+You can't think. Bone? How—? 
 
 #CLASS: Blur #DELAY: 2
 Your skin burns.
 
 #DELAY: 2
-Your head swims. This can't be-
+Your head swims. This can't be—
 
 #CLASS: Blur #DELAY: 2
 Your skin burns.
 
 #DELAY: 2
-You can't get enough air in. Is this actually slime-?
+You can't get enough air in. Is this actually slime—?
 
 *[Your skin burns.]
 
@@ -1061,7 +1061,7 @@ The last lock is a sliding chain door that appartments usually have inside to pr
 *[Head back down]
 -> Stairs.Return_Down
 
-- You try a few combinations on the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up.
+- You try a few combinations on the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday— Anything meaningful set of four numbers you can think of. After a few minutes, you give up.
 
 You pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out.
 

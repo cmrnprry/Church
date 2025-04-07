@@ -140,7 +140,7 @@ You hear them call your name, but you don't dare turn around.
 #CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage and walk past the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed-legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand- your intact hand- on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 #CYCLE: null, Anxiety, Dread, Doubt, Confusion
 You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
@@ -188,7 +188,7 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 #CHECKPOINT: 4, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed-legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand- your intact hand- on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubbles up in your chest, and tears form in your eyes. Your body shutters as you cry. Deep, heavy sobs wrack your body.
 
@@ -351,7 +351,7 @@ You decide to look...
 #CHECKPOINT: 6, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed-legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand- your intact hand- on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 You bow your head and squeeze the wire cutters in your hand.
 

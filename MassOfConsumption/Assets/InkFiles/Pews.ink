@@ -113,7 +113,7 @@ Slowly you rise to your feet, intending to leave the area. <br><br> "Ah, there..
 = Try_Leave
 You wave your hands in front of you, shake your head, and try to leave. The light follows your movements as you exit into the aisle. As you turn to walk opposite the stage, you find that the pastor now stands in your path.
 
-"How did you-?"
+"How did you—?"
 
 "Wrong way... The stage is... this way."
 
@@ -143,7 +143,7 @@ nce there, you move to stand next to the ghostly pastor. It grabs your hand and 
 = On_Stage
 { temp_bool: It ignores the question, and releases your hand. | You jerk your hand from its grasp, and it laughs again.} "Stand... Here..."
 
-"What is-" You try to ask, but the pastor once again takes ahold of you and moves you to be center stage. Another person appears, wheeling over a cart that has a container of water on it. Their left hand is missing a few fingers. The paster grabs something from behind the podium. "Can you explain to me what's-"
+"What is-" You try to ask, but the pastor once again takes ahold of you and moves you to be center stage. Another person appears, wheeling over a cart that has a container of water on it. Their left hand is missing a few fingers. The paster grabs something from behind the podium. "Can you explain to me what's—"
 
 "Now, which hand...?" It asks, its own behind it's back.
 
@@ -180,7 +180,7 @@ You look at the tub of water in front of you.
 
 "Hold it... there. Don't move." It says something to the crowd, and members of the audience each raise a hand. Some even raise two. All of them are missing at least one finger on their raised hand. "It will only... hurt a bit..."
 
-"Hurt? What do you-?" Before you can finish speaking, it begins reciting something. It pulls its free hand from behind it's back, and reveals a pair of wire cutters. It dawns on you what exactly they're for only a moment too late. "Waitwaitwaitwait-!" 
+"Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls its free hand from behind it's back, and reveals a pair of wire cutters. It dawns on you what exactly they're for only a moment too late. "Waitwaitwaitwait—!" 
 
 You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it says softly and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
 
@@ -247,7 +247,7 @@ The pastor lets out a deep, gutteral growl. "Fine then." He snaps his head to cr
 
 A woman floats to the stage, and stands next you. She looks at you, and though she doesn't have a face, you can sense of deep fear in her. She looks back to the pastor, who is holding out it's hand, waiting for hers. 
 
-"Please..." she wimpers. "I have- I've already been cleansed."
+"Please..." she wimpers. "I have— I've already been cleansed."
 
 The pastor ignores her and grabs her arm, forcing it over the container of water. She looks at you. She is pleading.
 
@@ -265,14 +265,14 @@ It releases the woman, grabs your wrist. She falls to her feet, thanking you, be
 *["Yes."]
 "Hold still..." It turns to the crowd, and they begin to chant. "It will only... hurt a bit..."
 
-"Hurt? What do you-?" Before you can finish speaking, it begins reciting something. It pulls his free hand from behind it's back, and reveals a pair of wire cutters. "Waitwaitwaitwait-!" 
+"Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls his free hand from behind it's back, and reveals a pair of wire cutters. "Waitwaitwaitwait—!" 
 
 You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it explaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
 
 *["On second thought..."]
 "You are... willing...!" It turns to the crowd, and they begin to chant. "It will only... hurt a bit..."
 
-"Hurt? What do you-?" Before you can finish speaking, it begins reciting something. It pulls his free hand from behind it's back, and reveals a pair of wire cutters. "Waitwaitwaitwait-!" 
+"Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls his free hand from behind it's back, and reveals a pair of wire cutters. "Waitwaitwaitwait—!" 
 
 You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it explaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
 
@@ -309,7 +309,7 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i> | <i>Is she...?<
 
 *[Appologize]
 ~stay -= 0.5
-    "I- I'm sorry. I- I- I didn't-" You stumble over your words.
+    "I— I'm sorry. I— I— I didn't—" You stumble over your words.
 
     "Coward. Coward!" Her voice is full of hate. She clambers to her feet, and grabs the wire cutters with her non-hurt hand. She throws them at your feet. "After <i>everything</i> I did for you!"
 

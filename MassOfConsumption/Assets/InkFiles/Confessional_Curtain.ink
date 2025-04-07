@@ -228,13 +228,13 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
 
 {
     - work == 1:
-        "I- We rarely talk, but her concern felt so foreign. I didn't know what to do with it, so I just... I just left."
+        "I— We rarely talk, but her concern felt so foreign. I didn't know what to do with it, so I just... I just left."
         ~Temp_String = "often ignore or push away the ones who reach out first?\""
     - work == 2:
         "My supervisor has always looked out for me even though I never meet their standards. I think this was the straw that broke the camel's back." You fidgit with your nail. "The look they gave me..."
         ~Temp_String = "think you did all you could?\""
     - else:
-        "I had never spoken to him before- I- I mainly keep to myself at work. I didn't know how to handle his help, so... I pushed him away and left. He wasn't too happy with me."
+        "I had never spoken to him before— I— I mainly keep to myself at work. I didn't know how to handle his help, so... I pushed him away and left. He wasn't too happy with me."
         ~Temp_String = "often ignore or push away the ones who reach out first?\""
 }
 
@@ -278,7 +278,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
                 ~Temp_String = "overlooked promotions. When you finally felt you proved yourself on a project, and your efforts were met with a pat on the back. How even after pushing the issue, your emails didn't get a response. How no matter what you did, how hard you worked, you got nothing in return."
         }
         
-        You shake your head. "I can't say that's the case. Today was-"
+        You shake your head. "I can't say that's the case. Today was—"
 
         "A fluke? A one off? {work == 2: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
 
@@ -341,7 +341,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         ->Confessional_Curtain.Middle
     
     - else: //disagreed last time
-        "I don't think-"
+        "I don't think—"
         
         The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. You <i>are</i> happier here, yes?"
         
@@ -355,7 +355,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
             ->Confessional_Curtain.liquid
         
         *{stay < 1} ["I don't want to be here."]
-            The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
+            The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu—"
             ->Confessional_Curtain.Reject("how am I confused?")
     
         *[Stay silent.]
@@ -363,7 +363,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
 }
 
 = liquid
-You look closer. The liquid in the bucket is slightly viscous. It looks almost like-
+You look closer. The liquid in the bucket is slightly viscous. It looks almost like—
 
 "Well?" The voice is growing impatient. You tense. "You are happier here, yes?"
 
@@ -564,11 +564,11 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 {
     - leave_light:
         *[The church was angry..."]
-            "It screamed at me. It- It burned me..." You shutter at the memory. 
+            "It screamed at me. It— It burned me..." You shutter at the memory. 
             
-            The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must just be <i>confused</i>. The church would never-"
+            The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must just be <i>confused</i>. The church would never—"
             
-            {stay <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when- | You shake your head in disbelief. }
+            {stay <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when— | You shake your head in disbelief. }
         ->Confessional_Curtain.Reject("how am I confused?")
 }
 
@@ -653,7 +653,7 @@ The voice is silent.
     
     **[Disagree]
         #DELAY: 0.5
-        You shake your head. "It's not that I'm-"
+        You shake your head. "It's not that I'm—"
     
         #PLAY: liquid-drop #DELAY: 1.5
         <i>Pl....in.....k!</i>
@@ -669,7 +669,7 @@ The voice is silent.
             -> Confessional_Curtain.Personal_End
         
         ***[Disagree]
-            Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that-"
+            Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that—"
     
             It cuts you off again.
     
@@ -750,7 +750,7 @@ Your skin crawls. The silence returns.
     -> Confessional_Curtain.TooMuch_Choice
 
 *[Disagree] 
-    "Maybe..." You chew on the voice's words. "Or maybe it's-"
+    "Maybe..." You chew on the voice's words. "Or maybe it's—"
 
     #PLAY: liquid-drop #DELAY: 1.5
     <i>Pl....in.....k!</i>
@@ -766,7 +766,7 @@ Your skin crawls. The silence returns.
         -> Confessional_Curtain.Personal_End
     
     **[Disagree]
-        Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that-"
+        Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that—"
     
         It cuts you off again.
     
@@ -798,7 +798,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 
 *[Disagree]
     #DELAY: 0.5
-    You shake your head. "It's not that I'm-"
+    You shake your head. "It's not that I'm—"
     
     #PLAY: liquid-drop #DELAY: 1.5
     <i>Pl....in.....k!</i>
@@ -814,7 +814,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
         -> Confessional_Curtain.Personal_End
     
     **[Disagree]
-        Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that-"
+        Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that—"
 
         It cuts you off again.
 
@@ -881,7 +881,7 @@ The bucket is filling fast. You can see the [liquid] seems... thicker than just 
     ->Confessional_Curtain.Reject("what is so <i>grand</i> about that?")
 
 = liquid_2 
-You look closer. The liquid in the bucket is slightly viscous. It looks almost like-
+You look closer. The liquid in the bucket is slightly viscous. It looks almost like—
 
 "Well?" The voice is growing impatient.
 
@@ -889,7 +889,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
 -> Confessional_Curtain.End_Confessional
 
 *{stay < 1} ["I don't want to be here."]
-    The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
+    The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu—"
     ->Confessional_Curtain.Reject("what is so <i>grand</i> about that?")
 
 = No_Confession
@@ -1027,7 +1027,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     ~Temp_String = "I don't know..."
 
 * {stay <= 1} ["I don't want to be here."]
-    The rapid drips from the leak stop. "Hm...?" The voice laughs. "You think that now, but just wait-"
+    The rapid drips from the leak stop. "Hm...?" The voice laughs. "You think that now, but just wait—"
     ->Confessional_Curtain.Reject("how am I confused?")
 
 *[Stay silent.]
@@ -1053,7 +1053,7 @@ You squirm in your seat. Clenching and unclenching your fists.
 *["Maybe you are right..."]
 
 *["No..."]
-    The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
+    The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu—"
     ->Confessional_Curtain.Reject("how am I confused?")
 
 - The leak is dripping faster now. The bucket is spilling over. The viscous liquid contains small bubbles as it crawls over the floor.
@@ -1065,11 +1065,11 @@ You squirm in your seat. Clenching and unclenching your fists.
 {
     - leave_light:
     *[The church was angry..."]
-        "It screamed at me. It- It burned me..." You shutter at the memory. 
+        "It screamed at me. It— It burned me..." You shutter at the memory. 
         
-        The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must just be <i>confused</i>. The church would never-"
+        The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must just be <i>confused</i>. The church would never—"
             
-        {stay <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when- | You shake your head in disbelief. }
+        {stay <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when— | You shake your head in disbelief. }
         ->Confessional_Curtain.Reject("how am I confused?")
 }
 
@@ -1119,12 +1119,12 @@ Something clicks into place. "I... know who you are..."
 
 "Do you now?" he laughs coldly.
 
-"You're the father of-"
+"You're the father of—"
 
 "The church. I do not have all day, and there are others waiting their turn." His voice is short and strained. "So this is the last time I'll ask you this: What. Do. You. Wish. To. Confess?"
 
 #REPLACE: push the matter
-You frown, "No, that's not what-" A gutter growl cuts you off. You don't think you should [push the matter]. The voice is pushing you to confess, maybe you can learn more if you play along?
+You frown, "No, that's not what—" A gutter growl cuts you off. You don't think you should [push the matter]. The voice is pushing you to confess, maybe you can learn more if you play along?
 
 You take a deep breath. You need to confess something? Fine. {stay < 1: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
 
@@ -1149,11 +1149,11 @@ You take a deep breath. You need to confess something? Fine. {stay < 1: He never
 #PLAY: groaning-angry, 2
 The growl comes from the other side again. "I have no daughter." He says through gritted teeth.
 
-"I talked to-"
+"I talked to—"
 
 "No one."
 
-"She misses-"
+"She misses—"
 
 "Who?"
 

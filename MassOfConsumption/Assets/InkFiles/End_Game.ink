@@ -63,7 +63,7 @@ Bone...?
 
 The realization snaps you out it. Your hands shake as you look down at what's in them. 
 
-Your hands are covered in the sticky, red liquid that's in the glass. The bread- What you had <i>thought</i> was bread, is- It looks like- You drop the small bones and look at the plate. It's filled with finger-sized pieces of- Not bread. It was <i>never</i> bread. It's- 
+Your hands are covered in the sticky, red liquid that's in the glass. The bread— What you had <i>thought</i> was bread, is— It looks like— You drop the small bones and look at the plate. It's filled with finger—sized pieces of— Not bread. It was <i>never</i> bread. It's— 
 
 You cover your mouth, and your stomach lurches. You turn away from the table and retch. Everything you ate and drank comes out as an acidic, red, chunky mess. When your stomach is empty, you wipe your mouth with your sleeve, and slam your fist on the table.
 

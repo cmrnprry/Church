@@ -8,10 +8,13 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 using Febucci.UI;
+using Unity.VisualScripting;
 using Random = UnityEngine.Random;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using ColorUtility = UnityEngine.ColorUtility;
+using Sequence = DG.Tweening.Sequence;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -252,6 +255,7 @@ namespace AYellowpaper.SerializedCollections
 
             if (hideChoices) yield break;
 
+            yield return new WaitForFixedUpdate();
             DisplayNextLine();
         }
 
@@ -331,6 +335,14 @@ namespace AYellowpaper.SerializedCollections
                 case "CYCLE": //on click, text cycles through set options
                     string[] cycle_list = Tag[1].Split(',');
                     AddCycleText(cycle_list);
+                    break;
+                case "ZOOM": // 1.5, 2, 2
+                    string[] zoom_list = Tag[1].Split(",");
+                    float zoom = float.Parse(zoom_list[0].Trim());
+                    float dur = float.Parse(zoom_list[3].Trim());
+                    Vector2 zoom_pos = new Vector2(float.Parse(zoom_list[1].Trim()), float.Parse(zoom_list[2].Trim()));
+                        
+                    ZoomImage(zoom, zoom_pos, dur);
                     break;
                 case "TEXTBOX": //edits the textbox visuals
                     break;
@@ -467,9 +479,14 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
-        private void ZoomImage()
+        private void ZoomImage(float scale, Vector2 position, float duration)
         {
-            
+            Sequence zoom_seq = DOTween.Sequence();
+            Vector3 scale_vector = new Vector3(scale, scale, scale);
+            // BackgroundImage.gameObject.GetComponent<RectTransform>().DO
+
+            zoom_seq.Append(BackgroundImage.gameObject.GetComponent<RectTransform>().DOScale(scale_vector, duration))
+                .Insert(0,BackgroundImage.gameObject.GetComponent<RectTransform>().DOAnchorPos(position, duration));
         }
 
         ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
