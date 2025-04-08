@@ -44,19 +44,19 @@ INCLUDE End_Game.ink
 # IMAGE: Bus Stop
 yyyyy
 
-#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Background Image,,Swimming
+#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Swimming
 The church's windows are made of stained glass, which isn’t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Background Image,Swimming,Swimming-2
+#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Swimming-2
 The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
 
-#DELAY: 2.25 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Background Image,Swimming-2,Swimming-3
+#DELAY: 2.25 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Swimming-3
 Blood thunders in your ears as pressure builds behind your eyes. You strain to—
 
 #DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: Background Image,Swimming-3,
+#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: Swimming-3,
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]

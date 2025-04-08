@@ -58,6 +58,7 @@ namespace AYellowpaper.SerializedCollections
         [SerializeField] private Animator anim;
         [SerializeField] private Image BackgroundImage;
         [SerializeField] private Transform DefualtImage;
+        private BackgroundImage ImageClassData;
 
         [SerializedDictionary("Background name", "Sprite")]
         public SerializedDictionary<string, Sprite> BackgroundDictionary;
@@ -90,6 +91,7 @@ namespace AYellowpaper.SerializedCollections
             text_color = TextPrefab.color;
             text_color.a = 1;
             ReplaceData = new ReplaceChoice("", -1);
+            ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
         }
 
         private void OnEnable()
@@ -302,7 +304,7 @@ namespace AYellowpaper.SerializedCollections
                     obj.SetActive(!obj.activeSelf);
                     break;
                 case "PLAY": //{src, loop, fade in, delay}
-                    string[] play_list = Tag[1].Split(',');
+                    string[] play_list = value.Split(',');
 
                     bool play_loop = play_list.Length > 1 ? bool.Parse(play_list[1].Trim()) : false;
                     float play_dur = play_list.Length > 2 ? float.Parse(play_list[2].Trim()) : 0;
@@ -325,30 +327,31 @@ namespace AYellowpaper.SerializedCollections
                     SetReplaceChoiceData(value);
                     break;
                 case "CHECKPOINT": //sets a savepoint at specific parts in the story
-                    string[] checkpoints = Tag[1].Split(",");
+                    string[] checkpoints = value.Split(",");
                     DataManager.instance.UnlockCheckpoint(Int32.Parse(checkpoints[0].Trim()), checkpoints[1].Trim());
                     break;
                 case "ENDING": //unlocks an ending
-                    string[] endings = Tag[1].Split(",");
+                    string[] endings = value.Split(",");
                     DataManager.instance.UnlockEnding(Int32.Parse(endings[0].Trim()), endings[1].Trim());
                     break;
                 case "CYCLE": //on click, text cycles through set options
-                    string[] cycle_list = Tag[1].Split(',');
+                    string[] cycle_list = value.Split(',');
                     AddCycleText(cycle_list);
                     break;
-                case "ZOOM": // 1.5, 2, 2
-                    string[] zoom_list = Tag[1].Split(",");
-                    float zoom = float.Parse(zoom_list[0].Trim());
-                    float dur = float.Parse(zoom_list[3].Trim());
-                    Vector2 zoom_pos = new Vector2(float.Parse(zoom_list[1].Trim()), float.Parse(zoom_list[2].Trim()));
+                case "ZOOM": // [scale], [xpos], [ypos]
+                    string[] zoom_list = value.Split(",");
+                    float zoom = float.Parse(zoom_list[0]);
+                    float dur = float.Parse(zoom_list[3]);
+                    Vector2 zoom_pos = new Vector2(float.Parse(zoom_list[1]), float.Parse(zoom_list[2]));
                         
-                    ZoomImage(zoom, zoom_pos, dur);
+                    ImageClassData.ZoomImage(zoom, zoom_pos, dur);
                     break;
                 case "TEXTBOX": //edits the textbox visuals
                     break;
                 case "CLASS": //edits the text (within the textbox)'s visuals
                     break;
-                case "ICLASS": //edits the image
+                case "ICLASS": //[classes to remove], [classes to add]
+                    ImageClassData.ApplyClass(value);
                     break;
                 case "REMOVE": //removes text box visuals
                     break;
@@ -356,7 +359,7 @@ namespace AYellowpaper.SerializedCollections
                     Effects(value);
                     break;
                 default:
-                    Debug.LogWarning($"{Tag[0]} with content {Tag[1]} could not be found.");
+                    Debug.LogWarning($"{Tag[0]} with content {value} could not be found.");
                     break;
             }
         }
@@ -477,16 +480,6 @@ namespace AYellowpaper.SerializedCollections
                 Story.ChooseChoiceIndex(ReplaceData.GetChoiceIndex());
                 DisplayNextLine();
             }
-        }
-
-        private void ZoomImage(float scale, Vector2 position, float duration)
-        {
-            Sequence zoom_seq = DOTween.Sequence();
-            Vector3 scale_vector = new Vector3(scale, scale, scale);
-            // BackgroundImage.gameObject.GetComponent<RectTransform>().DO
-
-            zoom_seq.Append(BackgroundImage.gameObject.GetComponent<RectTransform>().DOScale(scale_vector, duration))
-                .Insert(0,BackgroundImage.gameObject.GetComponent<RectTransform>().DOAnchorPos(position, duration));
         }
 
         ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////

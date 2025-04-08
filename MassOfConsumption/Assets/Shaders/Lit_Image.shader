@@ -1,4 +1,4 @@
-Shader "Custom/Wobble - Lit"
+Shader "Custom/Lit_Image"
 {
     Properties
     {

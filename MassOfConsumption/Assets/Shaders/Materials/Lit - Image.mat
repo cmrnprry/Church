@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wobble - Image
+  m_Name: Lit - Image
   m_Shader: {fileID: 4800000, guid: 43f5169782f2d2c47800e5da976c65fd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -46,6 +46,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BlurAmount: 0.0073
     - _ColorMask: 15
     - _Offset: 0.25
     - _Speed: 5
