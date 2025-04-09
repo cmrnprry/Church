@@ -3,15 +3,15 @@ Shader "Custom/Lit_Image"
     Properties
     {
         [NoScaleOffset]_MainTex("MainTex", 2D) = "white" {}
-        _BlurAmount("BlurAmount", Range(0, 0.1)) = 0
         [NoScaleOffset]_FlowMap("FlowMap", 2D) = "white" {}
         _Strength("Strength", Float) = 0.005
         _Speed("Speed", Float) = 5
         _Offset("Offset", Float) = 0.25
+        _BlurAmount("BlurAmount", Range(0, 40)) = 0
         [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
         [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
-        
+
         _StencilComp ("Stencil Comparison", Float) = 8.000000
         _Stencil ("Stencil ID", Float) = 0.000000
         _StencilOp ("Stencil Operation", Float) = 0.000000
@@ -228,11 +228,11 @@ Shader "Custom/Lit_Image"
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
         float4 _MainTex_TexelSize;
-        float _BlurAmount;
         float4 _FlowMap_TexelSize;
         float _Strength;
         float _Speed;
         float _Offset;
+        float _BlurAmount;
         CBUFFER_END
         
         
@@ -244,7 +244,7 @@ Shader "Custom/Lit_Image"
         SAMPLER(sampler_FlowMap);
         
         // Graph Includes
-        // GraphIncludes: <None>
+        #include "Assets/Shaders/shader graph/GaussianBlur.cginc"
         
         // -- Property used by ScenePickingPass
         #ifdef SCENEPICKINGPASS
@@ -264,41 +264,6 @@ Shader "Custom/Lit_Image"
             Out = A * B;
         }
         
-        void Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
-        {
-            Out = UV * Tiling + Offset;
-        }
-        
-        struct Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float
-        {
-        half4 uv0;
-        };
-        
-        void SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(UnityTexture2D _MainTex, float2 _Vector2, Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float IN, out float4 OutVector4_1, out float OutVector1_2)
-        {
-        UnityTexture2D _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D = _MainTex;
-        float2 _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2 = _Vector2;
-        float2 _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2;
-        Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2, _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2);
-        float4 _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.tex, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.samplerstate, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2) );
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_R_4_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.r;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_G_5_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.g;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_B_6_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.b;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.a;
-        OutVector4_1 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4;
-        OutVector1_2 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float;
-        }
-        
-        void Unity_Add_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Divide_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A / B;
-        }
-        
         void Unity_Modulo_float(float A, float B, out float Out)
         {
             Out = fmod(A, B);
@@ -312,6 +277,11 @@ Shader "Custom/Lit_Image"
         void Unity_Divide_float(float A, float B, out float Out)
         {
             Out = A / B;
+        }
+        
+        void Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
+        {
+            Out = UV * Tiling + Offset;
         }
         
         void Unity_NormalFromTexture_float(TEXTURE2D_PARAM(Texture, Sampler), float2 UV, float Offset, float Strength, out float3 Out)
@@ -337,9 +307,20 @@ Shader "Custom/Lit_Image"
             Out = A + B;
         }
         
-        void Unity_Add_float(float A, float B, out float Out)
+        struct Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float
         {
-            Out = A + B;
+        };
+        
+        void SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(UnityTexture2D _MainTex, float2 _UV, float _BlurAmount, Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float IN, out float3 Out_RGB_1, out float Out_Alpha_2)
+        {
+        UnityTexture2D _Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D = _MainTex;
+        float2 _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2 = _UV;
+        float _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float = _BlurAmount;
+        float3 _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        float _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
+        GaussianBlur_float(_Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D, _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2, _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float, UnityBuildSamplerStateStruct(SamplerState_Linear_Repeat), _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3, _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float);
+        Out_RGB_1 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        Out_Alpha_2 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
         }
         
         // Custom interpolators pre vertex
@@ -382,55 +363,6 @@ Shader "Custom/Lit_Image"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            UnityTexture2D _Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float = _BlurAmount;
-            float _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float;
-            Unity_Multiply_float_float(_Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float, 1, _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float);
-            float2 _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2 = float2(_Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035;
-            _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D, _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float);
-            UnityTexture2D _Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float = _BlurAmount;
-            float _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float;
-            Unity_Multiply_float_float(_Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float, -1, _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float);
-            float2 _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2 = float2(_Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba;
-            _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D, _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float);
-            float4 _Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4;
-            Unity_Add_float4(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4);
-            UnityTexture2D _Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51;
-            _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float);
-            float4 _Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4;
-            Unity_Add_float4(_Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4);
-            UnityTexture2D _Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9;
-            _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float);
-            float4 _Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4;
-            Unity_Add_float4(_Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4);
-            UnityTexture2D _Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476;
-            _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float);
-            float4 _Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4;
-            Unity_Add_float4(_Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4);
-            float _Float_5f4d7f798fad4fd2a03ff1772815a5b2_Out_0_Float = 5;
-            float4 _Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4;
-            Unity_Divide_float4(_Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4, (_Float_5f4d7f798fad4fd2a03ff1772815a5b2_Out_0_Float.xxxx), _Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4);
             UnityTexture2D _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
             float4 _UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4 = IN.uv0;
             UnityTexture2D _Property_83f8b38a1ca7406a80412b9e30db2024_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_FlowMap);
@@ -453,28 +385,13 @@ Shader "Custom/Lit_Image"
             Unity_Multiply_float3_float3(_NormalFromTexture_22d7f672ae3840c5a7483fc0661cb3f6_Out_5_Vector3, (_Property_836c03a7825740ccbc431954a1cce51f_Out_0_Float.xxx), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3);
             float3 _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3;
             Unity_Add_float3((_UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4.xyz), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3, _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3);
-            float4 _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.tex, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.samplerstate, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.GetTransformedUV((_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy)) );
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_R_4_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.r;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_G_5_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.g;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_B_6_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.b;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.a;
-            float4 _Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4;
-            Unity_Add_float4(_Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4, _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4, _Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4);
-            float _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float);
-            float _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float, _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float);
-            float _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float;
-            Unity_Add_float(_Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float);
-            float _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float, _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float);
-            float _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float = 5;
-            float _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float;
-            Unity_Divide_float(_Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float, _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float);
-            float _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
-            Unity_Add_float(_SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float, _Add_1514421666c84da39528c376ca8b563f_Out_2_Float);
-            surface.BaseColor = (_Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4.xyz);
-            surface.Alpha = _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
+            float _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float = _BlurAmount;
+            Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe;
+            float3 _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
+            SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D, (_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy), _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float);
+            surface.BaseColor = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            surface.Alpha = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
             surface.SpriteMask = IsGammaSpace() ? float4(1, 1, 1, 1) : float4 (SRGBToLinear(float3(1, 1, 1)), 1);
             return surface;
         }
@@ -727,11 +644,11 @@ Shader "Custom/Lit_Image"
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
         float4 _MainTex_TexelSize;
-        float _BlurAmount;
         float4 _FlowMap_TexelSize;
         float _Strength;
         float _Speed;
         float _Offset;
+        float _BlurAmount;
         CBUFFER_END
         
         
@@ -743,7 +660,7 @@ Shader "Custom/Lit_Image"
         SAMPLER(sampler_FlowMap);
         
         // Graph Includes
-        // GraphIncludes: <None>
+        #include "Assets/Shaders/shader graph/GaussianBlur.cginc"
         
         // -- Property used by ScenePickingPass
         #ifdef SCENEPICKINGPASS
@@ -763,41 +680,6 @@ Shader "Custom/Lit_Image"
             Out = A * B;
         }
         
-        void Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
-        {
-            Out = UV * Tiling + Offset;
-        }
-        
-        struct Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float
-        {
-        half4 uv0;
-        };
-        
-        void SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(UnityTexture2D _MainTex, float2 _Vector2, Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float IN, out float4 OutVector4_1, out float OutVector1_2)
-        {
-        UnityTexture2D _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D = _MainTex;
-        float2 _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2 = _Vector2;
-        float2 _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2;
-        Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2, _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2);
-        float4 _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.tex, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.samplerstate, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2) );
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_R_4_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.r;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_G_5_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.g;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_B_6_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.b;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.a;
-        OutVector4_1 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4;
-        OutVector1_2 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float;
-        }
-        
-        void Unity_Add_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Divide_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A / B;
-        }
-        
         void Unity_Modulo_float(float A, float B, out float Out)
         {
             Out = fmod(A, B);
@@ -811,6 +693,11 @@ Shader "Custom/Lit_Image"
         void Unity_Divide_float(float A, float B, out float Out)
         {
             Out = A / B;
+        }
+        
+        void Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
+        {
+            Out = UV * Tiling + Offset;
         }
         
         void Unity_NormalFromTexture_float(TEXTURE2D_PARAM(Texture, Sampler), float2 UV, float Offset, float Strength, out float3 Out)
@@ -836,9 +723,20 @@ Shader "Custom/Lit_Image"
             Out = A + B;
         }
         
-        void Unity_Add_float(float A, float B, out float Out)
+        struct Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float
         {
-            Out = A + B;
+        };
+        
+        void SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(UnityTexture2D _MainTex, float2 _UV, float _BlurAmount, Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float IN, out float3 Out_RGB_1, out float Out_Alpha_2)
+        {
+        UnityTexture2D _Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D = _MainTex;
+        float2 _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2 = _UV;
+        float _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float = _BlurAmount;
+        float3 _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        float _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
+        GaussianBlur_float(_Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D, _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2, _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float, UnityBuildSamplerStateStruct(SamplerState_Linear_Repeat), _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3, _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float);
+        Out_RGB_1 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        Out_Alpha_2 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
         }
         
         // Custom interpolators pre vertex
@@ -881,55 +779,6 @@ Shader "Custom/Lit_Image"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            UnityTexture2D _Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float = _BlurAmount;
-            float _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float;
-            Unity_Multiply_float_float(_Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float, 1, _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float);
-            float2 _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2 = float2(_Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035;
-            _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D, _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float);
-            UnityTexture2D _Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float = _BlurAmount;
-            float _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float;
-            Unity_Multiply_float_float(_Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float, -1, _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float);
-            float2 _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2 = float2(_Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba;
-            _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D, _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float);
-            float4 _Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4;
-            Unity_Add_float4(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4);
-            UnityTexture2D _Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51;
-            _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float);
-            float4 _Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4;
-            Unity_Add_float4(_Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4);
-            UnityTexture2D _Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9;
-            _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float);
-            float4 _Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4;
-            Unity_Add_float4(_Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4);
-            UnityTexture2D _Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476;
-            _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float);
-            float4 _Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4;
-            Unity_Add_float4(_Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4);
-            float _Float_5f4d7f798fad4fd2a03ff1772815a5b2_Out_0_Float = 5;
-            float4 _Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4;
-            Unity_Divide_float4(_Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4, (_Float_5f4d7f798fad4fd2a03ff1772815a5b2_Out_0_Float.xxxx), _Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4);
             UnityTexture2D _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
             float4 _UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4 = IN.uv0;
             UnityTexture2D _Property_83f8b38a1ca7406a80412b9e30db2024_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_FlowMap);
@@ -952,28 +801,13 @@ Shader "Custom/Lit_Image"
             Unity_Multiply_float3_float3(_NormalFromTexture_22d7f672ae3840c5a7483fc0661cb3f6_Out_5_Vector3, (_Property_836c03a7825740ccbc431954a1cce51f_Out_0_Float.xxx), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3);
             float3 _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3;
             Unity_Add_float3((_UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4.xyz), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3, _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3);
-            float4 _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.tex, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.samplerstate, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.GetTransformedUV((_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy)) );
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_R_4_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.r;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_G_5_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.g;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_B_6_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.b;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.a;
-            float4 _Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4;
-            Unity_Add_float4(_Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4, _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4, _Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4);
-            float _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float);
-            float _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float, _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float);
-            float _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float;
-            Unity_Add_float(_Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float);
-            float _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float, _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float);
-            float _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float = 5;
-            float _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float;
-            Unity_Divide_float(_Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float, _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float);
-            float _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
-            Unity_Add_float(_SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float, _Add_1514421666c84da39528c376ca8b563f_Out_2_Float);
-            surface.BaseColor = (_Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4.xyz);
-            surface.Alpha = _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
+            float _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float = _BlurAmount;
+            Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe;
+            float3 _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
+            SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D, (_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy), _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float);
+            surface.BaseColor = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            surface.Alpha = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
             surface.NormalTS = IN.TangentSpaceNormal;
             return surface;
         }
@@ -1214,11 +1048,11 @@ Shader "Custom/Lit_Image"
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
         float4 _MainTex_TexelSize;
-        float _BlurAmount;
         float4 _FlowMap_TexelSize;
         float _Strength;
         float _Speed;
         float _Offset;
+        float _BlurAmount;
         CBUFFER_END
         
         
@@ -1230,7 +1064,7 @@ Shader "Custom/Lit_Image"
         SAMPLER(sampler_FlowMap);
         
         // Graph Includes
-        // GraphIncludes: <None>
+        #include "Assets/Shaders/shader graph/GaussianBlur.cginc"
         
         // -- Property used by ScenePickingPass
         #ifdef SCENEPICKINGPASS
@@ -1293,29 +1127,20 @@ Shader "Custom/Lit_Image"
             Out = A + B;
         }
         
-        struct Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float
+        struct Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float
         {
-        half4 uv0;
         };
         
-        void SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(UnityTexture2D _MainTex, float2 _Vector2, Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float IN, out float4 OutVector4_1, out float OutVector1_2)
+        void SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(UnityTexture2D _MainTex, float2 _UV, float _BlurAmount, Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float IN, out float3 Out_RGB_1, out float Out_Alpha_2)
         {
-        UnityTexture2D _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D = _MainTex;
-        float2 _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2 = _Vector2;
-        float2 _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2;
-        Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2, _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2);
-        float4 _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.tex, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.samplerstate, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2) );
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_R_4_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.r;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_G_5_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.g;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_B_6_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.b;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.a;
-        OutVector4_1 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4;
-        OutVector1_2 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float;
-        }
-        
-        void Unity_Add_float(float A, float B, out float Out)
-        {
-            Out = A + B;
+        UnityTexture2D _Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D = _MainTex;
+        float2 _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2 = _UV;
+        float _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float = _BlurAmount;
+        float3 _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        float _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
+        GaussianBlur_float(_Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D, _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2, _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float, UnityBuildSamplerStateStruct(SamplerState_Linear_Repeat), _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3, _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float);
+        Out_RGB_1 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        Out_Alpha_2 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
         }
         
         // Custom interpolators pre vertex
@@ -1378,63 +1203,12 @@ Shader "Custom/Lit_Image"
             Unity_Multiply_float3_float3(_NormalFromTexture_22d7f672ae3840c5a7483fc0661cb3f6_Out_5_Vector3, (_Property_836c03a7825740ccbc431954a1cce51f_Out_0_Float.xxx), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3);
             float3 _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3;
             Unity_Add_float3((_UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4.xyz), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3, _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3);
-            float4 _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.tex, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.samplerstate, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.GetTransformedUV((_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy)) );
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_R_4_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.r;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_G_5_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.g;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_B_6_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.b;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.a;
-            UnityTexture2D _Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float = _BlurAmount;
-            float _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float;
-            Unity_Multiply_float_float(_Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float, 1, _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float);
-            float2 _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2 = float2(_Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035;
-            _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D, _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float);
-            UnityTexture2D _Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51;
-            _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float);
-            UnityTexture2D _Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9;
-            _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float);
-            UnityTexture2D _Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476;
-            _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float);
-            float _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float);
-            float _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float, _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float);
-            UnityTexture2D _Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float = _BlurAmount;
-            float _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float;
-            Unity_Multiply_float_float(_Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float, -1, _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float);
-            float2 _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2 = float2(_Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba;
-            _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D, _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float);
-            float _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float;
-            Unity_Add_float(_Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float);
-            float _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float, _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float);
-            float _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float = 5;
-            float _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float;
-            Unity_Divide_float(_Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float, _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float);
-            float _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
-            Unity_Add_float(_SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float, _Add_1514421666c84da39528c376ca8b563f_Out_2_Float);
-            surface.Alpha = _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
+            float _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float = _BlurAmount;
+            Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe;
+            float3 _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
+            SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D, (_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy), _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float);
+            surface.Alpha = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
             return surface;
         }
         
@@ -1673,11 +1447,11 @@ Shader "Custom/Lit_Image"
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
         float4 _MainTex_TexelSize;
-        float _BlurAmount;
         float4 _FlowMap_TexelSize;
         float _Strength;
         float _Speed;
         float _Offset;
+        float _BlurAmount;
         CBUFFER_END
         
         
@@ -1689,7 +1463,7 @@ Shader "Custom/Lit_Image"
         SAMPLER(sampler_FlowMap);
         
         // Graph Includes
-        // GraphIncludes: <None>
+        #include "Assets/Shaders/shader graph/GaussianBlur.cginc"
         
         // -- Property used by ScenePickingPass
         #ifdef SCENEPICKINGPASS
@@ -1752,29 +1526,20 @@ Shader "Custom/Lit_Image"
             Out = A + B;
         }
         
-        struct Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float
+        struct Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float
         {
-        half4 uv0;
         };
         
-        void SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(UnityTexture2D _MainTex, float2 _Vector2, Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float IN, out float4 OutVector4_1, out float OutVector1_2)
+        void SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(UnityTexture2D _MainTex, float2 _UV, float _BlurAmount, Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float IN, out float3 Out_RGB_1, out float Out_Alpha_2)
         {
-        UnityTexture2D _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D = _MainTex;
-        float2 _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2 = _Vector2;
-        float2 _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2;
-        Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2, _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2);
-        float4 _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.tex, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.samplerstate, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2) );
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_R_4_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.r;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_G_5_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.g;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_B_6_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.b;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.a;
-        OutVector4_1 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4;
-        OutVector1_2 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float;
-        }
-        
-        void Unity_Add_float(float A, float B, out float Out)
-        {
-            Out = A + B;
+        UnityTexture2D _Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D = _MainTex;
+        float2 _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2 = _UV;
+        float _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float = _BlurAmount;
+        float3 _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        float _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
+        GaussianBlur_float(_Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D, _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2, _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float, UnityBuildSamplerStateStruct(SamplerState_Linear_Repeat), _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3, _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float);
+        Out_RGB_1 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        Out_Alpha_2 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
         }
         
         // Custom interpolators pre vertex
@@ -1837,63 +1602,12 @@ Shader "Custom/Lit_Image"
             Unity_Multiply_float3_float3(_NormalFromTexture_22d7f672ae3840c5a7483fc0661cb3f6_Out_5_Vector3, (_Property_836c03a7825740ccbc431954a1cce51f_Out_0_Float.xxx), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3);
             float3 _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3;
             Unity_Add_float3((_UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4.xyz), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3, _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3);
-            float4 _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.tex, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.samplerstate, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.GetTransformedUV((_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy)) );
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_R_4_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.r;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_G_5_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.g;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_B_6_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.b;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.a;
-            UnityTexture2D _Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float = _BlurAmount;
-            float _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float;
-            Unity_Multiply_float_float(_Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float, 1, _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float);
-            float2 _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2 = float2(_Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035;
-            _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D, _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float);
-            UnityTexture2D _Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51;
-            _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float);
-            UnityTexture2D _Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9;
-            _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float);
-            UnityTexture2D _Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476;
-            _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float);
-            float _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float);
-            float _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float, _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float);
-            UnityTexture2D _Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float = _BlurAmount;
-            float _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float;
-            Unity_Multiply_float_float(_Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float, -1, _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float);
-            float2 _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2 = float2(_Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba;
-            _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D, _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float);
-            float _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float;
-            Unity_Add_float(_Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float);
-            float _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float, _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float);
-            float _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float = 5;
-            float _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float;
-            Unity_Divide_float(_Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float, _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float);
-            float _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
-            Unity_Add_float(_SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float, _Add_1514421666c84da39528c376ca8b563f_Out_2_Float);
-            surface.Alpha = _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
+            float _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float = _BlurAmount;
+            Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe;
+            float3 _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
+            SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D, (_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy), _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float);
+            surface.Alpha = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
             return surface;
         }
         
@@ -2146,11 +1860,11 @@ Shader "Custom/Lit_Image"
         // Graph Properties
         CBUFFER_START(UnityPerMaterial)
         float4 _MainTex_TexelSize;
-        float _BlurAmount;
         float4 _FlowMap_TexelSize;
         float _Strength;
         float _Speed;
         float _Offset;
+        float _BlurAmount;
         CBUFFER_END
         
         
@@ -2162,7 +1876,7 @@ Shader "Custom/Lit_Image"
         SAMPLER(sampler_FlowMap);
         
         // Graph Includes
-        // GraphIncludes: <None>
+        #include "Assets/Shaders/shader graph/GaussianBlur.cginc"
         
         // -- Property used by ScenePickingPass
         #ifdef SCENEPICKINGPASS
@@ -2182,41 +1896,6 @@ Shader "Custom/Lit_Image"
             Out = A * B;
         }
         
-        void Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
-        {
-            Out = UV * Tiling + Offset;
-        }
-        
-        struct Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float
-        {
-        half4 uv0;
-        };
-        
-        void SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(UnityTexture2D _MainTex, float2 _Vector2, Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float IN, out float4 OutVector4_1, out float OutVector1_2)
-        {
-        UnityTexture2D _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D = _MainTex;
-        float2 _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2 = _Vector2;
-        float2 _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2;
-        Unity_TilingAndOffset_float(IN.uv0.xy, float2 (1, 1), _Property_d30efce2e26c40bea68f6cc065fc9cf4_Out_0_Vector2, _TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2);
-        float4 _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.tex, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.samplerstate, _Property_ca7f9e651378421fb6ef507420bd2520_Out_0_Texture2D.GetTransformedUV(_TilingAndOffset_3e4808ae64454fd2890ae71fe9c8f0ab_Out_3_Vector2) );
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_R_4_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.r;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_G_5_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.g;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_B_6_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.b;
-        float _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4.a;
-        OutVector4_1 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_RGBA_0_Vector4;
-        OutVector1_2 = _SampleTexture2D_bcc0901abfb94595a8e1ccc048f36464_A_7_Float;
-        }
-        
-        void Unity_Add_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A + B;
-        }
-        
-        void Unity_Divide_float4(float4 A, float4 B, out float4 Out)
-        {
-            Out = A / B;
-        }
-        
         void Unity_Modulo_float(float A, float B, out float Out)
         {
             Out = fmod(A, B);
@@ -2230,6 +1909,11 @@ Shader "Custom/Lit_Image"
         void Unity_Divide_float(float A, float B, out float Out)
         {
             Out = A / B;
+        }
+        
+        void Unity_TilingAndOffset_float(float2 UV, float2 Tiling, float2 Offset, out float2 Out)
+        {
+            Out = UV * Tiling + Offset;
         }
         
         void Unity_NormalFromTexture_float(TEXTURE2D_PARAM(Texture, Sampler), float2 UV, float Offset, float Strength, out float3 Out)
@@ -2255,9 +1939,20 @@ Shader "Custom/Lit_Image"
             Out = A + B;
         }
         
-        void Unity_Add_float(float A, float B, out float Out)
+        struct Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float
         {
-            Out = A + B;
+        };
+        
+        void SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(UnityTexture2D _MainTex, float2 _UV, float _BlurAmount, Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float IN, out float3 Out_RGB_1, out float Out_Alpha_2)
+        {
+        UnityTexture2D _Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D = _MainTex;
+        float2 _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2 = _UV;
+        float _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float = _BlurAmount;
+        float3 _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        float _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
+        GaussianBlur_float(_Property_fc32fc072c84428e8ecb980b924c7bba_Out_0_Texture2D, _Property_506bd303bd86460dac985e8a4e593822_Out_0_Vector2, _Property_3b6159b5e0b44833b0e1b29c86fe7c14_Out_0_Float, UnityBuildSamplerStateStruct(SamplerState_Linear_Repeat), _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3, _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float);
+        Out_RGB_1 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutRGB_1_Vector3;
+        Out_Alpha_2 = _GaussianBlurCustomFunction_61b8feafb9d744cc9a9c0a423dab8994_OutAlpha_7_Float;
         }
         
         // Custom interpolators pre vertex
@@ -2300,55 +1995,6 @@ Shader "Custom/Lit_Image"
         SurfaceDescription SurfaceDescriptionFunction(SurfaceDescriptionInputs IN)
         {
             SurfaceDescription surface = (SurfaceDescription)0;
-            UnityTexture2D _Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float = _BlurAmount;
-            float _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float;
-            Unity_Multiply_float_float(_Property_cbac3264fd684e689d0235d2e8896895_Out_0_Float, 1, _Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float);
-            float2 _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2 = float2(_Multiply_a40b37e9dbea47d3b97294311210d42b_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035;
-            _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_26de114a6b574b749478e5f3ec311d39_Out_0_Texture2D, _Vector2_b8bb5baa6aa64c9bb0002f991b9c5f23_Out_0_Vector2, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float);
-            UnityTexture2D _Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            float _Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float = _BlurAmount;
-            float _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float;
-            Unity_Multiply_float_float(_Property_8a9166bbd58d48639d1535f91ee5049c_Out_0_Float, -1, _Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float);
-            float2 _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2 = float2(_Multiply_50d4f1b86beb47aba995603f42ceb032_Out_2_Float, 0);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba;
-            _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_88bbaa8decf44045a4987288784f0e87_Out_0_Texture2D, _Vector2_0af5d4ebce0343ef9b015924065f4a0e_Out_0_Vector2, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float);
-            float4 _Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4;
-            Unity_Add_float4(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector4_1_Vector4, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector4_1_Vector4, _Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4);
-            UnityTexture2D _Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51;
-            _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b1e578c9d06b497da9dbc46a09aa6a6f_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float);
-            float4 _Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4;
-            Unity_Add_float4(_Add_f125c3c43e6a496a888eb5cea8acf1bd_Out_2_Vector4, _BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector4_1_Vector4, _Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4);
-            UnityTexture2D _Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9;
-            _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_4aa7850d6e0e4fd18f4d2d521eeaa65e_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float);
-            float4 _Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4;
-            Unity_Add_float4(_Add_d173562a3bca4920bc23344c87ed0319_Out_2_Vector4, _BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector4_1_Vector4, _Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4);
-            UnityTexture2D _Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
-            Bindings_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476;
-            _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476.uv0 = IN.uv0;
-            float4 _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4;
-            float _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float;
-            SG_BlurSpriteSubGraph_53becd4bc62ceb548a6490d6805c99b3_float(_Property_b3956ee110b245be928b06fc19f57b11_Out_0_Texture2D, float2 (0, 0), _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float);
-            float4 _Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4;
-            Unity_Add_float4(_Add_52658006867f4d29889330a3cb3568f7_Out_2_Vector4, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector4_1_Vector4, _Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4);
-            float _Float_5f4d7f798fad4fd2a03ff1772815a5b2_Out_0_Float = 5;
-            float4 _Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4;
-            Unity_Divide_float4(_Add_93ec14b88d6540a3a4095f6788ad9f66_Out_2_Vector4, (_Float_5f4d7f798fad4fd2a03ff1772815a5b2_Out_0_Float.xxxx), _Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4);
             UnityTexture2D _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_MainTex);
             float4 _UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4 = IN.uv0;
             UnityTexture2D _Property_83f8b38a1ca7406a80412b9e30db2024_Out_0_Texture2D = UnityBuildTexture2DStructNoScale(_FlowMap);
@@ -2371,28 +2017,13 @@ Shader "Custom/Lit_Image"
             Unity_Multiply_float3_float3(_NormalFromTexture_22d7f672ae3840c5a7483fc0661cb3f6_Out_5_Vector3, (_Property_836c03a7825740ccbc431954a1cce51f_Out_0_Float.xxx), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3);
             float3 _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3;
             Unity_Add_float3((_UV_0294f9635a0c465aa04e752ef9d8bfff_Out_0_Vector4.xyz), _Multiply_115011cd11c2429bb00a0c499817ddea_Out_2_Vector3, _Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3);
-            float4 _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4 = SAMPLE_TEXTURE2D(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.tex, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.samplerstate, _Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D.GetTransformedUV((_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy)) );
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_R_4_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.r;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_G_5_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.g;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_B_6_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.b;
-            float _SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float = _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4.a;
-            float4 _Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4;
-            Unity_Add_float4(_Divide_421a278018db49a9a26b9f4714edf115_Out_2_Vector4, _SampleTexture2D_507ba14a97ea40469669863ed6357310_RGBA_0_Vector4, _Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4);
-            float _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_145d8881f26f4e14b1a753b172950ed9_OutVector1_2_Float, _BlurSpriteSubGraph_d98bcd1b06b44dd2a1ffc2459a346476_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float);
-            float _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_c3767377c20440149de718dd85710d51_OutVector1_2_Float, _Add_0c02af09b89d4171bec1bc66c6516fec_Out_2_Float, _Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float);
-            float _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float;
-            Unity_Add_float(_Add_27c6c3660c1043b29dec1aaf2fd25150_Out_2_Float, _BlurSpriteSubGraph_3d6c1c30b53a4fdcbee492b6ffffa9ba_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float);
-            float _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float;
-            Unity_Add_float(_BlurSpriteSubGraph_388c41c8b5b44fccb97710e9f56b7035_OutVector1_2_Float, _Add_4fce10bd5a0f4748974b2f79893e4ed5_Out_2_Float, _Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float);
-            float _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float = 5;
-            float _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float;
-            Unity_Divide_float(_Add_5bce88ca892848cf8eca1f38887c7501_Out_2_Float, _Float_00882ea2b0e4482093e410df2dab80c4_Out_0_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float);
-            float _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
-            Unity_Add_float(_SampleTexture2D_507ba14a97ea40469669863ed6357310_A_7_Float, _Divide_4ec19d47df2f402dbf30f24c84c85df7_Out_2_Float, _Add_1514421666c84da39528c376ca8b563f_Out_2_Float);
-            surface.BaseColor = (_Add_4f32dfe611e04d33aeab64d06c317852_Out_2_Vector4.xyz);
-            surface.Alpha = _Add_1514421666c84da39528c376ca8b563f_Out_2_Float;
+            float _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float = _BlurAmount;
+            Bindings_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe;
+            float3 _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            float _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
+            SG_GaussianBlurSubShader_021c4cbf3fdeca94a9cd163317adb1ca_float(_Property_a012aa8babef4f24af1bc5baaedb681f_Out_0_Texture2D, (_Add_e331b30d1f4f4041912a2f82cfde1dd1_Out_2_Vector3.xy), _Property_d27681e6f33a494d91ac97bf7df7ffc7_Out_0_Float, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3, _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float);
+            surface.BaseColor = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutRGB_1_Vector3;
+            surface.Alpha = _GaussianBlurSubShader_952415d1e4944b7e8431c25c2406fbbe_OutAlpha_2_Float;
             surface.NormalTS = IN.TangentSpaceNormal;
             return surface;
         }
@@ -2469,6 +2100,6 @@ Shader "Custom/Lit_Image"
         ENDHLSL
         }
     }
-    CustomEditor "UnityEditor.ShaderGraphSpriteGUI"
+    CustomEditor "UnityEditor.ShaderGraph.GenericShaderGraphMaterialGUI"
     FallBack "Hidden/Shader Graph/FallbackError"
 }
