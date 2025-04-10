@@ -5,24 +5,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+
+public struct MinMax
+{
+    private float Max;
+    private float Min;
+
+    public void SetValue(float max, float min)
+    {
+        Max = max;
+        Min = min;
+    }
+
+    public float GetRandomValue()
+    {
+        return Random.Range(Min, Max);
+    }
+}
+
 public class BackgroundImage : MonoBehaviour
 {
-    private struct MinMax
-    {
-        private float Max;
-        private float Min;
-
-        public void SetValue(float max, float min)
-        {
-            Max = max;
-            Min = min;
-        }
-
-        public float GetRandomValue()
-        {
-            return Random.Range(Min, Max);
-        }
-    }
     private MinMax wait;
     private MinMax duration;
     private MinMax value;
@@ -60,7 +62,7 @@ public class BackgroundImage : MonoBehaviour
         class_sequence = DOTween.Sequence();
         
         float dur = duration.GetRandomValue();
-        class_sequence.PrependInterval(wait.GetRandomValue()).Append(mat.DOFloat(value.GetRandomValue() * .1f, BlurAmount, dur))
+        class_sequence.PrependInterval(wait.GetRandomValue()).Append(mat.DOFloat(value.GetRandomValue(), BlurAmount, dur))
             .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
     }
 
@@ -71,27 +73,53 @@ public class BackgroundImage : MonoBehaviour
             
             class_sequence = DOTween.Sequence();
 
+            float dur = 0;
             if (toAdd != "NULL")
             {
                 switch (toAdd)
                 {
                     case "Swimming":
                         //duration of the tween
-                        duration.SetValue(0.15f, 0.25f);
+                        duration.SetValue(.15f, .25f);
                         
                         //value of the tween
-                        value.SetValue(0.05f, 0.1f);
+                        value.SetValue(5f, 10);
                         
                         //time between Tweens
-                        wait.SetValue(3, 5);
+                        wait.SetValue(2, 3);
                         
-                        float dur = duration.GetRandomValue();
-                        class_sequence.Append(mat.DOFloat(value.GetRandomValue() * .1f, BlurAmount, dur))
+                        dur = duration.GetRandomValue();
+                        class_sequence.Append(mat.DOFloat(value.GetRandomValue(), BlurAmount, dur))
                             .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
                         break;
                     case "Swimming-2":
+                        //duration of the tween
+                        duration.SetValue(0.5f, 1);
+                        
+                        //value of the tween
+                        value.SetValue(10, 20);
+                        
+                        //time between Tweens
+                        wait.SetValue(2, 3);
+                        
+                        dur = duration.GetRandomValue();
+                        class_sequence.Append(mat.DOFloat(value.GetRandomValue() * .1f, BlurAmount, dur))
+                            .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
                         break;
                     case "Swimming-3":
+                        //duration of the tween
+                        duration.SetValue(1.5f, 3);
+                        
+                        //value of the tween
+                        value.SetValue(20, 40);
+                        
+                        //time between Tweens
+                        wait.SetValue(1, 2);
+                        
+                        dur = duration.GetRandomValue();
+                        class_sequence.Append(mat.DOFloat(value.GetRandomValue() * .1f, BlurAmount, dur))
+                            .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
+                        break;
                         break;
                     default:
                         Debug.LogWarning($"Could not add IClass {toAdd} to BackgroundImage.");

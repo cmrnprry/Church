@@ -7,6 +7,7 @@ using Ink.Runtime;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using DG.Tweening.Core;
 using Febucci.UI;
 using Unity.VisualScripting;
 using Random = UnityEngine.Random;
@@ -349,6 +350,7 @@ namespace AYellowpaper.SerializedCollections
                 case "TEXTBOX": //edits the textbox visuals
                     break;
                 case "CLASS": //edits the text (within the textbox)'s visuals
+                    Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
                     break;
                 case "ICLASS": //[classes to remove], [classes to add]
                     ImageClassData.ApplyClass(value);
