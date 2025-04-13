@@ -41,23 +41,10 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-# IMAGE: Bus Stop
-yyyyy
+#PLAY: screeching #CLASS: Angry_Screeching 
+An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
 
-#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Swimming
-The church's windows are made of stained glass, which isn’t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Swimming-2
-The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
-
-#DELAY: 2.25 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Swimming-3
-Blood thunders in your ears as pressure builds behind your eyes. You strain to—
-
-#DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
-HOOOOONNNKK!!
-
-#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: Swimming-3,
-You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
 -> END
@@ -324,19 +311,19 @@ It takes an agonizing 20 more minutes for the bus to arrive. You check your Slac
 
 = Window
 ~saw_windows = true
-#ZOOM: scale(1.5) translate(-26%, 22%), inset(0 0 32.5% 50%) #ICLASS: Background Image,,Swimming
+#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Swimming
 The church's windows are made of stained glass, which isn’t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-#CYCLE: depiction of christ, cross, eye, bird #ZOOM: scale(2) translate(-26%, 35%),inset(0 0 55.5% 50%) #ICLASS: Background Image,Swimming,Swimming-2
+#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Swimming-2
 The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
 
-#DELAY: 2.25 #ZOOM: scale(3) translate(-30%, 35%),inset(9% 9% 69.5% 67%) #ICLASS: Background Image,Swimming-2,Swimming-3
+#DELAY: 2.25 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Swimming-3
 Blood thunders in your ears as pressure builds behind your eyes. You strain to—
 
 #DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true, 1 #ZOOM: unset,unset #ICLASS: Background Image,Swimming-3,
+#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
@@ -1841,8 +1828,7 @@ It looks battery operated, and gives off enough light to see around you. You sho
 #EFFECT: flashlight_on #PROP: flash #PROP: note
 - The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-#CLASS: end
-"Find the heart and <span style="color: \#3f1313">destroy</span> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <span style="color: \#3f1313">sight.</span><br><br>Do not become it's next <span style="color: \#3f1313">meal.</span>"
+"Find the heart and <color: #3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color: #3f1313>sight.</color><br><br>Do not become it's next <color: #3f1313>meal.</color>"
 
 *[Meal...?]
 #PROP: note #TEXTBOX: text_container_After

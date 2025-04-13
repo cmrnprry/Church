@@ -49,7 +49,6 @@ namespace AYellowpaper.SerializedCollections
                     if (sources[i].isPlaying && i + 1 < sources.Count)
                         continue;
                     else if (SFXDictionary.ContainsKey(src))
-                        ;
                     {
                         var sfx = Instantiate(SFXSource, SFXParent);
                         sources.Add(sfx);
@@ -65,7 +64,6 @@ namespace AYellowpaper.SerializedCollections
                 }
             }
             else if (SFXDictionary.ContainsKey(src))
-                ;
             {
                 var sfx = Instantiate(SFXSource, SFXParent);
                 sources.Add(sfx);

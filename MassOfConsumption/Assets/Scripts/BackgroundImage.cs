@@ -120,7 +120,6 @@ public class BackgroundImage : MonoBehaviour
                         class_sequence.Append(mat.DOFloat(value.GetRandomValue() * .1f, BlurAmount, dur))
                             .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
                         break;
-                        break;
                     default:
                         Debug.LogWarning($"Could not add IClass {toAdd} to BackgroundImage.");
                         break;

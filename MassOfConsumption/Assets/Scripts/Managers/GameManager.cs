@@ -1,21 +1,13 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ink.Runtime;
 using TMPro;
 using UnityEngine.UI;
-using DG.Tweening;
-using DG.Tweening.Core;
-using Febucci.UI;
-using Unity.VisualScripting;
 using Random = UnityEngine.Random;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using ColorUtility = UnityEngine.ColorUtility;
-using Sequence = DG.Tweening.Sequence;
+using DG.Tweening;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -87,8 +79,6 @@ namespace AYellowpaper.SerializedCollections
 
         private void Start()
         {
-            DOTween.Init();
-
             text_color = TextPrefab.color;
             text_color.a = 1;
             ReplaceData = new ReplaceChoice("", -1);
@@ -204,6 +194,9 @@ namespace AYellowpaper.SerializedCollections
 
                 WaitAfterChoice = false;
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
+                
+                yield return new WaitForEndOfFrame();
+                
                 foreach (var story_tag in Story.currentTags)
                 {
                     CycleThroughTags(story_tag.Split(':'));

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class MenuScreens : MonoBehaviour
 {
@@ -13,6 +14,11 @@ public class MenuScreens : MonoBehaviour
 
     private float wait = 0.25f;
 
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(0);
+    }
+    
     private void Start()
     {
         if (SaveSystem.HasSaveData())
@@ -22,6 +28,20 @@ public class MenuScreens : MonoBehaviour
         }
     }
 
+    public void StartGame(GameObject Menu)
+    {
+        TransitionScreen.gameObject.SetActive(true);
+        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        {
+            MainMenu.SetActive(false);
+            Menu.SetActive(true);
+            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+            {
+                TransitionScreen.gameObject.SetActive(false);
+            });
+        });
+    }
+    
     private void OnEnable()
     {
         SaveSystem.OnLoad += CloseSettingsOnLoad;
@@ -49,6 +69,19 @@ public class MenuScreens : MonoBehaviour
             });
         });
     }
+    
+    private void ShowScreen(GameObject Menu, bool shouldShow)
+    {
+        TransitionScreen.gameObject.SetActive(true);
+        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        {
+            Menu.SetActive(shouldShow);
+            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+            {
+                TransitionScreen.gameObject.SetActive(false);
+            });
+        });
+    }
 
     private void CloseSettingsOnLoad()
     {
@@ -60,9 +93,9 @@ public class MenuScreens : MonoBehaviour
         yield return new WaitForSeconds(wait);
 
         if (Settings.activeSelf)
-            ShowScreen(Settings);
+            ShowScreen(Settings, false);
 
         if (MainMenu.activeSelf)
-            ShowScreen(MainMenu);
+            ShowScreen(MainMenu, false);
     }
 }
