@@ -120,6 +120,9 @@ public class BackgroundImage : MonoBehaviour
                         class_sequence.Append(mat.DOFloat(value.GetRandomValue() * .1f, BlurAmount, dur))
                             .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
                         break;
+                    case "Angry_Screeching":
+                        class_sequence.Append(rect.DOShakePosition(.05f, new Vector3(50, 50, 50), 28, 23)).SetLoops(35, LoopType.Yoyo);
+                        break;
                     default:
                         Debug.LogWarning($"Could not add IClass {toAdd} to BackgroundImage.");
                         break;

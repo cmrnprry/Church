@@ -44,11 +44,17 @@ public static class SaveSystem
 
         foreach (KeyValuePair<string, GameObject> prop in props)
         {
+            if (slotData.PropDictionary.ContainsKey(prop.Value))
+                continue;
+            
             slotData.PropDictionary.Add(prop.Value, false);
         }
 
         foreach (KeyValuePair<string, Sprite> item in bg)
         {
+            if (slotData.BackgroundDictionary.ContainsKey(item.Key))
+                continue;
+            
             slotData.BackgroundDictionary.Add(item.Key, (item.Key == "Default"));
         }
     }

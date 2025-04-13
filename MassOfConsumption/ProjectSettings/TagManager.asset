@@ -38,15 +38,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
+  - name: Main Game
+    uniqueID: 1858709305
+    locked: 0
+  - name: Text Container
+    uniqueID: 3687798393
+    locked: 0
+  - name: Image Container
+    uniqueID: 3171537607
     locked: 0
   - name: Ignore Global Lighting
     uniqueID: 2902042359
     locked: 0
-  - name: Eyes
-    uniqueID: 2411310219
-    locked: 0
-  - name: Bones
-    uniqueID: 684104657
+  - name: Default
+    uniqueID: 0
     locked: 0

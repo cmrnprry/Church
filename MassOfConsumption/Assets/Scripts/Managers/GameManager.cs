@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using ColorUtility = UnityEngine.ColorUtility;
 using DG.Tweening;
+using UnityEngine.Rendering.Universal;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -62,6 +63,13 @@ namespace AYellowpaper.SerializedCollections
         public Toggle Flashlight;
         public GameObject clicktomove;
 
+        [Header("Lighting")] 
+        [SerializeField] private Light2D GlobalLight;
+        [SerializeField] private Color OutsideLight, DarkLight, UsedToLight, FlashlightOn, FlashlightOff;
+        [SerializedDictionary("Lighting Name", "Light")]
+        public SerializedDictionary<string, GameObject> LightingDictionary;
+        
+        
         private void Awake()
         {
             if (instance == null)
@@ -83,6 +91,7 @@ namespace AYellowpaper.SerializedCollections
             text_color.a = 1;
             ReplaceData = new ReplaceChoice("", -1);
             ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
+            GlobalLight.color = OutsideLight;
         }
 
         private void OnEnable()
@@ -113,7 +122,7 @@ namespace AYellowpaper.SerializedCollections
                 SavedTextData text_data = SaveSystem.GetCurrentText(i);
                 Text_Delay = text_data.delay;
                 
-                ContinueText = $"<br>{text_data.text}";
+                ContinueText = text_data.text;
                 Current_Textbox.text = ContinueText;
 
                 var link = Current_Textbox.gameObject.GetComponent<LinksManager>();
@@ -374,6 +383,16 @@ namespace AYellowpaper.SerializedCollections
                 case "click_move":
                     ClickToMove();
                     clicktomove.SetActive(true);
+                    break;
+                case "LightDark":
+                    GlobalLight.color = DarkLight;
+                    break;
+                case "IntialSight":
+                    var onj = LightingDictionary["IntialSight"];
+                    onj.SetActive(!onj.activeSelf);
+                    break;
+                case "LightDarktoUsed":
+                    DOTween.To(()=>GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
                     break;
                 default:
                     Debug.LogWarning($"Effect {key} could not be found.");

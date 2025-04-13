@@ -25,7 +25,7 @@ public class SettingsUIButtonsHelper : MonoBehaviour
 
     public void OnHover(bool isHover)
     {
-        Color text_color = (isHover) ? Dark : Dark;
+        Color text_color = (isHover) ? Light : Dark;
         Color image_color = (isHover) ? Red : Light;
 
         if (Selected && !isHover)

@@ -59,7 +59,7 @@ public class TextObjectEffects : MonoBehaviour
                     break;
                 case "Angry_Screeching":
                     layout.enabled = false;
-                    class_sequence.Append(rect.DOShakePosition(.05f, new Vector3(50, 50, 50), 28, 23)).SetLoops(35, LoopType.Yoyo).OnComplete(() => { layout.enabled = true; });
+                    class_sequence.Append(rect.DOShakePosition(.05f, new Vector3(50, 50, 50), 28, 23)).SetLoops(35, LoopType.Yoyo).OnComplete(() => { layout.enabled = true; size = text.fontSize;});
                     break;
                 default:
                     Debug.LogWarning($"Could not add IClass {toAdd} to BackgroundImage.");

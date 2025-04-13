@@ -41,9 +41,29 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-#PLAY: screeching #CLASS: Angry_Screeching 
-An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
+#PLAY: gate_closed #DELAY: 2.5 #PROP: closed gates
+Just as it slams shut...
 
+#EFFECT: LightDark # IMAGE: Default #PROP: closed gates 
+~CurrentProp = ""
+Everything goes dark.
+
+*[Wait for your eyes adjust]
+    #DELAY: 1.5 
+    You hold your eyes closed and count to five.
+    
+    #DELAY: 1 #EFFECT: LightDarktoUsed
+    One.
+    #DELAY: 1
+    Two.
+    #DELAY: 1
+    Three.
+    #DELAY: 1
+    Four.
+    #DELAY: 1.25
+    Five.
+    
+    You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
 
 
 *[Your eyes don't leave the church]
@@ -1052,10 +1072,10 @@ You grab the gate with both hands, and look up at the church one last time. It's
 *[Pull the gate closed]
 
 - 
-#PLAY: gate_close #DELAY: 1.73 #PROP: open_gates #PROP: closed_gates
+#PLAY: gate_close #DELAY: 1.73 #PROP: open gates #PROP: closed gates
 Just as it slams shut...
 
-#TEXTBOX: text_container_Dark # IMAGE: Default #PROP: closed_gates 
+#EFFECT: LightDark # IMAGE: Default #PROP: closed gates 
 ~CurrentProp = ""
 Everything goes dark.
 
@@ -1063,7 +1083,7 @@ Everything goes dark.
     #DELAY: 1.5 
     You hold your eyes closed and count to five.
     
-    #DELAY: 1 #TEXTBOX: text_container_UsedTo
+    #DELAY: 1 #EFFECT: LightDarktoUsed
     One.
     #DELAY: 1
     Two.
@@ -1100,7 +1120,7 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, 0, 0.5,  #DELAY: 5 #TEXTBOX: text_container_Dark # IMAGE: Default #PROP: open_gates
+- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, 0, 0.5,  #DELAY: 5 #EFFECT: LightDark # IMAGE: Default #PROP: open_gates
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
@@ -1510,11 +1530,12 @@ There is a way out.
 
 *[You just need to figure out how.]
 
-- You blink rapidly, shaking yourself out of the memory, and look down at what's left of the image in your hand. Tiny pieces sit in a pile on the ground in front of you. Did you...?
+- 
+#EFFECT: LightDarktoUsed
+You blink rapidly, shaking yourself out of the memory, and look down at what's left of the image in your hand. Tiny pieces sit in a pile on the ground in front of you. Did you...?
 
 You swallow the lump in your throat and carefully pick up pieces, ensuring you get every little piece. You delicately place them back in your pocket. Once you're out of here, you can fix it.
 
-#TEXTBOX: text_container_UsedTo
 It's still dark, but your eyes have adjusted a bit more. You can't get out the way you came in, but there might be another way out.
 
 *[Wait until morning]
@@ -1634,7 +1655,7 @@ You try to focus harder. You can just barely make it out.
 "You... came back. Why... Why did you come back...?" over and over again.
 
 - 
-#TEXTBOX: text_container_UsedTo
+#EFFECT: LightDarktoUsed
 You slowly stand and look around for the source, taking a few steps into the church. You open your mouth, but before any words can leave your lips, cold, unseen hands covers your mouth. You freeze.
 
 "Don't," is whispered into your ear, a woman's voice.
@@ -1673,6 +1694,7 @@ Wind blows around you, and before you stop yourself you call out.
 *["The rest? What—!"]
 
 - 
+#EFFECT: IntialSight
 The room turns still. Silent.
 -> Trapped.Light
 
@@ -1700,7 +1722,6 @@ A red light glows from above you.
 *[Look at the light.]
 
 - 
-#TEXTBOX: glow
 The light comes from the window above the door. A stained glass eye staring down at you.
 
 You stagger backward, deeper into the church, an intense pressure pressing down on you. Your chest tightens, and your limbs fill with static. The air becomes heavier. Your mouth goes dry.
@@ -1717,7 +1738,7 @@ You feel...
 ~ light_feeling = "confused"
 
 - 
-#REMOVE: glow #TEXTBOX: intense-glow
+#TEXTBOX: intense-glow
 The back of your throat goes tight as you hold back tears, but you don't know why. 
 
 {
@@ -1762,7 +1783,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         #DELAY: 6.5 #REMOVE: intense-glow #TEXTBOX: angry-glow
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
-        #PLAY: screeching #CLASS: Angry-Screeching 
+        #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching 
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *[You can barely stand it.]
