@@ -63,13 +63,15 @@ namespace AYellowpaper.SerializedCollections
         public Toggle Flashlight;
         public GameObject clicktomove;
 
-        [Header("Lighting")] 
-        [SerializeField] private Light2D GlobalLight;
+        [Header("Lighting")] [SerializeField] private Light2D GlobalLight;
         [SerializeField] private Color OutsideLight, DarkLight, UsedToLight, FlashlightOn, FlashlightOff;
+
         [SerializedDictionary("Lighting Name", "Light")]
         public SerializedDictionary<string, GameObject> LightingDictionary;
-        
-        
+
+        private Sequence lightingSequence;
+
+
         private void Awake()
         {
             if (instance == null)
@@ -121,7 +123,7 @@ namespace AYellowpaper.SerializedCollections
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
                 SavedTextData text_data = SaveSystem.GetCurrentText(i);
                 Text_Delay = text_data.delay;
-                
+
                 ContinueText = text_data.text;
                 Current_Textbox.text = ContinueText;
 
@@ -203,11 +205,18 @@ namespace AYellowpaper.SerializedCollections
 
                 WaitAfterChoice = false;
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
-                
+
                 yield return new WaitForEndOfFrame();
-                
+
                 foreach (var story_tag in Story.currentTags)
                 {
+                    if (story_tag.Contains("CLASS"))
+                    {
+                        Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
+                        Scroll.content.ForceUpdateRectTransforms();
+                    }
+
+                    yield return null;
                     CycleThroughTags(story_tag.Split(':'));
 
                     if (story_tag.Contains("click_move"))
@@ -346,7 +355,7 @@ namespace AYellowpaper.SerializedCollections
                     float zoom = float.Parse(zoom_list[0]);
                     float dur = float.Parse(zoom_list[3]);
                     Vector2 zoom_pos = new Vector2(float.Parse(zoom_list[1]), float.Parse(zoom_list[2]));
-                        
+
                     ImageClassData.ZoomImage(zoom, zoom_pos, dur);
                     break;
                 case "TEXTBOX": //edits the textbox visuals
@@ -388,16 +397,184 @@ namespace AYellowpaper.SerializedCollections
                     GlobalLight.color = DarkLight;
                     break;
                 case "IntialSight":
-                    var onj = LightingDictionary["IntialSight"];
+                    var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
                     onj.SetActive(!onj.activeSelf);
                     break;
+                case "intense-glow":
+                    ControlGlow("intense");
+                    break;
+                case "angry-glow":
+                    ControlGlow("angry");
+                    break;
+                case "leave-glow":
+                    ControlGlow("leave");
+                    break;
+                case "remove-glow":
+                    var red = LightingDictionary["Red Glow"]; //.6-.9
+                    var red_light = red.GetComponent<Light2D>();
+
+                    var orange = LightingDictionary["Orange Glow"]; //0.15-1
+                    var orange_light = orange.GetComponent<Light2D>();
+
+                    var dark = LightingDictionary["Dark Glow"]; //0-1
+                    var dark_light = dark.GetComponent<Light2D>();
+                    
+                    DOTween.Kill(red_light.falloffIntensity);
+                    DOTween.Kill(orange_light.falloffIntensity);
+                    DOTween.Kill(dark_light.falloffIntensity);
+
+                    red.SetActive(true);
+                    orange.SetActive(true);
+                    dark.SetActive(true);
+                    break;
                 case "LightDarktoUsed":
-                    DOTween.To(()=>GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
+                    DOTween.To(() => GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
                     break;
                 default:
                     Debug.LogWarning($"Effect {key} could not be found.");
                     break;
             }
+        }
+
+        private void ControlGlow(string type)
+        {
+            if (lightingSequence != null && lightingSequence.IsPlaying())
+                lightingSequence.Kill(true);
+
+            lightingSequence = DOTween.Sequence();
+            if (lightingSequence.IsPlaying())
+                lightingSequence.Complete();
+
+
+            if (type == "intense")
+            {
+                IntenseLightCallback();
+            }
+            else if (type == "angry")
+            {
+                LeaveLightCallback(true);
+            }
+            else if (type == "leave")
+            {
+                LeaveLightCallback();
+            }
+        }
+
+        void LeaveLightCallback(bool isAngry = false)
+        {
+            lightingSequence = DOTween.Sequence();
+
+            var red = LightingDictionary["Red Glow"]; //.6-.9
+            red.SetActive(true);
+            var red_light = red.GetComponent<Light2D>();
+
+            var orange = LightingDictionary["Orange Glow"]; //0.15-1
+            orange.SetActive(true);
+            var orange_light = orange.GetComponent<Light2D>();
+
+            var dark = LightingDictionary["Dark Glow"]; //0-1
+            dark.SetActive(true);
+            var dark_light = dark.GetComponent<Light2D>();
+
+            lightingSequence.Append(DOTween.To(() => red_light.intensity,
+                value => red_light.intensity = value, 0, 1.75f)).Insert(0,
+                DOTween.To(() => orange_light.intensity,
+                    ov => orange_light.intensity = ov, 0, 1.75f)).Insert(0,
+                DOTween.To(() => dark_light.intensity,
+                    dv => dark_light.intensity = dv, 0, 1.75f)).AppendInterval(5f).OnComplete(() =>
+            {
+                if (isAngry)
+                {
+                    red_light.intensity = 1;
+                    orange_light.intensity = 1;
+                    dark_light.intensity = 1;
+                    AngryLightCallback();
+                }
+                else
+                {
+                    DOTween.Kill(red_light.falloffIntensity);
+                    DOTween.Kill(orange_light.falloffIntensity);
+                    DOTween.Kill(dark_light.falloffIntensity);
+
+                    red.SetActive(true);
+                    orange.SetActive(true);
+                    dark.SetActive(true);
+                }
+            });
+        }
+
+        void AngryLightCallback()
+        {
+            var red = LightingDictionary["Red Glow"]; //.6-.9
+            red.SetActive(true);
+            var red_light = red.GetComponent<Light2D>();
+            float red_end = 0.75f;
+            red_light.falloffIntensity = 0.9f;
+
+            var orange = LightingDictionary["Orange Glow"]; //0.15-1
+            orange.SetActive(true);
+            var orange_light = orange.GetComponent<Light2D>();
+            float orange_end = 0.15f;
+            orange_light.falloffIntensity = 1f;
+
+            var dark = LightingDictionary["Dark Glow"]; //0-1
+            dark.SetActive(true);
+            var dark_light = dark.GetComponent<Light2D>();
+            float dark_end = 0f;
+            dark_light.falloffIntensity = 1f;
+
+            MinMax duration = new MinMax();
+            duration.SetValue(0.5f, 0.75f);
+
+            DOTween.Kill(red_light.falloffIntensity);
+            DOTween.Kill(orange_light.falloffIntensity);
+            DOTween.Kill(dark_light.falloffIntensity);
+
+
+            DOTween.To(() => red_light.falloffIntensity,
+                    value => red_light.falloffIntensity = value, red_end, duration.GetRandomValue())
+                .SetLoops(-1, LoopType.Yoyo);
+
+            DOTween.To(() => orange_light.falloffIntensity,
+                    ov => orange_light.falloffIntensity = ov, orange_end, duration.GetRandomValue())
+                .SetLoops(-1, LoopType.Yoyo);
+
+            DOTween.To(() => dark_light.falloffIntensity,
+                    dv => dark_light.falloffIntensity = dv, dark_end, duration.GetRandomValue())
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        void IntenseLightCallback()
+        {
+            var red = LightingDictionary["Red Glow"]; //.6-.9
+            red.SetActive(true);
+            var red_light = red.GetComponent<Light2D>();
+            float red_end = (red_light.falloffIntensity >= 0.9f) ? 0.75f : 0.9f;
+
+            var orange = LightingDictionary["Orange Glow"]; //0.15-1
+            orange.SetActive(true);
+            var orange_light = orange.GetComponent<Light2D>();
+            float orange_end = (orange_light.falloffIntensity >= 1f) ? 0.15f : 1f;
+
+            var dark = LightingDictionary["Dark Glow"]; //0-1
+            dark.SetActive(true);
+            var dark_light = dark.GetComponent<Light2D>();
+            float dark_end = (dark_light.falloffIntensity >= 1f) ? 0f : 1f;
+
+            MinMax duration = new MinMax();
+            duration.SetValue(1.5f, 2);
+
+            DOTween.To(() => red_light.falloffIntensity,
+                    value => red_light.falloffIntensity = value, red_end, duration.GetRandomValue())
+                .SetLoops(-1, LoopType.Yoyo);
+
+            DOTween.To(() => orange_light.falloffIntensity,
+                    ov => orange_light.falloffIntensity = ov, orange_end, duration.GetRandomValue())
+                .SetLoops(-1, LoopType.Yoyo);
+
+            DOTween.To(() => dark_light.falloffIntensity,
+                    dv => dark_light.falloffIntensity = dv, dark_end, duration.GetRandomValue())
+                .SetLoops(-1, LoopType.Yoyo);
         }
 
         private void ClickToMove()

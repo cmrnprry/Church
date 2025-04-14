@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -103,14 +104,15 @@ namespace AYellowpaper.SerializedCollections
             src.volume = 0;
             yield return new WaitForSeconds(delay);
 
-            Mathf.Lerp(0, PlayerPrefs.GetFloat("SFXVolume"), duration);
+            src.Play();
+            src.DOFade(SaveSystem.GetAudioVolume(3), duration);
         }
 
         private IEnumerator FadeOut(AudioSource src, float duration = 0, float delay = 0)
         {
             yield return new WaitForSeconds(delay);
 
-            Mathf.Lerp(src.volume, 0, duration);
+            src.DOFade(0, duration);
 
             yield return new WaitForSeconds(duration);
             src.Stop();

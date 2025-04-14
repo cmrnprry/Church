@@ -41,30 +41,67 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-#PLAY: gate_closed #DELAY: 2.5 #PROP: closed gates
-Just as it slams shut...
+#EFFECT: intense-glow
+The back of your throat goes tight as you hold back tears, but you don't know why. 
 
-#EFFECT: LightDark # IMAGE: Default #PROP: closed gates 
-~CurrentProp = ""
-Everything goes dark.
+*[But you don't want to feel like this.]
+~temp_bool = true
+~leave_light = true
 
-*[Wait for your eyes adjust]
-    #DELAY: 1.5 
-    You hold your eyes closed and count to five.
-    
-    #DELAY: 1 #EFFECT: LightDarktoUsed
-    One.
-    #DELAY: 1
-    Two.
-    #DELAY: 1
-    Three.
-    #DELAY: 1
-    Four.
-    #DELAY: 1.25
-    Five.
-    
-    You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
+*[But you are not ready to leave.]
+~temp_bool = false
+~leave_light = false
 
+- 
+{
+    - light_feeling == "confused":
+        ~temp_string = "confusion is the only thing you can trust."
+        
+    - light_feeling == "relief":
+        ~temp_string = "relief is wrong."
+        
+    - light_feeling != "confused" and church_feeling != "relief":
+        ~temp_string = "worry is a flag that something is very <i>wrong.</i>"
+}
+
+{
+
+    - leave_light:
+        ~ temp_bool = true
+        ~ church_anger += 1
+        ~ stay -= 0.5
+        #DELAY: 6.5 #EFFECT: angry-glow
+        You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
+        
+        #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching 
+        An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
+        
+        *[You can barely stand it.]
+        -> Trapped.Light_Leave
+        
+    - else:
+        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
+        ~ temp_bool = false
+        ~ stay += 1
+        A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
+
+        {
+            - light_feeling == "confused":
+                ~temp_string = "confused emotions go"
+            - else:
+                ~temp_string = "{light_feeling} goes"
+        }
+
+        "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 
+
+        With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
+        
+       *[Turn away from the window]
+        ~ temp_bool = false
+        -> Inside
+
+
+}
 
 *[Your eyes don't leave the church]
 -> END
@@ -1738,7 +1775,7 @@ You feel...
 ~ light_feeling = "confused"
 
 - 
-#TEXTBOX: intense-glow
+#EFFECT: intense-glow
 The back of your throat goes tight as you hold back tears, but you don't know why. 
 
 {
@@ -1780,7 +1817,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         ~ temp_bool = true
         ~ church_anger += 1
         ~ stay -= 0.5
-        #DELAY: 6.5 #REMOVE: intense-glow #TEXTBOX: angry-glow
+        #DELAY: 6.5 #EFFECT: angry-glow
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
         #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching 
@@ -1790,7 +1827,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         -> Trapped.Light_Leave
         
     - else:
-        #REMOVE: intense-glow #TEXTBOX: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
+        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
         ~ temp_bool = false
         ~ stay += 1
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
@@ -1815,7 +1852,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
 }
 
 = Light_Leave
-    #STOP: screeching #REMOVE: angry-glow
+    #STOP: screeching #EFFECT: remove-glow
     Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
 
     The pressure alleviates, the burning stops, and all the { light_feeling == "confused": confused emotions go| {light_feeling} goes} with it.
@@ -1852,17 +1889,17 @@ It looks battery operated, and gives off enough light to see around you. You sho
 "Find the heart and <color: #3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color: #3f1313>sight.</color><br><br>Do not become it's next <color: #3f1313>meal.</color>"
 
 *[Meal...?]
-#PROP: note #TEXTBOX: text_container_After
+#PROP: note
 You shutter at the thought. You wonder how long you have until it fully digests you.
 
 *[Sight...?]
-#PROP: note #TEXTBOX: text_container_After
+#PROP: note
 Well.... You glance up at the swirling window.
 
 You remember how the church's sight warped your thoughts and reasoning. { temp_bool_2: How you had to pull yourself out. | How you would have done anything to stay there a little longer.} You cannot let that happen again. If the church sees you again...
 
 *[Heart...?]
-#PROP: note #TEXTBOX: text_container_After
+#PROP: note
 <i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or...?
 
 - 
