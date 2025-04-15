@@ -41,70 +41,32 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-#EFFECT: intense-glow
-The back of your throat goes tight as you hold back tears, but you don't know why. 
+#EFFECT: flashlight_on #PROP: flash #PROP: note
+- The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-*[But you don't want to feel like this.]
-~temp_bool = true
-~leave_light = true
+*[confessional]
+    -> Confessional
 
-*[But you are not ready to leave.]
-~temp_bool = false
-~leave_light = false
+*[stairs]
+    -> Inside.Stairs_First
+
+*[pews]
 
 - 
-{
-    - light_feeling == "confused":
-        ~temp_string = "confusion is the only thing you can trust."
-        
-    - light_feeling == "relief":
-        ~temp_string = "relief is wrong."
-        
-    - light_feeling != "confused" and church_feeling != "relief":
-        ~temp_string = "worry is a flag that something is very <i>wrong.</i>"
-}
+~turn = "running"
+#ICLASS: stop-2 #STOP: walking_fast_pavement, 1.5 #PLAY: running_pavement, true, 1.5, 1
+You shake out your leg, but the tugging pulls harder. You stumble forward and break into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
-{
+You hear something on the wind. A voice?
 
-    - leave_light:
-        ~ temp_bool = true
-        ~ church_anger += 1
-        ~ stay -= 0.5
-        #DELAY: 6.5 #EFFECT: angry-glow
-        You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
-        
-        #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching 
-        An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
-        
-        *[You can barely stand it.]
-        -> Trapped.Light_Leave
-        
-    - else:
-        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
-        ~ temp_bool = false
-        ~ stay += 1
-        A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
+*[Keep. Going.]
 
-        {
-            - light_feeling == "confused":
-                ~temp_string = "confused emotions go"
-            - else:
-                ~temp_string = "{light_feeling} goes"
-        }
-
-        "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 
-
-        With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
-        
-       *[Turn away from the window]
-        ~ temp_bool = false
-        -> Inside
-
-
-}
-
-*[Your eyes don't leave the church]
--> END
+- 
+#ICLASS: stop-3 #STOP: running_pavement #REPLACE: stop sign.
+You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
+    
+*[stop sign.]
+->END
 
 
 === Skip ===
@@ -881,7 +843,7 @@ She keeps talking, your grandfather occasionally adding a grunt to agree with he
 #REPLACE: stop sign.
 You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
-*[stop sign.]
++[stop sign.]
 ->Stop_Sign
 
 = Different
@@ -899,45 +861,36 @@ You don't look at the church, and instead turn around and walk up the block. A b
     ->Call_Grandparents
 
 - 
-#ZOOM: scale(1.25),pos(2,2)
-#PLAY: walking_fast_pavement, true, 1
+#ICLASS: stop-1 #PLAY: walking_fast_pavement, true, 1
 You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inveitable.}
 
-
-*[It's waiting]
-    ->Walk_Home.Turn_Around
 
 *[Shake out your leg]
 
 - 
 ~turn = "running"
-#ZOOM: scale(1.5) translate(-12%, 16%),inset(0px 0px 26% 17%)
-#STOP: walking_fast_pavement, 1.5 #PLAY: running_pavement, true, 1.5, 1
+#ICLASS: stop-2 #STOP: walking_fast_pavement, 1.5 #PLAY: running_pavement, true, 1.5, 1
 You shake out your leg, but the tugging pulls harder. You stumble forward and break into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
 You hear something on the wind. A voice?
 
-*[But it's growing impatient]
-    ->Walk_Home.Turn_Around
-
 *[Keep. Going.]
 
 - 
-#ZOOM: scale(2) translate(-12%, 21%),inset(0px 0px 39% 21%)
-#STOP: running_pavement #REPLACE: stop sign.
+#ICLASS: stop-3 #STOP: running_pavement #REPLACE: stop sign.
 You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
-*[stop sign.]
++[stop sign.]
 ->Stop_Sign
 
 = Turn_Around
-#ZOOM: unset,unset #STOP: running_pavement #STOP: walking_fast_pavement
+#ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement
 You stop {turn}, and ball your fists. All sensations stop.
 
 *[Face the church]
 
 - 
-#IMAGE: Chuch_Looming #PROP: closed_gates
+#IMAGE: Church_Looming #PROP: closed gates
 You spin around to face it, and find yourself.. in front... of the church? You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
 {know || called_number || entered_feeling == 0: It's following you. You wipe sweat from your brow.<br><br>It can move.| {entered_church: {entered_feeling != 0: Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {church_feeling} church.}}}
@@ -947,17 +900,17 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     ->Walk_Home.Usual
 
 = Stop_Sign
-#ZOOM: unset,unset #IMAGE: Chuch_Looming #PROP: closed_gates
+#ICLASS: NULL #IMAGE: Church_Looming #PROP: closed gates
 It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. 
 
 {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
 
 *[Open the gates]
-    #PLAY: gate_open #PROP: closed_gates, true #PROP: open_gates
+    #PLAY: gate_open #PROP: closed gates, true #PROP: open gates
     You throw the gates open, and the edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 
 *[Let go]
-    #PLAY: gate_open #PROP: closed_gates, true #PROP: open_gates
+    #PLAY: gate_open #PROP: closed gates, true #PROP: open gates
     You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 - 
 
@@ -977,18 +930,18 @@ You stand up and trace the path with your eyes, looking for anything that distur
     ->Walk_Up_Path
 
 = Usual
-#IMAGE: Chuch_Looming #PROP: open_gates #PROP: closed_gates
+#IMAGE: Church_Looming #PROP: open gates #PROP: closed gates
 #PLAY: gate_open
 As you pass the front gate, it creaks open. You reach for the image in your pocket. {know: You should keep moving.}
 
 *[Investigate]
 
 //On mouse click, change to "investigate
-*[(Continue walking home)Investigate]
+*[(Continue walking home) Investigate]
 
 
 - 
-#IMAGE: Chuch_Looming #PROP: open_gates
+#IMAGE: Church_Looming #PROP: open gates
 Against your better judgement, you stop, and look at the church. The gate is open. {know: You should keep moving. It's waiting for you. It's making the choice easy. | {called_number: Once again, it invites you inside. | {entered_church: {entered_feeling == 2: The slimey feeling returns as a trickle of sweat slides down your back. | {entered_feeling == 0: Your heart pounds in excitment? fear? Maybe it <i>wasn't</i> just nothing. | It's— It's just a church.}} | Probably the wind blew it open. Probably.}}}
 
 *[Close the gate]
@@ -1103,7 +1056,7 @@ Nothing. No one's there. You laugh.
 *[Walk to the gate]
 
 - 
-#IMAGE: Chuch_Looming #PROP: open_gates
+#IMAGE: Church_Looming #PROP: open gates
 You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
 
 *[Pull the gate closed]
@@ -1157,7 +1110,7 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, 0, 0.5,  #DELAY: 5 #EFFECT: LightDark # IMAGE: Default #PROP: open_gates
+- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, 0, 0.5,  #DELAY: 5 #EFFECT: LightDark # IMAGE: Default #PROP: open gates
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
@@ -1344,15 +1297,15 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 
 {
 - object == "crowbar": 
-    #ICLASS: Overlay,,overlay-spotlight #PROP: item #PROP: crowbar
+    #PROP: item #PROP: crowbar
 }
 {
 - object == "screwdriver":
-    #ICLASS: Overlay,,overlay-spotlight #PROP: item #PROP: screwdriver
+    #PROP: item #PROP: screwdriver
 }
 {
 - object == "sledgehammer":
-    #ICLASS: Overlay,,overlay-spotlight #PROP: item #PROP: sledgehammer
+    #PROP: item #PROP: sledgehammer
 }
 On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
@@ -1365,7 +1318,18 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 ~ temp_bool = true
 
 - 
-#PROP: item #PROP: sledgehammer #PROP: screwdriver #PROP: crowbar #ICLASS: Overlay,overlay-spotlight,
+{
+- object == "crowbar": 
+    #PROP: item #PROP: crowbar
+}
+{
+- object == "screwdriver":
+    #PROP: item #PROP: screwdriver
+}
+{
+- object == "sledgehammer":
+    #PROP: item #PROP: sledgehammer
+}
 {
     - temp_bool:
         { 
@@ -1704,7 +1668,7 @@ You claw at your mouth, attempting to grab hands silencing you, and stand up. "L
 
 "You don't... remember..." The hands fall away, and the room goes still. "This is all I can do."
 
-#ICLASS: Overlay,,light-above
+#EFFECT: IntialSight
 The hands fall away. The voice goes quiet. The room turns still.
 -> Trapped.Light
 
@@ -1817,17 +1781,17 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         ~ temp_bool = true
         ~ church_anger += 1
         ~ stay -= 0.5
-        #DELAY: 6.5 #EFFECT: angry-glow
+        #DELAY: 6.5 #EFFECT: angry-glow #EFFECT: IntialSight
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
-        #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching 
+        #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching  #EFFECT: IntialSight
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *[You can barely stand it.]
         -> Trapped.Light_Leave
         
     - else:
-        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5
+        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight
         ~ temp_bool = false
         ~ stay += 1
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
@@ -1839,7 +1803,6 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
                 ~temp_string = "{light_feeling} goes"
         }
 
-        #REMOVE: leave-glow
         "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 
 
         With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
@@ -1886,7 +1849,7 @@ It looks battery operated, and gives off enough light to see around you. You sho
 #EFFECT: flashlight_on #PROP: flash #PROP: note
 - The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-"Find the heart and <color: #3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color: #3f1313>sight.</color><br><br>Do not become it's next <color: #3f1313>meal.</color>"
+"Find the heart and <color: \#3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color: \#3f1313>sight.</color><br><br>Do not become it's next <color: \#3f1313>meal.</color>"
 
 *[Meal...?]
 #PROP: note

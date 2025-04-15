@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using ColorUtility = UnityEngine.ColorUtility;
 using DG.Tweening;
+using UnityEngine.Analytics;
 using UnityEngine.Rendering.Universal;
 
 namespace AYellowpaper.SerializedCollections
@@ -391,14 +392,12 @@ namespace AYellowpaper.SerializedCollections
                     break;
                 case "click_move":
                     ClickToMove();
-                    clicktomove.SetActive(true);
                     break;
                 case "LightDark":
                     GlobalLight.color = DarkLight;
                     break;
                 case "IntialSight":
-                    var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
-                    onj.SetActive(!onj.activeSelf);
+                    ControlGlow("intial");
                     break;
                 case "intense-glow":
                     ControlGlow("intense");
@@ -418,14 +417,18 @@ namespace AYellowpaper.SerializedCollections
 
                     var dark = LightingDictionary["Dark Glow"]; //0-1
                     var dark_light = dark.GetComponent<Light2D>();
-                    
+
+                    var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
+                    var light = onj.GetComponent<Light2D>();
+
                     DOTween.Kill(red_light.falloffIntensity);
                     DOTween.Kill(orange_light.falloffIntensity);
                     DOTween.Kill(dark_light.falloffIntensity);
+                    DOTween.Kill(light.intensity);
 
-                    red.SetActive(true);
-                    orange.SetActive(true);
-                    dark.SetActive(true);
+                    red.SetActive(false);
+                    orange.SetActive(false);
+                    onj.SetActive(false);
                     break;
                 case "LightDarktoUsed":
                     DOTween.To(() => GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
@@ -457,6 +460,24 @@ namespace AYellowpaper.SerializedCollections
             else if (type == "leave")
             {
                 LeaveLightCallback();
+            }
+            else if (type == "intial")
+            {
+                var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
+                var light = onj.GetComponent<Light2D>();
+
+                if (onj.activeSelf)
+                {
+                    DOTween.To(() => light.intensity,
+                            value => light.intensity = value, 0, 1.5f)
+                        .OnComplete(() => { onj.gameObject.SetActive(false); });
+                }
+                else
+                {
+                    onj.gameObject.SetActive(true);
+                    DOTween.To(() => light.intensity,
+                        value => light.intensity = value, 10, .5f);
+                }
             }
         }
 
@@ -579,15 +600,16 @@ namespace AYellowpaper.SerializedCollections
 
         private void ClickToMove()
         {
+            clicktomove.SetActive(true);
+
             if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
                 DeleteOldChoices();
 
-            int index = 0;
-            foreach (GameObject child in clicktomove.transform)
+            for (int index = 0; index < clicktomove.transform.childCount; index++)
             {
-                var Button = child.GetComponent<Button>();
-                Button.onClick.AddListener(() => OnClickChoiceButton(Story.currentChoices[index]));
-                index++;
+                int i = index;
+                var Button = clicktomove.transform.GetChild(index).gameObject.GetComponent<Button>();
+                Button.onClick.AddListener(() => OnClickChoiceButton(Story.currentChoices[i]));
             }
         }
 
@@ -688,8 +710,31 @@ namespace AYellowpaper.SerializedCollections
                     continue;
                 }
 
+                if (choice.text[0] == '(')
+                {
+                    string visible = choice.text.Substring(1, choice.text.IndexOf(')') - 1).Trim();
+                    string replace = choice.text.Substring(choice.text.IndexOf(')') + 1).Trim();
+                    LabledButton replace_button = CreateChoiceButton(visible); // creates a choice button
+                    replace_button.onClick.AddListener(() => OnReplaceChoiceButton(choice, replace, replace_button));
+
+                    continue;
+                }
+
                 LabledButton button = CreateChoiceButton(choice.text); // creates a choice button
                 button.onClick.AddListener(() => OnClickChoiceButton(choice));
+            }
+        }
+
+        void OnReplaceChoiceButton(Choice choice, string replace, LabledButton button)
+        {
+            var choice_text = button.GetComponentInChildren<TextMeshProUGUI>();
+            if (choice_text.text == replace)
+            {
+                OnClickChoiceButton(choice);
+            }
+            else
+            {
+                choice_text.text = replace;
             }
         }
 

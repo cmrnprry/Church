@@ -11,14 +11,15 @@ GameObject:
   - component: {fileID: 2296339075242326963}
   - component: {fileID: 8470311630970977888}
   - component: {fileID: 1311570280765502638}
-  - component: {fileID: 4313716762393911023}
+  - component: {fileID: 1419585387551891041}
+  - component: {fileID: 771199491335627983}
   m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2296339075242326963
 RectTransform:
   m_ObjectHideFlags: 0
@@ -28,8 +29,8 @@ RectTransform:
   m_GameObject: {fileID: 4401412149057284189}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1977062972, guid: ef3dec6a62c64f24e8562738eea0ed58, type: 3}
+  m_Sprite: {fileID: -1315170131, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -76,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4313716762393911023
+--- !u!114 &1419585387551891041
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -85,7 +86,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 4401412149057284189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b68f2ee54ff84f48a007685093359d9, type: 3}
+  m_Script: {fileID: 11500000, guid: eac4a5f819d1233408418e11348f5a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.1
+  moveSpeed: 0.5
+--- !u!114 &771199491335627983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4401412149057284189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 1
+  m_AspectRatio: 1.0952381

@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-
 public struct MinMax
 {
     private float Max;
@@ -66,6 +65,17 @@ public class BackgroundImage : MonoBehaviour
             .Append(mat.DOFloat(0, BlurAmount, dur)).OnComplete(BlurEffectCallback);
     }
 
+    private void KillTweens()
+    {
+        if (zoom_sequence != null && zoom_sequence.IsPlaying())
+            zoom_sequence.Kill(true);
+        
+        if (class_sequence != null && class_sequence.IsPlaying())
+            class_sequence.Kill(true);
+
+        rect.DOKill(true);
+    }
+
     public void ApplyClass(string toAdd)
         {
             if (class_sequence != null && class_sequence.IsPlaying())
@@ -78,6 +88,9 @@ public class BackgroundImage : MonoBehaviour
             {
                 switch (toAdd)
                 {
+                    case "NULL":
+                        KillTweens();
+                        break;
                     case "Swimming":
                         //duration of the tween
                         duration.SetValue(.15f, .25f);
@@ -122,6 +135,27 @@ public class BackgroundImage : MonoBehaviour
                         break;
                     case "Angry_Screeching":
                         class_sequence.Append(rect.DOShakePosition(.05f, new Vector3(50, 50, 50), 28, 23)).SetLoops(35, LoopType.Yoyo);
+                        break;
+                    case "stop-1":
+                        duration.SetValue(25f, 20);
+                        dur = duration.GetRandomValue();
+                        class_sequence.Append(rect.DOScale(new Vector3(1.25f, 1.25f, 1.25f), dur))
+                            .Insert(0, rect.DOAnchorPosY(-93, dur));
+                        break;
+                    case "stop-2":
+                        duration.SetValue(10f, 5);
+                        dur = duration.GetRandomValue();
+                        class_sequence.Append(rect.DOScale(new Vector3(1.75f, 1.75f, 1.75f), dur))
+                            .Insert(0, rect.DOAnchorPosY(-280, 1f));
+                        rect.DOShakePosition(0.5f, new Vector3(5, 5, 5), 28, 23).SetLoops(-1, LoopType.Yoyo).SetDelay(1.05f);
+                        break;
+                    case "stop-3":
+                        duration.SetValue(10f, 5);
+                        dur = duration.GetRandomValue();
+                        class_sequence.Append(rect.DOScale(new Vector3(2.5f, 2.5f, 2.5f), dur))
+                            .Insert(0, rect.DOAnchorPosY(-370, 1f));
+                        
+                        rect.DOShakePosition(0.5f, new Vector3(10, 10, 10), 28, 23).SetLoops(-1, LoopType.Yoyo).SetDelay(1.05f);
                         break;
                     default:
                         Debug.LogWarning($"Could not add IClass {toAdd} to BackgroundImage.");
