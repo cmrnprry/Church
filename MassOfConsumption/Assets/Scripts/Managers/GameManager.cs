@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Ink.Runtime;
@@ -20,6 +21,7 @@ namespace AYellowpaper.SerializedCollections
         [Header("Ink Data")] [SerializeField] private TextAsset InkJsonAsset;
         private Story Story;
         private Color text_color;
+        private List<string> classes = new List<string>();
 
         private string ContinueText; // next group of text
         private TextMeshProUGUI Current_Textbox; //current textbox
@@ -142,11 +144,30 @@ namespace AYellowpaper.SerializedCollections
                     SetReplaceChoiceData(text_data.GetReplaceChoice().GetText());
                 }
 
+                if (text_data.class_text.Length > 0)
+                {
+                    Current_Textbox.color = text_color;
+                    Current_Textbox.text = $"<br>{ContinueText}";
+
+                    foreach (var value in text_data.class_text)
+                    {
+                        Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
+                    }
+                    
+                }
+
+
                 Current_Textbox.DOColor(text_color, 1.25f);
             }
-
+            
             Story.state.LoadJson(SaveSystem.GetStory());
             SetBackgroundImage(SaveSystem.GetCurrentSpriteKey());
+
+            foreach (KeyValuePair<string, GameObject> pair in PropDictionary)
+            {
+                PropDictionary[pair.Key].SetActive(SaveSystem.OnLoadPropData(pair.Key));
+            }
+            
             Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
             StartCoroutine(AfterLoad());
         }
@@ -205,6 +226,7 @@ namespace AYellowpaper.SerializedCollections
                     yield return new WaitForSeconds((AutoPlay ? AutoPlay_FadeOut : DefaultFadeOut) + 0.01f);
 
                 WaitAfterChoice = false;
+                classes.Clear();
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
                 yield return new WaitForEndOfFrame();
@@ -279,7 +301,7 @@ namespace AYellowpaper.SerializedCollections
             //Set Data to be saved
             var text = Current_Textbox.text;
             var replace = ReplaceData.hasTextData() ? ReplaceData : new ReplaceChoice();
-            SavedTextData data = new SavedTextData(text, Text_Delay, replace);
+            SavedTextData data = new SavedTextData(text, Text_Delay, replace, classes.ToArray());
 
             var link = Current_Textbox.gameObject.GetComponent<LinksManager>();
             if (link.enabled && data.cycle_text != null && data.cycle_text.Length > 0)
@@ -362,12 +384,13 @@ namespace AYellowpaper.SerializedCollections
                 case "TEXTBOX": //edits the textbox visuals
                     break;
                 case "CLASS": //edits the text (within the textbox)'s visuals
+                    classes.Add(value);
+                    Current_Textbox.color = text_color;
+                    Current_Textbox.text = $"<br>{ContinueText}";
                     Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
                     break;
                 case "ICLASS": //[classes to remove], [classes to add]
                     ImageClassData.ApplyClass(value);
-                    break;
-                case "REMOVE": //removes text box visuals
                     break;
                 case "EFFECT": //Special effects to happen (flashlight, click to move etc)
                     Effects(value);
@@ -382,7 +405,7 @@ namespace AYellowpaper.SerializedCollections
         {
             switch (key)
             {
-                case "flashlight_on":
+                case "flashlight_on": //TODO: check that it saves
                     if (!Flashlight.gameObject.activeSelf)
                         Flashlight.gameObject.SetActive(true);
                     Flashlight.isOn = true;

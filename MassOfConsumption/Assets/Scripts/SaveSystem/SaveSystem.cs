@@ -44,10 +44,10 @@ public static class SaveSystem
 
         foreach (KeyValuePair<string, GameObject> prop in props)
         {
-            if (slotData.PropDictionary.ContainsKey(prop.Value))
+            if (slotData.PropDictionary.ContainsKey(prop.Key))
                 continue;
             
-            slotData.PropDictionary.Add(prop.Value, false);
+            slotData.PropDictionary.Add(prop.Key, false);
         }
 
         foreach (KeyValuePair<string, Sprite> item in bg)
@@ -165,6 +165,13 @@ public static class SaveSystem
 
         return key;
     }
+    
+    public static bool OnLoadPropData(string key, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        return temp_data.PropDictionary[key];
+    }
 
     public static Sprite GetCurrentSprite(string slotID = "")
     {
@@ -177,6 +184,7 @@ public static class SaveSystem
                 return GameManager.instance.BackgroundDictionary[pair.Key];
         }
 
+        
         return key;
     }
 
@@ -288,7 +296,7 @@ public static class SaveSystem
         slotData.InkStory = text;
         //SaveSlotData(slotID);
     }
-
+    
     public static string GetStory(string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);

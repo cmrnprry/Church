@@ -41,31 +41,13 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-#EFFECT: flashlight_on #PROP: flash #PROP: note
-- The note is from an old piece of parchment. It feels like it could crumple into dust.
+# IMAGE: Bus Stop
+Your eyes find the doorknob, and you reach out to open it.
 
-*[confessional]
-    -> Confessional
+#CLASS: Blurrier
+You just need to turn the knob. Why can't you just turn the knob?
 
-*[stairs]
-    -> Inside.Stairs_First
-
-*[pews]
-
-- 
-~turn = "running"
-#ICLASS: stop-2 #STOP: walking_fast_pavement, 1.5 #PLAY: running_pavement, true, 1.5, 1
-You shake out your leg, but the tugging pulls harder. You stumble forward and break into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
-
-You hear something on the wind. A voice?
-
-*[Keep. Going.]
-
-- 
-#ICLASS: stop-3 #STOP: running_pavement #REPLACE: stop sign.
-You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
-    
-*[stop sign.]
+*[Your skin burns.]
 ->END
 
 

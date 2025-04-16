@@ -126,7 +126,7 @@ It's the almost same voice from earlier. The one that gave you the flashlight an
 #PLAY: curtain
 {pressed_emily: The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
 
-#CLASS:  #DELAY: 2.5
+#DELAY: 2.5
 ​
 
 #DELAY: 1.5
@@ -145,21 +145,21 @@ Something, no <i>someone</i>, hits the ground. Hard.
 - 
 You can hear wheezing, but she does not answer. 
 
-#CLASS: Fidget #CLASS: Blur
+#CLASS: Fidget
 Your eyes find the doorknob, and you reach out to open it.
 
-#CLASS: Fidget #CLASS: Blurrier
+#CLASS: Blurrier
 An invisible force presses down on you. You feel like you're moving in slow motion.
 
 *["Are you okay?"]
 
 - 
-#CYCLE: Fidget, easy, smoothly, effortless, fluid 
+#CYCLE: easy, smoothly, effortless, fluid 
 The words come out @. Your hand sits on the knob.
 
 You can hear scratching on the floor. 
 
-#CLASS: Fidget #CLASS: Blur
+#CLASS: Fidget
 It seems like the harder you fight against the force, the slower you move.
 
 <i>What if it's too late?</i> You think, and tighten their grip on the door. <i>It's all your fault.</i>
@@ -168,7 +168,7 @@ It is deathly quiet outside.
 
 <i>If you had just moved faster,</i> you squeeze the knob. <i>Then maybe she might still be—</i>
 
-#CLASS: Fidget #CLASS: Blurrier
+#CLASS: Blurrier
 You just need to turn the knob. Why can't you just turn the knob?
 
 *[It is deathly quiet outside.]

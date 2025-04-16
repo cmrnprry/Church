@@ -14,7 +14,7 @@ namespace AYellowpaper.SerializedCollections
     {
         public string InkStory;
         public string History;
-
+        
         [SerializedDictionary("index", "text data")]
         public SerializedDictionary<int, SavedTextData> DisplayedTextDictionary;
 
@@ -22,7 +22,7 @@ namespace AYellowpaper.SerializedCollections
         public SerializedDictionary<string, bool> BackgroundDictionary;
 
         [SerializedDictionary("Prop Object", "Enabled")]
-        public SerializedDictionary<GameObject, bool> PropDictionary;
+        public SerializedDictionary<string, bool> PropDictionary;
 
         [SerializedDictionary("Index", "Name")]
         public SerializedDictionary<int, string> EndingsDictionary;
@@ -36,7 +36,7 @@ namespace AYellowpaper.SerializedCollections
             History = string.Empty;
 
             BackgroundDictionary = new SerializedDictionary<string, bool>();
-            PropDictionary = new SerializedDictionary<GameObject, bool>();
+            PropDictionary = new SerializedDictionary<string, bool>();
             EndingsDictionary = new SerializedDictionary<int, string>();
             CheckpointsDictionary = new SerializedDictionary<int, string>();
             DisplayedTextDictionary = new SerializedDictionary<int, SavedTextData>();
@@ -69,13 +69,13 @@ public struct SavedTextData
     [SerializeField]
     public string[] class_text;
 
-    public SavedTextData(string t, float d, ReplaceChoice r)
+    public SavedTextData(string t, float d, ReplaceChoice r, string[] c)
     {
         text = t;
         cycle_index = 0;
         delay = d;
         cycle_text = Array.Empty<string>();
-        class_text = Array.Empty<string>();
+        class_text = c;
         replaceChoice = r;
     }
 

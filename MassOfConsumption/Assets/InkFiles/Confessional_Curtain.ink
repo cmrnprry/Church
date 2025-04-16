@@ -411,7 +411,7 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
 
 - 
 ~ angered_priest = true
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 The wood divider splinters as <strike>the priest</strike> whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness <strike>he</strike>it used to speak to you before is gone. It's voice contorts and stretches as it changes from something human to something gutteral and monsterous.
@@ -420,7 +420,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 *[Is that... saliva?]
 
-- #CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+- #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
@@ -434,7 +434,7 @@ The booth could come apart at any moment. You need to get out of here.
     -> Confessional_Curtain.Look_Other_Side
 
 = Get_Out
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 You cover your face as tiny, stinging, wooden splinters fly toward you. You need to get OUT, before that... that THING gets IN.
@@ -450,7 +450,7 @@ You {leg == "worst": hobble through the curtain as fast as you can | rush throug
     ~ Temp_Bool = false
 
 - 
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 
@@ -484,7 +484,7 @@ On the bench sits a small key. { stay >= 1: You pick it up and turn it over in y
     -> Confessional_Curtain.Leave_Progress
 
 = Look_Other_Side
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 You cover your face as wooden splinters fly toward you as tiny, stinging flecks of wood. You take a step closer to the hole in the divider. You raise your flashlight, and peer through the hole.
@@ -1173,7 +1173,7 @@ The growl comes from the other side again. "I have no daughter." He says through
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 2.5
 An ear piecing shriek fills the booth{leave_light:, much worse than the one from before. | .} You plug your ears, but it makes no difference.
 
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 The wood divider splinters a bit as whatever is on the other side slams into it. "Shut up shut up shut up SHUT UP" It's voice contorts and stretches as it changes from something human to something gutteral and monsterous.
@@ -1183,7 +1183,7 @@ The wood divider splinters a bit as whatever is on the other side slams into it.
 - #PLAY: thud #DELAY: 2.5
 You slam into solid wood. The curtain's gone. The walls close in on you as you push yourself against them.
 
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 The divider between you is barely holding up. The wood is splinters while that- that <i>thing</i> shouts and curses you.
@@ -1199,7 +1199,7 @@ The divider between you is barely holding up. The wood is splinters while that- 
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 2.5
 The thing shrieks again. "You will not escape this time.
 
-#CLASS: Bang_Confessional #PLAY: banging-confession #DELAY: 0.5
+#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
 The divider splits and falls, revealing the thing on the other side. You fall to the floor and push yourself against the wall, trying to get as far away as yuo possibly can.
