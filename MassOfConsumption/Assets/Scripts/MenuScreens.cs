@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 using UnityEngine.SceneManagement;
 
 public class MenuScreens : MonoBehaviour
@@ -11,6 +12,7 @@ public class MenuScreens : MonoBehaviour
     public Image TransitionScreen;
     public GameObject Settings, MainMenu;
     public LabledButton LoadButton;
+    public TMP_Dropdown dropdown;
 
     private float wait = 0.25f;
 
@@ -26,6 +28,8 @@ public class MenuScreens : MonoBehaviour
             LoadButton.gameObject.SetActive(true);
             LoadButton.onClick.AddListener(() => SaveSystem.LoadSlotData(SaveSystem.GetLastSave()));
         }
+        
+       
     }
 
     public void StartGame(GameObject Menu)
@@ -97,5 +101,22 @@ public class MenuScreens : MonoBehaviour
 
         if (MainMenu.activeSelf)
             ShowScreen(MainMenu, false);
+    }
+
+    public void SetScreenMode(bool isFullScreen)
+    {
+        var res = SaveSystem.GetResolution();
+        Screen.SetResolution((int)res.x, (int)res.y, isFullScreen);
+        
+        SaveSystem.SetFullscreen(isFullScreen);
+    }
+
+    public void SetRes(int value)
+    {
+        var option = dropdown.options[value].text.Split('x');
+        var res = new Vector2(int.Parse(option[0].Trim()), int.Parse(option[1].Trim()));
+        Screen.SetResolution((int)res.x, (int)res.y, SaveSystem.GetFullscreen());
+
+        SaveSystem.SetResolution(res, value);
     }
 }

@@ -36,6 +36,11 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         Toggle();
     }
     
+    public void SetValue(bool value)
+    {
+        SetStateAndStartAnimation(value);
+    }
+    
     protected virtual void OnValidate()
     {
         SetupToggleComponents();

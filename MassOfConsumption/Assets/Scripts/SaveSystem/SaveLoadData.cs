@@ -14,7 +14,7 @@ namespace AYellowpaper.SerializedCollections
     {
         public string InkStory;
         public string History;
-        
+
         [SerializedDictionary("index", "text data")]
         public SerializedDictionary<int, SavedTextData> DisplayedTextDictionary;
 
@@ -62,12 +62,10 @@ public struct SavedTextData
     [SerializeField] private ReplaceChoice replaceChoice;
 
 
-    [SerializeField]
-    public string[] cycle_text;
+    [SerializeField] public string[] cycle_text;
     public int cycle_index;
 
-    [SerializeField]
-    public string[] class_text;
+    [SerializeField] public string[] class_text;
 
     public SavedTextData(string t, float d, ReplaceChoice r, string[] c)
     {
@@ -96,7 +94,7 @@ public struct ReplaceChoice
         replacement_text = t;
         replacement_index = d;
     }
-    
+
     public ReplaceChoice(string t)
     {
         replacement_text = t;
@@ -107,17 +105,17 @@ public struct ReplaceChoice
     {
         return replacement_text;
     }
-    
+
     public int GetChoiceIndex()
     {
         return replacement_index;
     }
-    
+
     public void SetText(string t)
     {
         replacement_text = t;
     }
-    
+
     public void SetChoiceIndex(int d)
     {
         replacement_index = d;
@@ -127,12 +125,12 @@ public struct ReplaceChoice
     {
         return !string.IsNullOrEmpty(replacement_text);
     }
-    
+
     public bool hasData()
     {
-        return replacement_text != ""  && replacement_index >= 0;
+        return replacement_text != "" && replacement_index >= 0;
     }
-    
+
     public bool hasChoiceData()
     {
         return replacement_index >= 0;
@@ -143,20 +141,19 @@ public class SettingsData
 {
     public bool hasSaveData;
     public string mostRecentSlot;
+    public bool isFullScreen;
+    public Vector2 resolution;
+    public int index;
 
     //AUDIO
-    [SerializeField]
-    public bool mute;
+    [SerializeField] public bool mute;
 
-    [SerializeField]
-    public float BGM;
+    [SerializeField] public float BGM;
 
-    [SerializeField]
-    public float SFX;
+    [SerializeField] public float SFX;
 
     //GAMEPLAY
-    [SerializeField]
-    public bool autoplay;
+    [SerializeField] public bool autoplay;
     public bool visual_overlay;
     public bool text_effects;
     public float text_speed;
@@ -165,13 +162,20 @@ public class SettingsData
     public SettingsData()
     {
         hasSaveData = false;
+
+        isFullScreen = true;
+        resolution = new Vector2(1920, 1440);
+        index = 0;
+
         mute = false;
         BGM = 0.5f;
         SFX = 0.5f;
+
         text_speed = 0.5f;
         autoplay_speed = 0.5f;
         autoplay = false;
-        visual_overlay = false;
-        text_effects = false;
+        
+        visual_overlay = true;
+        text_effects = true;
     }
 }

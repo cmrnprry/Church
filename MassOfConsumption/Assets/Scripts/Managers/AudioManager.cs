@@ -14,8 +14,6 @@ namespace AYellowpaper.SerializedCollections
 
         [Header("Settings Volume")]
         public AudioMixer mixer;
-        public Slider sfxSlider, bgmSlider;
-        public ToggleSwitchColorChange muteToggle;
 
         [SerializedDictionary("SFX name", "SFX")]
         public SerializedDictionary<string, AudioClip> SFXDictionary;
@@ -32,15 +30,7 @@ namespace AYellowpaper.SerializedCollections
 
             DontDestroyOnLoad(gameObject);
         }
-
-        void Start()
-        {
-            if (SaveSystem.GetMuteValue())
-                muteToggle.SetValue();
-            sfxSlider.value = SaveSystem.GetAudioVolume(3);
-            bgmSlider.value = SaveSystem.GetAudioVolume(2);
-        }
-
+        
         public void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
         {
             if (sources.Count > 0)

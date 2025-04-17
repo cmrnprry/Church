@@ -1,9 +1,6 @@
 using UnityEngine;
-using System.IO;
 using Ink.Runtime;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using AYellowpaper.SerializedCollections;
 
 
@@ -14,8 +11,8 @@ public static class SaveSystem
 
 
     //class that holds the stuff we need to save
-    public static SlotData slotData = new SlotData();
-    public static SettingsData settingsData = new SettingsData();
+    private static SlotData slotData = new SlotData();
+    private static SettingsData settingsData = new SettingsData();
 
     // string version of our json data
     private static string slotJson;
@@ -25,11 +22,12 @@ public static class SaveSystem
     ///  Called to start loading system when we want to load a save file
     /// </summary>
     public delegate void LoadAction();
+
     public static event LoadAction OnLoad;
 
     public static void Init()
     {
-        //Check if we have settings data and sset it if we do 
+        //Check if we have settings data and set it if we do 
         string path = Application.persistentDataPath + "/settings.json";
         if (System.IO.File.Exists(path))
         {
@@ -38,7 +36,8 @@ public static class SaveSystem
         }
     }
 
-    public static void SlotInit(SerializedDictionary<string, Sprite> bg, SerializedDictionary<string, GameObject> props, Story story)
+    public static void SlotInit(SerializedDictionary<string, Sprite> bg, SerializedDictionary<string, GameObject> props,
+        Story story)
     {
         slotData.InkStory = story.ToJson();
 
@@ -46,7 +45,7 @@ public static class SaveSystem
         {
             if (slotData.PropDictionary.ContainsKey(prop.Key))
                 continue;
-            
+
             slotData.PropDictionary.Add(prop.Key, false);
         }
 
@@ -54,7 +53,7 @@ public static class SaveSystem
         {
             if (slotData.BackgroundDictionary.ContainsKey(item.Key))
                 continue;
-            
+
             slotData.BackgroundDictionary.Add(item.Key, (item.Key == "Default"));
         }
     }
@@ -65,7 +64,7 @@ public static class SaveSystem
 
         if (System.IO.File.Exists(path))
         {
-            var result = System.IO.File.ReadAllText(path);
+            // var result = System.IO.File.ReadAllText(path);
             var creation = System.IO.File.GetLastWriteTime(path);
             return creation.ToShortDateString() + " " + creation.ToShortTimeString();
         }
@@ -165,7 +164,7 @@ public static class SaveSystem
 
         return key;
     }
-    
+
     public static bool OnLoadPropData(string key, string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
@@ -177,15 +176,13 @@ public static class SaveSystem
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
 
-        Sprite key = null;
         foreach (KeyValuePair<string, bool> pair in temp_data.BackgroundDictionary)
         {
             if (pair.Value)
                 return GameManager.instance.BackgroundDictionary[pair.Key];
         }
 
-        
-        return key;
+        return null;
     }
 
     public static void SetCurrentSprite(string key)
@@ -236,7 +233,6 @@ public static class SaveSystem
         float volume = 0;
         switch (type)
         {
-
             case 2:
                 volume = settingsData.BGM;
                 break;
@@ -296,7 +292,7 @@ public static class SaveSystem
         slotData.InkStory = text;
         //SaveSlotData(slotID);
     }
-    
+
     public static string GetStory(string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
@@ -340,4 +336,93 @@ public static class SaveSystem
     {
         slotData.History += his;
     }
+
+    public static void SetFullscreen(bool fullscreen)
+    {
+        settingsData.isFullScreen = fullscreen;
+        SaveSettingsData();
+    }
+    
+    public static bool GetFullscreen()
+    {
+        return settingsData.isFullScreen;
+    }
+
+    public static void SetResolution(Vector2 resolution, int value)
+    {
+        settingsData.resolution = resolution;
+        settingsData.index = value;
+        SaveSettingsData();
+    }
+
+    public static void SetSettingsOnLoad()
+    {
+        Screen.SetResolution((int)GetResolution().x, (int)GetResolution().y, GetFullscreen());
+    }
+
+    public static Vector2 GetResolution()
+    {
+        return settingsData.resolution; 
+    }
+    
+    public static int GetSettingsIndex()
+    {
+        return settingsData.index; 
+    }
+    
+    public static bool GetAutoplayValue()
+    {
+        return settingsData.autoplay;
+    }
+    
+    public static bool GetOverlayValue()
+    {
+        return settingsData.visual_overlay;
+    }
+    
+    public static bool GetTextEffectsValue()
+    {
+        return settingsData.text_effects;
+    }
+    
+    public static float GetTextSpeed()
+    {
+        return settingsData.text_speed;
+    }
+    
+    public static float GetAutoplaySpeed()
+    {
+        return settingsData.autoplay_speed;
+    }
+    
+    public static void SetAutoplayValue(bool value)
+    {
+        settingsData.autoplay = value;
+        SaveSettingsData();
+    }
+    
+    public static void SetOverlayValue(bool value)
+    {
+        settingsData.visual_overlay = value;
+        SaveSettingsData();
+    }
+    
+    public static void SetTextEffectsValue(bool value)
+    {
+        settingsData.text_effects = value;
+        SaveSettingsData();
+    }
+    
+    public static void SetTextSpeed(float value)
+    {
+        settingsData.text_speed = value;
+        SaveSettingsData();
+    }
+    
+    public static void SetAutoplaySpeed(float value)
+    {
+        settingsData.autoplay_speed = value;
+        SaveSettingsData();
+    }
+    
 }

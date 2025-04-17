@@ -9,7 +9,6 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 using ColorUtility = UnityEngine.ColorUtility;
 using DG.Tweening;
-using UnityEngine.Analytics;
 using UnityEngine.Rendering.Universal;
 
 namespace AYellowpaper.SerializedCollections
@@ -41,7 +40,7 @@ namespace AYellowpaper.SerializedCollections
         private const float DefaultFadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
         private const float DefaultAutoScroll = 0.5f; //default time to autoscroll
         private const float DefaultShortWait = 0.1f; //default time between a replace choice fade change
-        private bool WaitAfterChoice = false;
+        private bool WaitAfterChoice;
 
         [Header("Story Objects")] [SerializeField]
         private Transform TextParent;
@@ -97,6 +96,8 @@ namespace AYellowpaper.SerializedCollections
             ReplaceData = new ReplaceChoice("", -1);
             ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
             GlobalLight.color = OutsideLight;
+
+            SaveSystem.SetSettingsOnLoad();
         }
 
         private void OnEnable()
@@ -153,13 +154,12 @@ namespace AYellowpaper.SerializedCollections
                     {
                         Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
                     }
-                    
                 }
 
 
                 Current_Textbox.DOColor(text_color, 1.25f);
             }
-            
+
             Story.state.LoadJson(SaveSystem.GetStory());
             SetBackgroundImage(SaveSystem.GetCurrentSpriteKey());
 
@@ -167,7 +167,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 PropDictionary[pair.Key].SetActive(SaveSystem.OnLoadPropData(pair.Key));
             }
-            
+
             Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
             StartCoroutine(AfterLoad());
         }
@@ -442,12 +442,12 @@ namespace AYellowpaper.SerializedCollections
                     var dark_light = dark.GetComponent<Light2D>();
 
                     var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
-                    var light = onj.GetComponent<Light2D>();
+                    var intial_light = onj.GetComponent<Light2D>();
 
                     DOTween.Kill(red_light.falloffIntensity);
                     DOTween.Kill(orange_light.falloffIntensity);
                     DOTween.Kill(dark_light.falloffIntensity);
-                    DOTween.Kill(light.intensity);
+                    DOTween.Kill(intial_light.intensity);
 
                     red.SetActive(false);
                     orange.SetActive(false);
@@ -487,19 +487,19 @@ namespace AYellowpaper.SerializedCollections
             else if (type == "intial")
             {
                 var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
-                var light = onj.GetComponent<Light2D>();
+                var intial_light = onj.GetComponent<Light2D>();
 
                 if (onj.activeSelf)
                 {
-                    DOTween.To(() => light.intensity,
-                            value => light.intensity = value, 0, 1.5f)
+                    DOTween.To(() => intial_light.intensity,
+                            value => intial_light.intensity = value, 0, 1.5f)
                         .OnComplete(() => { onj.gameObject.SetActive(false); });
                 }
                 else
                 {
                     onj.gameObject.SetActive(true);
-                    DOTween.To(() => light.intensity,
-                        value => light.intensity = value, 10, .5f);
+                    DOTween.To(() => intial_light.intensity,
+                        value => intial_light.intensity = value, 10, .5f);
                 }
             }
         }
