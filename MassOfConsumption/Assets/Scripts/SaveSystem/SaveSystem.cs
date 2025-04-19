@@ -357,7 +357,30 @@ public static class SaveSystem
 
     public static void SetSettingsOnLoad()
     {
+        //set screen size
         Screen.SetResolution((int)GetResolution().x, (int)GetResolution().y, GetFullscreen());
+        
+        //set audio
+        float mute = GetMuteValue() ? 0: 1;
+        SetAudioVolume(GetAudioVolume(3), 3);
+        SetAudioVolume(GetAudioVolume(2), 2);
+        SetAudioVolume(mute, 1);
+
+        //set autoplay values
+        SetAutoplayValue(GetAutoplayValue());
+        GameManager.instance.AutoPlay = GetAutoplayValue();
+
+        SetOverlayValue(GetOverlayValue());
+        GameManager.instance.VisualOverlay = GetOverlayValue();
+        
+        SetTextEffectsValue(GetTextEffectsValue());
+        GameManager.instance.TextEffects = GetTextEffectsValue();
+
+        SetTextSpeed(GetTextSpeed());
+        GameManager.instance.Default_TextDelay = GetTextSpeed();
+        
+        SetAutoplaySpeed(GetAutoplaySpeed());
+        GameManager.instance.AutoPlay_TextDelay = GetAutoplaySpeed();
     }
 
     public static Vector2 GetResolution()

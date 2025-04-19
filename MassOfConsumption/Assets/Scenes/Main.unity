@@ -3484,7 +3484,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &347194886
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3560,6 +3560,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TextSpeed_Slider: {fileID: 1178158836}
   AutoPlay_Slider: {fileID: 422005017}
+  sfxSlider: {fileID: 835006397}
+  bgmSlider: {fileID: 1922801169}
+  muteToggle: {fileID: 2051953380}
   AutoPlayToggle: {fileID: 1012836751}
   VisualOverlay: {fileID: 1129049205}
   TextEffectsOverlay: {fileID: 1098570602}
@@ -6784,9 +6787,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 8da5fad10b6564166b776b0fc0cea53f, type: 2}
-  sfxSlider: {fileID: 835006397}
-  bgmSlider: {fileID: 1922801169}
-  muteToggle: {fileID: 2051953380}
   SFXDictionary:
     _serializedList:
     - Key: bang_confessional
@@ -22273,6 +22273,18 @@ PrefabInstance:
       value: -36.57
       objectReference: {fileID: 0}
     - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_Value
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_MaxValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_MinValue
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -22729,6 +22741,18 @@ PrefabInstance:
     - target: {fileID: 3382522465107079427, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -36.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_Value
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_MaxValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
+      propertyPath: m_MinValue
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 3634766994337571211, guid: 0cc64b0276d9c436fae98808636b36bc, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size

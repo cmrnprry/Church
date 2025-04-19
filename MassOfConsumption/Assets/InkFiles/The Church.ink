@@ -41,7 +41,7 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-# IMAGE: Bus Stop
+# IMAGE: Bus Stop #CLASS: Fidget
 Your eyes find the doorknob, and you reach out to open it.
 
 #CLASS: Blurrier

@@ -27,18 +27,88 @@ namespace AYellowpaper.SerializedCollections
         private float Text_Delay = -1;
         private ReplaceChoice ReplaceData;
 
-        [Header("Auto Play Variables")] private bool AutoPlay = false;
-        private float AutoPlay_TextDelay = 1.5f; //delay between next piece of text showing up
+        [Header("Text Variables")] 
+        private bool texteffects = true;
+        private bool visualoverlay = true;
+
+        public bool TextEffects
+        {
+            get { return texteffects; }
+            set
+            {
+                texteffects = value;
+                OnTextEffectFlip?.Invoke(value);
+            }
+        }
+
+        public bool VisualOverlay
+        {
+            get { return visualoverlay; }
+            set { visualoverlay = value; }
+        }
+
+
+        [Header("Auto Play Variables")] private bool autoplay;
+        private float autoplay_textdelay = 1.5f; //delay between next piece of text showing up
+
+
+        public bool AutoPlay
+        {
+            get { return autoplay; }
+            set { autoplay = value; }
+        }
+
+        public float AutoPlay_TextDelay
+        {
+            get { return autoplay_textdelay; }
+            set { SetAutoPlayDelay(value); }
+        }
+
         private float AutoPlay_ChoiceDelay = .25f; //delay between the next choice group fading in
         private float AutoPlay_FadeOut = .25f; //delay between the next choice group fading in
         private float AutoPlay_TextGroupDelay = .25f; // delay between the next text group fading in
 
-        [Header("Default Variables")]
-        private const float DefaultTextGroupDelay = 1.25f; //default time between next piece of text showing up
+        private void SetAutoPlayDelay(float value)
+        {
+            autoplay_textdelay = Math.Abs(value);
+            float normalizedTime = autoplay_textdelay / 3.0f;
 
-        private const float DefaultChoiceGroupDelay = 0.5f; //default time between next piece of text showing up
-        private const float DefaultFadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
-        private const float DefaultAutoScroll = 0.5f; //default time to autoscroll
+            AutoPlay_ChoiceDelay = normalizedTime * 0.5f;
+            AutoPlay_FadeOut = normalizedTime * 0.5f;
+            AutoPlay_TextGroupDelay = normalizedTime * 0.5f;
+
+            if (autoplay)
+                DefaultAutoScroll = normalizedTime * 0.5f;
+        }
+
+        [Header("Default Variables")]
+        private float default_textdelay = 1.5f; //default time between next piece of text showing up
+
+        public float Default_TextDelay
+        {
+            get { return default_textdelay; }
+            set { SetDefaultPlayDelay(value); }
+        }
+
+        private void SetDefaultPlayDelay(float value)
+        {
+            default_textdelay = Math.Abs(value);
+
+            float normalizedTime = autoplay_textdelay / 3.0f;
+
+            Default_ChoiceDelay = normalizedTime * 1f;
+            Default_FadeOut = normalizedTime * 1f;
+            Default_TextGroupDelay = normalizedTime * 1f;
+
+            if (!autoplay)
+                DefaultAutoScroll = normalizedTime * 0.5f;
+        }
+
+        private float Default_ChoiceDelay = 0.5f; //default time between next piece of text showing up
+        private float Default_FadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
+        private float Default_TextGroupDelay = 0.5f; //defualt time to fade out & delete text & choices on screen
+
+        private float DefaultAutoScroll = 0.25f; //default time to autoscroll
         private const float DefaultShortWait = 0.1f; //default time between a replace choice fade change
         private bool WaitAfterChoice;
 
@@ -73,6 +143,10 @@ namespace AYellowpaper.SerializedCollections
 
         private Sequence lightingSequence;
 
+        public delegate void TextEffect(bool isOn);
+
+        public static event TextEffect OnTextEffectFlip;
+
 
         private void Awake()
         {
@@ -97,6 +171,7 @@ namespace AYellowpaper.SerializedCollections
             ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
             GlobalLight.color = OutsideLight;
 
+            SaveSystem.SetSettingsOnLoad();
             SaveSystem.SetSettingsOnLoad();
         }
 
@@ -156,7 +231,6 @@ namespace AYellowpaper.SerializedCollections
                     }
                 }
 
-
                 Current_Textbox.DOColor(text_color, 1.25f);
             }
 
@@ -176,8 +250,8 @@ namespace AYellowpaper.SerializedCollections
         {
             if (Story.canContinue && Text_Delay <= 0)
             {
-                if (AutoPlay)
-                    yield return new WaitForSeconds(AutoPlay_TextDelay);
+                if (autoplay)
+                    yield return new WaitForSeconds(autoplay_textdelay);
                 else
                     yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
             }
@@ -223,7 +297,7 @@ namespace AYellowpaper.SerializedCollections
                 if (ReplaceData.hasData())
                     yield return new WaitForSeconds(DefaultShortWait + 0.01f);
                 else if (WaitAfterChoice)
-                    yield return new WaitForSeconds((AutoPlay ? AutoPlay_FadeOut : DefaultFadeOut) + 0.01f);
+                    yield return new WaitForSeconds((autoplay ? AutoPlay_FadeOut : Default_FadeOut) + 0.01f);
 
                 WaitAfterChoice = false;
                 classes.Clear();
@@ -255,7 +329,7 @@ namespace AYellowpaper.SerializedCollections
                     ReplaceData = new ReplaceChoice("", -1);
                 }
                 else
-                    Current_Textbox.DOColor(text_color, AutoPlay ? AutoPlay_TextGroupDelay : DefaultTextGroupDelay);
+                    Current_Textbox.DOColor(text_color, autoplay ? AutoPlay_TextGroupDelay : Default_TextGroupDelay);
 
 
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
@@ -278,8 +352,8 @@ namespace AYellowpaper.SerializedCollections
 
             if (Story.canContinue && Text_Delay < 0)
             {
-                if (AutoPlay)
-                    yield return new WaitForSeconds(AutoPlay_TextDelay);
+                if (autoplay)
+                    yield return new WaitForSeconds(autoplay_textdelay);
                 else
                     yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
             }
@@ -793,7 +867,7 @@ namespace AYellowpaper.SerializedCollections
                     var choice_text = button.GetComponentInChildren<TextMeshProUGUI>();
                     button.enabled = false;
 
-                    choice_text.DOFade(0, (AutoPlay ? AutoPlay_ChoiceDelay : DefaultFadeOut)).OnComplete(
+                    choice_text.DOFade(0, (autoplay ? AutoPlay_ChoiceDelay : Default_ChoiceDelay)).OnComplete(
                         () => { Destroy(button.gameObject); });
                 }
             }
@@ -805,7 +879,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 foreach (var child in TextParent.GetComponentsInChildren<TextMeshProUGUI>())
                 {
-                    child.DOFade(0, (AutoPlay ? AutoPlay_FadeOut : DefaultFadeOut)).OnComplete(
+                    child.DOFade(0, (autoplay ? AutoPlay_FadeOut : Default_FadeOut)).OnComplete(
                         () => { Destroy(child.gameObject); });
                 }
             }
@@ -823,8 +897,8 @@ namespace AYellowpaper.SerializedCollections
             Sequence text_fade = DOTween.Sequence();
 
             ColorUtility.TryParseHtmlString("#a80f0f", out var color);
-            text_fade.Insert((AutoPlay ? 0.5f : 1f),
-                choice_text.DOColor(color, (AutoPlay ? AutoPlay_ChoiceDelay : DefaultChoiceGroupDelay))).OnComplete(
+            text_fade.Insert((autoplay ? 0.5f : 1f),
+                choice_text.DOColor(color, (autoplay ? AutoPlay_ChoiceDelay : Default_ChoiceDelay))).OnComplete(
                 () => { choiceButton.enabled = true; });
 
             return choiceButton;

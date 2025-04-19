@@ -1,8 +1,13 @@
+using System;
+using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using DG.Tweening;
+using Ink.Parsed;
 using TMPro;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
+using Sequence = DG.Tweening.Sequence;
 
 public class TextObjectEffects : MonoBehaviour
 {
@@ -11,6 +16,8 @@ public class TextObjectEffects : MonoBehaviour
     private MinMax value;
     private TextMeshProUGUI text;
     private RectTransform rect;
+    private List<string> classes = new List<string>();
+
 
     private Sequence class_sequence;
     private Sequence fade_sequence;
@@ -23,15 +30,55 @@ public class TextObjectEffects : MonoBehaviour
         rect = GetComponent<RectTransform>();
     }
 
-    public void ApplyClass(string toAdd)
+    private void OnEnable()
+    {
+        GameManager.OnTextEffectFlip += SetTextEffectVisibility;
+    }
+
+    private void OnDisable()
+    {
+        GameManager.OnTextEffectFlip -= SetTextEffectVisibility;
+    }
+
+    private void SetTextEffectVisibility(bool isOn)
+    {
+        if (isOn && (class_sequence == null || !class_sequence.IsPlaying()))
+        {
+            AddAllTweens();
+        }
+        else if (!isOn)
+        {
+            KillAllTweens();
+        }
+    }
+
+    private void AddAllTweens()
+    {
+        foreach (var c in classes)
+        {
+            ApplyClass(c);
+        }
+    }
+
+    private void KillAllTweens()
     {
         if (class_sequence != null && class_sequence.IsPlaying())
             class_sequence.Kill(true);
 
         if (fade_sequence != null && fade_sequence.IsPlaying())
             fade_sequence.Kill(true);
+    }
 
-        class_sequence = DOTween.Sequence();
+
+    public void ApplyClass(string toAdd)
+    {
+        KillAllTweens();
+
+        if (!classes.Contains(toAdd))
+            classes.Add(toAdd);
+
+        if (!GameManager.instance.TextEffects)
+            return;
 
         if (text == null)
             text = GetComponent<TextMeshProUGUI>();
@@ -42,6 +89,12 @@ public class TextObjectEffects : MonoBehaviour
         {
             float size = 50;
             VerticalLayoutGroup layout = this.transform.parent.gameObject.GetComponent<VerticalLayoutGroup>();
+            
+            if (class_sequence == null || !class_sequence.active)
+                class_sequence = DOTween.Sequence();
+        
+            if (fade_sequence == null || !fade_sequence.active)
+                fade_sequence = DOTween.Sequence();
 
             switch (toAdd)
             {
