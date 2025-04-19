@@ -1,6 +1,7 @@
 using UnityEngine;
 using Ink.Runtime;
 using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 
 
@@ -47,14 +48,6 @@ public static class SaveSystem
                 continue;
 
             slotData.PropDictionary.Add(prop.Key, false);
-        }
-
-        foreach (KeyValuePair<string, Sprite> item in bg)
-        {
-            if (slotData.BackgroundDictionary.ContainsKey(item.Key))
-                continue;
-
-            slotData.BackgroundDictionary.Add(item.Key, (item.Key == "Default"));
         }
     }
 
@@ -151,19 +144,6 @@ public static class SaveSystem
 
     /*        GETTERS AND SETTERSs          */
 
-    public static string GetCurrentSpriteKey(string slotID = "")
-    {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-
-        string key = "Default";
-        foreach (KeyValuePair<string, bool> pair in temp_data.BackgroundDictionary)
-        {
-            if (pair.Value)
-                return pair.Key;
-        }
-
-        return key;
-    }
 
     public static bool OnLoadPropData(string key, string slotID = "")
     {
@@ -172,27 +152,6 @@ public static class SaveSystem
         return temp_data.PropDictionary[key];
     }
 
-    public static Sprite GetCurrentSprite(string slotID = "")
-    {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-
-        foreach (KeyValuePair<string, bool> pair in temp_data.BackgroundDictionary)
-        {
-            if (pair.Value)
-                return GameManager.instance.BackgroundDictionary[pair.Key];
-        }
-
-        return null;
-    }
-
-    public static void SetCurrentSprite(string key)
-    {
-        List<string> Keys = new List<string>(slotData.BackgroundDictionary.Keys);
-        foreach (string item in Keys)
-        {
-            slotData.BackgroundDictionary[item] = (item == key);
-        }
-    }
 
     /// <summary>
     /// Set the Audio volume
@@ -259,7 +218,6 @@ public static class SaveSystem
         return null;
     }
 
-    //BUG: NOT SAVING THE ADD
     public static void SetCurrentText(SavedTextData text_data, string slotID = "")
     {
         // SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
@@ -342,7 +300,7 @@ public static class SaveSystem
         settingsData.isFullScreen = fullscreen;
         SaveSettingsData();
     }
-    
+
     public static bool GetFullscreen()
     {
         return settingsData.isFullScreen;
@@ -359,9 +317,9 @@ public static class SaveSystem
     {
         //set screen size
         Screen.SetResolution((int)GetResolution().x, (int)GetResolution().y, GetFullscreen());
-        
+
         //set audio
-        float mute = GetMuteValue() ? 0: 1;
+        float mute = GetMuteValue() ? 0 : 1;
         SetAudioVolume(GetAudioVolume(3), 3);
         SetAudioVolume(GetAudioVolume(2), 2);
         SetAudioVolume(mute, 1);
@@ -372,80 +330,140 @@ public static class SaveSystem
 
         SetOverlayValue(GetOverlayValue());
         GameManager.instance.VisualOverlay = GetOverlayValue();
-        
+
         SetTextEffectsValue(GetTextEffectsValue());
         GameManager.instance.TextEffects = GetTextEffectsValue();
 
         SetTextSpeed(GetTextSpeed());
         GameManager.instance.Default_TextDelay = GetTextSpeed();
-        
+
         SetAutoplaySpeed(GetAutoplaySpeed());
         GameManager.instance.AutoPlay_TextDelay = GetAutoplaySpeed();
     }
 
     public static Vector2 GetResolution()
     {
-        return settingsData.resolution; 
+        return settingsData.resolution;
     }
-    
+
     public static int GetSettingsIndex()
     {
-        return settingsData.index; 
+        return settingsData.index;
     }
-    
+
+    //IMAGE STUFFS
+
+
+    public static void ResetImageData(bool isZoom = false, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        if (isZoom)
+            temp_data.ImageData.ResetZoom();
+        else
+            temp_data.ImageData.ResetClasses();
+    }
+
+    public static void AddImageClassData(string classData, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        slotData.ImageData.SetImageClasses(classData);
+    }
+
+    public static void AddImageZoomData(ZoomData zoomData, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        slotData.ImageData.SetImageZooms(zoomData);
+    }
+
+    public static string GetImageClassData(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        return slotData.ImageData.GetImageClasses();
+    }
+
+    public static ZoomData GetImageZoomData(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        return slotData.ImageData.GetImageZooms();
+    }
+
+    public static Sprite GetCurrentSprite(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        return GameManager.instance.BackgroundDictionary[slotData.ImageData.GetImageKey()];
+    }
+
+    public static string GetCurrentSpriteKey(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        return slotData.ImageData.GetImageKey();
+    }
+
+    public static void SetCurrentSprite(string key)
+    {
+        slotData.ImageData.SetImageKey(key);
+    }
+
+
+    // SETTINGS GETTER AND SETTERS //
+
+
     public static bool GetAutoplayValue()
     {
         return settingsData.autoplay;
     }
-    
+
     public static bool GetOverlayValue()
     {
         return settingsData.visual_overlay;
     }
-    
+
     public static bool GetTextEffectsValue()
     {
         return settingsData.text_effects;
     }
-    
+
     public static float GetTextSpeed()
     {
         return settingsData.text_speed;
     }
-    
+
     public static float GetAutoplaySpeed()
     {
         return settingsData.autoplay_speed;
     }
-    
+
     public static void SetAutoplayValue(bool value)
     {
         settingsData.autoplay = value;
         SaveSettingsData();
     }
-    
+
     public static void SetOverlayValue(bool value)
     {
         settingsData.visual_overlay = value;
         SaveSettingsData();
     }
-    
+
     public static void SetTextEffectsValue(bool value)
     {
         settingsData.text_effects = value;
         SaveSettingsData();
     }
-    
+
     public static void SetTextSpeed(float value)
     {
         settingsData.text_speed = value;
         SaveSettingsData();
     }
-    
+
     public static void SetAutoplaySpeed(float value)
     {
         settingsData.autoplay_speed = value;
         SaveSettingsData();
     }
-    
 }

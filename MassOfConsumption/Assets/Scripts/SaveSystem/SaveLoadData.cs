@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Ink.Runtime;
@@ -14,12 +15,10 @@ namespace AYellowpaper.SerializedCollections
     {
         public string InkStory;
         public string History;
+        public SavedImageData ImageData;
 
         [SerializedDictionary("index", "text data")]
         public SerializedDictionary<int, SavedTextData> DisplayedTextDictionary;
-
-        [SerializedDictionary("key", "Enabled")]
-        public SerializedDictionary<string, bool> BackgroundDictionary;
 
         [SerializedDictionary("Prop Object", "Enabled")]
         public SerializedDictionary<string, bool> PropDictionary;
@@ -34,8 +33,8 @@ namespace AYellowpaper.SerializedCollections
         {
             InkStory = string.Empty;
             History = string.Empty;
-
-            BackgroundDictionary = new SerializedDictionary<string, bool>();
+            ImageData = new SavedImageData("Default");
+            
             PropDictionary = new SerializedDictionary<string, bool>();
             EndingsDictionary = new SerializedDictionary<int, string>();
             CheckpointsDictionary = new SerializedDictionary<int, string>();
@@ -51,6 +50,61 @@ namespace AYellowpaper.SerializedCollections
                 CheckpointsDictionary.Add(i + 1, "LOCKED");
             }
         }
+    }
+}
+
+[System.Serializable]
+public struct SavedImageData
+{
+    [SerializeField] private string CurrentImageKey;
+    [SerializeField] private string ImageClasses;
+    [SerializeField] private ZoomData ImageZooms;
+
+    public SavedImageData(string key)
+    {
+        CurrentImageKey = key;
+        ImageClasses = "";
+        ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1);
+    }
+    
+    public void SetImageKey(string key)
+    {
+        CurrentImageKey = key;
+    }
+
+    public void ResetZoom()
+    {
+        ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1);
+    }
+    
+    public void ResetClasses()
+    {
+        ImageClasses = "";
+    }
+    
+    public string GetImageKey()
+    {
+        return CurrentImageKey;
+    }
+
+    public void SetImageClasses(string classes)
+    {
+        ImageClasses = classes;
+    }
+    
+    public string GetImageClasses()
+    {
+        return ImageClasses;
+    }
+    
+    public void SetImageZooms(ZoomData classes)
+    {
+        ImageZooms = classes;
+    }
+    
+    public ZoomData GetImageZooms()
+    {
+        return ImageZooms;
     }
 }
 

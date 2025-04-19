@@ -41,11 +41,11 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-# IMAGE: Bus Stop #CLASS: Fidget
-Your eyes find the doorknob, and you reach out to open it.
+#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Swimming
+The church's windows are made of stained glass, which isnâ€™t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-#CLASS: Blurrier
-You just need to turn the knob. Why can't you just turn the knob?
+#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Swimming-2
+The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
 
 *[Your skin burns.]
 ->END
@@ -324,7 +324,7 @@ Blood thunders in your ears as pressure builds behind your eyes. You strain toâ€
 #DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
+#PLAY: bus_ambience, true, 1 #REMOVE: ZOOM  #REMOVE: ICLASS
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
@@ -866,7 +866,7 @@ You reach out and grab the sign with both hands. The burning is gone. Nothing ho
 ->Stop_Sign
 
 = Turn_Around
-#ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement
+#REMOVE: ICLASS #STOP: running_pavement #STOP: walking_fast_pavement
 You stop {turn}, and ball your fists. All sensations stop.
 
 *[Face the church]
@@ -882,7 +882,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     ->Walk_Home.Usual
 
 = Stop_Sign
-#ICLASS: NULL #IMAGE: Church_Looming #PROP: closed gates
+#REMOVE: ICLASS #IMAGE: Church_Looming #PROP: closed gates
 It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. 
 
 {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}

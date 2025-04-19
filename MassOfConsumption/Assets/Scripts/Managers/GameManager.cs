@@ -27,8 +27,7 @@ namespace AYellowpaper.SerializedCollections
         private float Text_Delay = -1;
         private ReplaceChoice ReplaceData;
 
-        [Header("Text Variables")] 
-        private bool texteffects = true;
+        [Header("Text Variables")] private bool texteffects = true;
         private bool visualoverlay = true;
 
         public bool TextEffects
@@ -44,20 +43,54 @@ namespace AYellowpaper.SerializedCollections
         public bool VisualOverlay
         {
             get { return visualoverlay; }
-            set { visualoverlay = value; }
+            set
+            {
+                visualoverlay = value;
+                AllLighting.SetActive(value);
+                OnImageEffectFlip?.Invoke(value);
+            }
         }
 
+        [Header("Story Objects")] [SerializeField]
+        private Transform TextParent;
 
-        [Header("Auto Play Variables")] private bool autoplay;
+        [SerializeField] private TextMeshProUGUI TextPrefab;
+        [SerializeField] private VerticalLayoutGroup ChoiceButtonContainer;
+        [SerializeField] private LabledButton ChoiceButtonPrefab;
+        [SerializeField] private ScrollRect Scroll;
+
+        [Header("Image Data")] private bool WasLastDefault = true;
+        [SerializeField] private Animator anim;
+        [SerializeField] private Image BackgroundImage;
+        [SerializeField] private Transform DefualtImage;
+        private BackgroundImage ImageClassData;
+
+        [SerializedDictionary("Background name", "Sprite")]
+        public SerializedDictionary<string, Sprite> BackgroundDictionary;
+
+        [SerializedDictionary("Prop name", "Sprite")]
+        public SerializedDictionary<string, GameObject> PropDictionary;
+
+        public Toggle Flashlight;
+        public GameObject clicktomove;
+        public GameObject AllLighting;
+
+        [Header("Lighting")] [SerializeField] private Light2D GlobalLight;
+        [SerializeField] private Color OutsideLight, DarkLight, UsedToLight, FlashlightOn, FlashlightOff;
+
+        [SerializedDictionary("Lighting Name", "Light")]
+        public SerializedDictionary<string, GameObject> LightingDictionary;
+
+        private Sequence lightingSequence;
+
+        [Header("Auto Play Variables")] 
+        private bool autoplay;
         private float autoplay_textdelay = 1.5f; //delay between next piece of text showing up
-
-
         public bool AutoPlay
         {
             get { return autoplay; }
             set { autoplay = value; }
         }
-
         public float AutoPlay_TextDelay
         {
             get { return autoplay_textdelay; }
@@ -112,40 +145,10 @@ namespace AYellowpaper.SerializedCollections
         private const float DefaultShortWait = 0.1f; //default time between a replace choice fade change
         private bool WaitAfterChoice;
 
-        [Header("Story Objects")] [SerializeField]
-        private Transform TextParent;
+        public delegate void VisualEffects(bool isOn);
 
-        [SerializeField] private TextMeshProUGUI TextPrefab;
-        [SerializeField] private VerticalLayoutGroup ChoiceButtonContainer;
-        [SerializeField] private LabledButton ChoiceButtonPrefab;
-        [SerializeField] private ScrollRect Scroll;
-
-        [Header("Image Data")] private bool WasLastDefault = true;
-        [SerializeField] private Animator anim;
-        [SerializeField] private Image BackgroundImage;
-        [SerializeField] private Transform DefualtImage;
-        private BackgroundImage ImageClassData;
-
-        [SerializedDictionary("Background name", "Sprite")]
-        public SerializedDictionary<string, Sprite> BackgroundDictionary;
-
-        [SerializedDictionary("Prop name", "Sprite")]
-        public SerializedDictionary<string, GameObject> PropDictionary;
-
-        public Toggle Flashlight;
-        public GameObject clicktomove;
-
-        [Header("Lighting")] [SerializeField] private Light2D GlobalLight;
-        [SerializeField] private Color OutsideLight, DarkLight, UsedToLight, FlashlightOn, FlashlightOff;
-
-        [SerializedDictionary("Lighting Name", "Light")]
-        public SerializedDictionary<string, GameObject> LightingDictionary;
-
-        private Sequence lightingSequence;
-
-        public delegate void TextEffect(bool isOn);
-
-        public static event TextEffect OnTextEffectFlip;
+        public static event VisualEffects OnTextEffectFlip;
+        public static event VisualEffects OnImageEffectFlip;
 
 
         private void Awake()
@@ -468,6 +471,13 @@ namespace AYellowpaper.SerializedCollections
                     break;
                 case "EFFECT": //Special effects to happen (flashlight, click to move etc)
                     Effects(value);
+                    break;
+                case "REMOVE": //removes stuff i dont want
+                    if (value == "ZOOM")
+                        ImageClassData.RemoveZoomTweens();
+                    else if (value == "ICLASS")
+                        ImageClassData.RemoveClassTweens();
+
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {value} could not be found.");
