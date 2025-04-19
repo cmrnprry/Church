@@ -67,6 +67,22 @@ public class TextObjectEffects : MonoBehaviour
 
         if (fade_sequence != null && fade_sequence.IsPlaying())
             fade_sequence.Kill(true);
+
+        ResetIndividualCharacters();
+    }
+
+    private void ResetIndividualCharacters()
+    {
+        DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text);
+
+        for (int ii = 0; ii < anim.textInfo.characterCount; ++ii)
+        {
+            if (!anim.textInfo.characterInfo[ii].isVisible) continue;
+            Vector3 currCharOffset = anim.GetCharOffset(ii);
+
+            anim.DOPunchCharOffset(ii, currCharOffset, 0);
+            anim.DOFadeChar(ii, 1, 0);
+        }
     }
 
 
@@ -85,7 +101,7 @@ public class TextObjectEffects : MonoBehaviour
 
         text.alignment = TextAlignmentOptions.Center;
 
-        if (toAdd != "NULL")
+        if (toAdd != "NULL" || toAdd != "")
         {
             float size = 50;
             VerticalLayoutGroup layout = this.transform.parent.gameObject.GetComponent<VerticalLayoutGroup>();
