@@ -41,11 +41,14 @@ INCLUDE End_Game.ink
         ->Skip
 
 === Test ===
-#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Swimming
-The church's windows are made of stained glass, which isnâ€™t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Swimming-2
-The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
+Your eyes find the doorknob, and you reach out to open it.
+
+# INTRUSIVE: 5, Stop thinking, Investigate
+You just need to turn the knob. Why can't you just turn the knob?
+
+# REMOVE: INTRUSIVE
+You just need to turn the knob. Why can't you just turn the knob?
 
 *[Your skin burns.]
 ->END
@@ -324,7 +327,7 @@ Blood thunders in your ears as pressure builds behind your eyes. You strain toâ€
 #DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true, 1 #REMOVE: ZOOM  #REMOVE: ICLASS
+#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
@@ -408,8 +411,10 @@ You watch the church through the window until it fades into a dot in the distanc
 {late_for_work: -> Late}
 At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
+# INTRUSIVE: 1, Don't think about it, Investigate
 There is only one thing on your mind, one thing that shouldn't exist but it does. That {church_feeling} church.
 
+# INTRUSIVE: 1, Don't think about it, Investigate
 You should do something to take your mind off it.
 
 *[Scan some documents]
@@ -537,6 +542,7 @@ You should do something to take your mind off it.
 
 = Scan
 ~ work = 1
+# INTRUSIVE: 1, Don't think about it, Investigate
 You choose to do something mindless and easy. You grab a stack of papers marketing needs sent out, and head to the machine.
 
 *[Maybe the monotony will take your mind off things.]
@@ -544,11 +550,21 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 - #PLAY: scanner, false, 0.5
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
-Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place page. Enter email. Send it off. Place-
+# INTRUSIVE: 3, Don't think about it, Investigate #DELAY: 1f
+Place page. Enter email. Send it off. 
+
+# INTRUSIVE: 3, Don't think about it, Investigate #DELAY: 2f
+Place page. Enter email. Send it off.
+
+# INTRUSIVE: 3, Don't think about it, Investigate #DELAY: 3f
+Place page. Enter email. Send it off.
+
+# INTRUSIVE: 5, Don't think about it, Investigate
+Place page. Enter email. Send it-
 
 *["Hey- What are you doing?"]
 
-- #STOP: scanner, 1.5
+- #REMOVE: INTRUSIVE #STOP: scanner, 1.5
 You jump and look up to see a coworker from your department. You don't talk to her often, but she's nice enough. She looks... concerned?
 
 *["Just sending out some scans."]
@@ -866,7 +882,7 @@ You reach out and grab the sign with both hands. The burning is gone. Nothing ho
 ->Stop_Sign
 
 = Turn_Around
-#REMOVE: ICLASS #STOP: running_pavement #STOP: walking_fast_pavement
+#ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement
 You stop {turn}, and ball your fists. All sensations stop.
 
 *[Face the church]
@@ -882,7 +898,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     ->Walk_Home.Usual
 
 = Stop_Sign
-#REMOVE: ICLASS #IMAGE: Church_Looming #PROP: closed gates
+#ICLASS: NULL #IMAGE: Church_Looming #PROP: closed gates
 It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. 
 
 {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}

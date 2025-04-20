@@ -21,6 +21,7 @@ namespace AYellowpaper.SerializedCollections
         private Story Story;
         private Color text_color;
         private List<string> classes = new List<string>();
+        [SerializeField] private IntrusiveThoughtsManager intrusiveThoughts;
 
         private string ContinueText; // next group of text
         private TextMeshProUGUI Current_Textbox; //current textbox
@@ -71,16 +72,17 @@ namespace AYellowpaper.SerializedCollections
         [SerializedDictionary("Prop name", "Sprite")]
         public SerializedDictionary<string, GameObject> PropDictionary;
 
-        public Toggle Flashlight;
         public GameObject clicktomove;
-        public GameObject AllLighting;
+        
 
-        [Header("Lighting")] [SerializeField] private Light2D GlobalLight;
+        [Header("Lighting")] 
+        public GameObject AllLighting;
+        [SerializeField] private Light2D GlobalLight;
         [SerializeField] private Color OutsideLight, DarkLight, UsedToLight, FlashlightOn, FlashlightOff;
+        public Toggle Flashlight;
 
         [SerializedDictionary("Lighting Name", "Light")]
         public SerializedDictionary<string, GameObject> LightingDictionary;
-
         private Sequence lightingSequence;
 
         [Header("Auto Play Variables")] 
@@ -477,7 +479,20 @@ namespace AYellowpaper.SerializedCollections
                         ImageClassData.RemoveZoomTweens();
                     else if (value == "ICLASS")
                         ImageClassData.RemoveClassTweens();
-
+                    else if (value == "INTRUSIVE")
+                        intrusiveThoughts.KillAllThoughts();
+                    break;
+                case "INTRUSIVE": //[amount to spawn], [text], [jump_to]
+                    string[] intusive_list = value.Split(",");
+                    float amount = float.Parse(intusive_list[0]);
+                    string text = intusive_list[1].Trim();
+                    string jump_to = intusive_list[2].Trim();
+                    
+                    intrusiveThoughts.IncreaseThought();
+                    
+                    for (int i = 0; i < amount; i++)
+                        intrusiveThoughts.SpawnThought(text, jump_to);
+                    
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {value} could not be found.");
@@ -845,7 +860,7 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
-        void OnClickChoiceButton(Choice choice)
+        private void OnClickChoiceButton(Choice choice)
         {
             //if we have replace data, but don't click the replace button
             if (ReplaceData.hasData())
@@ -862,6 +877,20 @@ namespace AYellowpaper.SerializedCollections
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();
+            DataManager.instance.SetHistory();
+        }
+        
+        public void OnClickIntrusiveThought(string thought, string path)
+        {
+            WaitAfterChoice = true;
+            intrusiveThoughts.KillAllThoughts();
+            SaveSystem.SetHistory($"<br><br>{thought}");
+            SaveSystem.ClearCurrentTextData();
+            Story.ChoosePathString(path);
+            DeleteOldChoices();
+            DeleteOldTextBoxes();
+            DisplayNextLine();
+            
             DataManager.instance.SetHistory();
         }
 

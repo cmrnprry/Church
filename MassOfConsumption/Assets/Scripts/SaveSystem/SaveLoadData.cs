@@ -225,8 +225,8 @@ public class SettingsData
         BGM = 0.5f;
         SFX = 0.5f;
 
-        text_speed = 0.5f;
-        autoplay_speed = 0.5f;
+        text_speed = 1.5f;
+        autoplay_speed = 1.5f;
         autoplay = false;
         
         visual_overlay = true;
