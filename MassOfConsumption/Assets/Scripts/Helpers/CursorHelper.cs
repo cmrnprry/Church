@@ -1,5 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +13,8 @@ public class CursorHelper : MonoBehaviour
     private readonly float moveSpeed = 0.5f;
     public List<Sprite> sprites = new List<Sprite>();
     private Image img;
+    private Coroutine routine;
+    private bool ClickObject = false;
 
     void Start()
     {
@@ -17,15 +22,107 @@ public class CursorHelper : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         img = GetComponent<Image>();
     }
-    
+
+    private void OnEnable()
+    {
+        LabledButton.OnCursorEnter += OnHoverStart;
+        LabledButton.OnCursorExit += OnHoverEnd;
+
+        SettingsUIButtonsHelper.OnCursorEnter += OnHoverStart;
+        SettingsUIButtonsHelper.OnCursorExit += OnHoverEnd;
+
+        ToggleSwitchColorChange.OnCursorEnter += OnHoverStart;
+        ToggleSwitchColorChange.OnCursorExit += OnHoverEnd;
+
+        SaveUIPageNumber.OnCursorEnter += OnHoverStart;
+        SaveUIPageNumber.OnCursorExit += OnHoverEnd;
+    }
+
+    private void OnDisable()
+    {
+        LabledButton.OnCursorEnter -= OnHoverStart;
+        LabledButton.OnCursorExit -= OnHoverEnd;
+
+        SettingsUIButtonsHelper.OnCursorEnter -= OnHoverStart;
+        SettingsUIButtonsHelper.OnCursorExit -= OnHoverEnd;
+
+        ToggleSwitchColorChange.OnCursorEnter -= OnHoverStart;
+        ToggleSwitchColorChange.OnCursorExit -= OnHoverEnd;
+
+        SaveUIPageNumber.OnCursorEnter -= OnHoverStart;
+        SaveUIPageNumber.OnCursorExit -= OnHoverEnd;
+    }
+
     // Update is called once per frame
     void Update()
     {
         mousePosition = Input.mousePosition + offset;
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
-        
+
+        if (Input.GetMouseButtonDown(0) && !ClickObject && GameManager.instance.ShouldBlink)
+        {
+            if (routine != null)
+                StopCoroutine(routine);
+            routine = StartCoroutine(Blink());
+        }
+
         if (Cursor.visible)
             Cursor.visible = false;
+    }
+
+    IEnumerator Blink()
+    {
+        img.sprite = sprites[0];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[1];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[2];
+
+        yield return new WaitForSeconds(0.35f);
+        img.sprite = sprites[3];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[2];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[1];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[0];
+    }
+
+    public void OnHoverEnd()
+    {
+        img.sprite = sprites[0];
+        ClickObject = false;
+    }
+
+    public void OnHoverStart()
+    {
+        if (routine != null)
+            StopCoroutine(routine);
+
+        img.sprite = sprites[4];
+        ClickObject = true;
+    }
+
+    public void OnHoverTextBoxEnd()
+    {
+        img.sprite = sprites[0];
+        ClickObject = false;
+    }
+
+    public void OnHoverTextBoxStart()
+    {
+        if (GameManager.instance.CanStoryContinue())
+        {
+            if (routine != null)
+                StopCoroutine(routine);
+            img.sprite = sprites[4];
+            ClickObject = true;
+        }
     }
 }

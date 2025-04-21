@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1311570280765502638}
   - component: {fileID: 1419585387551891041}
   - component: {fileID: 771199491335627983}
+  - component: {fileID: 3213605206584104126}
   m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
@@ -89,7 +90,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eac4a5f819d1233408418e11348f5a32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
+  sprites:
+  - {fileID: -923159902, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
+  - {fileID: 1926777813, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
+  - {fileID: -1315170131, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
+  - {fileID: 1417141675, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
+  - {fileID: -772149794, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
+  - {fileID: -1744819248, guid: e3cae411ad5976f43afadb092fa4bb9c, type: 3}
 --- !u!114 &771199491335627983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,3 +111,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 1
   m_AspectRatio: 1.0952381
+--- !u!223 &3213605206584104126
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4401412149057284189}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 32767
+  m_TargetDisplay: 0

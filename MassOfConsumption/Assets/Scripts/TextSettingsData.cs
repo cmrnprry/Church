@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class TextSettingsData : MonoBehaviour
 {
     [Header("Text Settings")] [SerializeField]
-    private Slider TextSpeed_Slider, AutoPlay_Slider, sfxSlider, bgmSlider;
+    private Slider TextSpeed_Slider, sfxSlider, bgmSlider;
 
     [SerializeField] private ToggleSwitchColorChange muteToggle, AutoPlayToggle, VisualOverlay, TextEffectsOverlay;
 
@@ -29,9 +29,6 @@ public class TextSettingsData : MonoBehaviour
 
         TextSpeed_Slider.value = SaveSystem.GetTextSpeed();
         SetTextSpeedValue(SaveSystem.GetTextSpeed());
-
-        AutoPlay_Slider.value = SaveSystem.GetAutoplaySpeed();
-        SetAutoplaySpeedValue(SaveSystem.GetAutoplaySpeed());
     }
 
     public void SetAutoPlay(bool value)
@@ -56,11 +53,5 @@ public class TextSettingsData : MonoBehaviour
     {
         SaveSystem.SetTextSpeed(value);
         GameManager.instance.Default_TextDelay = value;
-    }
-
-    public void SetAutoplaySpeedValue(float value)
-    {
-        SaveSystem.SetAutoplaySpeed(value);
-        GameManager.instance.AutoPlay_TextDelay = value;
     }
 }

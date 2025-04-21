@@ -87,6 +87,30 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6822689963707403278}
     m_Modifications:
+    - target: {fileID: 477062348603869313, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      propertyPath: m_MinValue
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 477062348603869313, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477062348603869313, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 477062348603869313, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: AdjustBGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 477062348603869313, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: AYellowpaper.SerializedCollections.AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 477062348603869313, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1882142620835977225, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -202,6 +226,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2019926854139669117, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
       insertIndex: -1
       addedObject: {fileID: 9154629447376685047}
+    - targetCorrespondingSourceObject: {fileID: 2019926854139669117, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3976268631598970527}
   m_SourcePrefab: {fileID: 100100000, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
 --- !u!1 &2947513850401194871 stripped
 GameObject:
@@ -228,6 +255,51 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &3976268631598970527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2947513850401194871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CursorHelper, Assembly-CSharp
+          m_MethodName: OnHoverStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: CursorHelper, Assembly-CSharp
+          m_MethodName: OnHoverEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!224 &3382522465107079427 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1882142620835977225, guid: a89ab9a6a5a7f45c4bdc8dc094f01fc6, type: 3}
@@ -327,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8910836186537893843, guid: 590436e1187d04106ba72f4f53d159fe, type: 3}
       propertyPath: m_text
-      value: Autoplay Delay Speed
+      value: 'BGM:'
       objectReference: {fileID: 0}
     - target: {fileID: 8910836186537893843, guid: 590436e1187d04106ba72f4f53d159fe, type: 3}
       propertyPath: m_fontSize

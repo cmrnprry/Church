@@ -16,12 +16,26 @@ namespace AYellowpaper.SerializedCollections
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
+        private bool should_blink = false;
+
+        public bool ShouldBlink
+        {
+            get { return should_blink; }
+            set { should_blink = value; }
+        }
+
 
         [Header("Ink Data")] [SerializeField] private TextAsset InkJsonAsset;
         private Story Story;
         private Color text_color;
         private List<string> classes = new List<string>();
         [SerializeField] private IntrusiveThoughtsManager intrusiveThoughts;
+        private bool CanClickToContiune = false;
+
+        public void SetClickToContiune(bool value)
+        {
+            CanClickToContiune = value;
+        }
 
         private string ContinueText; // next group of text
         private TextMeshProUGUI Current_Textbox; //current textbox
@@ -73,47 +87,24 @@ namespace AYellowpaper.SerializedCollections
         public SerializedDictionary<string, GameObject> PropDictionary;
 
         public GameObject clicktomove;
-        
 
-        [Header("Lighting")] 
-        public GameObject AllLighting;
+
+        [Header("Lighting")] public GameObject AllLighting;
         [SerializeField] private Light2D GlobalLight;
         [SerializeField] private Color OutsideLight, DarkLight, UsedToLight, FlashlightOn, FlashlightOff;
         public Toggle Flashlight;
 
         [SerializedDictionary("Lighting Name", "Light")]
         public SerializedDictionary<string, GameObject> LightingDictionary;
+
         private Sequence lightingSequence;
 
-        [Header("Auto Play Variables")] 
-        private bool autoplay;
-        private float autoplay_textdelay = 1.5f; //delay between next piece of text showing up
+        [Header("Auto Play Variables")] private bool autoplay;
+
         public bool AutoPlay
         {
             get { return autoplay; }
             set { autoplay = value; }
-        }
-        public float AutoPlay_TextDelay
-        {
-            get { return autoplay_textdelay; }
-            set { SetAutoPlayDelay(value); }
-        }
-
-        private float AutoPlay_ChoiceDelay = .25f; //delay between the next choice group fading in
-        private float AutoPlay_FadeOut = .25f; //delay between the next choice group fading in
-        private float AutoPlay_TextGroupDelay = .25f; // delay between the next text group fading in
-
-        private void SetAutoPlayDelay(float value)
-        {
-            autoplay_textdelay = Math.Abs(value);
-            float normalizedTime = autoplay_textdelay / 3.0f;
-
-            AutoPlay_ChoiceDelay = normalizedTime * 0.5f;
-            AutoPlay_FadeOut = normalizedTime * 0.5f;
-            AutoPlay_TextGroupDelay = normalizedTime * 0.5f;
-
-            if (autoplay)
-                DefaultAutoScroll = normalizedTime * 0.5f;
         }
 
         [Header("Default Variables")]
@@ -129,14 +120,13 @@ namespace AYellowpaper.SerializedCollections
         {
             default_textdelay = Math.Abs(value);
 
-            float normalizedTime = autoplay_textdelay / 3.0f;
+            float normalizedTime = default_textdelay / 3.0f;
 
             Default_ChoiceDelay = normalizedTime * 1f;
             Default_FadeOut = normalizedTime * 1f;
             Default_TextGroupDelay = normalizedTime * 1f;
 
-            if (!autoplay)
-                DefaultAutoScroll = normalizedTime * 0.5f;
+            DefaultAutoScroll = normalizedTime * 0.5f;
         }
 
         private float Default_ChoiceDelay = 0.5f; //default time between next piece of text showing up
@@ -256,9 +246,10 @@ namespace AYellowpaper.SerializedCollections
             if (Story.canContinue && Text_Delay <= 0)
             {
                 if (autoplay)
-                    yield return new WaitForSeconds(autoplay_textdelay);
+                    yield return new WaitForSeconds(default_textdelay);
                 else
-                    yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
+                    yield return new WaitUntil(() =>
+                        Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && CanClickToContiune));
             }
 
             if (Text_Delay > 0)
@@ -302,7 +293,7 @@ namespace AYellowpaper.SerializedCollections
                 if (ReplaceData.hasData())
                     yield return new WaitForSeconds(DefaultShortWait + 0.01f);
                 else if (WaitAfterChoice)
-                    yield return new WaitForSeconds((autoplay ? AutoPlay_FadeOut : Default_FadeOut) + 0.01f);
+                    yield return new WaitForSeconds(Default_FadeOut);
 
                 WaitAfterChoice = false;
                 classes.Clear();
@@ -334,7 +325,7 @@ namespace AYellowpaper.SerializedCollections
                     ReplaceData = new ReplaceChoice("", -1);
                 }
                 else
-                    Current_Textbox.DOColor(text_color, autoplay ? AutoPlay_TextGroupDelay : Default_TextGroupDelay);
+                    Current_Textbox.DOColor(text_color, Default_TextGroupDelay);
 
 
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
@@ -358,9 +349,10 @@ namespace AYellowpaper.SerializedCollections
             if (Story.canContinue && Text_Delay < 0)
             {
                 if (autoplay)
-                    yield return new WaitForSeconds(autoplay_textdelay);
+                    yield return new WaitForSeconds(default_textdelay);
                 else
-                    yield return new WaitUntil(() => Input.GetButtonDown("Continue"));
+                    yield return new WaitUntil(() =>
+                        Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && CanClickToContiune));
             }
 
             if (Text_Delay > 0)
@@ -460,8 +452,6 @@ namespace AYellowpaper.SerializedCollections
 
                     ImageClassData.ZoomImage(zoom, zoom_pos, dur);
                     break;
-                case "TEXTBOX": //edits the textbox visuals
-                    break;
                 case "CLASS": //edits the text (within the textbox)'s visuals
                     classes.Add(value);
                     Current_Textbox.color = text_color;
@@ -487,12 +477,12 @@ namespace AYellowpaper.SerializedCollections
                     float amount = float.Parse(intusive_list[0]);
                     string text = intusive_list[1].Trim();
                     string jump_to = intusive_list[2].Trim();
-                    
+
                     intrusiveThoughts.IncreaseThought();
-                    
+
                     for (int i = 0; i < amount; i++)
                         intrusiveThoughts.SpawnThought(text, jump_to);
-                    
+
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {value} could not be found.");
@@ -504,6 +494,12 @@ namespace AYellowpaper.SerializedCollections
         {
             switch (key)
             {
+                case "BlinkOnClick_True":
+                    should_blink = true; 
+                    break;
+                case "BlinkOnClick_False":
+                    should_blink = false; 
+                    break;
                 case "flashlight_on": //TODO: check that it saves
                     if (!Flashlight.gameObject.activeSelf)
                         Flashlight.gameObject.SetActive(true);
@@ -879,7 +875,7 @@ namespace AYellowpaper.SerializedCollections
             DisplayNextLine();
             DataManager.instance.SetHistory();
         }
-        
+
         public void OnClickIntrusiveThought(string thought, string path)
         {
             WaitAfterChoice = true;
@@ -890,7 +886,7 @@ namespace AYellowpaper.SerializedCollections
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();
-            
+
             DataManager.instance.SetHistory();
         }
 
@@ -906,7 +902,7 @@ namespace AYellowpaper.SerializedCollections
                     var choice_text = button.GetComponentInChildren<TextMeshProUGUI>();
                     button.enabled = false;
 
-                    choice_text.DOFade(0, (autoplay ? AutoPlay_ChoiceDelay : Default_ChoiceDelay)).OnComplete(
+                    choice_text.DOFade(0, Default_ChoiceDelay).OnComplete(
                         () => { Destroy(button.gameObject); });
                 }
             }
@@ -918,7 +914,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 foreach (var child in TextParent.GetComponentsInChildren<TextMeshProUGUI>())
                 {
-                    child.DOFade(0, (autoplay ? AutoPlay_FadeOut : Default_FadeOut)).OnComplete(
+                    child.DOFade(0, Default_FadeOut).OnComplete(
                         () => { Destroy(child.gameObject); });
                 }
             }
@@ -937,10 +933,15 @@ namespace AYellowpaper.SerializedCollections
 
             ColorUtility.TryParseHtmlString("#a80f0f", out var color);
             text_fade.Insert((autoplay ? 0.5f : 1f),
-                choice_text.DOColor(color, (autoplay ? AutoPlay_ChoiceDelay : Default_ChoiceDelay))).OnComplete(
+                choice_text.DOColor(color, Default_ChoiceDelay)).OnComplete(
                 () => { choiceButton.enabled = true; });
 
             return choiceButton;
+        }
+
+        public bool CanStoryContinue()
+        {
+            return Story.canContinue;
         }
     }
 }

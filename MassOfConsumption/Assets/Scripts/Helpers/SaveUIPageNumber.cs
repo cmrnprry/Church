@@ -17,6 +17,11 @@ public class SaveUIPageNumber : MonoBehaviour
 
     public delegate void OnClickEvent(int Index);
     public static event OnClickEvent OnClick;
+    
+    public delegate void HoverEvents();
+
+    public static event HoverEvents OnCursorEnter;
+    public static event HoverEvents OnCursorExit;
 
     private void Awake()
     {
@@ -33,6 +38,11 @@ public class SaveUIPageNumber : MonoBehaviour
 
         Text.DOColor(color, 0.1f);
         Outline.DOColor(color, 0.1f);
+        
+        if (isHover)
+            OnCursorEnter?.Invoke();
+        else
+            OnCursorExit?.Invoke();
     }
 
     public void IsPageSelected(bool isSelected)

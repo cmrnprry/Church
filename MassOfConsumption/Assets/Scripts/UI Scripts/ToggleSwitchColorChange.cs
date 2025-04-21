@@ -2,9 +2,10 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 //Code adapted from https://github.com/Maraakis/ChristinaCreatesGames/tree/main/Toggle%20Switch%20System
-public class ToggleSwitchColorChange : ToggleSwitch
+public class ToggleSwitchColorChange : ToggleSwitch, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("Elements to Recolor")]
     [SerializeField] private Image backgroundImage;
@@ -26,6 +27,10 @@ public class ToggleSwitchColorChange : ToggleSwitch
         
     private bool _isBackgroundImageNotNull;
     private bool _isHandleImageNotNull;
+    
+    public delegate void HoverEvents();
+    public static event HoverEvents OnCursorEnter;
+    public static event HoverEvents OnCursorExit;
         
     protected override void OnValidate()
     {
@@ -58,8 +63,7 @@ public class ToggleSwitchColorChange : ToggleSwitch
         _isBackgroundImageNotNull = backgroundImage != null;
         _isHandleImageNotNull = handleImage != null;
     }
-
-
+    
     private void ChangeColors()
     {
         if (changeSpriteBackground && _isBackgroundImageNotNull)
@@ -80,5 +84,15 @@ public class ToggleSwitchColorChange : ToggleSwitch
             
         //if (recolorHandle && _isHandleImageNotNull)
         //    handleImage.color = Color.Lerp(handleColorOff, handleColorOn, sliderValue); 
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        OnCursorEnter?.Invoke();
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        OnCursorExit?.Invoke();
     }
 }

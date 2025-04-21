@@ -14,7 +14,13 @@ public class SettingsUIButtonsHelper : MonoBehaviour
     private bool Selected = false;
     [SerializeField] private Color Red, Accent, Light, Dark;
 
+    public delegate void HoverEvents();
+
+    public static event HoverEvents OnCursorEnter;
+    public static event HoverEvents OnCursorExit;
+
     public delegate void OnClickEvent(int Index);
+
     public static event OnClickEvent OnClick;
 
     private void Awake()
@@ -36,6 +42,11 @@ public class SettingsUIButtonsHelper : MonoBehaviour
 
         Text.DOColor(text_color, 0.1f);
         Background.DOColor(image_color, 0.1f);
+
+        if (isHover)
+            OnCursorEnter?.Invoke();
+        else
+            OnCursorExit?.Invoke();
     }
 
     public void IsPageSelected(bool isSelected)

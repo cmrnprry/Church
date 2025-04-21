@@ -211,7 +211,6 @@ public class SettingsData
     public bool visual_overlay;
     public bool text_effects;
     public float text_speed;
-    public float autoplay_speed;
 
     public SettingsData()
     {
@@ -226,7 +225,6 @@ public class SettingsData
         SFX = 0.5f;
 
         text_speed = 1.5f;
-        autoplay_speed = 1.5f;
         autoplay = false;
         
         visual_overlay = true;

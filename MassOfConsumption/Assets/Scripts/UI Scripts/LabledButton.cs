@@ -13,6 +13,10 @@ using UnityEngine.Serialization;
 [AddComponentMenu("UI/LabeledButton", 30)]
 public class LabledButton : Selectable, IPointerClickHandler, ISubmitHandler
 {
+    public delegate void HoverEvents();
+    public static event HoverEvents OnCursorEnter;
+    public static event HoverEvents OnCursorExit;
+    
     [Serializable]
     /// <summary>
     /// Function definition for a button click event.
@@ -136,5 +140,17 @@ public class LabledButton : Selectable, IPointerClickHandler, ISubmitHandler
         }
 
         DoStateTransition(currentSelectionState, false);
+    }
+    
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        OnCursorEnter?.Invoke();
+        base.OnPointerEnter(eventData);
+    }
+    
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        OnCursorExit?.Invoke();
+        base.OnPointerExit(eventData);
     }
 }

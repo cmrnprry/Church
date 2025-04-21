@@ -337,8 +337,6 @@ public static class SaveSystem
         SetTextSpeed(GetTextSpeed());
         GameManager.instance.Default_TextDelay = GetTextSpeed();
 
-        SetAutoplaySpeed(GetAutoplaySpeed());
-        GameManager.instance.AutoPlay_TextDelay = GetAutoplaySpeed();
     }
 
     public static Vector2 GetResolution()
@@ -432,11 +430,6 @@ public static class SaveSystem
         return settingsData.text_speed;
     }
 
-    public static float GetAutoplaySpeed()
-    {
-        return settingsData.autoplay_speed;
-    }
-
     public static void SetAutoplayValue(bool value)
     {
         settingsData.autoplay = value;
@@ -458,12 +451,6 @@ public static class SaveSystem
     public static void SetTextSpeed(float value)
     {
         settingsData.text_speed = value;
-        SaveSettingsData();
-    }
-
-    public static void SetAutoplaySpeed(float value)
-    {
-        settingsData.autoplay_speed = value;
         SaveSettingsData();
     }
 }
