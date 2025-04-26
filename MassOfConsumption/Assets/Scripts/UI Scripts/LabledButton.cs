@@ -31,7 +31,7 @@ public class LabledButton : Selectable, IPointerClickHandler, ISubmitHandler
     protected LabledButton()
     {}
     
-    protected virtual TextMeshProUGUI Label => labelText ? labelText : (labelText = GetComponentInChildren<TextMeshProUGUI>());
+    protected virtual TMProGlobal Label => labelText ? labelText : (labelText = GetComponentInChildren<TMProGlobal>());
     protected virtual ColorBlock LabelColorBlock => labelColors;
     public virtual Color LabelColorMultiplier
     {
@@ -39,7 +39,7 @@ public class LabledButton : Selectable, IPointerClickHandler, ISubmitHandler
         set { labelColorMultiplier = value; DoStateTransition(currentSelectionState, false); }
     }
 
-    [SerializeField] private TextMeshProUGUI labelText;
+    [SerializeField] private TMProGlobal labelText;
     [SerializeField] public ColorBlock labelColors = ColorBlock.defaultColorBlock;
 
     private Color labelColorMultiplier = Color.white;

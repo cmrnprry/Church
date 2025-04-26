@@ -3,6 +3,8 @@ using Ink.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using TMPro;
+using UnityEngine.TextCore.Text;
 
 
 public static class SaveSystem
@@ -309,7 +311,7 @@ public static class SaveSystem
     public static void SetResolution(Vector2 resolution, int value)
     {
         settingsData.resolution = resolution;
-        settingsData.index = value;
+        settingsData.resolution_index = value;
         SaveSettingsData();
     }
 
@@ -325,18 +327,13 @@ public static class SaveSystem
         SetAudioVolume(mute, 1);
 
         //set autoplay values
-        SetAutoplayValue(GetAutoplayValue());
         GameManager.instance.AutoPlay = GetAutoplayValue();
-
-        SetOverlayValue(GetOverlayValue());
+        
         GameManager.instance.VisualOverlay = GetOverlayValue();
-
-        SetTextEffectsValue(GetTextEffectsValue());
         GameManager.instance.TextEffects = GetTextEffectsValue();
-
-        SetTextSpeed(GetTextSpeed());
         GameManager.instance.Default_TextDelay = GetTextSpeed();
-
+        TextSettingsData.SetTextSize();
+        TMProGlobal.GlobalFontAsset = GetTextFont();
     }
 
     public static Vector2 GetResolution()
@@ -346,7 +343,7 @@ public static class SaveSystem
 
     public static int GetSettingsIndex()
     {
-        return settingsData.index;
+        return settingsData.resolution_index;
     }
 
     //IMAGE STUFFS
@@ -429,6 +426,21 @@ public static class SaveSystem
     {
         return settingsData.text_speed;
     }
+    
+    public static float GetTextSize()
+    {
+        return settingsData.text_size;
+    }
+    
+    public static TMP_FontAsset GetTextFont()
+    {
+        return GameManager.instance.Fonts[settingsData.font_index];
+    }
+    
+    public static int GetTextFontIndex()
+    {
+        return settingsData.font_index;
+    }
 
     public static void SetAutoplayValue(bool value)
     {
@@ -451,6 +463,18 @@ public static class SaveSystem
     public static void SetTextSpeed(float value)
     {
         settingsData.text_speed = value;
+        SaveSettingsData();
+    }
+    
+    public static void SetTextSize(float value)
+    {
+        settingsData.text_size = value;
+        SaveSettingsData();
+    }
+    
+    public static void SetFontIndex(int value)
+    {
+        settingsData.font_index = value;
         SaveSettingsData();
     }
 }

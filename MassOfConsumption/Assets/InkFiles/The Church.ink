@@ -1838,7 +1838,6 @@ On the ground in front of you sits a flashlight and a note.
 ->Inside.Flashlight
 
 = Flashlight
-~ haveFlashlight = true
 #PROP: flash #PLAY: flashlight_on
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
@@ -1879,7 +1878,6 @@ The flashlight gives off enough light for you to see what's near you. You can ma
 
 
 #EFFECT: click_move
-~ WhereGO = true
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
 *[confessional]
@@ -1893,7 +1891,6 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 = Look_For_Heart
 #EFFECT: click_move
-~ WhereGO = true
 TODO: update this based on where we last were and punch up a bit
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
@@ -1990,11 +1987,9 @@ You lean back in your seat, eyes still closed. There's no use sitting here.
 # IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move
 {
  - !confessional_door_side && !confessional_door_side:
-        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. //(click highlighted image)
-            ~ WhereGO = true
+        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. (click highlighted image)
     - else:
-        You approach the confessional booth. {confessional_door_side: } {killed_girl: Your eyes linger on the curtain.}//(click highlighted image)
-        ~ WhereGO = true
+        You approach the confessional booth. {confessional_door_side: } {killed_girl: Your eyes linger on the curtain.}(click highlighted image)
 }
 
 {
@@ -2002,14 +1997,12 @@ You lean back in your seat, eyes still closed. There's no use sitting here.
     - !confessional_door_side:
         *[Enter throught the door] //door_confessional]
         ->Confessional_Door
-        ~ WhereGO = false
 }
 {
     - !confessional_door_side:
         *[Enter through the curtain]//curtain_confessional]
         ~temp_bool = false
         ->Confessional_Curtain
-        ~ WhereGO = false
 }
 
 === Endings ===

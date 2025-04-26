@@ -8,9 +8,9 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    public TextMeshProUGUI HistoryText;
-    public List<TextMeshProUGUI> Endings = new List<TextMeshProUGUI>();
-    public List<TextMeshProUGUI> Checkpoints = new List<TextMeshProUGUI>();
+    public TMProGlobal HistoryText;
+    public List<TMProGlobal> Endings = new List<TMProGlobal>();
+    public List<TMProGlobal> Checkpoints = new List<TMProGlobal>();
 
 
     private void Awake()

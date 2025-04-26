@@ -14,7 +14,7 @@ public class TextObjectEffects : MonoBehaviour
     private MinMax wait;
     private MinMax duration;
     private MinMax value;
-    private TextMeshProUGUI text;
+    private TMProGlobal text;
     private RectTransform rect;
     private List<string> classes = new List<string>();
 
@@ -26,18 +26,27 @@ public class TextObjectEffects : MonoBehaviour
     {
         DOTween.Init();
 
-        text = GetComponent<TextMeshProUGUI>();
+        text = GetComponent<TMProGlobal>();
         rect = GetComponent<RectTransform>();
+
+        SetTextSize();
     }
 
     private void OnEnable()
     {
         GameManager.OnTextEffectFlip += SetTextEffectVisibility;
+        TextSettingsData.OnTextSizeChange += SetTextSize;
     }
 
     private void OnDisable()
     {
         GameManager.OnTextEffectFlip -= SetTextEffectVisibility;
+        TextSettingsData.OnTextSizeChange -= SetTextSize;
+    }
+
+    private void SetTextSize()
+    {
+        text.fontSize = SaveSystem.GetTextSize();
     }
 
     private void SetTextEffectVisibility(bool isOn)
@@ -97,13 +106,13 @@ public class TextObjectEffects : MonoBehaviour
             return;
 
         if (text == null)
-            text = GetComponent<TextMeshProUGUI>();
+            text = GetComponent<TMProGlobal>();
 
         text.alignment = TextAlignmentOptions.Center;
 
         if (toAdd != "NULL" || toAdd != "")
         {
-            float size = 50;
+            float size = SaveSystem.GetTextSize();;
             VerticalLayoutGroup layout = this.transform.parent.gameObject.GetComponent<VerticalLayoutGroup>();
             
             if (class_sequence == null || !class_sequence.active)
@@ -116,20 +125,17 @@ public class TextObjectEffects : MonoBehaviour
             {
                 case "Bus_Honk":
                     text.enableAutoSizing = false;
-                    size = text.fontSize;
                     class_sequence.Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(size, 0.1f))
                         .Append(text.DOFontSize(80, 0.2f)).Insert(1.65f, text.DOFontSize(size, 0.1f));
                     break;
                 case "Bang_Confessional":
                     text.enableAutoSizing = false;
-                    size = text.fontSize;
                     class_sequence.Append(text.DOFontSize(80, 0.25f)).Append(text.DOFontSize(size, 0.09f))
                         .Append(text.DOFontSize(80, 0.25f)).Append(text.DOFontSize(size, 0.09f))
                         .Append(text.DOFontSize(80, 0.25f)).Insert(1.15f, text.DOFontSize(size, 0.1f));
                     break;
                 case "Bang_Short":
                     text.enableAutoSizing = false;
-                    size = text.fontSize;
                     class_sequence.Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(size, 0.05f))
                         .Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(size, 0.05f))
                         .Append(text.DOFontSize(80, 0.2f)).Insert(1.05f, text.DOFontSize(size, 0.1f));
@@ -158,7 +164,6 @@ public class TextObjectEffects : MonoBehaviour
                         .SetLoops(35, LoopType.Yoyo).OnComplete(() =>
                         {
                             layout.enabled = true;
-                            size = text.fontSize;
                         });
                     break;
                 case "Blur":

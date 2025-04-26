@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3965062040359873417}
   - component: {fileID: 4089581197439177315}
-  - component: {fileID: 8910836186537893843}
   - component: {fileID: 8907695191311923568}
   - component: {fileID: 5604348393638976124}
+  - component: {fileID: 4646380833126703568}
   m_Layer: 5
   m_Name: Text_Object
   m_TagString: Untagged
@@ -47,7 +47,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3868086589303374694}
   m_CullTransparentMesh: 1
---- !u!114 &8910836186537893843
+--- !u!114 &8907695191311923568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868086589303374694}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7114356f3d286474bab5646cc346ffb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5604348393638976124
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,7 +68,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3868086589303374694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ddc6e5dacb84b942861da4194ed82c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4646380833126703568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3868086589303374694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93880f21be77dab4ab49697fd61ae6cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -67,10 +91,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: There is a church at the end of the street- but there shouldn't be. You
-    saw it when walking home from the bus stop after work. You grew up on this street.
-    You have walked down this road daily. There is not a church at tf hfj  jf j fvjf
-    vjf vf vj
+  m_text: 'Example Text Example Text Example Text Example Text Example Text Example
+    Text Example Text Example Text Example Text Example Text Example Text Example
+    Text Example Text Example Text '
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dcb7cfeb0293a4fbe8f75f2c16ede2fd, type: 2}
   m_sharedMaterial: {fileID: -1831004699934135621, guid: dcb7cfeb0293a4fbe8f75f2c16ede2fd, type: 2}
@@ -97,12 +120,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
+  m_fontSize: 50
   m_fontSizeBase: 50
   m_fontWeight: 400
-  m_enableAutoSizing: 1
-  m_fontSizeMin: 35
-  m_fontSizeMax: 50
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 8
   m_VerticalAlignment: 512
@@ -111,7 +134,7 @@ MonoBehaviour:
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
-  m_paragraphSpacing: 5
+  m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
@@ -139,27 +162,3 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8907695191311923568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3868086589303374694}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7114356f3d286474bab5646cc346ffb2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5604348393638976124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3868086589303374694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ddc6e5dacb84b942861da4194ed82c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

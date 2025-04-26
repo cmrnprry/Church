@@ -197,20 +197,21 @@ public class SettingsData
     public string mostRecentSlot;
     public bool isFullScreen;
     public Vector2 resolution;
-    public int index;
+    public int resolution_index;
+    public int font_index;
 
     //AUDIO
-    [SerializeField] public bool mute;
-
-    [SerializeField] public float BGM;
-
-    [SerializeField] public float SFX;
+    public bool mute;
+    public float BGM;
+    public float SFX;
 
     //GAMEPLAY
-    [SerializeField] public bool autoplay;
+    public bool autoplay;
     public bool visual_overlay;
     public bool text_effects;
+    
     public float text_speed;
+    public float text_size;
 
     public SettingsData()
     {
@@ -218,13 +219,15 @@ public class SettingsData
 
         isFullScreen = true;
         resolution = new Vector2(1920, 1440);
-        index = 0;
+        resolution_index = 0;
 
         mute = false;
         BGM = 0.5f;
         SFX = 0.5f;
 
-        text_speed = 1.5f;
+        text_size = 50;
+        text_speed = -1.5f;
+        font_index = 0;
         autoplay = false;
         
         visual_overlay = true;

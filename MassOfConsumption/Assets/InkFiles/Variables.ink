@@ -1,17 +1,3 @@
-//JS variables
-VAR CurrentImage = ""
-VAR LoopedAudio = ""
-VAR Volume = 100
-VAR Mute = false
-VAR Shake = false
-VAR Dim = false
-VAR Effects = false
-VAR Styling_Text = ""
-VAR Styling_Box = ""
-VAR Styling_Image = ""
-VAR haveFlashlight = false
-VAR WhereGO = false
-
 //SCRIPTING VARIBLES
 VAR SetImage = ""
 VAR CurrentProp = ""

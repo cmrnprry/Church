@@ -10,6 +10,8 @@ using Random = UnityEngine.Random;
 using ColorUtility = UnityEngine.ColorUtility;
 using DG.Tweening;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.TextCore.Text;
+using TextAsset = UnityEngine.TextAsset;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -29,6 +31,7 @@ namespace AYellowpaper.SerializedCollections
         private Story Story;
         private Color text_color;
         private List<string> classes = new List<string>();
+        public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
         [SerializeField] private IntrusiveThoughtsManager intrusiveThoughts;
         private bool CanClickToContiune = false;
 
@@ -38,7 +41,7 @@ namespace AYellowpaper.SerializedCollections
         }
 
         private string ContinueText; // next group of text
-        private TextMeshProUGUI Current_Textbox; //current textbox
+        private TMProGlobal Current_Textbox; //current textbox
         private float Text_Delay = -1;
         private ReplaceChoice ReplaceData;
 
@@ -69,7 +72,7 @@ namespace AYellowpaper.SerializedCollections
         [Header("Story Objects")] [SerializeField]
         private Transform TextParent;
 
-        [SerializeField] private TextMeshProUGUI TextPrefab;
+        [SerializeField] private TMProGlobal TextPrefab;
         [SerializeField] private VerticalLayoutGroup ChoiceButtonContainer;
         [SerializeField] private LabledButton ChoiceButtonPrefab;
         [SerializeField] private ScrollRect Scroll;
@@ -166,7 +169,6 @@ namespace AYellowpaper.SerializedCollections
             ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
             GlobalLight.color = OutsideLight;
 
-            SaveSystem.SetSettingsOnLoad();
             SaveSystem.SetSettingsOnLoad();
         }
 
@@ -280,6 +282,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (isStart)
                     yield return new WaitForSeconds(.7f);
+                    
 
                 ContinueText = Story.Continue(); // gets next line
                 ContinueText = ContinueText?.Trim(); // removes white space from text
@@ -298,7 +301,7 @@ namespace AYellowpaper.SerializedCollections
                 WaitAfterChoice = false;
                 classes.Clear();
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
-
+                
                 yield return new WaitForEndOfFrame();
 
                 foreach (var story_tag in Story.currentTags)
@@ -498,6 +501,12 @@ namespace AYellowpaper.SerializedCollections
                     should_blink = true; 
                     break;
                 case "BlinkOnClick_False":
+                    should_blink = false; 
+                    break;
+                case "Force Blink":
+                    should_blink = false; 
+                    break;
+                case "End Blink":
                     should_blink = false; 
                     break;
                 case "flashlight_on": //TODO: check that it saves
@@ -845,7 +854,7 @@ namespace AYellowpaper.SerializedCollections
 
         void OnReplaceChoiceButton(Choice choice, string replace, LabledButton button)
         {
-            var choice_text = button.GetComponentInChildren<TextMeshProUGUI>();
+            var choice_text = button.GetComponentInChildren<TMProGlobal>();
             if (choice_text.text == replace)
             {
                 OnClickChoiceButton(choice);
@@ -899,7 +908,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 foreach (LabledButton button in ChoiceButtonContainer.GetComponentsInChildren<LabledButton>())
                 {
-                    var choice_text = button.GetComponentInChildren<TextMeshProUGUI>();
+                    var choice_text = button.GetComponentInChildren<TMProGlobal>();
                     button.enabled = false;
 
                     choice_text.DOFade(0, Default_ChoiceDelay).OnComplete(
@@ -912,7 +921,7 @@ namespace AYellowpaper.SerializedCollections
         {
             if (TextParent != null)
             {
-                foreach (var child in TextParent.GetComponentsInChildren<TextMeshProUGUI>())
+                foreach (var child in TextParent.GetComponentsInChildren<TMProGlobal>())
                 {
                     child.DOFade(0, Default_FadeOut).OnComplete(
                         () => { Destroy(child.gameObject); });
@@ -926,7 +935,7 @@ namespace AYellowpaper.SerializedCollections
             LabledButton choiceButton = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer.transform, false);
 
             // sets text on the button
-            var choice_text = choiceButton.GetComponentInChildren<TextMeshProUGUI>();
+            var choice_text = choiceButton.GetComponentInChildren<TMProGlobal>();
             choice_text.text = text;
 
             Sequence text_fade = DOTween.Sequence();

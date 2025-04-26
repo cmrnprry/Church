@@ -305,7 +305,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3432002559954381589}
   - component: {fileID: 2993498041992408437}
-  - component: {fileID: 8498698082236527956}
+  - component: {fileID: 638563025711889342}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -340,7 +340,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7996461390790128819}
   m_CullTransparentMesh: 1
---- !u!114 &8498698082236527956
+--- !u!114 &638563025711889342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7996461390790128819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 93880f21be77dab4ab49697fd61ae6cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -395,7 +395,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0

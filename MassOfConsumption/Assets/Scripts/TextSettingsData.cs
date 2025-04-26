@@ -1,16 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TextSettingsData : MonoBehaviour
 {
-    [Header("Text Settings")] [SerializeField]
-    private Slider TextSpeed_Slider, sfxSlider, bgmSlider;
+    [Header("Text Settings")] 
+    [SerializeField] private Slider TextSpeed_Slider;
+    [SerializeField] private Slider TextSize_Slider;
+    [SerializeField] private TMP_Dropdown Font_dropdown;
+    [SerializeField] private ToggleSwitchColorChange AutoPlayToggle, VisualOverlay, TextEffectsOverlay;
 
-    [SerializeField] private ToggleSwitchColorChange muteToggle, AutoPlayToggle, VisualOverlay, TextEffectsOverlay;
+    
+    [Header("Audio Settings")]
+    [SerializeField] private Slider sfxSlider;
+    [SerializeField] private Slider bgmSlider;
 
+    [SerializeField] private ToggleSwitchColorChange muteToggle;
+
+    public delegate void TextSize();
+    public static event TextSize OnTextSizeChange;
+    public static event TextSize OnTextFontChange;
+    
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -29,6 +42,12 @@ public class TextSettingsData : MonoBehaviour
 
         TextSpeed_Slider.value = SaveSystem.GetTextSpeed();
         SetTextSpeedValue(SaveSystem.GetTextSpeed());
+        
+        TextSize_Slider.value = SaveSystem.GetTextSize();
+        SetTextSizeValue(SaveSystem.GetTextSize());
+        
+        Font_dropdown.value = SaveSystem.GetTextFontIndex();
+        SetFont(SaveSystem.GetTextFontIndex());
     }
 
     public void SetAutoPlay(bool value)
@@ -54,4 +73,23 @@ public class TextSettingsData : MonoBehaviour
         SaveSystem.SetTextSpeed(value);
         GameManager.instance.Default_TextDelay = value;
     }
+    
+    public void SetTextSizeValue(float value)
+    {
+        SaveSystem.SetTextSize(value);
+        OnTextSizeChange?.Invoke();
+    }
+
+    public static void SetTextSize()
+    {
+        OnTextSizeChange?.Invoke();
+    }
+    
+    public void SetFont(int value)
+    {
+        SaveSystem.SetFontIndex(value);
+        OnTextFontChange?.Invoke();
+        TMProGlobal.GlobalFontAsset = SaveSystem.GetTextFont();
+    }
+    
 }

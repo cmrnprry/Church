@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class MenuScreens : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class MenuScreens : MonoBehaviour
     public Image TransitionScreen;
     public GameObject Settings, MainMenu;
     public LabledButton LoadButton;
-    public TMP_Dropdown dropdown;
+    public TMP_Dropdown Res_dropdown;
 
     private float wait = 0.25f;
 
@@ -113,7 +114,7 @@ public class MenuScreens : MonoBehaviour
 
     public void SetRes(int value)
     {
-        var option = dropdown.options[value].text.Split('x');
+        var option = Res_dropdown.options[value].text.Split('x');
         var res = new Vector2(int.Parse(option[0].Trim()), int.Parse(option[1].Trim()));
         Screen.SetResolution((int)res.x, (int)res.y, SaveSystem.GetFullscreen());
 
