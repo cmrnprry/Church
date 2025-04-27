@@ -945,91 +945,75 @@ TODO: is work = 4 used anywhere besides yuelled at?
         Error
 }
 
-TODO: this and the next feel like semi awkward jumps
 {know: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back— that if you do, you won't come out again.}
 
 #STOP: office_ambience, 1 #IMAGE: BusStop.png
-The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church.
+The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church. {know: You wonder if it will make a difference if you do.}
 
-TODO: why?
-* {!church_teleported} [Take the long way home]
+* [Take the long way home]
     ->Walk_Home.Different
 
 *[Take the usual path home]
     Tentatively, you walk your usual path home, and try not to look at the church.
     ->Walk_Home.Usual
 
-= Call_Grandparents
-You dial the number for their landline. You tried to convince them to get cell phones once, but your grandfather staunchly refused, claiming something about them being "addictive cancer boxes" and your grandma agreed. The phone rings a few times before it connects.
-
-"Hello, Candice speaking!" Your grandma's cheery voice is on the other end.
-
-"Hey, it's me. I had a que—" You start, but she cuts you off with an excited gasp.
-
-"George! George! Come here! Our favourite grandchild called!" You hear your grandfather groan, and your grandma scolds him, which leads to more groaning. "Oh, hold on, sweetie." You hear a shuffling as you assume your grandma wass making her way to where your grandfather sat. You scratch at the back of your neck while the burning sensaion grows stronger.
-
-* ["Grandma? There's something important I need to ask you."]
-    "Oh, one moment dear. <>
-
-* ["Is now a bad time?"]
-    "Oh don't be silly, we're always happy to hear from you. <>
-
-- Say hi to grandpa!" You don't have time to respond before she's already talking again. Something pulls at your leg and you shake it out, but the feeling only grow stronger. "You really should call more. We're not getting any younger you know."
-
-She keeps talking, your grandfather occasionally adding a grunt to agree with her. She's not going to let you get a word in unless you cut her off. You look out at the stop sign on te corner and frown. Shouldn't it be closer by now?
-
-* ["Mhm, but grandma do you know anything about a... church?"]
-    The line goes quiet and for a second you think you were disconnected, but then your grandma says quietly, "What church?"
-    
-    TODO: it follows u to work
-    #CYCLE: weird, long, upsetting, troubling
-    "It's at the end of my street. I don't particularly... remember it being there before today, but today has been @." You bite your lip. "{know: I saw a picture today of us, all of us, there- At the church I mean. | This sounds crazy but I think it followed me to work. } Do you know anything about it?"
-
-*["Do you know anything about the church by my house?"]
-    The line goes quiet and for a second you think you were disconnected, but then your grandma says quietly, "What church?"
-    
-    TODO: it follows u to work
-    #CYCLE: weird, long, upsetting, troubling
-    "It's at the end of my street. I don't particularly... remember it being there before today, but today has been @." You bite your lip. "{know: I saw a picture today of us, all of us, there— At the church I mean. | This sounds crazy but I think it followed me to work. } Do you know anything about it?"
-
-- "Have you gone inside it?" It's your grandfather, his voice is rough. "Tell me you haven't. Are you home? You should come here."
-
-* [Say that you have ({entered_church || church_teleported: truth | lie}) ]
-    {entered_church: "Yeah but it was just—" | {church_teleported: "Kind of? It's hard to explain—" | "Yeah, but it wasn't—"}}
-    
-    Your grandma lets out a choked cry and starts to pray. 
-
-* [Say that you haven't ({entered_church || church_teleported: lie | truth})]
-    {church_teleported: "Not really? It's hard to explain—" | "No, it looks abandoned so—"}
-    
-    "Thank God, Jesus, and mother Mary." Your grandma says a prayer. 
-    
-    TODO: need to get more of the urgency here
-- <> The call starts to sound far away. You can hear your grandfather say something, but can't make it out. The closer you get to the corner, the further away your grandparents voice sounds. By the time you finally reach the corner the call goes dead. 
-
-#REPLACE: stop sign.
-You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
-    
-+[stop sign.]
-->Stop_Sign
 
 = Different
 ~turn = "walking"
 ~avoid_church = true
+~know = false
+~ temp TempBool = false
 # IMAGE: Stop_Sign
-You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imgaine of you infront of the church with your grandparents. Maybe you should give them a call{dropped_phone: once you're home and have a working phone}.}
-
-*[Face it]
-    ->Walk_Home.Turn_Around
+You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imgaine of you infront of the church with your grandparents. {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}| Maybe you should give them a call{dropped_phone: once you're home and have a working phone}} | {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}}}.
 
 *[Scratch your neck]
 
-* {!dropped_phone && know} [Call grandparents]
-    ->Call_Grandparents
+* {!dropped_phone && (called_number || know)} [Call grandparents]
+    {called_number: You stare at your call before dialing the contact number. You don't know what calling again will change, but you want to be sure. | You navigate to your grandmother's contact number and click call. } The phone rings for a moment before hearing a dial up tone and a robotic voie say, "Error. Number could not be completed as dialed. Please enter the number and try again. Goodbye." before disconnecting the call.
+
+    You frown, double check that you called the correct number and redial. You get the same dial up tone and robotic voice. You check your call history, and clearly see the previous times you've called them, all lasting anywhere from a few minutes to a few hours. {called_number: Does this mean they're still in the church?} Your chest tightens.
+    
+    **[Call one more time]
+        You check the contact, and carefully type in the numbers rather than calling from the contact, and wait. This time, it rings. Once. Twice. And then someone picks up on the other end.
+        
+        "Grandma? It's me. Are you and grandpa okay?" The words tumble out of you before she can say anything. "{called_number: I called you this morning and— | I tried to call you and it—}"
+        
+        Your grandmother's voice cuts you off. "{called_number: We're still waiting for your visit. Don't keep us waiting much longer, dear. | We're at church right now. Won't you come visit? Don't keep us waiting, dear.}"
+        
+        And she hangs up the phone. You swallow hard and stop walking. A looming presence stands behind you, and you know if you turn around, the church will be right behind you.
+        
+            ***[Turn to the church]
+                #IMAGE: Church_Looming #PROP: closed gates
+                ~ FaceIt = true
+                You tuck your phone into your pocket, take a deep, steadying breath, and turn. It looms over you, taller than you remember. <>
+                ->Walk_Home.Stop_Sign
+            
+            ***[Continue home]
+                ~ TempBool = true
+                You tuck your phone into your pocket, and stare at the stop sign at the corner ahead. Something tells you to walk, that if you run or make a sudden movement, the church would strike and swallow you whole. You take calm, deliberate steps forward. 
+                
+                You feel the church follow behind you, begging you to turn around. You ignore the pulling at your legs, and the wind nipping at your ears. You ignore the painful burning that sears against your back, and the heaviness in you chest.
+                
+                You just need to get home.
+                
+                It takes 30 agonizing minutes to reach the corner. You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. You won. You smile and look up at the [stop sign.]
+                
+                ****[stop sign.]
+                    ->Walk_Home.Stop_Sign
+    
+    **{called_number} [Turn to the church]
+        #IMAGE: Church_Looming #PROP: closed gates
+        ~ FaceIt = true
+        You tuck your phone into your pocket, take a deep, steadying breath, and turn. It looms over you, taller than you remember. <>
+    
+    **{!called_number} [Continue walking home]
+        ~ TempBool = true
+        You tuck your phone into your pocket. You'll try again once your home. It's not the first time they have had weirdness with the landline. Maybe they forgot to pay the bill again.
+        
 
 - 
 #ICLASS: stop-1 #PLAY: walking_fast_pavement, true, 1
-You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inveitable.}
+{TempBool: You itch at your neck, and pick up the pace. The burning sensation on your neck grows, and something grabs at your legs. The wind picks up around you. You just need to get home. | You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inveitable.}}
 
 
 *[Shake out your leg]
@@ -1048,7 +1032,7 @@ You hear something on the wind. A voice?
 You reach out and grab the sign with both hands. The burning is gone. Nothing holds you back. Breathing heavily, you smile and look up at the [stop sign.]
     
 +[stop sign.]
-->Stop_Sign
+    ->Walk_Home.Stop_Sign
 
 = Turn_Around
 #ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement
@@ -1060,34 +1044,39 @@ You stop {turn}, and ball your fists. All sensations stop.
 #IMAGE: Church_Looming #PROP: closed gates
 You spin around to face it, and find yourself.. in front... of the church? You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
-{know || called_number || entered_feeling == 0: It's following you. You wipe sweat from your brow.<br><br>It can move.| {entered_church: {entered_feeling != 0: Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket. The feeling of the worn polaroid calms you. You're being unreasonable. It's just a building. Just a church. A {church_feeling} church.}}}
+{know || called_number || entered_feeling == 0: It's following you. You wipe sweat from your brow.<br><br>It can move.| {entered_church: {entered_feeling != 0: Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket{photo_ripped:, only to find it empty. Your eyes burn as you remember what you did. You dig your nails into your palm. | . The feeling of the worn polaroid calms you.} You're being unreasonable. It's just a building. Just a church. A {church_feeling} church.}}}
 
 *[Walk past it]
     {know || called_number: You know you shouldn't, but you know it won't let you turn away.} {entered_feeling != 0: You try not to look at the church as you walk past.}
     ->Walk_Home.Usual
 
 = Stop_Sign
-#ICLASS: NULL #IMAGE: Church_Looming #PROP: closed gates
-It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
+{
+    - FaceIt:
+        The front gates are closed, but the door is open. You press your lips together and wonder if you made the right choice.
+    
+    - else:
+    
+        #ICLASS: NULL #IMAGE: Church_Looming #PROP: closed gates
+        It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
+}
+
 
 *[Open the gates]
     #PLAY: gate_open #PROP: closed gates, true #PROP: open gates
     You throw the gates open, and the edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 
-*[Let go]
+*{!FaceIt} [Let go]
     #PLAY: gate_open #PROP: closed gates, true #PROP: open gates
     You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
-- 
 
-*[Take a closer look]
+- Before you know what you're doing, you take a single step onto the property, just past the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path. <>
 
-- You take a single step onto the property to reach the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path. <>
+{know: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {entered_church: You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {entered_feeling == 1: You know it's nothing, so checking again won't change anything.} | {called_number: {church_teleported: These didn't light up this morning, or maybe you just didn't notice. | It's waiting for you to come inside. }}}}
 
-{know: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {entered_church: You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {entered_feeling == 1: You know it's nothing, so checking again won't change anything.} | {called_number: {church_teleported: These didn't light up this morning, or maybe you just didn't notice. | It really wants you to come inside. } | Motion activated maybe?}}}
+*[Continue up the path]
 
-*[Take a closer look]
-
-- You take a step onto the property. The ground is soft, but firm. You crouch down in front of the closest light. They have tiny solar panels on the top. In this position, the lawn is at eye level, but not a single weed crosses onto the soft dirt.
+- You take a another step onto the property. The ground is soft, but firm. You crouch down in front of the closest light. They have tiny solar panels on the top. In this position, the lawn is at eye level, but not a single weed crosses onto the soft dirt.
 
 You stand up and trace the path with your eyes, looking for anything that disturbs it.
 
@@ -1097,7 +1086,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 = Usual
 #IMAGE: Church_Looming #PROP: open gates #PROP: closed gates
 #PLAY: gate_open
-As you pass the front gate, it creaks open. You reach for the image in your pocket. {know: You should keep moving.}
+As you pass the front gate, it creaks open, and you flinch. {know: You should keep moving.}
 
 *[Investigate]
 
@@ -1106,7 +1095,6 @@ As you pass the front gate, it creaks open. You reach for the image in your pock
 
 
 - 
-#IMAGE: Church_Looming #PROP: open gates
 Against your better judgement, you stop, and look at the church. The gate is open. {know: You should keep moving. It's waiting for you. It's making the choice easy. | {called_number: Once again, it invites you inside. | {entered_church: {entered_feeling == 2: The slimey feeling returns as a trickle of sweat slides down your back. | {entered_feeling == 0: Your heart pounds in excitment? fear? Maybe it <i>wasn't</i> just nothing. | It's— It's just a church.}} | Probably the wind blew it open. Probably.}}}
 
 *[Close the gate]

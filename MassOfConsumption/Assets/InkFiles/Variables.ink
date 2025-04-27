@@ -1,6 +1,7 @@
 //SCRIPTING VARIBLES
 VAR SetImage = ""
 VAR CurrentProp = ""
+VAR FaceIt = false
 
 //SKIP
 VAR skip_counter = -1
