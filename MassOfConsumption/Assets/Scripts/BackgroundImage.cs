@@ -1,12 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEditor.ShaderGraph.Internal;
-using UnityEngine.Analytics;
 using Random = UnityEngine.Random;
 
 public struct MinMax

@@ -217,8 +217,8 @@ public class SettingsData
     {
         hasSaveData = false;
 
-        isFullScreen = true;
-        resolution = new Vector2(1920, 1440);
+        isFullScreen = false;
+        resolution = new Vector2(1280, 960);
         resolution_index = 0;
 
         mute = false;

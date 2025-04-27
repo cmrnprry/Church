@@ -15,6 +15,7 @@ Your mouth begins to water and your stomach growls. When was the last time you a
 -> Open_the_Door.Pick_Up
 
 = Consume
+#EFFECT: BlinkOnClick_False #EFFECT: Force_Open
 You pick up the glass and sniff the liquid. It smells like grapes. 
 
 *[Take a sip]
@@ -59,6 +60,7 @@ You keep eating and drinking. Never satisfied. Always needing more.
 ->Credits
 
 = Bone
+#EFFECT: EFFECT: BlinkOnClick_True #EFFECT: Force_Closed
 Bone...? 
 
 The realization snaps you out it. Your hands shake as you look down at what's in them. 
@@ -82,7 +84,7 @@ You look back at the glowing heart.
         ~temp_string = "It's disgusting."
 }
 
-#PLAY: groan
+#PLAY: groan #EFFECT: BlinkOnClick_False #EFFECT: Force_Open
 Carefully, you reach out and take the heart out of the water. The church groans. The heart softly pulses in your hand.
 
 {temp_string}
@@ -99,11 +101,11 @@ Carefully, you reach out and take the heart out of the water. The church groans.
 {temp_string} 
 
 *[Crush it]
-~temp_bool_2 = false
-->Open_the_Door.Crush_it
+    ~temp_bool_2 = false
+    ->Open_the_Door.Crush_it
 
 *[Bring it to the front door]
-->Open_the_Door.Front_Door
+    ->Open_the_Door.Front_Door
 
 = Front_Door
 You don't know what will happen to you or the church if you destroy the heart up here, and you don't really want to find out. You don't think the church will try anything while you're holding it's heart, but...
@@ -119,21 +121,23 @@ You are so close to freedom.
 You stand in the doorway. The heart pulses faster, matching your own. You look down at it.
 
 *[Exit the church]
-You step outside, into the real world, and take the heart with you. The church gates creak open, allowing you to finally escape it's grasp.
--> Open_the_Door.Leave
+    #EFFECT: Force_Closed
+    You step outside, into the real world, and take the heart with you. The church gates creak open, allowing you to finally escape it's grasp.
+    -> Open_the_Door.Leave
 
 *[Crush the heart]
-~temp_bool_2 = true
--> Open_the_Door.Crush_it
-{
-    - stay >= 2.5:
-        *[Eat the heart]
-            ->Open_the_Door.Eat_it
-}
+    ~temp_bool_2 = true
+    -> Open_the_Door.Crush_it
+    {
+        - stay >= 2.5:
+            *[Eat the heart]
+                ->Open_the_Door.Eat_it
+    }
 
 
 
 = Crush_it
+#EFFECT: Force_Open
 Holding the heart in one hand, you begin to squeeze. It doesn't take much effort, almost like breaking an egg. The heart begins to bleed and pulse faster. The light begins to die.
 
 The whine of a wounded animal reveberates through the room.
@@ -165,6 +169,7 @@ The whine of a wounded animal reveberates through the room.
 
 You think of everything you went through becasue of the church. You think of the church's sight. {temp_string} Of all the people who can never leave. Will never leave.
 
+#EFFECT: Force_Closed
 You squeeze harder, until your nails pierce your palm. The light is almost gone now. The church squeals pitifully in response. You drop whatever remains of the heart, and it falls to the floor with a wet <i>splat!</i>
 
 *[The light dies.]
@@ -219,7 +224,7 @@ For what seems like forever.
 You sit up and realize you are in an empty field of dirt. The place where a church once sat.
 
 *[The church is gone.]
--> Open_the_Door.Leave
+    -> Open_the_Door.Leave
 
 = Leave
 You are alone. You are free.
@@ -301,6 +306,7 @@ You stand, wipe your eyes, and dust yourself off.
 ->Credits
 
 = Eat_it
+#EFFECT: BlinkOnClick_True #EFFECT: Force_Open
 The heart beats in your hand, a lovely red color. It resembles a sweet apple.
 
 Are you certain?
@@ -313,6 +319,7 @@ Are you certain?
 
 - 
 #PLAY: shriek #CLASS: Angry-Screeching
+#EFFECT: Force_Blink
 The church shrieks in response. It shakes and shutters. The ghostly figures clutch their heads in agony.
 
 Cool, sweet juice slides down your face. 

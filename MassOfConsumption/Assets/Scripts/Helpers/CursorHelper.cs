@@ -15,6 +15,7 @@ public class CursorHelper : MonoBehaviour
     private Image img;
     private Coroutine routine;
     private bool ClickObject = false;
+    
 
     void Start()
     {
@@ -36,6 +37,10 @@ public class CursorHelper : MonoBehaviour
 
         SaveUIPageNumber.OnCursorEnter += OnHoverStart;
         SaveUIPageNumber.OnCursorExit += OnHoverEnd;
+
+        GameManager.OnForceBlink += ForceBlink;
+        GameManager.OnForceClosed += ForceOpen;
+        GameManager.OnForceOpen += ForceClose;
     }
 
     private void OnDisable()
@@ -51,6 +56,31 @@ public class CursorHelper : MonoBehaviour
 
         SaveUIPageNumber.OnCursorEnter -= OnHoverStart;
         SaveUIPageNumber.OnCursorExit -= OnHoverEnd;
+        
+        GameManager.OnForceBlink -= ForceBlink;
+        GameManager.OnForceClosed -= ForceOpen;
+        GameManager.OnForceOpen -= ForceClose;
+    }
+
+    private void ForceOpen()
+    {
+        if (routine != null)
+            StopCoroutine(routine);
+        routine = StartCoroutine(Open());
+    }
+    
+    private void ForceBlink()
+    {
+        if (routine != null)
+            StopCoroutine(routine);
+        routine = StartCoroutine(Blink());
+    }
+    
+    private void ForceClose()
+    {
+        if (routine != null)
+            StopCoroutine(routine);
+        routine = StartCoroutine(Close());
     }
 
     // Update is called once per frame
@@ -73,8 +103,6 @@ public class CursorHelper : MonoBehaviour
 
     IEnumerator Blink()
     {
-        img.sprite = sprites[0];
-
         yield return new WaitForSeconds(0.15f);
         img.sprite = sprites[1];
 
@@ -90,10 +118,43 @@ public class CursorHelper : MonoBehaviour
         yield return new WaitForSeconds(0.15f);
         img.sprite = sprites[1];
 
-        yield return new WaitForSeconds(0.15f);
-        img.sprite = sprites[0];
+        if (!GameManager.instance.ShouldBlink)
+        {
+            yield return new WaitForSeconds(0.15f);
+            img.sprite = sprites[0];
+        }
     }
 
+    IEnumerator Open()
+    {
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[1];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[2];
+
+        yield return new WaitForSeconds(0.35f);
+        img.sprite = sprites[3];
+    }
+    
+    IEnumerator Close()
+    {
+        yield return new WaitForSeconds(0.35f);
+        img.sprite = sprites[3];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[2];
+
+        yield return new WaitForSeconds(0.15f);
+        img.sprite = sprites[1];
+
+        if (!GameManager.instance.ShouldBlink)
+        {
+            yield return new WaitForSeconds(0.15f);
+            img.sprite = sprites[0];
+        }
+    }
+    
     public void OnHoverEnd()
     {
         img.sprite = sprites[0];

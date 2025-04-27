@@ -89,7 +89,7 @@ namespace AYellowpaper.SerializedCollections
         [SerializedDictionary("Prop name", "Sprite")]
         public SerializedDictionary<string, GameObject> PropDictionary;
 
-        public GameObject clicktomove;
+        public List<GameObject> clicktomove = new List<GameObject>();
 
 
         [Header("Lighting")] public GameObject AllLighting;
@@ -144,6 +144,12 @@ namespace AYellowpaper.SerializedCollections
 
         public static event VisualEffects OnTextEffectFlip;
         public static event VisualEffects OnImageEffectFlip;
+
+        public delegate void ClickEffects();
+
+        public static event ClickEffects OnForceBlink;
+        public static event ClickEffects OnForceOpen;
+        public static event ClickEffects OnForceClosed;
 
 
         private void Awake()
@@ -282,7 +288,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (isStart)
                     yield return new WaitForSeconds(.7f);
-                    
+
 
                 ContinueText = Story.Continue(); // gets next line
                 ContinueText = ContinueText?.Trim(); // removes white space from text
@@ -301,7 +307,7 @@ namespace AYellowpaper.SerializedCollections
                 WaitAfterChoice = false;
                 classes.Clear();
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
-                
+
                 yield return new WaitForEndOfFrame();
 
                 foreach (var story_tag in Story.currentTags)
@@ -406,11 +412,16 @@ namespace AYellowpaper.SerializedCollections
             switch (key)
             {
                 case "IMAGE": //Sets background image
-                    SetBackgroundImage(value);
+                    if (BackgroundDictionary.ContainsKey(value))
+                        SetBackgroundImage(value);
                     break;
                 case "PROP": //set what prop is visible on screen
-                    var obj = PropDictionary[value];
-                    obj.SetActive(!obj.activeSelf);
+                    if (PropDictionary.ContainsKey(value))
+                    {
+                        var obj = PropDictionary[value];
+                        obj.SetActive(!obj.activeSelf);
+                    }
+
                     break;
                 case "PLAY": //{src, loop, fade in, delay}
                     string[] play_list = value.Split(',');
@@ -498,16 +509,21 @@ namespace AYellowpaper.SerializedCollections
             switch (key)
             {
                 case "BlinkOnClick_True":
-                    should_blink = true; 
+                    should_blink = true;
                     break;
                 case "BlinkOnClick_False":
-                    should_blink = false; 
+                    should_blink = false;
                     break;
-                case "Force Blink":
-                    should_blink = false; 
+                case "Force_Blink":
+                    OnForceBlink?.Invoke();
                     break;
-                case "End Blink":
-                    should_blink = false; 
+                case "Force_Closed":
+                    OnForceClosed?.Invoke();
+                    should_blink = false;
+                    break;
+                case "Force_Open":
+                    OnForceOpen?.Invoke();
+                    should_blink = false;
                     break;
                 case "flashlight_on": //TODO: check that it saves
                     if (!Flashlight.gameObject.activeSelf)
@@ -517,8 +533,11 @@ namespace AYellowpaper.SerializedCollections
                 case "flashlight_off":
                     Flashlight.isOn = false;
                     break;
-                case "click_move":
-                    ClickToMove();
+                case "click_move_main":
+                    ClickToMove(0);
+                    break;
+                case "click_move_confessional":
+                    ClickToMove(1);
                     break;
                 case "LightDark":
                     GlobalLight.color = DarkLight;
@@ -725,17 +744,18 @@ namespace AYellowpaper.SerializedCollections
                 .SetLoops(-1, LoopType.Yoyo);
         }
 
-        private void ClickToMove()
+        private void ClickToMove(int Index)
         {
-            clicktomove.SetActive(true);
+            var move = clicktomove[Index];
+            move.SetActive(true);
 
             if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
                 DeleteOldChoices();
 
-            for (int index = 0; index < clicktomove.transform.childCount; index++)
+            for (int index = 0; index < move.transform.childCount; index++)
             {
                 int i = index;
-                var Button = clicktomove.transform.GetChild(index).gameObject.GetComponent<Button>();
+                var Button = move.transform.GetChild(index).gameObject.GetComponent<Button>();
                 Button.onClick.AddListener(() => OnClickChoiceButton(Story.currentChoices[i]));
             }
         }
@@ -901,8 +921,12 @@ namespace AYellowpaper.SerializedCollections
 
         void DeleteOldChoices()
         {
-            if (clicktomove.activeSelf)
-                clicktomove.SetActive(false);
+            foreach (var item in clicktomove)
+            {
+                if (item.activeSelf)
+                    item.SetActive(false);
+            }
+
 
             if (ChoiceButtonContainer != null)
             {

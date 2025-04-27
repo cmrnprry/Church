@@ -2,6 +2,7 @@
 VAR SetImage = ""
 VAR CurrentProp = ""
 VAR FaceIt = false
+VAR differnt_path = false
 
 //SKIP
 VAR skip_counter = -1

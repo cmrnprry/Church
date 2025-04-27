@@ -120,8 +120,7 @@
 }
 
 *[Return to stairwell]
-~room += 1
-->Stairs.Exit_Office
+    ->Stairs.Exit_Office
 
 = Books
 ~ saw_books = true
@@ -626,6 +625,7 @@ You exit the office.
 
 
 ////////// ENDING INTERACTIONS ////////// 
+
 = Unsure
 Confused, you leave the room, and wander numbly back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
@@ -810,6 +810,7 @@ They begin to sing, hands out streached for you to take. The music flows through
 
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 
+
 = Downstairs
 ~ temp_bool = false
 
@@ -1310,11 +1311,8 @@ Tentatively, you go down the stairs, ready for it to warp or change at any momen
 
 If you weren't sure before, you are now: Behind that door lies the heart.
 
-*[Go upstairs]
-->Stairs.Upstairs
-
 *[Enter the office]
-->Stairs.Office
+    ->Stairs.Office
 
 *[Return to the main body of the church]
 {

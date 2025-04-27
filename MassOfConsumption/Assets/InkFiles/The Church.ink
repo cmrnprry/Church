@@ -9,13 +9,10 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-->Start
+->Inside.Look_For_Heart
 === Start===
 <i>Use the options menu to toggle any text or screen effects on or off, and adjust font.</i>
 
-+[Test]
-    -> Job.Stop_Thinking_Yelled
-    
 + [Start Game] 
     ->StartGame
     
@@ -36,19 +33,6 @@ INCLUDE End_Game.ink
     ++[Skip to Inside Church]
         ~ skip_counter = 4
         ->Skip
-
-=== Test ===
-
-Your eyes find the doorknob, and you reach out to open it.
-
-# INTRUSIVE: 5, Stop thinking, Investigate
-You just need to turn the knob. Why can't you just turn the knob?
-
-# REMOVE: INTRUSIVE
-You just need to turn the knob. Why can't you just turn the knob?
-
-*[Your skin burns.]
-->END
 
 === Skip ===
 When you passed the church how did you feel about it?
@@ -936,7 +920,7 @@ TODO: is work = 4 used anywhere besides yuelled at?
         {photo_ripped: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring yourself to throw it away, instead placing each piece in the small drawer of your desk. You'll fix this tomorrow, after a good night's sleep.}
         
     - 4: 
-        #STOP: office_ambience, 1 # IMAGE: BusStop
+        #STOP: office_ambience, 1 # IMAGE: Bus Stop
         You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
         <i>But what about the church?</i> Your stomach {church_interest != "drawn": drops | jumps}. You shake your head. Hopefully it will be gone. Hopefully it got all it wanted from you and moved on. Hopefully.
@@ -947,10 +931,11 @@ TODO: is work = 4 used anywhere besides yuelled at?
 
 {know: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back— that if you do, you won't come out again.}
 
-#STOP: office_ambience, 1 #IMAGE: BusStop.png
+#STOP: office_ambience, 1 #IMAGE: Bus Stop
 The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church. {know: You wonder if it will make a difference if you do.}
 
 * [Take the long way home]
+    ~ differnt_path = true
     ->Walk_Home.Different
 
 *[Take the usual path home]
@@ -1120,32 +1105,32 @@ You stand up and trace the path with your eyes, looking for anything that distur
 ->Walk_Up_Path
 
 = Lost
+~ temp TempBool = false
 You take a few steps before stopping, and look back at the open gate. You want to go home. You do. But something tells you to close the gate before you do...
 
 *[What if a kid gets lost?]
-~ temp_bool = true
-#PLAY: footsteps_child_grass #STOP: footsteps_child_grass, 3
-No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
+    ~ TempBool = true
+    #PLAY: footsteps_child_grass #STOP: footsteps_child_grass, 3
+    No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
 
 *[Or an animal gets trapped.]
-~ temp_bool = false
-#PLAY: meow
-No sooner than you think it, you hear the sound of growling and meowing on the property. 
+    #PLAY: meow
+    No sooner than you think it, you hear the sound of growling and meowing on the property. 
 
 - {know || called_number: It's the church. You know it's the church. It has to be, but what if— | {entered_church: {entered_feeling == 1: For a moment, you think it's the church reading your thoughts. | Is the church reading your thoughts?} {entered_feeling == 2: You shake it off. It's just a coincidence.} {entered_feeling == 1: You know how it sounds, but you can't shake the feeling.} You focus back at the task at hand.}} <>
 
 { 
-    -temp_bool:
-    A child might be in there. You should get them out.
-        *["Hey, this isn't a place to play!"]
-        -> Walk_Home.Close
-
-        *["That's trespassing, come on out now."]
-        -> Walk_Home.Close
+    -TempBool:
+        A child might be in there. You should get them out.
+            *["Hey, this isn't a place to play!"]
+                -> Walk_Home.Close
+    
+            *["That's trespassing, come on out now."]
+                -> Walk_Home.Close
     - else:
         A cat might be in there, and from the sound of it, in trouble. You should get them out.
         *["Pspspspspsps, here kitty kitty kitty."]
-        -> Walk_Home.Close
+            -> Walk_Home.Close
 }
 
 = Close
@@ -1158,6 +1143,42 @@ You stick your head past the gates and look around. You don't see anything, the 
 {know: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {entered_church: You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {entered_feeling == 1: You know it's nothing, so checking again won't change anything.} | {called_number: {church_teleported: These didn't light up this morning, or maybe you just didn't notice. | It really wants you to come inside. } | Motion activated maybe?}}}
 
 *[Take a closer look]
+
+*[Pull the gate closed]
+    #PLAY: gate_close #DELAY: 1.73 #PROP: open gates #PROP: closed gates
+    Just as it slams shut...
+    
+    #EFFECT: LightDark # IMAGE: Default #PROP: closed gates 
+    ~CurrentProp = ""
+    Everything goes dark.
+    
+    **[Wait for your eyes adjust]
+        #DELAY: 1.5 
+        You hold your eyes closed and count to five.
+        
+        #DELAY: 1 #EFFECT: LightDarktoUsed
+        One.
+        #DELAY: 1
+        Two.
+        #DELAY: 1
+        Three.
+        #DELAY: 1
+        Four.
+        #DELAY: 1.25
+        Five.
+        
+        You open your eyes, and slowly start to make out your surroundings. In front of you is an old wooden door, and not a metal fence.
+    
+    **[Try to open the gate.]
+        You blindly feel for the latch of the gate, but instead of cool metal your hands meet damp wood, and eventually a knob. 
+    
+        -- Somehow you are inside the church.
+        
+        #PLAY: lock_rattle
+        You try the knob.
+        
+        ***[It's locked]
+            -> Locked
 
 - You take a step onto the property. The ground is soft, but firm. You crouch down in front of the closest light. They have tiny solar panels on the top. In this position, the lawn is at eye level, but not a single weed crosses onto the soft dirt.
 
@@ -1319,7 +1340,7 @@ When you feel safe again, you try to open the knob.
 
 === Locked ===
 #CHECKPOINT: 2, Locked?
-Locked? {know: The blood drains from your face as you realize what you've done.}
+Locked? {church_interest == "drawn" || entered_feeling == 0: You were drawn to the church, but you'd rather not spend the rest of your day locked in here. | {know: The blood drains from your face as you realize what you've done.}}
 
 #PLAY: lock_rattle
 You jiggle the handle again. 
@@ -1329,15 +1350,15 @@ You jiggle the handle again.
 - You don't understand. It can't be locked. {know: |Maybe it got jammed?}
 
 *[Look around for something to pry open the door]
-->Locked.Look
+    ->Locked.Look
 
 *[Kick in the door]
-->Locked.Kick
+    ->Locked.Kick
 
 = Kick
 You size up the door and kick at the latch.
 
-#CLASS: Kick #PLAY: door_thud #DELAY: 1
+#CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
 Thud!
 
 The door shutters, but stands firm.
@@ -1351,12 +1372,12 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "hurt"
 You kick again in the same place.
 
-#CLASS: Kick  #PLAY: door_thud
+#CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
 *[How is the door this strong...?]
 
-- #CLASS: Kick #PLAY: door_thud #DELAY: 1
+- #CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
 Thud!
 
 The door still stands.
@@ -1370,12 +1391,12 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "pain"
 You keep kicking at it. You breathing starts to get heavy and your leg aches. It feels as if you are hitting steel.
 
-#CLASS: Kick #PLAY: door_thud
+#CLASS: Kick #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
 *[You want to leave.]
 
-- #CLASS: Kick #PLAY: door_thud #DELAY: 1
+- #CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
 Thud!
 
 The door shows no signs of breaking.
@@ -1389,22 +1410,22 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 - ~ leg = "worst"
 Something in you allows you to keep going, even as your leg throbs and it feels like you can barely take in anymore air. 
 
-#CLASS: Kick  #PLAY: door_thud
+#CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
 *[You need to get out]
 
-- #CLASS: Kick  #PLAY: door_thud
+- #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
 *[Every fiber of your being is telling you to get <i>out.</i>]
 
-- #CLASS: Kick  #PLAY: door_thud
+- #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
 *[But the church will not let you]
 
-- #CLASS: Kick  #PLAY: door_thud
+- #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
 *[The door does not move]
@@ -1445,20 +1466,20 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 }<>
 {know: . You hope it won't be able to survive that.| . You know it won't be able to survive that.}
 
-# IMAGE: Office_Final
+# IMAGE: Office
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls are made of bookshelves, packed full of books and boxes. A desk sits at the far wall with a stained glass window above it.  {saw_windows: You avoid looking at it. }
 
 {
 - object == "crowbar": 
-    #PROP: item #PROP: crowbar
+    #PROP: item #PROP: crowbar #EFFECT: Force_Open
 }
 {
 - object == "screwdriver":
-    #PROP: item #PROP: screwdriver
+    #PROP: item #PROP: screwdriver #EFFECT: Force_Open
 }
 {
 - object == "sledgehammer":
-    #PROP: item #PROP: sledgehammer
+    #PROP: item #PROP: sledgehammer #EFFECT: Force_Open
 }
 On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
@@ -1470,7 +1491,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 *[Leave it]
 ~ temp_bool = true
 
-- 
+- #EFFECT: Force_Closed
 {
 - object == "crowbar": 
     #PROP: item #PROP: crowbar
@@ -1602,7 +1623,9 @@ Thud!
 
 *[<i>You are trapped</i>]
 
-- The thought bounces around you head. <i>You are trapped.</i>
+- 
+# INTRUSIVE: 5, Trapped, Trapped.Intrusive
+The thought bounces around you head. <i>You are trapped.</i>
 
 {
 
@@ -1635,9 +1658,31 @@ You can barely see, not a single drop of light shines through the windows. Your 
         ->Trapped.Accept
 }
 
+= Intrusive
+You mentally kick yourself for letting this happen. {differnt_path: You tried to go around, but you could have done more. | Why did you take your normal path? The want for normalcy screwed you in the end.} You can barely see, not a single drop of light shines through the windows. Your eyes have mostly adjusted, but not enough to make out meaningful details. You can't get out the way you came in, but there might be another way out.
+
+//Click replace with new text
+{
+    - know == false:
+    *[(Wait until morning) Remember]
+        ->Trapped.Remember
+    *[(Look for a different exit) Remember]
+        ->Trapped.Remember
+    *[(Accept the Church) Remember]
+        ->Trapped.Remember
+ - else:
+    *[Wait until morning]
+        ~ temp_bool = false
+        ->Trapped.Wait_Morning
+    *[Look for a different exit]
+        ~ temp_bool = true
+        ->Trapped.Wait_Morning
+    *[Accept the Church]
+        ->Trapped.Accept
+}
 
 = Remember
-#PROP: polaroid
+#PROP: polaroid # REMOVE: INTRUSIVE
 You pull the polaroid out from your pocket, hoping to think about better times. It's dark, but you can see enough to make out shapes. You trace the image of your younger self, and the gate behind them with your finger, then the church behind—
 
 Church? 
@@ -1703,6 +1748,7 @@ It's still dark, but your eyes have adjusted a bit more. You can't get out the w
 ->Trapped.Accept
 
 = Accept
+# REMOVE: INTRUSIVE
 It was a simple thought. The only things you know are that you found something when you were young, and you escaped. 
 
 A fleeting memory won't help you now. 
@@ -1764,7 +1810,7 @@ You can't stay here. You can't get out the way you came in, but there might be a
 - ->Trapped.Wait_Morning
 
 = Wait_Morning
-
+# REMOVE: INTRUSIVE
 {temp_bool: You attempt to stand, but your legs are like jelly, and you fall back to the floor. <>}
 
  Everything suddenly hits you at once, and you realize how exhausted you are. You can barely see anything. {object != "": You only found the {object} because the church wanted you to.} {temp_bool: You think you should look around after regaining your strength. You don't want to stay in the church any longer than you need to, but pushing past your limits won't help you escape. | You think you should wait until there's some light- any light. }
@@ -1872,6 +1918,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 ->Credits
 
 = Light
+#EFFECT: BlinkOnClick_True #EFFECT: Force_Open
 A red light glows from above you.
 *[Look at the light.]
 
@@ -1935,16 +1982,18 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         ~ church_anger += 1
         ~ stay -= 0.5
         #DELAY: 6.5 #EFFECT: angry-glow #EFFECT: IntialSight
+        #EFFECT: Force_Closed
         You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
         
         #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching  #EFFECT: IntialSight
+        #EFFECT: Force_Open
         An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
         
         *[You can barely stand it.]
         -> Trapped.Light_Leave
         
     - else:
-        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight
+        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight #EFFECT: EFFECT: Force_Closed
         ~ temp_bool = false
         ~ stay += 1
         A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
@@ -1983,14 +2032,14 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
 On the ground in front of you sits a flashlight and a note.
 
 *[Pick up the flashlight]
-->Inside.Flashlight
+    ->Inside.Flashlight
 
 *[Read the note]
 
 - The paper feels thin. It's too dark to read.
 
 *[Pick up the flashlight]
-->Inside.Flashlight
+    ->Inside.Flashlight
 
 = Flashlight
 #PROP: flash #PLAY: flashlight_on
@@ -2001,7 +2050,7 @@ It looks battery operated, and gives off enough light to see around you. You sho
 #EFFECT: flashlight_on #PROP: flash #PROP: note
 - The note is from an old piece of parchment. It feels like it could crumple into dust.
 
-"Find the heart and <color: \#3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color: \#3f1313>sight.</color><br><br>Do not become it's next <color: \#3f1313>meal.</color>"
+"Find the heart and <color=\#3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color=\#3f1313>sight.</color><br><br>Do not become it's next <color=\#3f1313>meal.</color>"
 
 *[Meal...?]
 #PROP: note
@@ -2032,7 +2081,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_b
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{object != "":, which you know has a small office to the right}.
 
 
-#EFFECT: click_move
+#EFFECT: click_move_main
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
 *[confessional]
@@ -2042,21 +2091,21 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     -> Inside.Stairs_First
 
 *[pews]
-    -> Pews_First
+    -> Pews
 
 = Look_For_Heart
-#EFFECT: click_move
+#EFFECT: click_move_main
 TODO: update this based on where we last were and punch up a bit
 You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
 
-*[In the pews]
--> Pews
-
-*[In the confessional]
--> Confessional
-
-*[Somewhere up the stairs]
--> Stairs
++[In the confessional]
+    -> Confessional
+    
++[Somewhere up the stairs]
+    -> Stairs
+    
++[In the pews]
+    -> Pews
 
 = Pews_First
 //TODO: add in bits about the people reflecting the books?
@@ -2139,26 +2188,17 @@ You lean back in your seat, eyes still closed. There's no use sitting here.
 ->Inside.Look_For_Heart
 
 === Confessional ===
-# IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move
-{
- - !confessional_door_side && !confessional_door_side:
-        You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. (click highlighted image)
-    - else:
-        You approach the confessional booth. {confessional_door_side: } {killed_girl: Your eyes linger on the curtain.}(click highlighted image)
-}
+# IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move_confessional
+{!confessional_door_side && !confessional_curtain_side: You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner would enter to confess. (click highlighted image) | You approach the confessional booth. {confessional_door_side: } {killed_girl: Your eyes linger on the curtain.}(click highlighted image)}
 
-{
 
-    - !confessional_door_side:
-        *[Enter throught the door] //door_confessional]
+* {!confessional_door_side} [Enter throught the door] //door_confessional]
         ->Confessional_Door
-}
-{
-    - !confessional_door_side:
-        *[Enter through the curtain]//curtain_confessional]
+
+* {!confessional_door_side} [Enter through the curtain]//curtain_confessional]
         ~temp_bool = false
         ->Confessional_Curtain
-}
+
 
 === Endings ===
 

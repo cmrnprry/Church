@@ -191,7 +191,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 
 = Work_Confession
 ~ temp Temp_String = ""
-
+TODO: add more fired and walk out work things
 {
     - work == 1:
         ~Temp_String = "\"I sent multiple wrong copies to a department. I only realized when a coworker called me out. She seemed worried about me, but... I don't know.\""

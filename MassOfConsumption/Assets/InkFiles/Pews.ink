@@ -66,7 +66,6 @@ What you believe to be a priest ascends the stage and addresses the masses. You 
 - You stay seated, only half listening to the murmurs. You look at the "people" sitting near you, trying to discern anything else about their forms. They're not fully translucent. You can see through their edges but their centers are opaque, almost like a thick black smoke.
 
 *[Touch the person next to you]
-    ~ temp_bool = true
     Curiosity gets the better of you and you attempt to touch the arm of the one seated next to you. Your hand passes right through them, and it's as though you've stuck your hand into a blast chiller.
 
     The figure makes a guttural sound and snaps their gaze towards you. Pain shoots through you as the temperature plummets in your arm. You pull back, holding it close to your body as you desperately try to warm yourself back up. "Sorry! Sorry!"
@@ -74,12 +73,10 @@ What you believe to be a priest ascends the stage and addresses the masses. You 
     The figure growls again, and moves further away from you. You don't think you should do that again.
 
 *[Wait for the sermon to be over]
-~ temp_bool = false
-- 
+    ** [Get up] ->Pews.Get_Up
 
-* {temp_bool} [Get up] ->Pews.Get_Up
+    ** [Wait for the sermon to be over]
 
-* {temp_bool} [Wait for the sermon to be over]
 
 - You stay in your seat, hoping it will end soon. You focus on the back of the seat in front of you. A bible is held in the pocket attached to the back of the pew.
 
@@ -88,7 +85,7 @@ Reading it will probably pass the time, but you can also still sneak away.
 *[Open the bible]
 
 *[Sneak away]
-->Pews.Get_Up
+    ->Pews.Get_Up
 
 - YAs you reach for the bible, a red spotlight land on you. You freeze. It's the light from the window behind the priest. It's the same {temp_string} feeling as before. { leave_light: It warms your body, and some of the tension melts away. | Your skin tingles under it's warmth. It's uncomfortable. } 
 
@@ -99,10 +96,10 @@ He beckons you to join him. All eyes are on you. { leave_light: You fidget with 
 ~temp_bool = false
 
 *[Go to the stage]
-->Pews.Go_to_Stage
+    ->Pews.Go_to_Stage
 
 *[Leave] 
-->Pews.Try_Leave
+    ->Pews.Try_Leave
 
 = Get_Up
 Slowly you rise to your feet, intending to leave the area. <br><br> "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. <br><br> e beckons you to join him. All eyes are on you. { leave_light: You fidget with your clothing, unsure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
