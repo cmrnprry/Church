@@ -9,30 +9,12 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-->Inside.Look_For_Heart
+->Start
 === Start===
 <i>Use the options menu to toggle any text or screen effects on or off, and adjust font.</i>
 
 + [Start Game] 
     ->StartGame
-    
-+ [Skip To...]
-    This is for players who have played the main game already, but want to skip to certain areas more quickly. Important questions will be asked to jump to the chosen area.
-    
-    ++[Return to Main]
-        ->Start
-    ++[Skip to Investigation]
-        ~ skip_counter = 1
-        ->Skip 
-    ++[Skip to Work]
-        ~ skip_counter = 2
-        ->Skip 
-    ++[Skip to After Work]
-        ~ skip_counter = 3
-        ->Skip
-    ++[Skip to Inside Church]
-        ~ skip_counter = 4
-        ->Skip
 
 === Skip ===
 When you passed the church how did you feel about it?

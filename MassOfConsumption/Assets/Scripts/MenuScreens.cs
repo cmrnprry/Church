@@ -24,7 +24,7 @@ public class MenuScreens : MonoBehaviour
     
     private void Start()
     {
-        if (SaveSystem.HasSaveData())
+        if (false)
         {
             LoadButton.gameObject.SetActive(true);
             LoadButton.onClick.AddListener(() => SaveSystem.LoadSlotData(SaveSystem.GetLastSave()));
