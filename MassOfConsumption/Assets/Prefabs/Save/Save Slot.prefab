@@ -89,7 +89,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1833128747693917718}
-  text: {fileID: 121454074973595907}
+  text: {fileID: 2142142649835128334}
 --- !u!114 &2744032585749798038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
-  labelText: {fileID: 121454074973595907}
+  labelText: {fileID: 2142142649835128334}
   labelColors:
     m_NormalColor: {r: 0.8784314, g: 0.8784314, b: 0.8784314, a: 1}
     m_HighlightedColor: {r: 0.65882355, g: 0.05882353, b: 0.05882353, a: 1}
@@ -369,15 +369,15 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1206137787913799912}
   m_SourcePrefab: {fileID: 100100000, guid: 590436e1187d04106ba72f4f53d159fe, type: 3}
---- !u!114 &121454074973595907 stripped
+--- !u!114 &2142142649835128334 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8910836186537893843, guid: 590436e1187d04106ba72f4f53d159fe, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7475044066241655006, guid: 590436e1187d04106ba72f4f53d159fe, type: 3}
   m_PrefabInstance: {fileID: 8792956780131563216}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5740101440219379126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 93880f21be77dab4ab49697fd61ae6cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &5548541875676487001 stripped

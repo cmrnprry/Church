@@ -27,7 +27,7 @@ namespace AYellowpaper.SerializedCollections
         }
 
 
-        [Header("Ink Data")] [SerializeField] private TextAsset InkJsonAsset;
+        [Header("Ink Data")][SerializeField] private TextAsset InkJsonAsset;
         private Story Story;
         private Color text_color;
         private List<string> classes = new List<string>();
@@ -69,7 +69,8 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
-        [Header("Story Objects")] [SerializeField]
+        [Header("Story Objects")]
+        [SerializeField]
         private Transform TextParent;
 
         [SerializeField] private TMProGlobal TextPrefab;
@@ -112,6 +113,13 @@ namespace AYellowpaper.SerializedCollections
 
         [Header("Default Variables")]
         private float default_textdelay = 1.5f; //default time between next piece of text showing up
+        private float Default_ChoiceDelay = 0.5f; //default time between next piece of text showing up
+        private float Default_FadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
+        private float Default_TextGroupDelay = 0.5f; //defualt time to fade out & delete text & choices on screen
+
+        private float DefaultAutoScroll = 0.25f; //default time to autoscroll
+        private const float DefaultShortWait = 0.1f; //default time between a replace choice fade change
+        private bool WaitAfterChoice;
 
         public float Default_TextDelay
         {
@@ -123,22 +131,16 @@ namespace AYellowpaper.SerializedCollections
         {
             default_textdelay = Math.Abs(value);
 
-            float normalizedTime = default_textdelay / 3.0f;
+            float normalizedTime = default_textdelay;
 
-            Default_ChoiceDelay = normalizedTime * 1f;
+            Default_ChoiceDelay = normalizedTime * 0.5f;
             Default_FadeOut = normalizedTime * 1f;
-            Default_TextGroupDelay = normalizedTime * 1f;
+            Default_TextGroupDelay = normalizedTime * 0.75f;
 
             DefaultAutoScroll = normalizedTime * 0.5f;
         }
 
-        private float Default_ChoiceDelay = 0.5f; //default time between next piece of text showing up
-        private float Default_FadeOut = 0.5f; //defualt time to fade out & delete text & choices on screen
-        private float Default_TextGroupDelay = 0.5f; //defualt time to fade out & delete text & choices on screen
 
-        private float DefaultAutoScroll = 0.25f; //default time to autoscroll
-        private const float DefaultShortWait = 0.1f; //default time between a replace choice fade change
-        private bool WaitAfterChoice;
 
         public delegate void VisualEffects(bool isOn);
 
@@ -327,14 +329,46 @@ namespace AYellowpaper.SerializedCollections
 
                 Current_Textbox.text = $"<br>{ContinueText}";
 
+                float duration = Default_TextGroupDelay;
+                DOTweenTMPAnimator animator = new DOTweenTMPAnimator(Current_Textbox);
+                Sequence sequence = DOTween.Sequence();
+
+                Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
+                Scroll.content.ForceUpdateRectTransforms();
+
                 //if we have all the replace data, then make sure it comes fast and then reset the replace data
                 if (ReplaceData.hasData())
                 {
-                    Current_Textbox.DOColor(text_color, 0.15f);
+                    duration = 0.15f;
                     ReplaceData = new ReplaceChoice("", -1);
                 }
-                else
-                    Current_Textbox.DOColor(text_color, Default_TextGroupDelay);
+
+                //Current_Textbox.DOColor(text_color, Default_TextGroupDelay);
+                //DOTween.To(() => Current_Textbox.text, x => Current_Textbox.text = x, text, text.Length / Default_TextGroupDelay);
+                int index = 0;
+                for (int ii = 0; ii < animator.textInfo.characterCount; ii++)
+                {
+                    if (string.IsNullOrWhiteSpace(Current_Textbox.text[ii].ToString()))
+                    {
+                        sequence.Append(animator.DOFadeChar(ii, 1, duration));
+                        index++;
+                    }
+                    else
+                        sequence.Insert(index, animator.DOFadeChar(ii, 1, duration));
+
+
+                    Debug.Log($"char at {ii}: {Current_Textbox.text[ii]}");
+                    if (Current_Textbox.text[ii+2].ToString() == "—")
+                    {
+                        yield return new WaitForSeconds(duration * 0.95f);
+                    }
+                    if (Current_Textbox.text[ii + 2].ToString() == "." || Current_Textbox.text[ii + 2].ToString() == ",")
+                    {
+                        yield return new WaitForSeconds(duration * .70f);
+                    }
+
+                    yield return null;                  
+                }
 
 
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
@@ -344,10 +378,6 @@ namespace AYellowpaper.SerializedCollections
                 }
 
                 SetSaveDataForTextBox();
-
-                //TODO: check this so the box doesn't jump like how it currently does
-                Scroll.DOVerticalNormalizedPos(0, DefaultAutoScroll);
-                Scroll.content.ForceUpdateRectTransforms();
             }
             else if (Story.currentChoices.Count > 0)
             {
@@ -370,7 +400,8 @@ namespace AYellowpaper.SerializedCollections
                 Text_Delay = -1;
             }
 
-            if (hideChoices) yield break;
+            if (hideChoices)
+                yield break;
 
             yield return new WaitForFixedUpdate();
             DisplayNextLine();
