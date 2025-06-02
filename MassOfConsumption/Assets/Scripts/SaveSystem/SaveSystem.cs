@@ -331,7 +331,7 @@ public static class SaveSystem
         
         GameManager.instance.VisualOverlay = GetOverlayValue();
         GameManager.instance.TextEffects = GetTextEffectsValue();
-        GameManager.instance.Default_TextDelay = GetTextSpeed();
+        GameManager.instance.DelayTimings = GetTextSpeed();
         TextSettingsData.SetTextSize();
         TMProGlobal.GlobalFontAsset = GetTextFont();
     }

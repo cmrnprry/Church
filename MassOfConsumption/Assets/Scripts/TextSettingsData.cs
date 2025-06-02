@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
@@ -71,7 +72,7 @@ public class TextSettingsData : MonoBehaviour
     public void SetTextSpeedValue(float value)
     {
         SaveSystem.SetTextSpeed(value);
-        GameManager.instance.Default_TextDelay = value;
+        GameManager.instance.DelayTimings = value;
     }
     
     public void SetTextSizeValue(float value)
@@ -90,6 +91,6 @@ public class TextSettingsData : MonoBehaviour
         SaveSystem.SetFontIndex(value);
         OnTextFontChange?.Invoke();
         TMProGlobal.GlobalFontAsset = SaveSystem.GetTextFont();
-    }
-    
+        TMPTextGlobal.GlobalFontAsset = SaveSystem.GetTextFont();
+    }    
 }
