@@ -9,33 +9,7 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-There is a church at the end of the street— but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. 
-
-There is not a church at the end of the street.
-
-It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
-
-*[It's impossible for a church to spring up overnight.]
-
-- 
-# IMAGE: Church_Looming #CYCLE: decrepit, worn-down, enigmatic, old
-It was not there on the walk to the bus stop yesterday, or the day before— you're sure of it. And a new building wouldn't look so @. You swallow hard.
-
-*[You don't care for it]
-    
-*[You feel drawn to it]
-    
-*[You're nauseous just looking at it]
-    
-- 
-#DELAY: 1.5
-The gates swing open on their own. You're compelled to enter. The church has been waiting for you for a long, <i>long</i> time.
-
-And it's very, very hungry.
-
-*[stop]
-
-->StartGame
+->Start
 === Start===
 <i>Use the options menu to toggle any text or screen effects on or off, and adjust font.</i>
 
@@ -125,10 +99,10 @@ It was dark when you passed, and you keep telling yourself that your tired brain
 *[It's impossible for a church to spring up overnight.]
 
 - 
+# IMAGE: Bus Stop
+You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. A faded "FOR SALE" sign attached to its lawn.
 
-//You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. A faded "FOR SALE" sign attached to its lawn.
-
-# IMAGE: Church_Looming #CYCLE: decrepit, worn-down, enigmatic, old
+#CYCLE: decrepit, worn-down, enigmatic, old
 It was not there on the walk to the bus stop yesterday, or the day before- you're sure of it. And a new building wouldn't look so @. You swallow hard.
 
 *[You don't care for it]
