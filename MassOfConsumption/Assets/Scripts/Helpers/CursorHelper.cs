@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class CursorHelper : MonoBehaviour
 {
     private Vector3 mousePosition;
-    private readonly Vector3 offset = new Vector3(10, -15, 0);
+    private readonly Vector3 offset = new Vector3(17, -22, 0);
     private readonly float moveSpeed = 0.5f;
     public List<Sprite> sprites = new List<Sprite>();
     private Image img;
@@ -20,7 +20,7 @@ public class CursorHelper : MonoBehaviour
     void Start()
     {
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.None;
         img = GetComponent<Image>();
     }
 

@@ -9,7 +9,8 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-->Start
+
+->StartGame
 === Start===
 <i>Use the options menu to toggle any text or screen effects on or off, and adjust font.</i>
 

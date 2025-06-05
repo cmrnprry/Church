@@ -981,8 +981,10 @@ namespace AYellowpaper.SerializedCollections
                 foreach (LabledButton button in ChoiceButtonContainer.GetComponentsInChildren<LabledButton>())
                 {
                     var choice_text = button.GetComponentInChildren<TMProGlobal>();
+                    var choice_image = button.GetComponent<Image>();
                     button.enabled = false;
 
+                    choice_image.DOFade(0, ChoiceShowDelay);
                     choice_text.DOFade(0, ChoiceShowDelay).OnComplete(
                         () => { Destroy(button.gameObject); });
                 }

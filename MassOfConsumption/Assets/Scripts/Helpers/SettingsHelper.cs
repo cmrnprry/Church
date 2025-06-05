@@ -31,13 +31,13 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (i == index)
                 {
-                    MenuParent.GetChild(i).gameObject.SetActive(true);
+                    MenuDictionary[i].SetActive(true);
                     SettingsUIButtonsHelper button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButtonsHelper>();
                     button.IsPageSelected(true);
                 }
                 else
                 {
-                    MenuParent.GetChild(i).gameObject.SetActive(false);
+                    MenuDictionary[i].SetActive(false);
                     SettingsUIButtonsHelper button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButtonsHelper>();
                     button.IsPageSelected(false);
                 }

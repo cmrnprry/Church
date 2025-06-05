@@ -226,7 +226,7 @@ public class SettingsData
         SFX = 0.5f;
 
         text_size = 50;
-        text_speed = -1.5f;
+        text_speed = -1;
         font_index = 0;
         autoplay = false;
         
