@@ -9,6 +9,20 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
+ahhhhhhhh
+
+# IMAGE: Bus Stop
+this si a busstop
+
+*[yes]
+
+- 
+
+# IMAGE: Bus Stop Right
+this should pan
+*[yes]
+
+- 
 
 ->StartGame
 === Start===
@@ -603,16 +617,16 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 - #PLAY: scanner, false, 0.5
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
-# INTRUSIVE: 3, What if it's there on the way home?, Job.Stop_Thinking #DELAY: 2.5f
+# INTRUSIVE: 3, What if it's there on the way home?, Job.Stop_Thinking #DELAY: 2.5
 Place page. Enter email. Send it off. 
 
-# INTRUSIVE: 2, It's just an old church, Job.Go_to_Church_Scan #DELAY: 3.5f
+# INTRUSIVE: 2, It's just an old church, Job.Go_to_Church_Scan #DELAY: 3.5
 Place page. Enter email. Send it off.
 
-# INTRUSIVE: 1, You should go back to it, Job.Go_to_Church_Scan #DELAY: 4.5f
+# INTRUSIVE: 1, You should go back to it, Job.Go_to_Church_Scan #DELAY: 4.5
 Place page. Enter email. Send it off.
 
-# INTRUSIVE: 4, Stop thinking about it, Job.Stop_Thinking #DELAY: 2.5f
+# INTRUSIVE: 4, Stop thinking about it, Job.Stop_Thinking #DELAY: 2.5
 Place page. Enter email. Send it-
 
 #REMOVE: INTRUSIVE #STOP: scanner, 1.5

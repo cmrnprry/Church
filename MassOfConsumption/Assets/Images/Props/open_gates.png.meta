@@ -3,7 +3,7 @@ guid: bd3fd0c2e6c864c7496b2d66cbed8e05
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 13
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -127,9 +127,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 454
-        y: 682
+        y: 779
         width: 818
-        height: 1378
+        height: 1281
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,9 +148,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 2481
-        y: 1198
-        width: 314
-        height: 1329
+        y: 1523
+        width: 137
+        height: 820
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

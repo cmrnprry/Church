@@ -77,11 +77,12 @@ namespace AYellowpaper.SerializedCollections
         [SerializeField] private LabledButton ChoiceButtonPrefab;
         [SerializeField] private ScrollRect Scroll;
 
-        [Header("Image Data")] private bool WasLastDefault = true;
+        [Header("Image Data")]
         [SerializeField] private Animator anim;
         [SerializeField] private Image BackgroundImage;
         [SerializeField] private Transform DefualtImage;
         private BackgroundImage ImageClassData;
+
 
         [SerializedDictionary("Background name", "Sprite")]
         public SerializedDictionary<string, Sprite> BackgroundDictionary;
@@ -114,7 +115,7 @@ namespace AYellowpaper.SerializedCollections
         private float NextTextDelay = 1.5f; //DEFAULT: N/A    |    AUTOPLAY: Time between two text boxes
         private float ChoiceShowDelay = 0.5f; //DEFAULT && AUTOPLAY: Time for choices to show up
         private float ChunkDelay = 0.5f; //DEFAULT && AUTOPLAY: Time between screen refreshing/deleting previous chunk after clicking choice
-        
+
         private float TextCharacterDelay = 0.035f; //DEFAULT && AUTOPLAY: Time between characters
         private float TextPunctuationDelay = 0.5f; //DEFAULT && AUTOPLAY: Delay between punctuation characters
 
@@ -248,7 +249,14 @@ namespace AYellowpaper.SerializedCollections
             }
 
             Story.state.LoadJson(SaveSystem.GetStory());
-            SetBackgroundImage(SaveSystem.GetCurrentSpriteKey());
+
+            if (BackgroundDictionary.ContainsKey(SaveSystem.GetCurrentSpriteKey()))
+            {
+                Image[] children = DefualtImage.GetComponentsInChildren<Image>();
+                children.Append(BackgroundImage);
+
+                StaticHelpers.SetBackgroundImage(SaveSystem.GetCurrentSpriteKey(), BackgroundDictionary[SaveSystem.GetCurrentSpriteKey().Trim()], children, anim);
+            }
 
             foreach (KeyValuePair<string, GameObject> pair in PropDictionary)
             {
@@ -418,8 +426,20 @@ namespace AYellowpaper.SerializedCollections
             switch (key)
             {
                 case "IMAGE": //Sets background image
-                    if (BackgroundDictionary.ContainsKey(value))
-                        SetBackgroundImage(value);
+                    if (value == "Bus Stop Right")
+                        StaticHelpers.ShiftImage(BackgroundImage, true); 
+                    else if (BackgroundDictionary.ContainsKey(value))
+                    {
+                        var temp = DefualtImage.GetComponentsInChildren<Image>();
+
+                        Image[] children = new Image[3];
+                        children[0] = temp[0];
+                        children[1] = temp[1];
+                        children[2] = BackgroundImage;
+
+                        StaticHelpers.SetBackgroundImage(value, BackgroundDictionary[value.Trim()], children, anim);
+                    }
+
                     break;
                 case "PROP": //set what prop is visible on screen
                     if (PropDictionary.ContainsKey(value))
@@ -777,60 +797,6 @@ namespace AYellowpaper.SerializedCollections
             linked.SetData(cycle_list.ToList());
         }
 
-        private void SetBackgroundImage(string key)
-        {
-            if (WasLastDefault)
-            {
-                if (key != "Defualt")
-                {
-                    anim.enabled = false;
-                    var children = DefualtImage.GetComponentsInChildren<Image>();
-                    BackgroundImage.sprite = BackgroundDictionary[key.Trim()];
-                    Sequence seq = DOTween.Sequence();
-
-                    seq.Append(children[0].DOFade(0, 0.25f)).Insert(0, children[1].DOFade(0, 0.25f)).OnComplete(() =>
-                    {
-                        BackgroundImage.DOFade(1, 0.25f);
-                    });
-
-                    WasLastDefault = false;
-                    SaveSystem.SetCurrentSprite(key.Trim());
-                }
-            }
-            else
-            {
-                if (key == "Defualt")
-                {
-                    var children = DefualtImage.GetComponentsInChildren<Image>();
-                    Sequence seq = DOTween.Sequence();
-
-                    children[0].sprite = BackgroundDictionary["Defualt"];
-                    children[1].sprite = BackgroundDictionary["Defualt"];
-                    SaveSystem.SetCurrentSprite("Defualt");
-
-
-                    BackgroundImage.DOFade(0, 0.25f).OnComplete(() =>
-                    {
-                        seq.Append(children[0].DOFade(1, 0.25f)).Insert(0, children[1].DOFade(1, 0.25f)).OnComplete(
-                            () => { anim.enabled = true; });
-                    });
-
-                    WasLastDefault = true;
-                }
-                else
-                {
-                    BackgroundImage.DOFade(0, 0.25f).OnComplete(() =>
-                    {
-                        BackgroundImage.sprite = BackgroundDictionary[key.Trim()];
-                        BackgroundImage.DOFade(1, 0.25f);
-                    });
-
-                    WasLastDefault = false;
-                    SaveSystem.SetCurrentSprite(key.Trim());
-                }
-            }
-        }
-
         public void ReplaceText()
         {
             if (ReplaceData.hasData())
@@ -868,10 +834,8 @@ namespace AYellowpaper.SerializedCollections
 
             for (int i = 0; i < totalCharacters; i++)
             {
-                currentTextbox.maxVisibleCharacters ++;
+                currentTextbox.maxVisibleCharacters++;
                 char character = textInfo.characterInfo[i].character;
-
-                Debug.Log(currentTextbox.maxVisibleCharacters);
 
                 if (character == '.' || character == '—')
                     yield return new WaitForSeconds(TextPunctuationDelay);

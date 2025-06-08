@@ -99,7 +99,6 @@ public class BackgroundImage : MonoBehaviour
         }
     }
 
-
     private void AddClassTweens()
     {
         var data = SaveSystem.GetImageClassData();
