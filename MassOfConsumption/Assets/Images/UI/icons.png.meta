@@ -3,7 +3,7 @@ guid: 9da37eff0e81440bf93c3d998c4716ee
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 13
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -147,10 +147,10 @@ TextureImporter:
       name: Settings
       rect:
         serializedVersion: 2
-        x: 284
-        y: 618
-        width: 234
-        height: 243
+        x: 293
+        y: 626
+        width: 213
+        height: 221
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -189,10 +189,10 @@ TextureImporter:
       name: icons_3
       rect:
         serializedVersion: 2
-        x: 984
-        y: 593
-        width: 329
-        height: 297
+        x: 1016
+        y: 662
+        width: 219
+        height: 228
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -210,10 +210,10 @@ TextureImporter:
       name: icons_4
       rect:
         serializedVersion: 2
-        x: 1312
-        y: 593.3334
-        width: 328.85715
-        height: 296.66666
+        x: 1373
+        y: 662
+        width: 170
+        height: 228
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,10 +315,10 @@ TextureImporter:
       name: icons_9
       rect:
         serializedVersion: 2
-        x: 656
-        y: 297.33334
-        width: 328.85715
-        height: 296.66666
+        x: 686
+        y: 321
+        width: 192
+        height: 225
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -336,10 +336,10 @@ TextureImporter:
       name: icons_10
       rect:
         serializedVersion: 2
-        x: 984
-        y: 297.33334
-        width: 328.85715
-        height: 296.66666
+        x: 991
+        y: 325
+        width: 227
+        height: 213
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -399,10 +399,10 @@ TextureImporter:
       name: icons_13
       rect:
         serializedVersion: 2
-        x: 1968
-        y: 297.33334
-        width: 328.85715
-        height: 296.66666
+        x: 2064
+        y: 322
+        width: 232
+        height: 222
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -420,10 +420,10 @@ TextureImporter:
       name: sound
       rect:
         serializedVersion: 2
-        x: 0
+        x: 24
         y: 3
-        width: 251
-        height: 238
+        width: 211
+        height: 226
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -441,10 +441,10 @@ TextureImporter:
       name: mute
       rect:
         serializedVersion: 2
-        x: 385
+        x: 397
         y: 1
-        width: 160
-        height: 236
+        width: 124
+        height: 227
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -467,7 +467,7 @@ TextureImporter:
         width: 55
         height: 216
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -488,7 +488,7 @@ TextureImporter:
         width: 259
         height: 237
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

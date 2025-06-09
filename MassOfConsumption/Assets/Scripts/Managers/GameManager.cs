@@ -32,11 +32,28 @@ namespace AYellowpaper.SerializedCollections
         private List<string> classes = new List<string>();
         public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
         [SerializeField] private IntrusiveThoughtsManager intrusiveThoughts;
-        private bool CanClickToContiune = false, isTyping = false;
+        [SerializeField] private GameObject ClickToContinueButton;
+        private bool show_click_continue = false, can_click = false;
 
-        public void SetClickToContiune(bool value)
+        public bool ClickToContinue
         {
-            CanClickToContiune = value;
+            get { return show_click_continue; }
+            set
+            {
+                show_click_continue = value;
+                ClickToContinueButton.SetActive(value);
+            }
+        }
+
+        public bool CanClick
+        {
+            get { return can_click; }
+            set { can_click = value; }
+        }
+
+        public void CanClickTextBox(bool value)
+        {
+            can_click = value;
         }
 
         private string ContinueText; // next group of text
@@ -116,9 +133,6 @@ namespace AYellowpaper.SerializedCollections
         private float ChoiceShowDelay = 0.5f; //DEFAULT && AUTOPLAY: Time for choices to show up
         private float ChunkDelay = 0.5f; //DEFAULT && AUTOPLAY: Time between screen refreshing/deleting previous chunk after clicking choice
 
-        private float TextCharacterDelay = 0.035f; //DEFAULT && AUTOPLAY: Time between characters
-        private float TextPunctuationDelay = 0.5f; //DEFAULT && AUTOPLAY: Delay between punctuation characters
-
         private float AutoScrollDelay = 0.25f; //default time to autoscroll
 
         [Header("Const Variables")]
@@ -146,8 +160,8 @@ namespace AYellowpaper.SerializedCollections
             NextTextDelay = NextText_Delay * normalized;
             ChoiceShowDelay = ChoiceShow_Delay * normalized;
             ChunkDelay = Chunk_Delay * normalized;
-            TextCharacterDelay = TextCharacter_Delay * normalized;
-            TextPunctuationDelay = TextPunctuation_Delay * normalized;
+            StaticHelpers.TextCharacterDelay = TextCharacter_Delay * normalized;
+            StaticHelpers.TextPunctuationDelay = TextPunctuation_Delay * normalized;
             AutoScrollDelay = AutoScroll_Delay * normalized;
         }
 
@@ -161,6 +175,7 @@ namespace AYellowpaper.SerializedCollections
         public static event ClickEffects OnForceBlink;
         public static event ClickEffects OnForceOpen;
         public static event ClickEffects OnForceClosed;
+        public static event ClickEffects OnRemoveClick;
 
 
         private void Awake()
@@ -274,8 +289,14 @@ namespace AYellowpaper.SerializedCollections
                 if (autoplay)
                     yield return new WaitForSeconds(NextTextDelay);
                 else
+                {
+                    ClickToContinue = true;
+
                     yield return new WaitUntil(() =>
-                        Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && CanClickToContiune));
+                                           Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && can_click));
+
+                    ClickToContinue = false;
+                }
             }
 
             if (Text_Delay > 0)
@@ -340,19 +361,22 @@ namespace AYellowpaper.SerializedCollections
                     CycleThroughTags(story_tag.Split(':'));
 
                     if (story_tag.Contains("click_move"))
+                    {
+                        ClickToContinue = false;
+                        can_click = false;
                         hideChoices = true;
+                    }
                 }
-
-                float duration = TextCharacterDelay;
 
                 //if we have all the replace data, then make sure it comes fast and then reset the replace data
                 if (ReplaceData.hasData())
                 {
-                    duration = 0.15f;
+                    float duration = 0.15f;
                     ReplaceData = new ReplaceChoice("", -1);
                 }
 
-                yield return StartCoroutine(incrementText($"<br>{ContinueText}", Current_Textbox));
+                StartCoroutine(StaticHelpers.CheckSkip());
+                yield return StartCoroutine(StaticHelpers.IncrementText($"<br>{ContinueText}", Current_Textbox, Scroll, AutoScrollDelay));
 
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
                 if (!ReplaceData.hasTextData())
@@ -364,6 +388,8 @@ namespace AYellowpaper.SerializedCollections
             }
             else if (Story.currentChoices.Count > 0)
             {
+                ClickToContinue = false;
+                can_click = false;
                 DisplayChoices();
                 yield break;
             }
@@ -372,9 +398,16 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (autoplay)
                     yield return new WaitForSeconds(NextTextDelay);
-                else
+                else //wait for input to continue
+                {
+                    ClickToContinue = true;
+
                     yield return new WaitUntil(() =>
-                        Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && CanClickToContiune));
+                                           Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && can_click));
+
+                    ClickToContinue = false;
+                }
+
             }
 
             if (Text_Delay > 0)
@@ -427,7 +460,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 case "IMAGE": //Sets background image
                     if (value == "Bus Stop Right")
-                        StaticHelpers.ShiftImage(BackgroundImage, true); 
+                        StaticHelpers.ShiftImage(BackgroundImage, true);
                     else if (BackgroundDictionary.ContainsKey(value))
                     {
                         var temp = DefualtImage.GetComponentsInChildren<Image>();
@@ -814,45 +847,6 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
-
-        ////////////////////////////////////////////  Text Increment ////////////////////////////////////////////
-        private IEnumerator incrementText(string text, TMP_Text currentTextbox)
-        {
-            isTyping = true;
-            currentTextbox.maxVisibleCharacters = 0;
-            currentTextbox.text = text;
-            currentTextbox.alpha = 225;
-
-            Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
-            Scroll.content.ForceUpdateRectTransforms();
-
-            yield return null;
-
-            currentTextbox.ForceMeshUpdate();
-            TMP_TextInfo textInfo = currentTextbox.textInfo;
-            int totalCharacters = textInfo.characterCount;
-
-            for (int i = 0; i < totalCharacters; i++)
-            {
-                currentTextbox.maxVisibleCharacters++;
-                char character = textInfo.characterInfo[i].character;
-
-                if (character == '.' || character == '—')
-                    yield return new WaitForSeconds(TextPunctuationDelay);
-                else
-                    yield return new WaitForSeconds(TextCharacterDelay);
-            }
-
-            isTyping = false;
-            currentTextbox.maxVisibleCharacters = totalCharacters;
-            yield return new WaitForFixedUpdate();
-        }
-
-        public void ChangeVisible(float value)
-        {
-            Current_Textbox.maxVisibleCharacters = (int)value;
-        }
-
         ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
 
         private void DisplayChoices()
@@ -988,7 +982,7 @@ namespace AYellowpaper.SerializedCollections
 
         public bool CanStoryContinue()
         {
-            return Story.canContinue;
+            return Story.canContinue || Story.currentChoices.Count > 0;
         }
     }
 }

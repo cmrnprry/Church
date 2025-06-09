@@ -14,7 +14,7 @@ public class CursorHelper : MonoBehaviour
     public List<Sprite> sprites = new List<Sprite>();
     private Image img;
     private Coroutine routine;
-    private bool ClickObject = false;
+    private bool ClickObject = false, ClickText = false;
     
 
     void Start()
@@ -97,6 +97,11 @@ public class CursorHelper : MonoBehaviour
             routine = StartCoroutine(Blink());
         }
 
+        if (!GameManager.instance.CanClick && ClickText)
+            OnHoverTextBoxEnd();
+        else if (GameManager.instance.CanClick && !ClickText)
+            OnHoverTextBoxStart();
+
         if (Cursor.visible)
             Cursor.visible = false;
     }
@@ -174,6 +179,7 @@ public class CursorHelper : MonoBehaviour
     {
         img.sprite = sprites[0];
         ClickObject = false;
+        ClickText = false;
     }
 
     public void OnHoverTextBoxStart()
@@ -184,6 +190,7 @@ public class CursorHelper : MonoBehaviour
                 StopCoroutine(routine);
             img.sprite = sprites[4];
             ClickObject = true;
+            ClickText = true;
         }
     }
 }

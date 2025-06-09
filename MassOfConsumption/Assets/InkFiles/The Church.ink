@@ -9,21 +9,6 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-ahhhhhhhh
-
-# IMAGE: Bus Stop
-this si a busstop
-
-*[yes]
-
-- 
-
-# IMAGE: Bus Stop Right
-this should pan
-*[yes]
-
-- 
-
 ->StartGame
 === Start===
 <i>Use the options menu to toggle any text or screen effects on or off, and adjust font.</i>
@@ -965,7 +950,7 @@ You don't look at the church, and instead turn around and walk up the block. A b
         And she hangs up the phone. You swallow hard and stop walking. A looming presence stands behind you, and you know if you turn around, the church will be right behind you.
         
             ***[Turn to the church]
-                #IMAGE: Church_Looming #PROP: closed gates
+                #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
                 ~ FaceIt = true
                 You tuck your phone into your pocket, take a deep, steadying breath, and turn. It looms over you, taller than you remember. <>
                 ->Walk_Home.Stop_Sign
@@ -984,7 +969,7 @@ You don't look at the church, and instead turn around and walk up the block. A b
                     ->Walk_Home.Stop_Sign
     
     **{called_number} [Turn to the church]
-        #IMAGE: Church_Looming #PROP: closed gates
+        #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
         ~ FaceIt = true
         You tuck your phone into your pocket, take a deep, steadying breath, and turn. It looms over you, taller than you remember. <>
     
@@ -1023,7 +1008,7 @@ You stop {turn}, and ball your fists. All sensations stop.
 *[Face the church]
 
 - 
-#IMAGE: Church_Looming #PROP: closed gates
+#IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
 You spin around to face it, and find yourself.. in front... of the church? You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
 {know || called_number || entered_feeling == 0: It's following you. You wipe sweat from your brow.<br><br>It can move.| {entered_church: {entered_feeling != 0: Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket{photo_ripped:, only to find it empty. Your eyes burn as you remember what you did. You dig your nails into your palm. | . The feeling of the worn polaroid calms you.} You're being unreasonable. It's just a building. Just a church. A {church_feeling} church.}}}
@@ -1039,7 +1024,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     
     - else:
     
-        #ICLASS: NULL #IMAGE: Church_Looming #PROP: closed gates
+        #ICLASS: NULL #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
         It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
 }
 
@@ -1066,7 +1051,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
     ->Walk_Up_Path
 
 = Usual
-#IMAGE: Church_Looming #PROP: open gates #PROP: closed gates
+#IMAGE: Church_Looming #PROP: Breathing #PROP: open gates #PROP: closed gates
 #PLAY: gate_open
 As you pass the front gate, it creaks open, and you flinch. {know: You should keep moving.}
 
@@ -1227,7 +1212,7 @@ Nothing. No one's there. You laugh.
 *[Walk to the gate]
 
 - 
-#IMAGE: Church_Looming #PROP: open gates
+#IMAGE: Church_Looming #PROP: Breathing #PROP: open gates
 You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
 
 *[Pull the gate closed]

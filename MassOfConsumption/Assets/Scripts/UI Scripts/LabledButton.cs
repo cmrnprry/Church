@@ -112,6 +112,7 @@ public class LabledButton : Selectable, IPointerClickHandler, ISubmitHandler
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
+        OnCursorExit?.Invoke();
         Press();
     }
     
