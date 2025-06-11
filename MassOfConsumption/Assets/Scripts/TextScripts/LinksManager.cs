@@ -15,7 +15,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
     private int CurrentlyActiveElement;
 
     private List<string> cycle_text = new List<string>();
-    private int cycle_index = 0;
+    private int cycle_index = 0, linkIndex = -1;
     private string cycle_color = "#a80f0f";
     private string color_default = "#a80f0f";
     private string color_hover = "#3f1313";
@@ -70,6 +70,9 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
 
         Textbox.text = Textbox.text.Replace(cycle_color, next_color);
         cycle_color = next_color;
+
+        linkIndex = 0;
+        GameManager.instance.CanClick = true;
     }
 
     private void OnHover(string keyword, Vector3 mousePos)
@@ -78,13 +81,14 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
 
         Textbox.text = Textbox.text.Replace(cycle_color, next_color);
         cycle_color = next_color;
+
+        linkIndex = TMP_TextUtilities.FindIntersectingLink(Textbox, Input.mousePosition, main_cam);
+        GameManager.instance.CanClick = false;
     }
 
     // Callback for handling clicks.
     public void OnPointerClick(PointerEventData eventData)
     {
-        var linkIndex = TMP_TextUtilities.FindIntersectingLink(Textbox, Input.mousePosition, main_cam);
-
         if (linkIndex >= 0 && linkIndex < Textbox.textInfo.linkInfo.Length)
         {
             //var linkId = Textbox.textInfo.linkInfo[linkIndex].GetLinkID();

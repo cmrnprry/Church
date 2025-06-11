@@ -193,7 +193,6 @@ public struct ReplaceChoice
 
 public class SettingsData
 {
-    public bool hasSaveData;
     public string mostRecentSlot;
     public bool isFullScreen;
     public Vector2 resolution;
@@ -215,8 +214,7 @@ public class SettingsData
 
     public SettingsData()
     {
-        hasSaveData = false;
-
+        mostRecentSlot = "";
         isFullScreen = false;
         resolution = new Vector2(1280, 960);
         resolution_index = 0;

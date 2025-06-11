@@ -77,7 +77,7 @@ public static class SaveSystem
 
     public static bool HasSaveData()
     {
-        return System.IO.Directory.GetFiles(Application.persistentDataPath).Length > 1;
+        return !string.IsNullOrEmpty(settingsData.mostRecentSlot);
     }
 
     public static string GetLastSave()
@@ -121,7 +121,6 @@ public static class SaveSystem
 
     public static void SaveAllData(string slotID)
     {
-        settingsData.hasSaveData = true;
         settingsData.mostRecentSlot = slotID;
         SaveSlotData(slotID);
         SaveSettingsData();
@@ -322,9 +321,9 @@ public static class SaveSystem
 
         //set audio
         float mute = GetMuteValue() ? 0 : 1;
-        SetAudioVolume(GetAudioVolume(3), 3);
-        SetAudioVolume(GetAudioVolume(2), 2);
-        SetAudioVolume(mute, 1);
+        AudioManager.instance.AdjustSFX(GetAudioVolume(3));
+        AudioManager.instance.AdjustBGM(GetAudioVolume(2));
+        AudioManager.instance.MuteAudio((int) mute);
 
         //set autoplay values
         GameManager.instance.AutoPlay = GetAutoplayValue();

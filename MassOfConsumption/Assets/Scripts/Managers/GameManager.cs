@@ -267,8 +267,12 @@ namespace AYellowpaper.SerializedCollections
 
             if (BackgroundDictionary.ContainsKey(SaveSystem.GetCurrentSpriteKey()))
             {
-                Image[] children = DefualtImage.GetComponentsInChildren<Image>();
-                children.Append(BackgroundImage);
+                var temp = DefualtImage.GetComponentsInChildren<Image>();
+
+                Image[] children = new Image[3];
+                children[0] = temp[0];
+                children[1] = temp[1];
+                children[2] = BackgroundImage;
 
                 StaticHelpers.SetBackgroundImage(SaveSystem.GetCurrentSpriteKey(), BackgroundDictionary[SaveSystem.GetCurrentSpriteKey().Trim()], children, anim);
             }

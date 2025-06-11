@@ -2201,7 +2201,13 @@ You lean back in your seat, eyes still closed. There's no use sitting here.
 + [Credits] ->Credits
 
 
+=== END_DEMO
+#IMAGE: Title #REMOVE: Overlay #REMOVE: text_container_Dark #REMOVE: text_container_UsedTo #REMOVE: text_container_After
+That is the end of the demo, thank you so much for playing! The full version is coming sometime in 2025. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
 
+Restart the game to replay or use the "checkpoints" menu to retrace your steps and make different choices.
+
++ [Restart Game] 
 
 
 

@@ -24,12 +24,11 @@ public class MenuScreens : MonoBehaviour
     
     private void Start()
     {
-        if (false)
+        if (SaveSystem.HasSaveData())
         {
             LoadButton.gameObject.SetActive(true);
             LoadButton.onClick.AddListener(() => SaveSystem.LoadSlotData(SaveSystem.GetLastSave()));
-        }
-        
+        }       
        
     }
 

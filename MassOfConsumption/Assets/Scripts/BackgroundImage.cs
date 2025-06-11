@@ -64,6 +64,7 @@ public class BackgroundImage : MonoBehaviour
     private Coroutine coroutine;
     private Sequence class_sequence;
     private Sequence zoom_sequence;
+    private bool StopEffect = false;
 
     private void Start()
     {
@@ -134,9 +135,10 @@ public class BackgroundImage : MonoBehaviour
     {
         class_sequence = DOTween.Sequence();
 
-        if (!GameManager.instance.VisualOverlay)
+        if (!GameManager.instance.VisualOverlay || StopEffect)
         {
             mat.DOFloat(0, BlurAmount, 0);
+            StopEffect = false;
             return;
         }
 
@@ -157,6 +159,9 @@ public class BackgroundImage : MonoBehaviour
 
         if (!GameManager.instance.VisualOverlay)
             return;
+
+        if (mat == null)
+            mat = GetComponent<Image>().materialForRendering;
 
 
         float dur = 0;
@@ -238,6 +243,8 @@ public class BackgroundImage : MonoBehaviour
                     break;
             }
         }
+        else
+            StopEffect = true;
     }
 
 
@@ -273,6 +280,7 @@ public class BackgroundImage : MonoBehaviour
 
     private void KillClassTweens()
     {
+        StopEffect = true;
         if (class_sequence != null && class_sequence.IsPlaying())
             class_sequence.Kill(true);
 
