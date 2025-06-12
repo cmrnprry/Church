@@ -83,7 +83,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         cycle_color = next_color;
 
         linkIndex = TMP_TextUtilities.FindIntersectingLink(Textbox, Input.mousePosition, main_cam);
-        GameManager.instance.CanClick = false;
+        GameManager.instance.CanClick = false; //TODO: SET CURSOR
     }
 
     // Callback for handling clicks.
