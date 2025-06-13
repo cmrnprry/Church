@@ -387,7 +387,7 @@ public static class SaveSystem
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
 
-        return GameManager.instance.BackgroundDictionary[slotData.ImageData.GetImageKey()];
+        return GameManager.instance.BackgroundDictionary[temp_data.ImageData.GetImageKey()];
     }
 
     public static string GetCurrentSpriteKey(string slotID = "")

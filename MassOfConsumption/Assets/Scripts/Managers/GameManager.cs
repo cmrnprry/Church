@@ -524,9 +524,13 @@ namespace AYellowpaper.SerializedCollections
 
                     break;
                 case "PROP": //set what prop is visible on screen
-                    if (PropDictionary.ContainsKey(value))
+
+                    string[] prop_list = value.Split(',');
+                    if (PropDictionary.ContainsKey(prop_list[0].Trim()))
                     {
                         var obj = PropDictionary[value];
+
+
                         bool set = !obj.activeSelf;
                         obj.SetActive(set);
 
@@ -620,13 +624,16 @@ namespace AYellowpaper.SerializedCollections
                     should_blink = false;
                     break;
                 case "Force_Blink":
+                    GameManager.instance.CanClick = false;
                     OnForceBlink?.Invoke();
                     break;
                 case "Force_Closed":
+                    GameManager.instance.CanClick = false;
                     OnForceClosed?.Invoke();
                     should_blink = false;
                     break;
                 case "Force_Open":
+                    GameManager.instance.CanClick = false;
                     OnForceOpen?.Invoke();
                     should_blink = false;
                     break;
@@ -638,6 +645,11 @@ namespace AYellowpaper.SerializedCollections
                     break;
                 case "flashlight_off":
                     Flashlight.isOn = false;
+                    break;
+                case "flashlight_off_forever":
+                    Flashlight.isOn = false;
+                    SaveSystem.SetFlashlight(false);
+                    Flashlight.gameObject.SetActive(false);
                     break;
                 case "click_move_main":
                     ClickToMove(0);
@@ -681,6 +693,7 @@ namespace AYellowpaper.SerializedCollections
 
                     red.SetActive(false);
                     orange.SetActive(false);
+                    dark.SetActive(false);
                     onj.SetActive(false);
                     break;
                 case "LightDarktoUsed":

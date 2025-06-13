@@ -89,7 +89,9 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. {h
 
 *[Open the door]
 
-- The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
+- 
+#IMAGE: Basement
+The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
 
 {has_flashlight: The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps. | Something drips from the ceiling and onto your shoe. You can make out some shapes, but not much else. The smell is so overpowering it makes you lightheaded. You should find something to get the front door open and get out.}
 
@@ -111,7 +113,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. {h
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: 1, click-off, false, 0, 3.5
+    #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: click-off, false, 0, 3.5
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
     
@@ -119,6 +121,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. {h
     #CYCLE: crowbar, sledgehammer, screwdriver
     You wander to the closet object and start feeling for something useful. You're not sure what you're looking for, exactly. Maybe a @? Although right now a flashlight would be really-
     
+    #EFFECT: Force_Blink
     <i>Clunk!</i>
     
     You knock something over and it hits the ground before rolling into your foot. You pick it up and roll it over in your hands.
@@ -134,28 +137,29 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. {h
         
         You don't hesitate as you turn and run back toard the door. You say a prayer of thanks that you didn't go too deep into the room. You slip on a puddle of goo and trip, hitting the ground hard, covering yourself in ooze. You lost your grip on the flashlight in the impact, and it rolls away.
         
-       #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: 1, click-off, false, 0, 3.5
+       #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: click-off, false, 0, 3.5 #EFFECT: flashlight_off_forever
         The flashlight flickers, and turns offs, once again leaving you in the darkness. Your skin tingles and itches where the ooze clings to you, but you pay it no mind as you get back to your feet. <>
         ->Stairs.Melt
     
     **[Get out of there.]
         You don't hesitate as you turn and run back toard the door. You say a prayer of thanks that you didn't go too deep into the room. You slip on a puddle of goo and trip, hitting the ground hard, covering yourself in ooze. You lost your grip on the flashlight in the impact, and it rolls away.
         
-        #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: 1, click-off, false, 0, 3.5
+        #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: click-off, false, 0, 3.5 #EFFECT: flashlight_off_forever
         The flashlight flickers, and turns offs, once again leaving you in the darkness. Your skin tingles and itches where the ooze clings to you, but you pay it no mind as you get back to your feet. <>
         ->Stairs.Melt
     
 
 * {!has_flashlight} [Check the back of the room]
     #CYCLE: crowbar, sledgehammer, screwdriver
-    You wander toward the back of the room, tripping over random debris on the ground. The smell gets stronger the deeper you go, and you decide to stop when run into a large item, and start feeling for something useful. You're not sure what you're looking for, exactly. Maybe a @? Although right now a flashlight would be really-
+    You wander toward the back of the room, tripping over random debris on the ground. The smell gets stronger the deeper you go, and you decide to stop when run into a large item, and start feeling for something useful. You're not sure what you're looking for, exactly. Maybe a @? Although right now a flashlight would be really—
     
+    #EFFECT: Force_Blink
     <i>Clunk!</i>
     
     You knock something over and it hits the ground before rolling into your foot. You pick it up and roll it over in your hands.
     
-    #PLAY: click-on #EFFECT: flashlight_on
-    "Well isn't that handy?" You say, turning the flashlight on and shining it around the room. "Oh what the-"
+    #PLAY: click-on #EFFECT: flashlight_on #EFFECT: flashlight_off_forever
+    "Well isn't that handy?" You say, turning the flashlight on and shining it around the room. "Oh what the—"
     
     The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. The room is filled with furniture covered in tarps. To your right are more items covered in tarps, but to your left is a tarp partially covering something scattered over the floor. It comes up to about your chest, a stacked pile of... something. Firewood?
    ->Stairs.Investigate_Smell

@@ -4,7 +4,7 @@
 INCLUDE Variables - Demo.ink
 INCLUDE Stairs - Demo.ink
 
-->Job.Go_to_Church
+->Locked
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -1386,18 +1386,21 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls are made of bookshelves, packed full of books and boxes. A desk sits at the far wall with a stained glass window above it.  {saw_windows: You avoid looking at it. }
 
 {
-- object == "crowbar": 
-    #PROP: item #PROP: crowbar #EFFECT: Force_Open
+    - object == "crowbar": 
+        #PROP: crowbar
+        On the desk sits a {object}, <>
+        
+    - object == "screwdriver":
+        #PROP: screwdriver
+        On the desk sits a {object}, <>
+        
+    - object == "sledgehammer":
+        #PROP: sledgehammer
+        On the desk sits a {object}, <>
 }
-{
-- object == "screwdriver":
-    #PROP: item #PROP: screwdriver #EFFECT: Force_Open
-}
-{
-- object == "sledgehammer":
-    #PROP: item #PROP: sledgehammer #EFFECT: Force_Open
-}
-On the desk sits a {object}, illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
+
+#EFFECT: Force_Blink
+illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
 ~ room = true
 
@@ -1407,18 +1410,19 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 *[Leave it]
 ~ temp_bool = true
 
-- #EFFECT: Force_Closed
+-
 {
-- object == "crowbar": 
-    #PROP: item #PROP: crowbar
-}
-{
-- object == "screwdriver":
-    #PROP: item #PROP: screwdriver
-}
-{
-- object == "sledgehammer":
-    #PROP: item #PROP: sledgehammer
+    - object == "crowbar": 
+        #PROP: crowbar
+        <>
+        
+    - object == "screwdriver":
+        #PROP: screwdriver
+        <>
+        
+    - object == "sledgehammer":
+        #PROP: sledgehammer
+        <>
 }
 {
     - temp_bool:
