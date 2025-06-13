@@ -57,7 +57,7 @@ You keep eating and drinking. Never satisfied. Always needing more.
 - 
 #ENDING: 6, Bad Ending: Eating Forever
 *[The church makes sure of it]
-->Credits
+->END
 
 = Bone
 #EFFECT: EFFECT: BlinkOnClick_True #EFFECT: Force_Closed
@@ -263,7 +263,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
 {
     - stay < 2.5:
         #ENDING: 9, Good Ending: It Has Been a Long, Long Night
-        ->Credits
+        ->END
 }
 
 - Through blury eyes you dig into the soft earth.
@@ -303,7 +303,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
 You stand, wipe your eyes, and dust yourself off.
 
 *[It's time to go home.]
-->Credits
+->END
 
 = Eat_it
 #EFFECT: BlinkOnClick_True #EFFECT: Force_Open
@@ -346,7 +346,7 @@ You are gone.
 
 - #ENDING: 10, ??? Ending: You Are the Church
 *[And the church is you]
-->Credits
+->END
 
 
 

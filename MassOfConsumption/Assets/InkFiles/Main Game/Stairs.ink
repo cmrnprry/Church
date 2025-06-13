@@ -573,7 +573,7 @@ You push yourself harder{leg == "worst": , but your leg is not cooperating with 
         Hoping. Praying.
 
         *[But it's no use.]
-        -> Credits
+        -> END
     - else:
         With one last burst of energy, you throw yourself out of the room. You land on the stairs hard, probably bruising something or worse. You watch as the room collapses in on itself, leaving only a caved in door way.
 
@@ -799,14 +799,14 @@ They begin to sing, hands out streached for you to take. The music flows through
 
 - #ENDING: 7, Bad? Ending: Finding Peace
 *[And find peace.]
-->Credits
+->END
 
 = Leave
 *[It has been a long night.]
 
 - #ENDING: 9, Good Ending: It Has Been a Long, Long Night
 *[And you deserve a very long, vey hot, bath.]
-->Credits
+->END
 
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 
@@ -986,7 +986,7 @@ You trip over yourself, and fall into puddle of the acidic ooze.
 You can't feel your legs.
 
 *[You can't feel anything.]
-->Credits
+->END
 
 = Turn_Back
 *[Go upstairs]

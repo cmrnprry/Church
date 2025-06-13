@@ -1897,7 +1897,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 - #ENDING: 3, Bad Ending: Sleeping Forever
 ...
 *[But you don't wake up.]
-->Credits
+->END
 
 = Light
 #EFFECT: BlinkOnClick_True #EFFECT: Force_Open
@@ -2089,49 +2089,6 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 +[In the pews]
     -> Pews
 
-= Pews_First
-//TODO: add in bits about the people reflecting the books?
-~ temp_string = ""
-~pews = true
-{
-    - confessional_door_side:
-        ~ temp_string += " Another key maybe?"
-}
-
-{
-    - saw_locks && confessional_door_side:
-        ~ temp_string += " Or maybe something to cut the sliding chain?"
-    - saw_locks:
-        ~ temp_string += " Maybe something to cut the sliding chain?"
-}
-
-{
-    - number_combo == "":
-        ~temp_string += " The code for the combination lock?"
-}
-
-{
-    - !confessional_door_side || !saw_locks:
-        ~temp_string += " You don't know exactly what for. A heart wouldn't really make sense to live in the pews. Maybe you should check the stage."
-}
-{
-    - visited_first:
-        ~ visited_first = false
-        You make your way to the pews, and begin to search them for anything important.{temp_string}
-    
-    - else:
-        Tentativly, you make your way to the pews. They are empty, and there is no sign of the figures you saw before. You hope it stays that way, while you search them for anything important.{temp_string}
-
-}
-
-There's eight pews, two columns, with four pews each. You seach from front to back, left to right. You feel underneath and the back to make sure nothing is glued or taped to it. You move slowly and methodically, making sure you don't miss anything. 
-
-You don't find much of anything. With a huff you plop onto the last pew you searched, taking a well deserved break. You close your eyes and rub your face. What are you even looking for?
-
-You lean back in your seat, eyes still closed. There's no use sitting here. 
-
-* {visited_first == false} [You should move on with your search.]
-
 = Stairs_First
 ~temp_bool_3 = false
 {
@@ -2181,33 +2138,11 @@ You lean back in your seat, eyes still closed. There's no use sitting here.
         ~temp_bool = false
         ->Confessional_Curtain
 
-
 === Endings ===
 
 = Bad_End_1
 *[You close your eyes, and fall into a void of relief and comfort.]
--> Credits
-
-=== Credits ===
-<h1>Credits</h1><br>Writing, Design and Code<br>Ren<br><br>Artists<br><a  href="https:\/\/www.instagram.com/clouddancing1995/", target="_blank">Sarah M Casas - @CloudDancing1995</a><br><a href="https:\/\/www.instagram.com/ninak_sketch/", target="_blank">Ninakupenda Gaillard - @ninak_sketch </a><br><a href="https:\/\/www.instagram.com/alma_abyss/", target="_blank">Jada Carey - @Alma_Abyss</a><br><br>Sound Design<br>Joe Bretz/ReverbInTheVoid
-
-+ [Start Game] ->Start
-+ [Content Warnings] ->Content_Warnings
-
-=== Content_Warnings ===
-<h1>Content Warnings</h1><br><ul><li>Mild gore / dead body descriptions</li><br><li>General Christan/Catholic discomfort</li><br><li>General violence towards player/blood/bodily fluids mention. All through text</li><br><li>Potential child harm/child in distress where player is unable to help</li><br><li>Some demeaning speech yelled at the player from a male character</li></ul>
-
-+ [Start Game] ->Start
-+ [Credits] ->Credits
-
-
-=== END_DEMO
-#IMAGE: Title #REMOVE: Overlay #REMOVE: text_container_Dark #REMOVE: text_container_UsedTo #REMOVE: text_container_After
-That is the end of the demo, thank you so much for playing! The full version is coming sometime in 2025. <br><br>  Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates!
-
-Restart the game to replay or use the "checkpoints" menu to retrace your steps and make different choices.
-
-+ [Restart Game] 
+-> END
 
 
 

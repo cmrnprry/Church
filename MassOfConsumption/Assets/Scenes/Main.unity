@@ -3422,7 +3422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb2f97238ae243e1ae820ae29842d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InkJsonAsset: {fileID: 4900000, guid: 8e0c3f582ed7f9f4787efca584af28a4, type: 3}
+  InkJsonAsset: {fileID: 4900000, guid: 6b9b572d991613145b9ad963301d86f2, type: 3}
   Fonts:
   - {fileID: 11400000, guid: f7f2ac252354d574f9bd770faae004af, type: 2}
   - {fileID: 11400000, guid: 2df9d4f5156f8d5458ccde95e3328e52, type: 2}

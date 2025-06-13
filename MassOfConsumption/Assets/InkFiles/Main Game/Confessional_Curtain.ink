@@ -1218,7 +1218,7 @@ It says something that reverberates inside your brain. Words that hold meaning y
 - 
 #ENDING: 5, Bad Ending: Finding Solace
 *You've never known solace like this.
-->Credits
+->END
 
 = Leave_NoProgress
 ~confessional_curtain_side = false

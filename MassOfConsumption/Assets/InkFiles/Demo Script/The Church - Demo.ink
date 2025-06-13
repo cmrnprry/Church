@@ -4,7 +4,7 @@
 INCLUDE Variables - Demo.ink
 INCLUDE Stairs - Demo.ink
 
-->Locked
+->StartGame
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
