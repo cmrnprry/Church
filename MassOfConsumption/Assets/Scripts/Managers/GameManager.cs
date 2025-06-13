@@ -12,6 +12,7 @@ using DG.Tweening;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.TextCore.Text;
 using TextAsset = UnityEngine.TextAsset;
+using UnityEngine.SceneManagement;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -252,7 +253,7 @@ namespace AYellowpaper.SerializedCollections
                 if (text_data.class_text.Length > 0)
                 {
                     Current_Textbox.color = text_color;
-                    Current_Textbox.text = $"<br>{ContinueText}";
+                    Current_Textbox.text = ContinueText;
 
                     foreach (var value in text_data.class_text)
                     {
@@ -275,11 +276,37 @@ namespace AYellowpaper.SerializedCollections
                 children[2] = BackgroundImage;
 
                 StaticHelpers.SetBackgroundImage(SaveSystem.GetCurrentSpriteKey(), BackgroundDictionary[SaveSystem.GetCurrentSpriteKey().Trim()], children, anim);
+
+                var zoomdata = SaveSystem.GetImageZoomData();
+                var imageclasses = SaveSystem.GetImageClassData();
+
+                if (ImageClassData == null)
+                    ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
+
+                if (!zoomdata.IsNull())
+                    ImageClassData.ZoomImage(zoomdata.scale, zoomdata.position, zoomdata.duration);
+                
+
+                if (imageclasses != "NULL" || string.IsNullOrEmpty(imageclasses))
+                    ImageClassData.ApplyClass(imageclasses);
             }
 
             foreach (KeyValuePair<string, GameObject> pair in PropDictionary)
             {
                 PropDictionary[pair.Key].SetActive(SaveSystem.OnLoadPropData(pair.Key));
+            }
+
+            foreach (string thought in SaveSystem.GetIntrusiveThoughts())
+            {
+                StaticHelpers.AddIntrusiveThoughts(thought, intrusiveThoughts);
+            }
+
+            GlobalLight.color = SaveSystem.GetColorData();
+
+            if (SaveSystem.GetFlashlight())
+            {
+                Flashlight.gameObject.SetActive(true);
+                Flashlight.isOn = true;
             }
 
             Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
@@ -349,9 +376,10 @@ namespace AYellowpaper.SerializedCollections
 
                 WaitAfterChoice = false;
                 classes.Clear();
-                Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
                 yield return new WaitForEndOfFrame();
+
+                Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
                 foreach (var story_tag in Story.currentTags)
                 {
@@ -372,6 +400,7 @@ namespace AYellowpaper.SerializedCollections
                     }
                 }
 
+
                 //if we have all the replace data, then make sure it comes fast and then reset the replace data
                 if (ReplaceData.hasData())
                 {
@@ -380,12 +409,12 @@ namespace AYellowpaper.SerializedCollections
                 }
 
                 StartCoroutine(StaticHelpers.CheckSkip());
-                yield return StartCoroutine(StaticHelpers.IncrementText($"<br>{ContinueText}", Current_Textbox, Scroll, AutoScrollDelay));
+                yield return StartCoroutine(StaticHelpers.IncrementText(ContinueText, Current_Textbox, Scroll, AutoScrollDelay));
 
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
                 if (!ReplaceData.hasTextData())
                 {
-                    SaveSystem.SetHistory($"<br><br>{ContinueText}");
+                    SaveSystem.SetSavedHistory($"<br><br>{ContinueText}");
                 }
 
                 SetSaveDataForTextBox();
@@ -459,9 +488,25 @@ namespace AYellowpaper.SerializedCollections
         private void CycleThroughTags(string[] Tag)
         {
             string key = Tag[0].Trim();
-            string value = Tag[1].Trim();
+            string value = "";
+
+            if (Tag.Length > 1)
+                value = Tag[1].Trim();
+
             switch (key)
             {
+                case "RESTART":
+                    SaveSystem.Restart();
+                    ReplaceData = new ReplaceChoice("", -1);
+                    SceneManager.LoadScene(0);
+                    break;
+                case "CLEAR":
+                    SaveSystem.ClearCurrentTextData();
+                    DeleteOldChoices();
+                    DeleteOldTextBoxes(value != "");
+                    DataManager.instance.SetHistoryText();
+                    break;
+
                 case "IMAGE": //Sets background image
                     if (value == "Bus Stop Right")
                         StaticHelpers.ShiftImage(BackgroundImage, true);
@@ -482,7 +527,10 @@ namespace AYellowpaper.SerializedCollections
                     if (PropDictionary.ContainsKey(value))
                     {
                         var obj = PropDictionary[value];
-                        obj.SetActive(!obj.activeSelf);
+                        bool set = !obj.activeSelf;
+                        obj.SetActive(set);
+
+                        SaveSystem.SetCurrentProp(value, set);
                     }
 
                     break;
@@ -496,7 +544,7 @@ namespace AYellowpaper.SerializedCollections
                     AudioManager.instance.PlaySFX(play_list[0].Trim(), play_loop, play_dur, play_delay);
                     break;
                 case "STOP": //{src, fade out, delay}
-                    string[] stop_list = Tag[1].Split(',');
+                    string[] stop_list = value.Split(',');
 
                     float stop_dur = stop_list.Length > 1 ? float.Parse(stop_list[1].Trim()) : 0;
                     float stop_delay = stop_list.Length > 2 ? float.Parse(stop_list[2].Trim()) : 0;
@@ -509,10 +557,6 @@ namespace AYellowpaper.SerializedCollections
                 case "REPLACE": //on click, replaces text with new text
                     SetReplaceChoiceData(value);
                     break;
-                case "CHECKPOINT": //sets a savepoint at specific parts in the story
-                    string[] checkpoints = value.Split(",");
-                    DataManager.instance.UnlockCheckpoint(Int32.Parse(checkpoints[0].Trim()), checkpoints[1].Trim());
-                    break;
                 case "ENDING": //unlocks an ending
                     string[] endings = value.Split(",");
                     DataManager.instance.UnlockEnding(Int32.Parse(endings[0].Trim()), endings[1].Trim());
@@ -521,7 +565,7 @@ namespace AYellowpaper.SerializedCollections
                     string[] cycle_list = value.Split(',');
                     AddCycleText(cycle_list);
                     break;
-                case "ZOOM": // [scale], [xpos], [ypos]
+                case "ZOOM": // [scale], [xpos], [ypos], [dur]
                     string[] zoom_list = value.Split(",");
                     float zoom = float.Parse(zoom_list[0]);
                     float dur = float.Parse(zoom_list[3]);
@@ -531,9 +575,14 @@ namespace AYellowpaper.SerializedCollections
                     break;
                 case "CLASS": //edits the text (within the textbox)'s visuals
                     classes.Add(value);
-                    Current_Textbox.color = text_color;
-                    Current_Textbox.text = $"<br>{ContinueText}";
-                    Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
+
+                    if (Current_Textbox != null)
+                    {
+                        Current_Textbox.color = text_color;
+                        Current_Textbox.text = ContinueText;
+                        Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
+                    }
+                    
                     break;
                 case "ICLASS": //[classes to remove], [classes to add]
                     ImageClassData.ApplyClass(value);
@@ -550,15 +599,8 @@ namespace AYellowpaper.SerializedCollections
                         intrusiveThoughts.KillAllThoughts();
                     break;
                 case "INTRUSIVE": //[amount to spawn], [text], [jump_to]
-                    string[] intusive_list = value.Split(",");
-                    float amount = float.Parse(intusive_list[0]);
-                    string text = intusive_list[1].Trim();
-                    string jump_to = intusive_list[2].Trim();
-
-                    intrusiveThoughts.IncreaseThought();
-
-                    for (int i = 0; i < amount; i++)
-                        intrusiveThoughts.SpawnThought(text, jump_to);
+                    StaticHelpers.AddIntrusiveThoughts(value, intrusiveThoughts);
+                    SaveSystem.AddIntrusiveThroughts(value);
 
                     break;
                 default:
@@ -588,7 +630,8 @@ namespace AYellowpaper.SerializedCollections
                     OnForceOpen?.Invoke();
                     should_blink = false;
                     break;
-                case "flashlight_on": //TODO: check that it saves
+                case "flashlight_on":
+                    SaveSystem.SetFlashlight(true);
                     if (!Flashlight.gameObject.activeSelf)
                         Flashlight.gameObject.SetActive(true);
                     Flashlight.isOn = true;
@@ -604,6 +647,7 @@ namespace AYellowpaper.SerializedCollections
                     break;
                 case "LightDark":
                     GlobalLight.color = DarkLight;
+                    SaveSystem.SetColorData(DarkLight);
                     break;
                 case "IntialSight":
                     ControlGlow("intial");
@@ -641,6 +685,11 @@ namespace AYellowpaper.SerializedCollections
                     break;
                 case "LightDarktoUsed":
                     DOTween.To(() => GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
+                    SaveSystem.SetColorData(UsedToLight);
+                    break;
+                case "Default Light":
+                    GlobalLight.color = OutsideLight;
+                    SaveSystem.SetColorData(OutsideLight);
                     break;
                 default:
                     Debug.LogWarning($"Effect {key} could not be found.");
@@ -900,33 +949,33 @@ namespace AYellowpaper.SerializedCollections
             //if we have replace data, but don't click the replace button
             if (ReplaceData.hasData())
             {
-                SaveSystem.SetHistory($"<br><br>{ContinueText}");
+                SaveSystem.SetSavedHistory($"<br><br>{ContinueText}");
                 SetSaveDataForTextBox();
                 ReplaceData = new ReplaceChoice("", -1);
             }
 
             WaitAfterChoice = true;
-            SaveSystem.SetHistory($"<br><br>{choice.text}");
+            SaveSystem.SetSavedHistory($"<br><br>{choice.text}");
             SaveSystem.ClearCurrentTextData();
             Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();
-            DataManager.instance.SetHistory();
+            DataManager.instance.SetHistoryText();
         }
 
         public void OnClickIntrusiveThought(string thought, string path)
         {
             WaitAfterChoice = true;
             intrusiveThoughts.KillAllThoughts();
-            SaveSystem.SetHistory($"<br><br>{thought}");
+            SaveSystem.SetSavedHistory($"<br><br>{thought}");
             SaveSystem.ClearCurrentTextData();
             Story.ChoosePathString(path);
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();
 
-            DataManager.instance.SetHistory();
+            DataManager.instance.SetHistoryText();
         }
 
         void DeleteOldChoices()
@@ -953,12 +1002,15 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
-        void DeleteOldTextBoxes()
+        void DeleteOldTextBoxes(bool ignoreRecent = false)
         {
             if (TextParent != null)
             {
-                foreach (var child in TextParent.GetComponentsInChildren<TMProGlobal>())
+                var children = TextParent.GetComponentsInChildren<TMProGlobal>();
+                int length = ignoreRecent ? children.Length - 1 : children.Length;
+                for (int i = 0; i < length; i++)
                 {
+                    var child = children[i];
                     child.DOFade(0, AutoScrollDelay).OnComplete(
                         () => { Destroy(child.gameObject); });
                 }

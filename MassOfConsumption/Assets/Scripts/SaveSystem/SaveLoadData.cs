@@ -23,37 +23,43 @@ namespace AYellowpaper.SerializedCollections
         [SerializedDictionary("Prop Object", "Enabled")]
         public SerializedDictionary<string, bool> PropDictionary;
 
-        [SerializedDictionary("Index", "Name")]
-        public SerializedDictionary<int, string> EndingsDictionary;
-
-        [SerializedDictionary("Index", "Name")]
-        public SerializedDictionary<int, string> CheckpointsDictionary;
+        public string[] IntrusiveThoughts;
+        public ColorData GlobalColor;
+        public bool HasFlashlight;
 
         public SlotData()
         {
             InkStory = string.Empty;
             History = string.Empty;
             ImageData = new SavedImageData("Default");
-            
+
+            IntrusiveThoughts = Array.Empty<string>();
             PropDictionary = new SerializedDictionary<string, bool>();
-            EndingsDictionary = new SerializedDictionary<int, string>();
-            CheckpointsDictionary = new SerializedDictionary<int, string>();
             DisplayedTextDictionary = new SerializedDictionary<int, SavedTextData>();
-
-            for (int i = 0; i < 10; i++)
-            {
-                EndingsDictionary.Add(i + 1, "LOCKED");
-            }
-
-            for (int i = 0; i < 8; i++)
-            {
-                CheckpointsDictionary.Add(i + 1, "LOCKED");
-            }
+            GlobalColor = new ColorData(0.8784314f, 0.8078431f, 0.8078431f, 1);
+            HasFlashlight = false;
         }
     }
 }
 
 [System.Serializable]
+public struct ColorData
+{
+    [SerializeField] public float r;
+    [SerializeField] public float g;
+    [SerializeField] public float b;
+    [SerializeField] public float a;
+
+    public ColorData (float r, float g, float b, float a)
+    {
+        this.r = r;
+        this.b = b;
+        this.g = g;
+        this.a = a;
+    }
+}
+
+    [System.Serializable]
 public struct SavedImageData
 {
     [SerializeField] private string CurrentImageKey;
@@ -66,7 +72,7 @@ public struct SavedImageData
         ImageClasses = "";
         ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1);
     }
-    
+
     public void SetImageKey(string key)
     {
         CurrentImageKey = key;
@@ -76,12 +82,12 @@ public struct SavedImageData
     {
         ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1);
     }
-    
+
     public void ResetClasses()
     {
         ImageClasses = "";
     }
-    
+
     public string GetImageKey()
     {
         return CurrentImageKey;
@@ -91,17 +97,17 @@ public struct SavedImageData
     {
         ImageClasses = classes;
     }
-    
+
     public string GetImageClasses()
     {
         return ImageClasses;
     }
-    
+
     public void SetImageZooms(ZoomData classes)
     {
         ImageZooms = classes;
     }
-    
+
     public ZoomData GetImageZooms()
     {
         return ImageZooms;
@@ -191,44 +197,57 @@ public struct ReplaceChoice
     }
 }
 
-public class SettingsData
+namespace AYellowpaper.SerializedCollections
 {
-    public string mostRecentSlot;
-    public bool isFullScreen;
-    public Vector2 resolution;
-    public int resolution_index;
-    public int font_index;
-
-    //AUDIO
-    public bool mute;
-    public float BGM;
-    public float SFX;
-
-    //GAMEPLAY
-    public bool autoplay;
-    public bool visual_overlay;
-    public bool text_effects;
-    
-    public float text_speed;
-    public float text_size;
-
-    public SettingsData()
+    public class SettingsData
     {
-        mostRecentSlot = "";
-        isFullScreen = false;
-        resolution = new Vector2(1280, 960);
-        resolution_index = 0;
+        public string mostRecentSlot;
+        public bool isFullScreen;
+        public Vector2 resolution;
+        public int resolution_index;
+        public int font_index;
 
-        mute = false;
-        BGM = 0.5f;
-        SFX = 0.5f;
+        //AUDIO
+        public bool mute;
+        public float BGM;
+        public float SFX;
 
-        text_size = 50;
-        text_speed = -1;
-        font_index = 0;
-        autoplay = false;
-        
-        visual_overlay = true;
-        text_effects = true;
+        //GAMEPLAY
+        public bool autoplay;
+        public bool visual_overlay;
+        public bool text_effects;
+
+        public float text_speed;
+        public float text_size;
+
+        [SerializedDictionary("Index", "Name")]
+        public SerializedDictionary<int, string> EndingsDictionary;
+
+        public SettingsData()
+        {
+            mostRecentSlot = "";
+            isFullScreen = false;
+            resolution = new Vector2(1280, 960);
+            resolution_index = 0;
+
+            mute = false;
+            BGM = 0.5f;
+            SFX = 0.5f;
+
+            text_size = 50;
+            text_speed = -1;
+            font_index = 0;
+            autoplay = false;
+
+            visual_overlay = true;
+            text_effects = true;
+
+            EndingsDictionary = new SerializedDictionary<int, string>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                EndingsDictionary.Add(i + 1, "LOCKED");
+            }
+        }
     }
 }

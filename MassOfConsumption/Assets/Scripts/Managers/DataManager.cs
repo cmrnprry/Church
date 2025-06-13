@@ -10,7 +10,6 @@ public class DataManager : MonoBehaviour
 
     public TMProGlobal HistoryText;
     public List<TMProGlobal> Endings = new List<TMProGlobal>();
-    public List<TMProGlobal> Checkpoints = new List<TMProGlobal>();
 
 
     private void Awake()
@@ -31,13 +30,6 @@ public class DataManager : MonoBehaviour
             item.text = SaveSystem.GetEnding(index);
             index++;
         }
-
-        index = 1;
-        foreach (var item in Checkpoints)
-        {
-            item.text = SaveSystem.GetCheckpoint(index);
-            index++;
-        }
     }
 
     private void OnEnable()
@@ -52,38 +44,25 @@ public class DataManager : MonoBehaviour
 
     private void SetDataOnLoad()
     {
-        SetHistory();
+        SetHistoryText();
         int index = 1;
         foreach (var item in Endings)
         {
             item.text = SaveSystem.GetEnding(index);
             index++;
         }
-
-        index = 1;
-        foreach (var item in Checkpoints)
-        {
-            item.text = SaveSystem.GetCheckpoint(index);
-            index++;
-        }
-    }
-
-    public void UnlockCheckpoint(int index, string name)
-    {
-        //TODO: maybe make this more elegant        
-        SaveSystem.UnlockCheckpoint(index, name);
-        Endings[index - 1].text = name;
     }
 
     public void UnlockEnding(int index, string name)
     {
-        //TODO: maybe make this more elegant        
+        //TODO: maybe make this more elegant
+        string[] end = name.Split('-');
         SaveSystem.UnlockEnding(index, name);
-        Checkpoints[index - 1].text = name;
+        Endings[index - 1].text = $"{end[0]}\n<size=50>{end[1]}</size>";
     }
 
-    public void SetHistory()
+    public void SetHistoryText()
     {
-        HistoryText.text = SaveSystem.GetHistory();
+        HistoryText.text = SaveSystem.GetSavedHistory();
     }
 }

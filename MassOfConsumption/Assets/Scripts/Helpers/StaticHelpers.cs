@@ -25,7 +25,7 @@ namespace AYellowpaper.SerializedCollections
             Sequence seq = DOTween.Sequence();
             if (LastWasDefault) //if default background is currently shown
             {
-                if (key != "Defualt") //make sure we want to cahnge to a non-default background
+                if (key != "Default") //make sure we want to cahnge to a non-default background
                 {
                     anim.enabled = false;
                     backgrounds[2].sprite = sprite;
@@ -46,11 +46,11 @@ namespace AYellowpaper.SerializedCollections
             }
             else //a non-deafult background is shown
             {
-                if (key == "Defualt") //we want to show default background
+                if (key == "Default") //we want to show default background
                 {
                     backgrounds[0].sprite = sprite;
                     backgrounds[1].sprite = sprite;
-                    SaveSystem.SetCurrentSprite("Defualt");
+                    SaveSystem.SetCurrentSprite("Default");
 
 
                     backgrounds[2].DOFade(0, 0.25f).OnComplete(() =>
@@ -127,7 +127,7 @@ namespace AYellowpaper.SerializedCollections
                 currentTextbox.maxVisibleCharacters++;
                 char character = textInfo.characterInfo[i].character;
 
-                if (character == '.' || character == '—')
+                if (character == '.' || character == '?')
                     yield return new WaitForSeconds(TextPunctuationDelay);
                 else
                     yield return new WaitForSeconds(TextCharacterDelay);
@@ -137,7 +137,6 @@ namespace AYellowpaper.SerializedCollections
             currentTextbox.maxVisibleCharacters = totalCharacters;
             yield return new WaitForEndOfFrame();
         }
-
 
         public static IEnumerator CheckSkip()
         {
@@ -151,7 +150,18 @@ namespace AYellowpaper.SerializedCollections
             CurrentlySkipping = true;
         }
 
+        public static void AddIntrusiveThoughts(string value, IntrusiveThoughtsManager intrusiveThoughts)
+        {
+            string[] intusive_list = value.Split(",");
+            float amount = float.Parse(intusive_list[0]);
+            string text = intusive_list[1].Trim();
+            string jump_to = intusive_list[2].Trim();
 
+            intrusiveThoughts.IncreaseThought();
+
+            for (int i = 0; i < amount; i++)
+                intrusiveThoughts.SpawnThought(text, jump_to);
+        }
 
 
 

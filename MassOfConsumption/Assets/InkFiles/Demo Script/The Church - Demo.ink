@@ -4,7 +4,7 @@
 INCLUDE Variables - Demo.ink
 INCLUDE Stairs - Demo.ink
 
-->StartGame
+->Job.Go_to_Church
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -14,7 +14,7 @@ It was dark when you passed, and you keep telling yourself that your tired brain
 *[It's impossible for a church to spring up overnight.]
 
 - 
-# IMAGE: Bus Stop
+#IMAGE: Bus Stop
 You pass by again, on your walk to the bus stop this morning, and stop dead in your tracks. There should not be a church, and yet, there it sits. It's small, with white paint peeling, revealing sun-bleached brick underneath. It's windows are intact, but everything else is cracked or crumbling. A faded "FOR SALE" sign attached to its lawn.
 
 #CYCLE: decrepit, worn-down, enigmatic, old
@@ -22,18 +22,25 @@ It was not there on the walk to the bus stop yesterday, or the day before- you'r
 
 *[You don't care for it]
     ~church_interest = "care"
+    
+    The feeling isn't strong, you just know you don't particularly like that there's a church there. Similar to when your grandma would put raisins in her cookies, something you don't mind but wish weren't there. 
+    
     #CYCLE: uncomfortable, interesting, awkward, rough
-    The feeling isn't strong, you just know you don't particularly like that there's a church there. Similar to when your grandma would put raisins in her cookies, something you don't mind but wish weren't there. You've always had a... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
+    You've always had a... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
 *[You feel drawn to it]
     ~church_interest = "drawn"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    It's a slight tugging in your gut that pulls you to it. You've always had a... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
+    It's a slight tugging in your gut that pulls you to it. You've always had a... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. 
+    
+    You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
 
 *[You're nauseous just looking at it]
     ~church_interest = "nothing"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    You've never been so repulsed by a building before. You've always had a... @ relationship with religion, but this church makes you want to get in a car and keep driving until the tank runs dry. You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
+    You've never been so repulsed by a building before. You've always had a... @ relationship with religion, but this? This church? It makes you want to get in a car and keep driving until the tank runs dry. 
+    
+    You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
 - Your stomach churns. You shove your hand in your pocket and rub your thumb over the worn polaroid picture inside. <>
 
@@ -275,10 +282,10 @@ The image swims in your vision. Just as you think you've got it, it changes. You
 #DELAY: 2.25 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Swimming-3
 Blood thunders in your ears as pressure builds behind your eyes. You strain to—
 
-#DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
+#CLEAR: true #DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
 HOOOOONNNKK!!
 
-#PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
+#CLEAR: true #PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
@@ -355,7 +362,7 @@ You watch the church through the window until it becomes a dot in the distance. 
 You watch the church through the window until it fades into a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back to the church. It's waiting for you.
 
 *[You <i>need</i> to forget about the church.]
-    # IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
@@ -529,7 +536,7 @@ Place page. Enter email. Send it off.
 Place page. Enter email. Send it off.
 
 # INTRUSIVE: 4, Stop thinking about it, Job.Stop_Thinking #DELAY: 2.5
-Place page. Enter email. Send it-
+Place page. Enter email. Send it—
 
 #REMOVE: INTRUSIVE #STOP: scanner, 1.5
 "Hey— What are you doing?" You jump and look up to see a coworker from your department. You don't talk to her often, but she's nice enough. She looks... concerned?
@@ -819,7 +826,7 @@ TODO: is work = 4 used anywhere besides yuelled at?
         {photo_ripped: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring yourself to throw it away, instead placing each piece in the small drawer of your desk. You'll fix this tomorrow, after a good night's sleep.}
         
     - 4: 
-        #STOP: office_ambience, 1 # IMAGE: Bus Stop
+        #STOP: office_ambience, 1 #IMAGE: Bus Stop
         You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
         <i>But what about the church?</i> Your stomach {church_interest != "drawn": drops | jumps}. You shake your head. Hopefully it will be gone. Hopefully it got all it wanted from you and moved on. Hopefully.
@@ -847,7 +854,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
 ~avoid_church = true
 ~know = false
 ~ temp TempBool = false
-# IMAGE: Stop_Sign
+#IMAGE: Stop_Sign
 You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imgaine of you infront of the church with your grandparents. {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}| Maybe you should give them a call{dropped_phone: once you're home and have a working phone}} | {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}}}.
 
 *[Scratch your neck]
@@ -947,11 +954,11 @@ You spin around to face it, and find yourself.. in front... of the church? You l
 
 
 *[Open the gates]
-    #PLAY: gate_open #PROP: closed gates, true #PROP: open gates
+    #PLAY: gate_open #PROP: closed gates #PROP: open gates
     You throw the gates open, and the edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 
 *{!FaceIt} [Let go]
-    #PLAY: gate_open #PROP: closed gates, true #PROP: open gates
+    #PLAY: gate_open #PROP: closed gates #PROP: open gates
     You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten, small lights lining the path. Motion activated maybe?
 
 - Before you know what you're doing, you take a single step onto the property, just past the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path. <>
@@ -960,7 +967,9 @@ You spin around to face it, and find yourself.. in front... of the church? You l
 
 *[Continue up the path]
 
-- You take a another step onto the property. The ground is soft, but firm. You crouch down in front of the closest light. They have tiny solar panels on the top. In this position, the lawn is at eye level, but not a single weed crosses onto the soft dirt.
+- 
+#ZOOM: 1.5, -228, 203, 1.5 
+You take a another step onto the property. The ground is soft, but firm. You crouch down in front of the closest light. They have tiny solar panels on the top. In this position, the lawn is at eye level, but not a single weed crosses onto the soft dirt.
 
 You stand up and trace the path with your eyes, looking for anything that disturbs it.
 
@@ -1047,7 +1056,7 @@ You stick your head past the gates and look around. You don't see anything, the 
     #PLAY: gate_close #DELAY: 1.73 #PROP: open gates #PROP: closed gates
     Just as it slams shut...
     
-    #EFFECT: LightDark # IMAGE: Default #PROP: closed gates 
+    #EFFECT: LightDark #IMAGE: Default #PROP: closed gates 
     ~CurrentProp = ""
     Everything goes dark.
     
@@ -1087,13 +1096,13 @@ You stand up and trace the path with your eyes, looking for anything that distur
     ->Walk_Up_Path
 
 === Walk_Up_Path ===
-#PLAY: footsteps_player, true
+#ZOOM: 1.75, -562, 345, 1.5 #PLAY: footsteps_player, true
 You take one step forward.
 
 *[And keep walking.]
 
 -
-#PLAY: footsteps_scary, true, 2
+#ZOOM: 2, -562, 448, 1.5 #PLAY: footsteps_scary, true, 2
 And walking.
 
 - You're moving automatically. {church_interest == "drawn" || entered_feeling == 0: Your heart pounds in your chest. | {know || church_interest == "nothing" || entered_feeling != 0: You want to go home.}} The church door is open and inviting. You can't see inside. 
@@ -1129,16 +1138,16 @@ Nothing. No one's there. You laugh.
 *[Walk to the gate]
 
 - 
-#IMAGE: Church_Looming #PROP: Breathing #PROP: open gates
+#ZOOM: 1, 0, 0, 0.5
 You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { - know: It lost. }
 
 *[Pull the gate closed]
 
 - 
-#PLAY: gate_close #DELAY: 1.73 #PROP: open gates #PROP: closed gates
+#PLAY: gate_close #DELAY: 1.73 #PROP: Breathing #PROP: open gates
 Just as it slams shut...
 
-#EFFECT: LightDark # IMAGE: Default #PROP: closed gates 
+#EFFECT: LightDark #IMAGE: Default
 ~CurrentProp = ""
 Everything goes dark.
 
@@ -1171,7 +1180,7 @@ You try the knob.
     -> Locked
 
 = Run
-#PLAY: footsteps_player, true #PLAY: footsteps_scary, true
+#ZOOM: 2.5, -866, 658, 0.5 #PLAY: footsteps_player, true #PLAY: footsteps_scary, true
 { 
     - temp_bool: 
         Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
@@ -1183,7 +1192,7 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, 0, 0.5,  #DELAY: 5 #EFFECT: LightDark # IMAGE: Default #PROP: open gates
+- #ZOOM: 1, 0, 0, 0.5 #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #EFFECT: LightDark #IMAGE: Default #PROP: open gates #PROP: Breathing
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back whoever was chasing you.
 
 #CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
@@ -1226,12 +1235,12 @@ Whoever was out there is slamming themselves into the door. It takes all your st
         BANG!
 }
 
-*[Wait]
+*[Wait it out]
 
 - 
 You don't know how long you sit there, holding the door closed, body braced against it. Eventually the banging stops, but you wait longer, just in case.
 
-#PLAY: lock_rattle, 0, 0.5
+#PLAY: lock_rattle, false, 0, 0.5
 When you feel safe again, you try to open the knob.
 
 *[It's locked]
@@ -1333,7 +1342,7 @@ Thud!
 ->Trapped
 
 = Look
-# IMAGE: Church_Inside
+#IMAGE: Church_Inside
 It's dark, but you can make out vague shapes.
 
 { know: You know it's useless, but fear overtakes the rational part of your brain. There has to be SOMETHING. | You quickly glance around the church. It's small, but seemingly abandoned. There must be something that was left behind by previous squatters or looters. }
@@ -1373,7 +1382,7 @@ You look everywhere, arms outstretched, blindly feeling around your surroundings
 }<>
 {know: You hope it won't be able to survive that.| You know it won't be able to survive that.}
 
-# IMAGE: Office
+#IMAGE: Office
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls are made of bookshelves, packed full of books and boxes. A desk sits at the far wall with a stained glass window above it.  {saw_windows: You avoid looking at it. }
 
 {
@@ -1418,7 +1427,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
         - else: Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you.
         }
     
-        # IMAGE: Default
+        #IMAGE: Default
         You return to the front door.
         
         You stare at it. It stares back.
@@ -1443,7 +1452,7 @@ On the desk sits a {object}, illuminated by a red spotlight from the window. It'
 }
 
 = Crowbar
-# IMAGE: Default
+#IMAGE: Default
 You jam the crowbar in between the door and the wall, at the latch, and pull. 
 
 *[The door groans.]
@@ -1461,7 +1470,7 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
     -> Trapped
 
 = Screwdriver
-#DELAY: 1.5 # IMAGE: Default
+#DELAY: 1.5 #IMAGE: Default
 You get to work unscrewing the top hinges of the door.
 
 #CLASS: Drop_Screw 0.75 #PLAY: screw_fall_1 
@@ -1499,7 +1508,7 @@ You stop searching, drop the screwdriver and stare at the untouched door in fron
 -> Trapped
 
 = Sledgehammer
-# IMAGE: Default
+#IMAGE: Default
 You lift up the large hammer and begin to smash it into the door.
 
 #PLAY: door_slam #CLASS: Kick
@@ -1689,7 +1698,7 @@ You hum along to it.
 -> Trapped.Refuse
 
 -
-#ENDING: 4, Bad Ending: Why Shouldn't I stay?
+#ENDING: 4, BAD ENDING: Why Shouldn't I stay?
 Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
 
 *[The church offers solace.]
@@ -1817,7 +1826,7 @@ It's a soothing sound, but there's something else there, just underneath, that y
 
 *[You fall asleep.]
 
-- #ENDING: 3, Bad Ending: Sleeping Forever
+- #ENDING: 3, BAD ENDING-Sleeping Forever
 ...
 *[But you don't wake up.]
 ->END_DEMO
@@ -1983,7 +1992,7 @@ You remember how the church's sight warped your thoughts and reasoning. { temp_b
         ~ temp_string = ""
 }
 
-# IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
+#IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{object != "":, which you know has a small office to the right}.
 
 
@@ -2010,6 +2019,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 
 *[Examine the stairs]
+    -> Stairs.Examine_Stairs
 
 *[Examine the {looked: office | room}]
     -> Stairs.Office
@@ -2021,14 +2031,12 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 -> END_DEMO
 
 === END_DEMO
-#IMAGE: Title #REMOVE: Overlay #REMOVE: text_container_Dark #REMOVE: text_container_UsedTo #REMOVE: text_container_After 
+#IMAGE: Title #EFFECT: Default Light
 That is the end of the demo, thank you so much for playing! The full version is coming November 2025. <br><br><>
 
 Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates! <br><br><>
 
-Restart the game to replay or use the "checkpoints" menu to retrace your steps and make different choices.
-
-+ [Restart Game] 
++ [Return to Title] 
 #RESTART
 ->DONE
 

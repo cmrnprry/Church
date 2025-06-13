@@ -42,6 +42,8 @@ public class IntrusiveThoughtsManager : MonoBehaviour
             IntrusiveThought intrusive = child.gameObject.GetComponent<IntrusiveThought>();
             intrusive.KillAllThoughts();
         }
+
+        SaveSystem.SetIntrusiveThroughts(new List<string>());
     }
 
     public void IncreaseThought()

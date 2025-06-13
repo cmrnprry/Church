@@ -6,7 +6,6 @@ You walk deeper down the hallway {has_flashlight: to the stairs. Going up, is a 
 {has_flashlight: | A basement might have tools you can use to open the door, but a second floor? From the outside the building barely looked large enough to have one. Maybe it's an attic?}
 
 *[Go upstairs]
-    #IMAGE: Stairs Up
     ->Stairs.Upstairs
     
 *[Go downstairs]
@@ -78,12 +77,12 @@ You cover your face with your shirt, and breathe through your mouth, but the pun
 *[{has_flashlight: See what's behind the door | Get to the bottom}]
 
 - 
-#PLAY: 1, squish-squash
+#PLAY: squish-squash, true
 {has_flashlight: <i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs. | You continue down the last few stairs and hope you're close to the bottom.}
 
 <i>Squish</i>
 
-#stop: 3, squish-squash
+#STOP: squish-squash, 3
 The tissue is soft under your shoes, making a soft, wet sound with each step. {has_flashlight: A thick ooze sticks to the bottom of your shoes. | You can feel something thick stuck to the bottom of your shoes. A few steps later and you hit a door. Thankfully it was made of wood and the knob of metal, and not covered in the same material as the wall. }
 
 <i>Squelch</i>
@@ -112,7 +111,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. {h
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistantly falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+    #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: 1, click-off, false, 0, 3.5
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
     
@@ -135,14 +134,14 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. {h
         
         You don't hesitate as you turn and run back toard the door. You say a prayer of thanks that you didn't go too deep into the room. You slip on a puddle of goo and trip, hitting the ground hard, covering yourself in ooze. You lost your grip on the flashlight in the impact, and it rolls away.
         
-        #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+       #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: 1, click-off, false, 0, 3.5
         The flashlight flickers, and turns offs, once again leaving you in the darkness. Your skin tingles and itches where the ooze clings to you, but you pay it no mind as you get back to your feet. <>
         ->Stairs.Melt
     
     **[Get out of there.]
         You don't hesitate as you turn and run back toard the door. You say a prayer of thanks that you didn't go too deep into the room. You slip on a puddle of goo and trip, hitting the ground hard, covering yourself in ooze. You lost your grip on the flashlight in the impact, and it rolls away.
         
-        #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+        #PLAY: click-on #PLAY: click-off, false, 0, 1 #PLAY: click-on, false, 0, 2.5 #PLAY: 1, click-off, false, 0, 3.5
         The flashlight flickers, and turns offs, once again leaving you in the darkness. Your skin tingles and itches where the ooze clings to you, but you pay it no mind as you get back to your feet. <>
         ->Stairs.Melt
     
@@ -222,8 +221,8 @@ You can't get enough air in. Is this actually slime—?
 
 *[Your skin burns.]
 
-- 
-#ENDING: 1, Bad Ending: Melted #DELAY: 2
+-
+#ENDING: 1, BAD ENDING-Melted #DELAY: 2
 You keep going, desperatly trying to escape. 
 
 #CLASS: Blur #DELAY: 2
@@ -247,6 +246,7 @@ You can't feel your legs.
 ////////// UPSTAIRS INTERACTIONS ////////// 
 
 = Upstairs
+#IMAGE: Stairs Up
 {
     - has_flashlight:
         #PLAY: flashlight_on

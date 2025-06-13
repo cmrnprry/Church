@@ -48,7 +48,6 @@ public class SaveSlot : MonoBehaviour
             Debug.Log($"setting data for {slotID}");
             text.text = SaveSystem.CheckForSaveData(slotID);
 
-            //TODO: either screenshot the screen or make this whatever the current BG image is
             image.sprite = SaveSystem.GetCurrentSprite(slotID);
         }
         else
@@ -62,7 +61,6 @@ public class SaveSlot : MonoBehaviour
         DateTime DateCurrent = DateTime.Now;
         text.text = String.Format("{0:d} {0:t}", DateCurrent);
 
-        //TODO: either screenshot the screen or make this whatever the current BG image is
         image.sprite = SaveSystem.GetCurrentSprite();
 
         SaveSystem.SaveAllData(slotID);

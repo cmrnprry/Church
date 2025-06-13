@@ -7,116 +7,140 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
-public class MenuScreens : MonoBehaviour
+namespace AYellowpaper.SerializedCollections
 {
-    [Header("Transition Screen")]
-    public Image TransitionScreen;
-    public GameObject Settings, MainMenu;
-    public LabledButton LoadButton;
-    public TMP_Dropdown Res_dropdown;
-
-    private float wait = 0.25f;
-
-    public void ReloadScene()
+    public class MenuScreens : MonoBehaviour
     {
-        SceneManager.LoadScene(0);
-    }
-    
-    private void Start()
-    {
-        if (SaveSystem.HasSaveData())
+        [Header("Transition Screen")]
+        public Image TransitionScreen;
+        public GameObject Settings, MainMenu, SaveLoad;
+        public LabledButton LoadButton;
+        public TMP_Dropdown Res_dropdown;
+
+        private float wait = 0.25f;
+
+        public void ReloadScene()
         {
-            LoadButton.gameObject.SetActive(true);
-            LoadButton.onClick.AddListener(() => SaveSystem.LoadSlotData(SaveSystem.GetLastSave()));
-        }       
-       
-    }
+            SceneManager.LoadScene(0);
+        }
 
-    public void StartGame(GameObject Menu)
-    {
-        TransitionScreen.gameObject.SetActive(true);
-        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        private void Start()
         {
-            MainMenu.SetActive(false);
-            Menu.SetActive(true);
-            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+            if (SaveSystem.HasSaveData())
             {
-                TransitionScreen.gameObject.SetActive(false);
-            });
-        });
-    }
-    
-    private void OnEnable()
-    {
-        SaveSystem.OnLoad += CloseSettingsOnLoad;
-    }
+                LoadButton.gameObject.SetActive(true);
+                LoadButton.onClick.AddListener(() =>
+                {
+                    ShowScreen(SaveLoad, true);
+                    SaveSystem.isSaving = false;
+                });
+            }
 
-    private void OnDisable()
-    {
-        SaveSystem.OnLoad -= CloseSettingsOnLoad;
-    }
+        }
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
-
-    public void ShowScreen(GameObject Menu)
-    {
-        TransitionScreen.gameObject.SetActive(true);
-        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        public void StartGame(GameObject Menu)
         {
-            Menu.SetActive(!Menu.activeSelf);
-            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+            TransitionScreen.gameObject.SetActive(true);
+            TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
             {
-                TransitionScreen.gameObject.SetActive(false);
+                MainMenu.SetActive(false);
+                Menu.SetActive(true);
+                TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+                {
+                    TransitionScreen.gameObject.SetActive(false);
+                });
             });
-        });
-    }
-    
-    private void ShowScreen(GameObject Menu, bool shouldShow)
-    {
-        TransitionScreen.gameObject.SetActive(true);
-        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        }
+
+        private void OnEnable()
         {
-            Menu.SetActive(shouldShow);
-            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+            SaveSystem.OnLoad += CloseSettingsOnLoad;
+        }
+
+        private void OnDisable()
+        {
+            SaveSystem.OnLoad -= CloseSettingsOnLoad;
+        }
+
+        public void QuitGame()
+        {
+            Application.Quit();
+        }
+
+        public void ShowScreen(GameObject Menu)
+        {
+            TransitionScreen.gameObject.SetActive(true);
+            TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
             {
-                TransitionScreen.gameObject.SetActive(false);
+                Menu.SetActive(!Menu.activeSelf);
+                TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+                {
+                    TransitionScreen.gameObject.SetActive(false);
+                });
             });
-        });
-    }
+        }
 
-    private void CloseSettingsOnLoad()
-    {
-        StartCoroutine(WaitToHideSettings());
-    }
+        public void ShowSettings()
+        {
+            TransitionScreen.gameObject.SetActive(true);
+            TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+            {
+                Settings.SetActive(true);
+                TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+                {
+                    TransitionScreen.gameObject.SetActive(false);
+                    Time.timeScale = 0;
+                });
+            });
+        }
 
-    private IEnumerator WaitToHideSettings()
-    {
-        yield return new WaitForSeconds(wait);
+        private void ShowScreen(GameObject Menu, bool shouldShow)
+        {
+            TransitionScreen.gameObject.SetActive(true);
+            TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+            {
+                Menu.SetActive(shouldShow);
+                TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
+                {
+                    TransitionScreen.gameObject.SetActive(false);
+                });
+            });
+        }
 
-        if (Settings.activeSelf)
-            ShowScreen(Settings, false);
+        private void CloseSettingsOnLoad()
+        {
+            StartCoroutine(WaitToHideSettings());
+        }
 
-        if (MainMenu.activeSelf)
-            ShowScreen(MainMenu, false);
-    }
+        private IEnumerator WaitToHideSettings()
+        {
+            yield return new WaitForSeconds(wait);
 
-    public void SetScreenMode(bool isFullScreen)
-    {
-        var res = SaveSystem.GetResolution();
-        Screen.SetResolution((int)res.x, (int)res.y, isFullScreen);
-        
-        SaveSystem.SetFullscreen(isFullScreen);
-    }
+            if (Settings.activeSelf)
+                ShowScreen(Settings, false);
 
-    public void SetRes(int value)
-    {
-        var option = Res_dropdown.options[value].text.Split('x');
-        var res = new Vector2(int.Parse(option[0].Trim()), int.Parse(option[1].Trim()));
-        Screen.SetResolution((int)res.x, (int)res.y, SaveSystem.GetFullscreen());
+            if (MainMenu.activeSelf)
+                ShowScreen(MainMenu, false);
 
-        SaveSystem.SetResolution(res, value);
+            if (SaveLoad.activeSelf)
+                ShowScreen(SaveLoad, false);
+        }
+
+        public void SetScreenMode(bool isFullScreen)
+        {
+            var res = SaveSystem.GetResolution();
+            Screen.SetResolution((int)res.x, (int)res.y, isFullScreen);
+
+            SaveSystem.SetFullscreen(isFullScreen);
+        }
+
+        public void SetRes(int value)
+        {
+            var option = Res_dropdown.options[value].text.Split('x');
+            var res = new Vector2(int.Parse(option[0].Trim()), int.Parse(option[1].Trim()));
+            Screen.SetResolution((int)res.x, (int)res.y, SaveSystem.GetFullscreen());
+
+            SaveSystem.SetResolution(res, value);
+        }
     }
 }

@@ -11,6 +11,7 @@ public static class SaveSystem
 {
     // total number of saves in game
     public static bool isSaving = true;
+    public static List<string> IntrusiveThoughts = new List<string>();
 
 
     //class that holds the stuff we need to save
@@ -37,6 +38,11 @@ public static class SaveSystem
             string json = System.IO.File.ReadAllText(path);
             settingsData = JsonUtility.FromJson<SettingsData>(json);
         }
+    }
+
+    public static void Restart()
+    {
+        slotData = new SlotData();
     }
 
     public static void SlotInit(SerializedDictionary<string, Sprite> bg, SerializedDictionary<string, GameObject> props,
@@ -77,7 +83,17 @@ public static class SaveSystem
 
     public static bool HasSaveData()
     {
-        return !string.IsNullOrEmpty(settingsData.mostRecentSlot);
+        if(!string.IsNullOrEmpty(settingsData.mostRecentSlot))
+        {
+            string path = Application.persistentDataPath + "/" + settingsData.mostRecentSlot + ".json";
+
+            if (System.IO.File.Exists(path))
+                return true;
+        }
+
+
+
+        return false;
     }
 
     public static string GetLastSave()
@@ -258,40 +274,24 @@ public static class SaveSystem
         return temp_data.InkStory;
     }
 
-    public static void UnlockEnding(int index, string name, string slotID = "")
+    public static void UnlockEnding(int index, string name)
     {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-
-        temp_data.EndingsDictionary[index] = name;
+        settingsData.EndingsDictionary[index] = name;
     }
 
-    public static string GetEnding(int index, string slotID = "")
+    public static string GetEnding(int index)
     {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-        return temp_data.EndingsDictionary[index];
+        return settingsData.EndingsDictionary[index];
     }
 
-    public static void UnlockCheckpoint(int index, string name, string slotID = "")
-    {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-
-        temp_data.CheckpointsDictionary[index] = name;
-    }
-
-    public static string GetCheckpoint(int index, string slotID = "")
-    {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-        return temp_data.CheckpointsDictionary[index];
-    }
-
-    public static string GetHistory(string slotID = "")
+    public static string GetSavedHistory(string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
 
         return temp_data.History;
     }
 
-    public static void SetHistory(string his)
+    public static void SetSavedHistory(string his)
     {
         slotData.History += his;
     }
@@ -402,9 +402,53 @@ public static class SaveSystem
         slotData.ImageData.SetImageKey(key);
     }
 
+    public static void SetCurrentProp(string key, bool value)
+    {
+        slotData.PropDictionary[key] = value;
+    }
+
+    public static void SetColorData(Color color)
+    {
+        slotData.GlobalColor = new ColorData(color.r, color.b, color.g, color.a);
+    }
+
+    public static Color GetColorData()
+    {
+        return new Color(slotData.GlobalColor.r, slotData.GlobalColor.b, slotData.GlobalColor.g, slotData.GlobalColor.a);
+    }
+
+    public static void SetFlashlight(bool has)
+    {
+        slotData.HasFlashlight = has;
+    }
+
+    public static bool GetFlashlight()
+    {
+        return slotData.HasFlashlight;
+    }
+
 
     // SETTINGS GETTER AND SETTERS //
 
+    public static string[] GetIntrusiveThoughts(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+
+        return temp_data.IntrusiveThoughts;
+    }
+
+    public static void SetIntrusiveThroughts(List<string> thoughts)
+    {
+        slotData.IntrusiveThoughts = thoughts.ToArray<string>();
+    }
+
+    public static void AddIntrusiveThroughts(string thought, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        IntrusiveThoughts.Add(thought);
+
+        temp_data.IntrusiveThoughts = IntrusiveThoughts.ToArray<string>();
+    }
 
     public static bool GetAutoplayValue()
     {

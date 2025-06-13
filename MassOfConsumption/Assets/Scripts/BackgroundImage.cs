@@ -22,12 +22,12 @@ public struct MinMax
     }
 }
 
-[Serializable]
+[System.Serializable]
 public struct ZoomData
 {
-    public float scale;
-    public Vector2 position;
-    public float duration;
+    [SerializeField] public float scale;
+    [SerializeField] public Vector2 position;
+    [SerializeField] public float duration;
 
     public ZoomData(float scale, Vector2 position, float duration)
     {
@@ -167,6 +167,7 @@ public class BackgroundImage : MonoBehaviour
         float dur = 0;
         if (toAdd != "NULL")
         {
+            StopEffect = false;
             switch (toAdd)
             {
                 case "Swimming":

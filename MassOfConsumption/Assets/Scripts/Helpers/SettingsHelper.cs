@@ -22,6 +22,7 @@ namespace AYellowpaper.SerializedCollections
         private void OnDisable()
         {
             SelectMenu(0);
+            Time.timeScale = 1;
             SettingsUIButtonsHelper.OnClick -= SelectMenu;
         }
 

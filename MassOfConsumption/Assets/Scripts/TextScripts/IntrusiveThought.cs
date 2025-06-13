@@ -13,8 +13,10 @@ public class IntrusiveThought : MonoBehaviour
     private TextMeshProUGUI text_box;
     private LabledButton button;
     private MinMax wait = new MinMax();
-    private MinMax fade = new MinMax();
-    private MinMax scale = new MinMax();
+    private MinMax fade_min = new MinMax();
+    private MinMax fade_max = new MinMax();
+    private MinMax scale_min = new MinMax();
+    private MinMax scale_max = new MinMax();
     private Sequence rect_sequence;
     private Sequence text_sequence;
 
@@ -25,10 +27,15 @@ public class IntrusiveThought : MonoBehaviour
         button = this.GetComponent<LabledButton>();
         text_box = this.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
         wait.SetValue(5, 2.5f);
-        fade.SetValue(1, 0);
-        scale.SetValue(1.5f, 0);
+        fade_min.SetValue(0.25f, 0.15f);
+        fade_max.SetValue(1, .6f);
+        scale_min.SetValue(1f, .5f);
+        scale_max.SetValue(1.75f, 1.25f);
         rect_sequence = DOTween.Sequence();
         text_sequence = DOTween.Sequence();
+
+        rect.localScale = Vector3.one * scale_min.GetRandomValue();
+        text_box.alpha = fade_min.GetRandomValue();
     }
 
     public void SetButtonCallback(string jump_to)
@@ -39,13 +46,13 @@ public class IntrusiveThought : MonoBehaviour
     public void SetTweens(string text)
     {
         text_box.text = text;
-        text_box.DOFade(fade.GetRandomValue(), 1.5f).SetDelay(wait.GetRandomValue());
+        text_box.DOFade(fade_max.GetRandomValue(), 1.5f).SetDelay(wait.GetRandomValue());
         //heartbeat option sequence.PrependInterval(wait.GetRandomValue()).Append(rect.DOScale(1.5f, 0.25f)).Append(rect.DOScale(1f, 0.15f)).Append(rect.DOScale(1.5f, 0.25f)).Append(rect.DOScale(1f, 0.15f)).AppendInterval(wait.GetRandomValue()).SetLoops(-1, LoopType.Yoyo);
-        rect_sequence.Append(rect.DOScale(scale.GetRandomValue(), wait.GetRandomValue()))
+        rect_sequence.Append(rect.DOScale(scale_max.GetRandomValue(), wait.GetRandomValue()))
             .SetLoops(-1, LoopType.Yoyo);
 
         text_sequence.AppendInterval(wait.GetRandomValue())
-            .Append(text_box.DOFade(fade.GetRandomValue(), wait.GetRandomValue())).SetLoops(-1, LoopType.Yoyo);
+            .Append(text_box.DOFade(fade_max.GetRandomValue(), wait.GetRandomValue())).SetLoops(-1, LoopType.Yoyo);
     }
 
     public void IncreaseTweens()
@@ -75,7 +82,7 @@ public class IntrusiveThought : MonoBehaviour
                 .SetLoops(-1, LoopType.Yoyo);
             
             if (Random.Range(1, 10) > 5)
-                text_sequence.Insert(wait.GetRandomValue(), anim.DOFadeChar(ii, fade.GetRandomValue(), 1f))
+                text_sequence.Insert(wait.GetRandomValue(), anim.DOFadeChar(ii, fade_max.GetRandomValue(), 1f))
                     .SetLoops(-1, LoopType.Yoyo);
         }
     }
