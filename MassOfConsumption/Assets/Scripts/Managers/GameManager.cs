@@ -400,14 +400,6 @@ namespace AYellowpaper.SerializedCollections
                     }
                 }
 
-
-                //if we have all the replace data, then make sure it comes fast and then reset the replace data
-                if (ReplaceData.hasData())
-                {
-                    float duration = 0.15f;
-                    ReplaceData = new ReplaceChoice("", -1);
-                }
-
                 StartCoroutine(StaticHelpers.CheckSkip());
                 yield return StartCoroutine(StaticHelpers.IncrementText(ContinueText, Current_Textbox, Scroll, AutoScrollDelay));
 
@@ -475,14 +467,14 @@ namespace AYellowpaper.SerializedCollections
 
         private void SetReplaceChoiceData(string value)
         {
-            float uniqueID = Random.Range(1f, 100f);
+            int uniqueID = Random.Range(1, 100);
             string new_text = $"<color=#a80f0f><link=\"{uniqueID}\">{value}</link></color>";
             ContinueText = ContinueText.Replace(value, new_text);
 
             var linked = Current_Textbox.GetComponent<LinksManager>();
             linked.SetReplaceData();
             linked.enabled = true;
-            ReplaceData = new ReplaceChoice(value);
+            ReplaceData = new ReplaceChoice(value, uniqueID);
         }
 
         private void CycleThroughTags(string[] Tag)
@@ -512,7 +504,7 @@ namespace AYellowpaper.SerializedCollections
                         StaticHelpers.ShiftImage(BackgroundImage, true);
                     else if (BackgroundDictionary.ContainsKey(value))
                     {
-                        var temp = DefualtImage.GetComponentsInChildren<Image>();
+                          var temp = DefualtImage.GetComponentsInChildren<Image>();
 
                         Image[] children = new Image[3];
                         children[0] = temp[0];
@@ -531,10 +523,23 @@ namespace AYellowpaper.SerializedCollections
                         var obj = PropDictionary[value];
 
 
-                        bool set = !obj.activeSelf;
-                        obj.SetActive(set);
+                        bool visible = !obj.activeSelf;
+                        obj.SetActive(visible);
 
-                        SaveSystem.SetCurrentProp(value, set);
+                        var helper = obj.GetComponent<OnOffHelpers>();
+                        if (helper != null)
+                            obj.GetComponent<OnOffHelpers>().FlipVisibility(visible);
+                        else
+                        {
+                            foreach (Transform child in obj.transform)
+                            {
+                                var chil_helper = child.gameObject.GetComponent<OnOffHelpers>();
+                                if (chil_helper != null)
+                                    chil_helper.FlipVisibility(visible);
+                            }
+                        }
+
+                        SaveSystem.SetCurrentProp(value, visible);
                     }
 
                     break;
@@ -664,37 +669,21 @@ namespace AYellowpaper.SerializedCollections
                 case "IntialSight":
                     ControlGlow("intial");
                     break;
-                case "intense-glow":
+                case "start-glow":
                     ControlGlow("intense");
-                    break;
-                case "angry-glow":
-                    ControlGlow("angry");
                     break;
                 case "leave-glow":
                     ControlGlow("leave");
                     break;
+                case "scream-glow":
+                    ControlGlow("scream");
+                    break;
+                case "stay-glow":
+                    ControlGlow("stay");
+                    break;
                 case "remove-glow":
-                    var red = LightingDictionary["Red Glow"]; //.6-.9
-                    var red_light = red.GetComponent<Light2D>();
-
-                    var orange = LightingDictionary["Orange Glow"]; //0.15-1
-                    var orange_light = orange.GetComponent<Light2D>();
-
-                    var dark = LightingDictionary["Dark Glow"]; //0-1
-                    var dark_light = dark.GetComponent<Light2D>();
-
-                    var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
-                    var intial_light = onj.GetComponent<Light2D>();
-
-                    DOTween.Kill(red_light.falloffIntensity);
-                    DOTween.Kill(orange_light.falloffIntensity);
-                    DOTween.Kill(dark_light.falloffIntensity);
-                    DOTween.Kill(intial_light.intensity);
-
-                    red.SetActive(false);
-                    orange.SetActive(false);
-                    dark.SetActive(false);
-                    onj.SetActive(false);
+                    var anim = LightingDictionary["Animator"].GetComponent<Animator>();
+                    anim.SetTrigger("End");
                     break;
                 case "LightDarktoUsed":
                     DOTween.To(() => GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
@@ -712,29 +701,28 @@ namespace AYellowpaper.SerializedCollections
 
         private void ControlGlow(string type)
         {
-            if (lightingSequence != null && lightingSequence.IsPlaying())
-                lightingSequence.Kill(true);
-
-            lightingSequence = DOTween.Sequence();
-            if (lightingSequence.IsPlaying())
-                lightingSequence.Complete();
-
+            var anim = LightingDictionary["Animator"].GetComponent<Animator>();
 
             if (type == "intense")
             {
-                IntenseLightCallback();
-            }
-            else if (type == "angry")
-            {
-                LeaveLightCallback(true);
+                anim.enabled = true;
             }
             else if (type == "leave")
             {
-                LeaveLightCallback();
+                anim.SetTrigger("Leave");
+            }
+            else if (type == "stay")
+            {
+                anim.SetTrigger("Stay");
+            }
+            else if (type == "scream")
+            {
+                anim.SetTrigger("Scream");
             }
             else if (type == "intial")
             {
                 var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
+                
                 var intial_light = onj.GetComponent<Light2D>();
 
                 if (onj.activeSelf)
@@ -750,123 +738,6 @@ namespace AYellowpaper.SerializedCollections
                         value => intial_light.intensity = value, 10, .5f);
                 }
             }
-        }
-
-        void LeaveLightCallback(bool isAngry = false)
-        {
-            lightingSequence = DOTween.Sequence();
-
-            var red = LightingDictionary["Red Glow"]; //.6-.9
-            red.SetActive(true);
-            var red_light = red.GetComponent<Light2D>();
-
-            var orange = LightingDictionary["Orange Glow"]; //0.15-1
-            orange.SetActive(true);
-            var orange_light = orange.GetComponent<Light2D>();
-
-            var dark = LightingDictionary["Dark Glow"]; //0-1
-            dark.SetActive(true);
-            var dark_light = dark.GetComponent<Light2D>();
-
-            lightingSequence.Append(DOTween.To(() => red_light.intensity,
-                value => red_light.intensity = value, 0, 1.75f)).Insert(0,
-                DOTween.To(() => orange_light.intensity,
-                    ov => orange_light.intensity = ov, 0, 1.75f)).Insert(0,
-                DOTween.To(() => dark_light.intensity,
-                    dv => dark_light.intensity = dv, 0, 1.75f)).AppendInterval(5f).OnComplete(() =>
-            {
-                if (isAngry)
-                {
-                    red_light.intensity = 1;
-                    orange_light.intensity = 1;
-                    dark_light.intensity = 1;
-                    AngryLightCallback();
-                }
-                else
-                {
-                    DOTween.Kill(red_light.falloffIntensity);
-                    DOTween.Kill(orange_light.falloffIntensity);
-                    DOTween.Kill(dark_light.falloffIntensity);
-
-                    red.SetActive(true);
-                    orange.SetActive(true);
-                    dark.SetActive(true);
-                }
-            });
-        }
-
-        void AngryLightCallback()
-        {
-            var red = LightingDictionary["Red Glow"]; //.6-.9
-            red.SetActive(true);
-            var red_light = red.GetComponent<Light2D>();
-            float red_end = 0.75f;
-            red_light.falloffIntensity = 0.9f;
-
-            var orange = LightingDictionary["Orange Glow"]; //0.15-1
-            orange.SetActive(true);
-            var orange_light = orange.GetComponent<Light2D>();
-            float orange_end = 0.15f;
-            orange_light.falloffIntensity = 1f;
-
-            var dark = LightingDictionary["Dark Glow"]; //0-1
-            dark.SetActive(true);
-            var dark_light = dark.GetComponent<Light2D>();
-            float dark_end = 0f;
-            dark_light.falloffIntensity = 1f;
-
-            MinMax duration = new MinMax();
-            duration.SetValue(0.5f, 0.75f);
-
-            DOTween.Kill(red_light.falloffIntensity);
-            DOTween.Kill(orange_light.falloffIntensity);
-            DOTween.Kill(dark_light.falloffIntensity);
-
-
-            DOTween.To(() => red_light.falloffIntensity,
-                    value => red_light.falloffIntensity = value, red_end, duration.GetRandomValue())
-                .SetLoops(-1, LoopType.Yoyo);
-
-            DOTween.To(() => orange_light.falloffIntensity,
-                    ov => orange_light.falloffIntensity = ov, orange_end, duration.GetRandomValue())
-                .SetLoops(-1, LoopType.Yoyo);
-
-            DOTween.To(() => dark_light.falloffIntensity,
-                    dv => dark_light.falloffIntensity = dv, dark_end, duration.GetRandomValue())
-                .SetLoops(-1, LoopType.Yoyo);
-        }
-
-        void IntenseLightCallback()
-        {
-            var red = LightingDictionary["Red Glow"]; //.6-.9
-            red.SetActive(true);
-            var red_light = red.GetComponent<Light2D>();
-            float red_end = (red_light.falloffIntensity >= 0.9f) ? 0.75f : 0.9f;
-
-            var orange = LightingDictionary["Orange Glow"]; //0.15-1
-            orange.SetActive(true);
-            var orange_light = orange.GetComponent<Light2D>();
-            float orange_end = (orange_light.falloffIntensity >= 1f) ? 0.15f : 1f;
-
-            var dark = LightingDictionary["Dark Glow"]; //0-1
-            dark.SetActive(true);
-            var dark_light = dark.GetComponent<Light2D>();
-            float dark_end = (dark_light.falloffIntensity >= 1f) ? 0f : 1f;
-
-            MinMax duration = new MinMax();
-            duration.SetValue(1.5f, 2);
-
-            DOTween.To(() => red_light.falloffIntensity,
-                    value => red_light.falloffIntensity = value, red_end, duration.GetRandomValue())
-                .SetLoops(-1, LoopType.Yoyo);
-
-            DOTween.To(() => orange_light.falloffIntensity,
-                    ov => orange_light.falloffIntensity = ov, orange_end, duration.GetRandomValue())
-                .SetLoops(-1, LoopType.Yoyo);
-
-            DOTween.To(() => dark_light.falloffIntensity,
-                    dv => dark_light.falloffIntensity = dv, dark_end, duration.GetRandomValue())
-                .SetLoops(-1, LoopType.Yoyo);
         }
 
         private void ClickToMove(int Index)

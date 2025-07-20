@@ -11,7 +11,7 @@ You walk deeper down the hallway {has_flashlight: to the stairs. Going up, is a 
 *[Go downstairs]
     {
         - has_flashlight:
-            #PLAY: click-on
+             #IMAGE: Stairs Down #PLAY: click-on
             You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
     
             You tense, every fiber of your being telling you to not continue down.
@@ -78,7 +78,7 @@ You cover your face with your shirt, and breathe through your mouth, but the pun
 
 - 
 #PLAY: squish-squash, true
-{has_flashlight: <i>You've made it this far, might as well see it it toward the end,<i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs. | You continue down the last few stairs and hope you're close to the bottom.}
+{has_flashlight: <i>You've made it this far, might as well see it it toward the end,</i> you think, and take a deep breath through your mouth. Slowly, you make it to the bottom of the stairs. | You continue down the last few stairs and hope you're close to the bottom.}
 
 <i>Squish</i>
 
@@ -169,7 +169,7 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 
 *[Lift the tarp]
 
-- #PLAY: click-off
+- #PLAY: click-off #PROP: bones
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
 #CYCLE: mourn, pity, pray
@@ -177,12 +177,14 @@ Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of ha
 
 *[Search left]
 ~temp_bool = false
+#PROP: bones
 You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
 
 You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
 
 *[Search right]
 ~temp_bool = true
+#PROP: bones
 You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
 
 Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
@@ -250,12 +252,12 @@ You can't feel your legs.
 ////////// UPSTAIRS INTERACTIONS ////////// 
 
 = Upstairs
-#IMAGE: Stairs Up
 {
     - has_flashlight:
-        #PLAY: flashlight_on
+        #IMAGE: Stairs Up #PLAY: flashlight_on
         You start up the stairs, holding the hand rail as you go.
     - else: 
+        #IMAGE: Stairs Up
         You place one hand on the railing, and begin slowly ascending. <>
 }
 

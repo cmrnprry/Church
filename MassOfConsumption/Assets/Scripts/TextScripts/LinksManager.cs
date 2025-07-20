@@ -71,7 +71,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         Textbox.text = Textbox.text.Replace(cycle_color, next_color);
         cycle_color = next_color;
 
-        linkIndex = 0;
+        linkIndex = -1;
         GameManager.instance.CanClick = true;
     }
 

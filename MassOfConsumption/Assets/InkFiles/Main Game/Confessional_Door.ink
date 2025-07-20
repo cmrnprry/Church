@@ -602,7 +602,6 @@ TODO: is the above variable needed?
 {visited_state:
     
     - 1:
-       <b> This is I think about the 20 min mark! You can keep going but I have no idea what will/won't break! If you want more go back and choose the other confessional door :)</b>
         ->After_First.Confessional_After
     - 2:
         -> After_Second.Confessional_Sin_Second

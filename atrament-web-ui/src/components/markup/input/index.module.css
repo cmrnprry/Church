@@ -1,8 +1,0 @@
-.input {
-  width: 100%;
-  padding: 0.25rem;
-  border: 2px solid var(--accent-color);
-  border-radius: var(--border-radius-inline);
-  background-color: var(--dark-color);
-  color: var(--accent-color);
-}

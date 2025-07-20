@@ -36,30 +36,7 @@
 ->Inside.Look_For_Heart
 
 = Office
-{
-    - object != "":
-        ~temp_string = "It's the office door from earlier, but it seems shorter than you remember."
-    - else:
-        ~temp_string = ""
-}
-
-{
-    - temp_visited:
-        ~temp_visited = false
-        { - room:
-
-            - 2: You see a door, and duck through the doorway. {temp_string}
-            - 3: You see a small door, and crawl through it.
-            - else: 
-                {object != "": There is no doorway. Where is the door way? You don't have time to think about it. }You run deeper into the hall, and to the stairs. You run half-way down the stairs and wait.
-        }
-    - else:
-        { - room:
-
-            - 2: You duck through the doorway.
-            - 3: You crawl through the doorway.
-        }
-}
+{ object != "": It's the office door from earlier, but it seems shorter than you remember. You | You see a door, and }duck through the doorway.
 
 {
     - saw_locks:
@@ -586,19 +563,16 @@ You push yourself harder{leg == "worst": , but your leg is not cooperating with 
 }
 
 = Examine_Stairs
-You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either.
-
-*[Enter the office]
-->Stairs.Office
-
-*[Return to the main body of the church]
-->Inside.Look_For_Heart
+You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {object != "": How did you miss this before?}
 
 *[Go upstairs]
     ->Stairs.Upstairs
     
 *[Go downstairs]
     ->Stairs.Downstairs
+    
+*[Go back]
+    ->Stairs.Office
     
 
 = Exit_Office
@@ -885,8 +859,10 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
 <i>Squelch</i>
 
 *[Open the door]
+    ->Stairs.In_Basement
 
-- The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
+= In_Basement
+The door opens, and you are assulted by the smell. Your eyes water and you clamp your hand over your nose and mouth. You take a few steps inside, trying to see what's the cause of this god awful smell.
 
 The room is covered in the pink, buldging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
 
@@ -1010,70 +986,163 @@ You can't feel your legs.
 
 ////////// UPSTAIRS INTERACTIONS ////////// 
 
+= Downstairs_Trick
+~ went_downstairs = 3
+At least until the smell hits you. The smell of rot hits your nose, so strong you gag. {leg == "worst": You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. <>
+
+{went_downstairs >= 2: It was the same ripe smell from before. You swing around to look behind you only to be met with inky blackness. You know you didn't miss the landing, that's impossible. | The stench is unbareable. It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge. Did you miss the landing and mistakenly continue down? You swing around to look behind you only to be met with inky blackness.}
+
+*[Retrace your steps]
+    Taking a deep breath through your mouth, you start back up the stairs. {went_downstairs >= 2: There's no way you just walked right past the landing like that. There is a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} 
+    
+    After climbing the stairs up for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {took_object || church_teleported: <i>Is the church messing with me?</i> | <i>How did...?</i>} 
+    TODO: Check what other variables I should be checking for here and down below
+    
+    **[Continue to the top]
+        <i>Screw it.</i> You think and decide to reach the top. At this point, either the landing never existed or the church is messing with your sense of direction. Either way, you would rather take your chances with whatever the attic hass in store for you rather than the basement. {went_downstairs >= 3: Your skin crawls at the memory of the flesh covering the staircase. } 
+        
+        You power through the rest of the stairs, only stopping to rest when your limbs refuse to cooperate. At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{leg == "worst":, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
+        
+            ->Stairs.Upstairs_Landing
+    
+    **[Turn around and try again]
+        "Third time's the charm," You mutter, turning back down the stairs, methodically checking for the landing after each step. 
+        
+        A flight or two later, you barely make out a flat platfrom at the edge of your flashlight's range. You don't think and rush down the rest of the stairs, running face first into a door. The scent of rotting flesh hits you a second later.
+        
+        #CYCLE: mold, fungus, flesh
+        You gasp, taking a step back and slipping on something leaking from the door, landing on a squishy mass. It shivers in response to your touch. You yelp, jumping away{went_downstairs >=3:, eyes fixed on the quivering @. |, and see the walls and stairs covered in the same bulbous @.}
+        
+        In frustration you kick the door{leg == "worst":, then supress a curse as a sharp pain shoots up your leg}. Is this your only option? A rotting basment? You wonder if you can return now that you've made it to the end? Or if you'll end up somewhere worse.
+        
+        ***[Take your chances with the basement]
+            You cover your face with your shirt, and slowly turn open the door. <>
+            -> Stairs.In_Basement
+        
+        ***[Take your chances with the stairs]
+            #CYCLE: mold, fungus, flesh #PLAY: 1, squish-squash
+            You don't think anything could be worse than the smell eminating from the door in front of you and decide to try climbing the stairs one last time. The @ sticks to your shoes as you step on it, like warm gum. Your lip curls and you hope you can scrape it off later.
+            
+            #DELAY: 4
+            The stentch fades and the substance coating the walls dissipates as you reach the top. You pull yourself out of the stairwell, finding yourself at the landing you were desperately searching for. You could almost kiss the ground.
+            
+            ****[Rest for a bit]
+                ~ went_upstairs = false
+                #DELAY: 4
+                You collapse to the floor, resting after all the back and forth on the stairs. You close your eyes and lean against the wall. Your body welcomes the much needed break, as you feel some tension release.
+                
+                TODO: this reads weird!
+                "There's no time for this!" A woman's voice, a soft anger, rips through the quiet and freezing hands shove you over the edge of the stairs.
+                
+                #DELAY: 2
+                Your eyes snap open as you pull yourself into a ball, covering your head with your arms. Your whole body tenses as you brace for impact—
+                
+                ->Stairs.Upstairs_Landing
+            
+            ****[Enter the office]
+                ->Stairs.Office
+            
+            ****[Return to the main body of the church]
+                ~ went_downstairs = 3
+                ~ went_upstairs = false
+                ->Inside.Look_For_Heart
+            
+            
+            
+
 = Upstairs
-#PLAY: click-on
-You start up the stairs, holding the hand rail as you go.
+~leg = "worst"
+~ went_upstairs = true
+#IMAGE: Stairs_Up #PLAY: click-on #EFFECT: Flash-On
+You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, hoping that you're close to the top, but the top doesn't look any closer. With a huff, you continue up.
 
-You continue up for what feels like 5 or 6 flights, but they show ni sign of stopping. Tighter and tighter they spiral, the hand rail gets lower and lower, and the stairs get steeper and steeper. You end up climbing on all fours, almost treating the stairs as a ladder, they're so steep. {leg == "worst": The longer you climb, the harder it's getting with your leg.}
+Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs throb from effort. {leg != "": The leg you tried to kick the door in feels particularly weak.}
 
-You stop to rest every 3 or 4 flights. If your count is right, you've stopped at least 12 times.
+*[Give up]
+    Shaking your head, you make the journey back down the stairs. Thankfully, going down was much easier than going up. As the hand rail once again rises to sit at a reasonable height and the spiral gradually straightens out, you believe you made the correct choice.
+        -> Stairs.Downstairs_Trick
 
-*[How tall is this church?]
+*[Power through]
+    
+- You power through, only stopping to rest when your limbs refuse to cooperate. 
 
-- After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{leg == "worst": Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
+At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{leg == "worst":, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
 
-The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
+*[<i>How tall is this church?</i>]
+    ->Stairs.Upstairs_Landing
+
+= Upstairs_Landing
+{
+    - went_upstairs:
+        After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{leg == "worst": Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
+        
+        The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
+    - else:
+        And you skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. That voice sounded similar to the one that gave you your flashlight, but she had a cold anger to her voice. You don't know what you did to attrack her ire, but she must have brought you here for a reason.
+        
+        You find youself on a small landing, maybe only five feet by five feet. It sharply drops off on the edges. You crawl forwaard to the edge and look down. You find yourself staring down the spiral staircase, it's coils wound much tighter and steeper than you thought possible. You back up from the edge.
+        
+        Behind you is the door you crashed into. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
+}
 
 
 *[Examine the locks]
-~ saw_locks = true
-*[Head back down]
--> Stairs.Return_Down
+    {went_upstairs: You take a closer look at the locks. From what you can tell, there are three main ones, and they all vary slightly | You approach the door, taking a closer look at the various locks and chains blocking it. }
+    ~ went_upstairs = true
+    ~ saw_locks = true
+    
+*[Peek through the keyhole]
+    You approach the door and peek through the keyhole. You can't make out much, but you can see a small table and something placed upon it. You think that is also the souce of the glowing.
+    
+    Whatever it is, you assume it must be important. Your hears beats a little faster. The heart, maybe? {went_upstairs: | Is this why she sent you here?}
+    
+    ~ went_upstairs = true
+    
+    **[Examine the locks]
+        You take a closer look at the locks. From what you can tell, there are three main ones, and they all vary slightly.
+        ~ saw_locks = true
+    
+*{went_upstairs}[Head back down]
+    ~ went_upstairs = true
+    -> Stairs.Return_Down
 
-- You take a closer look at the locks. There are three main ones, all are slightly different. 
-
-The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {key or clippers: Maybe you could...}
+- The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {broke_key: You mentally kick yourself for snapping the key earlier. There's a chance it matched this lock. | {key or clippers: Maybe you could...}}
 
 The middle lock seems to be slightly newer. It doesn't require a key, but a four digit number code. It is attched to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
+TODO: add bit here about seeing 4 numbers around
 
 The last lock is a sliding chain door that appartments usually have inside to prevent people from forcing their way in. Sliding it all the way to the end makes a smaller deadbolt slide into place, keeping the door unopenable. There is no obvious keyhole.
 
-{
-    - key && key_lock:
-        *[Try the key you have.]
-            -> Stairs.Try_Key
-}
+*{key && !key_lock}[Try the key you have.]
+    -> Stairs.Try_Key
 
-{
-    - clippers && !clippers_lock:
-        *[Use the wire cutters.]
-            -> Stairs.Use_Clippers
-}
+*{clippers && !clippers_lock}[Use the wire cutters.]
+   -> Stairs.Use_Clippers
 
-{
-    - number_combo != "" && !number_lock:
-        *[Enter {number_lock} into number lock.]
-            -> Stairs.Enter_Number
-}
+*{number_combo != "" && !number_lock}[Enter {number_lock} into number lock.]
+    -> Stairs.Enter_Number
 
 *[Mess with the locks]
-~ messed_locks = true
+    ~ messed_locks = true
 
 *[Head back down]
--> Stairs.Return_Down
+    -> Stairs.Return_Down
 
 - You try a few combinations on the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday— Anything meaningful set of four numbers you can think of. After a few minutes, you give up.
 
-You pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out.
+You tug at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out.
 
-{
-    - key && !key_lock:
-        *[Try the key you have.]
-            -> Stairs.Try_Key
-}
+*{key && !key_lock}[Try the key you have.]
+    -> Stairs.Try_Key
+    
+*{clippers && !clippers_lock}[Use the wire cutters.]
+   -> Stairs.Use_Clippers
+
+*{number_combo != "" && !number_lock}[Enter {number_lock} into number lock.]
+    -> Stairs.Enter_Number
 
 *[Head back down]
--> Stairs.Return_Down
+    -> Stairs.Return_Down
 
 = Try_Key
 ~ locks += 1
@@ -1294,20 +1363,9 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 }
 
 = Return_Down
-{
-- locks == 1:
-    ~temp_string = "With one lock down,"
-- locks == 2:
-    ~temp_string = "With two locks down,"
-- else:
-    ~temp_string = "Unsure of what more you can do,"
-}
+{locks == 1: With one lock down, | {locks == 2: With two locks down,| Unsure of what more you can do,}} you decide to head back down, assuming you can find a way to unlock them down in the church's main body. You turn to go back down, dreading the climb, only to find the staircase has transformed from a dizzyingly steep spiral staircase into a normal single flight of stairs. A short enough flight where you can see the bottom of the landing.
 
-{temp_string} you decide to head back down, assuming you can find a way to unlock them down in the church's main body.
-
-When you turn to go back down, dreading the climb, the staircase has changed into one normal flight of stairs. You can see the bottom of the landing. 
-
-Tentatively, you go down the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a spiral stair case. Shining your flashlight back up, you only see darkness. 
+Tentatively, you decend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a spiral stair case. Shining your flashlight back up, you only see darkness. 
 
 If you weren't sure before, you are now: Behind that door lies the heart.
 
@@ -1321,7 +1379,6 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     - else:
         -> After_Second.Stairs_Second
 }
-
 
 = Upstairs_End
 {temp_bool == false: The locked door and soft light from under it are the same. You think you have all the pieces to open it now. {stay >= 2.5: You bounce on the balls of your feet. This is it. You'll be... able to leave soon. Go back to your... normal... life. } {stay < 2.5: You're so close to being free. } }

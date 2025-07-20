@@ -4,7 +4,7 @@
 INCLUDE Variables - Demo.ink
 INCLUDE Stairs - Demo.ink
 
-->StartGame
+->Stairs.Examine_Stairs
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -349,7 +349,7 @@ The bus driver looks over her shoulder, then back at you. She frowns.
 #REPLACE: home
 You watch the church through the window until it becomes a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back home.
 
-*[+home]
+*[home]
     ~ TempBool = true
     ->Bus.home
     
@@ -437,6 +437,7 @@ You should do something to seem useful.
     -> Job.Emails
 
 = Teleport
+#IMAGE: Default
 "Excuse you! Is there something so important that you needed to barge in here?" You blink, confused, and find yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were just at the church. How did you? "Well?"
 
 *[Apologize]
@@ -845,6 +846,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     ->Walk_Home.Different
 
 *[Take the usual path home]
+    #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
     Tentatively, you walk your usual path home, and try not to look at the church.
     ->Walk_Home.Usual
 
@@ -977,7 +979,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
     ->Walk_Up_Path
 
 = Usual
-#IMAGE: Church_Looming #PROP: Breathing #PROP: open gates #PROP: closed gates
+#PROP: open gates #PROP: closed gates
 #PLAY: gate_open
 As you pass the front gate, it creaks open, and you flinch. {know: You should keep moving.}
 
@@ -1841,6 +1843,7 @@ A red light glows from above you.
 *[Look at the light]
 
 - 
+#EFFECT: start-glow # ICLASS: Overlay,light-above,
 The light comes from the window above the door. A stained glass eye staring down at you.
 
 You stagger backward, deeper into the church, an intense pressure pressing down on you. Your chest tightens, and your limbs fill with static. The air becomes heavier. Your mouth goes dry.
@@ -1857,82 +1860,61 @@ You feel...
 ~ light_feeling = "confused"
 
 - 
-#EFFECT: intense-glow
-The back of your throat goes tight as you hold back tears, but you don't know why. 
+The back of your throat goes tight as you hold back tears, but you don't know why.
 
 {
 
     - light_feeling == "relief":
+        ~temp_string = "relief is wrong."
         Is some part of you... happy to be back? Reassured to be back in a place like this? Comforted to be bathed in this light?
     - light_feeling == "confused":
+         ~temp_string = "confusion is the only thing you can trust."
         A flurry of emotions whirl within you, many of which you fail to identify. You know you need to escape this light, but you want to stay for just a bit longer.
     - light_feeling == "worry":
+        ~temp_string = "worry is a flag that something is very <i>wrong.</i>"
         Something is wrong. Logically, you know you should feel something negative. Fear. Panic. Alarm. But the most you can muster up is worry. Worry that you will never be bathed in this light again.
-
 }
 
 *[But you don't want to feel like this.]
-~temp_bool = true
-~leave_light = true
+    ~temp_bool = true
+    ~leave_light = true
+    ~ church_anger += 1
+    ~ stay -= 0.5
+    #DELAY: 3.5 #EFFECT: leave-glow
+    #EFFECT: Force_Closed
+    You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
+    
+    #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: scream-glow
+    #EFFECT: Force_Open
+    An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
+    
+    **[You can barely stand it.]
+        -> Trapped.Light_Leave
 
 *[But you are not ready to leave.]
-~temp_bool = false
-~leave_light = false
+    ~temp_bool = false
+    ~leave_light = false
+    ~ stay += 1
+    #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight #EFFECT: EFFECT: Force_Closed
+    A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
 
-- 
+    {
+        - light_feeling == "confused":
+            ~temp_string = "confused emotions go"
+        - else:
+            ~temp_string = "{light_feeling} goes"
+    }
 
-# ICLASS: Overlay,light-above,
-{
-    - light_feeling == "confused":
-        ~temp_string = "confusion is the only thing you can trust."
-        
-    - light_feeling == "relief":
-        ~temp_string = "relief is wrong."
-        
-    - light_feeling != "confused" and church_feeling != "relief":
-        ~temp_string = "worry is a flag that something is very <i>wrong.</i>"
-}
+    "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 
 
-{
-
-    - leave_light:
-        ~ temp_bool = true
-        ~ church_anger += 1
-        ~ stay -= 0.5
-        #DELAY: 6.5 #EFFECT: angry-glow #EFFECT: IntialSight
-        #EFFECT: Force_Closed
-        You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
-        
-        #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching  #EFFECT: IntialSight
-        #EFFECT: Force_Open
-        An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
-        
-        *[You can barely stand it.]
-        -> Trapped.Light_Leave
-        
-    - else:
-        #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight #EFFECT: EFFECT: Force_Closed
-        ~ temp_bool = false
-        ~ stay += 1
-        A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
-
-        {
-            - light_feeling == "confused":
-                ~temp_string = "confused emotions go"
-            - else:
-                ~temp_string = "{light_feeling} goes"
-        }
-
-        "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { temp_string } with it. The window returns to it's normal, swirling state. 
-
-        With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
-        
-       *[Turn away from the window]
+    With the light gone, you snap back to reality. "Why did I...?" you mutter to yourself. You dig your nails into your hand.
+    
+   **[Turn away from the window]
         ~ temp_bool = false
         -> Inside
 
+- 
 
-}
 
 = Light_Leave
     #STOP: screeching #EFFECT: remove-glow
@@ -2013,11 +1995,13 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     ->END
 
 = Stairs_First
-    #IMAGE: Default
-    { - !looked:
+    { 
+        - !looked:
+            #IMAGE: Default
             You {leg == "worst": limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
         
         - else: 
+            #IMAGE: Default
             You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
     }
 
@@ -2038,10 +2022,14 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 #IMAGE: Title #EFFECT: Default Light
 That is the end of the demo, thank you so much for playing! The full version is coming November 2025. <br><br><>
 
-Please rate the game if you enjoyed, it helps a lot, and make sure to add the game to your collection to get any updates! <br><br><>
+#REPLACE: Return to Title
+Please wishlist the game if you enjoyed, it helps a lot! <br><br><>
+
+Return to Title
 
 + [Return to Title] 
 #RESTART
+‎ 
 ->DONE
 
 

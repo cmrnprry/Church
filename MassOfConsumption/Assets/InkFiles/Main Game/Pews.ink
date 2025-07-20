@@ -87,7 +87,7 @@ Reading it will probably pass the time, but you can also still sneak away.
 *[Sneak away]
     ->Pews.Get_Up
 
-- YAs you reach for the bible, a red spotlight land on you. You freeze. It's the light from the window behind the priest. It's the same {temp_string} feeling as before. { leave_light: It warms your body, and some of the tension melts away. | Your skin tingles under it's warmth. It's uncomfortable. } 
+- As you reach for the bible, a red spotlight land on you. You freeze. It's the light from the window behind the priest. It's the same {temp_string} feeling as before. { leave_light: It warms your body, and some of the tension melts away. | Your skin tingles under it's warmth. It's uncomfortable. } 
 
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. 
 

@@ -51,7 +51,7 @@ You hear someone call your name, but you don't dare turn around.
 
 = Back_Confessional
 {
-    - confessional_curtain_side && !confessional_door_side:
+    - !confessional_curtain_side && confessional_door_side:
         ~temp_bool = false
         Slowly and carefully, you walk backwards, trying not to make a sound, until you feel the edge of the curtain. The sound is enough, and all heads snap to look at you. One of the people shifts, but you slip past the curtain, and into the booth. You sit on the bench, and pull your feet up so they can't be seen from under the curtain.
         
@@ -125,13 +125,13 @@ The pastor on stage is beckoning you to join him. All eyes are on you. { leave_l
 ~temp_bool = false
 
 *[Go to the stage]
-->Pews.Go_to_Stage
+    ->Pews.Go_to_Stage
 
 *[Run to the stairwell]
-Your eyes dart from the stairwell to the pastor and back again, before breaking into a run toward the stairs.
-
-You hear them call your name, but you don't dare turn around.
-->Stairs.Office
+    Your eyes dart from the stairwell to the pastor and back again, before breaking into a run toward the stairs.
+    
+    You hear them call your name, but you don't dare turn around.
+    ->Stairs.Office
 
 = Pews_After
 ~visited_first = false

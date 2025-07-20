@@ -41,11 +41,20 @@ TagManager:
   - name: Main Game
     uniqueID: 1858709305
     locked: 0
+  - name: Background Image Container
+    uniqueID: 3171537607
+    locked: 0
   - name: Text Container
     uniqueID: 3687798393
     locked: 0
-  - name: Image Container
-    uniqueID: 3171537607
+  - name: Prop Container
+    uniqueID: 158670745
+    locked: 0
+  - name: Intrusive Thoughts
+    uniqueID: 2933800899
+    locked: 0
+  - name: Choice Container
+    uniqueID: 1903114859
     locked: 0
   - name: Ignore Global Lighting
     uniqueID: 2902042359

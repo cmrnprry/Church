@@ -19,10 +19,13 @@ VAR church_teleported = false
 VAR saw_windows = false
 VAR was_fired = false
 VAR late_for_work = false
+VAR looked = false
+VAR has_flashlight = false
 
 
 VAR turn = ""
 VAR object = ""
+VAR took_object = false
 VAR leg = ""
 VAR sleep = ""
 VAR temp_string = ""
@@ -44,6 +47,7 @@ VAR stubborn = false
 VAR finger_chopped = false
 VAR coward = false
 VAR happy = false
+VAR broke_key = false
 VAR read_book = false
 VAR know_book = false
 VAR rip_page = false
