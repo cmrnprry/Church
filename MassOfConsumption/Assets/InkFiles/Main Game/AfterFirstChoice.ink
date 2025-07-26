@@ -213,7 +213,7 @@ You need to return to your search. <>
                 #CHECKPOINT: 4, You know what you saw.
                 You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
                 
-                The church can adapt and change, do anything to keep you here. {key: Does that mean you can't trust the key you found?} { number_combo != "": Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
+                The church can adapt and change, do anything to keep you here. {items_obtained ? (Heart_Key): Does that mean you can't trust the key you found?} { items_obtained ? (Combo): Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
                 
                 You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
                 
@@ -278,14 +278,14 @@ There are still more places you need to look. <>
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
         }
         
-        You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Heart_Key): and a key}{broke_key: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
     - know_book && !name:
         #CHECKPOINT: 4, You found your book...
         {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
         
     - !know_book && name:
     #CHECKPOINT: 4, You found a code
-        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}.
+        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Heart_Key): and a key}{broke_key: and lost your key}.
         
     - !know_book && !name:
         You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
@@ -355,9 +355,9 @@ You drop down from the stage, and walk through the pews. Everyone is gone.
 
 You bow your head and squeeze the wire cutters in your hand.
 
-{went_upstairs: There' are not many places left to look, but you know where you what to go. {key == true && number_combo != "" : You have all the pieces to unlock the door.}{key == true && number_combo == "" : You have a key and wire cutters, you could probably figure out how to get the door open with just that.}{key != true && number_combo != "" : You have a code and wire cutters, you could probably figure out how to get the door open with just that.}} 
+{went_upstairs: There' are not many places left to look, but you know where you what to go. {items_obtained ? (Heart_Key, Combo) : You have all the pieces to unlock the door.}{items_obtained ? (Heart_Key) : You have a key and wire cutters, you could probably figure out how to get the door open with just that.}{items_obtained ? (Combo, Clippers) && items_obtained ? Heart_Key: You have a code and wire cutters, you could probably figure out how to get the door open with just that.}} 
 
-{went_upstairs == false: {key == true && number_combo != "" : You have a key, a code and wire cutters }{key == true && number_combo == "" : You have a key and wire cutters}{key != true && number_combo != "" : You have a code and wire cutters}, but nothing to do with them. You've searched almost the entire church, but there's not a lot of places left to look.}
+{went_upstairs == false: {items_obtained ? (Heart_Key, Combo) : You have a key, a code and wire cutters }{items_obtained ? (Heart_Key) : You have a key and wire cutters}{items_obtained ? (Combo, Clippers) && items_obtained ? Heart_Key: You have a code and wire cutters}, but nothing to do with them. You've searched almost the entire church, but there's not a lot of places left to look.}
 
 You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces and you stare at the front door. At the end of this... maybe... <br> <br> You shake the thought from your head.}
 
@@ -372,7 +372,7 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
                 #CHECKPOINT: 6, You know what you saw.
                 You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
                 
-                The church can adapt and change, do anything to keep you here. {key: Does that mean you can't trust the key you found?} { number_combo != "": Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
+                The church can adapt and change, do anything to keep you here. {items_obtained ? (Heart_Key): Does that mean you can't trust the key you found?} { items_obtained ? (Combo): Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
                 
                 You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
                 
@@ -438,14 +438,14 @@ You need to move on. <>
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
         }
         
-        You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (items_obtained ? (Clippers)): and wire cutters}{items_obtained ? (Heart_Key): and a key}{broke_key: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
     - know_book && !name:
         #CHECKPOINT: 6, You found your book...
         {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
         
     - !know_book && name:
         #CHECKPOINT: 6, You found a code
-        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {clippers: and wire cutters}{key == true: and a key}{key == -1: and lost your key}.
+        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Heart_Key): and a key}{broke_key: and lost your key}.
         
     - !know_book && !name:
         You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
@@ -494,7 +494,7 @@ You need to move on. <>
 = Return_to_Search
 ~ visited_second = false
 #CHECKPOINT: 7, There's only a few places left to look.
-You only have a few places you haven't looked yet. {went_upstairs && ((clippers or key == true) && number_combo != ""): You know where the heart probably is. Whenever you're ready, the heart is waiting.}
+You only have a few places you haven't looked yet. {went_upstairs && ((items_obtained ? (Clippers) or items_obtained ? (Heart_Key)) && items_obtained ? (Combo)): You know where the heart probably is. Whenever you're ready, the heart is waiting.}
 
 * {!pews} [In the pews] -> Pews
 

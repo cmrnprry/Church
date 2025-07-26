@@ -15,7 +15,7 @@
 }
 
 {
-    - number_combo == "":
+    - items_obtained ? (Combo):
         ~temp_string += " The code for the combination lock?"
 }
 
@@ -221,7 +221,7 @@ Your screams become wimpers as you wait for the pain to pass.
 { temp_bool: It reaches out, and pulls you into a standing position. You craddle your maimed hand as the pastor gently holds you, and brings you back to the main stage. It dips your hand in the water again before pulling out a bandage, and carefully wrapping up your finger stump. Applause rises from the masses. <br><br> "Now... let us bow our heads... and pray." TIn unison, the crowd bows their heads, and you follow suit. <br><br> The pastor utters a prayer in the inhuman language. Yet, strangely enough, you feel as though you can understand it. Not to the extent that you would be able to translate it, but enough that you know innately the meaning behind each phrase. <br><br> When the prayer finishes you glance up, smiling, only to find you are alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. | It rips off a piece of cloth, dabs it's "mouth" with it, and then jeeringly throws it at you. "We don't need... dirty blood... staining a holy place." <br><br> It returns to center stage, and the crowd erupts into applause. "Now... let us bow our heads... and pray." <br><br> As they pray, you wrap up the bloody stump on your hand, hoping to escape while they're distracted. Before you know it however, the prayer stops and you look up, afraid of what will come next. And yet, nothing does. The ghastly priest is gone. The crowd is gone. All that remains of the encounter are the wire cutters sitting on the floor in front of you, and the dull pain where your finger used to be. }
 
 * [Pick up the wire cutters]
-    ~ clippers = true
+    ~ items_obtained += (Clippers)
 
 - You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}
 
@@ -314,7 +314,7 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i> | <i>Is she...?<
 - 
 
 *[Pick up the wire cutters]
-    ~ clippers = true
+    ~items_obtained += (Clippers)
     ~ finger_chopped = true
 
 - You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}

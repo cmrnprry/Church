@@ -1,5 +1,7 @@
 === Confessional_Curtain ===
 TODO: Rememeber to unset if the player just leaves and to set previous if we do do something
+
+TODO: make variable to track how you got the key
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_CurtainSide // set the current area
 ~ have_visited += Confessional_CurtainSide //set that we have visisted the area
@@ -590,7 +592,8 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 
 *[You nod]
 
-- #PLAY: key-thrown
+- 
+#PLAY: key-thrown
 <i>Plunk!</i>
 
 A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid stretches like you stepped in gum. Is this...? You gag.
@@ -598,6 +601,7 @@ A small key falls into the bucket, causing the bucket to fall over, and the liqu
 "A gift for you. An olive branch of sorts." You hear shuffling, then the door close, and you know you are alone.
 
 *[Pick up the key]
+    ~ items_obtained += (Heart_Key)
 
 - You grab it out of the pool of liquid. It's sticky and thick, almost like... Your stomach churns. Saliva?
 
@@ -1103,6 +1107,7 @@ A small key falls into the bucket, causing the bucket to fall over, and the liqu
 "A gift for you. An olive branch of sorts." You hear the door close, and you know you are alone.
 
 *[Pick up the key]
+    ~ items_obtained += (Heart_Key)
 
 - You grab it out of the pool of liquid. It's sticky and thick, almost like... Your stomach churns. Saliva?
 
@@ -1231,7 +1236,7 @@ TODO: is the above variable needed?
 ~ confessional_curtain_side = true 
 TODO: is the above variable needed?
 ~ previous_area = Confessional_CurtainSide
-~ items_obtained += Key
+~ items_obtained += (Heart_Key)
 ~ current_area = Main_Body // set the current area
 ~ have_visited += Confessional_CurtainSide //set that we have visisted the area
 ~ visited_state += 1

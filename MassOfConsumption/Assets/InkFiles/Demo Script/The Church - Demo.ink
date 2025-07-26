@@ -4,7 +4,7 @@
 INCLUDE Variables - Demo.ink
 INCLUDE Stairs - Demo.ink
 
-->Stairs.Examine_Stairs
+->StartGame
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -2024,6 +2024,7 @@ That is the end of the demo, thank you so much for playing! The full version is 
 
 #REPLACE: Return to Title
 Please wishlist the game if you enjoyed, it helps a lot! <br><br><>
+Please rate the game and comment if you enjoyed, it helps a lot! <br><br><>
 
 Return to Title
 

@@ -1,11 +1,8 @@
-//SCRIPTING VARIBLES
-VAR SetImage = ""
-VAR CurrentProp = ""
-VAR FaceIt = false
-VAR differnt_path = false
-
-//SKIP
-VAR skip_counter = -1
+//Temp
+VAR temp_string = ""
+VAR temp_bool = false
+VAR temp_bool_2 = false
+VAR temp_bool_3 = false
 
 //Before Work Variables
 VAR church_feeling = ""
@@ -19,25 +16,27 @@ VAR church_teleported = false
 VAR saw_windows = false
 VAR was_fired = false
 VAR late_for_work = false
-VAR looked = false
-VAR has_flashlight = false
 
-
+//Walk Home Variables
+VAR FaceIt = false
+VAR differnt_path = false
 VAR turn = ""
+
+//Trapped Variables
 VAR object = ""
 VAR took_object = false
 VAR leg = ""
 VAR sleep = ""
-VAR temp_string = ""
+VAR has_flashlight = false
+
+//Church Variables
 VAR priest_feeling = ""
 VAR light_feeling = ""
 
 VAR name = false
 VAR know_name = false
 VAR lanturn = false
-VAR temp_bool = false
-VAR temp_bool_2 = false
-VAR temp_bool_3 = false
+
 VAR know = false
 VAR avoid_church = false
 VAR photo_ripped = false
@@ -79,7 +78,8 @@ VAR current_area = -1
 VAR previous_area = -1
 VAR visited_state = 0
 
-LIST items_obtained = Key, Clippers, Combo
+LIST items_obtained = Heart_Key, Chest_Key, Clippers, Combo
+LIST locks_undone = Key_Lock, Combo_lock, Clippers_lock
 
 VAR pews = false
 VAR after_first = false
@@ -92,11 +92,6 @@ VAR saw_desk = false
 VAR broke_chest = false
 VAR went_downstairs = 0 //0 = none, 1 = no stink, 2 = stink stink
 VAR went_upstairs = false
-
-//keys
-VAR key = false
-VAR number_combo = ""
-VAR clippers = false
 
 //locks
 VAR key_lock = false

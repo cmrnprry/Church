@@ -1,132 +1,115 @@
 === Stairs ===
 ~temp_bool_3 = false
-{
-    - leg == "worst":
-        ~temp_string = "limp up"
-    - else:
-        ~temp_string = "climb"
-}
 { - room:
-    - 0: You {temp_string} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
-    ~room = 2
+    - 0: You {leg == "worst": limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
+        ~room = 2
     
-    - 1: You {temp_string} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
+    - 1: You {leg == "worst": limp up | climb} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
     
         This was not there last time you were here.
         
         ~room = 2
         
-    - 2: You {temp_string} the short set of stairs. The door seems a little a bit shorter than you remember.
+    - 2: You {leg == "worst": limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember.
     
-    - 3: You {temp_string} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
-    
+    - 3: You {leg == "worst": limp up | climb} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it. 
 
-    - else: You {temp_string} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+    - else: You {leg == "worst": limp up | climb} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
 
 }
 
 
 *[Examine the stairs]
--> Stairs.Examine_Stairs
+    -> Stairs.Examine_Stairs
 
 *{ room <= 3 }[Enter the office]
-->Stairs.Office
+    ->Stairs.Office
 
 *[Return to the main body of the church]
-->Inside.Look_For_Heart
+    ->Inside.Look_For_Heart
 
 = Office
-{ object != "": It's the office door from earlier, but it seems shorter than you remember. You | You see a door, and }duck through the doorway.
+{ object != "": It's the office door from earlier, but it seems shorter than you remember. You | You hope something useful lies behind, and }duck through the doorway. { object != "": The office doesn't look much differnt from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredebly musty. It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {saw_windows: You avoid looking at it.}}
 
-{
-    - saw_locks:
-        ~temp_bool = true
-        *[Look for something to break the chain]
-        ->Stairs.Desk
-        
-        *[Look for the combination lock code]
-        ->Stairs.Books
-    - else:
-        ~temp_bool = false
-        *[Look through the books]
-        ->Stairs.Books
+*[{saw_locks: Look for something to break the chain | Dig through the desk}]
+    ->Stairs.Desk
 
-        *[Look through the desk]
-        ->Stairs.Desk
-}
-
+*[{saw_locks: Look for the combination lock code | Browse the bookshelves}]
+    ->Stairs.Books
+            
 *[Return to stairwell]
-~temp_bool_3 = true
--> Stairs.Exit_Office
+    ~temp_bool_3 = true
+    -> Stairs.Exit_Office
 
 = Desk
-~saw_desk = true
-{
-    - temp_bool:
-        {
-            - object != "" :
-                ~temp_string = "You sliently curse yourself. The {object} would have made quick work of all the locks. You kick the desk in frustration."
-            - else:
-                ~temp_string = ""
-        }
-        
-        You look through the desk drawers for something that could break the chain. They're empty. {temp_string}
-        
-        
-    - else:
-        {
-            - object != "" :
-                ~temp_string = "You sliently curse yourself. The {object} would have made quick work of all the locks. You kick the desk in frustration."
-            - else:
-                ~temp_string = ""
-        }
-        
-        You go to the desk and look through the drawers of the desk. They're empty. {temp_string}
-}
+~ saw_desk = true
+~ items_obtained += (Chest_Key)
 
+Nothing interesting sits on the desk itself, save for a desk lamp. You flick the on off switch, but nothing happens. {object != "" : You touch the space where the {object} had been and wonder if you should have {took_object: kept it on you. | taken it.} You sliently curse yourself for not doing so. {saw_locks: The {object} would have made quick work of all the locks upstairs. You make a fist and bang it on the desk in frustraion.} | <>}
 
-{
-    - saw_locks && !saw_books:
-        ~temp_bool = true
-        *[Look for the combination lock code]
-        ->Stairs.Books
-    - !saw_locks && !saw_books:
-        ~temp_bool = false
-        *[Look through the books]
-        ->Stairs.Books
-}
+You walk around and plot onto the old desk chair. It groans in protest under your weight. You pull open the desk drawers and dig through their contents. Most only contain broken or otherwise unusable writing utencils or paper scraps to old to make any text out, but one drawer holds a small key.
 
+The key is {items_obtained ? (Heart_Key): about the same size as the one you got before, but much less interesting. It is grey and nondescript, and i| small, grey and nondescript. I}t looks similar to a generic house key. You slip it into your pocket.
+TODO: insert variable to track how you got the key
+
+*{!saw_books}[{saw_locks: Look for the combination lock code | Browse the bookshelves}]
+    ->Stairs.Books
+            
 *[Return to stairwell]
-    ->Stairs.Exit_Office
+    ~temp_bool_3 = true
+    -> Stairs.Exit_Office
 
 = Books
 ~ saw_books = true
-You approach the bookshelves. In addition to all the books, water-stained boxes and a decaying wooden chest littered the shelves. You pick through the boxes first, only to find them filled with more books. You grab the chest and try opening it, only to find it to be locked. You give it a shake, and hear something shaking around inside.
-        
-        "Probably another book..." you mutter. You look through the key hole, but can't see anything.
+You approach the bookshelves. The books all look to be leather bound, and in better condition than the rest of the items littering the shelves. Water-stained boxes and a decaying wooden chest decorate the shelves. 
 
-{
-    - key && !key_lock:
-        ~temp_bool_2 = false
-        ~temp_bool = true
-        *[Try the key]
-            ~key = -1
-            You fish the key out of yout pocket and try the lock. The key slides in easy enough, but it doesn't want to turn.
-            
+*[Pick through the boxes]
+    You pick through the boxes first, only to find them filled with more books.
+
+*[Investigate the chest]
+You grab the chest, and nearly drop it. The sides are slick with a wet, velvety mold. You wipe your hands on your pants and clench and unclench them, trying to forget the feeling. 
+
+"Gross gross gross gross gross," You say and gingerly pick it up, avoiding as many mold spots as you can. You attempt to open it, only to find it locked. You give it a shake, and hear something thumping around inside.
+
+"Probably just another book..." you mutter. You look through the key hole, but can't see anything.
+    ~items_obtained += (Heart_Key)
+        ** {items_obtained ? (Chest_Key)} [Try the simple key]
+            You fish the simple key out of your pocket and try the lock. The key slides in easy enough, but catches in the lock.
+                
             You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
-            
+                
             "God DAMMIT!"
             
             You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
             ~temp_string = "if the loss of the key was worth it"
             -> Stairs.Your_Book
-    - else:
-        *[Break the chest]
-        ~temp_bool = false
-        You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
-        ~temp_string = "if this is indeed your book"
-        -> Stairs.Your_Book
-}
+        
+        ** {items_obtained ? (Heart_Key)} [Try the skeleton key]
+            ~ items_obtained -= Heart_Key
+            ~temp_bool_2 = false
+            ~temp_bool = true
+            You fish the skeleton key out of your pocket and try the lock. The key slides in easy enough, but it doesn't want to turn.
+                
+                You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
+                
+                "God DAMMIT!"
+                
+                You throw the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills onto the floor.
+                ~temp_string = "if the loss of the key was worth it"
+                -> Stairs.Your_Book
+        
+        ** [Break the chest]
+            ~temp_bool = false
+            You raise the chest above your head, and throw it to the floor. The lid pops open, and a book with the number 2758 spills onto the floor.
+            ~temp_string = "if this is indeed your book"
+            -> Stairs.Your_Book
+    
+
+*[Flip through the books]
+
+- 
+
+ 
 
 *[Look at the books]
 
@@ -182,11 +165,11 @@ You close the book, and place it back on the shelf. Your insides twist and lurch
         "Probably another book..." you mutter. You look through the key hole, but can't see anything. "It could be..."
 
         {
-            - key && !key_lock:
+            - items_obtained ? (Heart_Key) && !key_lock:
                 ~temp_bool_2 = false
                 ~temp_bool = true
                 *[Try the key]
-                    ~key = -1
+                    ~items_obtained -= (Heart_Key)
                     You fish the key out of yout pocket and try the lock. THe key slides in easy enough, but it doesn't want to turn.
                     
                     You jiggle the key, and force it to turn. <i>Clank!</i> The key snaps in the lock.
@@ -383,7 +366,8 @@ With the minimal knowledge you have, you skim through as many books as you can. 
 -
 
 ~name = true
-~number_combo = "2755"
+~ items_obtained += (Combo)
+~ number_lock = "2755"
 You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
 
 Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
@@ -499,7 +483,7 @@ With the minimal knowledge you have, you skim through as many books as you can. 
         ->END
 }
 ~name = true
-~number_combo = "2755"
+~number_lock = "2755"
 You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
 
 Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
@@ -581,9 +565,11 @@ You walk deeper down the hallway to the stairs. Going up, is a spiral staircase.
 You exit the office.
 
 *[Examine the stairs]
--> Stairs.Examine_Stairs
+    -> Stairs.Examine_Stairs
+    
 *[Enter the office]
-->Stairs.Office
+    ->Stairs.Office
+    
 *[Return to the main body of the church]
 {
     - temp_bool_3:
@@ -1106,20 +1092,20 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
     ~ went_upstairs = true
     -> Stairs.Return_Down
 
-- The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {broke_key: You mentally kick yourself for snapping the key earlier. There's a chance it matched this lock. | {key or clippers: Maybe you could...}}
+- The top lock looks almost like something you'd find in an antique shop, made of heavy iron. It has a small key hole, and looks to be holding the chains together. The chains themselves aren't very think, but are sturdy. {broke_key: You mentally kick yourself for snapping the key earlier. There's a chance it matched this lock. | {items_obtained ? (Heart_Key) or items_obtained ? (Combo): Maybe you could...}}
 
 The middle lock seems to be slightly newer. It doesn't require a key, but a four digit number code. It is attched to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
 TODO: add bit here about seeing 4 numbers around
 
 The last lock is a sliding chain door that appartments usually have inside to prevent people from forcing their way in. Sliding it all the way to the end makes a smaller deadbolt slide into place, keeping the door unopenable. There is no obvious keyhole.
 
-*{key && !key_lock}[Try the key you have.]
+*{items_obtained ? (Heart_Key) && !key_lock}[Try the key you have.]
     -> Stairs.Try_Key
 
-*{clippers && !clippers_lock}[Use the wire cutters.]
+*{items_obtained ? (Clippers) && !clippers_lock}[Use the wire cutters.]
    -> Stairs.Use_Clippers
 
-*{number_combo != "" && !number_lock}[Enter {number_lock} into number lock.]
+*{items_obtained ? (Combo) && !number_lock}[Enter {number_lock} into number lock.]
     -> Stairs.Enter_Number
 
 *[Mess with the locks]
@@ -1132,13 +1118,13 @@ The last lock is a sliding chain door that appartments usually have inside to pr
 
 You tug at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out.
 
-*{key && !key_lock}[Try the key you have.]
+*{items_obtained ? (Heart_Key) && !key_lock}[Try the key you have.]
     -> Stairs.Try_Key
     
-*{clippers && !clippers_lock}[Use the wire cutters.]
+*{items_obtained ? (Clippers) && !clippers_lock}[Use the wire cutters.]
    -> Stairs.Use_Clippers
 
-*{number_combo != "" && !number_lock}[Enter {number_lock} into number lock.]
+*{items_obtained ? (Combo) && !number_lock}[Enter {number_lock} into number lock.]
     -> Stairs.Enter_Number
 
 *[Head back down]
@@ -1167,20 +1153,20 @@ The church groans angrily in response.
         ->Open_the_Door
     - else:
         {
-            - clippers && !clippers_lock:
+            - items_obtained ? (Clippers) && !clippers_lock:
                 *[Use the wire cutters.]
                     -> Stairs.Use_Clippers
         }
         
         {
-            - number_combo != "" && !number_lock:
+            - items_obtained ? (Combo) && !number_lock:
                 *[Enter {number_lock} into number lock.]
                     -> Stairs.Enter_Number
         }
         
         
         {
-            - !messed_locks && locks < 3 && (number_combo == "" || !clippers):
+            - !messed_locks && locks < 3 && !(items_obtained ? (Combo) || items_obtained ? (Clippers)):
                 *[Mess with the other locks]
                 ~ messed_locks = true
                 -> Stairs.Mess_With
@@ -1193,34 +1179,34 @@ The church groans angrily in response.
 = Mess_With
 ~temp_string = ""
 {
-    - number_combo != "":
+    - items_obtained ? (Combo):
         ~temp_string = "You try a few combinations on  the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up. \n"
 }
 {
-    - !key:
+    - items_obtained ? Heart_Key:
         ~temp_string += "You pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast."
 }
 {
-    - clippers:
+    - items_obtained ? (Clippers):
         ~temp_string += "You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out."
 }
     
 {temp_string}
 
 {
-    - key && key_lock:
+    - items_obtained ? (Heart_Key) && key_lock:
         *[Try the key you have.]
             -> Stairs.Try_Key
 }
 
 {
-    - clippers && !clippers_lock:
+    - items_obtained ? (Clippers) && !clippers_lock:
         *[Use the wire cutters.]
             -> Stairs.Use_Clippers
 }
 
 {
-    - number_combo != "" && !number_lock:
+    - items_obtained ? (Combo) && !number_lock:
         *[Enter {number_lock} into number lock.]
             -> Stairs.Enter_Number
 }
@@ -1240,9 +1226,9 @@ The church groans angrily in response.
 }
 
 {
- - !key_lock && key:
+ - !key_lock && items_obtained ? (Heart_Key):
     ~ temp_string += "You look at the rest of the chains that are held together with the old looking lock. You try the key you found but... Instead, you cut around the lock and then some, until the lock falls."
- - !key_lock && !key:
+ - !key_lock && items_obtained ? Heart_Key:
     ~ temp_string += "You look at the rest of the chains that are held together with the old looking lock. You could look for a key, but... Instead, you cut around the lock and then some, until the lock falls."
 }
 
@@ -1262,7 +1248,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         ->Open_the_Door
     - else:
         {
-            - number_combo != "" && !number_lock:
+            - items_obtained ? (Combo) && !number_lock:
                 *[Enter {number_lock} into number lock.]
                     -> Stairs.Enter_Number
         }
@@ -1347,13 +1333,13 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         ->Open_the_Door
     - else:
         {
-            - key && key_lock:
+            - items_obtained ? (Heart_Key) && key_lock:
                 *[Try the key you have.]
                     -> Stairs.Try_Key
         }
         
         {
-            - clippers && !clippers_lock:
+            - items_obtained ? (Clippers) && !clippers_lock:
                 *[Use the wire cutters.]
                     -> Stairs.Use_Clippers
         }
@@ -1383,7 +1369,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 = Upstairs_End
 {temp_bool == false: The locked door and soft light from under it are the same. You think you have all the pieces to open it now. {stay >= 2.5: You bounce on the balls of your feet. This is it. You'll be... able to leave soon. Go back to your... normal... life. } {stay < 2.5: You're so close to being free. } }
 
-+ { key && key_lock } [Use the key.]
++ { items_obtained ? (Heart_Key) && key_lock } [Use the key.]
     ~ temp_bool = true
     ~ locks += 1
     ~ key_lock = true
@@ -1398,16 +1384,16 @@ If you weren't sure before, you are now: Behind that door lies the heart.
         - 3: All the locks have been removed.
     }
 
-+ { clippers && !clippers_lock} [Use the wire cutters.]
++ { items_obtained ? (Clippers) && !clippers_lock} [Use the wire cutters.]
     ~ temp_bool = true
     ~ locks += 1
     ~ key_lock = true
     ~ clippers_lock = true
 
     {
-     - !key_lock && key:
+     - !key_lock && items_obtained ? (Heart_Key):
         ~ temp_string = "you look at the rest of the chains that are held together with the old looking lock. You try the key you found but... Instead, you cut around the lock and then some, until the lock falls."
-     - !key_lock && !key:
+     - !key_lock && items_obtained ? Heart_Key:
         ~ temp_string = "you look at the rest of the chains that are held together with the old looking lock. You could look for a key, but... Instead, you cut around the lock and then some, until the lock falls."
     }
     
@@ -1425,7 +1411,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
             All the locks have been removed.
     }
 
-+ { number_combo != "" && !number_lock} [Enter {number_lock} into number lock.]
++ { items_obtained ? (Combo) && !number_lock} [Enter {number_lock} into number lock.]
     ~ temp_bool = true
     ~ locks += 1
     ~ number_lock = true

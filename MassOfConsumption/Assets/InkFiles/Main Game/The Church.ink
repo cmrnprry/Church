@@ -9,10 +9,17 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
-->StartGame
+Skip or Start from begining?
+->Skip
+
+*[Skip]
+    ->Skip
+
+*[Start New]
+    ->StartGame
 
 === Skip ===
-When you passed the church how did you feel about it?
+When you passed the church for the first time, what was your intial reation?
 
 *[You don't care for it]
     ~church_interest = "care"
@@ -23,7 +30,7 @@ When you passed the church how did you feel about it?
 *[You're nauseous just looking at it]
     ~church_interest = "nothing"
 
-- And what emotion did that envoke?
+- And what emotion did the church envoke?
 
 *[Familiar]
     ~church_feeling = "familiar"
@@ -33,22 +40,16 @@ When you passed the church how did you feel about it?
 
 *[Evocative]
     ~church_feeling = "evocative"
-
-//Go to investigation if chosen
-TODO: check what image and audio hould be playing
-- {skip_counter == 1:-> Investigate}
     
 - Did you investigate the church instead of going to work?
 
 *[Yes]
     What did you do?
         **[Looked at the window]
-            -> Investigate.Window
     
         **[Called the number]
             Did you go inside?
             ***[No]
-                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
                 
             ***[Yes]
                 ~ church_teleported = true
@@ -57,7 +58,7 @@ TODO: check what image and audio hould be playing
                         ~ stay += 0.5
                         ~ dropped_phone = true
                 }
-                {skip_counter == 2:-> Job.Teleport | -> Skip.Skip_AfterWork}
+                -> Skip.Skip_YelledAtWork
         
         **[Went inside]
             ~late_for_work = true
@@ -66,24 +67,60 @@ TODO: check what image and audio hould be playing
             ***[Disappointed]
                 ~ stay += 0.5
                 ~ entered_feeling = 0
-                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
             
             ***[Satisfied]
                 ~ entered_feeling = 1
-                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
             
             ***[Anxious]
                 ~ entered_feeling = 2
-                {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
+            -- -> Skip.Skip_YelledAtWork
 *[No]
-    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
-    {skip_counter == 2:-> Job | -> Skip.Skip_AfterWork}
 
+-->Skip.Skip_AtWork
 
-= Skip_AfterWork
--> Walk_Home
+=Skip_YelledAtWork
+Your boss screamed at you. Did you sit quietly and take it?
+*[Yes]
+    ->Skip.Skip_AtWork
+    
+*[No]
+    ~ work = 4
+    ~ was_fired = true
+    After you get off the bus, the church is still there. nothing you do can keep you from approaching it, and before you know it you are on the lawn. From there, depending on your choices, you wind up inside. After you continue from here, the main game will start.
 
-= Skip_InsideChurch
+    -> Locked
+
+=Skip_AtWork
+What do you do to take your mind off things at work?
+
+*[Scan some documents]
+    You couldn't stop thinking about the church. Did you go to it?
+    **[Yes]
+        ~ work = 5
+        
+    **[No]
+        ~ work = 1
+    
+
+*[Catch up on emails]
+    You got a weird email. Did you open it or delete it?
+    
+    **[Open]
+        ~ know = true
+        ~ work = 3
+        The email reminds you of what you forgot. You have been at the church before. You remember...
+        
+        *** [The escape]
+    
+        *** [The fear]
+        
+        *** [The aftermath]
+        
+    **[Delete]
+        ~ work = 2
+
+- After you get off the bus, the church is still there. nothing you do can keep you from approaching it, and before you know it you are on the lawn. From there, depending on your choices, you wind up inside. After you continue from here, the main game will start.
+
 -> Locked
 
 === StartGame ====
@@ -535,7 +572,7 @@ You should do something to seem useful.
 
 #PLAY: office_ambience, true, 1
 You sink into your chair and lean your head against the desk. You wonder if you're losing it. You <i>were</i> at the church. {called_number: You called the number— You reach into your pocket, {dropped_phone: but find your phone missing. | and check your recent calls. The number its at the top. You place your phone on the desk. } You let out a deep sigh and rub your eyes. You were there. It was real.} 
-TODO:check thnis after writing break in.
+TODO:check this after writing break in.
 
 "Hey, so what the hell was that?" Your boss bangs on your desk. "Hello? You in there?" You snap up, and she stares at you waiting for an answer.
 ~temp TempBool = false
@@ -1139,7 +1176,6 @@ You stick your head past the gates and look around. You don't see anything, the 
     Just as it slams shut...
     
     #EFFECT: LightDark #IMAGE: Default #PROP: closed gates 
-    ~CurrentProp = ""
     Everything goes dark.
     
     **[Wait for your eyes adjust]
@@ -1230,7 +1266,6 @@ You grab the gate with both hands, and look up at the church one last time. It's
 Just as it slams shut...
 
 #EFFECT: LightDark #IMAGE: Default
-~CurrentProp = ""
 Everything goes dark.
 
 *[Wait for your eyes adjust]
@@ -1424,6 +1459,7 @@ Thud!
 ->Trapped
 
 = Look
+~ room = 1
 #IMAGE: Church_Inside
 It's dark, but you can make out vague shapes.
 
@@ -2088,12 +2124,12 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
         
         ~ room = 2
         
-    - 2: You {temp_string} the short set of stairs. The door seems a little a bit shorter than you remember.
+    - 2: You {leg == "worst": limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember.
     
-    - 3: You {temp_string} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
+    - 3: You {leg == "worst": limp up | climb} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
     
 
-    - else: You {temp_string} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+    - else: You {leg == "worst": limp up | climb} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
 
 }
 
