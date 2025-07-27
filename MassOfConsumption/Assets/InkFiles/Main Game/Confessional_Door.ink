@@ -334,6 +334,7 @@ TODO: not the best choice here
 
 = Promise
 *["Promise."]
+    ~ talked_to_girl = true
 
 - "Well... Daddy used to go once a week, to pray for me, at our old church. As I got sicker, he got recommended this one, and it was okay for a while. I got a little better, but he stopped coming home..." She sniffs. "I only see him if Mommy brings me here, but she only ever lets me talk to him from the gate. Daddy didn't show up this time so I..." 
 
@@ -415,7 +416,7 @@ You ball your fists. It's not the same as what happened to you, but it's similar
 -> Confessional_Door.No_Confessions
 
 = help
-You're not a priest, and you are not entirely sure what the correct thing to say is, but you give it your best shot. "You are doing really well okay? So don't think you're not." You try to comfort her. 
+You're not a priest, and you are not entirely sure what the correct thing to say is, but you give it your best shot. "You are doing really well okay? So don't think you're not." You try to comfort her.
 
 "All you need to do is....
 
@@ -441,6 +442,7 @@ The curtain closes, and she is gone.
 
 = Exit_Booth
 # IMAGE: Confessional_CloseUp #PROP: curtain_torn
+~ killed_girl = true
 <i>This is your fault.</i>
 
 There's no sign of the girl. 

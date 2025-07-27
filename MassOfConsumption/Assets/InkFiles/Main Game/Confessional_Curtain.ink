@@ -601,7 +601,7 @@ A small key falls into the bucket, causing the bucket to fall over, and the liqu
 "A gift for you. An olive branch of sorts." You hear shuffling, then the door close, and you know you are alone.
 
 *[Pick up the key]
-    ~ items_obtained += (Heart_Key)
+    ~ items_obtained += (Skeleton_Key)
 
 - You grab it out of the pool of liquid. It's sticky and thick, almost like... Your stomach churns. Saliva?
 
@@ -1084,6 +1084,7 @@ You squirm in your seat. Clenching and unclenching your fists.
 - -> Confessional_Curtain.End_Confessional
 
 = End_Confessional
+~finished_confession = true
 "When it brought you here, that must have been frightening. Change always is."
 
 You nod.
@@ -1095,7 +1096,7 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 
 "All the church wants is to give you more than the world out there." You nod. "The church only wants the best for you. So, just. Stop. Fighting. It."
 
-*You nod.
+*[You nod.]
 
 - 
 
@@ -1107,7 +1108,7 @@ A small key falls into the bucket, causing the bucket to fall over, and the liqu
 "A gift for you. An olive branch of sorts." You hear the door close, and you know you are alone.
 
 *[Pick up the key]
-    ~ items_obtained += (Heart_Key)
+    ~ items_obtained += (Skeleton_Key)
 
 - You grab it out of the pool of liquid. It's sticky and thick, almost like... Your stomach churns. Saliva?
 
@@ -1236,7 +1237,7 @@ TODO: is the above variable needed?
 ~ confessional_curtain_side = true 
 TODO: is the above variable needed?
 ~ previous_area = Confessional_CurtainSide
-~ items_obtained += (Heart_Key)
+~ items_obtained += (Skeleton_Key)
 ~ current_area = Main_Body // set the current area
 ~ have_visited += Confessional_CurtainSide //set that we have visisted the area
 ~ visited_state += 1

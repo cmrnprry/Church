@@ -47,13 +47,17 @@ VAR finger_chopped = false
 VAR coward = false
 VAR happy = false
 VAR broke_key = false
-VAR read_book = false
+VAR pressed_emily = false
+VAR emily_hurt = false
+
+//Book variables
+VAR read_end_book = false
+VAR read_start_book = false
 VAR know_book = false
 VAR rip_page = false
 VAR keep_book = false
 VAR branded = false
-VAR pressed_emily = false
-VAR emily_hurt = false
+
 
 VAR work = 0
 VAR room = 0
@@ -69,6 +73,8 @@ VAR angered_priest = false
 VAR reached_through = false
 VAR talked_to_girl = false
 VAR saw_her = false
+VAR finished_confession = false
+
 
 
 //where the player has been already
@@ -78,15 +84,16 @@ VAR current_area = -1
 VAR previous_area = -1
 VAR visited_state = 0
 
-LIST items_obtained = Heart_Key, Chest_Key, Clippers, Combo
+LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
 LIST locks_undone = Key_Lock, Combo_lock, Clippers_lock
+LIST found_your_book = Used_Simple_Key, Used_Skeleton_Key, Broke_Chest
+LIST explore_office_bookshelf = Check_Books, Check_Boxes, Check_Chest
 
 VAR pews = false
 VAR after_first = false
 VAR temp_visited = false //for the after first visit
 VAR saw_locks = false //know that there is a locked door
-VAR visited_second = 0
-VAR visited_first = 0
+
 VAR saw_books = false
 VAR saw_desk = false
 VAR broke_chest = false
@@ -99,3 +106,47 @@ VAR number_lock = false // 2758 yes 2755 no
 VAR clippers_lock = false
 VAR locks = 0
 VAR messed_locks = false
+
+// Sectiosn of gameplay
+VAR visited_second = false //after getting the second big event
+VAR visited_first = false //after getting one big event
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
