@@ -9,8 +9,8 @@ INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
+
 Skip or Start from begining?
-->Skip
 
 *[Skip]
     ->Skip
@@ -241,7 +241,7 @@ You cross the street, typing the number displayed into your phone.
 
 {church_interest == "drawn": You hang your arms over the fence as the phone rings. | You turn your back to the church and pace as the phone rings. You stick your free hand in your pocket, lightly holding the photo that sits there. } 
 
-TODO: SFX for this
+#PLAY: sfx_name
 <i>Brrring! Brrring!<i/>
 
 You almost drop your phone as you hear the sound of a phone ringing drift from {church_interest == "drawn": in front of you. You | behind you. You turn and } see a familiar silhouette shuffle past the front window, and take a phone off a hook.

@@ -3669,7 +3669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb2f97238ae243e1ae820ae29842d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InkJsonAsset: {fileID: 4900000, guid: 8e0c3f582ed7f9f4787efca584af28a4, type: 3}
+  InkJsonAsset: {fileID: 4900000, guid: 6b9b572d991613145b9ad963301d86f2, type: 3}
   Fonts:
   - {fileID: 11400000, guid: f7f2ac252354d574f9bd770faae004af, type: 2}
   - {fileID: 11400000, guid: 2df9d4f5156f8d5458ccde95e3328e52, type: 2}
@@ -8302,6 +8302,8 @@ MonoBehaviour:
     _serializedList:
     - Key: bang_confessional
       Value: {fileID: 8300000, guid: d00a5e160cbfe4620a7b9dcb77da2e8f, type: 3}
+    - Key: test
+      Value: {fileID: 8300000, guid: bb97528f8935649a68e011635f40f3a3, type: 3}
     - Key: bang_normal
       Value: {fileID: 8300000, guid: b6c213893504c4dd6a58296dfbda04ae, type: 3}
     - Key: bang_short
@@ -8366,6 +8368,8 @@ MonoBehaviour:
       Value: {fileID: 8300000, guid: 0c6e7341ab54e430eb9436eee0e094a7, type: 3}
     - Key: walking_fast_pavement
       Value: {fileID: 8300000, guid: c60eeb3f857b642ca818a4beaaf7e1dd, type: 3}
+    - Key: test
+      Value: {fileID: 0}
   SFXSource: {fileID: 1846794223}
   SFXParent: {fileID: 622967101}
 --- !u!4 &618428785
