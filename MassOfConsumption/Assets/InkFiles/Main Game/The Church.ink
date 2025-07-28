@@ -2168,7 +2168,8 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 = Bad_End_1
 *[You close your eyes, and fall into a void of relief and comfort.]
--> ENDrgsfguovjnsdzc oleroadfjk pghriasdo;
+-> END
+
 
 
 
