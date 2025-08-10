@@ -10,7 +10,7 @@ INCLUDE Stairs.ink
 INCLUDE End_Game.ink
 
 
-Skip or Start from begining?
+Skip or Start from beginning?
 
 *[Skip]
     ->Skip
@@ -19,7 +19,7 @@ Skip or Start from begining?
     ->StartGame
 
 === Skip ===
-When you passed the church for the first time, what was your intial reation?
+When you passed the church for the first time, what was your initial reaction?
 
 *[You don't care for it]
     ~church_interest = "care"
@@ -30,7 +30,7 @@ When you passed the church for the first time, what was your intial reation?
 *[You're nauseous just looking at it]
     ~church_interest = "nothing"
 
-- And what emotion did the church envoke?
+- And what emotion did the church evoke?
 
 *[Familiar]
     ~church_feeling = "familiar"
@@ -52,6 +52,7 @@ When you passed the church for the first time, what was your intial reation?
             ***[No]
                 
             ***[Yes]
+                ~ entered_church = true
                 ~ church_teleported = true
                 { 
                     - church_interest == "drawn": 
@@ -61,6 +62,7 @@ When you passed the church for the first time, what was your intial reation?
                 -> Skip.Skip_YelledAtWork
         
         **[Went inside]
+            ~ entered_church = true
             ~late_for_work = true
             How did you feel inside?
             
@@ -73,6 +75,7 @@ When you passed the church for the first time, what was your intial reation?
             
             ***[Anxious]
                 ~ entered_feeling = 2
+                
             -- -> Skip.Skip_YelledAtWork
 *[No]
 
@@ -126,7 +129,7 @@ What do you do to take your mind off things at work?
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
-It was dark when you passed, and you keep telling yourself that your tired brain mistook a constuction site billboard for a church. They must be building one there.
+It was dark when you passed, and you keep telling yourself that your tired brain mistook a construction site billboard for a church. They must be building one there.
 
 *[It's impossible for a church to spring up overnight.]
 
@@ -198,7 +201,7 @@ The church feels...
         The bus rolls to a stop in front of you, and you feel a pang of disappointment now that you can't spend more time with the {church_feeling} church. You give it one last glance, and bite your lip.
     
     - "nothing":
-        The bus rolls to an agonizingly slow stop in front of you, and you tap your foot impatiently waiting for an older woman to deboard. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance, your mouth tasting like pennies.
+        The bus rolls to an agonizingly slow stop in front of you, and you tap your foot impatiently waiting for an older woman to de-board. You found nothing online about this {church_feeling} church that spontaneously appeared. You give it one last glance, your mouth tasting like pennies.
 }
 
 *[Get on the bus]
@@ -253,7 +256,7 @@ You almost drop your phone as you hear the sound of a phone ringing drift from {
 *["Grandma?"]
     Your voice comes out tight, and you watch her silhouette bounce in excitement. "George! George! Come here! Our favourite grandchild called!" She waves behind her and another silhouette hobbles next to her, your grandfather. "To what do we owe the pleasure?"
     
-    #CYCLE: vaction at a resort, art museum visit, road trip to the largest ball of yarn, hike in the mountains  
+    #CYCLE: vacation at a resort, art museum visit, road trip to the largest ball of yarn, hike in the mountains  
     You don't know what to say. Are you hallucinating? Your grandparents live a few states away. You talk to them often enough. They— They just told you about their @! They sent you a postcard. So how could they be...?
     
         **["Where are you right now?"]
@@ -297,9 +300,9 @@ You almost drop your phone as you hear the sound of a phone ringing drift from {
     The phone again rings from inside the church, and your grandmother's silhouette answers again. "Hello, Candice speaking!"
     
     **["Where are you right now?"]
-        You try to hide the warble in your voice, but your grandma only laughs, "The church, of course! Everyone here misses you, your grandfather escpecially. Won't you come visit us soon?"
+        You try to hide the warble in your voice, but your grandma only laughs, "The church, of course! Everyone here misses you, your grandfather especially. Won't you come visit us soon?"
         
-        #CYCLE: vaction at a resort, art museum visit, road trip to the largest ball of yarn, hike in the mountains  
+        #CYCLE: vacation at a resort, art museum visit, road trip to the largest ball of yarn, hike in the mountains  
         Your stomach drops as your grandmother waves behind her and another silhouette hobbles next to her, your grandfather, you assume. You don't know what to say. Are you hallucinating? Your grandparents live a few states away. You talk to them often enough. They— They just told you about their @! They sent you a postcard. So how could they be...? 
         
         "I wish I could, Grandma, but I don't—"
@@ -333,7 +336,7 @@ You almost drop your phone as you hear the sound of a phone ringing drift from {
 - Your grandparents wave at you before disappearing from the window. The open door invites you in. You shake your head, and {church_interest != "drawn": take a step back. | take an unconscious step forward.} 
 
 *[Return to the bus stop]
-    You scurry back to the bus stop, and pace until the next bus comes, holding the polaroid photo in yout hands. You keep your eyes glued to the ground until the bus arrives. Looking at the church felt too dangerous. You occasionally check your phone to confirm that the conversaion happened. 
+    You scurry back to the bus stop, and pace until the next bus comes, holding the polaroid photo in your hands. You keep your eyes glued to the ground until the bus arrives. Looking at the church felt too dangerous. You occasionally check your phone to confirm that the conversation happened. 
     
     **[The bus arrives after what feels like forever]
         -> Bus
@@ -364,7 +367,7 @@ You're standing in an old church. The floor boards creek under your weight and e
 * [Anxious]
     ~ entered_feeling = 2
     #CYCLE: a biblically accurate angel, a face made of birds and flowers, an abstract sunrise, people holding hands, the blood and body of christ
-    Something about this feel wrong. Like the church is trying to lull you into a false sense of security. That this is not it's true form. {saw_windows: You glance at the closest window and it's a static image of vague geometric shapes you think is @. You rub your eyes and look again and swear the image shifted.}  You try to shake off the feeling as you leave, and return to the bus stop. You ignore the slimey feeling and mess around on your phone until the bus comes.
+    Something about this feel wrong. Like the church is trying to lull you into a false sense of security. That this is not it's true form. {saw_windows: You glance at the closest window and it's a static image of vague geometric shapes you think is @. You rub your eyes, look again and swear the image shifted.} You try to shake off the feeling as you leave, and return to the bus stop. You ignore the slimy feeling and mess around on your phone until the bus comes.
 
 -
 ~ late_for_work = true
@@ -613,7 +616,7 @@ The who office was quiet as your boss got louder and louder.
             "You, you— <i>YOU-</i>" She sputters. "You're FIRED!" You flinch, but leave all the same. This job sucked anyway.
             ->Walk_Home
 
-- You sit there and take it. It goes on for 10 more minutes before she tells you that you're "on thin ice" and to "clean up your act if you want to keep your job". You nod and turn back to your computer. There's an electricity in the air as everyone slosly returns to their tasks. You can hear the whispers.
+- You sit there and take it. It goes on for 10 more minutes before she tells you that you're "on thin ice" and to "clean up your act if you want to keep your job". You nod and turn back to your computer. There's an electricity in the air as everyone slowly returns to their tasks. You can hear the whispers.
 
 You should do something to take your mind off it.
 
@@ -626,7 +629,7 @@ You should do something to take your mind off it.
 = Go_to_Church_Scan
 #REMOVE: INTRUSIVE
 ~ work = 5
-You set aside your paper stack and stare at it. None of this is important or amtters, just busy work that someone ahs to do at some point. You want to leave. 
+You set aside your paper stack and stare at it. None of this is important or matters, just busy work that someone ahs to do at some point. You want to leave. 
 
 You return to your desk and gather your things before making your way to the door. You feel a little lighter as you leave, like leaving and returning to the church makes sense. 
 
@@ -797,7 +800,7 @@ You wonder if you should just leave.
 
 = Stop_Thinking_Yelled
 #REMOVE: INTRUSIVE
-Your mind starts to wander as your boss coninues to berate you. It wanders back to the {church_feeling} church. {entered_church: {entered_feeling == 1: It was nothing. Just a building. So why does your mind keep going back to it? | {entered_feeling == 2 || entered_feeling == 0: You want to go back it. There's something about it that  need to double check.}}} {called_number: You think about calling your grandmother again. While you're not near the church, to see if they're still there.}
+Your mind starts to wander as your boss continues to berate you. It wanders back to the {church_feeling} church. {entered_church: {entered_feeling == 1: It was nothing. Just a building. So why does your mind keep going back to it? | {entered_feeling == 2 || entered_feeling == 0: You want to go back it. There's something about it that  need to double check.}}} {called_number: You think about calling your grandmother again. While you're not near the church, to see if they're still there.}
 
 - "Are you even listening—" Your boss leans over her desk and snaps her fingers in your face. You blink and she rolls her eyes. "You know what? I can't do this right now. You should just go."
 
@@ -933,7 +936,7 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
 - ->Walk_Home
 
 === Walk_Home ===
-TODO: is work = 4 used anywhere besides yuelled at?
+TODO: is work = 4 used anywhere besides yelled at?
 { work:
     - 1: "Maybe you should take some sick days..." she says, her voice trails off. You nod, and return to your desk to gather your things.
     
@@ -959,7 +962,7 @@ TODO: is work = 4 used anywhere besides yuelled at?
 The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church. {know: You wonder if it will make a difference if you do.}
 
 * [Take the long way home]
-    ~ differnt_path = true
+    ~ different_path = true
     ->Walk_Home.Different
 
 *[Take the usual path home]
@@ -974,12 +977,12 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
 ~know = false
 ~ temp TempBool = false
 #IMAGE: Stop_Sign
-You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imgaine of you infront of the church with your grandparents. {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}| Maybe you should give them a call{dropped_phone: once you're home and have a working phone}} | {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}}}.
+You don't look at the church, and instead turn around and walk up the block. A burning creeps up the back of your neck, as if someone is staring you down. {know || called_number: You know what it is. It's not going to let you go again. | {entered_church: {entered_feeling != 0: You're paranoid. It's nothing. }}} {know: You think back to the imagine of you in front of the church with your grandparents. {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}| Maybe you should give them a call{dropped_phone: once you're home and have a working phone}} | {called_number: You shiver, recalling the phone from earlier. You debate calling them again{dropped_phone: , once you're home and have a working phone}}}.
 
 *[Scratch your neck]
 
 * {!dropped_phone && (called_number || know)} [Call grandparents]
-    {called_number: You stare at your call before dialing the contact number. You don't know what calling again will change, but you want to be sure. | You navigate to your grandmother's contact number and click call. } The phone rings for a moment before hearing a dial up tone and a robotic voie say, "Error. Number could not be completed as dialed. Please enter the number and try again. Goodbye." before disconnecting the call.
+    {called_number: You stare at your call before dialing the contact number. You don't know what calling again will change, but you want to be sure. | You navigate to your grandmother's contact number and click call. } The phone rings for a moment before hearing a dial up tone and a robotic voice say, "Error. Number could not be completed as dialed. Please enter the number and try again. Goodbye." before disconnecting the call.
 
     You frown, double check that you called the correct number and redial. You get the same dial up tone and robotic voice. You check your call history, and clearly see the previous times you've called them, all lasting anywhere from a few minutes to a few hours. {called_number: Does this mean they're still in the church?} Your chest tightens.
     
@@ -1023,7 +1026,7 @@ You don't look at the church, and instead turn around and walk up the block. A b
 
 - 
 #ICLASS: stop-1 #PLAY: walking_fast_pavement, true, 1
-{TempBool: You itch at your neck, and pick up the pace. The burning sensation on your neck grows, and something grabs at your legs. The wind picks up around you. You just need to get home. | You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inveitable.}}
+{TempBool: You itch at your neck, and pick up the pace. The burning sensation on your neck grows, and something grabs at your legs. The wind picks up around you. You just need to get home. | You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {know || called_number: You're putting off the inevitable.}}
 
 
 *[Shake out your leg]
@@ -1068,7 +1071,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     - else:
     
         #ICLASS: NULL #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
-        It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. {know || called_number: You grimice. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
+        It looms over you, taller than you remember. Your hands tightly grip the front gates. The door is open. {know || called_number: You grimace. | {entered_church: {entered_feeling != 0: But how did it...? You were at...? | A smile crawls to your face.}}}
 }
 
 
@@ -1107,7 +1110,7 @@ As you pass the front gate, it creaks open, and you flinch. {know: You should ke
 
 
 - 
-Against your better judgement, you stop, and look at the church. The gate is open. {know: You should keep moving. It's waiting for you. It's making the choice easy. | {called_number: Once again, it invites you inside. | {entered_church: {entered_feeling == 2: The slimey feeling returns as a trickle of sweat slides down your back. | {entered_feeling == 0: Your heart pounds in excitment? fear? Maybe it <i>wasn't</i> just nothing. | It's— It's just a church.}} | Probably the wind blew it open. Probably.}}}
+Against your better judgement, you stop, and look at the church. The gate is open. {know: You should keep moving. It's waiting for you. It's making the choice easy. | {called_number: Once again, it invites you inside. | {entered_church: {entered_feeling == 2: The slimy feeling returns as a trickle of sweat slides down your back. | {entered_feeling == 0: Your heart pounds in excitement? fear? Maybe it <i>wasn't</i> just nothing. | It's— It's just a church.}} | Probably the wind blew it open. Probably.}}}
 
 *[Close the gate]
 
@@ -1365,7 +1368,11 @@ When you feel safe again, you try to open the knob.
 
 === Locked ===
 #CHECKPOINT: 2, Locked?
-Locked? {church_interest == "drawn" || entered_feeling == 0: You were drawn to the church, but you'd rather not spend the rest of your day locked in here. | {know: The blood drains from your face as you realize what you've done.}}
+~ know = false
+~ church_interest = false
+~ entered_church = false
+~ entered_feeling = 2
+Locked? {entered_church: {church_teleported: | Did it get stuck? It was fine last time you entered, {know: but maybe this time... | but {entered_feeling == 2 or entered_feeling == 0: maybe it's possible that... | maybe slamming it shut caused it to get caught? }} {entered_feeling == 2 or entered_feeling == 0: Your heart pounds wildly in your chest. {entered_feeling == 2: <i>It couldn't be.</i> | {entered_feeling == 0: <i>Could it be that?</i>}}}} | {church_interest == "drawn" or entered_feeling == 0 and know: You may have been interested in the church{entered_feeling == 0: and what it could do}, but you'd rather not spend the rest of your day locked in here. | {know or entered_feeling == 2 or entered_feeling == 0: The blood drains from your face{know: as you realize what you've done. |{entered_feeling == 0: as your mouth can't decide to smile or frown.| as an ominous feeling spreads from your chest. }}}}}
 
 #PLAY: lock_rattle
 You jiggle the handle again. 
@@ -1683,7 +1690,7 @@ You can barely see, not a single drop of light shines through the windows. Your 
 }
 
 = Intrusive
-You mentally kick yourself for letting this happen. {differnt_path: You tried to go around, but you could have done more. | Why did you take your normal path? The want for normalcy screwed you in the end.} You can barely see, not a single drop of light shines through the windows. Your eyes have mostly adjusted, but not enough to make out meaningful details. You can't get out the way you came in, but there might be another way out.
+You mentally kick yourself for letting this happen. {different_path: You tried to go around, but you could have done more. | Why did you take your normal path? The want for normalcy screwed you in the end.} You can barely see, not a single drop of light shines through the windows. Your eyes have mostly adjusted, but not enough to make out meaningful details. You can't get out the way you came in, but there might be another way out.
 
 //Click replace with new text
 {
@@ -2129,7 +2136,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     - 3: You {leg == "worst": limp up | climb} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
     
 
-    - else: You {leg == "worst": limp up | climb} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everythign you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+    - else: You {leg == "worst": limp up | climb} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everything you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
 
 }
 
@@ -2157,7 +2164,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 {confessional_door_side != true && confessional_curtain_side != true: You {leg == "worst": carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess. (click highlighted image) | You approach the confessional booth. {confessional_door_side: } {killed_girl: Your eyes linger on the curtain.} (click highlighted image)}
 
 
-* {!confessional_door_side} [Enter throught the door] //door_confessional]
+* {!confessional_door_side} [Enter through the door] //door_confessional]
         ->Confessional_Door
 
 * {!confessional_door_side} [Enter through the curtain]//curtain_confessional]

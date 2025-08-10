@@ -19,7 +19,7 @@ VAR late_for_work = false
 
 //Walk Home Variables
 VAR FaceIt = false
-VAR differnt_path = false
+VAR different_path = false
 VAR turn = ""
 
 //Trapped Variables
@@ -35,7 +35,7 @@ VAR light_feeling = ""
 
 VAR name = false
 VAR know_name = false
-VAR lanturn = false
+VAR lantern = false
 
 VAR know = false
 VAR avoid_church = false
@@ -107,7 +107,7 @@ VAR clippers_lock = false
 VAR locks = 0
 VAR messed_locks = false
 
-// Sectiosn of gameplay
+// Sections of gameplay
 VAR visited_second = false //after getting the second big event
 VAR visited_first = false //after getting one big event
 

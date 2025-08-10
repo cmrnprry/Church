@@ -24,7 +24,7 @@ You pick up the glass and sniff the liquid. It smells like grapes.
 You decide against it. You can always eat after you escape.
 -> Open_the_Door.Pick_Up
 
-- You take a small sip. It's <pundgent, tangy, sweet, delicious>. You can't stop yourself from gluping it down. Warm, thick liquid slides down your throat. 
+- You take a small sip. It's <pungent, tangy, sweet, delicious>. You can't stop yourself from gulping it down. Warm, thick liquid slides down your throat. 
 
 *[You can't get enough.]
 
@@ -140,7 +140,7 @@ You stand in the doorway. The heart pulses faster, matching your own. You look d
 #EFFECT: Force_Open
 Holding the heart in one hand, you begin to squeeze. It doesn't take much effort, almost like breaking an egg. The heart begins to bleed and pulse faster. The light begins to die.
 
-The whine of a wounded animal reveberates through the room.
+The whine of a wounded animal reverberates through the room.
 
 *[The church is in pain]
 
@@ -167,7 +167,7 @@ The whine of a wounded animal reveberates through the room.
 }
 
 
-You think of everything you went through becasue of the church. You think of the church's sight. {temp_string} Of all the people who can never leave. Will never leave.
+You think of everything you went through because of the church. You think of the church's sight. {temp_string} Of all the people who can never leave. Will never leave.
 
 #EFFECT: Force_Closed
 You squeeze harder, until your nails pierce your palm. The light is almost gone now. The church squeals pitifully in response. You drop whatever remains of the heart, and it falls to the floor with a wet <i>splat!</i>
@@ -266,7 +266,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
         ->END
 }
 
-- Through blury eyes you dig into the soft earth.
+- Through blurry eyes you dig into the soft earth.
 
 *[The church is gone.]
 

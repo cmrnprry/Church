@@ -33,7 +33,7 @@
 
 }
 
-There are eight pews; two sections, containing four rows each. You seach from front-to-back, left-to-right. You feel underneath and behind each pew to make sure nothing is glued or taped to one. You move slowly and methodically, making sure you don't miss anything.
+There are eight pews; two sections, containing four rows each. You search from front-to-back, left-to-right. You feel underneath and behind each pew to make sure nothing is glued or taped to one. You move slowly and methodically, making sure you don't miss anything.
 
 You don't find much of anything. With a huff, you plop onto the last pew you searched, taking a well-deserved break. You close your eyes and rub your face. What are you even looking for?
 
@@ -116,7 +116,7 @@ You wave your hands in front of you, shake your head, and try to leave. The ligh
 
 The pastor grabs you by the shoulders, and leads you to the stage. { leave_light: The pastor's hands are cold, as it guides you, but the warmth from the light counters it. | You try to worm your way out, but it holds its grip tight. Its icy hands growing colder the more you try to resist. }
 
-The pastor pushes you up the stage, and comes to stand next to you. It grabs your hand and raises it to the air, saying something in that gutteral language. And then it laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
+The pastor pushes you up the stage, and comes to stand next to you. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
 
 *[Pull your hand from the pastor]
 ~ temp_bool = false
@@ -128,7 +128,7 @@ The pastor pushes you up the stage, and comes to stand next to you. It grabs you
 = Go_to_Stage
 You exit into the aisle, and slowly make your way towards the pastor. No one here has a face or eyes, but you can feel their stares boring holes straight through you. The light follows your movements as you approach the stage.
 
-nce there, you move to stand next to the ghostly pastor. It grabs your hand and raises it to the air, saying something in that gutteral language. And then it laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
+nce there, you move to stand next to the ghostly pastor. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
 
 *[Pull your hand from the pastor]
 ~ temp_bool = false
@@ -192,7 +192,7 @@ Your hand is gushing blood. You're screaming, you think. Everything is moving in
 
 The pastor walks towards you with the severed finger in one hand and wire cutters in the other. It doesn't have a face but you know it's smiling manically. Your back reaches a wall and you slide into a sitting position. It crouches in front of you. "Hush... Hush... Hush..." it consoles you. "It only hurts... for a minute.
 
-Your screams become wimpers as you wait for the pain to pass.
+Your screams become whimpers as you wait for the pain to pass.
 
 *[It never does]
     ~ stay -= 1
@@ -218,14 +218,14 @@ Your screams become wimpers as you wait for the pain to pass.
 *[You shake your head.]
 
 -
-{ temp_bool: It reaches out, and pulls you into a standing position. You craddle your maimed hand as the pastor gently holds you, and brings you back to the main stage. It dips your hand in the water again before pulling out a bandage, and carefully wrapping up your finger stump. Applause rises from the masses. <br><br> "Now... let us bow our heads... and pray." TIn unison, the crowd bows their heads, and you follow suit. <br><br> The pastor utters a prayer in the inhuman language. Yet, strangely enough, you feel as though you can understand it. Not to the extent that you would be able to translate it, but enough that you know innately the meaning behind each phrase. <br><br> When the prayer finishes you glance up, smiling, only to find you are alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. | It rips off a piece of cloth, dabs it's "mouth" with it, and then jeeringly throws it at you. "We don't need... dirty blood... staining a holy place." <br><br> It returns to center stage, and the crowd erupts into applause. "Now... let us bow our heads... and pray." <br><br> As they pray, you wrap up the bloody stump on your hand, hoping to escape while they're distracted. Before you know it however, the prayer stops and you look up, afraid of what will come next. And yet, nothing does. The ghastly priest is gone. The crowd is gone. All that remains of the encounter are the wire cutters sitting on the floor in front of you, and the dull pain where your finger used to be. }
+{ temp_bool: It reaches out, and pulls you into a standing position. You cradle your maimed hand as the pastor gently holds you, and brings you back to the main stage. It dips your hand in the water again before pulling out a bandage, and carefully wrapping up your finger stump. Applause rises from the masses. <br><br> "Now... let us bow our heads... and pray." TIn unison, the crowd bows their heads, and you follow suit. <br><br> The pastor utters a prayer in the inhuman language. Yet, strangely enough, you feel as though you can understand it. Not to the extent that you would be able to translate it, but enough that you know innately the meaning behind each phrase. <br><br> When the prayer finishes you glance up, smiling, only to find you are alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. | It rips off a piece of cloth, dabs it's "mouth" with it, and then jeeringly throws it at you. "We don't need... dirty blood... staining a holy place." <br><br> It returns to center stage, and the crowd erupts into applause. "Now... let us bow our heads... and pray." <br><br> As they pray, you wrap up the bloody stump on your hand, hoping to escape while they're distracted. Before you know it however, the prayer stops and you look up, afraid of what will come next. And yet, nothing does. The ghastly priest is gone. The crowd is gone. All that remains of the encounter are the wire cutters sitting on the floor in front of you, and the dull pain where your finger used to be. }
 
 * [Pick up the wire cutters]
     ~ items_obtained += (Clippers)
 
 - You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}
 
-{temp_bool: You think about what the masses had been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened becasue you were here.}
+{temp_bool: You think about what the masses had been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you were here.}
 
 *[Return to your search]
 {
@@ -240,11 +240,11 @@ Your screams become wimpers as you wait for the pain to pass.
 = Refuse_Him
 You take another look at the water, then the pastor. "No, I think I'm okay." 
 
-The pastor lets out a deep, gutteral growl. "Fine then." He snaps his head to crowd, and points at a woman in the second row. "Your turn then." 
+The pastor lets out a deep, guttural growl. "Fine then." He snaps his head to crowd, and points at a woman in the second row. "Your turn then." 
 
 A woman floats to the stage, and stands next you. She looks at you, and though she doesn't have a face, you can sense of deep fear in her. She looks back to the pastor, who is holding out it's hand, waiting for hers. 
 
-"Please..." she wimpers. "I have— I've already been cleansed."
+"Please..." she whimpers. "I have— I've already been cleansed."
 
 The pastor ignores her and grabs her arm, forcing it over the container of water. She looks at you. She is pleading.
 
@@ -264,14 +264,14 @@ It releases the woman, grabs your wrist. She falls to her feet, thanking you, be
 
 "Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls his free hand from behind it's back, and reveals a pair of wire cutters. "Waitwaitwaitwait—!" 
 
-You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it explaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
+You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it exclaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
 
 *["On second thought..."]
 "You are... willing...!" It turns to the crowd, and they begin to chant. "It will only... hurt a bit..."
 
 "Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls his free hand from behind it's back, and reveals a pair of wire cutters. "Waitwaitwaitwait—!" 
 
-You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it explaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
+You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it exclaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
 
 - 
 It releases you. 
@@ -304,7 +304,7 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i> | <i>Is she...?<
 
     Her voice rings in your ears, and eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {name:Ophelia is gone.| The woman is gone.} All that's left of the encounter is the wire cutters sitting on the floor at your feet.
 
-*[Appologize]
+*[Apologize]
 ~stay -= 0.5
     "I— I'm sorry. I— I— I didn't—" You stumble over your words.
 
@@ -319,7 +319,7 @@ You feel sick, and stumble backwards. {name: <i>Ophelia...?</i> | <i>Is she...?<
 
 - You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}
 
-{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened becasue you are here.}
+{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you are here.}
 
 *[Return to your search]
 {
