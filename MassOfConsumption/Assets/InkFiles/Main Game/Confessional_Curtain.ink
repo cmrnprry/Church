@@ -195,9 +195,9 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 ~ temp Temp_String = ""
 TODO: add more fired and walk out work things
 {
-    - work == 1:
+    - work_encounter == 1:
         ~Temp_String = "\"I sent multiple wrong copies to a department. I only realized when a coworker called me out. She seemed worried about me, but... I don't know.\""
-    - work == 2:
+    - work_encounter == 2:
         ~Temp_String = "\"I think I was fired.\" You laugh. \"I sent a nonsense email to our biggest client and they were very upset. My supervisor was really, really mad at me.\""
     - else:
         ~Temp_String = "\"A coworker was trying to help me today, but I pushed him away.\""
@@ -229,10 +229,10 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
 }
 
 {
-    - work == 1:
+    - work_encounter == 1:
         "I— We rarely talk, but her concern felt so foreign. I didn't know what to do with it, so I just... I just left."
         ~Temp_String = "often ignore or push away the ones who reach out first?\""
-    - work == 2:
+    - work_encounter == 2:
         "My supervisor has always looked out for me even though I never meet their standards. I think this was the straw that broke the camel's back." You fidgit with your nail. "The look they gave me..."
         ~Temp_String = "think you did all you could?\""
     - else:
@@ -264,7 +264,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         <i>Plink! Plink!</i>
         
         {
-            - work == 1 or work == 3:
+            - work_encounter == 1 or work_encounter == 3:
                 "Do you feel unworthy of their concern?"
                 ~Temp_String = "feel this way?"
             - else:
@@ -274,7 +274,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
     
     - else:
         {
-            - work == 1 or work == 2:
+            - work_encounter == 1 or work_encounter == 2:
                 ~Temp_String = "small talk in the kitchen. How your coworkers offer to let you join them for lunch, but you always turn them down. How you don't have many, if any, work friends. How anyone who reaches out first is met with a swift denial."
             - else:
                 ~Temp_String = "overlooked promotions. When you finally felt you proved yourself on a project, and your efforts were met with a pat on the back. How even after pushing the issue, your emails didn't get a response. How no matter what you did, how hard you worked, you got nothing in return."
@@ -282,7 +282,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         
         You shake your head. "I can't say that's the case. Today was—"
 
-        "A fluke? A one off? {work == 2: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
+        "A fluke? A one off? {work_encounter == 2: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
 
         You flinch at it's tone,{stay < 1: and grip the bench. Was that because you disagreed with it? | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
         
@@ -306,7 +306,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
     {
         - Temp_Bool: //agreed last time
             {
-                - work == 1 or work == 3:
+                - work_encounter == 1 or work_encounter == 3:
                    ~Temp_String = "Unworthy is a strong word. Can anyone be unworthy of another's time?"
                 - else:
                    ~Temp_String = "You think you do, but at the same time..."
@@ -315,7 +315,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
             You hesitate. Do you? {Temp_String}
         - else: //disagreed last time
             {
-                - work == 1 or work == 2:
+                - work_encounter == 1 or work_encounter == 2:
                     ~Temp_String = "<i>You</i> choose to push people away. It's not their fault if they decide to stop when all you do is push them away."
                 - else:
                     ~Temp_String = "A job is just that. A job. They may not value you the way you wish they would, but maybe it's time to look for one that does."
@@ -384,7 +384,7 @@ The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an
 <i>Plink!</i>
 
 {
-    - work == 1 or work == 3:
+    - work_encounter == 1 or work_encounter == 3:
         "You say you are not worthy of the concern of others. You keep to yourself, so your work." The voice is gentle. "But you are here now, safe in the church's embrace. You <i>are</i> happier here, yes?"
     - else:
         "You don't think you could have done better, that you worked harder to make up for it. And yet, your efforts fell to deaf ears." The voice is gentle. "But you are here now, safe in the church's embrace. You <i>are</i> happier here, yes?"

@@ -16,6 +16,10 @@ VAR church_teleported = false
 VAR saw_windows = false
 VAR was_fired = false
 VAR late_for_work = false
+VAR church_starving = false
+
+//Work VAriables
+VAR work_encounter = 0
 
 //Walk Home Variables
 VAR FaceIt = false
@@ -59,7 +63,7 @@ VAR keep_book = false
 VAR branded = false
 
 
-VAR work = 0
+
 VAR room = 0
 VAR stay = 0
 VAR church_anger  = 0
