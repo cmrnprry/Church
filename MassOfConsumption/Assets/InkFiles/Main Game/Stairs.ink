@@ -1,20 +1,20 @@
 === Stairs ===
 ~temp_bool_3 = false
 { - room:
-    - 0: You {leg == "worst": limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
+    - 0: You {Leg >= 3: limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
         ~room = 2
     
-    - 1: You {leg == "worst": limp up | climb} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
+    - 1: You {Leg >= 3: limp up | climb} the short set of stairs.The office door is still there, however, in a different place. Rather than it being at the end of the hall, it sits on wall adjacent to the stairs, hovering over the last few. The hall extends to another set of stairs that go both up and down. 
     
         This was not there last time you were here.
         
         ~room = 2
         
-    - 2: You {leg == "worst": limp up | climb} the short set of stairs. The office door seems a little a bit shorter than you remember.
+    - 2: You {Leg >= 3: limp up | climb} the short set of stairs. The office door seems a little a bit shorter than you remember.
     
-    - 3: You {leg == "worst": limp up | climb} the short set of stairs. The office door is half the height that it used to be. If it were any smaller, you don't think you could fit through it. 
+    - 3: You {Leg >= 3: limp up | climb} the short set of stairs. The office door is half the height that it used to be. If it were any smaller, you don't think you could fit through it. 
 
-    - else: You {leg == "worst": limp up | climb} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everything you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+    - else: You {Leg >= 3: limp up | climb} the short set of stairs. The doorway to the office is gone. {room >= 4: You hope you got everything you needed from it. }{room >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
 
 }
 
@@ -29,7 +29,7 @@
     -> Stairs.Exit_Stairs_Area
 
 = Office
-{have_visited ? (Enter_Office) == false: { object != "": It's the office door from earlier, but it seems shorter than you remember. You | You hope something useful lies behind, and }duck through the doorway. { object != "": The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty. It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {saw_windows: You avoid looking at it.}} | {room == 3: You open the door and crouch-walk through.} {room == 4: You open the door and army crawl through.} Despite the door size, the rest of the room remains how you remember it. }
+{have_visited ? (Enter_Office) == false: { Object == -1: It's the office door from earlier, but it seems shorter than you remember. You | You hope something useful lies behind, and }duck through the doorway. { Object == -1: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty. It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.}} | {room == 3: You open the door and crouch-walk through.} {room == 4: You open the door and army crawl through.} Despite the door size, the rest of the room remains how you remember it. }
 
 
 
@@ -42,13 +42,13 @@
     {
         -saw_books:
         {
-            - saw_locks or talked_to_girl or finished_confession: 
-                You take another crack at reading through the books. You now have a better idea about what to look for. {saw_locks: You search through the books, {talked_to_girl: looking for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not. You hope that she had also seen the chains and locks you have.} | The priest you confessed to didn't tell you a lot, but you think it might be enough to find <i>something.</i>}
+            - saw_locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): 
+                You take another crack at reading through the books. You now have a better idea about what to look for. {saw_locks: You search through the books, {Confessional_Encounters ? (Talked_to_Girl): looking for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not. You hope that she had also seen the chains and locks you have.} | The priest you confessed to didn't tell you a lot, but you think it might be enough to find <i>something.</i>}
             
-                {saw_locks or talked_to_girl or finished_confession: You're about to give up until you find someone promising: {saw_locks: Ophelia. | {talked_to_girl: Emily. |  {finished_confession: Olin. | }}}}
+                {saw_locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {saw_locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Emily. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}}
         
-                *{saw_locks or talked_to_girl or finished_confession} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
-                    {saw_locks: ->Take_Or_Return.Ophelia_Book | {talked_to_girl: ->Take_Or_Return.Emily_Book | {finished_confession: ->Take_Or_Return.Olin_Book}}}
+                *{saw_locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
+                    {saw_locks: ->Take_Or_Return.Ophelia_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Take_Or_Return.Emily_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Take_Or_Return.Olin_Book}}}
             - else:
                 With no further information, you grab a random book to start reading. The number 1243 is on the cover in thick, gold-colored lettering.
 
@@ -66,7 +66,7 @@
 ~ saw_desk = true
 ~ items_obtained += (Simple_Key)
 
-Nothing interesting sits on the desk itself, save for a desk lamp. You flick the on off switch, but nothing happens. {object != "" : You touch the space where the {object} had been and wonder if you should have {took_object: kept it on you. | taken it.} You silently curse yourself for not doing so. {saw_locks: The {object} would have made quick work of all the locks upstairs. You make a fist and bang it on the desk in frustration.} | <>}
+Nothing interesting sits on the desk itself, save for a desk lamp. You flick the on off switch, but nothing happens. {Object == -1 : You touch the space where the {Object} had been and wonder if you should have {Object != -1: kept it on you. | taken it.} You silently curse yourself for not doing so. {saw_locks: The {Object} would have made quick work of all the locks upstairs. You make a fist and bang it on the desk in frustration.} | <>}
 
 You walk around and plot onto the old desk chair. It groans in protest under your weight. You pull open the desk drawers and dig through their contents. Most only contain broken or otherwise unusable writing utensils or paper scraps to old to make any text out, but one drawer holds a small key.
 
@@ -123,9 +123,9 @@ Once inside, Mary wanders to the pews. Then a very familiar scene begins to play
 
 The last page details how the beautiful melody lulled her into a sense security. How her final breaths were peaceful. How her body melted into wood after she was gone.
 
-You close the book, and place it back on the shelf. {know_book: Your stomach gurgles, and you wonder how many more of these you can stomach. Too many have the same sad ending. | You close the book, and place it back on the shelf. Your insides twist and lurch as you look over all the books that litter the floor, and sit on the shelves. All these books- no. All these <i>people</i> are victims who never got out.}
+You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_Book): Your stomach gurgles, and you wonder how many more of these you can stomach. Too many have the same sad ending. | You close the book, and place it back on the shelf. Your insides twist and lurch as you look over all the books that litter the floor, and sit on the shelves. All these books- no. All these <i>people</i> are victims who never got out.}
 
-*{!know_book} [Look for your book]
+*{Book_Knowledge !? (Saw_Your_Book)} [Look for your book]
     -> Stairs.Your_Book
 
 *[Grab the next book]
@@ -138,14 +138,14 @@ You close the book, and place it back on the shelf. {know_book: Your stomach gur
     - explore_office_bookshelf ? (Check_Boxes) || explore_office_bookshelf ? (Check_Books):
     
     {
-        - !know_book:
-            ~ know_book = true
+        - Book_Knowledge !? (Saw_Your_Book):
+            ~ Book_Knowledge += (Saw_Your_Book)
             You pull book after book off the shelves, looking at the first page for your name, and throwing it to the floor when it's not. When you run out of books, you go through the boxes. 
             
             "Where is it? Where could it possibly be?" You grab the chest, give it a shake, and hear something inside. You try to open it, but it's locked. "Maybe in here?" you mutter. You look through the key hole, but can't see anything. "It could be..."
     
             -> Open_Chest(->Stairs.Your_Book)
-        - know_book:
+        - Book_Knowledge ? (Saw_Your_Book):
             ~ Temp_Bool = true
             , and trace the numbers. You look at the first page, anxious to see if this is indeed your book. Your legs turn to jelly and you collapse to the ground. "Oh..." 
             
@@ -153,13 +153,13 @@ You close the book, and place it back on the shelf. {know_book: Your stomach gur
     }
         
         
-    - !know_book && explore_office_bookshelf ? (Check_Chest):
-        ~ know_book = true
+    - Book_Knowledge !? (Saw_Your_Book) && explore_office_bookshelf ? (Check_Chest):
+        ~ Book_Knowledge += (Saw_Your_Book)
         , and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..."
 }
 
 *[{Temp_Bool: It is your book | The book is about <i>you.</i>}]
-    ~read_start_book = true
+    ~ Book_Knowledge += (Read_Start)
 
 - 
 Your read the first few pages, and it details everything you've experienced so far, including the childhood memories you suppressed. There's a handful of blank pages between your childhood experience and current one. Your hands shake and your eyes burn. Is the ending already written? If it is, will reading make a difference?
@@ -168,11 +168,11 @@ Your read the first few pages, and it details everything you've experienced so f
     ->Take_Or_Return(false)
 
 *[Take the book with you]
-    ~keep_book = true
+    ~ Book_Knowledge += (Kept_Book)
     ->Take_Or_Return(true)
 
 *[Flip to the end]
-    ~read_end_book = true
+    ~ Book_Knowledge += (Read_End)
     
 - 
 #CYCLE: prayer, curse, plea, apology
@@ -202,7 +202,7 @@ You clutch the book tightly in your hands. {stay < 2: You cannot accept that end
     ->Stairs.Unsure
 
 * [Take the book with you]
-    ~keep_book = true
+    ~Book_Knowledge += (Kept_Book)
     ->Take_Or_Return(true)
     
 *[Rip out the page]
@@ -235,13 +235,13 @@ Your entire body trembles.
     ->Stairs.Leave_it
 
 - 
-~ branded = true
+~ Book_Knowledge += (Branded)
 ~ visited_first = true
 You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You-
 
 Your skin tingles just under the skin, similar to a mild sunburn. You lightly slap your arm, and it quickly turning into a searing pain flaying your skin. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
-You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating pain returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {killed_girl: Is this what {know_name: Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
+You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating pain returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Know_Emily_Name): Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
 
 *[Apologize]
     "I'm sorry! Please, stop. <i>I'm sorry!</i>" You cry. <>
@@ -270,7 +270,7 @@ You whimper as the sizzling pain slowly subsides to a biting prickling. You brin
     ->Take_Or_Return(false)
 
 *[Take the book with you]
-    ~keep_book = true
+    ~Book_Knowledge += (Kept_Book)
     ->Take_Or_Return(true)
 
 = Rip_out_Ophelia
@@ -281,17 +281,17 @@ Whatever books are left on the shelves fall off, and the far book shelf falls ov
 
 *[Run out of the room]
 ~room = 5
-~ rip_page = true
+~ Book_Knowledge += (Ripped_Pages)
 
 - You make your way out of the room as fast as you can. All the books on the floor make it difficult, but you manage. Once you're about halfway to the door, you hear a sharp snapping sound. A large piece of ceiling falls to your side, just barely missing you.
 
-You push yourself harder{leg == "worst": , but your leg is not cooperating with you You're not moving as fast as you want to |}. The door is so close. <i>You're</i> so close.
+You push yourself harder{Leg >= 3: , but your leg is not cooperating with you You're not moving as fast as you want to |}. The door is so close. <i>You're</i> so close.
 
 *[One last push]
 
 -
 {
-    - leg == "worst":
+    - Leg >= 3:
         You try to push your body past it's limit, but your hurt leg gives out on you. You fall, just inches from the doorway. You don't have time to get to your feet before a large chunk of ceiling lands on you.
 
         "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
@@ -306,14 +306,14 @@ You push yourself harder{leg == "worst": , but your leg is not cooperating with 
 
         "Well that was... something..." you mutter and carefully get to your feet, checking for any damage. You don't feel great but doesn't feel like anything's broken. "Note to self, <i>don't</i> rip anything while in here..."
 
-        You pat your pocket that holds the page{keep_book: , and tighten your grip on your book.|.} At least you can remove one more lock with this.
+        You pat your pocket that holds the page{Book_Knowledge ? (Kept_Book): , and tighten your grip on your book.|.} At least you can remove one more lock with this.
         
         *[Exit the office.]
         ->Stairs.Exit_Office
 }
 
 = Examine_Stairs
-{(have_visited ? (Stairs_Up) or have_visited ? (Stairs_Down)) == false: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {object != "": How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.}
+{(have_visited ? (Stairs_Up) or have_visited ? (Stairs_Down)) == false: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Object == -1: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.}
 
 +[Go upstairs]
     ->Stairs.Upstairs
@@ -354,16 +354,16 @@ Confused, you leave the room, and wander numbly back into the main body of the c
 But the church looks at you again, bathing you in the wonderfully comfortable red light. The door stay open. You feel like...
 
 *[Laughing]
-~ church_feeling = "laugh"
+~ Church_Feeling = "laugh"
 
 *[Crying]
-~ church_feeling = "cry"
+~ Church_Feeling = "cry"
 
 - You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 
 {
-    - emily_hurt:
-        "You're leaving me?" You stop. It's the little girl{name: , Emily |.} She's crying. "You're leaving me all alone? Again?"
+    - Confessional_Encounters ? (Finished_Door_Side):
+        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Know_Emily_Name): , Emily |.} She's crying. "You're leaving me all alone? Again?"
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
         {
@@ -421,7 +421,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                 }
             
             - priest_feeling == "anger":
-                You throw the fabric to the ground. "Do you think this will work the second time?" You {church_feeling}.
+                You throw the fabric to the ground. "Do you think this will work the second time?" You {Church_Feeling}.
                 
                 "Don't leave me. <i>Please</i> don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
                 
@@ -450,7 +450,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
         }
         
     - coward:
-        "Coward." You stop. It's the woman who helped you{name:, Ophelia." |.} "You're just going to leave?"
+        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Know_Ophelia_Name):, Ophelia." |.} "You're just going to leave?"
         
         {
             - stay >= 2.5:
@@ -554,7 +554,7 @@ They begin to sing, hands out stretched for you to take. The music flows through
     You turn back up the stairs. It doesn't feel right.
     ->Stairs.Turn_Back
 -
-Cautiously, you take another step down{leg == "worst":, making sure to lean against the railing to take weight off your leg}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
+Cautiously, you take another step down{Leg >= 3:, making sure to lean against the railing to take weight off your leg}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
 
 *[Push through]
 
@@ -564,7 +564,7 @@ Cautiously, you take another step down{leg == "worst":, making sure to lean agai
 - 
 ~ went_downstairs = 2
 
-About halfway down the steps, the smell of rot hits your nose, so strong you gag. {leg == "worst": You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. The stench is unbearable. 
+About halfway down the steps, the smell of rot hits your nose, so strong you gag. {Leg >= 3: You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. The stench is unbearable. 
 
 It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.
 
@@ -726,20 +726,20 @@ You can't feel your legs.
 = Downstairs_Trick
 ~ went_downstairs = 3
 ~ visited_first = true
-At least until the smell hits you. The smell of rot hits your nose, so strong you gag. {leg == "worst": You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. <>
+At least until the smell hits you. The smell of rot hits your nose, so strong you gag. {Leg >= 3: You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. <>
 
 {went_downstairs >= 2: It was the same ripe smell from before. You swing around to look behind you only to be met with inky blackness. You know you didn't miss the landing, that's impossible. | The stench is unbearable. It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge. Did you miss the landing and mistakenly continue down? You swing around to look behind you only to be met with inky blackness.}
 
 *[Retrace your steps]
     Taking a deep breath through your mouth, you start back up the stairs. {went_downstairs >= 2: There's no way you just walked right past the landing like that. There is a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} 
     
-    After climbing the stairs up for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {took_object || church_teleported: <i>Is the church messing with me?</i> | <i>How did...?</i>} 
+    After climbing the stairs up for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {Object != -1 or Church_Investigation ? (Teleported): <i>Is the church messing with me?</i> | <i>How did...?</i>} 
     TODO: Check what other variables I should be checking for here and down below
     
     **[Continue to the top]
         <i>Screw it.</i> You think and decide to reach the top. At this point, either the landing never existed or the church is messing with your sense of direction. Either way, you would rather take your chances with whatever the attic has in store for you rather than the basement. {went_downstairs >= 3: Your skin crawls at the memory of the flesh covering the staircase. } 
         
-        You power through the rest of the stairs, only stopping to rest when your limbs refuse to cooperate. At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{leg == "worst":, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
+        You power through the rest of the stairs, only stopping to rest when your limbs refuse to cooperate. At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{Leg >= 3:, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
         
             ->Stairs.Upstairs_Landing(true)
     
@@ -751,7 +751,7 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
         #CYCLE: mold, fungus, flesh
         You gasp, taking a step back and slipping on something leaking from the door, landing on a squishy mass. It shivers in response to your touch. You yelp, jumping away{went_downstairs >=3:, eyes fixed on the quivering @. |, and see the walls and stairs covered in the same bulbous @.}
         
-        In frustration you kick the door{leg == "worst":, then suppress a curse as a sharp pain shoots up your leg}. Is this your only option? A rotting basement? You wonder if you can return now that you've made it to the end? Or if you'll end up somewhere worse.
+        In frustration you kick the door{Leg >= 3:, then suppress a curse as a sharp pain shoots up your leg}. Is this your only option? A rotting basement? You wonder if you can return now that you've made it to the end? Or if you'll end up somewhere worse.
         
         ***[Take your chances with the basement]
             You cover your face with your shirt, and slowly turn open the door. <>
@@ -789,12 +789,11 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
             
 
 = Upstairs
-~leg = "worst"
 ~ went_upstairs = true
 #IMAGE: Stairs_Up #PLAY: click-on #EFFECT: Flash-On
 You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, hoping that you're close to the top, but the top doesn't look any closer. With a huff, you continue up.
 
-Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs throb from effort. {leg != "": The leg you tried to kick the door in feels particularly weak.}
+Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs throb from effort. {Leg != -1: The leg you tried to kick the door in feels particularly weak.}
 
 *[Give up]
     Shaking your head, you make the journey back down the stairs. Thankfully, going down was much easier than going up. As the hand rail once again rises to sit at a reasonable height and the spiral gradually straightens out, you believe you made the correct choice.
@@ -804,7 +803,7 @@ Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. Th
     
 - You power through, only stopping to rest when your limbs refuse to cooperate. 
 
-At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{leg == "worst":, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
+At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{Leg >= 3:, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
 
 *[<i>How tall is this church?</i>]
     ->Stairs.Upstairs_Landing(false)
@@ -814,7 +813,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 ~ visited_first = true
 {
     - !from_trick:
-        After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{leg == "worst": Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
+        After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{Leg >= 3: Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
         
         The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
     - from_trick:
@@ -1018,7 +1017,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 ~number_lock = true
 
 {
-    - rip_page:
+    - Book_Knowledge ? (Ripped_Pages):
         You pull the page from your pocket. You grab the combination lock and input the numbers 2755, and pull on the lock.
         
         //TODO: Maybe little "game" to input the numbers?
@@ -1030,7 +1029,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
         
         
-    - name:
+    - Book_Knowledge ? (Know_Ophelia_Name):
         You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
         
         //TODO: Maybe little "game" to input the numbers?
@@ -1041,13 +1040,13 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 }
 
 {
-    - keep_book:
+    - Book_Knowledge ? (Kept_Book):
         {
-            - rip_page:
+            - Book_Knowledge ? (Ripped_Pages):
                 You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
             
                 You remove the lock from the metal bar, and slide it out of place. 
-            - name:
+            - Book_Knowledge ? (Know_Ophelia_Name):
                 "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                 
                 None of them work.
@@ -1060,11 +1059,11 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
     
     - else:
         {
-            - rip_page:
+            - Book_Knowledge ? (Ripped_Pages):
                 Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
             
                 You remove the lock from the metal bar, and slide it out of place. 
-            - name:
+            - Book_Knowledge ? (Know_Ophelia_Name):
                 "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                 
                 None of them work.
@@ -1166,7 +1165,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     ~ number_lock = true
 
     {
-        - rip_page:
+        - Book_Knowledge ? (Ripped_Pages):
             You pull the page from your pocket. You grab the combination lock and input the numbers 2755, and pull on the lock.
             
             //TODO: Maybe little "game" to input the numbers?
@@ -1178,7 +1177,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
             Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
             
             
-        - name:
+        - Book_Knowledge ? (Know_Ophelia_Name):
             You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
             
             //TODO: Maybe little "game" to input the numbers?
@@ -1189,13 +1188,13 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     }
     
     {
-        - keep_book:
+        - Book_Knowledge ? (Kept_Book):
             {
-                - rip_page:
+                - Book_Knowledge ? (Ripped_Pages):
                     You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
                 
                     You remove the lock from the metal bar, and slide it out of place. 
-                - name:
+                - Book_Knowledge ? (Know_Ophelia_Name):
                     "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                     
                     None of them work.
@@ -1208,11 +1207,11 @@ If you weren't sure before, you are now: Behind that door lies the heart.
         
         - else:
             {
-                - rip_page:
+                - Book_Knowledge ? (Ripped_Pages):
                     Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
                 
                     You remove the lock from the metal bar, and slide it out of place. 
-                - name:
+                - Book_Knowledge ? (Know_Ophelia_Name):
                     "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                     
                     None of them work.
@@ -1253,9 +1252,9 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 }
 
 === Open_Chest(-> return_to) ===
+~temp Temp = false
 *{items_obtained ? (Simple_Key)} [Try the simple key]
     ~ items_obtained -= (Simple_Key)
-    ~ found_your_book += (Used_Simple_Key)
     ~ broke_key = true
     You fish the simple key out of your pocket and try the lock. The key slides in easy enough, but it doesn't want to turn. You force the key, thinking it just needed a little force. You jiggle the key, and force it to turn. <i>Clank!</i> 
     
@@ -1265,25 +1264,24 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     ~temp_string = "if the loss of the key was worth it"
 
 *{items_obtained ? (Skeleton_Key)} [Try the skeleton key]
-    ~ found_your_book += (Used_Skeleton_Key)
+    ~ Temp = true
     You fish the skeleton key out of your pocket and try the lock. The key slides in, and <i>Click!</i>
         
     The lid pops open and inside sits a book with the number 2758 on it's cover.
         ~temp_string = "if the loss of the key was worth it"
 
 *[Break the chest]
-    ~ found_your_book += (Broke_Chest)
     You raise the chest above your head, and hurl it to the floor. The lid pops open, and a book with the number 2758 on it's cover spills onto the floor.
     ~temp_string = "if this is indeed your book"
 
-- You {found_your_book ? (Used_Skeleton_Key): take the book from the chest, placing the now empty chest back on the shelf| pick the book up from the ground}<>
+- You {temp: take the book from the chest, placing the now empty chest back on the shelf| pick the book up from the ground}<>
 
 ->return_to
 
 //if we are here, player HAS to know about their book
 
 === Take_Or_Return(IsTake) ===
-{branded: {IsTake: You tuck the book under your arm. Leaving it behind feels wrong somehow. | You struggle to your feet and shuffle to the bookshelf. You gently place your book on the shelf and slide it back until it hits the wall. You want nothing to do with it anymore.} You... You should do something. Return to your search. Find the heart. Destroy it. Escape. | {IsTake: You tuck the book under your arm. {read_end_book: You may already know how this could end, or at least, how the <i>church</i> thinks it will end, but something tells you to keep your book with you. {stay >= 2: Just in case something changes.} | You don't want to know how this story ends, but in case you change your mind, you'll have that choice.} | {read_end_book: You place the book back on the shelf. You know how it ends- Or rather, how the church thinks it will end. | You don't want to know how this story ends, not when there's still something you can do. You put the book back on the shelf.} } {stay < 2: You shouldn't give too much weight to it. That's what the church wants. | You chew your lip{keep_book: and tighten your grip on it}. } You should do something productive instead of dwelling on it. {saw_locks: You remember the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}}
+{Book_Knowledge ? (Branded): {IsTake: You tuck the book under your arm. Leaving it behind feels wrong somehow. | You struggle to your feet and shuffle to the bookshelf. You gently place your book on the shelf and slide it back until it hits the wall. You want nothing to do with it anymore.} You... You should do something. Return to your search. Find the heart. Destroy it. Escape. | {IsTake: You tuck the book under your arm. {Book_Knowledge ? (Read_End): You may already know how this could end, or at least, how the <i>church</i> thinks it will end, but something tells you to keep your book with you. {stay >= 2: Just in case something changes.} | You don't want to know how this story ends, but in case you change your mind, you'll have that choice.} | {Book_Knowledge ? (Read_End): You place the book back on the shelf. You know how it ends- Or rather, how the church thinks it will end. | You don't want to know how this story ends, not when there's still something you can do. You put the book back on the shelf.} } {stay < 2: You shouldn't give too much weight to it. That's what the church wants. | You chew your lip{Book_Knowledge ? (Kept_Book): and tighten your grip on it}. } You should do something productive instead of dwelling on it. {saw_locks: You remember the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}}
 
 *{!(explore_office_bookshelf ? Check_Boxes)} [Pick through the boxes]
     ~ explore_office_bookshelf += (Check_Boxes)
@@ -1309,24 +1307,24 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 *[Exit the office]
     ->Stairs.Exit_Office
     
-- They all resemble {know_book: your book. | the other books in the room.} The main difference being the bold number on the cover or spine, and some looking a little older. From what you can tell, none of the numbers repeat. 
+- They all resemble {Book_Knowledge ? (Saw_Your_Book): your book. | the other books in the room.} The main difference being the bold number on the cover or spine, and some looking a little older. From what you can tell, none of the numbers repeat. 
 
-*[{saw_locks or talked_to_girl: Look for her book | Read through the books}]
+*[{saw_locks or Confessional_Encounters ? (Talked_to_Girl): Look for her book | Read through the books}]
 
-- {saw_locks: With the minimal knowledge you have, you skim through as many books as you can. You search and search, {talked_to_girl: looking for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not.} | You pick up a book at random, skimming though them for any relevant or interesting information. {talked_to_girl: You try to focus on books that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | You read book after book after book, but you don't know what you're looking for.}}
+- {saw_locks: With the minimal knowledge you have, you skim through as many books as you can. You search and search, {Confessional_Encounters ? (Talked_to_Girl): looking for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not.} | You pick up a book at random, skimming though them for any relevant or interesting information. {Confessional_Encounters ? (Talked_to_Girl): You try to focus on books that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | You read book after book after book, but you don't know what you're looking for.}}
 
-{saw_locks: You read book after book, story after story about the victims of the church. | Each story you read all are about victims of the church.} All the stories only describe parts where the victim is in or near the church, so most have gaps{read_start_book:, much like your own book}. Many stories mimic your own, but some never knew they were ever in danger. Some attempted to escape, but all of them had the same ending.
+{saw_locks: You read book after book, story after story about the victims of the church. | Each story you read all are about victims of the church.} All the stories only describe parts where the victim is in or near the church, so most have gaps{Book_Knowledge ? (Read_Start):, much like your own book}. Many stories mimic your own, but some never knew they were ever in danger. Some attempted to escape, but all of them had the same ending.
 
-{read_end_book: And much like your own ending, they all find peace. | They never leave.} {saw_locks or talked_to_girl or finished_confession: You're about to give up until you find someone promising: {saw_locks: Ophelia. | {talked_to_girl: Emily. |  {finished_confession: Olin. | }}}| After reading another dead-end book, you pinch the bridge of your nose and sigh. You're surrounded by a pile of useless books and your eyes are strained from reading in low light.}
+{Book_Knowledge ? (Read_End): And much like your own ending, they all find peace. | They never leave.} {saw_locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {saw_locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Emily. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}| After reading another dead-end book, you pinch the bridge of your nose and sigh. You're surrounded by a pile of useless books and your eyes are strained from reading in low light.}
 
-*{saw_locks or talked_to_girl or finished_confession} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
-    {saw_locks: ->Ophelia_Book | {talked_to_girl: ->Emily_Book | {finished_confession: ->Olin_Book}}}
+*{saw_locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
+    {saw_locks: ->Ophelia_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Emily_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Olin_Book}}}
 
-* {!saw_locks or !talked_to_girl or !finished_confession} [Come back later]
+* {!saw_locks or Confessional_Encounters !? (Talked_to_Girl) or Confessional_Encounters !? (Finished_Curtain_Side)} [Come back later]
     You have has enough reading, and decide you need to move on. You're sure something in here has the information you want, but blindly reading isn't helping. You'll come back when you know more.
     ->Stairs.Exit_Office
     
-* {!saw_locks or !talked_to_girl or !finished_confession} [Keep reading]
+* {!saw_locks or Confessional_Encounters !? (Talked_to_Girl) or Confessional_Encounters !? (Finished_Curtain_Side)} [Keep reading]
     You sigh deeply and grab another book. 
     TODO: church gonna look at you again. you're gonna throw a book in frustration and it's gonna hit the window and the church is gonna be like "ouchie wtf man" and you're gonna be upset again and maybe die
 
@@ -1339,7 +1337,7 @@ TODO
 ->END
 
 = Ophelia_Book
-~name = true
+~ Book_Knowledge += (Know_Ophelia_Name)
 ~number_lock = "2755"
 You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
 

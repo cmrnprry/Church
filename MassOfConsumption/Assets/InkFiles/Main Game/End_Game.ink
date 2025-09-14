@@ -147,7 +147,7 @@ The whine of a wounded animal reverberates through the room.
 - It shakes. It pleads. It begs you to stop.
 ~temp_string = ""
 {
-    - confessional_door_side:
+    - Confessional_Encounters ? (Killed_Girl):
         ~temp_string += "Of the little girl you couldn't save."
 }
 
@@ -347,6 +347,5 @@ You are gone.
 - #ENDING: 10, ??? Ending: You Are the Church
 *[And the church is you]
 ->END
-
 
 

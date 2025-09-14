@@ -30,11 +30,11 @@ TODO: make variable to track how you got the key
         
     - previous_area != Enter_Pews: 
         TODO: figure out this nonsense
-        You sit on the cold wooden bench. {confessional_door_side: It's almost identical to the other side. | The grate that a priest would speak through has the same lattice work that the door does. }
+        You sit on the cold wooden bench. {Confessional_Encounters ? (Finished_Curtain_Side): It's almost identical to the other side. | The grate that a priest would speak through has the same lattice work that the door does. }
     
         A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
     
-        {confessional_door_side: What are you expecting to find here? Why did you enter? | There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter?}
+        {Confessional_Encounters ? (Finished_Curtain_Side): What are you expecting to find here? Why did you enter? | There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter?}
         -> Confessional_Curtain.Nothing_Here(true)
         
     - else:
@@ -58,7 +58,7 @@ TODO: make variable to track how you got the key
                 
                 Once in front of it, you think you can hear shuffling from inside. You steel yourself, and rip the curtain open. 
                 
-                It's empty. "Ha.. Hahaha..." you laugh and step inside. {confessional_door_side: It's almost identical to the other side. | The grate that a priest would speak through has the same lattice work that the door does. } A small bucket sits in the corner by the divider.
+                It's empty. "Ha.. Hahaha..." you laugh and step inside. {Confessional_Encounters ? (Finished_Curtain_Side): It's almost identical to the other side. | The grate that a priest would speak through has the same lattice work that the door does. } A small bucket sits in the corner by the divider.
                 
                 You plop onto wooden bench, and rub your eyes. There's nothing here. There's no <i>one</i> here. Of course not. What did you expect? Why did you enter?
                 -> Confessional_Curtain.Nothing_Here(true)
@@ -126,7 +126,7 @@ There was nothing in there, anyway. You should return to your search.
     - else:
         *["Tell me who you are first."]
             {
-                - confessional_door_side: 
+                - Confessional_Encounters ? (Finished_Curtain_Side): 
                     #REPLACE: I am a pastor here,
                     "Hmm..." The voice grunts. "[I am a pastor here,] is that not obvious?"
                 - else: "Hmm..." The voice grunts. "I am a pastor here, is that not obvious?"
@@ -136,7 +136,7 @@ There was nothing in there, anyway. You should return to your search.
             
         *["Are you part of the church?"]
             {
-                - confessional_door_side: 
+                - Confessional_Encounters ? (Finished_Curtain_Side): 
                     #REPLACE: As a man of cloth,
                     "[As a man of cloth,] I assume I must be. What an odd question to ask."
                 - else: "As a man of cloth, I assume I must be. What an odd question to ask."
@@ -162,7 +162,7 @@ You don't think you will get an answer. The voice is pushing you to confess.
 
 You take a deep breath. You need to confess something? Fine. {stay < 1: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
 {
-    - confessional_door_side:
+    - Confessional_Encounters ? (Finished_Curtain_Side):
         
         {
             - replace:
@@ -194,10 +194,10 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 = Work_Confession
 ~ temp Temp_String = ""
 TODO: add more fired and walk out work things
-{
-    - work_encounter == 1:
+{ - Work_Encounter:
+    - 1:
         ~Temp_String = "\"I sent multiple wrong copies to a department. I only realized when a coworker called me out. She seemed worried about me, but... I don't know.\""
-    - work_encounter == 2:
+    - 2:
         ~Temp_String = "\"I think I was fired.\" You laugh. \"I sent a nonsense email to our biggest client and they were very upset. My supervisor was really, really mad at me.\""
     - else:
         ~Temp_String = "\"A coworker was trying to help me today, but I pushed him away.\""
@@ -228,11 +228,12 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
     What you say next seems to just tumble out.
 }
 
-{
-    - work_encounter == 1:
+TODO: Test this
+{ - Work_Encounter:
+    - 1:
         "I— We rarely talk, but her concern felt so foreign. I didn't know what to do with it, so I just... I just left."
         ~Temp_String = "often ignore or push away the ones who reach out first?\""
-    - work_encounter == 2:
+    -2:
         "My supervisor has always looked out for me even though I never meet their standards. I think this was the straw that broke the camel's back." You fidgit with your nail. "The look they gave me..."
         ~Temp_String = "think you did all you could?\""
     - else:
@@ -263,8 +264,8 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         #PLAY: liquid-drop #PLAY: 2, liquid-drop #DELAY: 1.5
         <i>Plink! Plink!</i>
         
-        {
-            - work_encounter == 1 or work_encounter == 3:
+        { - Work_Encounter:
+            - 1 or 3:
                 "Do you feel unworthy of their concern?"
                 ~Temp_String = "feel this way?"
             - else:
@@ -273,8 +274,8 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         }
     
     - else:
-        {
-            - work_encounter == 1 or work_encounter == 2:
+        { - Work_Encounter:
+            - 1 or 2:
                 ~Temp_String = "small talk in the kitchen. How your coworkers offer to let you join them for lunch, but you always turn them down. How you don't have many, if any, work friends. How anyone who reaches out first is met with a swift denial."
             - else:
                 ~Temp_String = "overlooked promotions. When you finally felt you proved yourself on a project, and your efforts were met with a pat on the back. How even after pushing the issue, your emails didn't get a response. How no matter what you did, how hard you worked, you got nothing in return."
@@ -282,7 +283,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         
         You shake your head. "I can't say that's the case. Today was—"
 
-        "A fluke? A one off? {work_encounter == 2: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
+        "A fluke? A one off? {Work_Encounter == 2: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
 
         You flinch at it's tone,{stay < 1: and grip the bench. Was that because you disagreed with it? | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
         
@@ -305,8 +306,8 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
 *[Disagree]
     {
         - Temp_Bool: //agreed last time
-            {
-                - work_encounter == 1 or work_encounter == 3:
+            { - Work_Encounter:
+                - 1 or 3:
                    ~Temp_String = "Unworthy is a strong word. Can anyone be unworthy of another's time?"
                 - else:
                    ~Temp_String = "You think you do, but at the same time..."
@@ -314,8 +315,8 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
             #DELAY: 1
             You hesitate. Do you? {Temp_String}
         - else: //disagreed last time
-            {
-                - work_encounter == 1 or work_encounter == 2:
+            { - Work_Encounter:
+                - 1 or 2:
                     ~Temp_String = "<i>You</i> choose to push people away. It's not their fault if they decide to stop when all you do is push them away."
                 - else:
                     ~Temp_String = "A job is just that. A job. They may not value you the way you wish they would, but maybe it's time to look for one that does."
@@ -348,7 +349,7 @@ The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press
         The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. You <i>are</i> happier here, yes?"
         
         #DELAY: 1.5
-        Safe? Happy? You think about everything you've experienced up til now. {leave_light: Of the warmth you've felt.} {know: Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {stay < 1: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? You're not sure how to feel.}
+        Safe? Happy? You think about everything you've experienced up til now. {leave_light: Of the warmth you've felt.} {Remembered_Past: Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {stay < 1: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? You're not sure how to feel.}
     
         #PLAY: liquid-drop #DELAY: 1.5 #REPLACE: liquid
         <i>Plink!</i> The bucket is filling fast. You can see that the [liquid] seems... thicker than just water.
@@ -383,8 +384,8 @@ The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an
 #PLAY: liquid-drop #DELAY: 1.5
 <i>Plink!</i>
 
-{
-    - work_encounter == 1 or work_encounter == 3:
+{ - Work_Encounter:
+    - 1 or 3:
         "You say you are not worthy of the concern of others. You keep to yourself, so your work." The voice is gentle. "But you are here now, safe in the church's embrace. You <i>are</i> happier here, yes?"
     - else:
         "You don't think you could have done better, that you worked harder to make up for it. And yet, your efforts fell to deaf ears." The voice is gentle. "But you are here now, safe in the church's embrace. You <i>are</i> happier here, yes?"
@@ -407,12 +408,12 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
     ->Confessional_Curtain.Agree
 
 = Reject(reason)
-"{avoid_church: When I tried to avoid the church, it pulled me back.} {leave_light: When I rejected it's sight, it burned me.} {object != "": When I tried to escape, it <i>taunted</i> me with a {object}.}When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"
+"{Walk_Home ? (Different_Path): When I tried to avoid the church, it pulled me back.} {leave_light: When I rejected it's sight, it burned me.} {Object != -1: When I tried to escape, it <i>taunted</i> me with a {Object}.}When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"
 
 *[The voice is silent.]
 
 - 
-~ angered_priest = true
+~ Confessional_Encounters += (Angered_Priest)
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
@@ -441,7 +442,7 @@ Bang!
 
 You cover your face as tiny, stinging, wooden splinters fly toward you. You need to get OUT, before that... that THING gets IN.
 
-You {leg == "worst": hobble through the curtain as fast as you can | rush through the curtain}, and turn to see the confessional shuttering under whatever inside continues banging on the walls.
+You {Leg >= 2: hobble through the curtain as fast as you can | rush through the curtain}, and turn to see the confessional shuttering under whatever inside continues banging on the walls.
 ~ temp Temp_Bool = false
 ~ temp Temp_String = ""
 
@@ -502,7 +503,7 @@ The other side is pristine. It looks almost identical to the side you had been o
 On the bench sits a small key. 
 
 *[Reach your arm through]
-    ~ reached_through = true
+    ~ Confessional_Encounters += (Reached_Through)
     #PLAY: click-off #EFFECT: flashlight_off
     You place the flashlight back in your pocket, and reach your arm through. blindly feeling around.  Your fingertips just barely brush the bench it's sitting on. 
 
@@ -544,12 +545,13 @@ The words get stuck in your throat{stay < 1:, but you're not sure why}.
 #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
 <i>Plink! Plink! Plink!</i>
 
-You clench and unclench your hands. {know or leave_light or object != "": You know shouldn't listen. You know its... it's another trick. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then... }
+TODO: Check
+You clench and unclench your hands. {Remembered_Past or leave_light or Object != -1: You know shouldn't listen. You know its... it's another trick. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then... }
 
 *["Maybe you're right..."]
 
 * {stay <= 1} ["No..."]
-    {know or leave_light: You need to stay strong. You didn't come here of your own will. You've wanted to leave from the start. | You shake the thought from your head. You can't let the voice's sweet words poison your mind.}
+    {Remembered_Past or leave_light: You need to stay strong. You didn't come here of your own will. You've wanted to leave from the start. | You shake the thought from your head. You can't let the voice's sweet words poison your mind.}
     
     The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
     ->Confessional_Curtain.Reject("how am I confused?")
@@ -712,7 +714,7 @@ The voice is silent.
 }
 
 *[Continue waiting]
-~stubborn = true
+~ Confessional_Encounters += (Stubborn_to_Priest)
 
 - Finally, the voice breaks the silence.
 
@@ -955,7 +957,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     ->Confessional_Curtain.No_Talk
 
 *[Continue waiting]
-    ~stubborn = true
+    ~ Confessional_Encounters += (Stubborn_to_Priest)
 - Finally, the voice breaks the silence.
 
 "You are more... stubborn than expected." The voice spits out the words. "But I can wait for as long as you need. I have <i>all</i> the time in the world."
@@ -1084,7 +1086,7 @@ You squirm in your seat. Clenching and unclenching your fists.
 - -> Confessional_Curtain.End_Confessional
 
 = End_Confessional
-~finished_confession = true
+~ Confessional_Encounters += (Finished_Curtain_Side)
 "When it brought you here, that must have been frightening. Change always is."
 
 You nod.
@@ -1227,14 +1229,13 @@ It says something that reverberates inside your brain. Words that hold meaning y
 ->END
 
 = Leave_NoProgress
-~confessional_curtain_side = false
 TODO: is the above variable needed?
 ~ current_area = Main_Body // set the current area
 ~ have_visited -= Confessional_CurtainSide //set that we have visisted the area
 ->Inside.Look_For_Heart
 
 = Leave_Progress
-~ confessional_curtain_side = true 
+~ Confessional_Encounters += (Finished_Curtain_Side)
 TODO: is the above variable needed?
 ~ previous_area = Confessional_CurtainSide
 ~ items_obtained += (Skeleton_Key)

@@ -5,31 +5,23 @@ VAR temp_bool_2 = false
 VAR temp_bool_3 = false
 
 //Before Work Variables
-VAR church_feeling = ""
-VAR church_interest = ""
-VAR investigated = false
-VAR entered_feeling = -1
-VAR called_number = false
-VAR dropped_phone = false
-VAR entered_church = false
-VAR church_teleported = false
-VAR saw_windows = false
-VAR was_fired = false
-VAR late_for_work = false
-VAR church_starving = false
+LIST Church_Interest = No_Care = 1, Drawn = 2, Nauseous = 3
 
-//Work VAriables
-VAR work_encounter = 0
+LIST Church_Feeling = Familiar = 1, Uncomforable = 2, Evocative = 3, Laughing = 4, Crying = 5
+
+LIST Church_Entered = Disappointed = 1, Satisfied = 2, Anxious = 3
+
+LIST Church_Investigation = Investigated, Called, Dropped_Phone, Entered, Teleported, Saw_Windows, Late, Starving
+
+//Work Variables
+LIST Work_Encounter = Scanner_Interaction = 1, Wrong_Email = 2, Attack_Coworker = 3, Fired = 4, Leave_Suddenly = 5
 
 //Walk Home Variables
-VAR FaceIt = false
-VAR different_path = false
-VAR turn = ""
+LIST Walk_Home = Face_It, Different_Path
 
 //Trapped Variables
-VAR object = ""
-VAR took_object = false
-VAR leg = ""
+LIST Leg = (Normal = -1), Tense = 1, Sore = 2, Limping = 3
+LIST Object = (Nothing = -1), screwdriver = 1, crowbar = 2, sledgehammer = 3
 VAR sleep = ""
 VAR has_flashlight = false
 
@@ -37,49 +29,31 @@ VAR has_flashlight = false
 VAR priest_feeling = ""
 VAR light_feeling = ""
 
-VAR name = false
+TODO: variable used in multiple ways that doesn't make sense
 VAR know_name = false
-VAR lantern = false
 
-VAR know = false
-VAR avoid_church = false
+
+VAR Remembered_Past = false
 VAR photo_ripped = false
 VAR leave_light = false
-VAR trapped_reject = false
-VAR stubborn = false
 VAR finger_chopped = false
 VAR coward = false
 VAR happy = false
-VAR broke_key = false
-VAR pressed_emily = false
-VAR emily_hurt = false
-
-//Book variables
-VAR read_end_book = false
-VAR read_start_book = false
-VAR know_book = false
-VAR rip_page = false
-VAR keep_book = false
-VAR branded = false
 
 
+//Items && Office
+VAR broke_key = false 
+LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
+LIST explore_office_bookshelf = Check_Books, Check_Boxes, Check_Chest
+
+LIST Book_Knowledge = Read_End, Read_Start, Saw_Your_Book, Ripped_Pages, Kept_Book, Kept_Pages, Branded, Know_Ophelia_Name, Know_Emily_Name
 
 VAR room = 0
 VAR stay = 0
-VAR church_anger  = 0
-VAR temp_num = 0
+VAR church_anger = 0
 
 //Confessional Variables
-VAR confessional_door_side = false
-VAR confessional_curtain_side = false
-VAR killed_girl = false
-VAR angered_priest = false
-VAR reached_through = false
-VAR talked_to_girl = false
-VAR saw_her = false
-VAR finished_confession = false
-
-
+LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, Pressed_Emily, Saw_Her_Struggle, Reached_Through, Angered_Priest, Killed_Girl, Finished_Curtain_Side, Finished_Door_Side
 
 //where the player has been already
 LIST have_visited = Main_Body, Confessional_DoorSide, Confessional_CurtainSide, Enter_Pews, Enter_Office, Stairs_Up, Stairs_Down
@@ -88,15 +62,13 @@ VAR current_area = -1
 VAR previous_area = -1
 VAR visited_state = 0
 
-LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
-LIST locks_undone = Key_Lock, Combo_lock, Clippers_lock
-LIST found_your_book = Used_Simple_Key, Used_Skeleton_Key, Broke_Chest
-LIST explore_office_bookshelf = Check_Books, Check_Boxes, Check_Chest
 
 VAR pews = false
 VAR after_first = false
 VAR temp_visited = false //for the after first visit
 VAR saw_locks = false //know that there is a locked door
+
+LIST locks_undone = Key_Lock, Combo_lock, Clippers_lock
 
 VAR saw_books = false
 VAR saw_desk = false

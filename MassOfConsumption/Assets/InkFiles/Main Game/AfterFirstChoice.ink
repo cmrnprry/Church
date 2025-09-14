@@ -51,7 +51,7 @@ You hear someone call your name, but you don't dare turn around.
 
 = Back_Confessional
 {
-    - !confessional_curtain_side && confessional_door_side:
+    - Confessional_Encounters !? (Finished_Curtain_Side) && Confessional_Encounters ? (Finished_Door_Side):
         ~temp_bool = false
         Slowly and carefully, you walk backwards, trying not to make a sound, until you feel the edge of the curtain. The sound is enough, and all heads snap to look at you. One of the people shifts, but you slip past the curtain, and into the booth. You sit on the bench, and pull your feet up so they can't be seen from under the curtain.
         
@@ -88,7 +88,7 @@ You hear someone call your name, but you don't dare turn around.
 -
 
 {
-    - confessional_curtain_side && confessional_door_side:
+    - Confessional_Encounters ? (Finished_Curtain_Side) && Confessional_Encounters ? (Finished_Door_Side):
         You sit back on the bench and pull your feet up, with your back to the wall. Outside, the music quiets, and you can hear the same low rumblings of whatever creature was after you before.
         
     - temp_bool:
@@ -140,7 +140,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. { leave_l
 #CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage and walk past the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {Book_Knowledge ? (Know_Ophelia_Name):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 #CYCLE: null, Anxiety, Dread, Doubt, Confusion
 You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
@@ -188,7 +188,7 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 #CHECKPOINT: 4, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {Book_Knowledge ? (Know_Ophelia_Name):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubbles up in your chest, and tears form in your eyes. Your body shutters as you cry. Deep, heavy sobs wrack your body.
 
@@ -207,7 +207,7 @@ You need to return to your search. <>
 
 = Confessional_Priest_Second
 {
-    - emily_hurt:
+    - Confessional_Encounters ? (Killed_Girl):
         {
             - temp_string == "Your hands tremble":
                 #CHECKPOINT: 4, You know what you saw.
@@ -267,27 +267,27 @@ There are still more places you need to look. <>
 
 = Stairs_Second
 {
-    - know_book && name:
+    - Book_Knowledge ? (Know_Ophelia_Name, Saw_Your_Book):
         #CHECKPOINT: 4, You found your book... and a code
         {
-            - keep_book && rip_page:
+            - Book_Knowledge ? (Kept_Book, Ripped_Pages):
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
-            - !keep_book && rip_page:
+            - Book_Knowledge !? (Kept_Book) && Book_Knowledge ? (Ripped_Pages):
                 You keep your hand over your pocket as you return down the stairs, and to the main body of the church. <>
-            - keep_book && !rip_page:
+            - Book_Knowledge ? (Kept_Book) && Book_Knowledge ! (Ripped_Pages):
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
         }
         
-        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
-    - know_book && !name:
+        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
+    - Book_Knowledge ? (Saw_Your_Book) && Book_Knowledge !? (Know_Ophelia_Name):
         #CHECKPOINT: 4, You found your book...
-        {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+        {Book_Knowledge ? (Kept_Book): You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
         
-    - !know_book && name:
+    - Book_Knowledge !? (Know_Ophelia_Name, Saw_Your_Book):
     #CHECKPOINT: 4, You found a code
-        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}.
+        {Book_Knowledge ? (Ripped_Pages): You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}.
         
-    - !know_book && !name:
+    - Book_Knowledge !? (Know_Ophelia_Name, Saw_Your_Book):
         You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
         
         {
@@ -339,7 +339,7 @@ You decide to look...
 * {!pews} [In the pews]
 -> Pews
 
-*{!confessional_curtain_side or !confessional_door_side}[In the confessional]
+*{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[In the confessional]
 -> Confessional
 
 * [Somewhere up the stairs]
@@ -351,7 +351,7 @@ You decide to look...
 #CHECKPOINT: 6, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the pews. Everyone is gone.
 
-{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {name:Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+{finger_chopped: You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {happy: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} { coward: You stop at the pew {Book_Knowledge ? (Know_Ophelia_Name):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 You bow your head and squeeze the wire cutters in your hand.
 
@@ -366,7 +366,7 @@ You're close to the end of this, you can feel it. {stay >= 2.5: Your leg bounces
 
 = Confessional_Priest_Last
 {
-    - emily_hurt:
+    - Confessional_Encounters ? (Killed_Girl):
         {
             - temp_string == "Your hands tremble":
                 #CHECKPOINT: 6, You know what you saw.
@@ -427,27 +427,27 @@ You need to move on. <>
 
 = Stairs_Last
 {
-    - know_book && name:
+    - Book_Knowledge ? (Know_Ophelia_Name, Saw_Your_Book):
         #CHECKPOINT: 6, You found your book... and a code
         {
-            - keep_book && rip_page:
+            - Book_Knowledge ? (Kept_Book, Ripped_Pages):
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
-            - !keep_book && rip_page:
+            - Book_Knowledge !? (Kept_Book) && Book_Knowledge ? (Ripped_Pages):
                 You keep your hand over your pocket as you return down the stairs, and to the main body of the church. <>
-            - keep_book && !rip_page:
+            - Book_Knowledge ? (Kept_Book) && Book_Knowledge !? (Ripped_Pages):
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
         }
         
-        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (items_obtained ? (Clippers)): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
-    - know_book && !name:
+        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (items_obtained ? (Clippers)): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
+    - Book_Knowledge ? (Saw_Your_Book) && Book_Knowledge !? (Know_Ophelia_Name):
         #CHECKPOINT: 6, You found your book...
-        {keep_book: You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {keep_book: You trace the number on the front cover.} {branded: Your skin stings.}
+        {Book_Knowledge ? (Kept_Book): You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
         
-    - !know_book && name:
+    - Book_Knowledge !? (Know_Ophelia_Name, Saw_Your_Book):
         #CHECKPOINT: 6, You found a code
-        {rip_page: You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}.
+        {Book_Knowledge ? (Ripped_Pages): You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}.
         
-    - !know_book && !name:
+    - Book_Knowledge !? (Know_Ophelia_Name, Saw_Your_Book):
         You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
         
         {
@@ -498,7 +498,7 @@ You only have a few places you haven't looked yet. {went_upstairs && ((items_obt
 
 * {!pews} [In the pews] -> Pews
 
-*{!confessional_curtain_side or !confessional_door_side}[In the confessional] -> Confessional
+*{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[In the confessional] -> Confessional
 
 * {!went_upstairs} [Somewhere up the stairs] ->Stairs
 
