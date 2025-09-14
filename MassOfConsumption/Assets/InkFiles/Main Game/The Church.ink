@@ -268,6 +268,7 @@ You almost drop your phone at the sound of a phone ringing drift from {Church_In
                     You lick your lips and stare at their silhouettes. They are both facing you. The one you assume to be your grandfather motions you to come up the path. The church door creaks open. The line goes dead.
                     
                 
+                ***{Church_Interest == "drawn"}[Enter the church]
                     ~ Church_Investigation += (Teleported)
                     ~ Church_Investigation += (Dropped_Phone)
                     ~ stay += 0.5
