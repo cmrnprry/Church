@@ -2,7 +2,7 @@
 TODO: Beef up this section a LOT. it's shorter and shit just happens
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_DoorSide // set the current area
-~ have_visited += Confessional_DoorSide //set that we have visisted the area
+~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
 
 ~temp_bool_2 = false
 # IMAGE: Default #PROP: curtain_full
@@ -21,7 +21,7 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
             -> Confessional_Door.Searched_Area(true)
         
         *[What is the point of searching?]
-            ~ stay += 0.5
+            ~ Stay_Tracker += 0.5
             You plop onto lumpy cushion, and the door closes behind you. You stare at the intricate pattern on the door. If the heart is the church's weakness, it's not going to be left in the open or easy to find. There's no way to know if it even <i>exists.</i> There's no way of knowing if that voice was even really here to help you or just another trick of the church.
             
             Of course the confessional is empty. What did you expect? Why did you enter?
@@ -30,7 +30,6 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
         
     - previous_area != Enter_Pews: 
         TODO: figure out this nonsense
-        ~ temp_visited = false
         While you wait for the service to be over, you look around the cramed space for something useful.
         
         You look around the crammed space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting. }
@@ -39,7 +38,6 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
         -> Confessional_Door.Searched_Area(false)
         
     - else:
-        ~ temp_visited = false
         You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
         
         You look around the cramed space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting.}
@@ -121,7 +119,7 @@ It's the almost same voice from earlier. The one that gave you the flashlight an
 
 = No_Confessions
 #DELAY: 4
-~stay += 0.5
+~ Stay_Tracker += 0.5
 #PLAY: curtain
 TODO: ~ Confessional_Encounters += (Lie_to_Her) write
 {Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
@@ -253,7 +251,7 @@ She is cut off by a coughing fit. Harsh, loud, wet coughs.
 
     She tries to say something else, but the coughing fit persists.
 
-- You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Each raspy inhale twisted your insides into a tighter knot. You want to dash to the otherside to comfort her, but you stay glued to your seat. {stay < 1: You don't think she'll be there once you get there. The church has done it before. You pick at your nails. | You know the best way to comfort her is to stay where you are. To stay in this moment where she exists at the same time you do. You lean against the divider. } Eventually, she stops.
+- You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Each raspy inhale twisted your insides into a tighter knot. You want to dash to the otherside to comfort her, but you stay glued to your seat. {Stay_Tracker < 1: You don't think she'll be there once you get there. The church has done it before. You pick at your nails. | You know the best way to comfort her is to stay where you are. To stay in this moment where she exists at the same time you do. You lean against the divider. } Eventually, she stops.
 
 "Sorry," she wheezes. "I'm really sick... I was hoping that Daddy was... He's a priest so... Anyway!" She claps her hands together. They can't help but smile. She clears her throat. "Forgive me father, for I have sinned."
 
@@ -421,7 +419,7 @@ You're not a priest, and you are not entirely sure what the correct thing to say
 "All you need to do is....
 
 *["pray your mom will join you and your dad here."]
-    ~stay += 0.5
+    ~ Stay_Tracker += 0.5
 
 *["leave the church and go find your mom."]
 
@@ -454,8 +452,8 @@ You kneel in front of the booth.
 You feel...
 
 *[Angry] 
-    ~ priest_feeling = "anger"
-    ~stay -= 0.5
+    ~ Priest_Feeling = (anger)
+    ~ Stay_Tracker -= 0.5
     ~temp_string = "You grind your teeth"
     #IMAGE: Default #PROP: curtain_torn
     You slam your fist into the ground. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | Was any of that real? Is this all just a sick game to the church? }
@@ -466,8 +464,8 @@ You feel...
     You stop and hold the scraps in your hand. You look at the blood splatter, then up at the confessional.
 
 *[Guilty]
-    ~ priest_feeling = "guilt"
-    ~stay += 0.5
+    ~ Priest_Feeling = (guilt)
+    ~ Stay_Tracker += 0.5
     ~temp_string = "You grimace"
     # IMAGE: Default #PROP: curtain_torn
     You gather up the fabric in your hands. You swallow back the lump growing in your throat. {Confessional_Encounters ? (Pressed_Emily): You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } 
@@ -496,7 +494,7 @@ You feel...
 
 
 *[Dread]
-    ~ priest_feeling = "dread"
+    ~ Priest_Feeling = (dread)
     
     # IMAGE: Default #PROP: curtain_torn
     You touch the ripped fabric. {Confessional_Encounters ? (Pressed_Emily): Would this still have happened if you didn't press her...? | Was any of that real...? }
@@ -568,7 +566,7 @@ What...?
         
         You should keep that in mind. You do not want to become another victim of the church. You will make it out of here.
         
-        { stay >= 1.25: You hope. | You are sure of it. }
+        {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
     
     - temp_string == "You grimace":
         You laugh. A harsh, absurd laugh. You place a hand over the scarred wood, close your eyes, and say a prayer. "I— I'm so sorry."
@@ -582,7 +580,7 @@ What...?
     - temp_string == "You grind your teeth":
         You scoff. Of course now the church has nothing to say. You don't give the confessional another glance. You will get out of here. You will not be just another victim.
         
-        { stay >= 1.25: You hope. | You are sure of it. }
+        {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
         
 }
 
@@ -601,7 +599,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 TODO: is the above variable needed?
 ~ previous_area = Confessional_DoorSide
 ~ current_area = Main_Body // set the current area
-~ have_visited += Confessional_DoorSide //set that we have visisted the area
+~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
 ~ visited_state += 1
 {visited_state:
     
@@ -616,7 +614,7 @@ TODO: is the above variable needed?
 = Leave_NoProgress
 TODO: is the above variable needed?
 ~ current_area = Main_Body // set the current area
-~ have_visited -= Confessional_DoorSide //set that we have visisted the area
+~ Have_Visited -= Confessional_DoorSide //set that we have visisted the area
 ->Inside.Look_For_Heart
 
 

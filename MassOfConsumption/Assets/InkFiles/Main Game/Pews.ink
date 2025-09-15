@@ -1,16 +1,16 @@
 === Pews ===
 //TODO: add in bits about the people reflecting the books?
 ~ temp_string = ""
-~pews = true
+~ Have_Visited += (Enter_Pews)
 {
     - Confessional_Encounters ? (Finished_Curtain_Side):
         ~ temp_string += " Another key maybe?"
 }
 
 {
-    - saw_locks && Confessional_Encounters ? (Finished_Curtain_Side):
+    - Saw_Locks && Confessional_Encounters ? (Finished_Curtain_Side):
         ~ temp_string += " Or maybe something to cut the sliding chain?"
-    - saw_locks:
+    - Saw_Locks:
         ~ temp_string += " Maybe something to cut the sliding chain?"
 }
 
@@ -20,12 +20,12 @@
 }
 
 {
-    - Confessional_Encounters !? (Finished_Curtain_Side) or !saw_locks:
+    - Confessional_Encounters !? (Finished_Curtain_Side) or !Saw_Locks:
         ~temp_string += " You don't know exactly what for. It wouldn't really make sense for a heart to live among the pews. Maybe you should check the stage."
 }
 {
-    - visited_first:
-        ~ visited_first = false
+    - Gameplay_Event == 1:
+        ~ Gameplay_Event = 2
         You make your way to the pews, and begin to search them for anything important.{temp_string}
     
     - else:
@@ -40,17 +40,17 @@ You don't find much of anything. With a huff, you plop onto the last pew you sea
 You lean back in your seat, eyes still closed, and sigh. There's no use sitting here. 
 
 
-* {visited_first == false} [You should move on with your search.]
+* {Gameplay_Event > 1} [You should move on with your search.]
 
 -
 {
-    - light_feeling == "confused":
+    - Light_Feeling  == confused:
         ~temp_string = "confusing"
         
-    - light_feeling == "relief":
+    - Light_Feeling  == relief:
         ~temp_string = "reassuring."
         
-    - light_feeling == "worry":
+    - Light_Feeling  == worry:
         ~temp_string = "uneasy"
 }
 
@@ -87,11 +87,11 @@ Reading it will probably pass the time, but you can also still sneak away.
 *[Sneak away]
     ->Pews.Get_Up
 
-- As you reach for the bible, a red spotlight land on you. You freeze. It's the light from the window behind the priest. It's the same {temp_string} feeling as before. { leave_light: It warms your body, and some of the tension melts away. | Your skin tingles under it's warmth. It's uncomfortable. } 
+- As you reach for the bible, a red spotlight land on you. You freeze. It's the light from the window behind the priest. It's the same {temp_string} feeling as before. {Church_Encounters ? (Leave_Light): It warms your body, and some of the tension melts away. | Your skin tingles under it's warmth. It's uncomfortable. } 
 
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. 
 
-He beckons you to join him. All eyes are on you. { leave_light: You fidget with your clothing, unsure of what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your face. Your eyes dart from the window, to the pastor, to the figures in the pews. }
+He beckons you to join him. All eyes are on you. {Church_Encounters ? (Leave_Light): You fidget with your clothing, unsure of what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your face. Your eyes dart from the window, to the pastor, to the figures in the pews. }
 
 ~temp_bool = false
 
@@ -102,7 +102,7 @@ He beckons you to join him. All eyes are on you. { leave_light: You fidget with 
     ->Pews.Try_Leave
 
 = Get_Up
-Slowly you rise to your feet, intending to leave the area. <br><br> "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. <br><br> e beckons you to join him. All eyes are on you. { leave_light: You fidget with your clothing, unsure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
+Slowly you rise to your feet, intending to leave the area. <br><br> "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. <br><br> e beckons you to join him. All eyes are on you. {Church_Encounters ? (Leave_Light): You fidget with your clothing, unsure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
 
 * [Go to the stage] ->Pews.Go_to_Stage
 * [Try to Leave] -> Try_Leave
@@ -114,9 +114,9 @@ You wave your hands in front of you, shake your head, and try to leave. The ligh
 
 "Wrong way... The stage is... this way."
 
-The pastor grabs you by the shoulders, and leads you to the stage. { leave_light: The pastor's hands are cold, as it guides you, but the warmth from the light counters it. | You try to worm your way out, but it holds its grip tight. Its icy hands growing colder the more you try to resist. }
+The pastor grabs you by the shoulders, and leads you to the stage. {Church_Encounters ? (Leave_Light): The pastor's hands are cold, as it guides you, but the warmth from the light counters it. | You try to worm your way out, but it holds its grip tight. Its icy hands growing colder the more you try to resist. }
 
-The pastor pushes you up the stage, and comes to stand next to you. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
+The pastor pushes you up the stage, and comes to stand next to you. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. {Stay_Tracker >= 1.5: You nervously laugh along. | You grit your teeth. }
 
 *[Pull your hand from the pastor]
 ~ temp_bool = false
@@ -128,7 +128,7 @@ The pastor pushes you up the stage, and comes to stand next to you. It grabs you
 = Go_to_Stage
 You exit into the aisle, and slowly make your way towards the pastor. No one here has a face or eyes, but you can feel their stares boring holes straight through you. The light follows your movements as you approach the stage.
 
-nce there, you move to stand next to the ghostly pastor. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. { stay >= 1.5: You nervously laugh along. | You grit your teeth. }
+nce there, you move to stand next to the ghostly pastor. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. {Stay_Tracker >= 1.5: You nervously laugh along. | You grit your teeth. }
 
 *[Pull your hand from the pastor]
 ~ temp_bool = false
@@ -149,15 +149,15 @@ nce there, you move to stand next to the ghostly pastor. It grabs your hand and 
 "Left or right?"
 
 *[Left]
-~ stay += 0.5
+~ Stay_Tracker += 0.5
 ~ temp_string = "Left"
 
 *[Right]
-~ stay += 0.5
+~ Stay_Tracker += 0.5
 ~ temp_string = "Right"
 
 *[Demand an answer]
-~ stay -= 0.5
+~ Stay_Tracker -= 0.5
 ~ temp_string = ""
 
 -
@@ -168,9 +168,9 @@ nce there, you move to stand next to the ghostly pastor. It grabs your hand and 
 You look at the tub of water in front of you.
 
 *[Give it your hand]
-~ stay += 0.5
+~ Stay_Tracker += 0.5
 *[Refuse]
-~ stay -= 0.5
+~ Stay_Tracker -= 0.5
 ->Pews.Refuse_Him
 
 - You assume this will be some hand-washing ritual, and hold out your hand over the container of water. The pastor takes you by the wrist, and gently places it in the water. The crowd begins to chant. 
@@ -187,7 +187,7 @@ And then, it releases you.
 -> Pews.Finger_Gone
 
 = Finger_Gone
-~ finger_chopped = true
+~ Church_Encounters += (Finger_Chopped)
 Your hand is gushing blood. You're screaming, you think. Everything is moving in slow motion as you stumble backwards. You don't know where you're going, just that you need to get away.
 
 The pastor walks towards you with the severed finger in one hand and wire cutters in the other. It doesn't have a face but you know it's smiling manically. Your back reaches a wall and you slide into a sitting position. It crouches in front of you. "Hush... Hush... Hush..." it consoles you. "It only hurts... for a minute.
@@ -195,7 +195,7 @@ The pastor walks towards you with the severed finger in one hand and wire cutter
 Your screams become whimpers as you wait for the pain to pass.
 
 *[It never does]
-    ~ stay -= 1
+    ~ Stay_Tracker -= 1
     ~ temp_bool = false
     The pain never dies. It continues to be a harsh, pulsating hurt. "It won't go away... unless you let it," the pastor growls. "You need... to be willing."
 
@@ -206,9 +206,9 @@ Your screams become whimpers as you wait for the pain to pass.
     You watch as he tilts his head back and slowly lowers your finger into his featureless face. There's a crunch that rips a breathless cry from you, followed by another, and another; each one sending a sharp jolt of pain down your arm. The way the man's jaw rolls with each <i>snap</i> turns your stomach.
 
 *[At some point, it does]
-    ~ stay += 1
+    ~ Stay_Tracker += 1
     ~ temp_bool = true
-    ~ happy = true
+    ~ finger_pain_pass = true
     You don't know how long it takes, but eventually the pain dies to a dull throbbing. "There, you see?" the pastor says. "Now, be at peace."
 
     ou watch as he tilts his head back and slowly lowers your finger into his featureless face. There's a crunch that coaxes a gasp from you, followed by another, and another; each one making you feel lighter than the last. The way the man's jaw rolls with each <i>snap</i> makes you wince.
@@ -223,17 +223,17 @@ Your screams become whimpers as you wait for the pain to pass.
 * [Pick up the wire cutters]
     ~ items_obtained += (Clippers)
 
-- You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}
+- You grab the wire cutters, and slip them into your pocket{Saw_Locks:, knowing they'll be useful later.|. They might be useful later.}
 
-{temp_bool: You think about what the masses had been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you were here.}
+{temp_bool: You think about what the masses had been chanting while the pastor cut off {Church_Encounters ? (Was_Coward):her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you were here.}
 
 *[Return to your search]
-{
-    - visited_first:
+{- Gameplay_Event:
+    - 1:
         ->After_First.Pews_After
-     - visited_second:
+    - 2:
         -> After_Second.Pews_Second
-    - else:
+    - 3:
         -> Last_Stop.Pews_Last
 }
 
@@ -280,7 +280,7 @@ It releases you.
 -> Pews.Finger_Gone
 
 = Coward
-~ coward = true
+~ Church_Encounters += (Was_Coward)
 "You've made... your choice..." The pastor turns to the crowd, and they begin to chant.
 
 The pastor recites something. It pulls his free hand from behind his back, and reveals a pair of wire cutters. The woman is pleading with him. With you.
@@ -297,7 +297,7 @@ She looks up at you sobbing. "After everything I've done for you? This is how yo
 You feel sick, and stumble backwards. {Book_Knowledge ? (Know_Ophelia_Name): <i>Ophelia...?</i> | <i>Is she...?</i>}
 
 *[Look away]
-~stay += 0.5
+~ Stay_Tracker += 0.5
     You turn away from her, unable to face her. 
 
     "Coward. Coward!"
@@ -305,7 +305,7 @@ You feel sick, and stumble backwards. {Book_Knowledge ? (Know_Ophelia_Name): <i>
     Her voice rings in your ears, and eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Book_Knowledge ? (Know_Ophelia_Name):Ophelia is gone.| The woman is gone.} All that's left of the encounter is the wire cutters sitting on the floor at your feet.
 
 *[Apologize]
-~stay -= 0.5
+~ Stay_Tracker -= 0.5
     "I— I'm sorry. I— I— I didn't—" You stumble over your words.
 
     "Coward. Coward!" Her voice is full of hate. She clambers to her feet, and grabs the wire cutters with her non-hurt hand. She throws them at your feet. "After <i>everything</i> I did for you!"
@@ -314,20 +314,20 @@ You feel sick, and stumble backwards. {Book_Knowledge ? (Know_Ophelia_Name): <i>
 - 
 
 *[Pick up the wire cutters]
-    ~items_obtained += (Clippers)
-    ~ finger_chopped = true
+    ~ items_obtained += (Clippers)
+    ~ Church_Encounters += (Finger_Chopped)
 
-- You grab the wire cutters, and slip them into your pocket{saw_locks:, knowing they'll be useful later.|. They might be useful later.}
+- You grab the wire cutters, and slip them into your pocket{Saw_Locks:, knowing they'll be useful later.|. They might be useful later.}
 
-{temp_bool: You think about what they have been chanting while the pastor cut off {coward:her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you are here.}
+{temp_bool: You think about what they have been chanting while the pastor cut off {Church_Encounters ? (Was_Coward):her|your} finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you are here.}
 
 *[Return to your search]
-{
-    - visited_first:
+{- Gameplay_Event:
+    - 1:
         ->After_First.Pews_After
-     - visited_second:
+    - 2:
         -> After_Second.Pews_Second
-    - else:
+    - 3:
         -> Last_Stop.Pews_Last
 }
 

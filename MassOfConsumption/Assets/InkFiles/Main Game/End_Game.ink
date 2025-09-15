@@ -30,7 +30,7 @@ You decide against it. You can always eat after you escape.
 
 - 
 {
-    - stay >= 2.5:
+    - Stay_Tracker >= 2.5:
         ~temp_string = "bone"
     - else:
         ~temp_string = "[bone]"
@@ -38,12 +38,12 @@ You decide against it. You can always eat after you escape.
 
 Your stomach growls and you stop drinking, only long enough to take a breath, and snatch the bread from the table. You rip into it, tearing the flesh from the bone.
 
-The bread is <chewy, soft, meaty, exquisite>. You can't chew fast enough, taking bigger and bigger bites, and barely stopping to swallow. When it's gone, you lick the {stay >= 2.5: bone | [bone]} clean.
+The bread is <chewy, soft, meaty, exquisite>. You can't chew fast enough, taking bigger and bigger bites, and barely stopping to swallow. When it's gone, you lick the {Stay_Tracker >= 2.5: bone | [bone]} clean.
 
 *[You need more.]
 
 {
-    - stay < 2.5:
+    - Stay_Tracker < 2.5:
         *[bone]
         ->Open_the_Door.Bone
 }
@@ -76,9 +76,9 @@ You look back at the glowing heart.
 
 = Pick_Up
 {
-    - stay >= 2.5:
+    - Stay_Tracker >= 2.5:
         ~temp_string = "It's beautiful."
-    - stay >= 1.5:
+    - Stay_Tracker >= 1.5:
         ~temp_string = "It's unnatural."
     - else:
         ~temp_string = "It's disgusting."
@@ -90,9 +90,9 @@ Carefully, you reach out and take the heart out of the water. The church groans.
 {temp_string}
 
 {
-    - stay >= 2.5:
+    - Stay_Tracker >= 2.5:
         ~temp_string = "The heart is warm. The stained glass feels delicate in your hand. One wrong move could crush it. You gently press your thumb on it's center. The room shakes in response."
-    - stay >= 1.5:
+    - Stay_Tracker >= 1.5:
         ~temp_string = "The heart is warm. You roll it around in your hands before softly squeezing it. The room shakes in response. It's more delicate than you had imagined."
     - else:
         ~temp_string = "The heart is uncomfortably warm, almost burning. It appears to be made of thick glass, but it feels like you could crush it in your hands with little effort. You squeeze it, and the room shakes in response."
@@ -110,7 +110,7 @@ Carefully, you reach out and take the heart out of the water. The church groans.
 = Front_Door
 You don't know what will happen to you or the church if you destroy the heart up here, and you don't really want to find out. You don't think the church will try anything while you're holding it's heart, but...
 
-You hold onto the heart tightly, and leave the room. The door opens for you, and the stairs turn into a ramp leading back into the main body of the church. {pews: The pews are full again. The ghostly, faceless beings are all standing. They're watching you. | The pews are full of ghostly, faceless beings. All standing. All watching you.}
+You hold onto the heart tightly, and leave the room. The door opens for you, and the stairs turn into a ramp leading back into the main body of the church. {Have_Visited ? (Enter_Pews): The pews are full again. The ghostly, faceless beings are all standing. They're watching you. | The pews are full of ghostly, faceless beings. All standing. All watching you.}
 
 *[The church is afraid.]
 
@@ -129,7 +129,7 @@ You stand in the doorway. The heart pulses faster, matching your own. You look d
     ~temp_bool_2 = true
     -> Open_the_Door.Crush_it
     {
-        - stay >= 2.5:
+        - Stay_Tracker >= 2.5:
             *[Eat the heart]
                 ->Open_the_Door.Eat_it
     }
@@ -152,17 +152,17 @@ The whine of a wounded animal reverberates through the room.
 }
 
 {
-    - finger_chopped:
+    - Church_Encounters ? (Finger_Chopped):
     ~temp_string += "Of the church taking your finger."
 }
 
 {
-    - leave_light:
+    - Church_Encounters ? (Leave_Light):
     ~temp_string += "Of the tantrums it would throw when you didn't listen."
 }
 
 {
-    - stay >= 2:
+    - Stay_Tracker >= 2:
     ~temp_string += "Of being tricked into thinking you want to stay."
 }
 
@@ -231,14 +231,14 @@ You are alone. You are free.
 
 *[You made it out ]
 
-- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{stay >= 2.5: ?:.}
+- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{Stay_Tracker >= 2.5: ?:.}
 
 *[You escaped.]
 
 -
 
 {
-    - stay >= 2.5:
+    - Stay_Tracker >= 2.5:
         ~temp_string = "You eyes grow hot"
     - else:
         ~temp_string = "A giggle escapes you"
@@ -250,7 +250,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
 
 -
 {
-    - stay >= 2.5:
+    - Stay_Tracker >= 2.5:
         The laughter changes and suddenly you're sobbing. Fat, heavy tears roll down your cheeks as you gasp for air. You can barely breathe.
          ~temp_string = "What have you done?"
     - else:
@@ -261,7 +261,7 @@ A surge of uncontrollable laughter bursts out of you. You can't stop it. You lau
 
 *[{temp_string}]
 {
-    - stay < 2.5:
+    - Stay_Tracker < 2.5:
         #ENDING: 9, Good Ending: It Has Been a Long, Long Night
         ->END
 }

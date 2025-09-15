@@ -4,7 +4,7 @@ TODO: Rememeber to unset if the player just leaves and to set previous if we do 
 TODO: make variable to track how you got the key
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_CurtainSide // set the current area
-~ have_visited += Confessional_CurtainSide //set that we have visisted the area
+~ Have_Visited += Confessional_CurtainSide //set that we have visisted the area
 {
     //if this is the first area we are visiting
     - previous_area == -1:
@@ -22,7 +22,7 @@ TODO: make variable to track how you got the key
             -> Confessional_Curtain.Nothing_Here(true)
         
         *[What is the point of searching?]
-            ~ stay += 0.5
+            ~ Stay_Tracker += 0.5
             You plop onto wooden bench, and stare into dark abyss that is the church. If the heart is the church's weakness, it's not going to be left in the open or easy to find. There's no way to know if it even <i>exists.</i> There's no way of knowing if that voice was even really here to help you or just another trick of the church.
             
             Of course the confessional is empty. What did you expect? Why did you enter?
@@ -107,12 +107,12 @@ There was nothing in there, anyway. You should return to your search.
 
 - 
 #PLAY: liquid-drop
-<i>Plink!</i> A drop of water falls into the bucket. {stay < 1.5: You frown and point your flashlight at the corner. You don't hear rain from outside.}
+<i>Plink!</i> A drop of water falls into the bucket. {Stay_Tracker < 1.5: You frown and point your flashlight at the corner. You don't hear rain from outside.}
 
-"Well?" He prods you. {stay < 1.5: You set the flashlight on the bench beside you and choose to ignore the leak. It wouldn't be the first time the church tricked your senses.}
+"Well?" He prods you. {Stay_Tracker < 1.5: You set the flashlight on the bench beside you and choose to ignore the leak. It wouldn't be the first time the church tricked your senses.}
 
 {
-    - stay >= 1.5:
+    - Stay_Tracker >= 1.5:
     You wring your hands together. A confession? Talking to someone might talk your mind off of things...
     
     You take a deep breath, suddenly nervous.
@@ -160,7 +160,7 @@ You frown, "No, that's not what-"
 
 You don't think you will get an answer. The voice is pushing you to confess.
 
-You take a deep breath. You need to confess something? Fine. {stay < 1: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
+You take a deep breath. You need to confess something? Fine. {Stay_Tracker < 1: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
 {
     - Confessional_Encounters ? (Finished_Curtain_Side):
         
@@ -182,7 +182,7 @@ You take a deep breath. You need to confess something? Fine. {stay < 1: He never
 *[Talk about nothing]
     -> Confessional_Curtain.No_Confession
             
-* {stay < 1} [Leave the booth]
+* {Stay_Tracker < 1} [Leave the booth]
 You need to confess something? No. No, you won't play along. For all you know this is another attempt by the church to get you to stay.
 
 #PLAY: curtain
@@ -204,7 +204,7 @@ TODO: add more fired and walk out work things
 }
 
 
-"Today was awful. I was never the best worker at my job, but today was particularly bad." You trace the wooden grooves of the wall with your finger. {stay < 1: You wince at the memory, but keep your voice steady. | The words feel stuck in your throat as you recall your day. }
+"Today was awful. I was never the best worker at my job, but today was particularly bad." You trace the wooden grooves of the wall with your finger. {Stay_Tracker < 1: You wince at the memory, but keep your voice steady. | The words feel stuck in your throat as you recall your day. }
 
 {Temp_String}
 
@@ -212,18 +212,18 @@ TODO: add more fired and walk out work things
 <i>Plink!</i>
 
 #DELAY: 3
-The voice is silent. You squirm uncomfortably in your seat. {stay < 1: You press your lips firmly together.} 
+The voice is silent. You squirm uncomfortably in your seat. {Stay_Tracker < 1: You press your lips firmly together.} 
 
 #DELAY: 2
-{stay < 1: You want to keep silent, but the silence feels too loud. | What you say next seems to just tumble out.}
+{Stay_Tracker < 1: You want to keep silent, but the silence feels too loud. | What you say next seems to just tumble out.}
 
 
-{ - stay < 1: 
+{ - Stay_Tracker < 1: 
     #DELAY: 3
     You need to say something. There's an itch caught in your throat, begging you to speak. You bite your lip.
 }
 
-{ - stay < 1: 
+{ - Stay_Tracker < 1: 
     #DELAY: 3
     What you say next seems to just tumble out.
 }
@@ -285,9 +285,9 @@ TODO: Test this
 
         "A fluke? A one off? {Work_Encounter == 2: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
 
-        You flinch at it's tone,{stay < 1: and grip the bench. Was that because you disagreed with it? | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
+        You flinch at it's tone,{Stay_Tracker < 1: and grip the bench. Was that because you disagreed with it? | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
         
-        "I'm not scolding you." The voice softens, and {stay < 1: you lessen your grip. Maybe you were overreacting? | some of your anxiety alleviates. You sit up a little straighter. } "But can you really say this was a one off event?" 
+        "I'm not scolding you." The voice softens, and {Stay_Tracker < 1: you lessen your grip. Maybe you were overreacting? | some of your anxiety alleviates. You sit up a little straighter. } "But can you really say this was a one off event?" 
         
         You think back to {Temp_String}
 }
@@ -349,7 +349,7 @@ TODO: Test this
         The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. You <i>are</i> happier here, yes?"
         
         #DELAY: 1.5
-        Safe? Happy? You think about everything you've experienced up til now. {leave_light: Of the warmth you've felt.} {Remembered_Past: Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {stay < 1: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? You're not sure how to feel.}
+        Safe? Happy? You think about everything you've experienced up til now. {Church_Encounters ? (Leave_Light): Of the warmth you've felt.} {Remembered_Past: Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {Stay_Tracker < 1: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? You're not sure how to feel.}
     
         #PLAY: liquid-drop #DELAY: 1.5 #REPLACE: liquid
         <i>Plink!</i> The bucket is filling fast. You can see that the [liquid] seems... thicker than just water.
@@ -357,7 +357,7 @@ TODO: Test this
         *[liquid]
             ->Confessional_Curtain.liquid
         
-        *{stay < 1} ["I don't want to be here."]
+        *{Stay_Tracker < 1} ["I don't want to be here."]
             The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu—"
             ->Confessional_Curtain.Reject("how am I confused?")
     
@@ -373,7 +373,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
 *["Maybe..."]
 ->Confessional_Curtain.Agree
 
-*{stay < 1} ["I don't want to be here."]
+*{Stay_Tracker < 1} ["I don't want to be here."]
 The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
 ->Confessional_Curtain.Reject("how am I confused?")
 
@@ -400,7 +400,7 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
 *[liquid]
     ->Confessional_Curtain.liquid
     
-* {stay < 1} ["I don't want to be here."]
+* {Stay_Tracker < 1} ["I don't want to be here."]
     The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
     ->Confessional_Curtain.Reject("how am I confused?")
 
@@ -408,7 +408,7 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
     ->Confessional_Curtain.Agree
 
 = Reject(reason)
-"{Walk_Home ? (Different_Path): When I tried to avoid the church, it pulled me back.} {leave_light: When I rejected it's sight, it burned me.} {Object != -1: When I tried to escape, it <i>taunted</i> me with a {Object}.}When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"
+"{Walk_Home ? (Different_Path): When I tried to avoid the church, it pulled me back.} {Church_Encounters ? (Leave_Light): When I rejected it's sight, it burned me.} {Object != -1: When I tried to escape, it <i>taunted</i> me with a {Object}.}When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"
 
 *[The voice is silent.]
 
@@ -462,7 +462,7 @@ Bang!
 - Temp_Bool:
     Carefully, you approach the door. Whatever is inside has started to wail and scream. You place your hand on the knob.
     
-    { stay >= 1: There's an unwanted pang in your heart as you listen to cry and beg.} You steel yourself, ready to face wahtever lies on the otherside.
+    {Stay_Tracker >= 1: There's an unwanted pang in your heart as you listen to cry and beg.} You steel yourself, ready to face wahtever lies on the otherside.
 
     ~Temp_String = "Turn the handle"
 - else:
@@ -472,7 +472,7 @@ Bang!
     
     After a few moments, the screams turn to wails, to low moans, to quiet sobs. It begs you to reconsider. Begs you to understand.
     
-    { stay >= 1: There's an unwanted pang in your heart as you listen to cry and beg. You dig your nails into your palms and stare at the floor. | You continue to ignore. Whatever is inside is made of the church. It would say anything to hurt you. To make you stay.}
+    {Stay_Tracker >= 1: There's an unwanted pang in your heart as you listen to cry and beg. You dig your nails into your palms and stare at the floor. | You continue to ignore. Whatever is inside is made of the church. It would say anything to hurt you. To make you stay.}
     
     ~Temp_String = "Eventually it goes quiet"
 }
@@ -481,7 +481,7 @@ Bang!
 
 - Inside, the booth is empty, and pristine. The divider is not splintered, and the separating grate is back in place. It looks almost identical to the side you had been on. 
 
-On the bench sits a small key. { stay >= 1: You pick it up and turn it over in your hands. Was this a gift? {Temp_Bool: | A peace offering from the creature that had once been here? } | You pick it up, and shove it in your pocket, hoping it will be useful later. You wonder why the church gave it to you. What it means that it gave you something possibly valuable. } You offer the confessional one last look, pondering the key's meaning.
+On the bench sits a small key. {Stay_Tracker >= 1: You pick it up and turn it over in your hands. Was this a gift? {Temp_Bool: | A peace offering from the creature that had once been here? } | You pick it up, and shove it in your pocket, hoping it will be useful later. You wonder why the church gave it to you. What it means that it gave you something possibly valuable. } You offer the confessional one last look, pondering the key's meaning.
 
 *[Return to your search]
     -> Confessional_Curtain.Leave_Progress
@@ -529,13 +529,13 @@ On the bench sits a small key.
     -> Confessional_Curtain.Leave_Progress
 
 = Agree
-~ stay += 0.5
+~ Stay_Tracker += 0.5
 You work everyday and for what?" 
 
 #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
 
-The words get stuck in your throat{stay < 1:, but you're not sure why}.
+The words get stuck in your throat{Stay_Tracker < 1:, but you're not sure why}.
 
 #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
 <i>Plink! Plink! Plink!</i>
@@ -546,12 +546,12 @@ The words get stuck in your throat{stay < 1:, but you're not sure why}.
 <i>Plink! Plink! Plink!</i>
 
 TODO: Check
-You clench and unclench your hands. {Remembered_Past or leave_light or Object != -1: You know shouldn't listen. You know its... it's another trick. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then... }
+You clench and unclench your hands. {Remembered_Past or Church_Encounters ? (Leave_Light) or Object != -1: You know shouldn't listen. You know its... it's another trick. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then... }
 
 *["Maybe you're right..."]
 
-* {stay <= 1} ["No..."]
-    {Remembered_Past or leave_light: You need to stay strong. You didn't come here of your own will. You've wanted to leave from the start. | You shake the thought from your head. You can't let the voice's sweet words poison your mind.}
+* {Stay_Tracker <= 1} ["No..."]
+    {Remembered_Past or Church_Encounters ? (Leave_Light): You need to stay strong. You didn't come here of your own will. You've wanted to leave from the start. | You shake the thought from your head. You can't let the voice's sweet words poison your mind.}
     
     The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu-"
     ->Confessional_Curtain.Reject("how am I confused?")
@@ -566,13 +566,13 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 "Stop fighting. Has the church harmed you?" 
 
 {
-    - leave_light:
+    - Church_Encounters ? (Leave_Light):
         *[The church was angry..."]
             "It screamed at me. It— It burned me..." You shutter at the memory. 
             
             The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must just be <i>confused</i>. The church would never—"
             
-            {stay <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when— | You shake your head in disbelief. }
+            {Stay_Tracker <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when— | You shake your head in disbelief. }
         ->Confessional_Curtain.Reject("how am I confused?")
 }
 
@@ -580,7 +580,7 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 
 *["When it brought me here..."]
 
-- ~stay += 1
+- ~ Stay_Tracker += 1
 "When it brought you here, that must have been frightening. Change always is."
 
 You nod.
@@ -682,7 +682,7 @@ The voice is silent.
             "I think you are sabotaging yourself on purpose." The voice is stern, and cold. "Something, out <i>there</i> is making you this way. So aren't you so glad you can stay?"
             -> Confessional_Curtain.TooMuch_Choice
 
-* {stay <= 1} [Wait]
+* {Stay_Tracker <= 1} [Wait]
     -> Confessional_Curtain.Wait_Personal
 
 = Too_much
@@ -697,7 +697,7 @@ The voice is silent.
         "And I just... I just want to <i>finish</i> something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. <i>This time</i> things will be different."
         ->Confessional_Curtain.Personal_TooMuch
 {
-    - stay <= 1:
+    - Stay_Tracker <= 1:
         *[Wait]
         -> Confessional_Curtain.Wait_Personal
 }
@@ -829,12 +829,12 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 
 = TooMuch_Choice
 *[Nod]
-    ~stay += 1
+    ~ Stay_Tracker += 1
     You find yourself nodding. You are glad. You can stay and have all the time in the world. You can do it all, so long as you get to stay.
     -> Confessional_Curtain.Personal_End
 
 *[Remain silent.]
-    ~stay += 0.5
+    ~ Stay_Tracker += 0.5
     You say nothing, the voice's words rolling around in your mind. It's... tempting. If the voice is right....
     -> Confessional_Curtain.Personal_End
         
@@ -863,7 +863,7 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
     ->Confessional_Curtain.Reject("how am I confused?")
     
 *[Remain silent.]
-    ~stay += 0.5
+    ~ Stay_Tracker += 0.5
     You say nothing, the voice's words rolling around in your mind. It's... tempting. If the voice is right....
     -> Confessional_Curtain.Personal_End
 
@@ -894,7 +894,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
 *["You're right..."]
 -> Confessional_Curtain.End_Confessional
 
-*{stay < 1} ["I don't want to be here."]
+*{Stay_Tracker < 1} ["I don't want to be here."]
     The rapid drips from the leak stop. "You must be mistaken." The voice laughs, an angry and cruel laugh. "You <i>do</i> want to be here. You're just a bit confu—"
     ->Confessional_Curtain.Reject("what is so <i>grand</i> about that?")
 
@@ -921,7 +921,7 @@ You hesitate before answering.
         "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
         ->Confessional_Curtain.No_Talk
     
-    **{stay <= 1}[Wait]
+    **{Stay_Tracker <= 1}[Wait]
         -> Confessional_Curtain.Wait
 
 *[Recall a work event.]
@@ -993,7 +993,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     #PLAY: liquid-drop #DELAY: 1.5
     <i>Plink!</i>
     
-    "I see. So why {stay <= 1:do you fight it | don't you stay} then?"
+    "I see. So why {Stay_Tracker <= 1:do you fight it | don't you stay} then?"
 
 *[Disagree]
     ~ Temp_Bool = false
@@ -1003,7 +1003,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     #PLAY: liquid-drop #DELAY: 1.5
     <i>Plink!</i>
         
-    "I see. So why {stay <= 1:do you fight it | don't you stay} then?"
+    "I see. So why {Stay_Tracker <= 1:do you fight it | don't you stay} then?"
 
 - 
 
@@ -1017,12 +1017,12 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 {
 - Temp_Bool:
-    "You complain of routine. You wish for more." The voice becomes softer as it speaks. "So <i>why</i> {stay <= 1: fight it? | don't you stay stay? } Choose the church."
+    "You complain of routine. You wish for more." The voice becomes softer as it speaks. "So <i>why</i> {Stay_Tracker <= 1: fight it? | don't you stay stay? } Choose the church."
     
 - else:
-    What is it talking about? {stay <= 1.5: Of course you fight the church. You want to <i>leave.</i> | Stay? When have you ever wished to...}
+    What is it talking about? {Stay_Tracker <= 1.5: Of course you fight the church. You want to <i>leave.</i> | Stay? When have you ever wished to...}
 
-    "You can say you're content with your life <i>out there,</i> but we both know you want to stay <i>here"</i> The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {stay <= 1.5: So, why is it you fight the church? | So why are you <i>fighting</i> to leave?}"
+    "You can say you're content with your life <i>out there,</i> but we both know you want to stay <i>here"</i> The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {Stay_Tracker <= 1.5: So, why is it you fight the church? | So why are you <i>fighting</i> to leave?}"
 
     #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
     <i>Plink! Plink! Plink!</i>
@@ -1032,7 +1032,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 *["I don't know."]
     ~Temp_String = "I don't know..."
 
-* {stay <= 1} ["I don't want to be here."]
+* {Stay_Tracker <= 1} ["I don't want to be here."]
     The rapid drips from the leak stop. "Hm...?" The voice laughs. "You think that now, but just wait—"
     ->Confessional_Curtain.Reject("how am I confused?")
 
@@ -1069,13 +1069,13 @@ You squirm in your seat. Clenching and unclenching your fists.
 "I..."
 
 {
-    - leave_light:
+    - Church_Encounters ? (Leave_Light):
     *[The church was angry..."]
         "It screamed at me. It— It burned me..." You shutter at the memory. 
         
         The rapid drips from the leak stop. "Angry...?" The voice laughs. "You must just be <i>confused</i>. The church would never—"
             
-        {stay <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when— | You shake your head in disbelief. }
+        {Stay_Tracker <= 1: A sudden surge of anger coursed through you. Confused? How were you just confused when— | You shake your head in disbelief. }
         ->Confessional_Curtain.Reject("how am I confused?")
 }
 
@@ -1122,7 +1122,6 @@ You wonder if you'll meet it again.
     -> Confessional_Curtain.Leave_Progress
 
 = Know_Father
-~ church_anger += 0.5
 Something clicks into place. "I... know who you are..."
 
 "Do you now?" he laughs coldly.
@@ -1134,7 +1133,7 @@ Something clicks into place. "I... know who you are..."
 #REPLACE: push the matter
 You frown, "No, that's not what—" A gutter growl cuts you off. You don't think you should [push the matter]. The voice is pushing you to confess, maybe you can learn more if you play along?
 
-You take a deep breath. You need to confess something? Fine. {stay < 1: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
+You take a deep breath. You need to confess something? Fine. {Stay_Tracker < 1: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
 
 *[push the matter]
 
@@ -1176,10 +1175,9 @@ The growl comes from the other side again. "I have no daughter." He says through
 
 
 #DELAY: 0.75
-~ church_anger += 1
 
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 2.5
-An ear piecing shriek fills the booth{leave_light:, much worse than the one from before. | .} You plug your ears, but it makes no difference.
+An ear piecing shriek fills the booth{Church_Encounters ? (Leave_Light):, much worse than the one from before. | .} You plug your ears, but it makes no difference.
 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
@@ -1201,11 +1199,9 @@ The divider between you is barely holding up. The wood is splinters while that- 
 *[Throw yourself at the door.]
 
 -
-#DELAY: 0.75
-~ church_anger += 1
 
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 2.5
-The thing shrieks again. "You will not escape this time.
+The thing shrieks again. "You will not escape this time."
 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
@@ -1231,7 +1227,7 @@ It says something that reverberates inside your brain. Words that hold meaning y
 = Leave_NoProgress
 TODO: is the above variable needed?
 ~ current_area = Main_Body // set the current area
-~ have_visited -= Confessional_CurtainSide //set that we have visisted the area
+~ Have_Visited -= Confessional_CurtainSide //set that we have visisted the area
 ->Inside.Look_For_Heart
 
 = Leave_Progress
@@ -1240,7 +1236,7 @@ TODO: is the above variable needed?
 ~ previous_area = Confessional_CurtainSide
 ~ items_obtained += (Skeleton_Key)
 ~ current_area = Main_Body // set the current area
-~ have_visited += Confessional_CurtainSide //set that we have visisted the area
+~ Have_Visited += Confessional_CurtainSide //set that we have visisted the area
 ~ visited_state += 1
 {- visited_state:
     
