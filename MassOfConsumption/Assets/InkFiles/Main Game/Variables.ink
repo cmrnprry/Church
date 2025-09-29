@@ -44,6 +44,8 @@ VAR know_name = false
 VAR Stay_Tracker = 0
 VAR Remembered_Past = false
 VAR photo_ripped = false
+VAR heard_melody = false
+LIST RIPPED = AT_WORK, ALL_IN_POCKET, SOME_IN_POCKET
 VAR finger_pain_pass = false
 LIST Church_Encounters = Finger_Chopped, Leave_Light, Was_Coward
 
