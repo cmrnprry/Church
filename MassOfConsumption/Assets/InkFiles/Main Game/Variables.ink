@@ -33,8 +33,14 @@ LIST Work_Encounter = Scanner_Interaction = 1, Wrong_Email = 2, Attack_Coworker 
 LIST Walk_Home = Face_It, Different_Path
 
 //Trapped Variables
-LIST Leg = (Normal = -1), Tense = 1, Sore = 2, Limping = 3
-LIST Object = (Nothing = -1), screwdriver = 1, crowbar = 2, sledgehammer = 3
+VAR Looked_For_Items = false
+VAR Took_Item = false
+VAR Leg_State = Normal
+LIST Possible_Leg_States = Normal = 0, Tense = 1, Sore = 2, Limping = 3
+LIST Possible_Object_States = Nothing = 0, screwdriver = 1, crowbar = 2, sledgehammer = 3
+VAR Object = Nothing
+
+
 VAR sleep = ""
 VAR has_flashlight = false
 
@@ -56,8 +62,8 @@ LIST Explore_Office_Bookshelf = Check_Books, Check_Boxes, Check_Chest, Broke_Che
 
 LIST Book_Knowledge = Explored_Books, Read_End, Read_Start, Saw_Your_Book, Ripped_Pages, Kept_Book, Kept_Pages, Branded, Know_Ophelia_Name, Know_Emily_Name
 
-LIST Room_State = Normal = 1, Short = 1, Half = 2, Crawl = 3, Gone = 4
-
+LIST Possible_Room_States = Default = 0, Short = 1, Half = 2, Crawl = 3, Gone = 4, Destroyed = 5
+VAR Room_State = Default
 
 //Confessional Variables
 LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, Pressed_Emily, Saw_Her_Struggle, Reached_Through, Angered_Priest, Killed_Girl, Finished_Curtain_Side, Finished_Door_Side
@@ -69,7 +75,8 @@ VAR current_area = -1
 VAR previous_area = -1
 VAR visited_state = 0
 
-VAR Downstairs_State = 0 //0 = none, 1 = no stink, 2 = stink stink
+VAR Downstairs_State = None
+LIST Possible_Downstairs_State = None, Bad_Vibes, Stink, Flesh
 
 //locks
 LIST Locks_Undone = Key_Lock, Combo_Lock, Clippers_lock

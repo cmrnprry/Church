@@ -8,6 +8,8 @@ INCLUDE Confessional_Curtain.ink
 INCLUDE Pews.ink
 INCLUDE Stairs.ink
 INCLUDE End_Game.ink
+INCLUDE Office.ink
+
 
 
 Skip or Start from beginning?
@@ -1454,7 +1456,7 @@ The door shutters, but stands firm.
 *[Again.]
 
 - 
-~ Leg = 1
+~ Leg_State ++
 You kick again in the same place.
 
 #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
@@ -1474,7 +1476,7 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 ->Trapped
 
 - 
-~ Leg = 2
+~ Leg_State ++
 You keep kicking at the latch. You breathing starts to get heavy and your leg aches. It feels like you are hitting steel.
 
 #CLASS: Kick #PLAY: door_thud #EFFECT: Force_Blink
@@ -1494,7 +1496,7 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 ->Trapped
 
 - 
-~ Leg = 3
+~ Leg_State ++
 Something in you allows you to keep going, even as your leg throbs and it feels like you can barely take in anymore air. 
 
 #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
@@ -1521,7 +1523,8 @@ Thud!
 ->Trapped
 
 = Look
-~ Room_State = 1
+~ Looked_For_Items = true
+~ Room_State = Short
 #IMAGE: Church_Inside
 It's dark, but you can make out vague shapes.
 
@@ -1534,22 +1537,22 @@ It's dark, but you can make out vague shapes.
 - You go further into the church, up a few steps, feeling the walls as you go, and find a closed door at the end of the hall. It might have what you're looking for. You pray that it's a supply closet and to find...
 
 *[A crowbar]
-~ Object = (crowbar)
+~ Object = crowbar
 
 *[A screwdriver]
-~ Object = (screwdriver)
+~ Object = screwdriver
 
 *[A sledgehammer]
-~ Object = (sledgehammer)
+~ Object = sledgehammer
 
 
 -
-{
-    - Object == (crowbar): 
+{- Object:
+    - crowbar: 
         You want to pry the door open with it.
-    - Object == (screwdriver):
+    - screwdriver:
         You want to take the door off it's hinges.
-    - Object == (sledgehammer):
+    - sledgehammer:
         You want to smash the door down.
 }<>
 {Remembered_Past: You hope it won't be able to survive that.| You know it won't be able to survive that.}
@@ -1557,16 +1560,16 @@ It's dark, but you can make out vague shapes.
 #IMAGE: Office
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls are made of bookshelves, packed full of books and boxes. A desk sits at the far wall with a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it. }
 
-{
-    - Object == (crowbar): 
+{- Object:
+    - crowbar: 
         #PROP: crowbar
         On the desk sits a {Object}, <>
         
-    - Object == (screwdriver):
+    - screwdriver:
         #PROP: screwdriver
         On the desk sits a {Object}, <>
         
-    - Object == (sledgehammer):
+    - sledgehammer:
         #PROP: sledgehammer
         On the desk sits a {Object}, <>
 }
@@ -1575,28 +1578,42 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 illuminated by a red spotlight from the window. It's not covered in dust like rest of the room, as if it has been placed there just for you.
 
 *[Pick up the {Object}]
-    ~ temp_bool = false
+    ~ Took_Item = true
 
 *[Leave it]
-    ~ temp_bool = true
+    ~ Took_Item = false
 
 -
-{
-    - Object == (crowbar): 
+{- Object:
+    - crowbar: 
         #PROP: crowbar
         <>
         
-    - Object == (screwdriver):
+    - screwdriver:
         #PROP: screwdriver
         <>
         
-    - Object == (sledgehammer):
+    - sledgehammer:
         #PROP: sledgehammer
         <>
 }
 {
-    - temp_bool:
-        {Remembered_Past: The church is playing with you now. It knows what you wanted, and gave it to you. | Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you. }
+    - Took_Item:
+      You enter the room and pick up the {Object}. It weighs heavy in your hands. You tighten your grip on the {Object}, and return to the door. { Remembered_Past: Hopeless or not, you need to try.}
+        {- Object:
+            - crowbar: 
+                *[Time to get out of here]
+                -> Locked.Crowbar
+            - screwdriver:
+                *[Time to get out of here]
+                -> Locked.Screwdriver
+            - sledgehammer:
+                *[Time to get out of here]
+                -> Locked.Sledgehammer
+        }
+        
+    - else:
+      {Remembered_Past: The church is playing with you now. It knows what you wanted, and gave it to you. | Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you. }
     
         #IMAGE: Default
         You return to the front door.
@@ -1605,21 +1622,6 @@ illuminated by a red spotlight from the window. It's not covered in dust like re
         
         *[Kick in the door]
         ->Locked.Kick
-        
-    - else:
-        You enter the room and pick up the {Object}. It weighs heavy in your hands. You tighten your grip on the {Object}, and return to the door. { Remembered_Past: Hopeless or not, you need to try.}
-        {
-            - Object == (crowbar): 
-                *[Time to get out of here]
-                -> Locked.Crowbar
-            - Object == (screwdriver):
-                *[Time to get out of here]
-                -> Locked.Screwdriver
-            - Object == (sledgehammer):
-                *[Time to get out of here]
-                -> Locked.Sledgehammer
-        }
-        
 }
 
 = Crowbar
@@ -1712,11 +1714,11 @@ Thud!
 # INTRUSIVE: 5, Trapped, Trapped.Intrusive
 The thought bounces around you head. <i>You are trapped.</i>
 {
-    - Leg == 3: 
+    - Leg_State == Limping: 
     Your leg is throbbing from attempting to kick in the door. You massage the area as you scan your surroundings. <>
-    - Leg == 2:
+    - Leg_State == Sore:
         Your leg sore from attempting to kick in the door. You massage the area as you scan your surroundings. <>
-    - Leg == 1: 
+    - Leg_State == Tense: 
         Your leg is tense from attempting to kick in the door. You massage the area as you scan your surroundings. <>
 }
 You can barely see, not a single drop of light shines through the windows. Your eyes have mostly adjusted, but not enough to make out meaningful details. Your head is filled with static and your limbs are heavy. You can't get out the way you came in, but there might be another way out. 
@@ -1879,7 +1881,7 @@ A light melody begins to play. A lullaby, you think. It was a comfort when you w
 Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
 
 *[The church offers solace.]
--> Endings.Bad_End_1
+-> Endings.Bad_End_4
 
 = Refuse
 #PLAY: groaning_angry, true #STOP: groaning_angry, 2
@@ -2112,7 +2114,7 @@ TODO: if you choose heart this is a little weird
 - 
 
 #IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
-The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{Object !? (Nothing):, which you know has a small office to the right}.
+The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{Looked_For_Items:, which you know has a small office to the right}.
 
 
 #EFFECT: click_move_main
@@ -2122,7 +2124,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     -> Confessional
 
 +[stairs]
-    -> Inside.Stairs_First
+    -> Inside.Investigate_Stairs_Area
 
 +[pews]
     -> Pews
@@ -2136,38 +2138,34 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     -> Confessional
 
 +[stairs]
-    -> Inside.Stairs_First
-
+    -> Inside.Investigate_Stairs_Area
+TODO: when do we come here and from where
 +[pews]
     -> Pews
 
-= Stairs_First
-~ temp Temp = true
+= Investigate_Stairs_Area
+~ temp Temp_Check = true
+
 
 { Room_State:
-    - 1: You {Leg >= 3: limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another set of stairs that go both up and down. 
+    - Normal: You {Leg_State >= Limping: limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another, larger set of stairs that lead both up and down. 
     
-        ~ Room_State = 3
-        ~ Temp = false
+        ~ Temp_Check = false
     
-    - 2: You {Leg >= 3: limp up | climb} the short set of stairs, expecting to find the office door at the end of the hall. Instead, it sits on wall adjacent to the stairs, hovering over the last few. Glancing down the hall, you see it now hosts a set of stairs that go both up and down. 
+    - Short: {Looked_For_Items: You {Leg_State >= Limping: limp up | climb} the short set of stairs, expecting to find the office door at the end of the hall. Instead, it sits on wall adjacent to the stairs, hovering over the last few. Glancing down the hall, you see it now hosts a set of stairs that go both up and down. | You {Leg_State >= Limping: limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember, it now being about the same hight as you.}
     
-        You bite your lip. Maybe you got confused while searching in the dark.
+         You bite your lip. {Looked_For_Items: Maybe you got confused while searching in the dark. | You're probably misremembering.}
         
-        ~ Room_State = 3
-        
-    - 3: You {Leg >= 3: limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember.
+    - Half: You {Leg_State >= Limping: limp up | climb} the short set of stairs. You frown at the door, lightly touching the wall where the top half used to be. The door is half as tall as it was last you visited. You knock on the wall and it feels solid.
     
-    - 4: You {Leg >= 3: limp up | climb} the short set of stairs. The door is half the height that it used to be. If it were any smaller, you don't think you could fit through it.
-    
+    - Crawl: You {Leg_State >= Limping: limp up | climb} the short set of stairs, and let out an exasperated laugh. The door to the office is no longer a door, but a small opening through the wall. You crouch down and look through. The office itself looks the same, and you think you could fit through if you army crawl.
 
-    - else: You {Leg >= 3: limp up | climb} the short set of stairs. The doorway to the office is gone. {Room_State >= 4: You hope you got everything you needed from it. }{Room_State >= 5: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+    - else: You {Leg_State >= Limping: limp up | climb} the short set of stairs. The doorway to the office is gone. {Room_State == Gone: You hope you got everything you needed from it. }{Room_State == Destroyed: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
 
 }
 
-
 *[Examine the stairs]
-    You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Object !? (Nothing): How did you miss this before?}
+    You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items: How did you miss this before?}
 
     **[Go upstairs]
         ->Stairs.Upstairs
@@ -2175,18 +2173,18 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     **[Go downstairs]
         ->Stairs.Downstairs
         
-    **[Go back to the {Temp: office | door}]
-        ->Stairs.Office
+    **[Go back to the {Temp_Check: office | door}]
+        ->Office_Area.Office
 
-*{ Room_State <= 3 }[{Temp: Enter the office | Go through the door}]
-    ->Stairs.Office
+*{ Room_State <= Crawl }[{Temp_Check: Enter the office | Go through the door}]
+    ->Office_Area.Office
 
 *[Return to the main body of the church]
     ->Inside.Look_For_Heart
 
 === Confessional ===
 # IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move_confessional
-{Confessional_Encounters !? (Finished_Curtain_Side, Finished_Door_Side): You {Leg >= 3: carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess. (click highlighted image) | You approach the confessional booth. {Confessional_Encounters ? (Finished_Door_Side): } {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the curtain.} (click highlighted image)}
+{Confessional_Encounters !? (Finished_Curtain_Side, Finished_Door_Side): You {Leg_State >= Limping: carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess. (click highlighted image) | You approach the confessional booth. {Confessional_Encounters ? (Finished_Door_Side): } {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the curtain.} (click highlighted image)}
 
 
 * {Confessional_Encounters !? (Finished_Door_Side)} [Enter through the door] //door_confessional]
@@ -2198,6 +2196,14 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 === Endings ===
 
+= Bad_End_1
+- BAD END 1 - Digested
+
++[Restart Game]
+
++[Main Menu]
+
+
 = Bad_End_3
 
 - BAD END 3 - Sleeping Forever
@@ -2208,7 +2214,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 -    -> END
 
-= Bad_End_1
+= Bad_End_4
 *[You close your eyes, and fall into a void of relief and comfort.]
 
 - BAD END 4 - Why Shouldn't I stay?

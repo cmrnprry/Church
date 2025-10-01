@@ -46,7 +46,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.
 
 You hear someone call your name, but you don't dare turn around.
-->Stairs.Office
+->Office_Area.Office
 
 = Back_Confessional
 {
@@ -130,7 +130,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
     Your eyes dart from the stairwell to the pastor and back again, before breaking into a run toward the stairs.
     
     You hear them call your name, but you don't dare turn around.
-    ->Stairs.Office
+    ->Office_Area.Office
 
 = Pews_After
 ~temp_bool = true

@@ -207,14 +207,14 @@ The wood splinters.
 
 *[Again]
 
-- The wood around the lock is bent and warped. {Leg >= 2: Your leg tremble from the effort.}
+- The wood around the lock is bent and warped. {Sore >= 2: Your leg tremble from the effort.}
 
 
 *[Again]
 
 - ~temp_bool = false
 
-There's a small hole you can see through. You see movement from outside. {Leg >= 2: Your leg screams from the the amount of weight you're putting on it. }
+There's a small hole you can see through. You see movement from outside. {Leg_State >= Sore: Your leg screams from the the amount of weight you're putting on it. }
 
 
 *[One more time.]

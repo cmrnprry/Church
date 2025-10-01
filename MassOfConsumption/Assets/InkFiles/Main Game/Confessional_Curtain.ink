@@ -408,7 +408,7 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
     ->Confessional_Curtain.Agree
 
 = Reject(reason)
-"{Walk_Home ? (Different_Path): When I tried to avoid the church, it pulled me back.} {Church_Encounters ? (Leave_Light): When I rejected it's sight, it burned me.} {Object != -1: When I tried to escape, it <i>taunted</i> me with a {Object}.}When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"
+"{Walk_Home ? (Different_Path): When I tried to avoid the church, it pulled me back.} {Church_Encounters ? (Leave_Light): When I rejected it's sight, it burned me.} {Looked_For_Items: When I tried to escape, it <i>taunted</i> me with a {Object}.}When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"
 
 *[The voice is silent.]
 
@@ -442,7 +442,7 @@ Bang!
 
 You cover your face as tiny, stinging, wooden splinters fly toward you. You need to get OUT, before that... that THING gets IN.
 
-You {Leg >= 2: hobble through the curtain as fast as you can | rush through the curtain}, and turn to see the confessional shuttering under whatever inside continues banging on the walls.
+You {Leg_State >= Sore: hobble through the curtain as fast as you can | rush through the curtain}, and turn to see the confessional shuttering under whatever inside continues banging on the walls.
 ~ temp Temp_Bool = false
 ~ temp Temp_String = ""
 
@@ -546,7 +546,7 @@ The words get stuck in your throat{Stay_Tracker < 1:, but you're not sure why}.
 <i>Plink! Plink! Plink!</i>
 
 TODO: Check
-You clench and unclench your hands. {Remembered_Past or Church_Encounters ? (Leave_Light) or Object != -1: You know shouldn't listen. You know its... it's another trick. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then... }
+You clench and unclench your hands. {Remembered_Past or Church_Encounters ? (Leave_Light) or Looked_For_Items: You know shouldn't listen. You know its... it's another trick. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you. Maybe if you hadn't rejected it so strongly then... }
 
 *["Maybe you're right..."]
 
