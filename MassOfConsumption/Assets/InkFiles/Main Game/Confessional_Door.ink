@@ -2,15 +2,14 @@
 TODO: Beef up this section a LOT. it's shorter and shit just happens
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_DoorSide // set the current area
-~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
 
 ~temp_bool_2 = false
 # IMAGE: Default #PROP: curtain_full
 {
     //if this is the first area we are visiting
-    - previous_area == -1:
-        ~ visited_state = 0
-        You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable bench. A lumpy looking red cushion sits on the bench, offering a small comfort.
+    - Have_Visited!? (Confessional_DoorSide):
+        ~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
+        You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top.
         
         You think you'd know if there were anything else in here.
         
@@ -48,7 +47,7 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
 = Searched_Area(searched)
 *[Exit the booth]
 
-* [{searched:Look again | Check the space}]
+* [{searched:Look again | Check the space anyway}]
     You check the space{searched: again}, doing your best to check every nook and cranny. Under the bench, in the corners, anywhere you can think. You don't find anything.
 
     You sigh. {Confessional_Encounters ? (Finished_Curtain_Side): Maybe the key was the only thing you could find. | You should look elsewhere.}
@@ -58,32 +57,28 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
 #PLAY: curtain
 You stand to leave when you hear the curtain open and close from the other side of the divider. There are footsteps, then a soft thud of someone sitting on the bench.
 
-//false means no visit
-//we can only visit 2 places
-//set first visit to true
-
 *[Wait]
     -> Confessional_Door.Wait_Curtain
 
-*[Leave the booth]
+*[Leave]
     -> Confessional_Door.Leave_Booth(false)
 
 = Leave_Booth(hasVisited)
 You frantically grab at the the door, not wanting to face whatever is on the other side. It creaks as you turn the knob, and {hasVisited: the | a} soft voice drifts in through the grate.
 
-{hasVisited: "I... I know someone's in there! Answer me!" You hear her sniff. | "Daddy?" You stop. It's the almost same voice from earlier. The one that gave you the flashlight and note. But it's... different. Higher pitched. More unsure of itself. "....Daddy...?"}
+{hasVisited: "I... I know someone's in there! Answer me!" You hear her sniff. | "Daddy?" You stop. It's the almost same voice from earlier. The one that gave you the flashlight and note. But it's... higher pitched, and stuffier. More unsure of itself. "....Daddy...?"}
 
 
 * [Call out]
--> Confessional_Door.CallOut(!hasVisited)
+    -> Confessional_Door.CallOut(!hasVisited)
 
-*[Leave the booth]
+*[Leave]
     ->Confessional_Door.Leave_Real
 
 = Wait_Curtain
-"Um.. hello? Is anyone in there?"
+You hold your breath and freeze. There's a rustling from the other side, then, "Um.. hello? Is anyone in there?"
 
-It's the almost same voice from earlier. The one that gave you the flashlight and note. But it's... different. Higher pitched. More unsure of itself.
+It's the almost same voice from earlier- The one that gave you the flashlight and note. But it's... higher pitched, and stuffier. More unsure of itself.
 
 *[Say something]
     -> Confessional_Door.CallOut(true)
@@ -92,37 +87,25 @@ It's the almost same voice from earlier. The one that gave you the flashlight an
     -> Confessional_Door.Leave_Booth(true)
 
 = CallOut(hasVisited)
-{
-    - hasVisited == false:
-        "Hello?" You call out, tentatively.
-        
-        "Oh, it's not..." her voice tapers off. She's disappointed. "Are you still taking confessions...?" It's not her, you realize. This voice is that of someone much younger.
-        
-        *["Yes, I am."]
-            ->Confessional_Door.Yes_Confessions
-        *["No, sorry."]
-            ->Confessional_Door.No_Confessions
-        *[Leave the booth]
-            ->Confessional_Door.Leave_Real
-    - else:
-        "I'm here?" It comes out more like a question. You clear your throat. "I'm here."
-        
-        "Oh, it's not... Are you still taking confessions...?" Her voice is sad, but hopeful. It's not her, you realize. This voice is that of someone much younger.
+{hasVisited: "I'm here?" It comes out more like a question. You clear your throat. "I'm here." | "Hello?" You call out, tentatively.}
 
-        *["Yes, I am."]
-            ->Confessional_Door.Yes_Confessions
-        *["No, sorry."]
-            ->Confessional_Door.No_Confessions
-        *[Leave the booth]
-            -> Confessional_Door.Leave_Real
-}
+"Oh, you're not... Are you still taking confessions...?" Her voice is sad, but hopeful. It's not the same, you realize. This voice is that of someone much younger.
+
+*["Yes, I am."]
+    ->Confessional_Door.Yes_Confessions
+
+*["No, sorry."]
+    ->Confessional_Door.No_Confessions
 
 = No_Confessions
-#DELAY: 4
 ~ Stay_Tracker += 0.5
-#PLAY: curtain
-TODO: ~ Confessional_Encounters += (Lie_to_Her) write
-{Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
+#DELAY: 4 #PLAY: curtain
+~ Confessional_Encounters += (Talked_to_Girl)
+~ Confessional_Encounters += (Killed_Girl)
+
+{Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | You shake your head and apologize again. "They, uh, ended just a few moments ago. They restart tomorrow morning." You clear your throat and hope that sounded priestly enough. }
+
+{Confessional_Encounters ? (Pressed_Emily): | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
 
 #DELAY: 2.5
 ​
@@ -133,7 +116,7 @@ The sound of the curtain tearing—
 #CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5
 <i>THud</i>
 
-Something, no <i>someone</i>, hits the ground. Hard.
+Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your stomach.
 
 *[Rush out of the booth]
     ->Confessional_Door.Rush_Out(0)
@@ -141,42 +124,42 @@ Something, no <i>someone</i>, hits the ground. Hard.
 *["Are you alright?!"]
 
 - 
-You can hear wheezing, but she does not answer. 
+TODO: using the intrusive thought here would be great
+You can hear wheezing, but she does not answer. You squeeze your hands together, your inaction causing the panic living in your chest to grow. You need to act.
 
 #CLASS: Fidget
-Your eyes find the doorknob, and you reach out to open it.
-
-#CLASS: Blurrier
-An invisible force presses down on you. You feel like you're moving in slow motion.
+Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow motion toward it. You hear uneven breathing and gasping from outside.
 
 *["Are you okay?"]
 
-- 
-#CYCLE: easy, smoothly, effortless, fluid 
-The words come out @. Your hand sits on the knob.
+*["I'm coming!"]
 
-You can hear scratching on the floor. 
+*["What's going on?"]
+
+- 
+#CYCLE: easy, smoothly, effortlessly, fluid 
+The words come out too @. You can hear scratching on the floor. Your hand finally finds the knob. It's freezing cold, and sends a shock through your nerves. You turn the knob and it creaks, the sound echoing in your ears, louder than it should have been. 
 
 #CLASS: Fidget
-It seems like the harder you fight against the force, the slower you move.
-
-<i>What if it's too late?</i> You think, and tighten their grip on the door. <i>It's all your fault.</i>
-
 It is deathly quiet outside.
 
-<i>If you had just moved faster,</i> you squeeze the knob. <i>Then maybe she might still be—</i>
+<i>What if it's too late?</i> You think, and tighten your grip on the door. <i>It's all your fault. If you had just moved faster, then maybe she might still be—</i>
 
-#CLASS: Blurrier
-You just need to turn the knob. Why can't you just turn the knob?
+*[<i><b>Open the door</b></i>]
+    #REMOVE: intrusive
+- 
 
-*[It is deathly quiet outside.]
+You throw the door open and fall onto the ground outside the booth. You crawl on your hands and feet looking for her. "I'm- Say something if you can hear me!" 
 
-- You throw the door open and fall out of the booth. You scramble to check the other side, but are stopped in your tracks. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
+TODO: more intrusive
+#PLAY: flashlight 
+Your voice hangs in the air, but you don't stop looking. You stumble into fabric, and your hands graze deep grooves in the wood. You fumble with your flashlight. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
 
 There's a splatter of blood just outside it, next to the ripped off piece of curtain. Scratch marks are etched into the wooden floor. Your flashlight shines on broken pieces of nail.
 -> Confessional_Door.Exit_Booth
 
 TODO: I think ink can track this??
+
 = Rush_Out (visit_Count)
 ~ visit_Count += 1
 {- visit_Count:

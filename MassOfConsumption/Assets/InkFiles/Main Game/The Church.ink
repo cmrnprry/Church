@@ -1132,6 +1132,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 As you pass the front gate, it creaks open, and you flinch. {Remembered_Past: You should keep moving.}
 
 *[Investigate]
+    ~ Stay_Tracker += 0.5
 
 //On mouse click, change to "investigate
 *[(Continue walking home) Investigate]
@@ -1453,7 +1454,7 @@ Thud!
 
 The door shutters, but stands firm.
 
-*[Again.]
+*[Again]
 
 - 
 ~ Leg_State ++
@@ -1469,9 +1470,9 @@ Thud!
 
 The door still stands.
 
-*[Again.]
+*[Again]
 
-*[Stop.]
+*[Stop]
 You stop, fall to the floor, and stare at the untouched door in front of you. Your leg throbs from effort. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
 ->Trapped
 
@@ -1482,16 +1483,16 @@ You keep kicking at the latch. You breathing starts to get heavy and your leg ac
 #CLASS: Kick #PLAY: door_thud #EFFECT: Force_Blink
 Thud!
 
-*[You want to leave.]
+*[You want to leave]
 
 - #CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
 Thud!
 
 The door shows no signs of breaking.
 
-*[Again.]
+*[Again]
 
-*[Stop.]
+*[Stop]
 You stop, fall to the floor, and stare at the untouched door in front of you. Your leg throbs from effort. You let out a short, hysterical laugh that could be mistaken a sob as the realization hits you.
 ->Trapped
 
@@ -1532,27 +1533,27 @@ It's dark, but you can make out vague shapes.
 
 {Church_Investigation ? (Entered): You feel blindly and touch a... pew? You jump back, confused. There's no way... You feel around more and find a full set of pews, and past that a... cupboard? Closet? You shake your head, you can't think about this right now. You need to find something to get that door open. You can figure out the rest later. You search everywhere, arms outstretched, blindly feeling around your surroundings. As you search, you get the feeling of deja vu. You've done this before.| You look everywhere, arms outstretched, blindly feeling around your surroundings. On and under what you imagine are pews, the floor, past the curtain? Into a... cupboard? Closet? As you search, you get the feeling of deja vu. You've done this before.}
 
-*[Nothing]
+*[There's nothing here]
 
 - You go further into the church, up a few steps, feeling the walls as you go, and find a closed door at the end of the hall. It might have what you're looking for. You pray that it's a supply closet and to find...
 
 *[A crowbar]
-~ Object = crowbar
+    ~ Object = crowbar
 
 *[A screwdriver]
-~ Object = screwdriver
+    ~ Object = screwdriver
 
 *[A sledgehammer]
-~ Object = sledgehammer
+    ~ Object = sledgehammer
 
 
 -
-{- Object:
-    - crowbar: 
+{
+    - Object == crowbar: 
         You want to pry the door open with it.
-    - screwdriver:
+    - Object == screwdriver:
         You want to take the door off it's hinges.
-    - sledgehammer:
+    - Object == sledgehammer:
         You want to smash the door down.
 }<>
 {Remembered_Past: You hope it won't be able to survive that.| You know it won't be able to survive that.}
@@ -1560,16 +1561,16 @@ It's dark, but you can make out vague shapes.
 #IMAGE: Office
 You open the door to find a side office, entirely covered in dust and cobwebs. The adjacent walls are made of bookshelves, packed full of books and boxes. A desk sits at the far wall with a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it. }
 
-{- Object:
-    - crowbar: 
+{
+    - Object == crowbar: 
         #PROP: crowbar
         On the desk sits a {Object}, <>
         
-    - screwdriver:
+    - Object == screwdriver:
         #PROP: screwdriver
         On the desk sits a {Object}, <>
         
-    - sledgehammer:
+    - Object == sledgehammer:
         #PROP: sledgehammer
         On the desk sits a {Object}, <>
 }
@@ -1584,16 +1585,16 @@ illuminated by a red spotlight from the window. It's not covered in dust like re
     ~ Took_Item = false
 
 -
-{- Object:
-    - crowbar: 
+{
+    - Object == crowbar: 
         #PROP: crowbar
         <>
         
-    - screwdriver:
+    - Object == screwdriver:
         #PROP: screwdriver
         <>
         
-    - sledgehammer:
+    - Object == sledgehammer:
         #PROP: sledgehammer
         <>
 }
@@ -1616,9 +1617,7 @@ illuminated by a red spotlight from the window. It's not covered in dust like re
       {Remembered_Past: The church is playing with you now. It knows what you wanted, and gave it to you. | Something tells you that even if you take it, it wouldn't matter. That the door won't budge for you. }
     
         #IMAGE: Default
-        You return to the front door.
-        
-        You stare at it. It stares back.
+        You return to the front door. You stare at it. It stares back.
         
         *[Kick in the door]
         ->Locked.Kick
@@ -1703,7 +1702,7 @@ Thud!
     ->Trapped
 
 === Trapped ===
-*[You are trapped inside.]
+*[You are trapped inside]
 ~ Stay_Tracker += 1
 
 - You pull your legs to your chest and sit with your back against the door. 
@@ -1974,11 +1973,11 @@ You have so many questions.
 
 *["How do I get out?"]
 
-- The voice does not answer, but you know it's still there. You can feel it hovering by your ear.
+- 
+#CYCLE: melancholy, regret, wistfulness, grief, remorse
+The voice does not answer, but you know it's still there. You sense a heavy @ emanating from her presence. The invisible hand caresses your cheek.
 
-"This is all I can do for you now. The rest is up to you."
-
-Wind blows around you, and before you stop yourself you call out.
+"This is all I can do for you now. The rest is up to you." Wind billows around you, and before you stop yourself you call out.
 
 *["Wait!"]
 
@@ -2009,7 +2008,7 @@ You stagger backward, deeper into the church, an intense pressure pressing down 
     ~ Light_Feeling = relief
 
 TODO: maybe a better word than worry?
-*[Worry]
+*[Worried]
     ~ Stay_Tracker -= 0.5
     ~ Light_Feeling = worry
 
@@ -2032,7 +2031,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         Something is wrong. Logically, you know you should feel something negative. Fear. Panic. Alarm. But the most you can muster up is worry. Worry that you will never be bathed in this light again.
 }
 
-*[But you don't want to feel like this.]
+*[But you don't want to feel like this]
     ~ Church_Encounters += (Leave_Light)
     ~ Stay_Tracker -= 0.5
     #DELAY: 3.5 #EFFECT: leave-glow
@@ -2044,7 +2043,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
     
     TODO: maybe a  couple mopre choices that all lead to same place
-    **[You can barely stand it.]
+    **[You can barely stand it]
         #STOP: screeching #EFFECT: remove-glow
         Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
     
@@ -2056,7 +2055,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
             -> Inside
 
 *[But you are not ready to leave.]
-    ~temp_bool = false
+    ~ temp_bool = false
     ~ Church_Encounters -= (Leave_Light)
     ~ Stay_Tracker += 1
     #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight #EFFECT: EFFECT: Force_Closed
@@ -2109,7 +2108,7 @@ It looks battery operated, and gives off enough light to see around you. You sho
     <i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or maybe something more literal? You hope you'll know it when you see it.
 
 - 
-*[You try not to think too hard about it.]
+*[You try not to think too hard about it]
 TODO: if you choose heart this is a little weird
 - 
 
