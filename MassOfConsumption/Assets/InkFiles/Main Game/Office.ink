@@ -109,6 +109,7 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
     {
         - Book_Knowledge !? (Saw_Your_Book):
             ~ Book_Knowledge += (Saw_Your_Book)
+            ~ Explore_Office_Bookshelf += (Check_Chest)
             You pull book after book off the shelves, looking at the first page for your name, and throwing it to the floor when it's not. When you run out of books, you go through the boxes. 
             
             "Where is it? Where could it possibly be?" You grab the chest, give it a shake, and hear something inside. You try to open it, but it's locked. "Maybe in here?" you mutter. You look through the key hole, but can't see anything. "It could be..."
@@ -117,8 +118,6 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
         - Book_Knowledge ? (Saw_Your_Book):
             ~ Temp_Bool = true
             , and trace the numbers. You look at the first page, anxious to see if this is indeed your book. Your legs turn to jelly and you collapse to the ground. "Oh..." 
-            
-    
     }
         
         
@@ -127,7 +126,7 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
         , and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..."
 }
 
-*[{Temp_Bool: It is your book | The book is about <i>you.</i>}]
+*[{Temp_Bool: It's your book | The book is about <i>you.</i>}]
     ~ Book_Knowledge += (Read_Start)
 
 - 
@@ -178,9 +177,9 @@ You clutch the book tightly in your hands. {Stay_Tracker < 2: You cannot accept 
 
 - 
 ~ Stay_Tracker -= 0.5
-You stare at the page, {Stay_Tracker < 2: and without another thought, | hesitating for a moment. You stare at the page with a sour taste in your mouth, swallowing hard.  You bite the inside of your cheek, and} rip it out. You feel a quivering pain in your lower back, but ignore it. You feel a flooding sense of relief as you stare at the blank page, your book is no longer finished.
+You stare at the page, {Stay_Tracker < 2: and without another thought, | hesitating for a moment. You stare at the page with a sour taste in your mouth. You bite the inside of your cheek, and} rip it out. There is a quivering pain in your lower back, but ignore it. You feel a flooding sense of reassurance as you stare at the blank page. Your book is no longer finished.
 
-You start to flip the book closed, when you see movement on the page. Your body tenses as you watch ink stain the page and the words reappear. <i>You found peace.</i> You shake your head, {Stay_Tracker < 2: lip curling. | eyes wide.}
+Before you can flip the book closed, you see movement on the page. Your body tenses as you watch ink stain the page and the words reappear. <i>You found peace.</i> You shake your head, {Stay_Tracker < 2: lip curling. | eyes wide.}
 
 *[Rip it out again]
 
@@ -189,15 +188,13 @@ You start to flip the book closed, when you see movement on the page. Your body 
     ->Office_Area.Leave_it
 - 
 ~ Stay_Tracker -= 0.5
-You rip out the page again, and again, you feel a twitching pain. This time, in your shoulder. {Stay_Tracker < 2: You refuse to let the church win. }
+You rip out the page again, and again, you feel a twitching pain. This time, in your shoulder. {Stay_Tracker < 2: You refuse to let the church win. } And again the ink reappears. {Stay_Tracker < 2: | You grip the book tighter.}
 
-Again the ink reappears. {Stay_Tracker < 2: | You grip the book tighter.}
-
-In {Stay_Tracker < 2: frustration | exasperation}, you rip the pages out over and over. A new part of your body gains a new pang of pain, each ache more distressing. The ink reappears each time. You rip and rip and rip the pages until there's only one left.
+In {Stay_Tracker < 2: frustration | exasperation}, you rip the pages out over and over. With each page ripped comes a new pang of pain, each ache more distressing than the last. The ink reappears each time. You rip and rip and rip the pages until there's only one page left.
 
 Your entire body trembles.
 
-*[Rip out the last page]
+*[Rip it out]
 
 *[Leave it]
     Your hand hovers over the last page, but you pause before ripping it out. Your body is sore, feeling like the day after an intense workout, and your heart pounds erratically. You take a deep breath and close the book. The church can think what it wants. 
@@ -207,25 +204,25 @@ Your entire body trembles.
 ~ Book_Knowledge += (Branded)
 You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You-
 
-Your skin tingles just under the skin, similar to a mild sunburn. You lightly slap your arm, and it quickly turning into a searing pain flaying your skin. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
+Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
-You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating pain returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Know_Emily_Name): Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
+You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Know_Emily_Name): Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
 
 *[Apologize]
     "I'm sorry! Please, stop. <i>I'm sorry!</i>" You cry. <>
 
 *[Beg]
-    ~ Stay_Tracker += 1
+    ~ Stay_Tracker += 0.5
     "Please, stop. <i>Please!</i> I'll do <i>anything</i>!" <>
 
 - Your skin bubbles and oozes as the lines reform themselves into form words. Words you have read over and over again. <i>You found peace. You found peace. You found peace. You found peace.</i> "I- I won't do it again!"
 
-Your words fall on deaf ears as you can only watch the words from your book engrave themselves in your skin, branding you. You curl into the fetal position, abandoning the idea of repenting. You've barely moved. You'd never make it. 
+Your plea fall on deaf ears as you can only watch the words engrave themselves in your skin, branding you. You curl into the fetal position, abandoning the idea of repenting. You've barely moved. You'd never make it in time. 
 
-#DELAY: 3.5
-Tears leak from your eyes, a soothing comfort as they roll over your bleeding skin. 
+#DELAY: 2.5
+Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin. 
 
-You whimper as the sizzling pain slowly subsides to a biting prickling. You bring your trembling hands to your face. Your nails are chipped and broken and not an inch of your skin in unblemished. The branded words already looks healed over, like you've always had them, but a thin sheen of sweat and plasma coats them. Slowly, slowly, you sit up. Your clothing peels over the wooden floor, and you wince.
+You whimper as the sizzling pain subsides to a biting prickle. You bring your trembling hands to your face. Your nails are chipped and broken, and not an inch of your skin in unblemished. The branded words already look healed over, like you've always had them, but a thin sheen of sweat and plasma coats them. Slowly, slowly, you sit up. Your clothing peels off the wooden floor, and you wince.
 
 *[You don't think you'll ever forget that pain]
 
@@ -317,15 +314,15 @@ You exit the office.
 = Unsure
 Confused, you leave the room, and wander numbly back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
-*[You reach out a hand.]
+*[You reach out a hand]
 
-But the church looks at you again, bathing you in the wonderfully comfortable red light. The door stay open. You feel like...
+- But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay open. You feel like...
 
 *[Laughing]
-~ Church_Feeling = "laugh"
+    ~ Church_Feeling = Laughing
 
 *[Crying]
-~ Church_Feeling = "cry"
+    ~ Church_Feeling = Crying
 
 - You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 
@@ -354,7 +351,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                         There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                         *[You stand, dust yourself off, and walk home.]
-                        ->Office_Area.Leave
+                        ->Office_Area.End_Game
                 }
                 
             - Priest_Feeling == dread:
@@ -385,7 +382,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                         There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                         *[You stand, dust yourself off, and walk home.]
-                        ->Office_Area.Leave
+                        ->Office_Area.End_Game
                 }
             
             - Priest_Feeling == anger:
@@ -413,7 +410,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                         There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                         *[You stand, dust yourself off, and walk home.]
-                        ->Office_Area.Leave
+                        ->Office_Area.End_Game
                 }
         }
         
@@ -434,7 +431,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
             There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
             *[You stand, dust yourself off, and walk home.]
-            ->Office_Area.Leave
+            ->Office_Area.End_Game
         }
         
     - else:
@@ -464,15 +461,16 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
                     That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                     *[You stand, dust yourself off, and walk home.]
-                        ->Office_Area.Leave
+                        ->Office_Area.End_Game
             }
             - else:
-                You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
+                <> You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
                 
+                #PLAY: Church-anger, 0, 1  #STOP: Church-anger, 0, 2
                 That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                 *[You stand, dust yourself off, and walk home.]
-                ->Office_Area.Leave
+                ->Office_Area.End_Game
         }
 }
 
@@ -489,12 +487,12 @@ They begin to sing, hands out stretched for you to take. The music flows through
 *[And find peace.]
 ->END
 
-= Leave
-*[It has been a long night.]
+= End_Game
+*[It has been a long night]
 
 - #ENDING: 9, Good Ending: It Has Been a Long, Long Night
-*[And you deserve a very long, vey hot, bath.]
-->END
+*[And you deserve a very long, vey hot, bath]
+->Endings.Good_End_9
 
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 
@@ -517,11 +515,11 @@ TODO: waht ^^
 *{items_obtained ? (Simple_Key)} [Try the simple key]
     ~ items_obtained -= (Simple_Key)
     ~ broke_key = true
-    You fish the simple key out of your pocket and try the lock. The key slides in easy enough, but it doesn't want to turn. You force the key, thinking it just needed a little force. You jiggle the key, and force it to turn. <i>Clank!</i> 
+    You fish the simple key out of your pocket and try the lock. The key slides in easy enough, but it doesn't want to turn. You jiggle the key, thinking it just needed a little force, and- <i>Clank!</i> 
     
     The key snaps in the lock. The teeth of the key are stuck and warped in the lock. You press the key against the lock, attempting to turn it again and again, thinking maybe if you press hard enough it would suddenly pop open. "God DAMMIT!"
     
-    You fling the head of the key away from you and hurl the chest to the floor in frustration. The lid pops open, and a book with the number 2758 spills on it's cover onto the floor.
+    You fling the head of the key away from you and hurl the chest to the floor in frustration. The chest crashes to the floor, causing the lid to open with a "pop!" A book with the number 2758 spills on it's cover onto the floor.
     ~temp_string = "if the loss of the key was worth it"
 
 *{items_obtained ? (Skeleton_Key)} [Try the skeleton key]
@@ -535,7 +533,7 @@ TODO: waht ^^
     You raise the chest above your head, and hurl it to the floor. The lid pops open, and a book with the number 2758 on it's cover spills onto the floor.
     ~temp_string = "if this is indeed your book"
 
-- You {temp: take the book from the chest, placing the now empty chest back on the shelf| pick the book up from the ground}<>
+- You {Temp: take the book from the chest, placing the now empty chest back on the shelf | pick the book up from the ground}<>
 
 ->return_to
 
@@ -544,11 +542,11 @@ TODO: waht ^^
 === Take_Or_Return(IsTake) ===
 {Book_Knowledge ? (Branded): {IsTake: You tuck the book under your arm. Leaving it behind feels wrong somehow. | You struggle to your feet and shuffle to the bookshelf. You gently place your book on the shelf and slide it back until it hits the wall. You want nothing to do with it anymore.} You... You should do something. Return to your search. Find the heart. Destroy it. Escape. | {IsTake: You tuck the book under your arm. {Book_Knowledge ? (Read_End): You may already know how this could end, or at least, how the <i>church</i> thinks it will end, but something tells you to keep your book with you. {Stay_Tracker >= 2: Just in case something changes.} | You don't want to know how this story ends, but in case you change your mind, you'll have that choice.} | {Book_Knowledge ? (Read_End): You place the book back on the shelf. You know how it ends- Or rather, how the church thinks it will end. | You don't want to know how this story ends, not when there's still something you can do. You put the book back on the shelf.} } {Stay_Tracker < 2: You shouldn't give too much weight to it. That's what the church wants. | You chew your lip{Book_Knowledge ? (Kept_Book): and tighten your grip on it}. } You should do something productive instead of dwelling on it. {Saw_Locks: You remember the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}}
 
-*{!(Explore_Office_Bookshelf ? Check_Boxes)} [Pick through the boxes]
+*{(Explore_Office_Bookshelf !? (Check_Boxes))} [Pick through the boxes]
     ~ Explore_Office_Bookshelf += (Check_Boxes)
     You pick through the boxes first, only to find them filled with more books. <>
 
-*{!(Explore_Office_Bookshelf ? Check_Chest)} [Investigate the chest]
+*{(Explore_Office_Bookshelf !? (Check_Chest))} [Investigate the chest]
     ~ Explore_Office_Bookshelf += (Check_Chest)
     You grab the chest, and nearly drop it. The sides are slick with a wet, velvety mold. You wipe your hands on your pants and clench and unclench them, trying to forget the feeling. 
     
@@ -562,7 +560,7 @@ TODO: waht ^^
     ~ Explore_Office_Bookshelf += (Check_Books)
     You skim the covers of a few books from the closest shelf. <>
 
-*{Explore_Office_Bookshelf !? (Check_Desk)}[{Saw_Locks: Look for something to break the chain | Dig through the desk}]
+*{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
     ->Office_Area.Desk
 
 *[Exit the office]
@@ -578,7 +576,7 @@ TODO: waht ^^
 
 {Book_Knowledge ? (Read_End): And much like your own ending, they all find peace. | They never leave.} {Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {Saw_Locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Emily. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}| After reading another dead-end book, you pinch the bridge of your nose and sigh. You're surrounded by a pile of useless books and your eyes are strained from reading in low light.}
 
-*{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
+*{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book]
     {Saw_Locks: ->Ophelia_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Emily_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Olin_Book}}}
 
 * {!Saw_Locks or Confessional_Encounters !? (Talked_to_Girl) or Confessional_Encounters !? (Finished_Curtain_Side)} [Come back later]
@@ -606,21 +604,12 @@ Ophelia was determined to escape with Emily, and figured out a possible way to e
 "2755, got it!" you exclaim. "Thank you, Ophelia!"
 
 *[Rip out the page]
-->Office_Area.Rip_out_Ophelia
+    ->Office_Area.Rip_out_Ophelia
 
-{
-    - Saw_Locks && !temp_bool_3:
-        ~temp_bool = true
-        *[Look for something to break the chain lock.]
-        ->Office_Area.Desk
-    - !Saw_Locks && !temp_bool_3:
-        ~temp_bool = false
-        *[Look through the desk]
-        ->Office_Area.Desk
-}
-
-*[Exit the office.]
-->Office_Area.Exit_Office
+*{Explore_Office_Bookshelf !? (Check_Desk)} [Dig through the desk]
+            ->Office_Area.Desk
+*[Exit the office]
+    ->Office_Area.Exit_Office
 
 === Rand_Book(value) ===
 You half-heartedly read through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note of the number on the cover before flipping back to the beginning.
