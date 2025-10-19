@@ -2195,6 +2195,9 @@ TODO: when do we come here and from where
 
 === Endings ===
 
+= Good_End_9
+- Good Ending 1: It Has Been a Long, Long Night
+
 = Bad_End_1
 - BAD END 1 - Digested
 
