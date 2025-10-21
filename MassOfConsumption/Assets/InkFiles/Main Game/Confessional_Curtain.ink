@@ -1165,7 +1165,7 @@ The growl comes from the other side again. "I have no daughter." He says through
 "Who?"
 
 {
-    - know_name: "EMILY!"
+    - Book_Knowledge ? (Read_Mom_Young_Book): "EMILY!"
     - else: "Your DAUGHTER!"
 }
 

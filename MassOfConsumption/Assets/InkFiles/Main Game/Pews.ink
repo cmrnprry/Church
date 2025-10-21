@@ -294,7 +294,7 @@ The pastor places the wire cutter on the tray with the container of now bloodied
 
 She looks up at you sobbing. "After everything I've done for you? This is how you repay me?"
 
-You feel sick, and stumble backwards. {Book_Knowledge ? (Know_Ophelia_Name): <i>Ophelia...?</i> | <i>Is she...?</i>}
+You feel sick, and stumble backwards. {Book_Knowledge ? (Read_Mom_Old_Book): <i>Ophelia...?</i> | <i>Is she...?</i>}
 
 *[Look away]
 ~ Stay_Tracker += 0.5
@@ -302,7 +302,7 @@ You feel sick, and stumble backwards. {Book_Knowledge ? (Know_Ophelia_Name): <i>
 
     "Coward. Coward!"
 
-    Her voice rings in your ears, and eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Book_Knowledge ? (Know_Ophelia_Name):Ophelia is gone.| The woman is gone.} All that's left of the encounter is the wire cutters sitting on the floor at your feet.
+    Her voice rings in your ears, and eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia is gone.| The woman is gone.} All that's left of the encounter is the wire cutters sitting on the floor at your feet.
 
 *[Apologize]
 ~ Stay_Tracker -= 0.5
@@ -310,7 +310,7 @@ You feel sick, and stumble backwards. {Book_Knowledge ? (Know_Ophelia_Name): <i>
 
     "Coward. Coward!" Her voice is full of hate. She clambers to her feet, and grabs the wire cutters with her non-hurt hand. She throws them at your feet. "After <i>everything</i> I did for you!"
 
-    Her voice rings in your ears, and you look away. Eventually goes silent. When you turn back, only to see you are alone on stage. The crowd is gone. {Book_Knowledge ? (Know_Ophelia_Name):Ophelia is gone. | The woman is gone.} All that's left of the encounter is the wire cutters sitting at your feet.
+    Her voice rings in your ears, and you look away. Eventually goes silent. When you turn back, only to see you are alone on stage. The crowd is gone. {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia is gone. | The woman is gone.} All that's left of the encounter is the wire cutters sitting at your feet.
 - 
 
 *[Pick up the wire cutters]

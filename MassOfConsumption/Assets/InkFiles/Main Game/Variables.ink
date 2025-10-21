@@ -44,9 +44,6 @@ VAR Object = Nothing
 VAR sleep = ""
 VAR has_flashlight = false
 
-TODO: variable used in multiple ways that doesn't make sense
-VAR know_name = false
-
 VAR Stay_Tracker = 0
 VAR Remembered_Past = false
 VAR photo_ripped = false
@@ -57,16 +54,17 @@ LIST Church_Encounters = Finger_Chopped, Leave_Light, Was_Coward
 
 //Items && Office
 VAR broke_key = false 
+VAR read_mary_book = false
 
 LIST Explore_Office_Bookshelf = Check_Books, Check_Boxes, Check_Chest, Broke_Chest, Check_Desk
 
-LIST Book_Knowledge = Explored_Books, Read_End, Read_Start, Saw_Your_Book, Ripped_Pages, Kept_Book, Kept_Pages, Branded, Know_Ophelia_Name, Know_Emily_Name
+LIST Book_Knowledge = Explored_Books, Read_End, Read_Start, Saw_Your_Book, Ripped_Pages, Kept_Book, Kept_Pages, Branded, Read_Mom_Old_Book, Read_Mom_Young_Book, Read_Oldin_Book
 
 LIST Possible_Room_States = Default = 0, Short = 1, Half = 2, Crawl = 3, Gone = 4, Destroyed = 5
 VAR Room_State = Default
 
 //Confessional Variables
-LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, Pressed_Emily, Saw_Her_Struggle, Reached_Through, Angered_Priest, Killed_Girl, Finished_Curtain_Side, Finished_Door_Side
+LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, Pressed_Emily, Tell_Her_Leave, Saw_Her_Struggle, Reached_Through, Angered_Priest, Killed_Girl, Finished_Curtain_Side, Finished_Door_Side, Asked_About_Dad
 
 //where the player has been already
 LIST Have_Visited = Main_Body, Confessional_DoorSide, Confessional_CurtainSide, Enter_Pews, Enter_Office, Stairs_Up, Stairs_Down
@@ -79,39 +77,9 @@ VAR Downstairs_State = None
 LIST Possible_Downstairs_State = None, Bad_Vibes, Stink, Flesh
 
 //locks
-LIST Locks_Undone = Key_Lock, Combo_Lock, Clippers_lock
+LIST Locks_Undone = Key_Lock, Combo_Lock, Clippers_lock //combo lock correct = 2758
 VAR Saw_Locks = false //know that there is a locked door
 VAR Investigated_Locks = false
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

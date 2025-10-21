@@ -36,7 +36,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
 
 {
     - Confessional_Encounters ? (Finished_Door_Side):
-        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Know_Emily_Name): , Emily |.} She's crying. "You're leaving me all alone? Again?"
+        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Emily |.} She's crying. "You're leaving me all alone? Again?"
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
         {
@@ -123,7 +123,7 @@ But the church looks at you again, bathing you in the wonderfully comfortable re
         }
         
     - Church_Encounters ? (Was_Coward):
-        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Know_Ophelia_Name):, Ophelia." |.} "You're just going to leave?"
+        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Read_Mom_Old_Book):, Ophelia." |.} "You're just going to leave?"
         
         {
             - Stay_Tracker >= 2.5:
@@ -709,7 +709,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 {
     - Locks_Undone ? (Key_Lock, Clippers_lock, Combo_Lock):
         *[Open the door.]
-        ->Open_the_Door
+            ->Open_the_Door
     - else:
         {
             - items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock):
@@ -739,7 +739,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
         
         
-    - Book_Knowledge ? (Know_Ophelia_Name):
+    - Book_Knowledge ? (Read_Mom_Old_Book):
         You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
         
         //TODO: Maybe little "game" to input the numbers?
@@ -756,7 +756,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
             
                 You remove the lock from the metal bar, and slide it out of place. 
-            - Book_Knowledge ? (Know_Ophelia_Name):
+            - Book_Knowledge ? (Read_Mom_Old_Book):
                 "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                 
                 None of them work.
@@ -773,7 +773,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
             
                 You remove the lock from the metal bar, and slide it out of place. 
-            - Book_Knowledge ? (Know_Ophelia_Name):
+            - Book_Knowledge ? (Read_Mom_Old_Book):
                 "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                 
                 None of them work.
@@ -884,7 +884,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
             Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
             
             
-        - Book_Knowledge ? (Know_Ophelia_Name):
+        - Book_Knowledge ? (Read_Mom_Old_Book):
             You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
             
             //TODO: Maybe little "game" to input the numbers?
@@ -901,7 +901,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
                     You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
                 
                     You remove the lock from the metal bar, and slide it out of place. 
-                - Book_Knowledge ? (Know_Ophelia_Name):
+                - Book_Knowledge ? (Read_Mom_Old_Book):
                     "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                     
                     None of them work.
@@ -918,7 +918,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
                     Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
                 
                     You remove the lock from the metal bar, and slide it out of place. 
-                - Book_Knowledge ? (Know_Ophelia_Name):
+                - Book_Knowledge ? (Read_Mom_Old_Book):
                     "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                     
                     None of them work.

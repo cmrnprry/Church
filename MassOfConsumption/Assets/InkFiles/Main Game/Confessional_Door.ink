@@ -3,7 +3,6 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_DoorSide // set the current area
 
-~temp_bool_2 = false
 # IMAGE: Default #PROP: curtain_full
 {
     //if this is the first area we are visiting
@@ -69,7 +68,7 @@ You frantically grab at the the door, not wanting to face whatever is on the oth
 {hasVisited: "I... I know someone's in there! Answer me!" You hear her sniff. | "Daddy?" You stop. It's the almost same voice from earlier. The one that gave you the flashlight and note. But it's... higher pitched, and stuffier. More unsure of itself. "....Daddy...?"}
 
 
-* [Call out]
+* [Say something]
     -> Confessional_Door.CallOut(!hasVisited)
 
 *[Leave]
@@ -100,12 +99,11 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 = No_Confessions
 ~ Stay_Tracker += 0.5
 #DELAY: 4 #PLAY: curtain
-~ Confessional_Encounters += (Talked_to_Girl)
 ~ Confessional_Encounters += (Killed_Girl)
 
-{Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | You shake your head and apologize again. "They, uh, ended just a few moments ago. They restart tomorrow morning." You clear your throat and hope that sounded priestly enough. }
+{Confessional_Encounters ? (Tell_Her_Leave): | {Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | {Confessional_Encounters ? (Talked_to_Girl): "You're lying!" The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | You shake your head and apologize again. "They, uh, ended just a few moments ago. They restart tomorrow morning." You clear your throat and hope that sounded priestly enough. }}}
 
-{Confessional_Encounters ? (Pressed_Emily): | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
+{Confessional_Encounters ? (Pressed_Emily) or Confessional_Encounters ? (Talked_to_Girl): | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
 
 #DELAY: 2.5
 ​
@@ -151,32 +149,31 @@ It is deathly quiet outside.
 
 You throw the door open and fall onto the ground outside the booth. You crawl on your hands and feet looking for her. "I'm- Say something if you can hear me!" 
 
-TODO: more intrusive
+TODO: more intrusive 
 #PLAY: flashlight 
 Your voice hangs in the air, but you don't stop looking. You stumble into fabric, and your hands graze deep grooves in the wood. You fumble with your flashlight. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
 
 There's a splatter of blood just outside it, next to the ripped off piece of curtain. Scratch marks are etched into the wooden floor. Your flashlight shines on broken pieces of nail.
--> Confessional_Door.Exit_Booth
+-> Confessional_Door.End_Booth_Encounter("Sat_There")
 
 TODO: I think ink can track this??
 
 = Rush_Out (visit_Count)
 ~ visit_Count += 1
-{- visit_Count:
-    
-    - 1:
-        You run to the door, trying to get out. Is she alright?
+{
+    - visit_Count == 1:
+        You run to the door. Is she alright?
         *[The knob won't turn.]
             ->Confessional_Door.Rush_Out(visit_Count)
-    - 2:
+    - visit_Count == 2:
         You hear the sound of scratching at the floor.
-        *[The knob <i>won't</i> turn.]
+        *[It's stuck on something.]
             ->Confessional_Door.Rush_Out(visit_Count)
-    - 3:
+    - visit_Count == 3:
         She says something between coughs that you can't make out.
-        *[The <i>knob</i> won't <i>turn.</i>]
+        *[You need to hurry.]
             ->Confessional_Door.Rush_Out(visit_Count)
-    - 4:
+    - visit_Count == 4:
         ...
         It's quiet.
         *[Break down the door]
@@ -190,7 +187,7 @@ The wood splinters.
 
 *[Again]
 
-- The wood around the lock is bent and warped. {Sore >= 2: Your leg tremble from the effort.}
+- The wood around the lock is bent and warped. {Leg_State >= Sore: Your leg tremble from the effort.}
 
 
 *[Again]
@@ -200,228 +197,27 @@ The wood splinters.
 There's a small hole you can see through. You see movement from outside. {Leg_State >= Sore: Your leg screams from the the amount of weight you're putting on it. }
 
 
-*[One more time.]
-You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
-
-The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
-~temp_bool = false
--> Confessional_Door.Exit_Booth
+*[One more time]
+    You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
+    
+    The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
+    ~temp_bool = false
+    -> Confessional_Door.End_Booth_Encounter("Broke_Door")
 
 *[Look through the hole]
 
 - 
 
 ~Confessional_Encounters += (Saw_Her_Struggle)
-You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
-
-*[You need to get to her.]
-You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
-
-The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
--> Confessional_Door.Exit_Booth
-
-= Yes_Confessions
-"Oh!" She perks up immediately. "I kept miss—"
-
-She is cut off by a coughing fit. Harsh, loud, wet coughs. 
-
-*[Wait for her to stop]
-
-*[Ask if she's alright]
-    "Ye—" she tries to respond. "Ye—ah."
-
-    "Deep breaths." You say. "We are in no rush."
-
-    She tries to say something else, but the coughing fit persists.
-
-- You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Each raspy inhale twisted your insides into a tighter knot. You want to dash to the otherside to comfort her, but you stay glued to your seat. {Stay_Tracker < 1: You don't think she'll be there once you get there. The church has done it before. You pick at your nails. | You know the best way to comfort her is to stay where you are. To stay in this moment where she exists at the same time you do. You lean against the divider. } Eventually, she stops.
-
-"Sorry," she wheezes. "I'm really sick... I was hoping that Daddy was... He's a priest so... Anyway!" She claps her hands together. They can't help but smile. She clears her throat. "Forgive me father, for I have sinned."
-
-
-*[Say nothing]
-    ~temp_bool = true
-    You shift in your seat, unsure what to say. You are <i>not</i> a priest, and certainly not a replacement for her father... You flounder over what you could possibly say.
-
-*["I'm listening?"]
-    ~temp_bool = false
-    You are <i>not</i> a priest, and certainly not a replacement for her father but... You want to be able to comfort her in some way. Priests mostly listen right? So you should be able to...
-
-- There's an bloated silence. Your mind reels as you try to recall anything you know about confessions. {temp_bool: Are you supposed to say something? | Why did you say anything?}
-
-"Since... Since I'm sick all time... sometimes I feel..." 
-
-She's quiet for a moment. 
-
-"I feel like a burden...." Your heart drops. "Mommy is constantly praying, and Daddy is always...."
-
-She's quiet again. You don't know what to say. 
-~ temp Temp_String = ""
-*[Let her continue]
-
-*[Reassure her]
-~Temp_String = "Probably, but "
-    "You are not a burden, and I'm sure your parents would be upset to here you say so." You try to keep your voice calm and comforting. "Everything they are doing is for you."
-
-- "{Temp_String}I wish... I wish we could all just be home and together again..."she mutters. "I always feel worse on days Mommy brings me to church to see Daddy. He's always <i>here.</i> I know he's a pastor, but I never see him anymore..."
-
-Your stomach drops. Here? <i>This</i> church? {Confessional_Encounters ? (Finished_Curtain_Side): If her father is a priest... Was he...?} Your mind races. Is it possible that...
-
-*["What do you mean?"]
-    "<i>This</i> church?" The question comes out harsher than you mean to.
-
-*["He doesn't come home?"]
-    "He used to, but—" She coughs. "But he hasn't in a really long—"
+    You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
     
-    "And you always feel worse when you come to the church?" The question comes out harsher than you mean to.
-
-- "Oh, uhm, well I don't—" She fumbles over her words. "I'm sorry did I say something wrong?"
-
-You have many questions, but she is still a child. A sick child.
-
-*[Press her further]
-    ~ temp_bool_3 = true
-    "No, no, of course not." You hear her sigh with relief. "But can you talk more about your dad not leaving the church?"
+    *[Get to her]
+    You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
     
-    "You don't know? I don't wanna get in trouble..." 
-    
-    "You won't."
-    
-    "Promise?"
-    -> Confessional_Door.Promise
+    The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
+    -> Confessional_Door.End_Booth_Encounter("Watched")
 
-*[Let up]
-    ~ temp_bool_3 = false
-    "No, no, of course not." You hear her sigh with relief. "Only making sure I understood you."
-    
-    "Right, right. Uhm... yeah... Mommy says I feel bad because I don't pray hard enough. So I was hoping that Daddy would be here...." She sniffs. "I thought we could...I feel like I pray really hard... What am I doing wrong? Will he come back if I...?"
-
-- Her voice trails off. She doesn't finish the statment, but you hear her start to cry.
-
-"I just want things to go back the way they were!" she croaks, her voice tight and strained. You assume she's doing her best to hold back tears. "What can I do to fix it? Can I still fix it?"
-
-TODO: not the best choice here
-* [Help her]
-    -> Confessional_Door.help
-
-* [Ask about the church]
-    "Before that, can you tell me more about your dad not leaving the church?" You keep your voice polite. "After that we can talk all about your prayer habits, okay?"
-    
-    "But—" 
-    
-    "It's just information I need before I can tell you."
-    
-    "Promise?"
-    -> Confessional_Door.Promise
-
-= Promise
-*["Promise."]
-    ~ Confessional_Encounters += (Talked_to_Girl)
-
-- "Well... Daddy used to go once a week, to pray for me, at our old church. As I got sicker, he got recommended this one, and it was okay for a while. I got a little better, but he stopped coming home..." She sniffs. "I only see him if Mommy brings me here, but she only ever lets me talk to him from the gate. Daddy didn't show up this time so I..." 
-
-"You...?"
-
-"I went inside."
-
-A pit forms in your stomach. 
-
-"I just want us to be together again! I pray for it all the time!" Her voice trembles with a mix of anger and misery. "How do I fix it? Please, tell me how to fix it!"
-
-{know_name: You think you can get more from her. You're almost positive that you can. | You don't think you'll be able to get anything more from her.}
-
-* {know_name} [Press her further]
-
-*[Help her]
-    ->Confessional_Door.help
-
-*[Tell her to leave]
-    ~ Confessional_Encounters += (Lie_to_Her)
-    You're not a priest, you don't know how to help her. So you do the only thing you can think of: tell her to leave.
-    
-    "You don't need to do anymore than you do now. Just leave with your mom today, and don't come back."
-    
-    "What?" You don't answer, instead, you stand up and open the door. She starts coughing. "But you said—"
-    -> Confessional_Door.No_Confessions
-
-- "Emily, you need to tell me everything you know about the church. It's very important."
-
-"How do you knwo my name?" 
-
-You freeze. Did she not say it earlier?
-
-*[Your dad told me]
-~ temp_bool_2 = true
-
-*[You told me]
-    ~ Confessional_Encounters += (Pressed_Emily)
-    "No I didn't." You can hear her stand, and shuffle on the other side. "How do you—"
-    -> Confessional_Door.No_Confessions
-
-- "Why?" 
-
-"He... thought you might visit! And... told me.... just in case!" It's pretty clear that you're lying, but you hope she buys it.
-
-"Oh." Her voice is quiet. "I see..."
-
-*[Did she buy it?]
-
-- "Then... If I tell you—"
-
-"Yes." you say, a little too fast.
-
-"O—okay. I don't re—really know, but..." she clears her throat. "He told us he found it on his way home from our old church. It was new I think."
-
-"It just showed up?" Your heart pounds.
-
-"I guess? The first time we went, I didn't remember it being in the area it was. It was on a road we would drive down sometimes to get to our old church."
-
-You ball your fists. It's not the same as what happened to you, but it's similar enough.
-
-*[They are also victims of the church.]
-
-- "Thank you." You say, and lean back, closing your eyes. Your mind races as you process the information. What do you and this girl, no <i>family</i>, have in common? "That helps a lot."
-
-"Mhm... Can you help me now...?" She is hopeful.
-
-*[Help her]
-->Confessional_Door.help
-
-*[Don't help her]
-    
-- You're not a priest, you don't know how to help her. So you do the only thing you can think of: tell her to leave.
-
-"You don't need to do anymore than you do now. Just leave with your mom today, and don't come back."
-
-"What?" You don't answer, instead, you stand up and open the door. She starts coughing. "But you said-"
--> Confessional_Door.No_Confessions
-
-= help
-You're not a priest, and you are not entirely sure what the correct thing to say is, but you give it your best shot. "You are doing really well okay? So don't think you're not." You try to comfort her.
-
-"All you need to do is....
-
-*["pray your mom will join you and your dad here."]
-    ~ Stay_Tracker += 0.5
-
-*["leave the church and go find your mom."]
-
-- "Really? And that will be enough?" her voice warbles.
-
-"Yes, really."
-
-#PLAY: curtain
-"Okay, I'll... I'll do that." She sniffs, and the curtain opens. "Thank you."
-
-The curtain closes, and she is gone.
-
-*[Leave the booth]
-
-- You didn't find the heart, but at least you learned a bit more about the church. You hope it will help you later.
-
--> Confessional_Door.Return_to_Search
-
-= Exit_Booth
+= End_Booth_Encounter(Reaction)
 # IMAGE: Confessional_CloseUp #PROP: curtain_torn
 ~ Confessional_Encounters += (Finished_Door_Side, Killed_Girl)
 <i>This is your fault.</i>
@@ -439,48 +235,57 @@ You feel...
     ~ Stay_Tracker -= 0.5
     ~temp_string = "You grind your teeth"
     #IMAGE: Default #PROP: curtain_torn
-    You slam your fist into the ground. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | Was any of that real? Is this all just a sick game to the church? }
+    You slam your fist into the ground. Again and again until the skin splits and splintes stick inside. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | {Reaction == "Sat_There": You just- You just <i>sat</i> there. Sat there and did <i>nothing.</i>| {Reaction == "Watched": You watched her writher and writhe on the ground. Did that make you feel better? To see her in pain like that? | You should have moved faster. Pushed harder. Why can't you do anything right? }}} But what did it even matter? <i>There's no one here.</i>
     
-    TODO: this feels off
-    You grab the fabric and start pulling it apart. <i>Riiiippp</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp</i>  {Book_Knowledge ? (Know_Ophelia_Name): You know she was once a real person, but was that her? Or was that the church? } {Confessional_Encounters ? (Lie_to_Her): What can you trust in here if your own sense are compromised? } <i>Riiiippp</i> 
+    You grab the fabric from the ground and start ripping it apart. <i>Riiiippp!</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp!</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp!</i>  {Book_Knowledge ? (Read_Mom_Old_Book): You know she was once a real person, but was that her? Or was that the church? | What can you trust if your own sense are compromised?} <i>Riiiippp!</i> 
     
-    You stop and hold the scraps in your hand. You look at the blood splatter, then up at the confessional.
+    The fabric sits in tiny scraps in your hands. You throw them away from you and they land uncerimoniously on the blood splatter in front of you. You stare vacently at it, then up at the confessional.
 
 *[Guilty]
     ~ Priest_Feeling = (guilt)
     ~ Stay_Tracker += 0.5
     ~temp_string = "You grimace"
     # IMAGE: Default #PROP: curtain_torn
-    You gather up the fabric in your hands. You swallow back the lump growing in your throat. {Confessional_Encounters ? (Pressed_Emily): You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } 
+    You gather up the fabric in your hands. You swallow back the lump ever growing in your throat. {Confessional_Encounters ? (Pressed_Emily): You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } {Reaction == "Sat_There": You... did you even try? Why... why didn't you get up? Move faster? Do something? | {Reaction == "Watched": You were so close, but instead you <i>stopped  to watch?</i> Why? Just to confirm what your ears and gut already knew? | You took so long playing with the door. It came down so easily when you put your back into it. If you had done that sooner then- }}
     
     You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? 
     
     "I'm sorry." You hold the fabric close. You clasp your hands together, grasping the fabric tightly. You bow your head and shut your eyes. "Forgive me."
-	You feel a hand rest on the top of their head. A deep, gruff voice. {Confessional_Encounters ? (Finished_Curtain_Side) && know_name: Your body shutters, realizing who it was.} "For what, my child?"
+    TODO: what is know name doing here?
+	You feel a hand rest on the top of their head. A deep, gruff voice. {Confessional_Encounters ? (Finished_Curtain_Side): Your body shutters, realizing who it was.} "For what, my child?"
 	
 	"My inaction. I need her to know—"
 	
-	"Who?" {Confessional_Encounters ? (Finished_Curtain_Side) && know_name: He | It} asks. 
+	"Who?" {Confessional_Encounters ? (Finished_Curtain_Side): He | It} asks. 
 	
-	"The girl. The one who—" You bite your tongue. You can't bring yourself to say it. "Who was in there."
+	"The girl. The one who—" You bite your tongue. You can't bring yourself to say it. Your head sinks lower. "Who was... in there."
 	
-	"Tell me, how did she die? How was it your fault?" The voice is calm, soft. {Confessional_Encounters ? (Finished_Curtain_Side) && know_name: He | It} doesn't blame you.
+	"Tell me, how did she die? How was it your fault?" The word "die" sends a jolt through your being, but the voice is calm, soft. {Confessional_Encounters ? (Finished_Curtain_Side): He | It} doesn't blame you.
 	
-	"I {Confessional_Encounters ? (Saw_Her_Struggle): just watched | did nothing}!" You all but yell. "She needed my help and I wasn't there!"
+	"I {Reaction == "Watched": just watched| {Reaction == "Sat_There": did nothing|didn't do enough}}!" You all but yell. "She needed my help and I wasn't there!"
 	
-	"I see." The voice is quiet, and {Confessional_Encounters ? (Finished_Curtain_Side) && know_name: he | it} removes {Confessional_Encounters ? (Finished_Curtain_Side) && know_name: his | its} hand from your head. "Inaction in such a situation is quite a large sin."
+	"I see." The voice is quiet, and {Confessional_Encounters ? (Finished_Curtain_Side): he | it} removes {Confessional_Encounters ? (Finished_Curtain_Side): his | its} hand from your head. "Inaction in such a situation is quite a large sin."
 	
-	"I'll do anything to repent." You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
+	    **["Is there anything I can do?"]
+	        "I'll do anything to repent." You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
 	
-    "I forgive you." The voice morphs and it's hers. "You were scared too."
-    Your head snaps up. She's okay? She's here? She forgives—
+            "The forgivenees is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
+            Your head snaps up. She's okay? She's here? She forgives—
+            
+	    **["I can't forgive myself."]
+	        "Why not, child?" {Confessional_Encounters ? (Finished_Curtain_Side): he | it} asks. You tilt your head up and open your eyes. {Confessional_Encounters ? (Finished_Curtain_Side): He | It} tilts {Confessional_Encounters ? (Finished_Curtain_Side): his | its} head. "Am I not here to absolve your sins? Close yout eyes and bow your head."
+	        
+	        You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
+	
+            "The forgivenees is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
+            Your head snaps up. She's okay? She's here? She forgives—
 
 
 *[Dread]
     ~ Priest_Feeling = (dread)
     
     # IMAGE: Default #PROP: curtain_torn
-    You touch the ripped fabric. {Confessional_Encounters ? (Pressed_Emily): Would this still have happened if you didn't press her...? | Was any of that real...? }
+    You touch the ripped fabric. {Confessional_Encounters ? (Pressed_Emily): Would this still have happened if you didn't press her...? Does it make a difference if you did or not? | Was any of that real...? }
     
     {Confessional_Encounters ? (Saw_Her_Struggle): You saw her. You <i>SAW</i> her. The curtain is <i>ripped.</i> | You heard her. You— You can <i>see</i> the curtain was affected.}
     
@@ -507,7 +312,7 @@ What...?
         Any response.
     
     - temp_string == "You grimace":
-        You stare at the intact curtain in front of you. You grip the fabric tightly in your hands, only to find your nails digging into your flesh. The fabric is gone.
+        Your head is still warm from where the pastor touched it. Your ears still ring from the words that were said. But your eyes do not meet the pastor or the girl. Instead, they meet the intact curtain. You grip the fabric tightly in your hands, only to find your nails digging into your flesh. The fabric is gone.
         
         Your eyes dart back and forth between your empty hands, and the intact curtain in front of you. You can't understand it.
 
@@ -520,15 +325,13 @@ What...?
     
     - temp_string == "You grind your teeth":
         # IMAGE: Church_Inside #PROP: curtain_full
-        "What is this?" You stand and throw the scraps in your hands at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
+        "What is this?" You stand and throw a fist at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
 
         You can't help but laugh. Laugh at the absurdity. At your stupidity. You remember the words on the note you were given. 
         
         <i>It will do anything to keep you here.</i>
 
-        "Is this how you get me to stay? Huh?" You look around, looking for some response. Any response. 
-        
-        You spit on the ground.
+        "Is this how you get me to stay? Huh?" You look around, looking for some response. Any response. You spit on the ground.
 }
 
 *[The church is silent.]
@@ -541,15 +344,13 @@ What...?
 
         "I'm sorry."
         
-        You face the church, and close your eyes. "Please, was any of it real...?"
+        You face the church, and close your eyes. "Please, was any of it...? Is she...?"
         
         When you open them, the fabric is gone, the wood floor is smooth, and there is no indication that blood was ever spilled.
         
         You nod, getting the answer you expected. <i>It will do anything to keep you here.</i> 
         
-        You should keep that in mind. You do not want to become another victim of the church. You will make it out of here.
-        
-        {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
+        You should keep that in mind. You do not want to become another victim of the church. You will make it out of here. {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
     
     - temp_string == "You grimace":
         You laugh. A harsh, absurd laugh. You place a hand over the scarred wood, close your eyes, and say a prayer. "I— I'm so sorry."
@@ -558,32 +359,215 @@ What...?
         
         You nod, and laugh again, getting the answer you expected. <i>It will do anything to keep you here.</i> 
         
-        You should keep that in mind.
+        You should keep that in mind. You can't become another victim of the church. You will make it out of here. {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
     
     - temp_string == "You grind your teeth":
-        You scoff. Of course now the church has nothing to say. You don't give the confessional another glance. You will get out of here. You will not be just another victim.
-        
-        {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
+        You scoff. Of course. Your eyes scan the windows. They are frustratingly still. You don't give the confessional another glance. You will get out of here. You will not become just another victim. {Stay_Tracker >= 1.25: You hope. | You are sure of it. }
         
 }
 
 *[Continue your search]
     -> Confessional_Door.Return_to_Search
 
+
+= Yes_Confessions
+The words tumble yout before you fully realize what you're agreeing to. You chew your cheek wondering if you should take it back.
+
+"Oh!" She perks up immediately. "I kept miss—" She is cut off by a coughing fit. Harsh, loud, wet coughs. 
+
+*[Wait for her to stop]
+
+*[Ask if she's alright]
+    "Ye—" she tries to respond. "Ye—ah."
+
+    "Deep breaths." You say. "We are in no rush."
+
+    She tries to say something else, but the coughing fit persists.
+
+- You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Each raspy inhale twists your insides into a tighter knot. You want to dash to the otherside to comfort her, but you stay glued to your seat. {Stay_Tracker < 1: You don't think she'll be there once you get there. You pick at your nails. | You know the best way to comfort her is to stay where you are. To stay in this moment where she exists at the same time you do. You lean against the divider. } Eventually, she stops.
+
+"Sorry," she wheezes. "I'm really sick... I was hoping that Daddy was... He's a priest so... Anyway!" She claps her hands together and clears her throat. "Forgive me father, for I have sinned."
+
+<i>In for a penny, in for a pound.</i> You think. You say your own prayer hoping you don't mess this up.
+
+~ temp Temp_Bool = false
+*[Wait for her to continue]
+    ~Temp_Bool = true
+    You shift in your seat. You are <i>not</i> a priest, and certainly not a replacement for her father... You flounder over what you could possibly say.
+
+*["I'm listening?"]
+    You are <i>not</i> a priest, and certainly not a replacement for her father but... You want to be able to comfort her in some way. Priests mostly listen right? So you should be able to...
+
+- There's an bloated silence. Your mind reels as you try to recall anything you know about confessions. {Temp_Bool: Are you supposed to say something? | Why did you say anything?}
+
+"Since... Since I'm sick all time... sometimes I feel..." She's quiet for a moment. "I feel like a burden...." Your heart drops. "Mommy is constantly praying, and Daddy is always...."
+
+~Temp_Bool = false
+*[Let her continue]
+    
+*[Reassure her]
+    ~Temp_Bool = true
+    "You are not a burden, and I'm sure your parents would be upset to here you say so." You try to keep your voice calm and comforting. "Everything they are doing is for you."
+
+- "{Temp_Bool:Probably, but }I wish... I wish we could all just be home and together again..." she mutters. "When Mommy brings me, they just argue the <i>entire time.</i>"
+
+Your stomach drops. Here? <i>This</i> church? {Confessional_Encounters ? (Finished_Curtain_Side): If her father is a priest... Was he...?} Your mind races.
+
+*["What do you mean?"]
+    "<i>This</i> church?" The question comes out harsher than you mean to.
+
+*["He doesn't come home?"]
+    "He used to, but—" She coughs. "But he hasn't in a really long—"
+    
+    "And come to <i>this</i> church?" The question comes out harsher than you mean to.
+
+- "Oh, uhm, well I don't—" She fumbles over her words. "I'm sorry did I say something wrong?"
+
+You have many questions, but she is still a child. You rub your hands over your face. This might be the only way you can get any kind of answers.
+
+*[Press her further]
+    "No, no, of course not." You hear her sigh with relief. "But can you talk more about your dad not leaving the church?"
+    
+    "You don't know? I don't wanna get in trouble..."
+        
+    "You won't."
+        
+        "Promise?"
+        -> Confessional_Door.Promise
+
+*[Let up]
+    "No, no, of course not." You hear her sigh with relief. You close your eyes and lean your head back until it hits the wall of the booth. "Only making sure I understood you."
+    
+    "Oh, okay. Uhm... yeah... Daddy just stopped calling all of a sudden so, I was hoping that Daddy would be here...." She sniffs. "I thought if I visited... But it's really, really dark in here."
+    
+- You wipe your hands on your pants. You feel sick. The church used the shell of her father to lure her in? {Book_Knowledge ? (Read_Oldin_Book): And based on his book, it wasn't him, not really. | {Church_Investigation ? (Called): Like how they used your grandparents?}}
+
+"I just wanted things to go back the way they were!" she croaks, her voice tight and strained. Where's my dad? How do I get out?! Please, tell me how to leave!"
+
+-> Confessional_Door.Press_Her
+
+= Promise
+*["Promise."]
+    ~ Confessional_Encounters += (Talked_to_Girl)
+
+- "Well... I don't really know. He used to come homw, but then one day he just stopped! He would always tell Mommy to bring me here over the phone." She sniffs. "I only see him if Mommy brings me here, but she only ever lets me talk to him from the gate. I went by myself this time, but Daddy didn't show up this time so..." 
+
+"So...?" You wipe your hands on your pants. You feel sick. The church used the shell of her father to lure her in? {Book_Knowledge ? (Read_Oldin_Book): And based on his book, it wasn't him, not really. | {Church_Investigation ? (Called): Like how they used your grandparents?}}
+
+"I went inside."
+
+*["Your mom is going to be-"]
+
+*[Why would-?"]
+
+- "You promised I wouldn't get in trouble!" She yells, and her voice warbles. From her outburst, you assume she knew she did something wrong. "But now the door won't open and I can't find anyone! Where's my dad? How do I get out?! Please, tell me how to leave!"
+
+-> Confessional_Door.Press_Her
+
+= Press_Her
+
+*[Press her for answers]
+
+*[Apologize]
+    "I'm sorry." You say, and she stops crying. "You're not in trouble, but..." You bite your lip.
+    
+    She coughs heavily before asking, "But what? Did I do something wrong? I- I just wanted to-"
+    
+    "You can't leave, not easily." You say, your voice quiet. You parrot back the same words that were said to you earlier. "{Confessional_Encounters ? (Finished_Curtain_Side): Your dad probably isn't here, or if he is, it's not him anymore.} Maybe together, we can-"
+    
+    -> Confessional_Door.No_Confessions
+    
+
+- "{Book_Knowledge ? (Read_Oldin_Book):Emily|Listen}, you need to tell me everything you know about the church. It's very important. {Book_Knowledge ? (Read_Oldin_Book): |I'll tell you how to find your dad if you do.}"
+
+{Book_Knowledge ? (Read_Oldin_Book): "How do you know my name?" | "I thought you said he left?" }
+
+You freeze. {Book_Knowledge ? (Read_Oldin_Book): Did she not say it earlier? | Why did you say that?} You think quickly on your feet. {Book_Knowledge ? (Read_Oldin_Book): You can't exactly tell her you read it in a book. }
+
+*{Book_Knowledge !? (Read_Oldin_Book)} ["I... forgot!"]
+
+*{Book_Knowledge !? (Read_Oldin_Book)} ["I... was mistaken!"]
+    ~ Confessional_Encounters += (Pressed_Emily)
+    "No..." You can hear her stand, and shuffle on the other side. "Why did you—"
+    -> Confessional_Door.No_Confessions
+
+*{Book_Knowledge ? (Read_Oldin_Book)} ["Your dad told me."]
+
+*{Book_Knowledge ? (Read_Oldin_Book)} ["You told me."]
+    ~ Confessional_Encounters += (Pressed_Emily)
+    "No I didn't." You can hear her stand, and shuffle on the other side. "How do you—"
+    -> Confessional_Door.No_Confessions
+
+- {Book_Knowledge ? (Read_Oldin_Book): "Why?" | "You forgot?"}
+
+{Book_Knowledge ? (Read_Oldin_Book): "He... thought you might visit! And... told me.... just in case!" | "He did... but told me where he went... just in case you visited!} It's pretty clear that you're lying, but you hope she buys it. 
+
+"Oh." Her voice is quiet. "I see..."
+
+*[Did she buy it?]
+
+- "Then... If I tell you about—"
+
+"Yes." you say, a little too fast.
+
+"O—okay. I don't re—really know, but..." she clears her throat. "Daddy said one day he found a new job close to home. He wanted me to come visit so they could pray for me."
+
+"It just showed up?" Your heart pounds.
+
+"I dunno. But after he went for the first time, he didn't come back. But he called a lot! He just really wanted me to come visit."
+
+You ball your fists. It's not the same as what happened to you, but it's similar enough.
+
+*[They are also victims of the church.]
+
+- "Thank you." You say, and lean back, closing your eyes. Your mind races as you process the information. What do you and this girl, no <i>family</i>, have in common? "That helps a lot."
+
+"Mhm... Where's my dad?" She is hopeful.
+
+*[Lie to her]
+    You don't think it matters. You know she's already gone, but it still feels bad to lie. You hope she forgives you. "He went to his office to finish a few things. If you wait by the door, he'll come find you."
+    
+    #PLAY: curtain
+    "Okay, I'll... I'll do that." She sniffs, and the curtain opens. "Thank you."
+    
+    The curtain closes, and she is gone.
+    
+    **[Leave the booth]
+    
+    -- You didn't find the heart, but at least you learned a bit more about the church. You hope it will help you later.
+
+        -> Confessional_Door.Return_to_Search
+
+*[Tell her to leave]
+    ~ Confessional_Encounters += (Tell_Her_Leave)
+    
+    
+- You don't think it matters, but you can't leave this girl to be digested, even if she's already gone. You think back to how you got out as a child, though it's still fuzzy.
+
+"Your dad's gone, and you need to leave as well. Stay by the door, it will let you out when someone new comes in."
+
+"What?" You don't answer, instead, you stand up and open the door. She starts coughing. "But you said-"
+-> Confessional_Door.No_Confessions
+
 = Leave_Real
 You don't hesitate and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you don't think it's the same person that helped you before.
 
 There was nothing in there, anyway. You should look for the heart elsewhere for now. You look...
-->Confessional_Door.Leave_NoProgress
+
+~ previous_area = Confessional_DoorSide
+~ current_area = Main_Body
+~ Have_Visited -= Confessional_DoorSide
+->Inside.Look_For_Heart
 
 = Return_to_Search
 ~ Confessional_Encounters += (Finished_Door_Side)
 
 TODO: is the above variable needed?
 ~ previous_area = Confessional_DoorSide
-~ current_area = Main_Body // set the current area
-~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
+~ current_area = Main_Body 
+~ Have_Visited += Confessional_DoorSide
 ~ visited_state += 1
+
 {visited_state:
     
     - 1:
@@ -594,11 +578,6 @@ TODO: is the above variable needed?
         -> Last_Stop.Confessional_Sin_Last
 }
 
-= Leave_NoProgress
-TODO: is the above variable needed?
-~ current_area = Main_Body // set the current area
-~ Have_Visited -= Confessional_DoorSide //set that we have visisted the area
-->Inside.Look_For_Heart
 
 
 

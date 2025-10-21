@@ -2,13 +2,15 @@
 # author: Ren Perry OG
 
 INCLUDE Variables.ink
-INCLUDE AfterFirstChoice.ink
 INCLUDE Confessional_Door.ink
 INCLUDE Confessional_Curtain.ink
 INCLUDE Pews.ink
 INCLUDE Stairs.ink
-INCLUDE End_Game.ink
 INCLUDE Office.ink
+INCLUDE AfterFirstChoice.ink
+INCLUDE End_Game.ink
+
+
 
 
 
@@ -1601,14 +1603,14 @@ illuminated by a red spotlight from the window. It's not covered in dust like re
 {
     - Took_Item:
       You enter the room and pick up the {Object}. It weighs heavy in your hands. You tighten your grip on the {Object}, and return to the door. { Remembered_Past: Hopeless or not, you need to try.}
-        {- Object:
-            - crowbar: 
+        {
+            - Object == crowbar: 
                 *[Time to get out of here]
                 -> Locked.Crowbar
-            - screwdriver:
+            - Object == screwdriver:
                 *[Time to get out of here]
                 -> Locked.Screwdriver
-            - sledgehammer:
+            - Object == sledgehammer:
                 *[Time to get out of here]
                 -> Locked.Sledgehammer
         }
@@ -2195,37 +2197,33 @@ TODO: when do we come here and from where
 
 === Endings ===
 
-= Good_End_9
-- Good Ending 1: It Has Been a Long, Long Night
-
-= Bad_End_1
-- BAD END 1 - Digested
-
 +[Restart Game]
 
 +[Main Menu]
+
+- ->END
+
+= Good_End_9
+- Good Ending 1: It Has Been a Long, Long Night
+-> Endings
+
+= Bad_End_1
+- BAD END 1 - Digested
+-> Endings
 
 
 = Bad_End_3
 
 - BAD END 3 - Sleeping Forever
 
-+[Restart Game]
-
-+[Main Menu]
-
--    -> END
+-> Endings
 
 = Bad_End_4
 *[You close your eyes, and fall into a void of relief and comfort.]
 
 - BAD END 4 - Why Shouldn't I stay?
 
-+[Restart Game]
-
-+[Main Menu]
-
--    -> END
+-> Endings
 
 
 

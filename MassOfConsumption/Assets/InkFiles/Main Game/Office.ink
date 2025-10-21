@@ -19,7 +19,7 @@
                 {Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {Saw_Locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Emily. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}}
         
                 *{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
-                    {Saw_Locks: ->Take_Or_Return.Ophelia_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Take_Or_Return.Emily_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Take_Or_Return.Olin_Book}}}
+                    {Saw_Locks: ->Take_Or_Return.Mom_Old_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Take_Or_Return.Mom_Young_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Take_Or_Return.Olin_Book}}}
             - else:
                 With no further information, you grab a random book to start reading. The number 1243 is on the cover in thick, gold-colored lettering.
 
@@ -84,6 +84,7 @@ All the stories are the same: They entered the church, and never left.
     -> Office_Area.Your_Book
 
 = Mary_Book
+~ read_mary_book = true
 The start is jarring. Mary is stuck in a storm, and stumbled upon the church while looking for a place to rest. Unlike your experience, this was her first time meeting the church. Her first thought upon seeing it was: <i>Finally, salvation.</i> 
 
 She did not hesitate to take shelter inside. 
@@ -98,7 +99,19 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
     -> Office_Area.Your_Book
 
 *[Grab the next book]
-    The number on this one is {~2753. ->Rand_Book(2753)|2755. ->Rand_Book(2753)|2754. ->Rand_Book(2753)} <>
+    You half-heartedly flip through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is...
+//2758 == yours
+- 
+
+*[2759]
+    ->Take_Or_Return.Mom_Old_Book
+
+*[2757]
+    ->Take_Or_Return.Mom_Young_Book 
+    
+*[2750]
+    ->Take_Or_Return.Olin_Book
+
 
 = Your_Book
 ~ temp Temp_Bool = false
@@ -206,7 +219,7 @@ You rip out the last page, bracing for a new wave of agony that never comes. You
 
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
-You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Know_Emily_Name): Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
+You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
 
 *[Apologize]
     "I'm sorry! Please, stop. <i>I'm sorry!</i>" You cry. <>
@@ -328,7 +341,7 @@ Confused, you leave the room, and wander numbly back into the main body of the c
 
 {
     - Confessional_Encounters ? (Finished_Door_Side):
-        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Know_Emily_Name): , Emily |.} She's crying. "You're leaving me all alone? Again?"
+        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Emily |.} She's crying. "You're leaving me all alone? Again?"
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
         {
@@ -415,7 +428,7 @@ Confused, you leave the room, and wander numbly back into the main body of the c
         }
         
     - Church_Encounters ? (Was_Coward):
-        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Know_Ophelia_Name):, Ophelia." |.} "You're just going to leave?"
+        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Read_Mom_Old_Book):, Ophelia." |.} "You're just going to leave?"
         
         {
             - Stay_Tracker >= 2.5:
@@ -574,52 +587,90 @@ TODO: waht ^^
 
 {Saw_Locks: You read book after book, story after story about the victims of the church. | Each story you read all are about victims of the church.} All the stories only describe parts where the victim is in or near the church, so most have gaps{Book_Knowledge ? (Read_Start):, much like your own book}. Many stories mimic your own, but some never knew they were ever in danger. Some attempted to escape, but all of them had the same ending.
 
-{Book_Knowledge ? (Read_End): And much like your own ending, they all find peace. | They never leave.} {Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {Saw_Locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Emily. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}| After reading another dead-end book, you pinch the bridge of your nose and sigh. You're surrounded by a pile of useless books and your eyes are strained from reading in low light.}
+{Book_Knowledge ? (Read_End): And much like your own ending, they all find peace. | They never leave.} After reading another dead-end book, you pinch the bridge of your nose and sigh. You're surrounded by a pile of useless books and your eyes are strained from reading in low light.
 
-*{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book]
-    {Saw_Locks: ->Ophelia_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Emily_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Olin_Book}}}
-
-* {!Saw_Locks or Confessional_Encounters !? (Talked_to_Girl) or Confessional_Encounters !? (Finished_Curtain_Side)} [Come back later]
+* [Come back later]
     You have has enough reading, and decide you need to move on. You're sure something in here has the information you want, but blindly reading isn't helping. You'll come back when you know more.
     ->Office_Area.Exit_Office
     
-* {!Saw_Locks or Confessional_Encounters !? (Talked_to_Girl) or Confessional_Encounters !? (Finished_Curtain_Side)} [Keep reading]
-    You sigh deeply and grab another book. 
-    TODO: church gonna look at you again. you're gonna throw a book in frustration and it's gonna hit the window and the church is gonna be like "ouchie wtf man" and you're gonna be upset again and maybe die
+* [Keep reading]
+    You sigh deeply and grab another book. You grab...
+    
+- 
+
+*{Confessional_Encounters ? (Finished_Curtain_Side)} [The wider one] //oldin
+    -> Olin_Book
+
+*[The smaller one] //mom
+    You choose the smaller book. It's missing some pages, and it looks like they were ripped out. The last few pages are stained with brown-ish spots. <>
+    {
+        - Confessional_Encounters ? (Confessional_DoorSide):
+            You flip to the beginning of the book and begin reading.
+            -> Mom_Young_Book
+        - else:
+            You flip to the end, hoping to find some useful information.
+            -> Mom_Old_Book
+    }
+    
 
 = Olin_Book
-TODO
+//CAN ONLY BE READ IF YOU'VE MET DAD
+~ Book_Knowledge += (Read_Oldin_Book)
+The book you chose is massive. It's thicker than most other books you've read so far, and many of it's pages are full of text instead of blank. This book is from the point of view of a pastor named Olin. He was out of work for a long while, before finding the church. One of his children was sick, so he jumped at the chance for work. Anything to get more money into the family. However, as soon as he stepped inside, he never left. Olin's story ends after he entered the church. He thought he was reciveing reveolations from God and accepted it readily. Greedily. Instead of finding peace like many others he-
+
+"No way..." You mutter, re-reading the next few passages again and again. "He... He became part of the church?"
+
+The reason why his book is so thick, it contains bits and pieces from other's experiences. He was kind to some, cruel to others. The more people resist him, and by extension, the church, the worse he treats them.  {Confessional_Encounters ? (Finished_Curtain_Side) or Have_Visited ? (Enter_Pews): And right near the end, you read about your own interactions with him. | You wonder if you will encounter him. } Through your reading, you catch glimpses of his interal thoughts. {read_mary_book: When he meets Mary,he is reminded of his wife.} Anytime he thinks of his wife, his kids, he wonders if he'll find them here one day. You don't get a good idea if that's something he wants or not.
+
+He never leaves, nor looks for an exit. But through the gaps you can gather some information.
+
+
+
+
+    TODO: church gonna look at you again. you're gonna throw a book in frustration and it's gonna hit the window and the church is gonna be like "ouchie wtf man" and you're gonna be upset again and maybe die
 ->END
 
-= Emily_Book
-TODO
+= Mom_Young_Book
+//CAN ONLY BE READ IF YOU'VE MET SISTER
+~ Book_Knowledge += (Read_Mom_Young_Book)
+You don't get very far before you realize this book is from the perspective of a child. You take a deep breath before continuing. Her name is Emily, and she <s>is</s> was turning 10. The passages were very short and all over the place. Her experience with the church was scattered between walking by on her way to school or when she would briefly visit her dad there.
+
+TODO write here about how she went in and was spit out theres some space then talking about how the church stole her child and her dilemma between entering or not
+
+
 ->END
 
-= Ophelia_Book
-~ Book_Knowledge += (Know_Ophelia_Name)
-You read through her book carefully, learning that her daughter's name is Emily, and that Ophelia followed Emily into the church after she ran inside. 
+= Mom_Old_Book
+//CAN ALWAYS BE READ
+~ Book_Knowledge += (Read_Mom_Old_Book)
+You don't catch a name as you read the ending but gather that it's from the perspective of a mother. Many of her thoughts revolve around escaping so she can see her child again. Her actions in the church feel spiteful, like everything she was doing was to hurt it. She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a neverending spiral staircase. | and they sould neverending. } But not once did she think of giving up.
 
-Ophelia was determined to escape with Emily, and figured out a possible way to exit by destroying the heart of the church. Your heart pounds as you read. She found the same locked door you did. Your eyes slide down the page a little more and...
+She reaches the top and finds a set of locks on a door that has a pulsating red light under it. She fiddles with the locks before pulling out a book, her book from the sound of it, and flipping through it, and entering a code. Your eyes slide down the page a little more and...
 
-"2755, got it!" you exclaim. "Thank you, Ophelia!"
+{Saw_Locks: "2755, got it!" you exclaim. "Thank you, {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia|whoever you are}!" | "2755?" The numbers don't mean much to you, but you commit them to memory anyway. You should look for the staircase.}
 
 *[Rip out the page]
     ->Office_Area.Rip_out_Ophelia
+    
+*[Keep reading]
 
 *{Explore_Office_Bookshelf !? (Check_Desk)} [Dig through the desk]
-            ->Office_Area.Desk
+    ->Office_Area.Desk
+            
 *[Exit the office]
     ->Office_Area.Exit_Office
 
-=== Rand_Book(value) ===
-You half-heartedly read through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note of the number on the cover before flipping back to the beginning.
 
-*[Read the book closer ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
-    {value == 2755: ->Take_Or_Return.Ophelia_Book | {value == 2754: ->Take_Or_Return.Emily_Book | {value == 2753: ->Take_Or_Return.Olin_Book}}}
+- You keep a finger to keep track of the page with the code and finish the book. The number lock pops open, but the key she found doesn't fit and she flings the key over the edge. She holds the book and debates throwing it as well, before collapsing and she reads the book again. She re-reads the same passage a few times before fury over takes her and she rips out page after page after page. {Book_Knowledge ? (Branded): You wince, knowing what comes next. You read a few passages before slamming the book shut. | Bile rises in your throat as you read the next few passages before you slam the book shut.} You don't need to read what the church did to her.
 
+*[Rip out the code page]
+    ->Office_Area.Rip_out_Ophelia
 
-
-
+*{Explore_Office_Bookshelf !? (Check_Desk)} [Dig through the desk]
+    ->Office_Area.Desk
+            
+*[Exit the office]
+    ->Office_Area.Exit_Office
 
 
 
