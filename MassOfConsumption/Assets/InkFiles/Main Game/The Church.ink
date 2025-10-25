@@ -12,8 +12,6 @@ INCLUDE End_Game.ink
 
 
 
-
-
 Skip or Start from beginning?
 
 *[Skip]
@@ -703,7 +701,6 @@ No, you didn't write this. You know you didn't. Did the church...? {Church_Inves
 - ->Walk_Home_From_Work
 
 = Emails
-TODO: check this route and maybe move it to it's own thing for clarity
  #PLAY: email_ding, false, 0, 1
 You pull up your email and scroll through the new ones, only reading the subject lines for anything that seems important. Meeting invitation, spam, spam, client question, church inquiry, meeting—
 
@@ -825,7 +822,6 @@ Your mind starts to wander as your boss continues to berate you. It wanders back
     -> Job.Emails
 
 = Go_to_Church
-TODO: this duplicates in a couple places. can be cleaned up
 #REMOVE: INTRUSIVE
 ~ Work_Encounter += (Leave_Suddenly)
 
@@ -912,15 +908,15 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
 "Everything... Okay...? In here?" It's your coworker. You wave him away, and focus. You can remember...
 
 * [The escape]
-    You can see the door opening, but the younger you didn't feel relief. No, they felt... dread? They had to crawl because their legs shook so badly. The whole time they clutched something in their hand. Something important. They left the item behind as a... Promise? Why? Did you—
+    You can see the door opening, but the younger you didn't feel relief. No, they felt... dread? They had to crawl because their legs shook so badly. The whole time they clutched something in their hand. Something they couldn't take with them and had to leave behind. It was something- No. Someone?
     
 * [The fear]
-    You were terrified. It was dark. So, so dark that even in the memory all you can see is the inky darkness. The younger you curled into a ball and cried until there was nothing left to cry. Then, a warm red light illuminated you, along with a soft melody. And someone reached out...? Were you not—
+    You were terrified. It was dark. So, so dark that even in the memory all you can see is the inky darkness. The younger you curled into a ball and cried until there was nothing left to cry. Then, a warm red light illuminated you, along with a soft melody. And someone... reached out...? They pulled you-
 
 * [The aftermath]
-    Your grandmother wouldn't let you out of her grasp for at least a month after they got you back. There were a lot of cops and doctors and questions. You remember being that every church you saw for a long while was <i>the</i> church. It was following you? Stalking you? When did it stop? When—
+    Your grandmother wouldn't let you out of her grasp for at least a month after they got you back. There were a lot of cops and doctors and questions. You remember the dull feeling of loss, like you left something- No. Someone, behind.
 
-- You feel a presence behind you and pressure on your shoulder. You don't think, you just—
+- There's a presence behind you and pressure on your shoulder. You don't think, you just—
 
 *[Smack it away]
     You smack at the pressure, jumping up out of your chair. You lean against the wall to support yourself, breathing heavily as you do. Your coworker holds his hand, a red welt growing where you hit him. He snaps, "What's your problem?!"
@@ -1800,7 +1796,7 @@ You don't know how you could have forgotten. How you didn't realize it before.
 #DELAY: 1.5
 <i>Riiiiipppppp</i>
 
-You have been here before. You found... something— No. Someone? You can't remember, but <i>you got out.</i>
+You have been here before. You found something— No. Someone found you? You can't remember, but <i>you got out.</i>
 
 #DELAY: 1.5
 <i>Riiiiipppppp</i>
@@ -1957,7 +1953,7 @@ You climb to your feet and look around for the source, taking a few steps into t
 *[Try to remove the hands]
     You claw at your mouth, attempting to grab hands silencing you, and stand up. "Let GO!" 
     
-    "You don't... remember..." The hands fall away, and the room goes still. "This is all I can do."
+    "You don't... remember me..." The hands fall away, and the room goes still. "This is all I can do for now."
     
     #EFFECT: IntialSight
     The hands fall away. The voice goes quiet. The room turns still.
@@ -2211,6 +2207,10 @@ TODO: when do we come here and from where
 - BAD END 1 - Digested
 -> Endings
 
+TODO double check endings order and junk and rename this ending
+= Bad_End_10
+- BAD END 10 - Juice box
+-> Endings
 
 = Bad_End_3
 

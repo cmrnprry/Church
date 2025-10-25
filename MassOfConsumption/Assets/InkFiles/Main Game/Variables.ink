@@ -73,6 +73,8 @@ VAR current_area = -1
 VAR previous_area = -1
 VAR visited_state = 0
 
+VAR Met_Mimic = false
+
 VAR Downstairs_State = None
 LIST Possible_Downstairs_State = None, Bad_Vibes, Stink, Flesh
 

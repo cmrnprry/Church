@@ -1213,7 +1213,7 @@ The divider splits and falls, revealing the thing on the other side. You fall to
 - It takes a step into your booth, impossibly tall. Impossibly long. It bends, folding in on itself in an attempt to fit in the small space. Your eyes can't accept what they're seeing. 
 
 #CYCLE: hands, claws, tentacles, paws, fins
-It has no legs except when it does. Deer hooves that disappear as soon as they touch the ground, only to be replaced with it's next step, like a cascading waterfall of hooves. It grabs the edge of the booth with its @. A human hand morphing into a infinitely splitting claw morphing into a feathered limb that curls and grabs anything within reach.
+It has no legs except when it does. Deer hooves that disappear as soon as they touch the ground, only to be replaced with it's next step, like a cascading waterfall of feet. It grabs the edge of the booth with its @. A human hand morphing into a infinitely splitting claw morphing into a feathered limb that curls and grabs anything within reach.
 
 It says something that reverberates inside your brain. Words that hold meaning you understand, but can't explain. Changing your thoughts, your feelings. Something wet sharply forces your face up, and your eyes lock on it's face. It's true face.
 
@@ -1221,7 +1221,7 @@ It says something that reverberates inside your brain. Words that hold meaning y
 
 - 
 #ENDING: 5, Bad Ending: Finding Solace
-*You've never known solace like this.
+*[You've never known solace like this.]
 ->END
 
 = Leave_NoProgress

@@ -204,9 +204,8 @@ They begin to sing, hands out stretched for you to take. The music flows through
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 
 
-= Down_None
+= Down_None(From_Mimic)
 ~ Downstairs_State = Stink
-
 Cautiously, you take another step down{Leg_State >= Limping:, making sure to lean against the railing to take weight off your leg}. And then another. And another. With every step down, your body yells at you more and more to turn back. That something's wrong.
 
 About halfway down the steps, the smell of rot hits your nose, so strong you gag. {Leg_State >= Limping: You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. The stench is unbearable. 
@@ -216,11 +215,11 @@ It smells of old, rotten meat left in the sun. Of putrid sour milk left out for 
 *[Push through]
     ->->
 *[Turn back]
-    You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing.
+    {From_Mimic: You pray the mimic is gone as y| Y}ou stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing. {From_Mimic: There's no sign of the creature anywhere, thankfully.}
     ->Stairs.Turn_Back
     
 
-= Down_Stink
+= Down_Stink(From_Mimic)
 {Downstairs_State == Stink: You swallow your nausea| You plug your nose} and keep going, only stopping to occasionally dry heave. It isn't long before the steps change from wood to... to something you can't comprehend. You stop and shine the light. 
 
 #CYCLE: Fidget, mold, fungus, flesh
@@ -233,7 +232,6 @@ You shine your light to the end of the staircase, and see a door at the end of t
 *[See what's behind the door]
 
 *[Turn. Back.]
-    
     #PLAY: click-off
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
@@ -281,13 +279,13 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
 -
 
 {
-    -Downstairs_State <= Bad_Vibes: -> Down_None -> 
-    - else: -> Down_Stink
+    -Downstairs_State <= Bad_Vibes: -> Down_None(false) -> 
+    - else: -> Down_Stink(false)
 }
 
 -
 
-<- Down_Stink
+<- Down_Stink(false)
 
 = In_Basement
 The door opens, and you are assaulted by the stench. Your eyes water and you pull your shirt over your nose and mouth, not that it does much. You take a few steps inside, trying to see what's the cause of this god awful smell.
@@ -526,16 +524,17 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 = Upstairs_Landing(from_trick)
 ~ Have_Visited += (Stairs_Up)
 {
-    - !from_trick:
-        After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{Leg_State >= Sore: Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
-        
-        The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
     - from_trick:
-        You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.
+        You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. {Met_Mimic: You look around, looking for the mimic, but find yourself alone. The sound of it's enraged screeching echos in your head. She saved you, and you hope you can pay her back one day. | That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.}
         
         You find yourself on a small landing, maybe only five feet by five feet. It sharply drops off on the edges. You crawl forward to the edge and look down. You find yourself staring down the spiral staircase, it's coils wound much tighter and steeper than you thought possible. You back up from the edge.
         
         Behind you is the door you crashed into. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
+        
+    - else:
+        After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{Leg_State >= Sore: Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
+        
+        The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
 }
 
 

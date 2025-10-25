@@ -16,7 +16,7 @@
             - Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): 
                 You take another crack at reading through the books. You now have a better idea about what to look for. {Saw_Locks: You search through the books, {Confessional_Encounters ? (Talked_to_Girl): looking for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not. You hope that she had also seen the chains and locks you have.} | The priest you confessed to didn't tell you a lot, but you think it might be enough to find <i>something.</i>}
             
-                {Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {Saw_Locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Emily. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}}
+                {Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side): You're about to give up until you find someone promising: {Saw_Locks: Ophelia. | {Confessional_Encounters ? (Talked_to_Girl): Ophelia. |  {Confessional_Encounters ? (Finished_Curtain_Side): Olin. | }}}}
         
                 *{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl) or Confessional_Encounters ? (Finished_Curtain_Side)} [Read the book ((UNLESS THE NAME IS OPHELIA, I DID NOT WRITE THIS))]
                     {Saw_Locks: ->Take_Or_Return.Mom_Old_Book | {Confessional_Encounters ? (Talked_to_Girl): ->Take_Or_Return.Mom_Young_Book | {Confessional_Encounters ? (Finished_Curtain_Side): ->Take_Or_Return.Olin_Book}}}
@@ -111,7 +111,6 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
     
 *[2750]
     ->Take_Or_Return.Olin_Book
-
 
 = Your_Book
 ~ temp Temp_Bool = false
@@ -219,7 +218,7 @@ You rip out the last page, bracing for a new wave of agony that never comes. You
 
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
-You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Emily | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
+You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
 
 *[Apologize]
     "I'm sorry! Please, stop. <i>I'm sorry!</i>" You cry. <>
@@ -341,7 +340,7 @@ Confused, you leave the room, and wander numbly back into the main body of the c
 
 {
     - Confessional_Encounters ? (Finished_Door_Side):
-        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Emily |.} She's crying. "You're leaving me all alone? Again?"
+        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Ophelia |.} She's crying. "You're leaving me all alone? Again?"
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
         {
@@ -631,9 +630,13 @@ He never leaves, nor looks for an exit. But through the gaps you can gather some
 ->END
 
 = Mom_Young_Book
-//CAN ONLY BE READ IF YOU'VE MET SISTER
+//CAN ONLY BE READ IF YOU'VE MET MOM
 ~ Book_Knowledge += (Read_Mom_Young_Book)
-You don't get very far before you realize this book is from the perspective of a child. You take a deep breath before continuing. Her name is Emily, and she <s>is</s> was turning 10. The passages were very short and all over the place. Her experience with the church was scattered between walking by on her way to school or when she would briefly visit her dad there.
+You don't get very far before you realize this book is from the perspective of a child. You take a deep breath before continuing. Her name is Ophelia, and she <s>is</s> was turning 10. The passages were very short and all over the place. Her experience with the church was scattered between walking by on her way to school. She was a sick child, and her family often prayed for her health. One day, her dad, a pastor, got a new job at the church.
+
+#CYCLE: victim, meal
+You stop reading and press your forehead against the pages as you realize who's book you're reading. So it wasn't just the church, but an echo of the past? Or maybe the church wearing the skin of a past @. Either way, {Confessional_Encounters ? (Killed_Girl): the guilt sticks with you. | }
+
 
 TODO write here about how she went in and was spit out theres some space then talking about how the church stole her child and her dilemma between entering or not
 

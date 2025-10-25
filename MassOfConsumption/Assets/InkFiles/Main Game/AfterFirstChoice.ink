@@ -7,12 +7,14 @@ You exit the confessional, and stop in your tracks. The pews are full of people,
 
 The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
 
-*[Take a seat at a pew]
-->After_First.Take_Seat
-*[Go to the stairwell]
-->After_First.Stairs_After
+*[Take a seat at the pews]
+    ->After_First.Take_Seat
+
+*[Run to the stairwell]
+    ->After_First.Stairs_After
+
 *[Walk back into the confessional]
-->After_First.Back_Confessional
+    ->After_First.Back_Confessional
 
 = Take_Seat
 {
@@ -43,10 +45,85 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 ->Pews.Try_Leave
 
 = Stairs_After
-There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.
+There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down.
 
-You hear someone call your name, but you don't dare turn around.
-->Office_Area.Office
+You hear someone call your name, but you don't dare turn around. You don't know if you're being followed or not. You choose the... 
+
+*[{Looked_For_Items: Office | Door}]
+
+*[Stairs]
+    ~ Met_Mimic = true
+    You take off down the hallway.  The stairs going up, is a spiral staircase, while going down, is a long set of stairs. You grab the railing and pull yourself down the stairs. You stop when you can just barely see the top and crouch, listening for any sign that you're being followed.
+    
+    You hear your name again and tense, taking a few more steps down the stairs. A large shadow obscures the opening of the stairs. They call for you again, staying above the stairs, "Come out. It's just me." Their voice echos down the stairwell and you shiver. It's voice matches the one from the woman who let you the flashlight.
+    
+    **[Come out]
+        The voice, the intonation, it matches to perfectly to simply be a good mimic. You begin to stand when freezing cold hands press down on your shoulders. "It's not me," she breaths into your ear, voice barely audible. "It's-" 
+        {
+            - Stay_Tracker > 3:
+            You don't care, you know what you heard. Who's to say <i>this</i> voice is the fake? You shrug it off and climb the stairs. "I'm here!"
+            
+            #CYCLE: walks, slithers, clops, flies, swims
+            "I'm here." The person turns to face you. You turn on your flashlight at you reach the top, shining it on the <s>person</s> being in front of you, and stop. It is much taller than you, and covered in what looks like a patchword quilt. Every part being swallowed up by fabric. It @ closer toward you.
+            
+            #CYCLE: hand, claw, tentacle, paw, fin
+            It smiles says "Found... You..." The words reverberate inside your brain. It holds out a @ for you to take.
+            
+            
+            ***[Take it]
+                #CYCLE: hand, claw, tentacle, paw, fin
+                "Don't!" She screams, but again you wave her off and take its @. It laughs, or at least, that's what you think the sound is. It stops and pulls you closer, lowering it's hood. You scream and pull away, but its grip on you is like steel.
+                
+                TODO gluping sound
+                Its face is an empy hole of mouths. Tendrils rise out of the hole and shoot toward your face. They enter your nose, ears, eyes, mouth, anywhere they can, and they begin to drink.
+                
+                TODO gross popping sound
+                You shriek and squirm and hit, but nothing matters. It takes more than blood, but less than flesh. A tendril wraps around your eye and squeezes until it pops, slurping up the jelly pieces left behind. You can feel them ripping your insides apart and pulverizing them into a think soup. Any part it doesn't want are uncerimoniously ripped out and discarded. 
+                
+                ****[Ithurtsithurtsithurtsithurtsithurts]
+                    -> Endings.Bad_End_10
+                
+            ***[<s>Don't</s> Take it]
+                "Don't!" She screams. You shake your head but feel your body move on its own. "No!"
+                
+                You feel a strong push and you're falling back. The mimic shrieks at the loss of it's pray and leaps toward you, but misses. <>
+                -> Stairs.Upstairs_Landing(true)
+                
+            ***[<s>Take it</s>]
+                "Don't!" She screams. You shake your head but feel your body move on its own. "No!"
+                
+                You feel a strong push and you're falling back. The mimic shrieks at the loss of it's pray and leaps toward you, but misses. <>
+                -> Stairs.Upstairs_Landing(true)
+ 
+
+            
+            - else: 
+            TODO more feeling
+            You nod, and crouch lower, her voice snapping you out of it. If you listen closer, you can hear ragged breathing coming from the mimic and a scrating against the wood as it moves. 
+            
+            You feel her nearby as you wait out the creature. Eventually, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
+            
+            "Thank you." You say, but she's already gone. You blow air out of your nose and glace between the pool of darkness down the stairs and back up to where the mimic was.
+            
+            ***[Continue down the stairs]
+                You don't really want to go back up. The mimic is <i>probably</i> gone, but you don't want to take the chance. <>
+                ->Stairs.Down_None(true)
+        
+            ***[Climb up the stairs]
+                ->Office_Area.Office
+        }
+    
+    **[Stay put]
+        You don't move. You highly doubt that's actually her. If it is, you hope she'll forgive you. Eventually it leaves, and you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
+        
+         You blow air out of your nose and glace between the pool of darkness down the stairs and back up to where the mimic was.
+        
+        ***[Continue down the stairs]
+            You don't really want to go back up. The mimic is <i>probably</i> gone, but you don't want to take the chance. <>
+            ->Stairs.Down_None(true)
+            
+        ***[Climb up the stairs]
+            ->Office_Area.Office
 
 = Back_Confessional
 {

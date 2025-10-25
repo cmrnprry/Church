@@ -209,13 +209,13 @@ There's a small hole you can see through. You see movement from outside. {Leg_St
 - 
 
 ~Confessional_Encounters += (Saw_Her_Struggle)
-    You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
-    
-    *[Get to her]
-    You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
-    
-    The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
-    -> Confessional_Door.End_Booth_Encounter("Watched")
+You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
+
+*[Get to her]
+You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
+
+The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
+-> Confessional_Door.End_Booth_Encounter("Watched")
 
 = End_Booth_Encounter(Reaction)
 # IMAGE: Confessional_CloseUp #PROP: curtain_torn
@@ -512,9 +512,9 @@ You freeze. {Book_Knowledge ? (Read_Oldin_Book): Did she not say it earlier? | W
 
 "O—okay. I don't re—really know, but..." she clears her throat. "Daddy said one day he found a new job close to home. He wanted me to come visit so they could pray for me."
 
-"It just showed up?" Your heart pounds.
+"They?" Your heart pounds.
 
-"I dunno. But after he went for the first time, he didn't come back. But he called a lot! He just really wanted me to come visit."
+"I dunno. Other people who come here? But after he went for the first time, he didn't come back. But he called a lot! He just really wanted me to come visit."
 
 You ball your fists. It's not the same as what happened to you, but it's similar enough.
 
@@ -544,7 +544,7 @@ You ball your fists. It's not the same as what happened to you, but it's similar
     
 - You don't think it matters, but you can't leave this girl to be digested, even if she's already gone. You think back to how you got out as a child, though it's still fuzzy.
 
-"Your dad's gone, and you need to leave as well. Stay by the door, it will let you out when someone new comes in."
+"Your dad's gone, and you need to leave as well. Stay by the door, and it might let you out."
 
 "What?" You don't answer, instead, you stand up and open the door. She starts coughing. "But you said-"
 -> Confessional_Door.No_Confessions
@@ -562,7 +562,6 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 = Return_to_Search
 ~ Confessional_Encounters += (Finished_Door_Side)
 
-TODO: is the above variable needed?
 ~ previous_area = Confessional_DoorSide
 ~ current_area = Main_Body 
 ~ Have_Visited += Confessional_DoorSide
