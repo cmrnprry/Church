@@ -1529,9 +1529,11 @@ It's dark, but you can make out vague shapes.
 
 { Remembered_Past: You know it's useless, but fear overtakes the rational part of your brain. There has to be SOMETHING you can do, and even if there's not, you need to try. | {Church_Investigation ? (Entered): You rush toward the back. It was basically empty this morning, but you didn't really look in what's in the far back. You run into something waist high and stub your toe. "What...?"  | You quickly glance around the church. It's small, seemingly abandoned. There must be something that was left behind by previous squatters or looters. }}
 
-{Church_Investigation ? (Entered): You feel blindly and touch a... pew? You jump back, confused. There's no way... You feel around more and find a full set of pews, and past that a... cupboard? Closet? You shake your head, you can't think about this right now. You need to find something to get that door open. You can figure out the rest later. You search everywhere, arms outstretched, blindly feeling around your surroundings. As you search, you get the feeling of deja vu. You've done this before.| You look everywhere, arms outstretched, blindly feeling around your surroundings. On and under what you imagine are pews, the floor, past the curtain? Into a... cupboard? Closet? As you search, you get the feeling of deja vu. You've done this before.}
+{Church_Investigation ? (Entered): You feel blindly and touch a... pew? You jump back, confused. There's no way... You feel around more and find a full set of pews, and past that a... cupboard? Closet? You shake your head, you can't think about this right now. You need to find something to get that door open. You can figure out the rest later.}
 
-*[There's nothing here]
+{Church_Investigation ? (Entered): You search everywhere, arms outstretched, blindly feeling around your surroundings. | You look everywhere, arms outstretched, blindly feeling around your surroundings. On and under what you imagine are pews, the floor, past the curtain? Into a... cupboard? Closet?} As you search, you get the feeling of deja vu. You've done this before.
+
+*[There's nothing useful to be found]
 
 - You go further into the church, up a few steps, feeling the walls as you go, and find a closed door at the end of the hall. It might have what you're looking for. You pray that it's a supply closet and to find...
 
@@ -1940,7 +1942,7 @@ You focus on the sound underneath. You hear... words? Whispers?
 *[Continue listening]
     You try to focus harder. You can just barely make it out.
     
-    "You... came back. Why... Why did you come back...?" over and over again.
+    "You... You're back. Why... Why are you back...?" over and over again.
     
 - 
 #EFFECT: LightDarktoUsed
@@ -2212,10 +2214,12 @@ TODO double check endings order and junk and rename this ending
 - BAD END 10 - Juice box
 -> Endings
 
+= Bad_End_11
+- BAD END 11 - Fold and Snap
+-> Endings
+
 = Bad_End_3
-
 - BAD END 3 - Sleeping Forever
-
 -> Endings
 
 = Bad_End_4

@@ -6,7 +6,7 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
 # IMAGE: Default #PROP: curtain_full
 {
     //if this is the first area we are visiting
-    - Have_Visited!? (Confessional_DoorSide):
+    - Have_Visited !? (Confessional_DoorSide):
         ~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
         You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top.
         
@@ -167,7 +167,7 @@ TODO: I think ink can track this??
             ->Confessional_Door.Rush_Out(visit_Count)
     - visit_Count == 2:
         You hear the sound of scratching at the floor.
-        *[It's stuck on something.]
+        *[It's stuck.]
             ->Confessional_Door.Rush_Out(visit_Count)
     - visit_Count == 3:
         She says something between coughs that you can't make out.
@@ -209,12 +209,12 @@ There's a small hole you can see through. You see movement from outside. {Leg_St
 - 
 
 ~Confessional_Encounters += (Saw_Her_Struggle)
-You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of the curtain.
+You shine your flashlight through at the movement. What you assume to be the girl is writhing on the floor, covered by a ripped piece of curtain.
 
-*[Get to her]
-You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
+*[<i>Move!</i>]
+    You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
 
-The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
+    The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
 -> Confessional_Door.End_Booth_Encounter("Watched")
 
 = End_Booth_Encounter(Reaction)
@@ -251,28 +251,39 @@ You feel...
     You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? 
     
     "I'm sorry." You hold the fabric close. You clasp your hands together, grasping the fabric tightly. You bow your head and shut your eyes. "Forgive me."
-    TODO: what is know name doing here?
+    
 	You feel a hand rest on the top of their head. A deep, gruff voice. {Confessional_Encounters ? (Finished_Curtain_Side): Your body shutters, realizing who it was.} "For what, my child?"
 	
-	"My inaction. I need her to know—"
+	**[Your inaction]
+	    "My inaction. I need her to know—"
+	    
+	**[Your selfishness]
+	    "I didn't stop to think, I- I just asked what I wanted. I need her to know—"
 	
-	"Who?" {Confessional_Encounters ? (Finished_Curtain_Side): He | It} asks. 
+	-- "Who?" {Confessional_Encounters ? (Finished_Curtain_Side): He | It} asks. 
 	
 	"The girl. The one who—" You bite your tongue. You can't bring yourself to say it. Your head sinks lower. "Who was... in there."
 	
 	"Tell me, how did she die? How was it your fault?" The word "die" sends a jolt through your being, but the voice is calm, soft. {Confessional_Encounters ? (Finished_Curtain_Side): He | It} doesn't blame you.
 	
-	"I {Reaction == "Watched": just watched| {Reaction == "Sat_There": did nothing|didn't do enough}}!" You all but yell. "She needed my help and I wasn't there!"
+	***["She was sick."]
+	    "And I {Reaction == "Watched": just watched| {Reaction == "Sat_There": did nothing|didn't do enough}}!" You all but yell. "She needed my help and I wasn't there!"
 	
-	"I see." The voice is quiet, and {Confessional_Encounters ? (Finished_Curtain_Side): he | it} removes {Confessional_Encounters ? (Finished_Curtain_Side): his | its} hand from your head. "Inaction in such a situation is quite a large sin."
+    ***["She hurt herself."]
+        "And I {Reaction == "Watched": just watched| {Reaction == "Sat_There": did nothing|didn't do enough}}!" You all but yell. "She needed my help and I wasn't there!"
+    
+    ***["It was an accident."]
+        "You have you believe me!" You all but yell. "I never wanted..."
 	
-	    **["Is there anything I can do?"]
+	--- "I see." The voice is quiet, and {Confessional_Encounters ? (Finished_Curtain_Side): he | it} removes {Confessional_Encounters ? (Finished_Curtain_Side): his | its} hand from your head. "Inaction in such a situation is quite a large sin."
+	
+	    ****["Is there anything I can do?"]
 	        "I'll do anything to repent." You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
 	
             "The forgivenees is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
             Your head snaps up. She's okay? She's here? She forgives—
             
-	    **["I can't forgive myself."]
+	    ****["I can't forgive myself."]
 	        "Why not, child?" {Confessional_Encounters ? (Finished_Curtain_Side): he | it} asks. You tilt your head up and open your eyes. {Confessional_Encounters ? (Finished_Curtain_Side): He | It} tilts {Confessional_Encounters ? (Finished_Curtain_Side): his | its} head. "Am I not here to absolve your sins? Close yout eyes and bow your head."
 	        
 	        You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
@@ -466,7 +477,7 @@ You have many questions, but she is still a child. You rub your hands over your 
 
 = Press_Her
 
-*[Press her for answers]
+*[Ask her about the church]
 
 *[Apologize]
     "I'm sorry." You say, and she stops crying. "You're not in trouble, but..." You bite your lip.

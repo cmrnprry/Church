@@ -50,10 +50,47 @@ There's no way to get to the stairs without the "people" noticing you. You take 
 You hear someone call your name, but you don't dare turn around. You don't know if you're being followed or not. You choose the... 
 
 *[{Looked_For_Items: Office | Door}]
+    ~ Creature_Attack = true
+    You throw yourself through the door and slam it shut, bracing it with your body. You hear your name again, followed by a rough scratching sound pass and continue into the hall way.
+    
+    You hold your breath and count to a hundred, hoping to hear it cross back before thinking you're fully safe. Eventually, you hear a distant howl and a wet thumping sound. The screaming continues as it gets closer and stops outside.
+    
+    **[Lock the door]
+        ~ Locked_Office = true
+        You fiddle with the knob, and lock it. Once the lock turns, the thing slams itself against the door. It screeches again when the door doesn't open and stops.
+        
+    **[Don't move]
+        You squeeze your eyes shut and pray it will keep moving. Instead, the thing outside slams itself against the door. You press all your weight against the door, trying to hold it back. It screeches again when the door doesn't open and stops.
+        
+    -- You hear receeding footsteps and breathe a sigh of relief before you hear running and the thing crashes into the door. {Leg_State >= Sore: Your legs give {Locked_Office: and you fall back. The lock keeps the door closed, but creature makes a small hole in the door. It moves to look through.| and the door flings open, pushing with it and pinning you between the wall in the door.} | You are taken back for a moment before pushing back, {Locked_Office: the lock helping keep the door shut.| keeping the door shut.} A small hole was created in the door from the struggle. The thing shoves a limb through feeling around before quickly retracting it.}
+    
+    ***[{Leg_State >= Sore and !Locked_Office: Hold your breath | Move away from the hole}]
+        {Leg_State >= Sore and !Locked_Office: You freeze and hold your breath. The thing whines and moans before stomping its feet and leaving. You hear distant crashing before it all goes quiet. You close the door, and hope whatever that was won't come back. | You side-step the hole, pressing yourself against the wall. The creature presses its face against the hole. You hold your breath, praying that it won't notice you. The thing whines and moans before stomping its feet and punching the door one last time. You hear distant crashing before it all goes quiet. You hope whatever that was won't come back.}
+        
+        You turn and take in the room you're standing in. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.}
+        
+        You decide to look around a bit before leaving, just in case.
+        
+        ->Office_Area.Enter_From_Encounter
+    
+    ***[{Leg_State >= Sore and !Locked_Office: Push the door closed | Stab debris through the hole}]
+        {Leg_State >= Sore and !Locked_Office: You take a deep breath before pushing against the door with all your might, shoving the thing out of the room. It screams again and sticks its hand through the hole, grabbing your chest, and pulling you into the door | You scoop up a large piece of the door and shove it through the hole, stabbing whatever lies on the other side. You retract your hand as it screams. The creature sticks its hand through the hole, grabbing your chest, and pulling you into the door.}
+        
+        TODO gross sound
+        It repeatedly slams you into the door, your face crashing into the wood over and over again. You kick out your feet to stop yourself and brace your face with your arms. The creature snarls and yanks you forward again with incredble force. You legs hit the door and you hear a disgusting crunch as your knees pop. 
+        
+        You wail in agony and the creature laughs in response. It hold you against the door and begins to pull. The wood of the door creaks, but holds firm. You slam your hands against the door and creature as your legs hang uselessly by your side. 
+        
+        The creature continues to laugh and pull you through the hole by your center. The wood catches your skin, digging underneath and pulling it from your flesh bit by bit. When your chest gets stuck, the creature pulls harder, sharply folding your body back and cracking your spine.
+        
+        ****[Your body goes limp]
+            ->Endings.Bad_End_11
+    
+    
 
 *[Stairs]
     ~ Met_Mimic = true
-    You take off down the hallway.  The stairs going up, is a spiral staircase, while going down, is a long set of stairs. You grab the railing and pull yourself down the stairs. You stop when you can just barely see the top and crouch, listening for any sign that you're being followed.
+    You take off down the hallway. The stairs going up, is a spiral staircase, while going down, is a long set of stairs. You grab the railing and pull yourself down the stairs. You stop when you can just barely see the top and crouch, listening for any sign that you're being followed.
     
     You hear your name again and tense, taking a few more steps down the stairs. A large shadow obscures the opening of the stairs. They call for you again, staying above the stairs, "Come out. It's just me." Their voice echos down the stairwell and you shiver. It's voice matches the one from the woman who let you the flashlight.
     
@@ -114,7 +151,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
         }
     
     **[Stay put]
-        You don't move. You highly doubt that's actually her. If it is, you hope she'll forgive you. Eventually it leaves, and you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
+        You don't move. You highly doubt that's actually her. If it is, you hope she'll forgive you. Eventually, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
         
          You blow air out of your nose and glace between the pool of darkness down the stairs and back up to where the mimic was.
         
@@ -154,10 +191,10 @@ You hear someone call your name, but you don't dare turn around. You don't know 
 }
 
 *[Take a seat at a pew]
-->After_First.Take_Seat
+    ->After_First.Take_Seat
 
 *[Got to the stairwell]
-->After_First.Stairs_After
+    ->After_First.Stairs_After
 
 *[Stay hidden]
 
@@ -227,10 +264,10 @@ You jerk your head up, and look to the sound. The curtain of the confessional sw
 You whip around, and just barely miss seeing someone run up the stairs.
 
 *[Check inside the confessional]
-->Confessional_Curtain
+    ->Confessional_Curtain
 
 *[Follow them up the stairs]
-->Stairs
+    ->Stairs
 
 = Side_Room_After
 ~ Gameplay_Event = 2
@@ -240,7 +277,7 @@ You return to the main body of the church, but stop on the last step. The church
 The confessional at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
 
 *[Take a seat at a pew]
-->After_First.Take_Seat
+    ->After_First.Take_Seat
 
 *[Go to the confessional]
 

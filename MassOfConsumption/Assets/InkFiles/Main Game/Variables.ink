@@ -74,6 +74,9 @@ VAR previous_area = -1
 VAR visited_state = 0
 
 VAR Met_Mimic = false
+VAR Creature_Attack = false
+VAR Locked_Office = false
+VAR Ophelia_Related = false
 
 VAR Downstairs_State = None
 LIST Possible_Downstairs_State = None, Bad_Vibes, Stink, Flesh

@@ -1,11 +1,19 @@
 === Office_Area ===
 
-= Office
-{Have_Visited !? (Enter_Office): {Looked_For_Items: It's the office door from earlier, but it seems shorter than you remember, it now being about the same hight as you. You duck | You hope something useful lies behind, and enter} through the doorway. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.} | {Room_State == Half: You open the door and crouch-walk through.} {Room_State == Crawl: You open the door and army crawl through.} Despite the door size, the rest of the room remains how you remember it. }
+= Enter_From_Encounter
 
 ~ Have_Visited += (Enter_Office)
 ~ Room_State++
+-> Office_Choices
 
+= Office
+{Have_Visited !? (Enter_Office): {Looked_For_Items: It's the office door from earlier, but it seems shorter than you remember, it now being about the same hight as you. You duck | You hope something useful lies behind, and enter} through the doorway. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.} | {Room_State == Half: You open the door and crouch-walk through.} {Room_State == Crawl: You open the door and army crawl through.} Despite the change in door size, the rest of the room remains how you remember it. }
+
+~ Have_Visited += (Enter_Office)
+~ Room_State++
+-> Office_Choices
+
+= Office_Choices
 *{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
     ->Office_Area.Desk
 
@@ -29,7 +37,7 @@
             ->Office_Area.Books
     }  
             
-*[Return to stairwell]
+*{visited_state < 1} [Return to stairwell]
     ~temp_bool_3 = true
     -> Office_Area.Exit_Office
 
@@ -46,7 +54,7 @@ The key is {items_obtained ? (Skeleton_Key): about the same size as the one you 
 *[{Explore_Office_Bookshelf !? (Check_Books): Browse the bookshelves | Search through books again}]
     -> Office_Area.Books
         
-*[Return to stairwell]
+*{visited_state < 1} [Return to stairwell]
     ~temp_bool_3 = true
     -> Office_Area.Exit_Office
 
@@ -99,18 +107,32 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
     -> Office_Area.Your_Book
 
 *[Grab the next book]
-    You half-heartedly flip through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is...
+    {
+        - Have_Visited ? (Confessional_CurtainSide): 
+        You half-heartedly flip through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is...
+        
+        *[2755]
+            {
+                - Have_Visited ? (Confessional_DoorSide): 
+                    ->Take_Or_Return.Mom_Young_Book
+                - else:
+                    ->Take_Or_Return.Mom_Old_Book
+            }
+            
+        *[2750]
+            ->Take_Or_Return.Olin_Book
+            
+        - else: 
+            You half-heartedly flip through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is 2755.
+            
+            {
+                - Have_Visited ? (Confessional_DoorSide): 
+                    ->Take_Or_Return.Mom_Young_Book
+                - else:
+                    ->Take_Or_Return.Mom_Old_Book
+            }
+    }
 //2758 == yours
-- 
-
-*[2759]
-    ->Take_Or_Return.Mom_Old_Book
-
-*[2757]
-    ->Take_Or_Return.Mom_Young_Book 
-    
-*[2750]
-    ->Take_Or_Return.Olin_Book
 
 = Your_Book
 ~ temp Temp_Bool = false
@@ -314,7 +336,7 @@ You push yourself harder{Leg_State >= Limping: , but your leg is not cooperating
 You exit the office.
 
 +[Examine the stairs]
-    -> Office_Area.Examine_Office_Area
+    -> Stairs.Examine_Stairs
     
 +[Return to the main body of the church]
     -> Office_Area.Exit_Office_Area_Area
@@ -635,8 +657,31 @@ He never leaves, nor looks for an exit. But through the gaps you can gather some
 You don't get very far before you realize this book is from the perspective of a child. You take a deep breath before continuing. Her name is Ophelia, and she <s>is</s> was turning 10. The passages were very short and all over the place. Her experience with the church was scattered between walking by on her way to school. She was a sick child, and her family often prayed for her health. One day, her dad, a pastor, got a new job at the church.
 
 #CYCLE: victim, meal
-You stop reading and press your forehead against the pages as you realize who's book you're reading. So it wasn't just the church, but an echo of the past? Or maybe the church wearing the skin of a past @. Either way, {Confessional_Encounters ? (Killed_Girl): the guilt sticks with you. | }
+You stop reading and press your forehead against the pages as you realize who's book you're reading. So it wasn't just the church, but an echo of the past? Or maybe the church wearing the skin of a past @. Either way, {Confessional_Encounters ? (Killed_Girl): the {Priest_Feeling} sticks with you. | you feel sick.}
 
+You continue reading about how she snuck in to find her dad before getting trapped inside. It doesn't explain how she was able to escape, she describes it as "falling down after spinning until you're about to puke". You flip forward to the next passage.
+
+As you read, an ache grows in your heart and your throat tightens. The book becomes heavy in your hands. The passage picks up with Ophelia as an adult, confronting the church. She pounds on the door pleading and crying to "Let ████ out! Take me instead! Give me back my child" 
+
+*[Rub your eyes]
+
+*[Re-read the passage]
+
+*[Look closer]
+
+- A stabbing pang shoots through your head as you attempt to re-read the name. You rub your temple and finish the page. Ophelia begs until she hears her father's voice, asking if she's finally ready to come home. She accepts, but only on the condition he lets ████ out. He agrees and the door opens. She meets her child one last time, pushing them out before the door can close.
+
+You wipe tears from your eyes, not fully understanding why. You don't know this woman, do you? 
+
+*[Yes]
+    ~ Ophelia_Related = true
+    Yes, you do. You feel it in your bones that you know her. She is- was? - important to you.
+
+*[No]
+
+
+- You take deep breaths, and finish her book. Once trapped inside, Ophelia rejected her father and attempted to escape. <>
+->Mom_Old_Book
 
 TODO write here about how she went in and was spit out theres some space then talking about how the church stole her child and her dilemma between entering or not
 
@@ -646,11 +691,11 @@ TODO write here about how she went in and was spit out theres some space then ta
 = Mom_Old_Book
 //CAN ALWAYS BE READ
 ~ Book_Knowledge += (Read_Mom_Old_Book)
-You don't catch a name as you read the ending but gather that it's from the perspective of a mother. Many of her thoughts revolve around escaping so she can see her child again. Her actions in the church feel spiteful, like everything she was doing was to hurt it. She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a neverending spiral staircase. | and they sould neverending. } But not once did she think of giving up.
+{Book_Knowledge ? (Read_Mom_Young_Book): | You don't catch a name as you read the ending but gather that it's from the perspective of a mother.} All her thoughts revolved around escaping so she can see her child again. Her actions in the church are spiteful, doing everything she could to hurt it. She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a neverending spiral staircase. | and they sould neverending. } But not once did she think of giving up.
 
 She reaches the top and finds a set of locks on a door that has a pulsating red light under it. She fiddles with the locks before pulling out a book, her book from the sound of it, and flipping through it, and entering a code. Your eyes slide down the page a little more and...
 
-{Saw_Locks: "2755, got it!" you exclaim. "Thank you, {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia|whoever you are}!" | "2755?" The numbers don't mean much to you, but you commit them to memory anyway. You should look for the staircase.}
+{Saw_Locks: "2755, got it!" you exclaim. "Thank you {Book_Knowledge ? (Read_Mom_Young_Book):,Ophelia|}!" | "2755?" The numbers don't mean much to you, but you commit them to memory anyway. You should look for the staircase.}
 
 *[Rip out the page]
     ->Office_Area.Rip_out_Ophelia
@@ -659,7 +704,10 @@ She reaches the top and finds a set of locks on a door that has a pulsating red 
 
 *{Explore_Office_Bookshelf !? (Check_Desk)} [Dig through the desk]
     ->Office_Area.Desk
-            
+    
+*{Book_Knowledge !? (Saw_Your_Book)} [Look for your book]
+    -> Office_Area.Your_Book
+    
 *[Exit the office]
     ->Office_Area.Exit_Office
 
