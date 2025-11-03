@@ -1,12 +1,11 @@
 === Confessional_Door
-TODO: Beef up this section a LOT. it's shorter and shit just happens
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_DoorSide // set the current area
 
 # IMAGE: Default #PROP: curtain_full
 {
     //if this is the first area we are visiting
-    - Have_Visited !? (Confessional_DoorSide):
+    - visited_state <= 0:
         ~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
         You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top.
         
@@ -26,8 +25,7 @@ TODO: Beef up this section a LOT. it's shorter and shit just happens
             -> Confessional_Door.Searched_Area(false)
  
         
-    - previous_area != Enter_Pews: 
-        TODO: figure out this nonsense
+    - visited_state == 1 and previous_area == Enter_Pews:
         While you wait for the service to be over, you look around the cramed space for something useful.
         
         You look around the crammed space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting. }
@@ -288,7 +286,7 @@ You feel...
 	        
 	        You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
 	
-            "The forgivenees is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
+            "The forgiveness is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
             Your head snaps up. She's okay? She's here? She forgives—
 
 
@@ -404,10 +402,10 @@ The words tumble yout before you fully realize what you're agreeing to. You chew
 ~ temp Temp_Bool = false
 *[Wait for her to continue]
     ~Temp_Bool = true
-    You shift in your seat. You are <i>not</i> a priest, and certainly not a replacement for her father... You flounder over what you could possibly say.
+    You shift in your seat. You are <i>not</i> a priest. You flounder over what you could possibly say.
 
 *["I'm listening?"]
-    You are <i>not</i> a priest, and certainly not a replacement for her father but... You want to be able to comfort her in some way. Priests mostly listen right? So you should be able to...
+    You are <i>not</i> a priest but... You want to be able to comfort her in some way. Priests mostly listen right? So you should be able to...
 
 - There's an bloated silence. Your mind reels as you try to recall anything you know about confessions. {Temp_Bool: Are you supposed to say something? | Why did you say anything?}
 
@@ -546,7 +544,7 @@ You ball your fists. It's not the same as what happened to you, but it's similar
     **[Leave the booth]
     
     -- You didn't find the heart, but at least you learned a bit more about the church. You hope it will help you later.
-
+TODO summarize a bit
         -> Confessional_Door.Return_to_Search
 
 *[Tell her to leave]

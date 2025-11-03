@@ -4,9 +4,6 @@ VAR temp_bool = false
 VAR temp_bool_2 = false
 VAR temp_bool_3 = false
 
-// Sections of gameplay
-LIST Gameplay_Event = (First_Event = 1), Second_Event = 2, Last_Event = 3
-
 //Items
 LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
 
@@ -17,7 +14,6 @@ LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
 LIST Priest_Feeling = anger, guilt, dread
 LIST Light_Feeling = relief, confused, worry
 
-TODO: check interest and feeling
 LIST Church_Interest = No_Care = 1, Drawn = 2, Nauseous = 3
 LIST Church_Feeling = Familiar = 1, Uncomforable = 2, Evocative = 3, Laughing = 4, Crying = 5
 LIST Church_Entered = Disappointed = 1, Satisfied = 2, Anxious = 3
@@ -49,6 +45,8 @@ VAR Remembered_Past = false
 VAR photo_ripped = false
 VAR heard_melody = false
 LIST RIPPED = AT_WORK, ALL_IN_POCKET, SOME_IN_POCKET
+
+VAR Frozen_Hand = false
 VAR finger_pain_pass = false
 LIST Church_Encounters = Finger_Chopped, Leave_Light, Was_Coward
 
@@ -64,10 +62,10 @@ LIST Possible_Room_States = Default = 0, Short = 1, Half = 2, Crawl = 3, Gone = 
 VAR Room_State = Default
 
 //Confessional Variables
-LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, Pressed_Emily, Tell_Her_Leave, Saw_Her_Struggle, Reached_Through, Angered_Priest, Killed_Girl, Finished_Curtain_Side, Finished_Door_Side, Asked_About_Dad
+LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, Pressed_Emily, Tell_Her_Leave, Saw_Her_Struggle, Reached_Through, Angered_Priest, Accepted_Priest, Killed_Girl, Finished_Curtain_Side, Finished_Door_Side, Asked_About_Dad
 
 //where the player has been already
-LIST Have_Visited = Main_Body, Confessional_DoorSide, Confessional_CurtainSide, Enter_Pews, Enter_Office, Stairs_Up, Stairs_Down
+LIST Have_Visited = Main_Body, Confessional_DoorSide, Confessional_CurtainSide, Enter_Pews, Enter_Office, Stairs_Up
 
 VAR current_area = -1
 VAR previous_area = -1
@@ -85,6 +83,10 @@ LIST Possible_Downstairs_State = None, Bad_Vibes, Stink, Flesh
 LIST Locks_Undone = Key_Lock, Combo_Lock, Clippers_lock //combo lock correct = 2758
 VAR Saw_Locks = false //know that there is a locked door
 VAR Investigated_Locks = false
+VAR broke_key_lock = false
+VAR Need_Double_Check = false
+VAR Need_Find_Book = false
+VAR Finish_ophelia = false
 
 
 

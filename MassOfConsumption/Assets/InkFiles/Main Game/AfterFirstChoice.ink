@@ -1,7 +1,6 @@
 ===After_First===
 
 = Confessional_After
-~ Gameplay_Event = 2
 #CHECKPOINT: 3, The pews are... full?
 You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
@@ -42,7 +41,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 ->Pews.Go_to_Stage
 
 *[Leave]
-->Pews.Try_Leave
+->Pews.Try_Leave(false)
 
 = Stairs_After
 There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down.
@@ -81,9 +80,9 @@ You hear someone call your name, but you don't dare turn around. You don't know 
         
         You wail in agony and the creature laughs in response. It hold you against the door and begins to pull. The wood of the door creaks, but holds firm. You slam your hands against the door and creature as your legs hang uselessly by your side. 
         
-        The creature continues to laugh and pull you through the hole by your center. The wood catches your skin, digging underneath and pulling it from your flesh bit by bit. When your chest gets stuck, the creature pulls harder, sharply folding your body back and cracking your spine.
+        The creature continues to laugh and pull you through the hole by your center. The wood catches your skin, digging underneath and pulling it from your flesh bit by bit. When your chest gets stuck, the creature pulls harder, sharply folding your body back.
         
-        ****[Your body goes limp]
+        ****[There's a sharp crack.]
             ->Endings.Bad_End_11
     
     
@@ -248,10 +247,9 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 
 = Pews_After
 ~temp_bool = true
-~ Gameplay_Event = 2
 #CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage and walk past the pews. Everyone is gone.
-
+TODO: update this
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 #CYCLE: null, Anxiety, Dread, Doubt, Confusion
@@ -270,7 +268,6 @@ You whip around, and just barely miss seeing someone run up the stairs.
     ->Stairs
 
 = Side_Room_After
-~ Gameplay_Event = 2
 #CHECKPOINT: 3, The pews are... full?
 You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
@@ -296,11 +293,13 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 
 = Pews_Second
 #CHECKPOINT: 4, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the pews. Everyone is gone.
+You drop down from the stage, and walk through the empthy pews.
 
-{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+#CYCLE: Soothing, Reassuring, Calming, Pleasent
+{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
-You bow your head and close your eyes. <Anxiety, Dread, Doubt, Confusion> bubbles up in your chest, and tears form in your eyes. Your body shutters as you cry. Deep, heavy sobs wrack your body.
+#CYCLE: Anxiety, Dread, Doubt, Confusion
+You bow your head and close your eyes. @ bubbles up in your chest, and tears form in your eyes. Your body shutters as you cry. Deep, heavy sobs wrack your body.
 
 *[This is all so much.]
 
@@ -379,97 +378,85 @@ There are still more places you need to look. <>
 {
     - Book_Knowledge ? (Read_Mom_Old_Book, Saw_Your_Book):
         #CHECKPOINT: 4, You found your book... and a code
-        {
-            - Book_Knowledge ? (Kept_Book, Ripped_Pages):
-                You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
-            - Book_Knowledge !? (Kept_Book) && Book_Knowledge ? (Ripped_Pages):
-                You keep your hand over your pocket as you return down the stairs, and to the main body of the church. <>
-            - Book_Knowledge ? (Kept_Book) && Book_Knowledge ! (Ripped_Pages):
-                You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
-        }
         
-        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
     - Book_Knowledge ? (Saw_Your_Book) && Book_Knowledge !? (Read_Mom_Old_Book):
         #CHECKPOINT: 4, You found your book...
-        {Book_Knowledge ? (Kept_Book): You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
         
     - Book_Knowledge !? (Read_Mom_Old_Book, Saw_Your_Book):
-    #CHECKPOINT: 4, You found a code
-        {Book_Knowledge ? (Ripped_Pages): You keep your hand over your pocket as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}.
-        
-    - Book_Knowledge !? (Read_Mom_Old_Book, Saw_Your_Book):
-        You walk down the steps until you reach the last, and sit, looking out into main body of the church. <>
-        
-        {
-            - Have_Visited ? (Stairs_Up) && Downstairs_State == 0:
-                #CHECKPOINT: 4, You found a locked room.
-                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there.
-            
-            - Have_Visited ? (Stairs_Up) && Downstairs_State > 1:
-                #CHECKPOINT: 4, You found a locked room.
-                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It coulud be downstairs.
-                
-                Your skin shivers.
-                
-                You would rather remove all the locks to see what's behind that door rather than go back down there. The smell still lingers in your nose...
-                
-                You shake your head. There are still more places you need to look if you want to get out of here. <>
-            
-            - else:
-                #CHECKPOINT: 4, You found a locked room.
-                {
-                    - Downstairs_State > 1:
-                        You still haven't found the heart. Unless... It coulud be downstairs.
-                
-                        Your skin shivers.
-                
-                        You would rather remove all the locks to see what's behind that door rather than go back down there. The smell still lingers in your nose...
-                
-                        You shake your head. There are still more places you need to look if you want to get out of here. <>
-                    - Downstairs_State == 1:
-                        You still haven't found the heart. Unless... It coulud be downstairs.
-                
-                        Your skin shivers.
-                
-                        You would rather remove all the locks to see what's behind that door rather than go back down there. You didn't see anything but...
-                
-                        You shake your head. There are still more places you need to look if you want to get out of here. <>
-                }
-        }
+        #CHECKPOINT: 4, You found a code
 }
 
+{Book_Knowledge ? (Kept_Book): You hold your book tightly to your chest{Book_Knowledge ? (Ripped_Pages):, one hand over your pocket holding the ripped page,} as you return down the stairs.| {Book_Knowledge ? (Ripped_Pages): You keep one hand over your pocket holding the ripped page, as you return down the stairs.}} You sit on the last step and look out into the main body of the church.
 
-->After_Second.Return_to_Search
+{
+- previous_area == Enter_Office:
+    {Saw_Locks: You have a code to the combo lock|You found what might be a code}<>
+        {
+            - items_obtained ? (Skeleton_Key, Simple_Key):
+                {broke_key:, but broke one of your keys. {Saw_Locks: You hope it wasn't the one for the locks upstairs.}}
+                
+            - items_obtained ? (Simple_Key) or items_obtained ? (Skeleton_Key):
+                {broke_key:, but broke your key. {Saw_Locks:You hope it wasn't the one for the locks upstairs.}|, and have a key{Saw_Locks: that hopefully fits one of the locks upstairs.|.}}
+            - else:
+                {items_obtained ? (Clippers): |, but not much else. {Book_Knowledge ? (Read_Mom_Old_Book) and !Saw_Locks: You think should should go upstairs.}}
+        }
+        
+        <> {items_obtained ? (Clippers): {Saw_Locks: You managed to aquire | You aquired} a pair of wire cutters, but... {Church_Encounters ? (Finger_Chopped): Your stump pulsates in response. | {Church_Encounters ? (Was_Coward): Her voice reverberates in your mind.} }} {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.} 
+
+- else:
+    #CHECKPOINT: 4, You found a locked room.
+    You stare up at the ceiling. {Have_Visited ? (Stairs_Up): You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. {Downstairs_State > Bad_Vibes: Unless... It could be downstairs.} | {Downstairs_State > Bad_Vibes: You still haven't found the heart. Unless... It could be downstairs.}}
+        
+    {Downstairs_State > None: Your skin shivers.}
+        
+    {Saw_Locks and Downstairs_State > None: You would rather remove all the locks to see what's behind that door rather than go back down there.} {Downstairs_State > Bad_Vibes: The smell still lingers in your nose... |{Downstairs_State <= Bad_Vibes: You didn't see anything but...}} <> You shake your head. There are still more places you need to look if you want to get out of here. <>
+}
+
+-> After_Second.Return_to_Search
 
 = Return_to_Search
-~ Gameplay_Event = 2
 #CHECKPOINT: 5, You need to keep searching.
 You decide to look...
 
 * {Have_Visited !? (Enter_Pews)} [In the pews]
--> Pews
+    -> Pews
 
 *{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[In the confessional]
--> Confessional
+    -> Confessional
 
 * [Somewhere up the stairs]
--> Stairs
+    -> Stairs
 
 === Last_Stop ===
 
 = Pews_Last
 #CHECKPOINT: 6, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the pews. Everyone is gone.
+You drop down from the stage, and walk through the empty pews. <>
 
-{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+#CYCLE: Soothing, Reassuring, Calming, Pleasent
+{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows, look back at the stage, then up at the window. Its eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
-You bow your head and squeeze the wire cutters in your hand.
+You bow your head and squeeze the wire cutters in your hand.<>
 
-{Have_Visited ? (Stairs_Up): There' are not many places left to look, but you know where you what to go. {items_obtained ? (Skeleton_Key, Combo) : You have all the pieces to unlock the door.}{items_obtained ? (Skeleton_Key) : You have a key and wire cutters, you could probably figure out how to get the door open with just that.}{items_obtained ? (Combo, Clippers) && items_obtained ? Skeleton_Key: You have a code and wire cutters, you could probably figure out how to get the door open with just that.}} 
+{Saw_Locks: {items_obtained ? (Combo): {items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): With the key{items_obtained ? (Skeleton_Key, Simple_Key) and (!broke_key or !broke_key_lock):s}, code and wire cutters, you should be able to open the locked door. | You have a code and wire cutters. The chains on the locks weren't that thick, you might be able to open the door with only these items.} | Even with the wire cutters{items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): and key{items_obtained ? (Skeleton_Key, Simple_Key) and (!broke_key or !broke_key_lock):s}}, without the code to the combo lock, you don't think you'll be able to fully unlock the door without it.}} 
 
-{Have_Visited !? (Stairs_Up): {items_obtained ? (Skeleton_Key, Combo) : You have a key, a code and wire cutters }{items_obtained ? (Skeleton_Key) : You have a key and wire cutters}{items_obtained ? (Combo, Clippers) && items_obtained ? Skeleton_Key: You have a code and wire cutters}, but nothing to do with them. You've searched almost the entire church, but there's not a lot of places left to look.}
+{
+    - items_obtained ? (Combo) and (items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key)):
+            ~ temp_string = "the code and the key"
+            {
+                - items_obtained ? (Skeleton_Key, Simple_Key) and (!broke_key or !broke_key_lock):
+                    ~ temp_string += "s,"
+                - else:
+                    ~ temp_string += ","
+            }
+    - items_obtained ? (Combo):
+        ~ temp_string = "and the code,"
+        
+}
 
-You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg bounces and you stare at the front door. At the end of this... maybe... <br> <br> You shake the thought from your head.}
+{Have_Visited !? (Stairs_Up): With them, {temp_string} you assume they'll help you escape, but you still don't know where the heart is. {Book_Knowledge ? (Read_Mom_Old_Book): You think you should find the stairs that Ophelia went up.}} 
+
+You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg bounces and you stare at the front door. At the end of this... maybe you'll choose to... You shake the thought from your head.| <>}
 
 
 ->Last_Stop.Return_to_Search
@@ -521,15 +508,15 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
 = Confessional_Sin_Last
 #CHECKPOINT: 6, You found a key, but...
 {
-    - temp_string == "accept":
+    - Confessional_Encounters ? (Accepted_Priest):
         ~ temp_string = ""
-    - temp_string == "angry":
+    - Confessional_Encounters ? (Angered_Priest):
         ~ temp_string = ""
-    - temp_string == "reach through":
+    - Confessional_Encounters ? (Reached_Through):
         ~ temp_string = ""
 }
 
-You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and Explore_Office_Bookshelf ? (Broke_Chest): You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{Explore_Office_Bookshelf ? (Broke_Chest): You should see if it fits the chest you found in the side office.} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
+You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and (Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key): You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | {Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key: You should see if it fits the chest you found in the side office. | <>} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | <>}}
 
 You need to move on. <>
 
@@ -602,15 +589,16 @@ You need to move on. <>
 ->After_Second.Return_to_Search
 
 = Return_to_Search
-~ Gameplay_Event = 3
+TODO: by this point player should be alrerted if they can end the game or keep searching. 
 #CHECKPOINT: 7, There's only a few places left to look.
-You only have a few places you haven't looked yet. {Have_Visited ? (Stairs_Up) && ((items_obtained ? (Clippers) or items_obtained ? (Skeleton_Key)) && items_obtained ? (Combo)): You know where the heart probably is. Whenever you're ready, the heart is waiting.}
+{LIST_COUNT(Have_Visited) >= 4: There's only one place you haven't checked yet. {Saw_Locks: | You have collected a variety of items. If, no. <i>When</i> you find the heart, you hope you'll be ready.} | {LIST_COUNT(Have_Visited) >= 3: There are only a couple places you haven't looked yet. }}{Saw_Locks: You know where the heart most likely is, {items_obtained ? (Combo, Clippers): and you should have enough items to open the door.} Whenever you're ready, the heart is waiting. }
 
 * {Have_Visited !? (Enter_Pews)} [In the pews] -> Pews
 
 *{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[In the confessional] -> Confessional
 
-* {Have_Visited !? (Stairs_Up)} [Somewhere up the stairs] ->Stairs
+* {Have_Visited !? (Stairs_Up)} [Somewhere down the hall]
+    -> Inside.Investigate_Stairs_Area
 
 * {Have_Visited ? (Stairs_Up)} [Go up the spiral staircase.] 
     ~temp_bool = false

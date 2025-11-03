@@ -368,7 +368,6 @@ You're standing in an old church. The floor boards creek under your weight and e
     #CYCLE: a biblically accurate angel, a face made of birds and flowers, an abstract sunrise, people holding hands, the blood and body of christ #REPLACE: starving
     You spin around taking in every cobweb, every rotting piece of wood. It's an old, worn-down building. Just a starving wooden box. {Church_Investigation ? (Saw_Windows): You glance at the closest window and it's a static image of vague geometric shapes you think is @. You rub your eyes and put a reminder in your phone to call the eye doctor after work.} You stroll out of the church, and back to the bus stop.
     
-        TODO: look in emotion book for better confused reaction
         **[starving]
             ~ Church_Investigation += (Starving)
             You blink and lick your lips. Starving? You're not sure why that is the word you chose, but that is the only word that feels like it fits. Starving. The church is starving. 
@@ -761,7 +760,6 @@ But yet another takes it's place.
 "Do you understand how this can hurt sales?" They hiss. You clutch the papers until your knuckles go white, and your nails pierce through. "You'd be <i>lucky</i> if I only suspend you for this!"
 
 # INTRUSIVE: 5, It's waiting for you, Job.Go_to_Church
-TODO: this is also duplicated
 No, you didn't write this. You know you didn't. Did the church...? {Church_Investigation ? (Entered): {Church_Entered == 1: No. It was just a normal church. You— You must be losing it. | {Church_Entered == 2: It didn't feel right when you were in there. It must have done something, that much you're sure of, but the question is <i>why?</i> | {Church_Entered == 0: It must have. You knew it had to be more than just an empty building. }}}} {Church_Investigation ? (Teleported): <i>It didn't want you, so why—</i> | {Church_Investigation ? (Called): <i>You can't let it win—</i> }}
 
 
@@ -1246,8 +1244,6 @@ You stand up and trace the path with your eyes, looking for anything that distur
 {Church_Investigation ? (Called): You stare at the contact before dialing the number. | You navigate to your grandmother's contact number and click call. } The phone rings for a moment before hearing a dial up tone and a robotic voice say, "Hello! This number could not be completed as dialed. Please enter the number and try again. Goodbye." before disconnecting.
 
 You frown, double check that you called the correct number, and redial. You get the same dial up tone and robotic voice. You check your call history, and clearly see the previous times you've called them, all lasting anywhere from a few minutes to a few hours{Church_Investigation ? (Called):, including the one from today. Did you ever even talk to them at all? |. Did they forget to pay the bill again? But it's not the end of the month, even if they did, the phone company wouldn't shut it off until then. } Your chest tightens.
-
-TODO: can you find your grandparents books in the church?
     
 *[Call one more time]
     ~ Church_Investigation += (Called)
@@ -2115,18 +2111,7 @@ TODO: if you choose heart this is a little weird
 #IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.
 The flashlight gives off enough light for you to see what's near you. You can make out a podium facing some pews, a confessional off to the side, and a some stairs leading up into a longer hallway{Looked_For_Items:, which you know has a small office to the right}.
 
-
-#EFFECT: click_move_main
-You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
-
-+[confessional]
-    -> Confessional
-
-+[stairs]
-    -> Inside.Investigate_Stairs_Area
-
-+[pews]
-    -> Pews
+->Look_For_Heart
 
 = Look_For_Heart
 #EFFECT: click_move_main
@@ -2138,7 +2123,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 +[stairs]
     -> Inside.Investigate_Stairs_Area
-TODO: when do we come here and from where
+    
 +[pews]
     -> Pews
 
@@ -2172,24 +2157,24 @@ TODO: when do we come here and from where
     **[Go downstairs]
         ->Stairs.Downstairs
         
-    **[Go back to the {Temp_Check: office | door}]
+    **{Book_Knowledge !? (Read_Mom_Old_Book) or Book_Knowledge !? (Read_Mom_Young_Book) or Book_Knowledge !? (Read_Oldin_Book) or !read_mary_book}[Go back to the {Temp_Check: office | door}]
         ->Office_Area.Office
 
 *{ Room_State <= Crawl }[{Temp_Check: Enter the office | Go through the door}]
     ->Office_Area.Office
 
-*[Return to the main body of the church]
+*{visited_state < 1} [Return to the main body of the church]
     ->Inside.Look_For_Heart
 
 === Confessional ===
 # IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move_confessional
-{Confessional_Encounters !? (Finished_Curtain_Side, Finished_Door_Side): You {Leg_State >= Limping: carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess. (click highlighted image) | You approach the confessional booth. {Confessional_Encounters ? (Finished_Door_Side): } {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the curtain.} (click highlighted image)}
+{Confessional_Encounters ? (Finished_Curtain_Side) or Confessional_Encounters ? (Finished_Door_Side): You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessional booth. {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the intact curtain. | You {Leg_State >= Limping: carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess.}} (click highlighted image)
 
 
-* {Confessional_Encounters !? (Finished_Door_Side)} [Enter through the door] //door_confessional]
+* {Confessional_Encounters !? (Finished_Door_Side)} [door_confessional]
         ->Confessional_Door
 
-* {Confessional_Encounters !? (Finished_Curtain_Side)} [Enter through the curtain]//curtain_confessional]
+* {Confessional_Encounters !? (Finished_Curtain_Side)} [curtain_confessional]
         ~temp_bool = false
         ->Confessional_Curtain
 
@@ -2202,7 +2187,17 @@ TODO: when do we come here and from where
 - ->END
 
 = Good_End_9
+*[And you could really use a nice, warm bath]
+
 - Good Ending 1: It Has Been a Long, Long Night
+-> Endings
+
+= Waht_End_8
+- ??? END 8 -  What Have You Done?
+-> Endings
+
+= Waht_End_10
+- ??? END 10 - You Are the Church
 -> Endings
 
 = Bad_End_1
@@ -2210,12 +2205,24 @@ TODO: when do we come here and from where
 -> Endings
 
 TODO double check endings order and junk and rename this ending
+
 = Bad_End_10
 - BAD END 10 - Juice box
 -> Endings
 
 = Bad_End_11
+*[And your body goes limp.]
+
+
 - BAD END 11 - Fold and Snap
+-> Endings
+
+= Bad_End_6
+- Bad Ending: Never Satisfied
+-> Endings
+
+= Bad_End_2
+Bad Ending - Crushed
 -> Endings
 
 = Bad_End_3

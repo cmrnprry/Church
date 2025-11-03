@@ -1,7 +1,7 @@
 === Stairs ===
 
 = Examine_Stairs
-{(Have_Visited ? (Stairs_Up) or Have_Visited ? (Stairs_Down)) == false: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.}
+{Have_Visited !? (Stairs_Up) and Downstairs_State <= None: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and visited_state < 1: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.}
 
 +[Go upstairs]
     ->Stairs.Upstairs
@@ -9,15 +9,9 @@
 +[Go downstairs]
     ->Stairs.Downstairs
     
-+[Go back]
-    You turn around are return to the office door. {Room_State == 3: You frown at the doorway. Was it always that short? } {Room_State == 4: You blink at the doorway. It was definitely not always that shot. You think you would remember needing to army crawl to enter.}
-
-    ++[Enter office]
++ {Room_State < Gone} [Enter office]
+    You turn around are return to the office door. {Room_State == Half: You frown at the doorway. Was it always that short? } {Room_State == Crawl: You blink at the doorway. It was definitely not always that short. You think you would remember needing to army crawl to enter.}
         ->Office_Area.Office
-        
-    ++[Return to the main body of the church]
-        -> Stairs.Exit_Stairs_Area
-    
 
 = Unsure
 Confused, you leave the room, and wander numbly back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
@@ -253,7 +247,6 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
     ->Stairs.In_Basement
 
 = Downstairs
-~ Have_Visited += (Stairs_Down)
 {
     - Downstairs_State <= Bad_Vibes:
         ~ Downstairs_State = Bad_Vibes
@@ -285,7 +278,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
 
 -
 
-<- Down_Stink(false)
+-> Down_Stink(false)
 
 = In_Basement
 The door opens, and you are assaulted by the stench. Your eyes water and you pull your shirt over your nose and mouth, not that it does much. You take a few steps inside, trying to see what's the cause of this god awful smell.
@@ -496,7 +489,7 @@ The stench fades and the substance coating the walls dissipates as you reach the
     ->Office_Area.Office
 
 *[Return to the main body of the church]
-    ~ Downstairs_State = 3
+    ~ Downstairs_State = Flesh
     ~ Have_Visited -= (Stairs_Up)
     -> Stairs.Exit_Stairs_Area
     
@@ -514,7 +507,7 @@ Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. Th
 
 *[Power through]
     
-- You power through, only stopping to rest when your limbs refuse to cooperate. 
+- You push through, only stopping to rest when your limbs refuse to cooperate. 
 
 At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{Leg_State >= Limping:, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
 
@@ -532,285 +525,267 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
         Behind you is the door you crashed into. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
         
     - else:
-        After countless flights of stairs, you make it to the landing, crawling your way onto solid ground.{Leg_State >= Sore: Any longer, and you think you may have fallen.} The landing is small and square, maybe only five feet by five feet.
+        After countless flights of stairs, you make it to a landing, crawling your way onto solid ground. You lay flat on your back, catching your breath. {Leg_State >= Sore: Any longer on the stairs, and you think you may have fallen.}
         
         The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
 }
 
-
 *[Examine the locks]
-    {Saw_Locks: You take a closer look at the locks. From what you can tell, there are three main ones, and they all vary slightly | You approach the door, taking a closer look at the various locks and chains blocking it. } <>
-    ~ Saw_Locks = true
     
 *[Peek through the keyhole]
-    TODO: maybe are here if i wanna be crazy
+    TODO: maybe art here if i wanna be crazy
     You approach the door and peek through the keyhole. You can't make out much, but you can see a small table and something placed upon it. That looks to be the source of the glowing.
     
     #CYCLE: anxiety, excitement, fear, unease, hope
     Whatever it is, you assume it's important. Your @ fills your chest. The heart, maybe? {from_trick: Is this why she sent you here?}
     
     **[Examine the locks]
-        {Saw_Locks: You take a closer look at the locks. From what you can tell, there are three main ones, and they all vary slightly | You approach the door, taking a closer look at the various locks and chains blocking it. } <>
-        ~ Saw_Locks = true
-    
-*{Have_Visited ? (Stairs_Up)}[Head back down]
-    -> Stairs.Return_Down
 
-- The top lock looks like something you'd find in an antique shop, made of heavy metal. It has a small key hole, and is holding the majority of chains together. The chains themselves aren't very think, but they are sturdy. {broke_key: You mentally kick yourself for snapping the key earlier, and hope it wasn't for this.}
+- 
+{Saw_Locks: The locks look the same as you remember. {LIST_COUNT(items_obtained) <= 0: You don't have anything new to try with them, so you're not sure why you came back up.}| You approach the door, taking a closer look at the various locks and chains blocking it. There are three main locks from what you can tell. One that needs a code, one that needs a key and a sliding lock. Look closer at the...}
+
+{
+    - Saw_Locks == false:
+        ->Stairs.Look_Close_Locks(0)->
+}
+
+- 
+~ Saw_Locks = true
+-> Stairs.Locks
+
+= Look_Close_Locks(visited)
+*[Lock that needs a key]
+    The top lock looks like something you'd find in an antique shop, made of heavy metal. It has a small key hole, and is holding the majority of chains together. The chains themselves aren't very think, but they are sturdy. {broke_key: You mentally kick yourself for snapping the key earlier, and hope it wasn't for this.}
 TODO: maybe more here, but i think it's fine
 
-The middle lock looks slightly newer. It doesn't require a key, but a four digit number code. It is attached to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
-TODO: add bit here about seeing 4 numbers around
+*[Lock that needs a code]
+    The middle lock looks slightly newer. It doesn't require a key, but a four digit number code. It is attached to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
+    TODO: add bit here about seeing 4 numbers around
 
-The last lock is a sliding chain door lock. Sliding it all the way to the end causes a smaller deadbolt slide into place, keeping the door locked. There is no obvious keyhole.
+*[Lock that needs to be cut]
+    The last lock is a sliding chain door lock. Sliding it all the way to the end causes a smaller deadbolt slide into place, keeping the door locked. There is no obvious keyhole.
 
-*{(items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key)) and Locks_Undone !? (Key_Lock)}[Try the key]
+- 
+{visited < 2: -> Look_Close_Locks(visited + 1) | ->->}
+
+= Locks
++{Locks_Undone !? (Key_Lock) and (!broke_key or !broke_key_lock)}[{(items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key)): Try your key | Look closer at the lock}]
     -> Stairs.Try_Key
 
-*{items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock)}[Use the wire cutters]
++{Locks_Undone !? (Clippers_lock)}[{items_obtained ? (Clippers): Use the wire cutters | Mess with the sliding lock}]
    -> Stairs.Use_Clippers
 
-*{items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock)}[Enter code]
++{Locks_Undone !? (Combo_Lock)}[{items_obtained ? (Combo): Enter code | Fiddle with the combination}]
     -> Stairs.Enter_Number
 
-*[Try to break the locks]
-    ~ Investigated_Locks = true
-
-*[Head back down]
++{visited_state < 4} [Head back down]
     -> Stairs.Return_Down
-
-- You try a few combinations on the number lock, thinking you can guess code. You try today's date, the current year, your birthday— Any meaningful set of four numbers you can think of. After a few minutes, you give up.
-
-You tug at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, looking to see if there's a trick to it. If there is, you can't figure it out.
-
-*{items_obtained ? (Skeleton_Key) && Locks_Undone !? (Key_Lock)}[Try the key you have.]
-    -> Stairs.Try_Key
     
-*{items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock)}[Use the wire cutters.]
-   -> Stairs.Use_Clippers
-
-*{items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock)}[Enter code into number lock.]
-    -> Stairs.Enter_Number
-TODO: this is dupepd a few times
-*[Head back down]
-    -> Stairs.Return_Down
+*{Locks_Undone ? (Clippers_lock, Combo_Lock, Key_Lock)}[Open the door]
+        ->Open_the_Door
 
 = Try_Key
-~ Locks_Undone += (Key_Lock)
-You fish the key out of your pocket, and try it on the only lock with a key hole. It resists slightly, but after messing with it, you're able to slot it in and turn it. 
-
-#PLAY: groaning-angry, 1 
-The chains and lock fall to the ground. <>
-
-#stop: groaning-angry, 2
-The church groans angrily in response. 
-
-{ - LIST_COUNT(Locks_Undone):
-    - 1: One lock down, two more to go.
-    - 2: Two locks down, one more to go.
-    - 3: All the locks have been removed.
-}
+{(items_obtained !? (Skeleton_Key, Simple_Key)): You grab the pad lock and pull. The chains rattle slightly. The key hole looks average. There's nothing that indicates they type of key needed. -> Stairs.Locks }
 
 {
-    - Locks_Undone ? (Key_Lock, Clippers_lock, Combo_Lock):
-        *[Open the door.]
-        ->Open_the_Door
-    - else:
-        {
-            - items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock):
-                *[Use the wire cutters.]
-                    -> Stairs.Use_Clippers
-        }
-        
-        {
-            - items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock):
-                *[Enter code into number lock.]
-                    -> Stairs.Enter_Number
-        }
-        
-        
-        {
-            - !Investigated_Locks && LIST_COUNT(Locks_Undone) < 3 && !(items_obtained ? (Combo) || items_obtained ? (Clippers)):
-                *[Mess with the other locks]
-                ~ Investigated_Locks = true
-                -> Stairs.Mess_With
-        }
-        
-        *[Head back down]
-        -> Stairs.Return_Down
-}
-
-= Mess_With
-~temp_string = ""
-{
-    - items_obtained ? (Combo):
-        ~temp_string = "You try a few combinations on  the number lock, thinking you can guess code. Trying to enter today's date, the year, your birthday- Anything meaningful set of four numbers you can think of. After a few minutes, you give up. \n"
-}
-{
-    - items_obtained ? Skeleton_Key:
-        ~temp_string += "You pull at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast."
-}
-{
-    - items_obtained ? (Clippers):
-        ~temp_string += "You then try messing with the sliding lock as well, trying to see if there's a trick to it. If there is, you can't figure it out."
-}
+    - items_obtained ? (Skeleton_Key, Simple_Key):
     
-{temp_string}
-
-{
-    - items_obtained ? (Skeleton_Key) && Locks_Undone ? (Key_Lock):
-        *[Try the key you have.]
-            -> Stairs.Try_Key
+        *{!broke_key}[Try the simple key]
+            ~ Locks_Undone += (Key_Lock)
+            You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it. You sigh with relief as <>
+            
+            #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
+            the chains and lock fall to the ground. The church groans angrily in response. 
+            
+            { - LIST_COUNT(Locks_Undone):
+                - 1: One lock down, two more to go.
+                - 2: Two locks down, one more to go.
+                - 3: That was the last of them.
+            }
+            
+            -> Stairs.Locks
+            
+        *{!broke_key_lock} [Try the ornate key]
+            ~ broke_key_lock = true
+            You pull out the key the priest {Confessional_Encounters ? (Accepted_Priest): gifted | left } you. It resists slightly, but you push the key harder in the lock. It starts to turn before snapping in your hands. You shout in frustration and throw the broken key to the ground. {broke_key == false: Thank god you found the other key. Hopefully this one will work. You pull out the second key and pray it'll work. | {items_obtained ? (Clippers): You'll need to use the wire cutters on the chain and hope they don't break until you're done. | You'll need to find the right key downstairs or something to break the chains.}}
+            
+            {broke_key: -> Stairs.Locks }
+            
+            **{!broke_key}[Try the simple key]
+                ~ Locks_Undone += (Key_Lock)
+                The key refuses to turn, but you jiggle it in the lock, careful to not force it, and it turns. You sigh with relief as <>
+            
+                #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
+                the chains and lock fall to the ground. The church groans angrily in response. 
+                
+                { - LIST_COUNT(Locks_Undone):
+                    - 1: One lock down, two more to go.
+                    - 2: Two locks down, one more to go.
+                    - 3: That was the last of them.
+                }
+                
+                -> Stairs.Locks
+    
+    - items_obtained ? (Simple_Key) and !broke_key: 
+        ~ Locks_Undone += (Key_Lock)
+        You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it. You sigh with relief as <>
+            
+        #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
+        the chains and lock fall to the ground. The church groans angrily in response. 
+        
+        { - LIST_COUNT(Locks_Undone):
+            - 1: One lock down, two more to go.
+            - 2: Two locks down, one more to go.
+            - 3: That was the last of them.
+        }
+        -> Stairs.Locks
+    
+    - items_obtained ? (Skeleton_Key) and !broke_key_lock:
+        ~ broke_key_lock = true
+        You pull out the key the priest {Confessional_Encounters ? (Accepted_Priest): gifted | left } you. It resists slightly, but you push the key harder in the lock. It starts to turn before snapping in your hands. You shout in frustration and throw the broken key to the ground. {items_obtained ? (Clippers): You'll need to use the wire cutters on the chain and hope they don't break until you're done. | You'll need to find the right key downstairs or something to break the chains.}
+        
+        -> Stairs.Locks
 }
-
-{
-    - items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock):
-        *[Use the wire cutters.]
-            -> Stairs.Use_Clippers
-}
-
-{
-    - items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock):
-        *[Enter code into number lock.]
-            -> Stairs.Enter_Number
-}
-
-
-*[Head back down]
--> Stairs.Return_Down
 
 = Use_Clippers
-~ Locks_Undone += (Key_Lock)
-~ temp_string = ""
+{items_obtained !? (Clippers):  You tug at the chain lock, but it's tightly fastened to the door. You grab at the chain itself and pull, thinking the thinner chain might snap under the pressure, but it holds fast. You then try messing with the sliding lock as well, looking to see if there's a trick to it. If there is, you can't figure it out. -> Stairs.Locks}
 
-{
- - Church_Encounters ? (Finger_Chopped):
-    ~ temp_string = "You flinch at the sound out the chain snapping, reminded of the sound when you let them take your finger. A dull pain echos through your stump at the memory. "
-}
-
-{
- - Locks_Undone !? (Key_Lock) && items_obtained ? (Skeleton_Key):
-    ~ temp_string += "You look at the rest of the chains that are held together with the old looking lock. You try the key you found but... Instead, you cut around the lock and then some, until the lock falls."
- - Locks_Undone !? (Key_Lock) && items_obtained ? Skeleton_Key:
-    ~ temp_string += "You look at the rest of the chains that are held together with the old looking lock. You could look for a key, but... Instead, you cut around the lock and then some, until the lock falls."
-}
-
-You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
+~ Locks_Undone += (Clippers_lock)
 
 #PLAY: cut_chain
-{temp_string}
+You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain. {Church_Encounters ? (Finger_Chopped): You flinch at the sound out the chain snapping, reminded of the sound when you let them take your finger. A dull pain echos through your stump.}
 
-{ - LIST_COUNT(Locks_Undone):
-    - 2: With two locks removed, all that's left is the number lock.
-    - 3: All the locks have been removed.
-}
+#PLAY: cut_chain
+{Locks_Undone !? (Key_Lock): You look at the rest of the chains that are held together with the old looking lock. {items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): You try the key you found but...}}
 
-{
-    - Locks_Undone ? (Key_Lock, Clippers_lock, Combo_Lock):
-        *[Open the door.]
-            ->Open_the_Door
-    - else:
-        {
-            - items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock):
-                *[Enter code into number lock.]
-                    -> Stairs.Enter_Number
-        }
-}
+*[Cut the chains]
+    ~ Locks_Undone += (Key_Lock)
+    #PLAY: cut_chain
+    You cut the chain close to the lock, and it falls to the ground along with the chains it was holding up. 
 
+*[Use the key]
+    -> Stairs.Try_Key
+    
+- {LIST_COUNT(Locks_Undone) == 2: With two locks removed, all that's left is the number lock. | {LIST_COUNT(Locks_Undone) == 3:That was the last of them. | One lock down, two more to go.}}
 
-
-*[Head back down]
--> Stairs.Return_Down
+-> Stairs.Locks
 
 = Enter_Number
+{items_obtained !? (Combo): You try a few combinations on the number lock, thinking you can guess code. You try today's date, the current year, your birthday— Any meaningful set of four numbers you can think of. {Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Saw_Your_Book): Your run out of four digit numbers before you remember the numbers on your book. | After a few minutes, you give up. -> Stairs.Locks}}
+{
+    - items_obtained !? (Combo) and (Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Saw_Your_Book)):
+        +[Try your book number]
+            You can only properly remember your own book number. With no other options, you use your book number as the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place.  
+            
+            { - LIST_COUNT(Locks_Undone):
+                - 1: One lock down, two more to go.
+                - 2: Two locks down, one more to go.
+                - 3: That's the last of them.
+            }
+            
+            -> Stairs.Locks
+        *[Ignore it for now]
+            #CYCLE: wrong, sinister, uncomfortable
+            You elect to not try your book number. You're not 100% sure why, but somethign feels @ about your book number being the code.
+            -> Stairs.Locks
+}
 ~ Locks_Undone += (Combo_Lock)
 
 {
     - Book_Knowledge ? (Ripped_Pages):
-        You pull the page from your pocket. You grab the combination lock and input the numbers 2755, and pull on the lock.
+        You pull the page from your pocket. You grab the combination lock and input the numbers, and pull on the lock.
         
-        //TODO: Maybe little "game" to input the numbers?
+        TODO: Maybe little "game" to input the numbers?
         
         It doesn't open.
         
-        You pull it again, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
+        You pull harder, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
 
         Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
-        
+        {
+            - Book_Knowledge ? (Kept_Book):
+                 You check the cover of your book. 2758. With shaking hands, you input the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
+            -  Book_Knowledge ? (Saw_Your_Book):
+                Your book. Of course. The one you left in the office. even without it, you clearly remember the number. With shaking hands, you input the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
+            - else:
+                *[Try a few more combinations]
+                    ->Random_Locks
+                    
+                *[Leave to search for your book]
+                    ~ Need_Find_Book = true
+                    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find your book, and learn its number, you'll finally be able to open the door. | After you find your book, you'll have to throughly seach to find things to open the remaing lock{LIST_COUNT(Locks_Undone) == 0:s}.}
+                    
+                    You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
+
+                    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral acending into darkness. You beeline for the office, ready to search for your book.
+                    
+                    ->Office_Area.Office
+        }
         
     - Book_Knowledge ? (Read_Mom_Old_Book):
-        You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
+        You grab the combination lock and input the numbers 2572...?, and pull on the lock. It doesn't open. Did you forget? You rearrange the numbers. 2754...? No. 7255? 2755?
         
-        //TODO: Maybe little "game" to input the numbers?
+        TODO: Maybe little "game" to input the numbers?
         
         It doesn't open.
         
-        You pull it again, thinking it might be stuck. Nothing. You're almost positive that was the correct number.
-}
-
-{
-    - Book_Knowledge ? (Kept_Book):
+        You pull harder, thinking it might be stuck. Nothing. You're almost positive the correct number was some combination of those numbers. You groan and wish you brough the page with you.
         {
-            - Book_Knowledge ? (Ripped_Pages):
-                You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
-            
-                You remove the lock from the metal bar, and slide it out of place. 
-            - Book_Knowledge ? (Read_Mom_Old_Book):
+            - Book_Knowledge ? (Kept_Book):
+                "Come on... Think!" You squeeze your eyes shut and try to remember the exact number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
+                
+                None of them work. There's only one other 4-digit code you can think of...
+                
+                *[Try your book number]
+                    You can only properly remember your own book number. With no other options, you input your book number, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
+                    
+                    You nod and take a deep breath through your nose. Right. Of course it's <i>your</i> number. {Finish_ophelia: You should have read her ending closer. Then you would've known that you'd need your number, not hers. | Maybe you would have realized that earlier if you finished her book.} Good thing you brought your book with you.
+                    
+                    { - LIST_COUNT(Locks_Undone):
+                        - 1: One lock down, two more to go.
+                        - 2: Two locks down, one more to go.
+                        - 3: That's the last of them.
+                    }
+                    
+                    -> Stairs.Locks 
+            -  Book_Knowledge ? (Saw_Your_Book):
                 "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
                 
-                None of them work.
+                None of them work. There's only one other 4-digit code you can think of...
                 
-                You check the cover of your book again. 2758. With no other options, you use your book number as the code, and the lock pops open.
-            
-                You remove the lock from the metal bar, and slide it out of place. 
-        }
-    
-    
-    - else:
-        {
-            - Book_Knowledge ? (Ripped_Pages):
-                Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
-            
-                You remove the lock from the metal bar, and slide it out of place. 
-            - Book_Knowledge ? (Read_Mom_Old_Book):
-                "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
+                *[Try your book number]
+                    You can only properly remember your own book number. With no other options, you input your book number, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
+                    
+                    You nod and take a deep breath through your nose. Right. Of course it's <i>your</i> number. {Finish_ophelia: You should have read her ending closer. Then you would've known that you'd need your number, not hers. | Maybe you would have realized that earlier if you finished her book.} At least you remembered your number.
+                    
+                    { - LIST_COUNT(Locks_Undone):
+                        - 1: One lock down, two more to go.
+                        - 2: Two locks down, one more to go.
+                        - 3: That's the last of them.
+                    }
+                    
+                    -> Stairs.Locks
+            - else:
+                *[Try a few more combinations]
+                    ->Random_Locks
+                    
+                *[Leave to double-check the books]
+                    ~Need_Double_Check = true
+                    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find Ophelia's book, and re-learn its number, you'll finally be able to open the door. | After you find her book, you'll have to throughly seach to find things to open the remaing lock{LIST_COUNT(Locks_Undone) == 0:s}.}
+                    
+                    You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
+
+                    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral acending into darkness. You beeline for the office, ready to search for her book.
+                    
+                    ->Office_Area.Office
                 
-                None of them work.
                 
-                You can only properly remember your own book number. 2758. With no other options, you use your book number as the code, and the lock pops open.
-            
-                You remove the lock from the metal bar, and slide it out of place. 
         }
 }
 
-{ - LIST_COUNT(Locks_Undone):
-    - 1: One lock down, two more to go.
-    - 2: Two locks down, one more to go.
-    - 3: All the locks have been removed.
-}
+= Random_Locks
 
-TODO: This is duplicated
-{
-    - Locks_Undone ? (Key_Lock, Clippers_lock, Combo_Lock):
-        *[Open the door.]
-        ->Open_the_Door
-    - else:
-        {
-            - items_obtained ? (Skeleton_Key) && Locks_Undone ? (Key_Lock):
-                *[Try the key you have.]
-                    -> Stairs.Try_Key
-        }
-        
-        {
-            - items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock):
-                *[Use the wire cutters.]
-                    -> Stairs.Use_Clippers
-        }
-
-        *[Head back down]
-        -> Stairs.Return_Down
-}
-
+->END
 = Return_Down
 {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. Hopefully you'll find something able to open the {LIST_COUNT(Locks_Undone) > 0: remaing} locks somewhere else in the church. You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
 
@@ -946,17 +921,19 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 }
 
 = Exit_Stairs_Area
-{- Gameplay_Event:
+~ previous_area = Stairs
+~ current_area = Main_Body
+~ visited_state += 1
+
+{visited_state:
+    
     - 1:
         ->After_First.Side_Room_After
     - 2:
         -> After_Second.Stairs_Second
-    - temp_bool_3:
-        ->Inside.Look_For_Heart
-    - 3:
+    - else:
         -> Last_Stop.Stairs_Last
-} 
-TODO: waht ^^
+}
 
 
 
