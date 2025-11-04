@@ -115,7 +115,7 @@ You shift your weight, and check your watch. Your boss has been watching you lik
 
 -  
 #STOP: bus_ambience, 2
-She blinks at you, then shrugs, "Whatever you say." She says, exhasperated, and closes the doors. You wince at her tone and hope you didn't ruin the relationship as you watch her pull away. 
+She blinks at you, then shrugs, "Whatever you say." She says, exasperated, and closes the doors. You wince at her tone and hope you didn't ruin the relationship as you watch her pull away. 
 
 Once the bus is out of view, you let out the breath you were holding and steel yourself. You need to be quick about this to avoid a 10 minute scolding later. You look back to the church.
 
@@ -137,7 +137,7 @@ You cross the street to stand before the church, typing the number displayed int
 #PLAY: sfx_name
 <i>Brrring! Brrring!</i>
 
-You almost drop your phone at the sound of a phonFthrowe ringing drift from {Church_Interest == "drawn": in front of you. You | behind you. You turn and } see a familiar silhouette shuffle past the front window, and take a phone off a hook.
+You almost drop your phone at the sound of ringing drifting from {Church_Interest == "drawn": in front of you. You | behind you. You turn and } see a familiar silhouette shuffle past the front window, and take a phone off a hook.
 
 "Hello, Candice speaking!" Your grandma's cheery voice is on the other end.
 
@@ -187,7 +187,7 @@ You almost drop your phone at the sound of a phonFthrowe ringing drift from {Chu
     TODO: SFX for this
     <i>Brrring! Brrring!<i/>
     
-    The phone again rings from inside the church, and your grandmother's silhouette answers again. "Hello, Candice speaking!" Her voice follows the same cadence as before. No confusion hinted her voice, like the previous call didn't happen. You swalllow hard.
+    The phone again rings from inside the church, and your grandmother's silhouette answers again. "Hello, Candice speaking!" Her voice follows the same cadence as before. No confusion hinted her voice, like the previous call didn't happen. You swallow hard.
     
     **[{Church_Interest == "drawn": "What are you up to?" | "Where are you?"}]
         You try to hide the warble in your voice, but your grandma only laughs, "{Church_Interest == "drawn": "Attending church, | "The church,} of course! Everyone here misses you, your grandfather especially. Won't you come visit us soon?"
@@ -282,7 +282,7 @@ Your phone chirps and you grimace.
     {Church_Investigation ? (Starving): You don't want to take your eyes off it, but you pull your phone out of your pocket and open it. The second you do, you're bombarded with messages from your boss. | You check your Slack messages while you wait, only to be bombarded with messages from your boss. }
 
 *[{Church_Investigation ? (Starving): Check the time | Check bus schedule}]
-    {Church_Investigation ? (Starving): You fish your phone from your pocket to quickly check the time. You glance down for a second to see a bombardment of message froms your boss. | You pull out your phone to see how long it is til the next bus is only to be bombarded with messages from your boss. }
+    {Church_Investigation ? (Starving): You fish your phone from your pocket to quickly check the time. You glance down for a second to see a bombardment of message from your boss. | You pull out your phone to see how long it is til the next bus is only to be bombarded with messages from your boss. }
     
 -
 #PLAY: email_ding #DELAY: 1.5
@@ -357,7 +357,7 @@ Your eyes dart from him to the church behind him and back. You're losing it. Ove
    -> Break_In_After_Bus(->Investigate.Break_in)
 
 *[Board the bus]
-    You climb the bus stairs, scan your pass and scurry to the back of the bus. A woman clutches her purse as you pass, and an older man mutters something under hiis breath as you pass. You find an empty seat where you can look at the church through the window.
+    You climb the bus stairs, scan your pass and scurry to the back of the bus. A woman clutches her purse as you pass, and an older man mutters something under his breath as you pass. You find an empty seat where you can look at the church through the window.
     -> Bus.Seat
     
 
@@ -376,7 +376,7 @@ You board the the bus, and scan your ticket.
 
 *[{Church_Investigation ? (Investigated): "By the way d| "D}o you know when they built that church?"]
 
-*{Church_Investigation ? (Investigated)}["Are you familiar with that chuch?"]
+*{Church_Investigation ? (Investigated)}["Are you familiar with that church?"]
 
 - 
 The bus driver looks over her shoulder, then back at you. She frowns.
@@ -833,7 +833,6 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
 - ->Walk_Home_From_Work
 
 === Walk_Home_From_Work ===
-TODO: there is a work 5 but i dont think it can get here
 {
     - Work_Encounter == Scanner_Interaction: "Maybe you should take some sick days..." she says, her voice trails off. You nod, and return to your desk to gather your things.
     
@@ -848,8 +847,6 @@ TODO: there is a work 5 but i dont think it can get here
         You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
         <i>But what about the church?</i> Your stomach {Church_Interest != "drawn": drops | jumps}. You shake your head. Hopefully it will be gone. Hopefully it got all it wanted from you and moved on. Hopefully.
-    - else:
-        Error
 }
 
 {Remembered_Past: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back— that if you do, you won't come out again.}
@@ -894,7 +891,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     ~ photo_ripped = SOME_IN_POCKET
     ~ Remembered_Past = true
     #PROP: polaroid
-    You reach into your pocket and pull out the photo. You look down whille walking, tracing the familiar shapes with your finger. You trace the image of your younger self, and the gate behind, then the church behind—
+    You reach into your pocket and pull out the photo. You look down while walking, tracing the familiar shapes with your finger. You trace the image of your younger self, and the gate behind, then the church behind—
     
     You stop in your tracks. No? No. It's always been a photo of you and your grandparents... at... church. Church. Right. You grip the image until your knuckles go white. You squeeze your eyes shut as a memory attempts to surface. You're scared. You're trapped. You're... inside?
     
@@ -981,7 +978,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
 }
 
 *{state == "From_Remember"} [Grab what you can while keeping your feet on the sidewalk]
-    You inch forward until you're right on the edge, and reach forward, grabbing what you can. Another small pile lies just out of recach. You grimace, moving one foot onto the property and keeping the other on the sidewalk, reaching as far as you can, just barely missing the pieces.
+    You inch forward until you're right on the edge, and reach forward, grabbing what you can. Another small pile lies just out of reach. You grimace, moving one foot onto the property and keeping the other on the sidewalk, reaching as far as you can, just barely missing the pieces.
     
     You step back, and weigh your options. You barely have half the pieces. You take a deep breath, and prepare yourself for what you plan to do next. <>
 
@@ -1140,7 +1137,7 @@ You frown, double check that you called the correct number, and redial. You get 
     
     "Grandma? It's me. Are you and grandpa okay?" The words tumble out of you before she can say anything. {Church_Investigation ? (Called): "I called you this morning and—" | "I tried to call you and it—"}
     
-    Your grandmother's voice cuts you off. "Hello! Your are speaking to— Candice Owens," The cadence of her voice is ridgid and robotic. "Oh, is that yoOOu? Dear?" You pace slows, then stops. Your hands tingle. There's a pause, then, {Church_Investigation ? (Called): "We're still- waitingonyour VI-sit. Don't keep us waiTING much longer, DEAR." | "We're at church right NOw. Won'tyoucome visit? Don't keep us waiting, DEAR."}
+    Your grandmother's voice cuts you off. "Hello! Your are speaking to— Candice Owens," The cadence of her voice is rigid and robotic. "Oh, is that yoOOu? Dear?" You pace slows, then stops. Your hands tingle. There's a pause, then, {Church_Investigation ? (Called): "We're still- waitingonyour VI-sit. Don't keep us waiTING much longer, DEAR." | "We're At chURch right NOw. Won'tyoucome visit? Don't keep US waiting, DEAR."}
     
     The line clicks and again, the dial tone plays. You swallow hard, eyes burning. A looming presence waits behind you, and you know if you turn around— if you <i>dare</i> to turn around, what would be waiting for you.
     
@@ -1151,7 +1148,7 @@ You frown, double check that you called the correct number, and redial. You get 
             ->Walk_Home_From_Work.Stop_Sign("Face_It")
         
         **[Ignore it]
-            You tuck your phone into your pocket, and stare at the stop sign at the corner ahead. You are slow and deliberate in your movements. You feel the hot breath of it on the back of your neck, its peircing gaze watching your every movement.
+            You tuck your phone into your pocket, and stare at the stop sign at the corner ahead. You are slow and deliberate in your movements. You feel the hot breath of it on the back of your neck, its piercing gaze watching your every movement.
             
             You feel it follow behind you, begging you to turn around. You ignore the pulling at your legs, and nipping at your ears. You ignore the painful burning that sears against your back, and the heaviness in you chest.
             
@@ -1189,10 +1186,10 @@ Around halfway up the path, you hear another set of footsteps.
     ->Walk_Up_Path.Run(State)
 
 -
-#STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 2 #CYCLE: interesting, awful, long, disaterous
-Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {Church_Entered == 1 or !Remembered_Past or State == "From_Remember": You're being overly sensative after a... @ work day.| It has to be another trick. } 
+#STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 2 #CYCLE: interesting, awful, long, disastrous
+Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {Church_Entered == 1 or !Remembered_Past or State == "From_Remember": You're being overly sensitive after a... @ work day.| It has to be another trick. } 
 
-{Church_Entered == 1 or !Remembered_Past or State == "From_Remember": Still. If someone <i>is</i> following you, they musy know you know at this point. | <s>Something</s> Someone is behind you, and they know you know.} Your only choice is the church or confrontation. Your knees lock as your mind races. You must choose.
+{Church_Entered == 1 or !Remembered_Past or State == "From_Remember": Still. If someone <i>is</i> following you, they must know you know at this point. | <s>Something</s> Someone is behind you, and they know you know.} Your only choice is the church or confrontation. Your knees lock as your mind races. You must choose.
 
 *[The church]
     ->Walk_Up_Path.Run(State)
@@ -1610,14 +1607,14 @@ You can barely see, not a single drop of light shines through the windows. Your 
 //Click replace with new text
 {
     - Remembered_Past == false:
-    *[(Rest for a momnet) Remember]
+    *[(Rest for a moment) Remember]
         ->Trapped.Remember
     *[(Look for a different exit) Remember]
         ->Trapped.Remember
     *[(Accept the Church) Remember]
         ->Trapped.Remember
  - else:
-    *[Rest for a momnet]
+    *[Rest for a moment]
         ->Trapped.Wait_Morning(false)
     *[Look for a different exit]
         ->Trapped.Wait_Morning(true)
@@ -1631,14 +1628,14 @@ You mentally kick yourself for letting this happen. {Walk_Home ? (Different_Path
 //Click replace with new text
 {
     - Remembered_Past == false:
-    *[(Rest for a momnet) Remember]
+    *[(Rest for a moment) Remember]
         ->Trapped.Remember
     *[(Look for a different exit) Remember]
         ->Trapped.Remember
     *[(Accept the Church) Remember]
         ->Trapped.Remember
  - else:
-    *[Rest for a momnet]
+    *[Rest for a moment]
         ->Trapped.Wait_Morning(false)
     *[Look for a different exit]
         ->Trapped.Wait_Morning(true)
@@ -1700,7 +1697,7 @@ You blink rapidly, shaking yourself out of the memory, and look down at what's l
 
 You swallow the lump in your throat and carefully pick up pieces, ensuring you get every little piece. You delicately place them back in your pocket. Once you're out of here, you can fix it.
 
-*[Rest for a momnet]
+*[Rest for a moment]
     ->Trapped.Wait_Morning(false)
 
 *[Look for a different exit]
@@ -1711,7 +1708,7 @@ You swallow the lump in your throat and carefully pick up pieces, ensuring you g
 
 = Accept
 # REMOVE: INTRUSIVE
-It was a simple thought. Youu are in a church, after all. You clasp your hands together and bow your head. You pray for...
+It was a simple thought. You are in a church, after all. You clasp your hands together and bow your head. You pray for...
 
 *[A key for the font door]
 
@@ -1773,7 +1770,7 @@ Your eyelids grow heavy, and you think you understand why the church released yo
 
 No. You rub your eyes. No. You can't stay. The church didn't just <i>let</i> you out last time. It did so for this moment. For after you let your guard down. You can't stay here. 
 
-*[Rest for a momnet]
+*[Rest for a moment]
     ->Trapped.Wait_Morning(false)
 
 *[Look for a different exit]

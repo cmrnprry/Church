@@ -2,7 +2,7 @@
 
 = Confessional_After
 #CHECKPOINT: 3, The pews are... full?
-You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
+You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
 
@@ -33,7 +33,7 @@ A red spotlight land on you. You freeze. It's the light from the window behind t
 
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. 
 
-The pastor on stage is beckoning you to join him. All eyes are on you. {Church_Encounters ? (Leave_Light): You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't knwo the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
+The pastor on stage is beckoning you to join him. All eyes are on you. {Church_Encounters ? (Leave_Light): You fidget with your clothing, not sure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
 
 ~temp_bool = false
 
@@ -61,7 +61,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
     **[Don't move]
         You squeeze your eyes shut and pray it will keep moving. Instead, the thing outside slams itself against the door. You press all your weight against the door, trying to hold it back. It screeches again when the door doesn't open and stops.
         
-    -- You hear receeding footsteps and breathe a sigh of relief before you hear running and the thing crashes into the door. {Leg_State >= Sore: Your legs give {Locked_Office: and you fall back. The lock keeps the door closed, but creature makes a small hole in the door. It moves to look through.| and the door flings open, pushing with it and pinning you between the wall in the door.} | You are taken back for a moment before pushing back, {Locked_Office: the lock helping keep the door shut.| keeping the door shut.} A small hole was created in the door from the struggle. The thing shoves a limb through feeling around before quickly retracting it.}
+    -- You hear receding footsteps and breathe a sigh of relief before you hear running and the thing crashes into the door. {Leg_State >= Sore: Your legs give {Locked_Office: and you fall back. The lock keeps the door closed, but creature makes a small hole in the door. It moves to look through.| and the door flings open, pushing with it and pinning you between the wall in the door.} | You are taken back for a moment before pushing back, {Locked_Office: the lock helping keep the door shut.| keeping the door shut.} A small hole was created in the door from the struggle. The thing shoves a limb through feeling around before quickly retracting it.}
     
     ***[{Leg_State >= Sore and !Locked_Office: Hold your breath | Move away from the hole}]
         {Leg_State >= Sore and !Locked_Office: You freeze and hold your breath. The thing whines and moans before stomping its feet and leaving. You hear distant crashing before it all goes quiet. You close the door, and hope whatever that was won't come back. | You side-step the hole, pressing yourself against the wall. The creature presses its face against the hole. You hold your breath, praying that it won't notice you. The thing whines and moans before stomping its feet and punching the door one last time. You hear distant crashing before it all goes quiet. You hope whatever that was won't come back.}
@@ -76,7 +76,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
         {Leg_State >= Sore and !Locked_Office: You take a deep breath before pushing against the door with all your might, shoving the thing out of the room. It screams again and sticks its hand through the hole, grabbing your chest, and pulling you into the door | You scoop up a large piece of the door and shove it through the hole, stabbing whatever lies on the other side. You retract your hand as it screams. The creature sticks its hand through the hole, grabbing your chest, and pulling you into the door.}
         
         TODO gross sound
-        It repeatedly slams you into the door, your face crashing into the wood over and over again. You kick out your feet to stop yourself and brace your face with your arms. The creature snarls and yanks you forward again with incredble force. You legs hit the door and you hear a disgusting crunch as your knees pop. 
+        It repeatedly slams you into the door, your face crashing into the wood over and over again. You kick out your feet to stop yourself and brace your face with your arms. The creature snarls and yanks you forward again with incredible force. You legs hit the door and you hear a disgusting crunch as your knees pop. 
         
         You wail in agony and the creature laughs in response. It hold you against the door and begins to pull. The wood of the door creaks, but holds firm. You slam your hands against the door and creature as your legs hang uselessly by your side. 
         
@@ -100,7 +100,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
             You don't care, you know what you heard. Who's to say <i>this</i> voice is the fake? You shrug it off and climb the stairs. "I'm here!"
             
             #CYCLE: walks, slithers, clops, flies, swims
-            "I'm here." The person turns to face you. You turn on your flashlight at you reach the top, shining it on the <s>person</s> being in front of you, and stop. It is much taller than you, and covered in what looks like a patchword quilt. Every part being swallowed up by fabric. It @ closer toward you.
+            "I'm here." The person turns to face you. You turn on your flashlight at you reach the top, shining it on the <s>person</s> being in front of you, and stop. It is much taller than you, and covered in what looks like a patchwork quilt. Every part being swallowed up by fabric. It @ closer toward you.
             
             #CYCLE: hand, claw, tentacle, paw, fin
             It smiles says "Found... You..." The words reverberate inside your brain. It holds out a @ for you to take.
@@ -111,10 +111,10 @@ You hear someone call your name, but you don't dare turn around. You don't know 
                 "Don't!" She screams, but again you wave her off and take its @. It laughs, or at least, that's what you think the sound is. It stops and pulls you closer, lowering it's hood. You scream and pull away, but its grip on you is like steel.
                 
                 TODO gluping sound
-                Its face is an empy hole of mouths. Tendrils rise out of the hole and shoot toward your face. They enter your nose, ears, eyes, mouth, anywhere they can, and they begin to drink.
+                Its face is an empty hole of mouths. Tendrils rise out of the hole and shoot toward your face. They enter your nose, ears, eyes, mouth, anywhere they can, and they begin to drink.
                 
                 TODO gross popping sound
-                You shriek and squirm and hit, but nothing matters. It takes more than blood, but less than flesh. A tendril wraps around your eye and squeezes until it pops, slurping up the jelly pieces left behind. You can feel them ripping your insides apart and pulverizing them into a think soup. Any part it doesn't want are uncerimoniously ripped out and discarded. 
+                You shriek and squirm and hit, but nothing matters. It takes more than blood, but less than flesh. A tendril wraps around your eye and squeezes until it pops, slurping up the jelly pieces left behind. You can feel them ripping your insides apart and pulverizing them into a think soup. Any part it doesn't want are unceremoniously ripped out and discarded. 
                 
                 ****[Ithurtsithurtsithurtsithurtsithurts]
                     -> Endings.Bad_End_10
@@ -135,7 +135,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
             
             - else: 
             TODO more feeling
-            You nod, and crouch lower, her voice snapping you out of it. If you listen closer, you can hear ragged breathing coming from the mimic and a scrating against the wood as it moves. 
+            You nod, and crouch lower, her voice snapping you out of it. If you listen closer, you can hear ragged breathing coming from the mimic and a scraping against the wood as it moves. 
             
             You feel her nearby as you wait out the creature. Eventually, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
             
@@ -269,7 +269,7 @@ You whip around, and just barely miss seeing someone run up the stairs.
 
 = Side_Room_After
 #CHECKPOINT: 3, The pews are... full?
-You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distiguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
+You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The confessional at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
 
@@ -280,7 +280,7 @@ The confessional at the other end of the room glows from a light, red light. You
 
 - There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.
 
-You hear someone call your name, but you don't dare turn around. Insead, you quicken your pace and hide in the...
+You hear someone call your name, but you don't dare turn around. Instead, you quicken your pace and hide in the...
 
 *[Door side confessional]
 -> Confessional_Door
@@ -293,9 +293,9 @@ You hear someone call your name, but you don't dare turn around. Insead, you qui
 
 = Pews_Second
 #CHECKPOINT: 4, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the empthy pews.
+You drop down from the stage, and walk through the empty pews.
 
-#CYCLE: Soothing, Reassuring, Calming, Pleasent
+#CYCLE: Soothing, Reassuring, Calming, Pleasant
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 #CYCLE: Anxiety, Dread, Doubt, Confusion
@@ -303,9 +303,9 @@ You bow your head and close your eyes. @ bubbles up in your chest, and tears for
 
 *[This is all so much.]
 
-- Your cries echo through the empty church, only seving to remind you that you are alone here.
+- Your cries echo through the empty church, only serving to remind you that you are alone here.
 
-*[You let youself cry until you have no more tears.]
+*[You let yourself cry until you have no more tears.]
 
 - You sniff, and wipe your eyes. You need to pull yourself together if you want to get out of here. You get to your feet at face the church. 
 
@@ -320,13 +320,13 @@ You need to return to your search. <>
         {
             - temp_string == "Your hands tremble":
                 #CHECKPOINT: 4, You know what you saw.
-                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
+                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact curtain. You can't be too sure.
                 
                 The church can adapt and change, do anything to keep you here. {items_obtained ? (Skeleton_Key): Does that mean you can't trust the key you found?} { items_obtained ? (Combo): Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
                 
                 You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
                 
-            - temp_string == "You grimce":
+            - temp_string == "You grimace":
                 #CHECKPOINT: 4, What have you done?
                 You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
                 
@@ -345,7 +345,7 @@ You need to return to your search. <>
         
     - else:
         #CHECKPOINT: 4, Did you do the right thing?
-        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>reallys</i> her, or just another trick of the church?
+        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>really</i> her, or just another trick of the church?
         
         You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
         
@@ -401,7 +401,7 @@ There are still more places you need to look. <>
                 {items_obtained ? (Clippers): |, but not much else. {Book_Knowledge ? (Read_Mom_Old_Book) and !Saw_Locks: You think should should go upstairs.}}
         }
         
-        <> {items_obtained ? (Clippers): {Saw_Locks: You managed to aquire | You aquired} a pair of wire cutters, but... {Church_Encounters ? (Finger_Chopped): Your stump pulsates in response. | {Church_Encounters ? (Was_Coward): Her voice reverberates in your mind.} }} {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.} 
+        <> {items_obtained ? (Clippers): {Saw_Locks: You managed to acquire | You acquired} a pair of wire cutters, but... {Church_Encounters ? (Finger_Chopped): Your stump pulsates in response. | {Church_Encounters ? (Was_Coward): Her voice reverberates in your mind.} }} {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.} 
 
 - else:
     #CHECKPOINT: 4, You found a locked room.
@@ -433,7 +433,7 @@ You decide to look...
 #CHECKPOINT: 6, Everyone is gone, and you feel...
 You drop down from the stage, and walk through the empty pews. <>
 
-#CYCLE: Soothing, Reassuring, Calming, Pleasent
+#CYCLE: Soothing, Reassuring, Calming, Pleasant
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows, look back at the stage, then up at the window. Its eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 You bow your head and squeeze the wire cutters in your hand.<>
@@ -467,13 +467,13 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
         {
             - temp_string == "Your hands tremble":
                 #CHECKPOINT: 6, You know what you saw.
-                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact cutain. You can't be too sure.
+                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact curtain. You can't be too sure.
                 
                 The church can adapt and change, do anything to keep you here. {items_obtained ? (Skeleton_Key): Does that mean you can't trust the key you found?} { items_obtained ? (Combo): Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
                 
                 You shake your head. This is what the church wants. It wants you to doubt yourself. To think you can't trust anything. If you can't trust anything, then how could you escape? It wants to wear you down, slowly.
                 
-            - temp_string == "You grimce":
+            - temp_string == "You grimace":
                 #CHECKPOINT: 6, What have you done?
                 You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
                 
@@ -495,7 +495,7 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
         
     - else:
         #CHECKPOINT: 6, Did you do the right thing?
-        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>reallys</i> her, or just another trick of the church?
+        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>really</i> her, or just another trick of the church?
         
         You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
         
@@ -554,7 +554,7 @@ You need to move on. <>
             
             - Have_Visited ? (Stairs_Up) && Downstairs_State > 1:
                 #CHECKPOINT: 6, You found a locked room.
-                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It coulud be downstairs.
+                You stare up at the ceiling. You found where the heart is, or at least where you think it is. With all those locks and the light from under the door... It has to be there. Unless... It could be downstairs.
                 
                 Your skin shivers.
                 
@@ -574,7 +574,7 @@ You need to move on. <>
                 
                         You shake your head. There are still more places you need to look if you want to get out of here. <>
                     - Downstairs_State == 1:
-                        You still haven't found the heart. Unless... It coulud be downstairs.
+                        You still haven't found the heart. Unless... It could be downstairs.
                 
                         Your skin shivers.
                 

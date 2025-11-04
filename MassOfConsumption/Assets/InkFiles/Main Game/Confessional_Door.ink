@@ -12,7 +12,7 @@
         You think you'd know if there were anything else in here.
         
         *[Search the area anyway]
-            You don't know what the heart even is, so you may as well check every inch of this place. You sigh and hold the flashlight in your mouth while you lightly brush your hands across every surface. Under the bench, in the bucket, even wipeing away the cobwebs gathered in the corners.
+            You don't know what the heart even is, so you may as well check every inch of this place. You sigh and hold the flashlight in your mouth while you lightly brush your hands across every surface. Under the bench, in the bucket, even wiping away the cobwebs gathered in the corners.
             
             You plop onto lumpy cushion, and rub your eyes. The door closes behind you. There's nothing here. Of course not. What did you expect? Why did you enter?
             -> Confessional_Door.Searched_Area(true)
@@ -26,7 +26,7 @@
  
         
     - visited_state == 1 and previous_area == Enter_Pews:
-        While you wait for the service to be over, you look around the cramed space for something useful.
+        While you wait for the service to be over, you look around the cramped space for something useful.
         
         You look around the crammed space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting. }
     
@@ -36,7 +36,7 @@
     - else:
         You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
         
-        You look around the cramed space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting.}
+        You look around the cramped space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting.}
         -> Confessional_Door.Searched_Area(false)
 }
 
@@ -233,11 +233,11 @@ You feel...
     ~ Stay_Tracker -= 0.5
     ~temp_string = "You grind your teeth"
     #IMAGE: Default #PROP: curtain_torn
-    You slam your fist into the ground. Again and again until the skin splits and splintes stick inside. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | {Reaction == "Sat_There": You just- You just <i>sat</i> there. Sat there and did <i>nothing.</i>| {Reaction == "Watched": You watched her writher and writhe on the ground. Did that make you feel better? To see her in pain like that? | You should have moved faster. Pushed harder. Why can't you do anything right? }}} But what did it even matter? <i>There's no one here.</i>
+    You slam your fist into the ground. Again and again until the skin splits and splinters stick inside. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | {Reaction == "Sat_There": You just- You just <i>sat</i> there. Sat there and did <i>nothing.</i>| {Reaction == "Watched": You watched her writher and writhe on the ground. Did that make you feel better? To see her in pain like that? | You should have moved faster. Pushed harder. Why can't you do anything right? }}} But what did it even matter? <i>There's no one here.</i>
     
     You grab the fabric from the ground and start ripping it apart. <i>Riiiippp!</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp!</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp!</i>  {Book_Knowledge ? (Read_Mom_Old_Book): You know she was once a real person, but was that her? Or was that the church? | What can you trust if your own sense are compromised?} <i>Riiiippp!</i> 
     
-    The fabric sits in tiny scraps in your hands. You throw them away from you and they land uncerimoniously on the blood splatter in front of you. You stare vacently at it, then up at the confessional.
+    The fabric sits in tiny scraps in your hands. You throw them away from you and they land unceremoniously on the blood splatter in front of you. You stare vacantly at it, then up at the confessional.
 
 *[Guilty]
     ~ Priest_Feeling = (guilt)
@@ -278,11 +278,11 @@ You feel...
 	    ****["Is there anything I can do?"]
 	        "I'll do anything to repent." You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
 	
-            "The forgivenees is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
+            "The forgiveness is not mine to give. But lucky for you," The voice morphs and it's hers. "I forgive you. You were scared too."
             Your head snaps up. She's okay? She's here? She forgives—
             
 	    ****["I can't forgive myself."]
-	        "Why not, child?" {Confessional_Encounters ? (Finished_Curtain_Side): he | it} asks. You tilt your head up and open your eyes. {Confessional_Encounters ? (Finished_Curtain_Side): He | It} tilts {Confessional_Encounters ? (Finished_Curtain_Side): his | its} head. "Am I not here to absolve your sins? Close yout eyes and bow your head."
+	        "Why not, child?" {Confessional_Encounters ? (Finished_Curtain_Side): he | it} asks. You tilt your head up and open your eyes. {Confessional_Encounters ? (Finished_Curtain_Side): He | It} tilts {Confessional_Encounters ? (Finished_Curtain_Side): his | its} head. "Am I not here to absolve your sins? Close your eyes and bow your head."
 	        
 	        You bow until your head touches the floor. "Please, <i>please</i> forgive me, father."
 	
@@ -380,7 +380,7 @@ What...?
 
 
 = Yes_Confessions
-The words tumble yout before you fully realize what you're agreeing to. You chew your cheek wondering if you should take it back.
+The words tumble out before you fully realize what you're agreeing to. You chew your cheek wondering if you should take it back.
 
 "Oh!" She perks up immediately. "I kept miss—" She is cut off by a coughing fit. Harsh, loud, wet coughs. 
 
@@ -393,7 +393,7 @@ The words tumble yout before you fully realize what you're agreeing to. You chew
 
     She tries to say something else, but the coughing fit persists.
 
-- You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Each raspy inhale twists your insides into a tighter knot. You want to dash to the otherside to comfort her, but you stay glued to your seat. {Stay_Tracker < 1: You don't think she'll be there once you get there. You pick at your nails. | You know the best way to comfort her is to stay where you are. To stay in this moment where she exists at the same time you do. You lean against the divider. } Eventually, she stops.
+- You wait, listening to the aggressive, wet coughs plaguing the girl on the other side. Each raspy inhale twists your insides into a tighter knot. You want to dash to the other side to comfort her, but you stay glued to your seat. {Stay_Tracker < 1: You don't think she'll be there once you get there. You pick at your nails. | You know the best way to comfort her is to stay where you are. To stay in this moment where she exists at the same time you do. You lean against the divider. } Eventually, she stops.
 
 "Sorry," she wheezes. "I'm really sick... I was hoping that Daddy was... He's a priest so... Anyway!" She claps her hands together and clears her throat. "Forgive me father, for I have sinned."
 
@@ -459,7 +459,7 @@ You have many questions, but she is still a child. You rub your hands over your 
 *["Promise."]
     ~ Confessional_Encounters += (Talked_to_Girl)
 
-- "Well... I don't really know. He used to come homw, but then one day he just stopped! He would always tell Mommy to bring me here over the phone." She sniffs. "I only see him if Mommy brings me here, but she only ever lets me talk to him from the gate. I went by myself this time, but Daddy didn't show up this time so..." 
+- "Well... I don't really know. He used to come home, but then one day he just stopped! He would always tell Mommy to bring me here over the phone." She sniffs. "I only see him if Mommy brings me here, but she only ever lets me talk to him from the gate. I went by myself this time, but Daddy didn't show up this time so..." 
 
 "So...?" You wipe your hands on your pants. You feel sick. The church used the shell of her father to lure her in? {Book_Knowledge ? (Read_Oldin_Book): And based on his book, it wasn't him, not really. | {Church_Investigation ? (Called): Like how they used your grandparents?}}
 

@@ -38,16 +38,16 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
     public void ToggleSwitchOnOff(bool value)
     {
-        _previousValue = CurrentValue;
+        _previousValue = !value;
         CurrentValue = value;
-
-        _slider.value = sliderValue = value ? 1 : 0;
-        transitionEffect?.Invoke();
 
         if (value)
             onToggleOn?.Invoke();
         else
             onToggleOff?.Invoke();
+
+        _slider.value = sliderValue = value ? 1 : 0;
+        transitionEffect?.Invoke();
     }
 
     public void SetValue(bool value)

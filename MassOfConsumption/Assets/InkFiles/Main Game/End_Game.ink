@@ -119,7 +119,7 @@ You are so close to freedom. You stand in the doorway. The heart pulses faster, 
         
     **[Take the heart with you]
         ~ Stay_Tracker -= 0.5
-        You step off the property, taking the heart with you. The church cries and the heart pulsates rappidly before melting into ooze in your hand. The church howls and it starts to collapse in on itself. The roof falls and the door patheticlaly opens, begging for your return. You blink and it's gone, leaving behind an empty plot of land.
+        You step off the property, taking the heart with you. The church cries and the heart pulsates rapidly before melting into ooze in your hand. The church howls and it starts to collapse in on itself. The roof falls and the door pathetically opens, begging for your return. You blink and it's gone, leaving behind an empty plot of land.
         -> Open_the_Door.Leave
 
 *[Crush the heart]

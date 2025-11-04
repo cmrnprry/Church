@@ -72,10 +72,13 @@ public class SaveLoadUIHelper : MonoBehaviour
         {
             if (button.name == "Yes")
             {
+                button.onClick.RemoveAllListeners();
+
                 button.onClick.AddListener(() =>
                 {
                     slot.UpdateData();
                     OverwriteSaveData.SetActive(false);
+                    button.onClick.RemoveAllListeners();
                 });
             }
         }
@@ -110,7 +113,7 @@ public class SaveLoadUIHelper : MonoBehaviour
         }
     }
 
-    public void SetIsSaving(bool value)
+    public void SetSaving(bool value)
     {
         SaveSystem.isSaving = value;
     }

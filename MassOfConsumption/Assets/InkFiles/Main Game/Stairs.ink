@@ -359,7 +359,7 @@ You wipe off any remaining ooze on your shirt, but that only causes the itching 
 
 - Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_bool:. You have the flashlight. |{temp_bool != 0:, flashlight be damned. |, away from that <i>thing.</i>}} You blindly try to make your way back to the door.
 
-{temp_bool != 0:The ooze falls from the ceiling. The puddles splash with each step. | Something falls on you from the celing, and it burns the same. You splash in puddles of more of the same.} You cannot wipe it off fast enough. 
+{temp_bool != 0:The ooze falls from the ceiling. The puddles splash with each step. | Something falls on you from the ceiling, and it burns the same. You splash in puddles of more of the same.} You cannot wipe it off fast enough. 
 
 *[It's eating through you]
 
@@ -451,7 +451,7 @@ In frustration you kick the door{Leg_State >= Limping:, then suppress a curse as
 ~ Downstairs_State = Flesh
 *[Touch the mass]
     ~ Temp_Touched_Mass = true
-    Curiosity gets the best of you and you reast out and poke the squishy mass. It shivers in response to your touch, and it retains an indent from where you poked it. The mass sticks to your hand slightly and feels wet, but isn't. It feels similar to warm, chewed gum, but less soft and more... meaty?
+    Curiosity gets the best of you and you poke the squishy mass. It shivers in response to your touch, and it retains an indent from where you poked it. The mass sticks to your hand slightly and feels wet, but isn't. It feels similar to warm, chewed gum, but less soft and more... meaty?
     
     You wipe your hand on your pants. That was gross.
     
@@ -685,7 +685,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
             -> Stairs.Locks
         *[Ignore it for now]
             #CYCLE: wrong, sinister, uncomfortable
-            You elect to not try your book number. You're not 100% sure why, but somethign feels @ about your book number being the code.
+            You elect to not try your book number. You're not 100% sure why, but something feels @ about your book number being the code.
             -> Stairs.Locks
 }
 ~ Locks_Undone += (Combo_Lock)
@@ -712,11 +712,11 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                     
                 *[Leave to search for your book]
                     ~ Need_Find_Book = true
-                    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find your book, and learn its number, you'll finally be able to open the door. | After you find your book, you'll have to throughly seach to find things to open the remaing lock{LIST_COUNT(Locks_Undone) == 0:s}.}
+                    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find your book, and learn its number, you'll finally be able to open the door. | After you find your book, you'll have to thoroughly search to find things to open the remaining lock{LIST_COUNT(Locks_Undone) == 0:s}.}
                     
                     You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
 
-                    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral acending into darkness. You beeline for the office, ready to search for your book.
+                    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral ascending into darkness. You beeline for the office, ready to search for your book.
                     
                     ->Office_Area.Office
         }
@@ -728,7 +728,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         
         It doesn't open.
         
-        You pull harder, thinking it might be stuck. Nothing. You're almost positive the correct number was some combination of those numbers. You groan and wish you brough the page with you.
+        You pull harder, thinking it might be stuck. Nothing. You're almost positive the correct number was some combination of those numbers. You groan and wish you brought the page with you.
         {
             - Book_Knowledge ? (Kept_Book):
                 "Come on... Think!" You squeeze your eyes shut and try to remember the exact number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
@@ -770,11 +770,11 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                     
                 *[Leave to double-check the books]
                     ~Need_Double_Check = true
-                    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find Ophelia's book, and re-learn its number, you'll finally be able to open the door. | After you find her book, you'll have to throughly seach to find things to open the remaing lock{LIST_COUNT(Locks_Undone) == 0:s}.}
+                    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find Ophelia's book, and re-learn its number, you'll finally be able to open the door. | After you find her book, you'll have to thoroughly search to find things to open the remaining lock{LIST_COUNT(Locks_Undone) == 0:s}.}
                     
                     You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
 
-                    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral acending into darkness. You beeline for the office, ready to search for her book.
+                    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral ascending into darkness. You beeline for the office, ready to search for her book.
                     
                     ->Office_Area.Office
                 
@@ -786,9 +786,9 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 
 ->END
 = Return_Down
-{LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. Hopefully you'll find something able to open the {LIST_COUNT(Locks_Undone) > 0: remaing} locks somewhere else in the church. You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
+{LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. Hopefully you'll find something able to open the {LIST_COUNT(Locks_Undone) > 0: remaining} locks somewhere else in the church. You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
 
-Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral acending into darkness. 
+Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral ascending into darkness. 
 
 If you weren't sure before, you are now: Behind that door lies the heart.
 

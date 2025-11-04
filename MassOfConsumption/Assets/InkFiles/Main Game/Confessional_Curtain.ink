@@ -10,7 +10,7 @@
         You think you'd know if there were anything else in here.
         
         *[Search the area anyway]
-            You don't know what the heart even is, so you may as well check every inch of this place. You sigh and hold the flashlight in your mouth while you lightly brush your hands across every surface. Under the bench, in the bucket, even wipeing away the cobwebs gathered in the corners.
+            You don't know what the heart even is, so you may as well check every inch of this place. You sigh and hold the flashlight in your mouth while you lightly brush your hands across every surface. Under the bench, in the bucket, even wiping away the cobwebs gathered in the corners.
             
             You plop onto wooden bench, and rub your eyes. There's nothing here. Of course not. What did you expect? Why did you enter?
             
@@ -26,7 +26,7 @@
     - visited_state == 1:
         {
             - previous_area == Enter_Pews:
-                While you wait for the service to be over, you look around the cramed space for something useful.
+                While you wait for the service to be over, you look around the cramped space for something useful.
     
                 A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
             
@@ -36,7 +36,7 @@
                 
                 You sigh in relief, and move to leave when you hear a voice float through the grate. 
                 
-                "Already leaving?" You freeze. The voice is deep. "Why did you enter only to leave? Aren't you looking for somehting?"
+                "Already leaving?" You freeze. The voice is deep. "Why did you enter only to leave? Aren't you looking for something?"
                 ->Confessional_Curtain.Why_Enter
             - else:
                 //We come here if it's after the pews 1st choice
@@ -67,7 +67,7 @@
     You look around the small space again, touching the smooth wood to find anything you may have missed.
     
     #PLAY: curtain 
-    "Looking for something?" The curtain zips closed and you jump at the deep voice comeing from the other side of the screen. "I may be able to help?"
+    "Looking for something?" The curtain zips closed and you jump at the deep voice coming from the other side of the screen. "I may be able to help?"
 
 *[You don't know]
     #PLAY: curtain 
@@ -78,7 +78,7 @@
 - ->Confessional_Curtain.Why_Enter
 
 = Why_Enter
-Your heart races and your body tenses. Another person? Will they help you? Can you trust them? {Confessional_Encounters ? (Killed_Girl):  ... Will it end the same way it did with {Book_Knowledge ? Read_Mom_Young_Book: the young Opelia| the girl}?}
+Your heart races and your body tenses. Another person? Will they help you? Can you trust them? {Confessional_Encounters ? (Killed_Girl):  ... Will it end the same way it did with {Book_Knowledge ? Read_Mom_Young_Book: the young Ophelia| the girl}?}
 
 *["Have you seen a heart?"]
     #DELAY: 1
@@ -138,7 +138,7 @@ You frown, "No, that's not what-"
 
 "I do not have all day, and there are others waiting their turn." The voice cuts you off. "So this is the last time I'll ask you this: What. Do. You. Wish. To. Confess?"
 
-You don't think you'll get a straightforward answer. You take a deep breath. You need to confess something? Fine. {Stay_Tracker < 2: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... theraputic. You can push for answers later. }
+You don't think you'll get a straightforward answer. You take a deep breath. You need to confess something? Fine. {Stay_Tracker < 2: He never said you have to say anything useful. You'll say enough to satisfy him and then push for more answers. | It might help you get some things off your chest. This could be... therapeutic. You can push for answers later. }
 {
     - Confessional_Encounters ? (Finished_Door_Side):
         
@@ -212,7 +212,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         "I— We rarely talk, but her concern felt so foreign. I didn't know what to do with it, so I just... I just left."
         ~Temp_String = "often ignore or push away the ones who reach out first?\""
     -Work_Encounter == Wrong_Email:
-        "My supervisor has always looked out for me even though I never meet their standards. I think this was the straw that broke the camel's back." You fidgit with your nail. "The look they gave me..."
+        "My supervisor has always looked out for me even though I never meet their standards. I think this was the straw that broke the camel's back." You fidget with your nail. "The look they gave me..."
         ~Temp_String = "think you did all you could?\""
     - Work_Encounter == Attack_Coworker:
         "I had never spoken to him before— I— I mainly keep to myself at work. I didn't even realize he was there until... He wasn't too happy with me."
@@ -264,7 +264,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
     - else:
         {
             - Work_Encounter == Leave_Suddenly:
-                ~Temp_String = "to how everything upfolded. Maybe. Maybe it was all meant to happen. Fate. Or maybe it was all the church."
+                ~Temp_String = "to how everything unfolded. Maybe. Maybe it was all meant to happen. Fate. Or maybe it was all the church."
             - Work_Encounter != Fired:
                 ~Temp_String = "small talk in the kitchen. How your coworkers offer to let you join them for lunch, but you always turn them down. How you don't have many, if any, work friends. How anyone who reaches out first is met with a swift denial."
             - else:
@@ -421,7 +421,7 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
-The wood divider splinters as <strike>the priest</strike> whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness <strike>he</strike> it used to speak to you before is gone. Its voice contorts and stretches as it changes from something human to something gutteral and monsterous.
+The wood divider splinters as <strike>the priest</strike> whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness <strike>he</strike> it used to speak to you before is gone. Its voice contorts and stretches as it changes from something human to something guttural and monstrous.
 
 The bucket tips over, and the liquid spills out. It sticks to your shoes, much thicker than water.
 
@@ -430,7 +430,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 - #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
-"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With enery syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
+"It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
 
 The booth could come apart at any moment. You need to get out of here.
 
@@ -465,7 +465,7 @@ Bang!
 {
 
 - Temp_Bool:
-    Warily, you approach the door. Whatever is inside has started to wail and scream. You place your hand on the knob. There's {Stay_Tracker >= 1.5:an unwanted | a} pang in your heart as you listen to it cry and beg you to stay. You steel yourself, ready to face whatever lies on the otherside.
+    Warily, you approach the door. Whatever is inside has started to wail and scream. You place your hand on the knob. There's {Stay_Tracker >= 1.5:an unwanted | a} pang in your heart as you listen to it cry and beg you to stay. You steel yourself, ready to face whatever lies on the other side.
 
     ~Temp_String = "Turn the handle"
 - else:
@@ -528,7 +528,7 @@ On the bench sits a small key.
     The church fixed itself. 
     
     TODO image key
-    You hesitate before stepping inside, quickly grabing the key and leaving the booth. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.You shove the key in your pocket.
+    You hesitate before stepping inside, quickly grabbing the key and leaving the booth. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.You shove the key in your pocket.
 
 - 
 *[Return to your search]
@@ -832,7 +832,7 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
     ->Confessional_Curtain.liquid_2
     
 *["No."]
-    The drips from the leak stop. "No...?" The voice scoffts at you. "What do you mean, no?"
+    The drips from the leak stop. "No...?" The voice scoffs at you. "What do you mean, no?"
     ->Confessional_Curtain.Reject("what is so <i>grand</i> about that?")
     
     
@@ -857,7 +857,7 @@ The bucket is filling fast. You can see the [liquid] seems... thicker than just 
     ->Confessional_Curtain.End_Confessional
 
 *["No."]
-    The drips from the leak stop. "No...?" The voice scoffts at you. "What do you mean, no?"
+    The drips from the leak stop. "No...?" The voice scoffs at you. "What do you mean, no?"
     ->Confessional_Curtain.Reject("what is so <i>grand</i> about that?")
 
 = liquid_2 
@@ -1122,7 +1122,7 @@ Oh. "I... I know who you are."
 "The church. I do not have all day, and there are others waiting their turn." His voice is short and strained. "So this is the last time I'll ask you this: What. Do. You. Wish. To. Confess?"
 
 #REPLACE: push the matter
-"No, I think that you—" A gutter growl cuts you off. You don't think you should [push the matter]. The voice is pushing you to confess, maybe you can learn more if you play along? {Stay_Tracker < 1: He never said you have to say anything useful. You'll say just enough to satisfy him. | It might help you get some things off your chest. This could be... theraputic. }
+"No, I think that you—" A gutter growl cuts you off. You don't think you should [push the matter]. The voice is pushing you to confess, maybe you can learn more if you play along? {Stay_Tracker < 1: He never said you have to say anything useful. You'll say just enough to satisfy him. | It might help you get some things off your chest. This could be... therapeutic. }
 
 *[push the matter]
 
@@ -1167,7 +1167,7 @@ An ear piecing shriek fills the booth{Church_Encounters ? (Leave_Light):, much w
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 Bang!
 
-The wood divider splinters as the pastor slams the other side. "Shut up shut up shut up SHUT UP" It's voice contorts and stretches as it changes from something human to something gutteral and monsterous.
+The wood divider splinters as the pastor slams the other side. "Shut up shut up shut up SHUT UP" It's voice contorts and stretches as it changes from something human to something guttural and monstrous.
 
 *[Lunge for the curtain]
 

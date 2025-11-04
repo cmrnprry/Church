@@ -112,7 +112,7 @@ The pastor pushes you up the stage, and comes to stand next to you. It grabs you
 - ->Pews.On_Stage
 
 = Go_to_Stage
-You shuffle your way up the asile and to the pastor. No one here has a face or eyes, but their gaze follows you. Their stares boring holes straight through you. The light follows your movements as you approach the stage.
+You shuffle your way up the aisle and to the pastor. No one here has a face or eyes, but their gaze follows you. Their stares boring holes straight through you. The light follows your movements as you approach the stage.
 
 Once there, you stand next to the ghostly pastor. It grabs your hand and raises it to the air, saying something in that guttural language. And then it laughs. The rest of the church does as well. {Stay_Tracker >= 1.5: You nervously laugh along. | You grit your teeth. }
 
@@ -225,7 +225,7 @@ Your screams become whimpers as you wait for the pain to pass.
         
         ***[Turn away]
             ~ Stay_Tracker -= 0.5
-            The pastor utters a prayer in the inhuman language. It is still harsh and foregin to your ears, and yet, it is strangely comforting. 
+            The pastor utters a prayer in the inhuman language. It is still harsh and foreign to your ears, and yet, it is strangely comforting. 
         
             When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. 
             
@@ -252,7 +252,7 @@ A woman floats to the stage, and stands next you. She looks at you, and though s
 
 You flinch at her voice, recognizing who it belongs to. {Ophelia_Related: Ophelia. | The woman who helped you.} The pastor ignores her and grabs her arm, forcing it over the container of water.
 
-It could be another trick to force you to take her place. {Met_Mimic: The mimic was nearly identicle.} There's no way to know. She looks at you. She is pleading. Do you want to take that chance?
+It could be another trick to force you to take her place. {Met_Mimic: The mimic was nearly identical.} There's no way to know. She looks at you. She is pleading. Do you want to take that chance?
 
 * [Take her place] 
 
@@ -304,7 +304,7 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
     You turn away from her, unable to face her. 
 
     "Coward. Coward!" She clambers to her feet and pulls at your shirt collar. You squeeze your eyes shut. "After all I..."
-    She releases you and throws something at your feet. Her voice rings in your ears, but eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone.| The woman is gone.} All that's left of the encounter are the wire cutters sitting on at your feet and the blood stainign your shirt.
+    She releases you and throws something at your feet. Her voice rings in your ears, but eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone.| The woman is gone.} All that's left of the encounter are the wire cutters sitting on at your feet and the blood staining your shirt.
 
 *[Apologize]
     ~ Stay_Tracker -= 0.5

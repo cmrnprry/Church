@@ -49,7 +49,7 @@ You walk around and plot onto the old desk chair. It groans in protest under you
 
  You pull open the desk drawers and dig through their contents. Most only contain broken, or otherwise unusable, writing utensils and paper scraps to old to make any text out, but one drawer holds a key.
 
-The key is {items_obtained ? (Skeleton_Key): about the same size as the one you got before, but much less interesting. It is grey and nondescript, and i| small, grey and nondescript. I}t looks similar to a generic house key. You turn it over in your hands before sliping it into your pocket. {Saw_Locks: It might fit the lock upstairs. | It will probably be useful later.}
+The key is {items_obtained ? (Skeleton_Key): about the same size as the one you got before, but much less interesting. It is grey and nondescript, and i| small, grey and nondescript. I}t looks similar to a generic house key. You turn it over in your hands before slipping it into your pocket. {Saw_Locks: It might fit the lock upstairs. | It will probably be useful later.}
 
 *[{Explore_Office_Bookshelf !? (Check_Books): Browse the bookshelves | Search through books again}]
     -> Office_Area.Books
@@ -280,7 +280,7 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 #PLAY: screeching, 1 #stop: screeching, 2
 Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balance.
 
-The remaing books on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
+The remaining books on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
 
 You rush out of the room as fast as you can. Books and boxes littering the floor threaten to trip you as pieces of ceiling drop on you from above. You're about halfway to the door when you hear a sharp snapping sound. A large piece of ceiling falls to your side, just barely missing you.
 
@@ -312,7 +312,7 @@ You push yourself harder{Leg_State >= Limping:, but your leg is refusing to coop
     
 *{Book_Knowledge !? (Kept_Book, Saw_Your_Book)}[Examine the glinting in the rubble]
     ~Book_Knowledge += (Saw_Your_Book)
-    You shine your flashlight over the pile to see a book. 2758. You pick it up and flip it open and immdietly close it. It's <i>your</i> book.
+    You shine your flashlight over the pile to see a book. 2758. You pick it up and flip it open and immediately close it. It's <i>your</i> book.
     
     **[Read it now]
         ->Read_After_Rubble
@@ -755,11 +755,11 @@ They begin to sing, hands out stretched for you to take. The music flows through
 ~ Book_Knowledge += (Read_Oldin_Book)
 The book you chose is massive. It's thicker than most other books you've read so far, and many of it's pages are full of text instead of blank. This book is from the point of view of a pastor named Olin. He was out of work for a long while, before finding the church. One of his children was sick, so he jumped at the chance for work. Anything to get more money into the family. 
 
-However, as soon as he stepped inside, he never left. Olin's story ends after he entered the church. He thought he was reciveing reveolations from God and accepted it readily. Greedily. Instead of finding peace like many others he-
+However, as soon as he stepped inside, he never left. Olin's story ends after he entered the church. He thought he was receiving revelations from God and accepted it readily. Greedily. Instead of finding peace like many others he-
 
 "No way..." You mutter, re-reading the next few passages again and again. "He... He became part of the church?"
 
-The reason why his book is so thick, it contains bits and pieces from other's experiences. He was kind to some, cruel to others. The more people resist him, and by extension, the church, the worse he treats them.  {Confessional_Encounters ? (Finished_Curtain_Side) or Have_Visited ? (Enter_Pews): And right near the end, you read about your own interactions with him. | You wonder if you will encounter him. } Through your reading, you catch glimpses of his interal thoughts. {read_mary_book: When he meets Mary,he is reminded of his wife.} Anytime he thinks of his wife, his kids, he wonders if he'll find them here one day. You don't get a good idea if that's something he wants or not.
+The reason why his book is so thick, it contains bits and pieces from other's experiences. He was kind to some, cruel to others. The more people resist him, and by extension, the church, the worse he treats them.  {Confessional_Encounters ? (Finished_Curtain_Side) or Have_Visited ? (Enter_Pews): And right near the end, you read about your own interactions with him. | You wonder if you will encounter him. } Through your reading, you catch glimpses of his internal thoughts. {read_mary_book: When he meets Mary,he is reminded of his wife.} Anytime he thinks of his wife, his kids, he wonders if he'll find them here one day. You don't get a good idea if that's something he wants or not.
 
 He never leaves, nor looks for an exit. But through the gaps you can gather some information.
 
@@ -806,11 +806,11 @@ You wipe tears from your eyes, not fully understanding why. You don't know this 
 //CAN ALWAYS BE READ
 ~ Book_Knowledge += (Read_Mom_Old_Book)
 ~ items_obtained += (Combo)
-{Book_Knowledge ? (Read_Mom_Young_Book): | The name on the inside cover is Ophelia, and you gather that it's from the perspective of a mother.} All her thoughts revolved around escaping so she can see her child again. Her actions in the church are spiteful, doing everything she could to hurt it. She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a neverending spiral staircase. | and they sould neverending. } But not once did she think of giving up.
+{Book_Knowledge ? (Read_Mom_Young_Book): | The name on the inside cover is Ophelia, and you gather that it's from the perspective of a mother.} All her thoughts revolved around escaping so she can see her child again. Her actions in the church are spiteful, doing everything she could to hurt it. She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a never ending spiral staircase. | and they sound never ending. } But not once did she think of giving up.
 
 She reaches the top and finds a set of locks on a door that has a pulsating red light under it. She fiddles with the locks before pulling out a book, her book from the sound of it, and flipping through it, and entering a code. Your eyes slide down the page a little more and...
 
-{Saw_Locks: "2755, got it!" you exclaim. "Thank you {Book_Knowledge ? (Read_Mom_Young_Book):,Ophelia|}!" | "2755?" {Book_Knowledge ? (Read_Mom_Young_Book): You commit the code to memory, knowing they'll be helpful later. | The numbers don't mean much to you, but you commit them to memory anyway.}} {Have_Visited ? (Stairs_Up): Your next step should be to explore what's up the sprial staircase.}
+{Saw_Locks: "2755, got it!" you exclaim. "Thank you {Book_Knowledge ? (Read_Mom_Young_Book):,Ophelia|}!" | "2755?" {Book_Knowledge ? (Read_Mom_Young_Book): You commit the code to memory, knowing they'll be helpful later. | The numbers don't mean much to you, but you commit them to memory anyway.}} {Have_Visited ? (Stairs_Up): Your next step should be to explore what's up the spiral staircase.}
 
 *[Rip out the page]
     ->Office_Area.Rip_out_Ophelia
