@@ -1611,7 +1611,7 @@ You can barely see, not a single drop of light shines through the windows. Your 
         ->Trapped.Remember
     *[(Look for a different exit) Remember]
         ->Trapped.Remember
-    *[(Accept the Church) Remember]
+    *[(Say a prayer?) Remember]
         ->Trapped.Remember
  - else:
     *[Rest for a moment]
@@ -1632,14 +1632,14 @@ You mentally kick yourself for letting this happen. {Walk_Home ? (Different_Path
         ->Trapped.Remember
     *[(Look for a different exit) Remember]
         ->Trapped.Remember
-    *[(Accept the Church) Remember]
+    *[(Say a prayer?) Remember]
         ->Trapped.Remember
  - else:
     *[Rest for a moment]
         ->Trapped.Wait_Morning(false)
     *[Look for a different exit]
         ->Trapped.Wait_Morning(true)
-    *[Accept the Church]
+    *[Say a prayer?]
         ->Trapped.Accept
 }
 
@@ -2054,7 +2054,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 === Confessional ===
 # IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move_confessional
-{Confessional_Encounters ? (Finished_Curtain_Side) or Confessional_Encounters ? (Finished_Door_Side): You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessional booth. {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the intact curtain. | You {Leg_State >= Limping: carefully} approach the confessional booth. It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess.}} (click highlighted image)
+You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessional booth. {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the intact curtain. } approach the confessional booth. {Confessional_Encounters !? (Finished_Curtain_Side, Finished_Door_Side): It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess.} (click highlighted image)
 
 
 * {Confessional_Encounters !? (Finished_Door_Side)} [door_confessional]

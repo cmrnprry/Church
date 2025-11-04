@@ -10732,7 +10732,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f7cf87a926600469c921df8ea577f542, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1eba9302437a94cf6a633bd4d5695b6c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -15891,11 +15891,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 258.66
+      value: 304.36
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 556.41
+      value: 655.71
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15927,11 +15927,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -663
+      value: -609.15
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -106.07
+      value: -129.65
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15944,6 +15944,10 @@ PrefabInstance:
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731234544480188165, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
+      propertyPath: m_text
+      value: Through the curtain?
       objectReference: {fileID: 0}
     - target: {fileID: 8549397451545051280, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_Name
@@ -20062,7 +20066,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731234544480188165, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_text
-      value: Not avaliable in demo
+      value: In the pews?
       objectReference: {fileID: 0}
     - target: {fileID: 8549397451545051280, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_Name
@@ -36637,11 +36641,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 278.88
+      value: 319.09
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 556.41
+      value: 655.71
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_LocalPosition.x
@@ -36673,11 +36677,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 706.99
+      value: 667.11
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -106.07
+      value: -129.65
       objectReference: {fileID: 0}
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -36690,6 +36694,10 @@ PrefabInstance:
     - target: {fileID: 6829295462925206924, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7731234544480188165, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
+      propertyPath: m_text
+      value: Through the door?
       objectReference: {fileID: 0}
     - target: {fileID: 8549397451545051280, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_Name
@@ -40235,7 +40243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7731234544480188165, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_text
-      value: Not avaliable in demo
+      value: In the confessional?
       objectReference: {fileID: 0}
     - target: {fileID: 8549397451545051280, guid: 9ab1e3923ee3d1743b80170063590d61, type: 3}
       propertyPath: m_Name
