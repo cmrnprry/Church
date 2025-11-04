@@ -297,10 +297,10 @@ You push yourself harder{Leg_State >= Limping:, but your leg is refusing to coop
 
             "AAGHGAHGAH!" you let of a cry, wiggling around trying to get away. You feel like a bug that a child skewered with a stick. You know it's hopeless, and yet you still writhe on the ground.
             
-            #ENDING: 2, Bad Ending: Crushed
             Hoping. Praying.
     
             *[But it's no use.]
+                #ENDING: 2, Bad Ending: Crushed
                 -> Endings.Bad_End_2
     }
     
@@ -632,14 +632,12 @@ They begin to sing, hands out stretched for you to take. The music flows through
 
 - #ENDING: 7, Bad? Ending: Finding Peace
 *[And find peace.]
-->END
+    ->Endings.Bad_End_7
 
 = End_Game
 *[It has been a long night]
-
-- #ENDING: 9, Good Ending: It Has Been a Long, Long Night
-*[And you deserve a very long, vey hot, bath]
-->Endings.Good_End_9
+    #ENDING: 9, Good Ending: It Has Been a Long, Long Night
+    ->Endings.Good_End_9
 
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 

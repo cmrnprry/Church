@@ -288,8 +288,8 @@ You are gone.
 
 *[You are the church]
 
-- #ENDING: 10, ??? Ending: You Are the Church
+- #ENDING: 12, ??? Ending: You Are the Church
 *[And the church is you]
-->Endings.Waht_End_10
+->Endings.Waht_End_12
 
 

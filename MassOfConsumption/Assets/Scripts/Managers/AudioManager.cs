@@ -95,7 +95,7 @@ namespace AYellowpaper.SerializedCollections
             yield return new WaitForSeconds(delay);
 
             src.Play();
-            src.DOFade(SaveSystem.GetAudioVolume(3), duration);
+            src.DOFade(SaveSystem.GetAudioVolume(Audio.SFX), duration);
         }
 
         private IEnumerator FadeOut(AudioSource src, float duration = 0, float delay = 0)
@@ -113,19 +113,19 @@ namespace AYellowpaper.SerializedCollections
         public void MuteAudio(int value)
         {
             mixer.SetFloat("master", Mathf.Log10(value) * 20);
-            SaveSystem.SetAudioVolume(value, 1);
+            SaveSystem.SetAudioVolume(value, Audio.Mute);
         }
 
         public void AdjustBGM(float value)
         {
             mixer.SetFloat("bgm", Mathf.Log10(value) * 20);
-            SaveSystem.SetAudioVolume(value, 2);
+            SaveSystem.SetAudioVolume(value, Audio.BGM);
         }
 
         public void AdjustSFX(float value)
         {
             mixer.SetFloat("sfx", Mathf.Log10(value) * 20);
-            SaveSystem.SetAudioVolume(value, 3);
+            SaveSystem.SetAudioVolume(value, Audio.SFX);
         }
     }
 }

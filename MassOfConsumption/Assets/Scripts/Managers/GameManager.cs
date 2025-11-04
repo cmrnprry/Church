@@ -296,6 +296,7 @@ namespace AYellowpaper.SerializedCollections
                 PropDictionary[pair.Key].SetActive(SaveSystem.OnLoadPropData(pair.Key));
             }
 
+            intrusiveThoughts.KillAllThoughts(true);
             foreach (string thought in SaveSystem.GetIntrusiveThoughts())
             {
                 StaticHelpers.AddIntrusiveThoughts(thought, intrusiveThoughts);

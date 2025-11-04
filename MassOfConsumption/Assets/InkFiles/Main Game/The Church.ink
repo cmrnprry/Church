@@ -12,118 +12,7 @@ INCLUDE End_Game.ink
 
 
 
-Skip or Start from beginning?
-
-*[Skip]
-    ->Skip
-
-*[Start New]
-    ->StartGame
-
-=== Skip ===
-When you passed the church for the first time, what was your initial reaction?
-
-*[You don't care for it]
-    ~ Church_Interest = "care"
-    
-*[You feel drawn to it]
-    ~ Church_Interest = "drawn"
-
-*[You're nauseous just looking at it]
-    ~ Church_Interest = "nothing"
-
-- And what emotion did the church evoke?
-
-*[Familiar]
-    ~ Church_Feeling = "familiar"
-
-*[Uncomfortable]
-    ~ Church_Feeling = "uncomfortable"
-
-*[Evocative]
-    ~ Church_Feeling = "evocative"
-    
-- Did you investigate the church instead of going to work?
-
-*[Yes]
-    What did you do?
-        **[Looked at the window]
-    
-        **[Called the number]
-            Did you go inside?
-            ***[No]
-                
-            ***[Yes]
-                ~ Church_Investigation += (Entered, Teleported)
-                { 
-                    - Church_Interest == "drawn": 
-                        ~ Stay_Tracker += 0.5
-                        ~ Church_Investigation += (Dropped_Phone)
-                }
-                -> Skip.Skip_YelledAtWork
-        
-        **[Went inside]
-            ~ Church_Investigation += (Entered, Late)
-            How did you feel inside?
-            
-            ***[Disappointed]
-                ~ Stay_Tracker += 0.5
-                ~ Church_Entered = 0
-            
-            ***[Satisfied]
-                ~ Church_Entered = 1
-            
-            ***[Anxious]
-                ~ Church_Entered = 2
-                
-            -- -> Skip.Skip_YelledAtWork
-*[No]
-
--->Skip.Skip_AtWork
-
-=Skip_YelledAtWork
-Your boss screamed at you. Did you sit quietly and take it?
-*[Yes]
-    ->Skip.Skip_AtWork
-    
-*[No]
-    ~ Work_Encounter += (Fired)
-    After you get off the bus, the church is still there. nothing you do can keep you from approaching it, and before you know it you are on the lawn. From there, depending on your choices, you wind up inside. After you continue from here, the main game will start.
-
-    -> Locked
-
-=Skip_AtWork
-What do you do to take your mind off things at work?
-
-*[Scan some documents]
-    You couldn't stop thinking about the church. Did you go to it?
-    **[Yes]
-        ~ Work_Encounter += (Leave_Suddenly)
-        
-    **[No]
-        ~ Work_Encounter += (Scanner_Interaction)
-    
-
-*[Catch up on emails]
-    You got a weird email. Did you open it or delete it?
-    
-    **[Open]
-        ~ Remembered_Past = true
-        ~ Work_Encounter += (Attack_Coworker)
-        The email reminds you of what you forgot. You have been at the church before. You remember...
-        
-        *** [The escape]
-    
-        *** [The fear]
-        
-        *** [The aftermath]
-        
-    **[Delete]
-        ~ Work_Encounter += (Wrong_Email)
-
-- After you get off the bus, the church is still there. nothing you do can keep you from approaching it, and before you know it you are on the lawn. From there, depending on your choices, you wind up inside. After you continue from here, the main game will start.
-
--> Locked
+->StartGame
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -246,9 +135,9 @@ Once the bus is out of view, you let out the breath you were holding and steel y
 You cross the street to stand before the church, typing the number displayed into your phone. {Church_Interest == "drawn": You hang your arms over the fence as the phone rings. | You turn your back to the church and pace as the phone rings. You stick your free hand in your pocket, lightly caressing the photo that sits there. } 
 
 #PLAY: sfx_name
-<i>Brrring! Brrring!<i/>
+<i>Brrring! Brrring!</i>
 
-You almost drop your phone at the sound of a phone ringing drift from {Church_Interest == "drawn": in front of you. You | behind you. You turn and } see a familiar silhouette shuffle past the front window, and take a phone off a hook.
+You almost drop your phone at the sound of a phonFthrowe ringing drift from {Church_Interest == "drawn": in front of you. You | behind you. You turn and } see a familiar silhouette shuffle past the front window, and take a phone off a hook.
 
 "Hello, Candice speaking!" Your grandma's cheery voice is on the other end.
 
@@ -275,7 +164,7 @@ You almost drop your phone at the sound of a phone ringing drift from {Church_In
                 ***{Church_Interest == "drawn"}[Enter the church]
                     ~ Church_Investigation += (Teleported, Dropped_Phone)
                     ~ Stay_Tracker += 0.5
-                    #DELAY: 2.5
+                    #DELAY: 1.5
                     You drop your phone and throw the gate open. You trip over yourself as you run down the path and to the door. You push through the church door and—
                     -> Job.Teleport
                 
@@ -317,7 +206,7 @@ You almost drop your phone at the sound of a phone ringing drift from {Church_In
                 ~ Church_Investigation += (Teleported)
                 ~ Church_Investigation += (Dropped_Phone)
                 ~ Stay_Tracker += 0.5
-                #DELAY: 2.5
+                #DELAY: 1.5
                 You drop your phone and throw the gate open. You trip over yourself as you run down the path and to the door. You push through the church door and—
                 -> Job.Teleport
             
@@ -347,13 +236,13 @@ You almost drop your phone at the sound of a phone ringing drift from {Church_In
     ~ Church_Investigation += (Teleported)
     ~ Stay_Tracker += 0.5
     
-    #DELAY: 2.5
+    #DELAY: 1.5
     You {Church_Interest != "drawn": push | throw} the gate open, {Church_Interest != "drawn": walking up the path, not entirely sure why you're doing this. | tripping over yourself as you run up the path and to the door.} You enter through the church door and-
     -> Job.Teleport
 
 = Break_in
 ~ Church_Investigation += (Entered)
-#DELAY: 2.5
+#DELAY: 1.5
 You cross the street and push the church gates open. {Church_Interest == "drawn": You trip over yourself as you run down the path and to the door. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. You hope whatever you find is worth being late for work for.} You push through the church door and— | You walk up the path, not entirely sure why you're doing this. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. Work be damned at this point. There's something happening here.} You enter through the church door and— }
 
 You're standing in an old church. The floor boards creek under your weight and everything is covered in a thin layer of dirt and grime. It's empty and dusty and it's— "Just a church?" You finish the sentence out loud. You feel...
@@ -586,20 +475,22 @@ You stare blankly at your computer screen, replaying the "conversation" over and
     -> Job.Emails
 
 === Job ===
-#STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1
+#STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1 # INTRUSIVE: 2, Is it still there?, Job.Stop_Thinking
 {Church_Investigation ? (Late): -> Late_Work}
 At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
-# INTRUSIVE: 1, Is it still there?, Job.Stop_Thinking
+# INTRUSIVE: 2, Is it still there?, Job.Stop_Thinking
 There is only one thing on your mind, one thing that shouldn't exist but it does. That {Church_Feeling} church.
 
-# INTRUSIVE: 1, Don't think about it, Job.Stop_Thinking
+# INTRUSIVE: 3, Don't think about it, Job.Stop_Thinking
 You should do something to take your mind off it.
 
 *[Scan some documents]
+    #REMOVE: INTRUSIVE
     -> Job.Scan
 
 *[Catch up on emails]
+    #REMOVE: INTRUSIVE
     -> Job.Emails
 
 = Late_Work
@@ -646,7 +537,6 @@ You take a deep breath, and exit the office— and find yourself in front of the
 
 = Scan
 ~ Work_Encounter += (Scanner_Interaction)
-# INTRUSIVE: 1, Is it still there?, Job.Stop_Thinking
 You choose to do something mindless and easy. You grab a stack of papers marketing needs sent out, and head to the machine.
 
 *[Maybe the monotony will take your mind off things.]
@@ -654,7 +544,7 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 - #PLAY: scanner, false, 0.5
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
-# INTRUSIVE: 3, What if it's there on the way home?, Job.Stop_Thinking #DELAY: 2.5
+# INTRUSIVE: 3, What if it's there on the way home?, Job.Go_to_Church_Scan #DELAY: 2.5
 Place page. Enter email. Send it off. 
 
 # INTRUSIVE: 2, It's just an old church, Job.Go_to_Church_Scan #DELAY: 3.5
@@ -663,7 +553,7 @@ Place page. Enter email. Send it off.
 # INTRUSIVE: 1, You should go back to it, Job.Go_to_Church_Scan #DELAY: 4.5
 Place page. Enter email. Send it off.
 
-# INTRUSIVE: 4, Stop thinking about it, Job.Stop_Thinking #DELAY: 2.5
+# INTRUSIVE: 4, It's waiting, Job.Go_to_Church_Scan #DELAY: 2.5
 Place page. Enter email. Send it—
 
 #REMOVE: INTRUSIVE #STOP: scanner, 1.5
@@ -703,7 +593,7 @@ No, you didn't write this. You know you didn't. Did the church...? {Church_Inves
  #PLAY: email_ding, false, 0, 1
 You pull up your email and scroll through the new ones, only reading the subject lines for anything that seems important. Meeting invitation, spam, spam, client question, church inquiry, meeting—
 
-# INTRUSIVE: 3, Is it the same church?, Job.Stop_Thinking
+# INTRUSIVE: 3, Is it the same church?, Job.Email_Open
 Wait. Church inquiry?
 
 *[Open church inquiry email]
@@ -733,7 +623,7 @@ But yet another takes it's place.
 
 - You mark the church email as spam and respond to the client, making sure to CC the correct person they should speak to. You close your email and rub your eyes with the palm of your hands. 
 
-# INTRUSIVE: 3, Open the email., Job.Email_Trash #DELAY: 3
+# INTRUSIVE: 3, Open the email, Job.Email_Trash #DELAY: 3
 <i>Stop thinking about it.</i> You tell yourself. {Church_Investigation ? (Entered): <i>It's nothing but a church, so why—</i> | {Church_Investigation ? (Teleported): <i>It didn't want you, so why—</i> | {Church_Investigation ? (Called): <i>You can't let it win—</i> }}} 
 
 #REMOVE: INTRUSIVE #PLAY: knocking
@@ -774,7 +664,7 @@ No, you didn't write this. You know you didn't. Did the church...? {Church_Inves
 = Email_Trash
 #REMOVE: INTRUSIVE
 ~ Remembered_Past = true
-Your curiosity gets the better of you and you navigate to your trash bin, and search for the "Church Inquiry" email. You stare at it for a beat, gathering courage, before clicking the email.
+You can't stop yourself as you navigate to your trash bin, and search for the "Church Inquiry" email. You stare at it for a beat, gathering courage, before clicking the email.
 
 -> Job.Open
 
@@ -822,7 +712,6 @@ Your mind starts to wander as your boss continues to berate you. It wanders back
 = Go_to_Church
 #REMOVE: INTRUSIVE
 ~ Work_Encounter += (Leave_Suddenly)
-
 
 You stand up from your desk sharply. You need to leave. You're barely getting anything done today{Church_Investigation ? (Teleported) or Church_Investigation ? (Late): , and you already ruined the day by {Church_Investigation ? (Late): being late | ruining the meeting}}. You gather your things and make your way to the door. You feel a little lighter as you leave, like leaving and returning to the church makes sense. 
 
@@ -2186,43 +2075,12 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 
 - ->END
 
-= Good_End_9
-*[And you could really use a nice, warm bath]
-
-- Good Ending 1: It Has Been a Long, Long Night
--> Endings
-
-= Waht_End_8
-- ??? END 8 -  What Have You Done?
--> Endings
-
-= Waht_End_10
-- ??? END 10 - You Are the Church
--> Endings
-
 = Bad_End_1
 - BAD END 1 - Digested
 -> Endings
 
-TODO double check endings order and junk and rename this ending
-
-= Bad_End_10
-- BAD END 10 - Juice box
--> Endings
-
-= Bad_End_11
-*[And your body goes limp.]
-
-
-- BAD END 11 - Fold and Snap
--> Endings
-
-= Bad_End_6
-- Bad Ending: Never Satisfied
--> Endings
-
 = Bad_End_2
-Bad Ending - Crushed
+- BAD END 2 - Crushed
 -> Endings
 
 = Bad_End_3
@@ -2236,7 +2094,42 @@ Bad Ending - Crushed
 
 -> Endings
 
+= Bad_End_5
+- BAD END 5 - Finding Solace
+-> Endings
 
+= Bad_End_6
+- BAD END 6 - Never Satisfied
+-> Endings
+
+= Bad_End_7
+- BAD? END 7 - Finding Peace
+-> Endings
+
+= Waht_End_8
+- ??? END 8 -  What Have You Done?
+-> Endings
+
+= Good_End_9
+*[And you deserve a very long, vey hot, bath]
+
+- GOOD END 9 - It Has Been a Long, Long Night
+-> Endings
+
+= Bad_End_10
+- BAD END 10 - Juice box
+-> Endings
+
+= Waht_End_12
+- ??? END 12 - You Are the Church
+-> Endings
+
+
+= Bad_End_11
+*[And your body goes limp.]
+
+- BAD END 11 - Fold and Snap
+-> Endings
 
 
 

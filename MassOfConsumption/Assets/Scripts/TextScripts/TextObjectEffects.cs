@@ -35,13 +35,13 @@ public class TextObjectEffects : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnTextEffectFlip += SetTextEffectVisibility;
-        TextSettingsData.OnTextSizeChange += SetTextSize;
+        SettingsUIData.OnTextSizeChange += SetTextSize;
     }
 
     private void OnDisable()
     {
         GameManager.OnTextEffectFlip -= SetTextEffectVisibility;
-        TextSettingsData.OnTextSizeChange -= SetTextSize;
+        SettingsUIData.OnTextSizeChange -= SetTextSize;
     }
 
     private void SetTextSize()

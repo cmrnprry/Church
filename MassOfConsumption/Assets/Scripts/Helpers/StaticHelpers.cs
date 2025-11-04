@@ -22,6 +22,7 @@ namespace AYellowpaper.SerializedCollections
 
         public static void SetBackgroundImage(string key, Sprite sprite, Image[] backgrounds, Animator anim)
         {
+            Debug.Log("Current Image is: " + key);
             Sequence seq = DOTween.Sequence();
             if (LastWasDefault) //if default background is currently shown
             {
@@ -162,10 +163,5 @@ namespace AYellowpaper.SerializedCollections
             for (int i = 0; i < amount; i++)
                 intrusiveThoughts.SpawnThought(text, jump_to);
         }
-
-
-
-
-
     }
 }

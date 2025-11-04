@@ -1,20 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using AYellowpaper.SerializedCollections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using AYellowpaper.SerializedCollections;
 
-public class TextSettingsData : MonoBehaviour
+public class SettingsUIData : MonoBehaviour
 {
-    [Header("Text Settings")] 
+    [Header("Text Settings")]
     [SerializeField] private Slider TextSpeed_Slider;
     [SerializeField] private Slider TextSize_Slider;
     [SerializeField] private TMP_Dropdown Font_dropdown;
     [SerializeField] private ToggleSwitchColorChange AutoPlayToggle, VisualOverlay, TextEffectsOverlay;
 
-    
+
     [Header("Audio Settings")]
     [SerializeField] private Slider sfxSlider;
     [SerializeField] private Slider bgmSlider;
@@ -24,13 +24,22 @@ public class TextSettingsData : MonoBehaviour
     public delegate void TextSize();
     public static event TextSize OnTextSizeChange;
     public static event TextSize OnTextFontChange;
-    
-    // Start is called before the first frame update
-    void OnEnable()
+
+    [Header("Video Settings")]
+    [SerializeField] private Toggle full, window;
+    [SerializeField] private TMP_Dropdown Screensize_Dropdown;
+
+    public void OnEnable()
     {
+        var isfull = SaveSystem.GetFullscreen();
+        full.isOn = isfull;
+        window.isOn = !isfull;
+
+        Screensize_Dropdown.value = SaveSystem.GetSettingsIndex();
+
         muteToggle.SetValue(SaveSystem.GetMuteValue());
-        sfxSlider.value = SaveSystem.GetAudioVolume(3);
-        bgmSlider.value = SaveSystem.GetAudioVolume(2);
+        sfxSlider.value = SaveSystem.GetAudioVolume(Audio.SFX);
+        bgmSlider.value = SaveSystem.GetAudioVolume(Audio.BGM);
 
         AutoPlayToggle.SetValue(SaveSystem.GetAutoplayValue());
         SetAutoPlay(SaveSystem.GetAutoplayValue());
@@ -43,10 +52,10 @@ public class TextSettingsData : MonoBehaviour
 
         TextSpeed_Slider.value = SaveSystem.GetTextSpeed();
         SetTextSpeedValue(SaveSystem.GetTextSpeed());
-        
+
         TextSize_Slider.value = SaveSystem.GetTextSize();
         SetTextSizeValue(SaveSystem.GetTextSize());
-        
+
         Font_dropdown.value = SaveSystem.GetTextFontIndex();
         SetFont(SaveSystem.GetTextFontIndex());
     }
@@ -74,23 +83,40 @@ public class TextSettingsData : MonoBehaviour
         SaveSystem.SetTextSpeed(value);
         GameManager.instance.DelayTimings = value;
     }
-    
+
     public void SetTextSizeValue(float value)
     {
         SaveSystem.SetTextSize(value);
         OnTextSizeChange?.Invoke();
     }
 
+    public void SetScreenMode(bool isFullScreen)
+    {
+        var res = SaveSystem.GetResolution();
+        Screen.SetResolution((int)res.x, (int)res.y, isFullScreen);
+
+        SaveSystem.SetFullscreen(isFullScreen);
+    }
+
+    public void SeScreentResValue(int value)
+    {
+        var option = Screensize_Dropdown.options[value].text.Split('x');
+        var res = new Vector2(int.Parse(option[0].Trim()), int.Parse(option[1].Trim()));
+        Screen.SetResolution((int)res.x, (int)res.y, SaveSystem.GetFullscreen());
+
+        SaveSystem.SetResolution(res, value);
+    }
+
     public static void SetTextSize()
     {
         OnTextSizeChange?.Invoke();
     }
-    
+
     public void SetFont(int value)
     {
         SaveSystem.SetFontIndex(value);
         OnTextFontChange?.Invoke();
         TMProGlobal.GlobalFontAsset = SaveSystem.GetTextFont();
         TMPTextGlobal.GlobalFontAsset = SaveSystem.GetTextFont();
-    }    
+    }
 }

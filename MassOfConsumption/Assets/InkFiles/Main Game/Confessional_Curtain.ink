@@ -1220,7 +1220,7 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 - 
 #ENDING: 5, Bad Ending: Finding Solace
 *[You've never known solace like this.]
-    ->END
+    ->Endings.Bad_End_5
 
 = Leave_NoProgress
 ~ current_area = Main_Body // set the current area

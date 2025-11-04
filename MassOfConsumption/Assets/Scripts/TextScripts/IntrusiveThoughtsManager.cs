@@ -10,7 +10,7 @@ public class IntrusiveThoughtsManager : MonoBehaviour
     [SerializeField] private Transform Parent;
     private List<int> UsedPoints = new List<int>();
     [SerializeField] private GameObject Thought;
-    
+
     public void SpawnThought(string text, string jump_to)
     {
         if (UsedPoints.Count >= SpawnPoints.Count)
@@ -18,9 +18,9 @@ public class IntrusiveThoughtsManager : MonoBehaviour
             IncreaseThought();
             return;
         }
-        
+
         int index = Random.Range(0, SpawnPoints.Count);
-        
+
         if (UsedPoints.Contains(index))
         {
             SpawnThought(text, jump_to);
@@ -28,14 +28,14 @@ public class IntrusiveThoughtsManager : MonoBehaviour
         }
 
         UsedPoints.Add(index);
-        var spawned_thought= Instantiate(Thought, SpawnPoints[index].position, Quaternion.identity, Parent);
+        var spawned_thought = Instantiate(Thought, SpawnPoints[index].position, Quaternion.identity, Parent);
         IntrusiveThought intrusive = spawned_thought.GetComponent<IntrusiveThought>();
-        
+
         intrusive.SetTweens(text);
         intrusive.SetButtonCallback(jump_to);
     }
 
-    public void KillAllThoughts()
+    public void KillAllThoughts(bool IsFromSave = false)
     {
         foreach (Transform child in Parent)
         {
@@ -43,7 +43,9 @@ public class IntrusiveThoughtsManager : MonoBehaviour
             intrusive.KillAllThoughts();
         }
 
-        SaveSystem.SetIntrusiveThroughts(new List<string>());
+        UsedPoints.Clear();
+        if (!IsFromSave)
+        { SaveSystem.SetIntrusiveThroughts(new List<string>()); }
     }
 
     public void IncreaseThought()

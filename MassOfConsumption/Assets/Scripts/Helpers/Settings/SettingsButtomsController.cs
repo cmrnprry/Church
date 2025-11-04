@@ -8,7 +8,7 @@ using TMPro;
 
 namespace AYellowpaper.SerializedCollections
 {
-    public class SettingsHelper : MonoBehaviour
+    public class SettingsButtomsController : MonoBehaviour
     {
         [SerializedDictionary("Index", "Object Parent")] public SerializedDictionary<int, GameObject> MenuDictionary;
         [SerializeField] private Transform MenuParent, ButtonParent;
@@ -16,14 +16,14 @@ namespace AYellowpaper.SerializedCollections
         private void OnEnable()
         {
             SelectMenu(0);
-            SettingsUIButtonsHelper.OnClick += SelectMenu;
+            SettingsUIButton.OnClick += SelectMenu;
         }
 
         private void OnDisable()
         {
             SelectMenu(0);
-            Time.timeScale = 1;
-            SettingsUIButtonsHelper.OnClick -= SelectMenu;
+            //Time.timeScale = 1;
+            SettingsUIButton.OnClick -= SelectMenu;
         }
 
         public void SelectMenu(int index)
@@ -33,13 +33,13 @@ namespace AYellowpaper.SerializedCollections
                 if (i == index)
                 {
                     MenuDictionary[i].SetActive(true);
-                    SettingsUIButtonsHelper button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButtonsHelper>();
+                    SettingsUIButton button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButton>();
                     button.IsPageSelected(true);
                 }
                 else
                 {
                     MenuDictionary[i].SetActive(false);
-                    SettingsUIButtonsHelper button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButtonsHelper>();
+                    SettingsUIButton button = ButtonParent.GetChild(i).gameObject.GetComponent<SettingsUIButton>();
                     button.IsPageSelected(false);
                 }
             }

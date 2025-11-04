@@ -6,6 +6,7 @@ using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine.TextCore.Text;
 
+public enum Audio { BGM, SFX, Master, Mute }
 
 public static class SaveSystem
 {
@@ -175,19 +176,19 @@ public static class SaveSystem
     /// </summary>
     /// <param name="volume">volume of the audio</param>
     /// <param name="type">1 = master, 2 = bgm, 3 = sfx</param>
-    public static void SetAudioVolume(float volume, int type)
+    public static void SetAudioVolume(float volume, Audio type)
     {
         switch (type)
         {
-            case 1:
+            case Audio.Mute:
                 settingsData.mute = (volume == 0);
                 break;
 
-            case 2:
+            case Audio.BGM:
                 settingsData.BGM = volume;
                 break;
 
-            case 3:
+            case Audio.SFX:
                 settingsData.SFX = volume;
                 break;
 
@@ -204,16 +205,16 @@ public static class SaveSystem
         return settingsData.mute;
     }
 
-    public static float GetAudioVolume(int type)
+    public static float GetAudioVolume(Audio type)
     {
         float volume = 0;
         switch (type)
         {
-            case 2:
+            case Audio.BGM:
                 volume = settingsData.BGM;
                 break;
 
-            case 3:
+            case Audio.SFX:
                 volume = settingsData.SFX;
                 break;
 
@@ -321,8 +322,8 @@ public static class SaveSystem
 
         //set audio
         float mute = GetMuteValue() ? 0 : 1;
-        AudioManager.instance.AdjustSFX(GetAudioVolume(3));
-        AudioManager.instance.AdjustBGM(GetAudioVolume(2));
+        AudioManager.instance.AdjustSFX(GetAudioVolume(Audio.SFX));
+        AudioManager.instance.AdjustBGM(GetAudioVolume(Audio.BGM));
         AudioManager.instance.MuteAudio((int) mute);
 
         //set autoplay values
@@ -331,7 +332,7 @@ public static class SaveSystem
         GameManager.instance.VisualOverlay = GetOverlayValue();
         GameManager.instance.TextEffects = GetTextEffectsValue();
         GameManager.instance.DelayTimings = GetTextSpeed();
-        TextSettingsData.SetTextSize();
+        SettingsUIData.SetTextSize();
         TMProGlobal.GlobalFontAsset = GetTextFont();
     }
 

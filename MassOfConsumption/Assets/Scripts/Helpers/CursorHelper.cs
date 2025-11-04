@@ -29,8 +29,8 @@ public class CursorHelper : MonoBehaviour
         LabledButton.OnCursorEnter += OnHoverStart;
         LabledButton.OnCursorExit += OnHoverEnd;
 
-        SettingsUIButtonsHelper.OnCursorEnter += OnHoverStart;
-        SettingsUIButtonsHelper.OnCursorExit += OnHoverEnd;
+        SettingsUIButton.OnCursorEnter += OnHoverStart;
+        SettingsUIButton.OnCursorExit += OnHoverEnd;
 
         ToggleSwitchColorChange.OnCursorEnter += OnHoverStart;
         ToggleSwitchColorChange.OnCursorExit += OnHoverEnd;
@@ -48,8 +48,8 @@ public class CursorHelper : MonoBehaviour
         LabledButton.OnCursorEnter -= OnHoverStart;
         LabledButton.OnCursorExit -= OnHoverEnd;
 
-        SettingsUIButtonsHelper.OnCursorEnter -= OnHoverStart;
-        SettingsUIButtonsHelper.OnCursorExit -= OnHoverEnd;
+        SettingsUIButton.OnCursorEnter -= OnHoverStart;
+        SettingsUIButton.OnCursorExit -= OnHoverEnd;
 
         ToggleSwitchColorChange.OnCursorEnter -= OnHoverStart;
         ToggleSwitchColorChange.OnCursorExit -= OnHoverEnd;

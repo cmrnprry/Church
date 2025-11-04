@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 
-public class SettingsUIButtonsHelper : MonoBehaviour
+public class SettingsUIButton : MonoBehaviour
 {
     private Image Background;
     private TextMeshProUGUI Text;

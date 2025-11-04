@@ -17,6 +17,9 @@ public class SaveLoadUIHelper : MonoBehaviour
     [SerializeField] GameObject SaveSlotsPrefab;
     [SerializeField] GameObject OverwriteSaveData;
 
+    [Header("Save Load Toggle")]
+    [SerializeField] private ToggleSwitchColorChange SaveLoad;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +54,9 @@ public class SaveLoadUIHelper : MonoBehaviour
     {
         SaveUIPageNumber.OnClick += SetPage;
         SaveSlot.OnTryOverwriteSave += OverwriteSave;
+
+        if (SaveLoad != null)
+            SaveLoad.ToggleSwitchOnOff(!SaveSystem.isSaving);
     }
 
     private void OnDisable()

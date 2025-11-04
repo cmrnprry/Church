@@ -186,14 +186,12 @@ They begin to sing, hands out stretched for you to take. The music flows through
 
 - #ENDING: 7, Bad? Ending: Finding Peace
 *[And find peace.]
-->END
+    ->Endings.Bad_End_7
 
 = Leave
 *[It has been a long night.]
-
-- #ENDING: 9, Good Ending: It Has Been a Long, Long Night
-*[And you deserve a very long, vey hot, bath.]
-->END
+    #ENDING: 9, Good Ending: It Has Been a Long, Long Night
+    ->Endings.Good_End_9
 
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 
@@ -388,7 +386,7 @@ You can't get enough air in. Is this actually slime—?
 *[Your skin burns.]
 
 - 
-#ENDING: 1, Bad Ending: Digested #DELAY: 2
+#DELAY: 2
 You keep going, desperately trying to escape. 
 
 #CLASS: Blur #DELAY: 2
@@ -401,6 +399,7 @@ You trip over yourself, and fall into puddle of the acidic ooze.
 You can't feel your legs.
 
 *[You can't feel anything.]
+#ENDING: 1, Bad Ending: Digested
 ->Endings.Bad_End_1
 
 = Turn_Back

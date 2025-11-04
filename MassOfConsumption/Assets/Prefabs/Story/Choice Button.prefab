@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 25
-    m_Right: 25
+    m_Left: 75
+    m_Right: 75
     m_Top: 5
     m_Bottom: 5
   m_ChildAlignment: 4
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Example Choice Text
+  m_text: Example Choice Text Example Choice Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f7f2ac252354d574f9bd770faae004af, type: 2}
   m_sharedMaterial: {fileID: -5004288213604744880, guid: f7f2ac252354d574f9bd770faae004af, type: 2}

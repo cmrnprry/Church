@@ -13,8 +13,7 @@ public class TMProGlobal : TextMeshProUGUI
         set
         {
             _globalFontAsset = value;
-            OnGlobalFontChangedEvent?.Invoke();
-              
+            OnGlobalFontChangedEvent?.Invoke();              
         }
     }
 

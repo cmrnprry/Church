@@ -15,7 +15,6 @@ namespace AYellowpaper.SerializedCollections
         public Image TransitionScreen;
         public GameObject Settings, MainMenu, SaveLoad;
         public LabledButton LoadButton;
-        public TMP_Dropdown Res_dropdown;
 
         private float wait = 0.25f;
 
@@ -38,6 +37,16 @@ namespace AYellowpaper.SerializedCollections
 
         }
 
+        private void OnEnable()
+        {
+            SaveSystem.OnLoad += CloseSettingsOnLoad;
+        }
+
+        private void OnDisable()
+        {
+            SaveSystem.OnLoad -= CloseSettingsOnLoad;
+        }
+
         public void StartGame(GameObject Menu)
         {
             TransitionScreen.gameObject.SetActive(true);
@@ -52,20 +61,7 @@ namespace AYellowpaper.SerializedCollections
             });
         }
 
-        private void OnEnable()
-        {
-            SaveSystem.OnLoad += CloseSettingsOnLoad;
-        }
-
-        private void OnDisable()
-        {
-            SaveSystem.OnLoad -= CloseSettingsOnLoad;
-        }
-
-        public void QuitGame()
-        {
-            Application.Quit();
-        }
+        
 
         public void ShowScreen(GameObject Menu)
         {
@@ -126,21 +122,13 @@ namespace AYellowpaper.SerializedCollections
                 ShowScreen(SaveLoad, false);
         }
 
-        public void SetScreenMode(bool isFullScreen)
-        {
-            var res = SaveSystem.GetResolution();
-            Screen.SetResolution((int)res.x, (int)res.y, isFullScreen);
 
-            SaveSystem.SetFullscreen(isFullScreen);
+
+
+        public void QuitGame()
+        {
+            Application.Quit();
         }
 
-        public void SetRes(int value)
-        {
-            var option = Res_dropdown.options[value].text.Split('x');
-            var res = new Vector2(int.Parse(option[0].Trim()), int.Parse(option[1].Trim()));
-            Screen.SetResolution((int)res.x, (int)res.y, SaveSystem.GetFullscreen());
-
-            SaveSystem.SetResolution(res, value);
-        }
     }
 }
