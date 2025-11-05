@@ -530,28 +530,32 @@ namespace AYellowpaper.SerializedCollections
                 case "PROP": //set what prop is visible on screen
 
                     string[] prop_list = value.Split(',');
-                    if (PropDictionary.ContainsKey(prop_list[0].Trim()))
+                    char[] separators = new char[] { ' ', '[', ']' };
+                    foreach (string prop in prop_list)
                     {
-                        var obj = PropDictionary[value];
+                        string[] p = prop.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+                        string src = p[0].Trim();
+                        bool visibility = p[1].Trim().ToLower() == "true" ? true : false;
 
-
-                        bool visible = !obj.activeSelf;
-                        obj.SetActive(visible);
-
-                        var helper = obj.GetComponent<OnOffHelpers>();
-                        if (helper != null)
-                            obj.GetComponent<OnOffHelpers>().FlipVisibility(visible);
-                        else
+                        if (PropDictionary.ContainsKey(src))
                         {
-                            foreach (Transform child in obj.transform)
-                            {
-                                var chil_helper = child.gameObject.GetComponent<OnOffHelpers>();
-                                if (chil_helper != null)
-                                    chil_helper.FlipVisibility(visible);
-                            }
-                        }
+                            var obj = PropDictionary[src];
+                            obj.SetActive(visibility);
 
-                        SaveSystem.SetCurrentProp(value, visible);
+
+                            if (obj.TryGetComponent(out OnOffHelpers helper))
+                                helper.FlipVisibility(visibility);
+                            else
+                            {
+                                foreach (Transform child in obj.transform)
+                                {
+                                    if (child.TryGetComponent(out OnOffHelpers child_helper))
+                                        child_helper.FlipVisibility(visibility);
+                                }
+                            }
+
+                            SaveSystem.SetCurrentProp(src, visibility);
+                        }
                     }
 
                     break;

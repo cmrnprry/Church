@@ -1,3 +1,7 @@
+EXTERNAL PlaySFX(src, loop, fade_in, delay)
+EXTERNAL StopSFX(src, fade_out, delay)
+EXTERNAL Intrusive(amount, text, jump_to)
+
 //Temp
 VAR temp_string = ""
 VAR temp_bool = false
@@ -6,9 +10,6 @@ VAR temp_bool_3 = false
 
 //Items
 LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
-
-//Walk_Home is {Walk_Home} <br>
-
 
 //Feelings
 LIST Priest_Feeling = anger, guilt, dread
@@ -89,7 +90,14 @@ VAR Need_Find_Book = false
 VAR Finish_ophelia = false
 
 
+=== function PlaySFX(src, loop, fade_in, delay)
+    ~ return 1
 
+=== function StopSFX(src, fade_out, delay)
+    ~ return 1
+
+=== function Intrusive(amount, text, jump_to)
+    ~ return 1
 
 
 

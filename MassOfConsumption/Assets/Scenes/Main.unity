@@ -7224,11 +7224,11 @@ MonoBehaviour:
       Value: {fileID: 196729323}
     - Key: priest
       Value: {fileID: 783921216}
-    - Key: closed gates
+    - Key: closed_gates
       Value: {fileID: 35696478}
-    - Key: open gates
+    - Key: open_gates
       Value: {fileID: 965623230}
-    - Key: poleroid
+    - Key: polaroid
       Value: {fileID: 1883712318}
     - Key: sledgehammer
       Value: {fileID: 1376939083}
@@ -7238,13 +7238,13 @@ MonoBehaviour:
       Value: {fileID: 2122327925}
     - Key: wirecutter
       Value: {fileID: 1234397282}
-    - Key: flash
+    - Key: flashlight
       Value: {fileID: 265555969}
     - Key: note
       Value: {fileID: 4333331523218299797}
-    - Key: open curtain
+    - Key: curtain_full
       Value: {fileID: 1941496813}
-    - Key: torn curtain
+    - Key: curtain_torn
       Value: {fileID: 1223488989}
     - Key: eat heart
       Value: {fileID: 695370657}
@@ -16946,7 +16946,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.00004673004}
+  m_AnchoredPosition: {x: 0, y: -0.000049591064}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &777355038

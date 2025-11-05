@@ -2,7 +2,7 @@
 //As we enter the curtain side, set all variables. 
 ~ current_area = Confessional_DoorSide // set the current area
 
-# IMAGE: Default #PROP: curtain_full
+# IMAGE: Default #PROP: [curtain_full false]
 {
     //if this is the first area we are visiting
     - visited_state <= 0:
@@ -221,7 +221,7 @@ You shine your flashlight through at the movement. What you assume to be the gir
 -> Confessional_Door.End_Booth_Encounter("Watched")
 
 = End_Booth_Encounter(Reaction)
-# IMAGE: Confessional_CloseUp #PROP: curtain_torn #REMOVE: INTRUSIVE
+# IMAGE: Confessional_CloseUp #PROP: [curtain_torn true]  #REMOVE: INTRUSIVE
 ~ Confessional_Encounters += (Finished_Door_Side, Killed_Girl)
 <i>This is your fault.</i>
 
@@ -237,7 +237,7 @@ You feel...
     ~ Priest_Feeling = (anger)
     ~ Stay_Tracker -= 0.5
     ~temp_string = "You grind your teeth"
-    #IMAGE: Default #PROP: curtain_torn
+    #IMAGE: Default #PROP: [curtain_torn false]
     You slam your fist into the ground. Again and again until the skin splits and splinters stick inside. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | {Reaction == "Sat_There": You just- You just <i>sat</i> there. Sat there and did <i>nothing.</i>| {Reaction == "Watched": You watched her writher and writhe on the ground. Did that make you feel better? To see her in pain like that? | You should have moved faster. Pushed harder. Why can't you do anything right? }}} But what did it even matter? <i>There's no one here.</i>
     
     You grab the fabric from the ground and start ripping it apart. <i>Riiiippp!</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp!</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp!</i>  {Book_Knowledge ? (Read_Mom_Old_Book): You know she was once a real person, but was that her? Or was that the church? | What can you trust if your own sense are compromised?} <i>Riiiippp!</i> 
@@ -248,7 +248,7 @@ You feel...
     ~ Priest_Feeling = (guilt)
     ~ Stay_Tracker += 0.5
     ~temp_string = "You grimace"
-    # IMAGE: Default #PROP: curtain_torn
+    # IMAGE: Default #PROP: [curtain_torn false]
     You gather up the fabric in your hands. You swallow back the lump ever growing in your throat. {Confessional_Encounters ? (Pressed_Emily): You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } {Reaction == "Sat_There": You... did you even try? Why... why didn't you get up? Move faster? Do something? | {Reaction == "Watched": You were so close, but instead you <i>stopped  to watch?</i> Why? Just to confirm what your ears and gut already knew? | You took so long playing with the door. It came down so easily when you put your back into it. If you had done that sooner then- }}
     
     You put your hand over the scratch marks, and feel the deep grooves left chipped in wood. How panicked would you need to be to leave such marks? 
@@ -298,7 +298,7 @@ You feel...
 *[Dread]
     ~ Priest_Feeling = (dread)
     
-    # IMAGE: Default #PROP: curtain_torn
+    # IMAGE: Default #PROP: [curtain_torn false]
     You touch the ripped fabric. {Confessional_Encounters ? (Pressed_Emily): Would this still have happened if you didn't press her...? Does it make a difference if you did or not? | Was any of that real...? }
     
     {Confessional_Encounters ? (Saw_Her_Struggle): You saw her. You <i>SAW</i> her. The curtain is <i>ripped.</i> | You heard her. You— You can <i>see</i> the curtain was affected.}
@@ -309,7 +309,7 @@ You feel...
     ~temp_string = "Your hands tremble"
 - 
 
-# IMAGE: Confessional_CloseUp #PROP: curtain_full
+# IMAGE: Confessional_CloseUp #PROP: [curtain_full true] 
 What...?
 *[{temp_string}]
 
@@ -318,7 +318,7 @@ What...?
     - temp_string == "Your hands tremble":
         You stare at the intact curtain in front of you. You grip the fabric in your hands tightly, afraid it will disappear the moment you can no longer feel it.
 
-        # IMAGE: Church_Inside #PROP: curtain_full
+        # IMAGE: Church_Inside #PROP: [curtain_full false] 
         "Why...?" you mutter as you try to stand, your legs shaky. You turn to face the main body of the church. "What is the point to any of this...? Are you trying to...?"
 
         Your voice is quiet, but you know the church heard you. Deep in your gut, you know, and you waited for its response. 
@@ -330,7 +330,7 @@ What...?
         
         Your eyes dart back and forth between your empty hands, and the intact curtain in front of you. You can't understand it.
 
-        # IMAGE: Church_Inside #PROP: curtain_full
+        # IMAGE: Church_Inside #PROP: [curtain_full false] 
         "What is this...?" your voice warbles, and you slowly stand. You turn to face the main body of the church. You throw out your hands, holding the fabric up like an offering. "What— what is this...?!"
 
         You let out a wet croak. You look around, looking for some response. 
@@ -338,7 +338,7 @@ What...?
         Any response.
     
     - temp_string == "You grind your teeth":
-        # IMAGE: Church_Inside #PROP: curtain_full
+        # IMAGE: Church_Inside #PROP: [curtain_full false] 
         "What is this?" You stand and throw a fist at the intact curtain. You turn to face the main body of the church. "What. is. THIS?!"
 
         You can't help but laugh. Laugh at the absurdity. At your stupidity. You remember the words on the note you were given. 

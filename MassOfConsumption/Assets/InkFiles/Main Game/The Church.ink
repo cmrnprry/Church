@@ -14,7 +14,7 @@ INCLUDE TESTING.ink
 
 
 
-->TESTING
+->StartGame
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -921,7 +921,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     }
 
 *[Take the usual path home]
-    #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
+    #IMAGE: Church_Looming #PROP: [Breathing true], [closed_gates true]
     Tentatively, you walk your usual path home, and try not to look at the church.
     ->Walk_Home_From_Work.Usual
 
@@ -940,7 +940,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
 *{!photo_ripped} [Check your polaroid]
     ~ photo_ripped = SOME_IN_POCKET
     ~ Remembered_Past = true
-    #PROP: polaroid
+    #PROP: [polaroid true]
     You reach into your pocket and pull out the photo. You look down while walking, tracing the familiar shapes with your finger. You trace the image of your younger self, and the gate behind, then the church behind—
     
     You stop in your tracks. No? No. It's always been a photo of you and your grandparents... at... church. Church. Right. You grip the image until your knuckles go white. You squeeze your eyes shut as a memory attempts to surface. You're scared. You're trapped. You're... inside?
@@ -998,7 +998,7 @@ You grab the sign with both hands, overtaking it bit. The burning is gone. Nothi
     ->Walk_Home_From_Work.Stop_Sign("")
 
 = Face_Church
-#ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
+#ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement #IMAGE: Church_Looming #PROP: [Breathing true], [closed_gates true]
 ~ StopSFX("walking_fast_pavement", 0, 0)
 You spin around to face it, and find yourself.. in front... of the church? You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
@@ -1021,7 +1021,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     - Walk_Home ? (Face_It):
         The front gates are closed, but the door is open. You press your lips together, wondering if you made the right choice.
     - state == "From_Remember":
-        #ICLASS: NULL #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
+        #ICLASS: NULL #IMAGE: Church_Looming #PROP: [Breathing true], [closed_gates true]
         It towers over you, taller than you remember. You blink rapidly, shaking yourself out of the memory, and look down at what's left of the image in your hand. Tiny pieces sit in a pile on the ground in front of you. Did you...?
 
         You swallow the lump in your throat and carefully pick up pieces, ensuring you get every little piece, but a large gust of wind spits on the idea, stealing the pieces from you and scattering them on the church's lawn.
@@ -1029,7 +1029,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
         "N-no!" you shriek and scramble forward, stopping before your hand crosses the property line. You stand, and dust yourself off, eyes jumping between pieces of the photo and the open church door. You need to get those pieces.
         
     - else:
-        #ICLASS: NULL #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
+        #ICLASS: NULL #IMAGE: Church_Looming #PROP: [Breathing true], [closed_gates true]
         It towers over you, taller than you remember. Your hands tightly grip the front gates. The door is open. {Remembered_Past or Church_Investigation ? (Called): You grimace. | {Church_Investigation ? (Entered): {Church_Entered != Satisfied: But how did it...? You were at...? | A smile crawls to your face.}}}
 }
 
@@ -1042,12 +1042,12 @@ You spin around to face it, and find yourself.. in front... of the church? You l
 
 
 *{state != "From_Remember"} [Open the gates]
-    #PROP: closed gates #PROP: open gates
+    #PROP: [open_gates true], [closed_gates false]
     ~ PlaySFX("gate_open", false, 0, 0)
     You throw the gates open, and the edges of the dirt path to the church brighten for a moment, then darken. Motion activated lights, maybe?
 
 *{Walk_Home !? (Face_It) and state != "From_Remember"} [Let go]
-    #PROP: closed gates #PROP: open gates
+    #PROP: [open_gates true], [closed_gates false]
     ~ PlaySFX("gate_open", false, 0, 0)
     You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten for a moment, then darken. Motion activated lights, maybe?
 
@@ -1067,7 +1067,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
     ->Walk_Up_Path("From_Remember")
 
 = Usual
-#PROP: open gates #PROP: closed gates
+#PROP: [open_gates true], [closed_gates false]
 ~ PlaySFX("gate_open", false, 0, 0)
 As you pass the front gate, it creaks open, and you flinch. {Remembered_Past: You should keep moving.}
 
@@ -1147,11 +1147,11 @@ You stick your head past the gates and look around. You don't see anything, the 
 *[Take a closer look]
 
 *[Pull the gate closed]
-    #DELAY: 1.73 #PROP: open gates #PROP: closed gates
+    #DELAY: 1.73 #PROP: [open_gates false], [closed_gates true]
     ~ PlaySFX("gate_close", false, 0, 0)
     Just as it slams shut...
     
-    #EFFECT: LightDark #IMAGE: Default #PROP: closed gates 
+    #EFFECT: LightDark #IMAGE: Default #PROP: [closed_gates false] 
     Everything goes dark.
     
     **[Wait for your eyes adjust]
@@ -1204,7 +1204,7 @@ You frown, double check that you called the correct number, and redial. You get 
     The line clicks and again, the dial tone plays. You swallow hard, eyes burning. A looming presence waits behind you, and you know if you turn around— if you <i>dare</i> to turn around, what would be waiting for you.
     
         **[Turn around]
-            #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
+            #IMAGE: Church_Looming #PROP: [Breathing true], [closed_gates true]
             ~ Walk_Home += (Face_It)
             You tuck your phone into your pocket, take a deep, steadying breath, and turn. It towers over you, taller than you remember. <>
             ->Walk_Home_From_Work.Stop_Sign("Face_It")
@@ -1285,11 +1285,11 @@ You grab the gate with both hands, and look up at the church one last time. It's
 *[Pull the gate closed]
 
 - 
-#DELAY: 1.73 #PROP: Breathing #PROP: open gates
+#DELAY: 1.73 #PROP: [Breathing false], [open_gates false], [closed_gates true]
 ~ PlaySFX("gate_close", false, 0, 0)
 Just as it slams shut...
 
-#EFFECT: LightDark #IMAGE: Default
+#EFFECT: LightDark #IMAGE: Default #PROP: [closed_gates false]
 Everything goes dark.
 
 *[Wait for your eyes adjust]
@@ -1339,7 +1339,7 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #ZOOM: 1, 0, 0, 0.5 #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #DELAY: 5 #EFFECT: LightDark #IMAGE: Default #PROP: open gates #PROP: Breathing
+- #ZOOM: 1, 0, 0, 0.5 #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #DELAY: 5 #EFFECT: LightDark #IMAGE: Default #PROP: [Breathing false], [open_gates false]
 ~ PlaySFX("door_slam", false, 0, 0.5)
 ~ StopSFX("footsteps_player", 0, 0)
 ~ StopSFX("footsteps_scary", 0, 1)
@@ -1529,15 +1529,15 @@ You open the door to find a side office, entirely covered in dust and cobwebs. T
 
 {
     - Object == crowbar: 
-        #PROP: crowbar
+        #PROP: [crowbar true]
         On the desk sits a {Object}, <>
         
     - Object == screwdriver:
-        #PROP: screwdriver
+        #PROP: [screwdriver true]
         On the desk sits a {Object}, <>
         
     - Object == sledgehammer:
-        #PROP: sledgehammer
+        #PROP: [sledgehammer true]
         On the desk sits a {Object}, <>
 }
 
@@ -1553,15 +1553,15 @@ illuminated by a red spotlight from the window. It's not covered in dust like re
 -
 {
     - Object == crowbar: 
-        #PROP: crowbar
+        #PROP: [sledgehammer fasle]
         <>
         
     - Object == screwdriver:
-        #PROP: screwdriver
+        #PROP: [sledgehammer fasle]
         <>
         
     - Object == sledgehammer:
-        #PROP: sledgehammer
+        #PROP: [sledgehammer false]
         <>
 }
 {
@@ -1739,7 +1739,7 @@ You mentally kick yourself for letting this happen. {Walk_Home ? (Different_Path
 
 = Remember
 ~ photo_ripped = ALL_IN_POCKET
-#PROP: polaroid # REMOVE: INTRUSIVE
+# REMOVE: INTRUSIVE #PROP: [polaroid true]
 You pull the polaroid out from your pocket, hoping to think about better times. It's dark, but you can see enough to make out shapes. You trace the image of your younger self, and the gate behind them with your finger, then the church behind—
 
 Church? 
@@ -1751,7 +1751,7 @@ Church?
 *[You grip the picture tightly in your hands.]
 
 -  
-#PROP: polaroid
+#PROP: [polaroid false]
 The church is {Church_Feeling}. Why? Something that tickles the back of your brain. The memory refuses to surface, only vague images and feelings. If you close your eyes... You're scared. You're trapped. You're... inside? Inside where—?
 
 Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when— 
@@ -2063,29 +2063,29 @@ On the ground in front of you sits a flashlight and a note.
 
 = Flashlight
 ~has_flashlight = true
-#PROP: flash #PLAY: flashlight_on
+#PLAY: flashlight_on #PROP: [flashlight true]
 ~ PlaySFX("flashlight_on", false, 0, 0)
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
 *[Read the note]
-    #EFFECT: flashlight_on #PROP: flash #PROP: note
+    #EFFECT: flashlight_on #PROP: [flashlight false], [note, true]
 
 - The note is from an old piece of parchment. It feels like it could crumple into dust.
 
 "Find the heart and <color=\#3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color=\#3f1313>sight.</color><br><br>Do not become it's next <color=\#3f1313>meal.</color>"
 
 *[Meal...?]
-    #PROP: note
+    #PROP: [note false]
     You shutter at the thought. You wonder how long you have until it fully digests you.
 
 *[Sight...?]
-    #PROP: note
+    #PROP: [note false]
     Well.... You glance up at the swirling window.
     
     You remember how the church's sight warped your thoughts and reasoning. {Church_Encounters ? (Leave_Light): How you had to pull yourself out. | How you would have done anything to stay there a little longer.} You cannot let that happen again. If the church sees you again...
 
 *[Heart...?]
-    #PROP: note
+    #PROP: [note false]
     <i>Find and destroy the heart.</i> You think about what the "heart" of the church would be. A sacred artifact or maybe something more literal? You hope you'll know it when you see it.
 
 - 
@@ -2152,7 +2152,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     ->Inside.Look_For_Heart
 
 === Confessional ===
-# IMAGE: Confessional_CloseUp #PROP: curtain_full #EFFECT: click_move_confessional
+# IMAGE: Confessional_CloseUp #PROP: [curtain_full true]  #EFFECT: click_move_confessional
 You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessional booth. {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the intact curtain. } approach the confessional booth. {Confessional_Encounters !? (Finished_Curtain_Side, Finished_Door_Side): It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess.} (click highlighted image)
 
 
@@ -2166,6 +2166,7 @@ You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessio
 === Endings ===
 
 +[Restart Game]
+    ->StartGame
 
 +[Main Menu]
 
