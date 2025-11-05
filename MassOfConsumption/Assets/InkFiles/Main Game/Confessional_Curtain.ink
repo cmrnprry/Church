@@ -5,6 +5,7 @@
     //if this is the first area we are visiting
     - visited_state <= 0:
         #PLAY: curtain
+        ~ PlaySFX("curtain", false, 0, 0)
         You push aside the curtain and find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable bench, and a small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
         
         You think you'd know if there were anything else in here.
@@ -59,6 +60,7 @@
 = Nothing_Here(checked_area)
 *[To confess]
     #PLAY: curtain 
+    ~ PlaySFX("curtain", false, 0, 0)
     ~temp_bool = true
     "What is it you have to confess?" The curtain zips closed and you jump at the deep voice coming from the other side of the screen. "I am here to listen."
 
@@ -67,11 +69,13 @@
     You look around the small space again, touching the smooth wood to find anything you may have missed.
     
     #PLAY: curtain 
+    ~ PlaySFX("curtain", false, 0, 0)
     "Looking for something?" The curtain zips closed and you jump at the deep voice coming from the other side of the screen. "I may be able to help?"
 
 *[You don't know]
     #PLAY: curtain 
     ~temp_bool = false
+    ~ PlaySFX("curtain", false, 0, 0)
     "Lost are we?" The curtain zips closed and you jump at the deep voice coming from the other side of the screen. "Maybe I can help?"
 
 
@@ -89,7 +93,8 @@ Your heart races and your body tenses. Another person? Will they help you? Can y
     "That does not matter." He says. {temp_bool: "I will ask again: What is it you have to confess?" | "Do you have something to confess?"}
 
 - 
-#PLAY: liquid-drop
+#PLAY: leak
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i> A drop of water falls into the bucket. {Stay_Tracker < 1.5: You frown and point your flashlight at the corner. You don't hear rain from outside.}
 
 "Well?" He prods you. {Stay_Tracker < 1.5: You set the flashlight on the bench beside you and ignore the leak.}
@@ -127,6 +132,7 @@ Your heart races and your body tenses. Another person? Will they help you? Can y
 
 *{visited_state < 1} [Leave the booth]
     #PLAY: curtain
+    ~ PlaySFX("curtain", false, 0, 0)
     You don't care to find out and quickly leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it.
     
     There was nothing in there, anyway. You should look for the heart elsewhere for now.
@@ -164,6 +170,7 @@ You don't think you'll get a straightforward answer. You take a deep breath. You
 You need to confess something? No. No, you won't play along. For all you know this is another attempt by the church to get you to stay.
 
 #PLAY: curtain
+~ PlaySFX("curtain", false, 0, 0)
 You swiftly leave the booth, and stare at the confessional. It's quiet. Whatever is in there, it won't tell you anything important. And you don't like that it was pushing you to "confess."
     
 There was nothing in there, anyway. You should look for the heart elsewhere for now. 
@@ -188,7 +195,8 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 
 {Temp_String}
 
-#PLAY: liquid-drop #DELAY: 1.5
+#PLAY: leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 #DELAY: 3
@@ -226,7 +234,9 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         
 }
 
-#PLAY: liquid-drop #PLAY: 2, liquid-drop #DELAY: 2.5
+#PLAY: leak #PLAY: 2, leak #DELAY: 1
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
 <i>Plink! Plink!</i>
 
 "I see..." The voice is quiet for a moment before continuing, "Do you {Temp_String}
@@ -246,7 +256,9 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         #DELAY: 1
         You nod. Your chest is tight.
         
-        #PLAY: liquid-drop #PLAY: 2, liquid-drop #DELAY: 1.5
+        #PLAY: leak #PLAY: 2, leak #DELAY: 1.5
+        ~ PlaySFX("leak", false, 0, 0)
+        ~ PlaySFX("leak", false, 0, 0.25)
         <i>Plink! Plink!</i>
         
         {
@@ -325,7 +337,8 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
 
 {
     - Temp_Bool: //agreed last time
-        #PLAY: liquid-drop #DELAY: 1.5
+        #PLAY: leak #DELAY: 1.5
+        ~ PlaySFX("leak", false, 0, 0)
         <i>Plink!</i> The bucket is half full.
 
         "I understand. Do you feel a sense of relief now?" You do. You feel a little lighter after someone saying it out loud. "Knowing you don't have to go back to that?"
@@ -346,7 +359,8 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         #DELAY: 1.5
         Safe? Happy? You think about everything you've experienced up til now. {Church_Encounters !? (Leave_Light): Of the warmth you've felt. | Of the anger when you refused its light.} {photo_ripped == (AT_WORK): Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {Stay_Tracker < 2.5: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? You're not sure how to feel.}
     
-        #PLAY: liquid-drop #DELAY: 1.5 #REPLACE: liquid
+        #PLAY: leak #DELAY: 1.5 #REPLACE: liquid
+        ~ PlaySFX("leak", false, 0, 0)
         <i>Plink!</i> The bucket is filling fast. You can see that the [liquid] seems... thicker than just water.
         
         *[liquid]
@@ -376,7 +390,8 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
     ->Confessional_Curtain.Agree
 
 = Middle
-#PLAY: liquid-drop #DELAY: 1.5
+#PLAY: leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 {
@@ -388,7 +403,8 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
         "You don't think you could have done better, that you worked harder to make up for it. And yet, your efforts fell to deaf ears." The voice is gentle. "But you are here now, safe in the church's embrace. You <i>are</i> happier here, yes?"
 }
 
-#PLAY: liquid-drop #DELAY: 1.5
+#PLAY: leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 #REPLACE: liquid
@@ -419,6 +435,7 @@ The bucket is filling fast. You can see that the [liquid] seems... thicker than 
 - 
 ~ Confessional_Encounters += (Angered_Priest)
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 The wood divider splinters as <strike>the priest</strike> whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness <strike>he</strike> it used to speak to you before is gone. Its voice contorts and stretches as it changes from something human to something guttural and monstrous.
@@ -428,6 +445,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 *[Is that... saliva?]
 
 - #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
@@ -443,6 +461,7 @@ The booth could come apart at any moment. You need to get out of here.
 = Get_Out
 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 You cover your face as tiny, stinging, wooden splinters fly toward you. You need to get OUT, before that... that THING gets IN.
@@ -459,6 +478,7 @@ You {Leg_State > Sore: hobble through the curtain as fast as you can | push thro
 
 - 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 
@@ -492,6 +512,7 @@ On the bench sits a small key. {Stay_Tracker >= 2: You pick it up and turn it ov
 
 = Look_Other_Side
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 You cover your face as wooden splinters fly toward you as tiny, stinging flecks of wood. You take a step closer to the hole in the divider. You raise your flashlight, and peer through the hole.
@@ -500,6 +521,7 @@ You cover your face as wooden splinters fly toward you as tiny, stinging flecks 
 
 - 
 #PLAY: click-on #EFFECT: flashlight_on
+~ PlaySFX("flashlight_on", false, 0, 0)
 The flash light clicks on, and everything stops.
 
 The other side is pristine. It looks almost identical to the side you had been on. No one is inside.
@@ -508,7 +530,8 @@ On the bench sits a small key.
 
 *[Reach your arm through]
     ~ Confessional_Encounters += (Reached_Through)
-    #PLAY: click-off #EFFECT: flashlight_off
+    #PLAY: flashlight_off #EFFECT: flashlight_off
+    ~ PlaySFX("flashlight_off", false, 0, 0)
     You place the flashlight back in your pocket, and reach your arm through. blindly feeling around.  Your fingertips just barely brush the bench it's sitting on. 
 
     You reach in deeper, your face pressing against the mangled wood. "Just a bit... more..." you mumble to yourself.
@@ -522,7 +545,8 @@ On the bench sits a small key.
     
     The booth is quiet, save for your own breathing. You place the key in your pocket.
 *[Go around]
-    #PLAY: click-off #EFFECT: flashlight_off
+    #PLAY: flashlight_off #EFFECT: flashlight_off
+    ~ PlaySFX("flashlight_off", false, 0, 0)
     You exit through the curtain, face the priest's door. You take a deep breath, and open it. The key sits on the bench, but more surprisingly, the divider is no longer splintered, and the separating grate is back in place.
 
     The church fixed itself. 
@@ -538,17 +562,26 @@ On the bench sits a small key.
 ~ Stay_Tracker += 0.5
 You work everyday and for what?" 
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 The words get stuck in your throat{Stay_Tracker < 2:, but you're not sure why}.
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 "The church can feel... perplexing... at first, but it doesn't bring you here without reason. It wants to help- to heal the harm dealt to you out <i>there."</i> The voice is calming. It makes sense. Why else would you be here? "The church would never hurt you. Could never hurt you."
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 You clench and unclench your hands. {Church_Encounters ? (Leave_Light) or !Took_Item: You know shouldn't listen. You know its... it's another deception. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you.} Maybe if you hadn't rejected it so strongly then... 
@@ -563,7 +596,10 @@ You clench and unclench your hands. {Church_Encounters ? (Leave_Light) or !Took_
 
 -
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 The leak is dripping faster now. The bucket is spilling over. The viscous liquid contains small bubbles as it crawls over the floor. 
@@ -610,7 +646,8 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
     ~temp_bool = false
     "I somehow am doing too much all the damn time." You stare up at the ceiling, focusing on a cobweb. "I can't commit to anything to completion, but I also can't stop picking up more things to do."
 
-    #PLAY: liquid-drop #DELAY: 1.5
+    #PLAY: leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
     <i>Plink!</i>
     
     The voice is silent.
@@ -625,7 +662,8 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 = Motivation
 "I have no drive to do... anything. Even the things I want to do." You tap your fingers against the cold, wood bench. "I pick up a hobby only to drop it after a week. I <i>want</i> to do things, but..."
 
-#PLAY: liquid-drop #DELAY: 1.5
+#PLAY: leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 The voice is silent.
@@ -633,7 +671,10 @@ The voice is silent.
 *[Fill the silence]
     "And I just... I just want to <i>finish</i> something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. <i>This time</i> things will be different."
     
-    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
+    ~ PlaySFX("leak", false, 0, 0.25)
+    ~ PlaySFX("leak", false, 0, 0.5)
     <i>Plink! Plink! Plink!</i>
     
     #DELAY: 2
@@ -647,7 +688,10 @@ The voice is silent.
     **[Agree] 
         You don't answer. You're inadequate? It's all inevitable? You bite you lip.
 
-        #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+        #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+        ~ PlaySFX("leak", false, 0, 0)
+        ~ PlaySFX("leak", false, 0, 0.25)
+        ~ PlaySFX("leak", false, 0, 0.5)
         <i>Plink! Plink! Plink!</i>
     
         "I think you are sabotaging yourself on purpose." The voice is gentle. Soft. " Something, out <i>there</i> is making you this way. So aren't you so glad you can stay?"
@@ -658,7 +702,8 @@ The voice is silent.
         #DELAY: 0.5
         You shake your head. "It's not that I'm—"
     
-        #PLAY: liquid-drop #DELAY: 1.5
+        #PLAY: leak #DELAY: 1.5
+        ~ PlaySFX("leak", false, 0, 0)
         <i>Pl....in.....k!</i>
         
         "This is not an attack on you." The voice cuts you off. "But more of an observation from the outside looking in."
@@ -716,7 +761,10 @@ Your skin crawls. The silence returns.
 }
 
 = Personal_Motivation
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 "I see..." The voice was quiet for a moment before continuing, "Perhaps there's another reason for this? Is work too draining?"
@@ -724,7 +772,10 @@ Your skin crawls. The silence returns.
 *[Agree] 
     You feel yourself nodding. After work all you want to do is sleep. How is that you're fault?
 
-    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
+    ~ PlaySFX("leak", false, 0, 0.25)
+    ~ PlaySFX("leak", false, 0, 0.5)
     <i>Plink! Plink! Plink!</i>
 
     "It's not your fault that the outside world is unsympathetic." The voice is gentle. Soft. "So aren't you so glad you can stay?"
@@ -734,7 +785,8 @@ Your skin crawls. The silence returns.
 *[Disagree] 
     "Maybe..." You chew on the voice's words. "Or maybe it's—"
 
-    #PLAY: liquid-drop #DELAY: 1.5
+    #PLAY: leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
     <i>Pl....in.....k!</i>
 
     "This is not an attack on you." The voice cuts you off. "But more of an observation from the outside looking in."
@@ -756,7 +808,10 @@ Your skin crawls. The silence returns.
         -> Confessional_Curtain.TooMuch_Choice
 
 = Personal_TooMuch
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 #DELAY: 2
@@ -773,7 +828,10 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 *[Agree] 
     You don't answer. You're inadequate? It's all inevitable? You chew you lip. You pull a chunk of dead skin with your teeth adn swallow it.
 
-    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
+    ~ PlaySFX("leak", false, 0, 0.25)
+    ~ PlaySFX("leak", false, 0, 0.5)
     <i>Plink! Plink! Plink!</i>
 
     "I think you are sabotaging yourself on purpose." The voice is gentle. Soft. "Something, out <i>there</i> is making you this way. So, aren't you so glad you can stay?"
@@ -784,7 +842,8 @@ The voice finally continues, and you can breathe again. "So you are picking thes
     #DELAY: 0.5
     You shake your head. "It's not that I'm—"
     
-    #PLAY: liquid-drop #DELAY: 1.5
+    #PLAY: leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
     <i>Pl....in.....k!</i>
     
     "This is not an attack on you." The voice cuts you off. "But more of an observation from the outside looking in."
@@ -821,7 +880,8 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 #DELAY: 0.5
 "What?" You're suddenly on edge. "Stay?"
         
-#PLAY: liquid-drop 
+#PLAY: leak 
+~ PlaySFX("leak", false, 0, 0)
 <i>Pl....in.....k!</i>
         
 The last water drop is much slower than the rest, the bucket almost full. You can see that the [liquid] seems... thicker than just water.
@@ -842,7 +902,10 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
     -> Confessional_Curtain.Personal_End
 
 = Personal_End
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 The bucket is filling fast. You can see the [liquid] seems... thicker than just water.
@@ -878,13 +941,15 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
 #DELAY: 1
 "Nothing. I have nothing to confess." You say flatly.
 
-#PLAY: liquid-drop
+#PLAY: leak
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 #DELAY: 1
 "Nothing at all?" The voice on the other side chuckles. "Nothing at work? At home? You haven't hurt anyone? Done anything wrong?"
 
-#PLAY: liquid-drop
+#PLAY: leak
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 You hesitate before answering.
@@ -946,6 +1011,7 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 *[Leave the booth]
     #PLAY: curtain
+    ~ PlaySFX("curtain", false, 0, 0)
     You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
         
     You should look for the heart elsewhere for now. You look...
@@ -956,7 +1022,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 = No_Talk
 ~ temp Temp_String = ""
 ~ temp Temp_Bool = false
-#PLAY: liquid-drop
+#PLAY: leak
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 "A routine..." The voice trails off. "Would you say you become bored of this? That you wish for more than what you have?"
@@ -966,7 +1033,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     #DELAY: 1
     You feel yourself nodding. "I... My job is a means to an end. It's enough to keep me alive, but not enough to... do more..."
     
-    #PLAY: liquid-drop #DELAY: 1.5
+    #PLAY: leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
     <i>Plink!</i>
     
     "I see. So why {Stay_Tracker <= 1:do you fight it | don't you stay} then?"
@@ -976,7 +1044,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     #DELAY: 1
     You feel yourself shake your head. "I... My job is a means to an end, but it keeps me alive. I'm saving so one day I'll be able to... do more."
         
-    #PLAY: liquid-drop #DELAY: 1.5
+    #PLAY: leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
     <i>Plink!</i>
         
     "I see. So why {Stay_Tracker <= 1:fight it | don't you stay} then?"
@@ -987,7 +1056,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 *[Stay silent]
 
-- #PLAY: liquid-drop #DELAY: 1.5
+- #PLAY: leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>
 
 
@@ -1000,7 +1070,10 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
     "You can say you're content with your life <i>out there,</i> but we both know you want to stay <i>here"</i> The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {Stay_Tracker <= 1.5: So, why is it you fight the church? | So why are you <i>fighting</i> to leave?}"
 
-    #PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+    ~ PlaySFX("leak", false, 0, 0)
+    ~ PlaySFX("leak", false, 0, 0.25)
+    ~ PlaySFX("leak", false, 0, 0.5)
     <i>Plink! Plink! Plink!</i>
 
 }
@@ -1022,13 +1095,19 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 #DELAY: 1
 "Your life is a routine. A boring, worthless routine." You flinch at the words. "You struggle everyday and for what?"
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 #DELAY: 2
 "{Temp_String}"
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 "The church is scary at first, but all change is. The church doesn't bring you here without reason." The voice is calming. It makes sense. Why else would you be here? "It would never hurt you."
@@ -1081,7 +1160,10 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 You nod.
 
-#PLAY: liquid-drop #PLAY: 1, liquid-drop #PLAY: 1, liquid-drop #DELAY: 1.5
+#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak #DELAY: 1.5
+~ PlaySFX("leak", false, 0, 0)
+~ PlaySFX("leak", false, 0, 0.25)
+~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>
 
 The liquid crawls towards your shoes. You don't think it's water at all.
@@ -1092,6 +1174,7 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 
 - 
 #PLAY: key-thrown
+~ PlaySFX("key-thrown", false, 0, 0)
 <i>Plunk!</i>
 
 A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid stretches like you stepped in gum. Is this...? You gag.
@@ -1135,6 +1218,7 @@ Oh. "I... I know who you are."
 
 *{visited_state < 1} [Leave the booth]
     #PLAY: curtain
+    ~ PlaySFX("curtain", false, 0, 0)
     Without a second thought, you rush out of the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you do know that you don't want to speak to it, let alone confess.
             
     There was nothing in there, anyway. You should look for the heart elsewhere for now. 
@@ -1143,6 +1227,7 @@ Oh. "I... I know who you are."
 - "No, the father of that girl."
 
 #PLAY: groaning-angry, 2
+~ PlaySFX("groaning-angry", false, 0, 0)
 The growl comes from the other side again. "I have no daughter." He says through gritted teeth.
 
 "I talked to—"
@@ -1162,9 +1247,11 @@ The growl comes from the other side again. "I have no daughter." He says through
 "Do you even care about her? {Confessional_Encounters ? (Killed_Girl): She die-" | "She came here for you-"}
 
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 2.5
+~ PlaySFX("screeching", false, 0, 0)
 An ear piecing shriek fills the booth{Church_Encounters ? (Leave_Light):, much worse than the one from before}. You plug your ears, but it makes no difference.
 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 The wood divider splinters as the pastor slams the other side. "Shut up shut up shut up SHUT UP" It's voice contorts and stretches as it changes from something human to something guttural and monstrous.
@@ -1176,6 +1263,7 @@ The wood divider splinters as the pastor slams the other side. "Shut up shut up 
 You slam into solid wood. The curtain's gone. The walls close in on you as you push yourself against them.
 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 The divider between you is barely holding up. The wood is splinters while that- that <i>thing</i> shouts and curses you.
@@ -1186,6 +1274,7 @@ The divider between you is barely holding up. The wood is splinters while that- 
 
 - 
 #PLAY: thud
+~ PlaySFX("thud", false, 0, 0)
 You throw your shoulder into the wall where the curtain used to be. It doesn't even shudder. The walls continue to close in on you pressing you closer and closer to the split divider. 
 
 *[Try to stop the walls]
@@ -1195,9 +1284,11 @@ You throw your shoulder into the wall where the curtain used to be. It doesn't e
     You smash the butt of the flashlight into the wall, and manage to chip the wood. Hope rises in your chest as you hit it again and again and again, but you are only able to make a small hole before the walls pin you in place.
 - 
 #PLAY: screeching CLASS: Angry-Screeching #DELAY: 1.5
+~ PlaySFX("screeching", false, 0, 0)
 "YoOOouu wILl noT eSCApe this TIME!" 
 
 #CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!
 
 The divider splits and falls, revealing the thing on the other side. You push yourself against the wall to get away but the wall only pushes you closer.

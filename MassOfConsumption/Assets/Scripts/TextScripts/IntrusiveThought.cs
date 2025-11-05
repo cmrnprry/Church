@@ -40,7 +40,17 @@ public class IntrusiveThought : MonoBehaviour
 
     public void SetButtonCallback(string jump_to)
     {
-        button.onClick.AddListener(() => { GameManager.instance.OnClickIntrusiveThought(text_box.text, jump_to); });
+
+        button.onClick.AddListener(() =>
+        {
+            if (jump_to == "")
+            {
+                SaveSystem.SetSavedHistory($"<br><br>{jump_to}");
+                KillAllThoughts();
+            }
+            else
+                GameManager.instance.OnClickIntrusiveThought(text_box.text, jump_to);
+        });
     }
 
     public void SetTweens(string text)
@@ -59,7 +69,7 @@ public class IntrusiveThought : MonoBehaviour
     {
         rect_sequence.Kill();
         rect_sequence = DOTween.Sequence();
-        
+
         text_sequence.Kill();
         text_sequence = DOTween.Sequence();
 
@@ -73,14 +83,15 @@ public class IntrusiveThought : MonoBehaviour
 
         for (int ii = 0; ii < anim.textInfo.characterCount; ++ii)
         {
-            if (!anim.textInfo.characterInfo[ii].isVisible) continue;
+            if (!anim.textInfo.characterInfo[ii].isVisible)
+                continue;
             Vector3 currCharOffset = anim.GetCharOffset(ii);
 
             rect_sequence
                 .Insert(wait.GetRandomValue(),
                     anim.DOPunchCharOffset(ii, currCharOffset + new Vector3(5, 5, 0), 0.15f))
                 .SetLoops(-1, LoopType.Yoyo);
-            
+
             if (Random.Range(1, 10) > 5)
                 text_sequence.Insert(wait.GetRandomValue(), anim.DOFadeChar(ii, fade_max.GetRandomValue(), 1f))
                     .SetLoops(-1, LoopType.Yoyo);
@@ -106,7 +117,8 @@ public class IntrusiveThought : MonoBehaviour
 
         for (int ii = 0; ii < anim.textInfo.characterCount; ++ii)
         {
-            if (!anim.textInfo.characterInfo[ii].isVisible) continue;
+            if (!anim.textInfo.characterInfo[ii].isVisible)
+                continue;
             Vector3 currCharOffset = anim.GetCharOffset(ii);
 
             anim.DOPunchCharOffset(ii, currCharOffset, 0);

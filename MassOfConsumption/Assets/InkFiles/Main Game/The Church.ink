@@ -9,10 +9,12 @@ INCLUDE Stairs.ink
 INCLUDE Office.ink
 INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
+INCLUDE TESTING.ink
 
 
 
-->StartGame
+
+->TESTING
 
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -79,7 +81,8 @@ The church feels...
 *[Evocative]
     ~Church_Feeling = "evocative"
 
-- # PLAY: bus_ambience, true, 2
+-
+~ PlaySFX("bus_ambience", true, 2, 0)
 {   Church_Interest:
 
     - "care":
@@ -115,6 +118,7 @@ You shift your weight, and check your watch. Your boss has been watching you lik
 
 -  
 #STOP: bus_ambience, 2
+~ StopSFX("bus_ambience", 2, 0)
 She blinks at you, then shrugs, "Whatever you say." She says, exasperated, and closes the doors. You wince at her tone and hope you didn't ruin the relationship as you watch her pull away. 
 
 Once the bus is out of view, you let out the breath you were holding and steel yourself. You need to be quick about this to avoid a 10 minute scolding later. You look back to the church.
@@ -285,19 +289,23 @@ Your phone chirps and you grimace.
     {Church_Investigation ? (Starving): You fish your phone from your pocket to quickly check the time. You glance down for a second to see a bombardment of message from your boss. | You pull out your phone to see how long it is til the next bus is only to be bombarded with messages from your boss. }
     
 -
-#PLAY: email_ding #DELAY: 1.5
+#DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
 "Where are you????"
 
-#PLAY: email_ding #DELAY: 1.5
+#DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
 "This is the 3rd time this quarter!"
 
-#PLAY: email_ding #DELAY: 1.5
+#DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
 "You can't keep doing this."
 
-#PLAY: email_ding #DELAY: 1.5
+#DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
 "Did you finish my presentation for Project Cypher??"
 
-#PLAY: bus_ambience, true, 2
+~ PlaySFX("bus_ambience", true, 2, 0)
 "You okay, man?" You jump at the voice, not realizing the next bus had arrived. You nod, and fumble with the your pockets to find your wallet. "Come <i>on,</i> man."
 
 *[Check your left pocket]
@@ -320,10 +328,12 @@ The image swims in your vision. Just as you think you've got it, it changes. You
 #DELAY: 2.25 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Swimming-3
 Blood thunders in your ears as pressure builds behind your eyes. You strain to—
 
-#CLEAR: true #DELAY: 1.5 #CLASS: Bus_Honk #PLAY: honk 
+#CLEAR: true #DELAY: 1.5 #CLASS: Bus_Honk
+~ PlaySFX("Bus_Honk", false, 0, 0)
+~ PlaySFX("bus_ambience", true, 1.5, 0)
 HOOOOONNNKK!!
 
-#CLEAR: true #PLAY: bus_ambience, true, 1 #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
+#CLEAR: true #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
@@ -363,6 +373,7 @@ Your eyes dart from him to the church behind him and back. You're losing it. Ove
 
 === Break_In_After_Bus(-> return_to) ===
 #STOP: bus_ambience, 2
+~ StopSFX("bus_ambience", 2, 0)
 You ignore the driver's further probing and walk around the bus, pressing a hand against it to steady yourself. The driver continues to shout after you, but you ignore him.
 
 #IMAGE: Default
@@ -423,14 +434,14 @@ You watch the church through the window until it fades into a dot in the distanc
     - TeleportOrLate == "Teleport":
         "I walked into the wrong meeting room by mistake and—"
     - else: 
-        # INTRUSIVE: 1, Liar. It was the church., Job.Stop_Thinking_Yelled
+        ~Intrusive(1, "Liar. It was the church.", "Job.Stop_Thinking_Yelled")
         "The bus was running late, and then with traffic-"
 }
     
 * [Tell the truth]
 {
     - TeleportOrLate != "Teleport":
-        # INTRUSIVE: 1, Is it still there?, Job.Stop_Thinking_Yelled
+        ~Intrusive(1,"Is it still there?","Job.Stop_Thinking_Yelled")
 }
     "I was at the church by my house and then—"   
     
@@ -464,7 +475,8 @@ The whole office is quiet as your boss gets louder and louder.
 - You sit there and take it. It goes on for 20 more minutes before she tells you that you're "on thin ice" and to "clean up your act if you want to keep your job". {TeleportOrLate == "Teleport":  You nod and turn back to your computer. | You nod and leave her office, returning to your computer.} There's an electricity in the air as everyone slowly returns to their tasks.
 
 {
- - TeleportOrLate != "Teleport": # INTRUSIVE: 1, Why did you go in?, Stop.Stop_Thinking 
+ - TeleportOrLate != "Teleport": 
+    ~Intrusive(1, "Why did you go in?", "Stop.Stop_Thinking")
 }
 You stare blankly at your computer screen, replaying the "conversation" over and over in your head. You should do something to seem useful.
 
@@ -475,14 +487,17 @@ You stare blankly at your computer screen, replaying the "conversation" over and
     -> Job.Emails
 
 === Job ===
-#STOP: bus_ambience, 1 #PLAY: office_ambience, true, 1 # INTRUSIVE: 2, Is it still there?, Job.Stop_Thinking
+#STOP: bus_ambience, 1
+~Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
+~ PlaySFX("office_ambience", true, 1, 0)
+~ StopSFX("bus_ambience", 1, 0)
 {Church_Investigation ? (Late): -> Late_Work}
 At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
-# INTRUSIVE: 2, Is it still there?, Job.Stop_Thinking
+~Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
 There is only one thing on your mind, one thing that shouldn't exist but it does. That {Church_Feeling} church.
 
-# INTRUSIVE: 3, Don't think about it, Job.Stop_Thinking
+~Intrusive(3, "Don't think about it", "Job.Stop_Thinking")
 You should do something to take your mind off it.
 
 *[Scan some documents]
@@ -517,7 +532,7 @@ You find yourself in your boss' office, staring at the floor as her eyes bore in
     
 - "Why do I even..." your boss mutters, and your coworkers snicker. Your face warms, and you ignore the whispers as you make your way back to your desk.
 
-#PLAY: office_ambience, true, 1
+~ PlaySFX("office_ambience", true, 1, 0)
 You sink into your chair and lean your head against the desk. You <i>were</i> at the church. {Church_Investigation ? (Called): You called the number— You hurriedly reach into your pocket, {Church_Investigation ? (Dropped_Phone): but find your phone missing. You let out a deep sigh and rub your eyes. Your phone missing is still proof enough right? | and check your recent calls. The number its at the top. You place your phone on the desk. You let out a deep sigh and rub your eyes. You were there. It was real.}}
 
 "Hey, so what the hell was that?" Your boss bangs a hand on your desk. "Hello? You in there?" You snap up, and she stares at you waiting for an answer.
@@ -541,22 +556,27 @@ You choose to do something mindless and easy. You grab a stack of papers marketi
 
 *[Maybe the monotony will take your mind off things.]
 
-- #PLAY: scanner, false, 0.5
+-
+~ PlaySFX("scanner", false, 0, 0.5)
 You enter a rhythm of placing a page, entering an email, and sending it off. You try to focus on only your actions to prevent your mind from wandering. 
 
-# INTRUSIVE: 3, What if it's there on the way home?, Job.Go_to_Church_Scan #DELAY: 2.5
+#DELAY: 2.5
+~Intrusive(3, "What if it's there on the way home?", "Job.Go_to_Church_Scan")
 Place page. Enter email. Send it off. 
-
-# INTRUSIVE: 2, It's just an old church, Job.Go_to_Church_Scan #DELAY: 3.5
+#DELAY: 3.5
+~Intrusive(2, "It's just an old church", "Job.Go_to_Church_Scan")
 Place page. Enter email. Send it off.
 
-# INTRUSIVE: 1, You should go back to it, Job.Go_to_Church_Scan #DELAY: 4.5
+#DELAY: 4.5
+~Intrusive(1, "You should go back to it", "Job.Go_to_Church_Scan")
 Place page. Enter email. Send it off.
 
-# INTRUSIVE: 4, It's waiting, Job.Go_to_Church_Scan #DELAY: 2.5
+#DELAY: 2.5
+~Intrusive(4, "It's waiting", "Job.Go_to_Church_Scan")
 Place page. Enter email. Send it—
 
 #REMOVE: INTRUSIVE #STOP: scanner, 1.5
+~ StopSFX("scanner", 0.5, 0)
 "Hey— What are you doing?" You jump and look up to see a coworker from your department. You don't talk to her often, but she's nice enough. She looks... concerned?
 
 *[{Church_Investigation ? (Teleported ): "Just doing my job." | "Just sending out some scans."}]
@@ -590,10 +610,10 @@ No, you didn't write this. You know you didn't. Did the church...? {Church_Inves
 - ->Walk_Home_From_Work
 
 = Emails
- #PLAY: email_ding, false, 0, 1
+~ PlaySFX("email_ding", false, 0, 1)
 You pull up your email and scroll through the new ones, only reading the subject lines for anything that seems important. Meeting invitation, spam, spam, client question, church inquiry, meeting—
 
-# INTRUSIVE: 3, Is it the same church?, Job.Email_Open
+~Intrusive(3, "Is it the same church?", "Job.Email_Open")
 Wait. Church inquiry?
 
 *[Open church inquiry email]
@@ -603,13 +623,16 @@ Wait. Church inquiry?
 
 - 
 
-# INTRUSIVE: 2, What if it was important?, Job.Email_Trash #DELAY: 1.5
+#DELAY: 1.5
+~Intrusive(2, "What if it was important?", "Job.Email_Trash")
 You quickly delete the "church inquiry" email, and go to reply to the client. 
 
-#PLAY: email_ding, false, 0, 0.5 #DELAY: 2.5
+#DELAY: 2.5
+~ PlaySFX("email_ding", false, 0, 0.5)
 Another email with the same subject quickly replaces it. You don't think and delete it again.
 
-# INTRUSIVE: 3, Click it. Click it., Job.Email_Open #PLAY: email_ding, false, 0, 0.5
+~Intrusive(3, "Click it. Click it.", "Job.Email_Open")
+~ PlaySFX("email_ding", false, 0, 0.5)
 But yet another takes it's place.
 
 *[Delete it again]
@@ -623,10 +646,12 @@ But yet another takes it's place.
 
 - You mark the church email as spam and respond to the client, making sure to CC the correct person they should speak to. You close your email and rub your eyes with the palm of your hands. 
 
-# INTRUSIVE: 3, Open the email, Job.Email_Trash #DELAY: 3
+#DELAY: 3
+~Intrusive(3, "Open the email. Open it! Open it!", "Job.Email_Trash")
 <i>Stop thinking about it.</i> You tell yourself. {Church_Investigation ? (Entered): <i>It's nothing but a church, so why—</i> | {Church_Investigation ? (Teleported): <i>It didn't want you, so why—</i> | {Church_Investigation ? (Called): <i>You can't let it win—</i> }}} 
 
 #REMOVE: INTRUSIVE #PLAY: knocking
+~ PlaySFX("knocking", false, 0, 0)
 "Knock knock, can I talk to you?" You look up to see your manager at your cubicle door, holding a few sheets of paper. They look upset.
 ~ Work_Encounter += (Wrong_Email)
 
@@ -644,12 +669,12 @@ But yet another takes it's place.
 
 - They roll their eyes and drop the papers on your desk. "You're about to lose us our best client!" You pick the papers up, and your stomach rolls. In your hands are print outs of emails from you to a client. They all say the same text over and over again:
 
-# INTRUSIVE: 5, You should leave and go to it, Job.Go_to_Church
+~Intrusive(5, "You should leave and go to it", "Job.Go_to_Church")
 "Do you know about the church at the end of the street? The church at the end of the street knows me but I don't know it. It waits and waits for me to come back. It has gotten impatient."
 
 "Do you understand how this can hurt sales?" They hiss. You clutch the papers until your knuckles go white, and your nails pierce through. "You'd be <i>lucky</i> if I only suspend you for this!"
 
-# INTRUSIVE: 5, It's waiting for you, Job.Go_to_Church
+~Intrusive(5, "It's waiting for you", "Job.Go_to_Church")
 No, you didn't write this. You know you didn't. Did the church...? {Church_Investigation ? (Entered): {Church_Entered == 1: No. It was just a normal church. You— You must be losing it. | {Church_Entered == 2: It didn't feel right when you were in there. It must have done something, that much you're sure of, but the question is <i>why?</i> | {Church_Entered == 0: It must have. You knew it had to be more than just an empty building. }}}} {Church_Investigation ? (Teleported): <i>It didn't want you, so why—</i> | {Church_Investigation ? (Called): <i>You can't let it win—</i> }}
 
 
@@ -723,10 +748,21 @@ You take a deep breath, and exit the office— and find yourself in front of the
 #DELAY: 0.5
 As you click the button to delete the email—
 
-#PLAY: email_ding, true #STOP: email_ding, 0, 2 #DELAY: 2.5
+#DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
+~ PlaySFX("email_ding", false, 0, 0.25)
+~ PlaySFX("email_ding", false, 0, 0.5)
+~ PlaySFX("email_ding", false, 0, 0.75)
+~ PlaySFX("email_ding", false, 0, 1)
+~ PlaySFX("email_ding", false, 0, 1.25)
 You get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up."
 
-#PLAY: email_ding, true #STOP: email_ding, 0, 3
+~ PlaySFX("email_ding", false, 0, 0)
+~ PlaySFX("email_ding", false, 0, 0.25)
+~ PlaySFX("email_ding", false, 0, 0.5)
+~ PlaySFX("email_ding", false, 0, 0.75)
+~ PlaySFX("email_ding", false, 0, 1)
+~ PlaySFX("email_ding", false, 0, 1.25)
 You try to delete them, but they just keep coming. "Where are you?" "Come home." "(No Subject. Image Attached Is this a prank? Or is it...
 
 *[Open Email]
@@ -737,13 +773,22 @@ You try to delete them, but they just keep coming. "Where are you?" "Come home."
 *[Continue Deleting]
     You don't care who, or what, is doing this. You just want it to stop. {Church_Investigation ? (Entered): {Church_Entered == 1: You almost feel silly thinking it's anything besides a dumb prank. A church— a building— is not emailing you. It was just a normal church. You're just on edge. | For a second you think it's the church before you discard the thought. That's not possible.}} {Church_Investigation ? (Called): <i>Why is it...?</i> {Church_Investigation ? (Teleported): You went inside. You— You did what it wanted. So why? | Is this because you didn't go inside? You didn't do what it wanted and now it wants to ruin you?}} 
 - 
-#PLAY: email_ding, true #DELAY: 1.5
+#DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
+~ PlaySFX("email_ding", false, 0, 0.25)
+~ PlaySFX("email_ding", false, 0, 0.5)
+~ PlaySFX("email_ding", false, 0, 0.75)
+~ PlaySFX("email_ding", false, 0, 1)
 You can't delete them fast enough.
 
 #DELAY: 1.5
+~ PlaySFX("email_ding", false, 0, 0)
+~ PlaySFX("email_ding", false, 0, 0.25)
+~ PlaySFX("email_ding", false, 0, 0.5)
+~ PlaySFX("email_ding", false, 0, 0.75)
+~ PlaySFX("email_ding", false, 0, 1)
 They just keep coming. You try to—
 
-#STOP: email_ding
 "Hey are you—" A hand grabs your shoulder, and you jump up from your chair, slapping the hand away. 
 
 "Leave me ALONE!" you shout, breathing heavy.
@@ -772,13 +817,14 @@ They just keep coming. You try to—
 
 It shows an image of the church, but in a different place. Not at the end of your street, but near your grandparents house, several states away. You see a younger version of yourself standing outside and grinning. You wore clean church clothes. 
 
-# INTRUSIVE: 1, You should go back to the church,  Job.Go_to_Church
+~Intrusive(1, "You should go back to the church", "Job.Go_to_Church")
 Your mouth goes dry. You went to church when you lived with them, but couldn't be <i>this</i> one. Could it?
 
 *[Scroll down]
 
 - 
-# INTRUSIVE: 4, It's right, Job.Go_to_Church # INTRUSIVE: 4, Go to it, Job.Go_to_Church
+~Intrusive(4, "It's right", "Job.Go_to_Church")
+~Intrusive(4, "Go to it", "Job.Go_to_Church")
 Under the image, the text reads: "Don't keep it waiting."
 
 You slam the laptop shut. A fuzzy memory tickles the back of your mind. Suddenly, everything clicks into place.
@@ -844,6 +890,7 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
         
     - Work_Encounter == Fired: 
         #STOP: office_ambience, 1 #IMAGE: Bus Stop
+        ~ StopSFX("office_ambience", 1, 0)
         You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
         <i>But what about the church?</i> Your stomach {Church_Interest != "drawn": drops | jumps}. You shake your head. Hopefully it will be gone. Hopefully it got all it wanted from you and moved on. Hopefully.
@@ -852,6 +899,8 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
 {Remembered_Past: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back— that if you do, you won't come out again.}
 
 #STOP: office_ambience, 1 # PLAY: bus_ambience, true, 2 #IMAGE: Bus Stop
+~ StopSFX("office_ambience", 1, 0)
+~ PlaySFX("bus_ambience", true, 2, 0)
 The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church. {Remembered_Past: You wonder if it will make a difference if you do.}
 
 * [Take the long way home]
@@ -878,7 +927,8 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
 
 
 = Different(visit_from_call)
-#ICLASS: stop-1 #PLAY: walking_fast_pavement, true, 1
+#ICLASS: stop-1
+~ PlaySFX("walking_fast_pavement", true, 1, 0)
 {visit_from_call: You itch at your neck, and pick up the pace. The wind picks up around you, and something grabs at your legs. You just need to get home. | You itch at your neck, trying to ignore the feeling and pick up the pace. The corner where you need to turn is so close. The burning sensation grows, and something grabs at your legs. The wind picks up around you. {Remembered_Past or Church_Investigation ? (Called): You're putting off the inevitable.}}
 
 
@@ -906,15 +956,18 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     If you focus, you can remember...
     
     ** [The escape]
-    #Play: gate_open, false, 0, 3 #DELAY: 3
+        #DELAY: 3
+        ~ PlaySFX("gate_open", false, 0, 3)
         You can see the door opening, but the younger you didn't feel relief. No, they felt... dread? They had to crawl because their legs shook so badly. The whole time they clutched something in their hand. Something important. They left the item behind as a... Promise? Why? Did you—
 
     ** [The fear]
-    #Play: gate_open, false, 0, 3 #DELAY: 3
+        #DELAY: 3
+        ~ PlaySFX("gate_open", false, 0, 3)
         You were terrified. It was dark. So, so dark that even in the memory all you can see is the inky darkness. The younger you curled into a ball and cried until there was nothing left to cry. Then, a warm red light illuminated you, along with a soft melody. And someone reached out...? Were you not—
     
     ** [The aftermath]
-    #Play: gate_open, false, 0, 3 #DELAY: 3
+        #DELAY: 3
+        ~ PlaySFX("gate_open", false, 0, 3)
         Your grandmother wouldn't let you out of her grasp for at least a month after they got you back. There were a lot of cops and doctors and questions. You remember being that every church you saw for a long while was <i>the</i> church. It was following you? Stalking you? When did it stop? When—
             
     -- You look up sharply, falling backwards onto the sidewalk. <>
@@ -922,7 +975,9 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     ->Walk_Home_From_Work.Stop_Sign("From_Remember")
 
 - 
-#ICLASS: stop-2 #STOP: walking_fast_pavement, 1.5 #PLAY: running_pavement, true, 1.5, 1
+#ICLASS: stop-2 #STOP: walking_fast_pavement, 1.5
+~ PlaySFX("running_pavement", true, 0.5, 1)
+~ StopSFX("walking_fast_pavement", 0.5, 0)
 You shake out your leg, but the tugging pulls harder. You stumble forward and break into a run. You can almost touch the stop sign on the corner. How have you not reached it yet? The burning sensation lessens, replaced with lead weights at your ankles. Your chest feels heavy, like someone has their arms wrapped tightly around you.
 
 You hear something on the wind. A voice?
@@ -944,6 +999,7 @@ You grab the sign with both hands, overtaking it bit. The burning is gone. Nothi
 
 = Face_Church
 #ICLASS: NULL #STOP: running_pavement #STOP: walking_fast_pavement #IMAGE: Church_Looming #PROP: Breathing #PROP: closed gates
+~ StopSFX("walking_fast_pavement", 0, 0)
 You spin around to face it, and find yourself.. in front... of the church? You look up and down the street. You're not any further from the corner, and the bus stop isn't any closer. Then...
 
 {Remembered_Past or Church_Investigation ? (Called) or Church_Entered == 0: It's following you. You wipe sweat from your brow.<br><br>It can move.| {Church_Investigation ? (Entered): {Church_Entered != 0: Was it always this far down the road? This morning you were able to clearly see it from the bus stop...<br><br>You take a breath, and reach into your pocket{photo_ripped:, only to find it empty. Your eyes burn as you remember what you did. You dig your nails into your palm. | . The feeling of the worn polaroid calms you.} You're being unreasonable. It's just a building. Just a church. A {Church_Feeling} church.}}}
@@ -986,11 +1042,13 @@ You spin around to face it, and find yourself.. in front... of the church? You l
 
 
 *{state != "From_Remember"} [Open the gates]
-    #PLAY: gate_open #PROP: closed gates #PROP: open gates
+    #PROP: closed gates #PROP: open gates
+    ~ PlaySFX("gate_open", false, 0, 0)
     You throw the gates open, and the edges of the dirt path to the church brighten for a moment, then darken. Motion activated lights, maybe?
 
 *{Walk_Home !? (Face_It) and state != "From_Remember"} [Let go]
-    #PLAY: gate_open #PROP: closed gates #PROP: open gates
+    #PROP: closed gates #PROP: open gates
+    ~ PlaySFX("gate_open", false, 0, 0)
     You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten for a moment, then darken. Motion activated lights, maybe?
 
 - {state == "From_Remember": You take a hesitant step onto the property, wincing as you do, and nothing happens. You scoff and crouch, grabbing all the little pieces. As you crouch-walk forward, the edges of the dirt path to the church brighten where you step. | Before your brain catches up with your body, you take a single step onto the property, just past the open gate, and the edges of the dirt path to the church brighten where you step. {Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Entered == Satisfied: You know it's nothing, so checking again won't change anything.} | It's waiting for you to come inside. }}}
@@ -1010,7 +1068,7 @@ You stand up and trace the path with your eyes, looking for anything that distur
 
 = Usual
 #PROP: open gates #PROP: closed gates
-#PLAY: gate_open
+~ PlaySFX("gate_open", false, 0, 0)
 As you pass the front gate, it creaks open, and you flinch. {Remembered_Past: You should keep moving.}
 
 *[Investigate]
@@ -1051,11 +1109,14 @@ You take a few steps before stopping, and look back at the open gate. You want t
 
 *[What if a kid gets lost?]
     ~ TempBool = true
-    #PLAY: footsteps_child_grass #STOP: footsteps_child_grass, 3
+    #STOP: footsteps_child_grass, 3
+    ~ StopSFX("footsteps_child_grass", 3, 0)
+    ~ PlaySFX("footsteps_child_grass", false, 0, 0)
+    TODO fade out?
     No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
 
 *[Or an animal gets trapped.]
-    #PLAY: meow
+    ~ PlaySFX("meow", false, 0, 0)
     No sooner than you think it, you hear the sound of growling and meowing on the property. 
 
 - {Remembered_Past or Church_Investigation ? (Called): It's the church. You know it's the church. It has to be, but what if— | {Church_Investigation ? (Entered): {Church_Entered == 1: For a moment, you think it's the church reading your thoughts. | Is the church reading your thoughts?} {Church_Entered == 2: You shake it off. It's just a coincidence.} {Church_Entered == 1: You know how it sounds, but you can't shake the feeling.} You focus back at the task at hand.}} <>
@@ -1086,7 +1147,8 @@ You stick your head past the gates and look around. You don't see anything, the 
 *[Take a closer look]
 
 *[Pull the gate closed]
-    #PLAY: gate_close #DELAY: 1.73 #PROP: open gates #PROP: closed gates
+    #DELAY: 1.73 #PROP: open gates #PROP: closed gates
+    ~ PlaySFX("gate_close", false, 0, 0)
     Just as it slams shut...
     
     #EFFECT: LightDark #IMAGE: Default #PROP: closed gates 
@@ -1113,7 +1175,7 @@ You stick your head past the gates and look around. You don't see anything, the 
         You blindly feel for the latch of the gate, but instead of cool metal your hands meet damp wood, and eventually a knob. 
     
         -- 
-        #PLAY: lock_rattle, false, 0, 1
+        ~ PlaySFX("lock_rattle", false, 0, 1)
         Somehow you are inside the church. You try the knob.
         
         ***[It's locked]
@@ -1165,13 +1227,15 @@ You frown, double check that you called the correct number, and redial. You get 
 - ->return_to(true)
 
 === Walk_Up_Path(State) ===
-#ZOOM: 1.75, -562, 345, 1.5 #PLAY: footsteps_player, true
+#ZOOM: 1.75, -562, 345, 1.5
+~ PlaySFX("footsteps_player", true, 0, 0)
 You take one step forward.
 
 *[And keep walking.]
 
 -
-#ZOOM: 2, -562, 448, 1.5 #PLAY: footsteps_scary, true, 2
+#ZOOM: 2, -562, 448, 1.5
+~ PlaySFX("footsteps_scary", true, 2, 0)
 And walking.
 
 - You're moving automatically{State == "From_Remember":, but you don't really care.You stop when you pass another piece of your photo. You think the rest are inside. |. {Church_Interest == "drawn" or Church_Entered == 0: Your heart pounds in your chest. | {Remembered_Past or Church_Interest == "nothing" or Church_Entered != 0: You want to go home.}}} The church door is open and inviting. You can't see inside. 
@@ -1187,6 +1251,8 @@ Around halfway up the path, you hear another set of footsteps.
 
 -
 #STOP: footsteps_player, 0.5 #STOP: footsteps_scary, 0.5, 2 #CYCLE: interesting, awful, long, disastrous
+~ StopSFX("footsteps_player", 0, 0)
+~ StopSFX("footsteps_scary", 1, 0)
 Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {Church_Entered == 1 or !Remembered_Past or State == "From_Remember": You're being overly sensitive after a... @ work day.| It has to be another trick. } 
 
 {Church_Entered == 1 or !Remembered_Past or State == "From_Remember": Still. If someone <i>is</i> following you, they must know you know at this point. | <s>Something</s> Someone is behind you, and they know you know.} Your only choice is the church or confrontation. Your knees lock as your mind races. You must choose.
@@ -1219,7 +1285,8 @@ You grab the gate with both hands, and look up at the church one last time. It's
 *[Pull the gate closed]
 
 - 
-#PLAY: gate_close #DELAY: 1.73 #PROP: Breathing #PROP: open gates
+#DELAY: 1.73 #PROP: Breathing #PROP: open gates
+~ PlaySFX("gate_close", false, 0, 0)
 Just as it slams shut...
 
 #EFFECT: LightDark #IMAGE: Default
@@ -1247,14 +1314,16 @@ Everything goes dark.
 
 - Somehow you are inside the church.
 
-#PLAY: lock_rattle
+~ PlaySFX("lock_rattle", false, 0, 0)
 You try the knob.
 
 *[It's locked]
     -> Locked
 
 = Run(State)
-#ZOOM: 2.5, -866, 658, 0.5 #PLAY: footsteps_player, true #PLAY: footsteps_scary, true
+#ZOOM: 2.5, -866, 658, 0.5
+~ PlaySFX("footsteps_player", true, 0, 0)
+~ PlaySFX("footsteps_scary", true, 0, 0)
 
 { 
      - State == "From_Remember":
@@ -1270,10 +1339,14 @@ You still cannot see in church.
 
 *[You're so close to safety]
 
-- #ZOOM: 1, 0, 0, 0.5 #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #PLAY: door_slam, false, 0, 0.5,  #DELAY: 5 #EFFECT: LightDark #IMAGE: Default #PROP: open gates #PROP: Breathing
+- #ZOOM: 1, 0, 0, 0.5 #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #DELAY: 5 #EFFECT: LightDark #IMAGE: Default #PROP: open gates #PROP: Breathing
+~ PlaySFX("door_slam", false, 0, 0.5)
+~ StopSFX("footsteps_player", 0, 0)
+~ StopSFX("footsteps_scary", 0, 1)
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back {State == "From_Remember": whatever | whoever} was chasing you.
 
-#CLASS: Bang_Short #PLAY: bang_short #DELAY: 2
+#CLASS: Bang_Short #DELAY: 2
+~ PlaySFX("bang_short", false, 0, 0)
 BANG!
 
 {State == "From_Remember": Whatever | Whoever} was out there is slamming {State == "From_Remember": itself | themself} into the door. It takes all your strength to keep {State == "From_Remember": it | them} from getting in.
@@ -1288,13 +1361,15 @@ BANG!
 #DELAY: 1
 {TempBool: You wait, saying nothing. {State == "From_Remember": It has to get bored sooner or later. If you stay quiet, you pray it will go away. } | {State == "From_Remember": "I have a weapon!" Your voice cracks. "I- I'll use it!!" | "I DON'T HAVE ANY MONEY!"}}
 
-#CLASS: Bang_Short #PLAY: bang_short #DELAY: 1.5
+#CLASS: Bang_Short #DELAY: 1.5
+~ PlaySFX("bang_short", false, 0, 0)
 BANG!
 
 #DELAY: 1.5
 {TempBool: {State == "From_Remember": You hold back a whimper, hearing it drag it's nails drag across the door and growl in frustration. | They can't keep this up forever. }| {State == "From_Remember": "Just- Just leave before I-" | "I DON'T HAVE ANYTHING!"}}
 
-#CLASS: Bang_Short #PLAY: bang_short
+#CLASS: Bang_Short
+~ PlaySFX("bang_short", false, 0, 0)
 BANG!
     
 
@@ -1303,7 +1378,7 @@ BANG!
 - 
 You don't know how long you sit there, holding the door closed, body braced against it. The banging stopped ages ago, but you never heard retreating footsteps.
 
-#PLAY: lock_rattle, false, 0, 0.5
+~ PlaySFX("lock_rattle", false, 0, 0.5)
 When you feel safe again, you try to open the knob.
 
 *[It's locked]
@@ -1313,7 +1388,7 @@ When you feel safe again, you try to open the knob.
 #CHECKPOINT: 2, Locked?
 Locked? {Church_Investigation ? (Entered): {Church_Investigation ? (Teleported): | Did it get stuck? It was fine last time you entered, {Remembered_Past: but maybe this time... | but {Church_Entered == 2 or Church_Entered == 0: maybe it's possible that... | maybe slamming it shut caused it to get caught? }} {Church_Entered == 2 or Church_Entered == 0: Your heart pounds wildly in your chest. {Church_Entered == 2: <i>It couldn't be.</i> | {Church_Entered == 0: <i>Could it be that?</i>}}}} | {Church_Interest == "drawn" or Church_Entered == 0 and Remembered_Past: You may have been interested in the church{Church_Entered == 0: and what it could do}, but you'd rather not spend the rest of your day locked in here. | {Remembered_Past or Church_Entered == 2 or Church_Entered == 0: The blood drains from your face{Remembered_Past: as you realize what you've done. |{Church_Entered == 0: as your mouth can't decide to smile or frown.| as an ominous feeling spreads from your chest. }}}}}
 
-#PLAY: lock_rattle
+~ PlaySFX("lock_rattle", false, 0, 0)
 You jiggle the handle again. 
 
 *[The door won't budge]
@@ -1329,7 +1404,8 @@ You jiggle the handle again.
 = Kick
 You size up the door and kick at the latch.
 
-#CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
+#CLASS: Kick #DELAY: 1 #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 The door shutters, but stands firm.
@@ -1340,12 +1416,14 @@ The door shutters, but stands firm.
 ~ Leg_State ++
 You kick again in the same place.
 
-#CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
+#CLASS: Kick #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 *[How is the door this strong...?]
 
-- #CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
+- #CLASS: Kick #DELAY: 1 #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 The door still stands.
@@ -1361,11 +1439,13 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 You keep kicking at the latch. You breathing starts to get heavy and your leg aches. It feels like you are hitting steel.
 
 #CLASS: Kick #PLAY: door_thud #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 *[You want to leave]
 
 - #CLASS: Kick #PLAY: door_thud #DELAY: 1 #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 The door shows no signs of breaking.
@@ -1381,21 +1461,25 @@ You stop, fall to the floor, and stare at the untouched door in front of you. Yo
 Something in you allows you to keep going, even as your leg throbs and it feels like you can barely take in anymore air. 
 
 #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 *[You need to get out]
 
 - #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 *[Every fiber of your being is telling you to get <i>out.</i>]
 
 - #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 *[But the church will not let you]
 
 - #CLASS: Kick  #PLAY: door_thud #EFFECT: Force_Blink
+~ PlaySFX("door_thud", false, 0, 0)
 Thud!
 
 *[The door does not move]
@@ -1515,6 +1599,7 @@ You jam the crowbar in between the door and the wall, at the latch, and pull.
 You pull harder, putting all your weight into it. You lean back a bit further and—
 
 #PLAY: crowbar_break #CLASS: Kick #DELAY: 1
+~ PlaySFX("crowbar_break", false, 0, 0)
 Crack!
 
 Half the crowbar is left in your hand. You drop it, but don't hear it hit the ground.
@@ -1528,20 +1613,26 @@ Half the crowbar is left in your hand. You drop it, but don't hear it hit the gr
 You get to work unscrewing the top hinges of the door.
 
 #CLASS: Drop_Screw 0.75 #PLAY: screw_fall_1 
+~ PlaySFX("screw_fall_1", false, 0, 0)
 <i>Clink!</i>
 #CLASS: Drop_Screw #DELAY: 0.75 #PLAY: screw_fall_2
+~ PlaySFX("screw_fall_2", false, 0, 0)
 <i>Clink!</i> 
 #CLASS: Drop_Screw #DELAY: 1.5 #PLAY: screw_fall_1
+~ PlaySFX("screw_fall_1", false, 0, 0)
 <i>Clink!</i>
 
 #DELAY: 1
 The screws fall to the floor. You move to the bottom hinges.
 
 #DELAY: 0.75 #PLAY: screw_fall_2 #CLASS: Drop_Screw
+~ PlaySFX("screw_fall_2", false, 0, 0)
 <i>Clink!</i> 
 #DELAY: 0.75 #PLAY: screw_fall_1 #CLASS: Drop_Screw
+~ PlaySFX("screw_fall_1", false, 0, 0)
 <i>Clink!</i> 
 #PLAY: screw_fall_2 #CLASS: Drop_Screw
+~ PlaySFX("screw_fall_2", false, 0, 0)
 <i>Clink!</i>
 
 *[That should be the last of them.]
@@ -1566,17 +1657,20 @@ You stop searching, drop the screwdriver and stare at the untouched door in fron
 You lift up the large hammer and begin to smash it into the door.
 
 #PLAY: door_slam #CLASS: Kick
+~ PlaySFX("door_slam", false, 0, 0)
 Thud!
 
 *[It's stronger than you anticipated.]
 
 
 -#PLAY: door_slam #CLASS: Kick
+~ PlaySFX("door_slam", false, 0, 0)
 Thud!
 
 *[It's not working...?]
 
 -#PLAY: door_slam #CLASS: Kick
+~ PlaySFX("door_slam", false, 0, 0)
 Thud!
 
 *[The door looks untouched.]
@@ -1592,7 +1686,7 @@ Thud!
 *[<i>You are trapped</i>]
 
 - 
-# INTRUSIVE: 5, Trapped, Trapped.Intrusive
+~Intrusive(5, "Trapped", "Trapped.Intrusive_Thought")
 The thought bounces around you head. <i>You are trapped.</i>
 {
     - Leg_State == Limping: 
@@ -1622,7 +1716,7 @@ You can barely see, not a single drop of light shines through the windows. Your 
         ->Trapped.Accept
 }
 
-= Intrusive
+= Intrusive_Thought
 You mentally kick yourself for letting this happen. {Walk_Home ? (Different_Path): You tried to go around, but you could have done more. | Why did you take your normal path? The want for normalcy screwed you in the end.} You can barely see, not a single drop of light shines through the windows. Your eyes have mostly adjusted, but not enough to make out meaningful details. You can't get out the way you came in, but there might be another way out.
 
 //Click replace with new text
@@ -1766,9 +1860,10 @@ Your eyelids grow heavy, and you think you understand why the church released yo
 
 = Refuse
 #PLAY: groaning_angry, true #STOP: groaning_angry, 2
-{heard_melody: The melody harshly cuts out.}
+~ PlaySFX("groaning_angry", true, 0, 0)
+~ StopSFX("groaning_angry", 2, 1)
 
-No. You rub your eyes. No. You can't stay. The church didn't just <i>let</i> you out last time. It did so for this moment. For after you let your guard down. You can't stay here. 
+{heard_melody: The melody harshly cuts out.} No. You rub your eyes. No. You can't stay. The church didn't just <i>let</i> you out last time. It did so for this moment. For after you let your guard down. You can't stay here. 
 
 *[Rest for a moment]
     ->Trapped.Wait_Morning(false)
@@ -1890,11 +1985,11 @@ You stagger backward, deeper into the church, an intense pressure pressing down 
     ~ Light_Feeling = relief
 
 TODO: maybe a better word than worry?
-*[Worried]
+*[Worry]
     ~ Stay_Tracker -= 0.5
     ~ Light_Feeling = worry
 
-*[Confused]
+*[Confusion]
     ~ Light_Feeling = confused
 
 - 
@@ -1921,12 +2016,13 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
     
     #PLAY: screeching #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: scream-glow
+    ~ PlaySFX("screeching", false, 0, 0)
     #EFFECT: Force_Open
     An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
     
-    TODO: maybe a  couple mopre choices that all lead to same place
     **[You can barely stand it]
         #STOP: screeching #EFFECT: remove-glow
+        ~ StopSFX("screeching", 0, 0)
         Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. 
     
         The pressure alleviates, the burning stops, and all the { Light_Feeling  == confused: confused emotions go| {Light_Feeling } goes} with it.
@@ -1941,6 +2037,8 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     ~ Church_Encounters -= (Leave_Light)
     ~ Stay_Tracker += 1
     #EFFECT: leave-glow #PLAY: groaning_happy, false, 0.25 #STOP: groaning_happy, 1.5 #EFFECT: IntialSight #EFFECT: EFFECT: Force_Closed
+    ~ PlaySFX("groaning_happy", false, 0.25, 0)
+    ~ StopSFX("groaning_happy", 1.5, 0.5)
     A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. 
 
     "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { Light_Feeling  == confused: confused emotions go | {Light_Feeling} goes } with it. The window returns to it's normal, swirling state. 
@@ -1966,11 +2064,12 @@ On the ground in front of you sits a flashlight and a note.
 = Flashlight
 ~has_flashlight = true
 #PROP: flash #PLAY: flashlight_on
+~ PlaySFX("flashlight_on", false, 0, 0)
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this.
 
 *[Read the note]
+    #EFFECT: flashlight_on #PROP: flash #PROP: note
 
-#EFFECT: flashlight_on #PROP: flash #PROP: note
 - The note is from an old piece of parchment. It feels like it could crumple into dust.
 
 "Find the heart and <color=\#3f1313>destroy</color> it.<br><br>The church will try to stop you.<br><br>It will do anything to keep you here. Stay out of it's <color=\#3f1313>sight.</color><br><br>Do not become it's next <color=\#3f1313>meal.</color>"

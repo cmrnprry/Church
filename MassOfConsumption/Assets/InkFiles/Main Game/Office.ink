@@ -278,6 +278,7 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 ~ Book_Knowledge += (Ripped_Pages)
 
 #PLAY: screeching, 1 #stop: screeching, 2
+~ PlaySFX("screeching", false, 0.5, 0) 
 Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balance.
 
 The remaining books on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
@@ -614,6 +615,9 @@ Confused, you  numbly wander back into the main body of the church. You find you
                 <> You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
                 
                 #PLAY: Church-anger, 0, 1  #STOP: Church-anger, 0, 2
+                ~ PlaySFX("Church-anger", false, 0, 0) 
+                ~ StopSFX("Church-anger", 1, 2)
+                TODO what
                 That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                 *[You stand, dust yourself off, and walk home.]

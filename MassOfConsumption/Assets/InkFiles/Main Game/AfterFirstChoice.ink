@@ -256,9 +256,14 @@ TODO: update this
 You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
 
 #PLAY: child-wood-footsteps, 1 #PLAY: curtain
+~ PlaySFX("curtain", false, 0, 0)
+~ PlaySFX("child-wood-footsteps", false, 0, 0) 
+TODO fade out?
 You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional.
 
 #PLAY: child-wood-footsteps
+~ PlaySFX("child-wood-footsteps", false, 0, 0) 
+TODO fade out?
 You whip around, and just barely miss seeing someone run up the stairs.
 
 *[Check inside the confessional]

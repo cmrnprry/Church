@@ -151,13 +151,8 @@ namespace AYellowpaper.SerializedCollections
             CurrentlySkipping = true;
         }
 
-        public static void AddIntrusiveThoughts(string value, IntrusiveThoughtsManager intrusiveThoughts)
+        public static void AddIntrusiveThoughts(int amount, string text, string jump_to, IntrusiveThoughtsManager intrusiveThoughts)
         {
-            string[] intusive_list = value.Split(",");
-            float amount = float.Parse(intusive_list[0]);
-            string text = intusive_list[1].Trim();
-            string jump_to = intusive_list[2].Trim();
-
             intrusiveThoughts.IncreaseThought();
 
             for (int i = 0; i < amount; i++)

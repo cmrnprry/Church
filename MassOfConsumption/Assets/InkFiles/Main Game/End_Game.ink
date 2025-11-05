@@ -7,27 +7,31 @@ The door opens with a groan. The walls are bare, and the ceiling is low. The roo
 
 You duck into the room and the door closes behind you, but you don't bother looking back. You approach the table, and sit in front of it. The heart is about the size of your fist. It floats in a small bowl of water, and is the source of the red glow. The glass is filled with a deep, red liquid. The bread next to it is short and stubby. It looks soft under the light of the heart.
 
+~Intrusive(3, "Take a sip", "Open_the_Door.Consume")
+~Intrusive(2, "So hungry", "Open_the_Door.Consume")
+~Intrusive(2, "So thirstry", "Open_the_Door.Consume")
 Your mouth begins to water and your stomach growls. When was the last time you ate? Or the last time you drank?
 
+~ temp_bool = true
 *[Pick up the glass]
-    -> Open_the_Door.Consume
+    #EFFECT: BlinkOnClick_False #EFFECT: Force_Open
+    ~temp_bool = false
+    ~Intrusive(2, "Delicious", "Open_the_Door.Consume")
+    You pick up the glass and sniff the liquid. It smells like grapes. 
+    **[Take a sip]
+        -> Open_the_Door.Consume
+        
+    **[Put it down]
+        #REMOVE: Intrusive
+        You decide against it. You can always eat after you escape.
+        -> Open_the_Door.Pick_Up
 
 *[Pick up the heart]
     -> Open_the_Door.Pick_Up
 
 = Consume
-#EFFECT: BlinkOnClick_False #EFFECT: Force_Open
-You pick up the glass and sniff the liquid. It smells like grapes. 
-
-*[Take a sip]
-
-*[Put it back]
-    You decide against it. You can always eat after you escape.
-    -> Open_the_Door.Pick_Up
-
-- 
-#CYCLE: pungent, tangy, sweet, delicious
-You take a small sip. It's @. You can't stop yourself from gulping it down. Warm, thick liquid slides down your throat. 
+#REMOVE: Intrusive #CYCLE: pungent, tangy, sweet, delicious
+{temp_bool: You pick up the glass and sniff the liquid. It smells like grapes.} You take a small sip and the taste is @. You can't stop yourself from gulping it down. Warm, thick liquid slides down your throat. 
 
 *[You can't get enough.]
 
@@ -76,6 +80,7 @@ You look back at the glowing heart.
 
 = Pick_Up
 #PLAY: groan #EFFECT: BlinkOnClick_False #EFFECT: Force_Open
+~ PlaySFX("groan", false, 0, 0)
 Carefully, you reach out and take the heart out of the water. The church groans. The heart softly pulses in your hand.
 
 {Stay_Tracker >= 2.5: It's beautiful. | {Stay_Tracker >= 1.5: It's unnatural. | It's disgusting.}}
@@ -266,6 +271,7 @@ The heart beats in your hand, a lovely red color. It resembles a sweet apple. Ar
 - 
 #PLAY: shriek #CLASS: Angry-Screeching
 #EFFECT: Force_Blink
+~ PlaySFX("shriek", false, 0, 0)
 The church shrieks in response. It shakes and shutters. The ghostly figures clutch their heads in agony.
 
 Cool, sweet juice slides down your face. Yes. It tastes just like an apple. The sweetest, crispest apple you've ever had.

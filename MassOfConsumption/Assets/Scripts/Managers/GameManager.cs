@@ -28,7 +28,7 @@ namespace AYellowpaper.SerializedCollections
         }
 
         [Header("Ink Data")][SerializeField] private TextAsset InkJsonAsset;
-        private Story Story;
+        [HideInInspector] public Story Story { get; private set; }
         private Color text_color;
         private List<string> classes = new List<string>();
         public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
@@ -203,6 +203,13 @@ namespace AYellowpaper.SerializedCollections
             GlobalLight.color = OutsideLight;
 
             SaveSystem.SetSettingsOnLoad();
+
+
+            Story.BindExternalFunction("Intrusive", (int amount, string text, string jump_to) =>
+            {
+                StaticHelpers.AddIntrusiveThoughts(amount, text, jump_to, intrusiveThoughts);
+                SaveSystem.AddIntrusiveThroughts(amount, text, jump_to);
+            });
         }
 
         private void OnEnable()
@@ -285,7 +292,7 @@ namespace AYellowpaper.SerializedCollections
 
                 if (!zoomdata.IsNull())
                     ImageClassData.ZoomImage(zoomdata.scale, zoomdata.position, zoomdata.duration);
-                
+
 
                 if (imageclasses != "NULL" || string.IsNullOrEmpty(imageclasses))
                     ImageClassData.ApplyClass(imageclasses);
@@ -299,7 +306,11 @@ namespace AYellowpaper.SerializedCollections
             intrusiveThoughts.KillAllThoughts(true);
             foreach (string thought in SaveSystem.GetIntrusiveThoughts())
             {
-                StaticHelpers.AddIntrusiveThoughts(thought, intrusiveThoughts);
+                string[] intusive_list = thought.Split(",");
+                int amount = int.Parse(intusive_list[0]);
+                string text = intusive_list[1].Trim();
+                string jump_to = intusive_list[2].Trim();
+                StaticHelpers.AddIntrusiveThoughts(amount, text, jump_to, intrusiveThoughts);
             }
 
             GlobalLight.color = SaveSystem.GetColorData();
@@ -505,7 +516,7 @@ namespace AYellowpaper.SerializedCollections
                         StaticHelpers.ShiftImage(BackgroundImage, true);
                     else if (BackgroundDictionary.ContainsKey(value))
                     {
-                          var temp = DefualtImage.GetComponentsInChildren<Image>();
+                        var temp = DefualtImage.GetComponentsInChildren<Image>();
 
                         Image[] children = new Image[3];
                         children[0] = temp[0];
@@ -544,23 +555,6 @@ namespace AYellowpaper.SerializedCollections
                     }
 
                     break;
-                case "PLAY": //{src, loop, fade in, delay}
-                    string[] play_list = value.Split(',');
-
-                    bool play_loop = play_list.Length > 1 ? bool.Parse(play_list[1].Trim()) : false;
-                    float play_dur = play_list.Length > 2 ? float.Parse(play_list[2].Trim()) : 0;
-                    float play_delay = play_list.Length > 3 ? float.Parse(play_list[3].Trim()) : 0;
-
-                    AudioManager.instance.PlaySFX(play_list[0].Trim(), play_loop, play_dur, play_delay);
-                    break;
-                case "STOP": //{src, fade out, delay}
-                    string[] stop_list = value.Split(',');
-
-                    float stop_dur = stop_list.Length > 1 ? float.Parse(stop_list[1].Trim()) : 0;
-                    float stop_delay = stop_list.Length > 2 ? float.Parse(stop_list[2].Trim()) : 0;
-
-                    AudioManager.instance.StopSFX(stop_list[0].Trim(), stop_dur, stop_delay);
-                    break;
                 case "DELAY": //delay overrider when next text block shows
                     Text_Delay = float.Parse(value);
                     break;
@@ -592,7 +586,7 @@ namespace AYellowpaper.SerializedCollections
                         Current_Textbox.text = ContinueText;
                         Current_Textbox.gameObject.GetComponent<TextObjectEffects>().ApplyClass(value);
                     }
-                    
+
                     break;
                 case "ICLASS": //[classes to remove], [classes to add]
                     ImageClassData.ApplyClass(value);
@@ -607,11 +601,6 @@ namespace AYellowpaper.SerializedCollections
                         ImageClassData.RemoveClassTweens();
                     else if (value == "INTRUSIVE")
                         intrusiveThoughts.KillAllThoughts();
-                    break;
-                case "INTRUSIVE": //[amount to spawn], [text], [jump_to]
-                    StaticHelpers.AddIntrusiveThoughts(value, intrusiveThoughts);
-                    SaveSystem.AddIntrusiveThroughts(value);
-
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {value} could not be found.");
@@ -723,7 +712,7 @@ namespace AYellowpaper.SerializedCollections
             else if (type == "intial")
             {
                 var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
-                
+
                 var intial_light = onj.GetComponent<Light2D>();
 
                 if (onj.activeSelf)
@@ -856,6 +845,7 @@ namespace AYellowpaper.SerializedCollections
             SaveSystem.SetSavedHistory($"<br><br>{thought}");
             SaveSystem.ClearCurrentTextData();
             Story.ChoosePathString(path);
+
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();

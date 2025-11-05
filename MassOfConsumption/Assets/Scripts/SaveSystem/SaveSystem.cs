@@ -443,9 +443,10 @@ public static class SaveSystem
         slotData.IntrusiveThoughts = thoughts.ToArray<string>();
     }
 
-    public static void AddIntrusiveThroughts(string thought, string slotID = "")
+    public static void AddIntrusiveThroughts(int amount, string text, string jump_to, string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        string thought = $"{amount}, {text}, {jump_to}";
         IntrusiveThoughts.Add(thought);
 
         temp_data.IntrusiveThoughts = IntrusiveThoughts.ToArray<string>();

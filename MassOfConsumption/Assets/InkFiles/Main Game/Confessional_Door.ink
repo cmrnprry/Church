@@ -52,6 +52,7 @@
 -
 
 #PLAY: curtain
+~ PlaySFX("curtain", false, 0, 0)
 You stand to leave when you hear the curtain open and close from the other side of the divider. There are footsteps, then a soft thud of someone sitting on the bench.
 
 *[Wait]
@@ -97,6 +98,7 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 = No_Confessions
 ~ Stay_Tracker += 0.5
 #DELAY: 4 #PLAY: curtain
+~ PlaySFX("curtain", false, 0, 0)
 ~ Confessional_Encounters += (Killed_Girl)
 
 {Confessional_Encounters ? (Tell_Her_Leave): | {Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | {Confessional_Encounters ? (Talked_to_Girl): "You're lying!" The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | You shake your head and apologize again. "They, uh, ended just a few moments ago. They restart tomorrow morning." You clear your throat and hope that sounded priestly enough. }}}
@@ -110,6 +112,7 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 The sound of the curtain tearing—
 
 #CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5
+~ PlaySFX("door_thud", false, 0, 0)
 <i>THud</i>
 
 Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your stomach.
@@ -120,10 +123,11 @@ Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your
 *["Are you alright?!"]
 
 - 
-TODO: using the intrusive thought here would be great
+~Intrusive(3, "Do something", "")
 You can hear wheezing, but she does not answer. You squeeze your hands together, your inaction causing the panic living in your chest to grow. You need to act.
 
 #CLASS: Fidget
+~Intrusive(2, "Help her!", "")
 Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow motion toward it. You hear uneven breathing and gasping from outside.
 
 *["Are you okay?"]
@@ -133,28 +137,29 @@ Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow mo
 *["What's going on?"]
 
 - 
+~Intrusive(4, "Do something!", "")
+~Intrusive(2, "Move!", "")
 #CYCLE: easy, smoothly, effortlessly, fluid 
 The words come out too @. You can hear scratching on the floor. Your hand finally finds the knob. It's freezing cold, and sends a shock through your nerves. You turn the knob and it creaks, the sound echoing in your ears, louder than it should have been. 
 
-#CLASS: Fidget
+#CLASS: Fidget #REMOVE: INTRUSIVE
 It is deathly quiet outside.
 
 <i>What if it's too late?</i> You think, and tighten your grip on the door. <i>It's all your fault. If you had just moved faster, then maybe she might still be—</i>
 
 *[<i><b>Open the door</b></i>]
-    #REMOVE: intrusive
 - 
 
 You throw the door open and fall onto the ground outside the booth. You crawl on your hands and feet looking for her. "I'm- Say something if you can hear me!" 
 
-TODO: more intrusive 
 #PLAY: flashlight 
+~ PlaySFX("flashlight", false, 0, 0)
+~Intrusive(4, "You're too late", "")
 Your voice hangs in the air, but you don't stop looking. You stumble into fabric, and your hands graze deep grooves in the wood. You fumble with your flashlight. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
 
+~Intrusive(4, "She's gone", "")
 There's a splatter of blood just outside it, next to the ripped off piece of curtain. Scratch marks are etched into the wooden floor. Your flashlight shines on broken pieces of nail.
 -> Confessional_Door.End_Booth_Encounter("Sat_There")
-
-TODO: I think ink can track this??
 
 = Rush_Out (visit_Count)
 ~ visit_Count += 1
@@ -216,7 +221,7 @@ You shine your flashlight through at the movement. What you assume to be the gir
 -> Confessional_Door.End_Booth_Encounter("Watched")
 
 = End_Booth_Encounter(Reaction)
-# IMAGE: Confessional_CloseUp #PROP: curtain_torn
+# IMAGE: Confessional_CloseUp #PROP: curtain_torn #REMOVE: INTRUSIVE
 ~ Confessional_Encounters += (Finished_Door_Side, Killed_Girl)
 <i>This is your fault.</i>
 
@@ -378,7 +383,6 @@ What...?
 *[Continue your search]
     -> Confessional_Door.Return_to_Search
 
-
 = Yes_Confessions
 The words tumble out before you fully realize what you're agreeing to. You chew your cheek wondering if you should take it back.
 
@@ -537,6 +541,7 @@ You ball your fists. It's not the same as what happened to you, but it's similar
     You don't think it matters. You know she's already gone, but it still feels bad to lie. You hope she forgives you. "He went to his office to finish a few things. If you wait by the door, he'll come find you."
     
     #PLAY: curtain
+    ~ PlaySFX("curtain", false, 0, 0)
     "Okay, I'll... I'll do that." She sniffs, and the curtain opens. "Thank you."
     
     The curtain closes, and she is gone.

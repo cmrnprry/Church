@@ -19,7 +19,7 @@ namespace AYellowpaper.SerializedCollections
         public SerializedDictionary<string, AudioClip> SFXDictionary;
         [SerializeField] private AudioSource SFXSource;
         [SerializeField] private Transform SFXParent;
-        private List<AudioSource> sources = new List<AudioSource>();
+        private Dictionary<string, AudioSource> sources = new Dictionary<string, AudioSource>();
 
         private void Awake()
         {
@@ -30,34 +30,27 @@ namespace AYellowpaper.SerializedCollections
 
             DontDestroyOnLoad(gameObject);
         }
-        
-        public void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
-        {
-            if (sources.Count > 0)
-            {
-                for (int i = 0; i < sources.Count; i++)
-                {
-                    if (sources[i].isPlaying && i + 1 < sources.Count)
-                        continue;
-                    else if (SFXDictionary.ContainsKey(src))
-                    {
-                        var sfx = Instantiate(SFXSource, SFXParent);
-                        sources.Add(sfx);
-                        sfx.clip = SFXDictionary[src];
-                        sfx.loop = shouldLoop;
 
-                        if (fadeIn > 0 || delay > 0)
-                            StartCoroutine(FadeIn(sfx, fadeIn, delay));
-                        else
-                            sfx.Play();
-                        break;
-                    }
-                }
-            }
-            else if (SFXDictionary.ContainsKey(src))
+        private void Start()
+        {
+            GameManager.instance.Story.BindExternalFunction("PlaySFX", (string src, bool loop, float fade_in, float delay) =>
+            {
+                PlaySFX(src, loop, fade_in, delay);
+            });
+
+            GameManager.instance.Story.BindExternalFunction("StopSFX", (string src, float fade_out, float delay) =>
+            {
+                StopSFX(src, fade_out, delay);
+            });
+        }
+
+        private void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
+        {
+            if (SFXDictionary.ContainsKey(src))
             {
                 var sfx = Instantiate(SFXSource, SFXParent);
-                sources.Add(sfx);
+                float kill_time = SFXDictionary[src].length + fadeIn + delay + 0.5f;
+
                 sfx.clip = SFXDictionary[src];
                 sfx.loop = shouldLoop;
 
@@ -65,27 +58,30 @@ namespace AYellowpaper.SerializedCollections
                     StartCoroutine(FadeIn(sfx, fadeIn, delay));
                 else
                     sfx.Play();
+
+                //if it's looping, add it to the list, otherwise kill it after the kill timer
+                if (shouldLoop)
+                    sources.Add(src, sfx);
+                else
+                    Destroy(sfx.gameObject, kill_time);
             }
+            else
+                Debug.LogWarning($"Cannot Find SFX: {src}");
         }
 
-        public void StopSFX(string src, float fadeOut = 0, float delay = 0)
+        private void StopSFX(string src, float fadeOut = 0, float delay = 0)
         {
-            for (int i = 0; i < sources.Count; i++)
+            if (SFXDictionary.ContainsKey(src))
             {
-                if (sources[i].isPlaying && sources[i].loop && sources[i].clip.name == src)
-                {
-                    if (fadeOut > 0 || delay > 0)
-                        StartCoroutine(FadeOut(sources[i], fadeOut, delay));
-                    else
-                    {
-                        sources[i].Stop();
-                        Destroy(sources[i].gameObject);
-                        sources.RemoveAt(i);
-                        break;
-                    }
-                }
+                if (fadeOut > 0 || delay > 0)
+                    StartCoroutine(FadeOut(sources[src], fadeOut, delay));
                 else
-                    continue;
+                {
+                    sources[src].Stop();
+                    Destroy(sources[src].gameObject);
+                }
+
+                sources.Remove(src);
             }
         }
 
@@ -95,7 +91,7 @@ namespace AYellowpaper.SerializedCollections
             yield return new WaitForSeconds(delay);
 
             src.Play();
-            src.DOFade(SaveSystem.GetAudioVolume(Audio.SFX), duration);
+            src.DOFade(1, duration);
         }
 
         private IEnumerator FadeOut(AudioSource src, float duration = 0, float delay = 0)
@@ -106,7 +102,6 @@ namespace AYellowpaper.SerializedCollections
 
             yield return new WaitForSeconds(duration);
             src.Stop();
-            sources.Remove(src);
             Destroy(src.gameObject);
         }
 

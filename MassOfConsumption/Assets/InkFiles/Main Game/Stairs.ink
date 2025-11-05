@@ -224,7 +224,8 @@ You shine your light to the end of the staircase, and see a door at the end of t
 *[See what's behind the door]
 
 *[Turn. Back.]
-    #PLAY: click-off
+    #PLAY: flashlight_off
+    ~ PlaySFX("flashlight_off", false, 0, 0)
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
     The flesh, it— it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
@@ -232,11 +233,13 @@ You shine your light to the end of the staircase, and see a door at the end of t
 
 - 
 #PLAY: 1, squish-squash
+~ PlaySFX("squish-squash", true, 1, 0)
 <i>You've made it this far, might as well see it it toward the end,</i> you think, and take another deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
 <i>Squish</i>
 
 #stop: 3, squish-squash
+~ StopSFX("squish-squash", 3, 0)
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
 <i>Squelch</i>
@@ -249,16 +252,19 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
     - Downstairs_State <= Bad_Vibes:
         ~ Downstairs_State = Bad_Vibes
         
-        #PLAY: click-on
+        #PLAY: flashlight_on
+        ~ PlaySFX("flashlight_on", false, 0, 0)
         You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
 
         You tense, every fiber of your being telling you to not continue down.
     - Downstairs_State == Stink:
-        #PLAY: click-on
+        #PLAY: flashlight_on
+        ~ PlaySFX("flashlight_on", false, 0, 0)
         You approach the stairs again, and plug your nose. You breath through your mouth as you quickly descend. The stench punches you in the face, hanging heavy in the air. You take deep, deliberate breaths, as you continue.
         
     - else:
-        #PLAY: click-on
+        #PLAY: flashlight_on
+        ~ PlaySFX("flashlight_on", false, 0, 0)
         You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
 }
 
@@ -289,7 +295,11 @@ The room is covered in the pink, bulging flesh, thick ooze drips from the ceilin
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistently falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+    #PLAY: flashlight_on #PLAY: 1, flashlight_off #PLAY: 1, flashlight_on #PLAY: 1, flashlight_off
+    ~ PlaySFX("flashlight_on", false, 0, 0)
+    ~ PlaySFX("flashlight_off", false, 0, 0.25)
+    ~ PlaySFX("flashlight_on", false, 0, 0.5)
+    ~ PlaySFX("flashlight_off", false, 0, 0.75)
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
     ->Stairs.Melt
 
@@ -304,7 +314,11 @@ You pass by what you assume is a standing coat hanger, and stare at it. It is ta
     You scream and fall backward, landing in a puddle. You fix your flashlight on the @, trying to make sense of it all. It's fused into the coat rack, limbs sewn into wrong places and the metal forced into flesh so it keeps its shape. And its face? Its face was a writhing mass of-
     
     TODO: sound
-    #CYCLE: person, animal, zombie, creature, beast #PLAY: click-on #PLAY: 1, click-off #PLAY: 1, click-on #PLAY: 1, click-off
+    #CYCLE: person, animal, zombie, creature, beast #PLAY: flashlight_on #PLAY: 1, flashlight_off #PLAY: 1, flashlight_on #PLAY: 1, flashlight_off
+    ~ PlaySFX("flashlight_on", false, 0, 0)
+    ~ PlaySFX("flashlight_off", false, 0, 0.25)
+    ~ PlaySFX("flashlight_on", false, 0, 0.5)
+    ~ PlaySFX("flashlight_off", false, 0, 0.75)
     The @ twitches, snapping bones and warping metal to look at you. A squeak escapes you and you drop your flashlight. It flickers as it rolls away, and turns offs. The thing groans as more bones snap and it falls, landing on top of you.
     ~temp_bool = 0
     
@@ -329,7 +343,8 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 
 *[Lift the tarp]
 
-- #PLAY: click-off
+- #PLAY: flashlight_off
+~ PlaySFX("flashlight_off", false, 0, 0)
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
 #CYCLE: Fidget, mourn, pity, pray
@@ -470,6 +485,7 @@ In frustration you kick the door{Leg_State >= Limping:, then suppress a curse as
 
 - 
 #CYCLE: mold, meat, fungus, flesh #PLAY: 1, squish-squash
+~ PlaySFX("squish-squash", false, 1, 0)
 You don't think anything could be worse than the smell emanating from the door in front of you and decide to try climbing the stairs one last time. The @ sticks to your shoes as you step on it{Temp_Touched_Mass:.|, like warm gum.} Your lip curls.
 
 The stench fades and the substance coating the walls dissipates as you reach the top. You pull yourself out of the stairwell, finding yourself at the landing you were desperately searching for. You could almost kiss the ground.
@@ -495,7 +511,8 @@ The stench fades and the substance coating the walls dissipates as you reach the
 
 = Upstairs
 ~ Have_Visited += (Stairs_Up)
-#IMAGE: Stairs_Up #PLAY: click-on #EFFECT: Flash-On
+#IMAGE: Stairs_Up #PLAY: flashlight_on #EFFECT: Flash-On
+~ PlaySFX("flashlight_on", false, 0, 0)
 You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up.
 
 Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs quiver from effort. {Leg_State > Tense: The leg you used to kick the door in feels particularly weak.}
@@ -591,9 +608,12 @@ TODO: maybe more here, but i think it's fine
     
         *{!broke_key}[Try the simple key]
             ~ Locks_Undone += (Key_Lock)
+            ~ PlaySFX("groaning-angry", false, 1, 0)
+            ~ StopSFX("groaning-angry", 2, 1)
             You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it. You sigh with relief as <>
             
             #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
+            
             the chains and lock fall to the ground. The church groans angrily in response. 
             
             { - LIST_COUNT(Locks_Undone):
@@ -612,9 +632,12 @@ TODO: maybe more here, but i think it's fine
             
             **{!broke_key}[Try the simple key]
                 ~ Locks_Undone += (Key_Lock)
+                ~ PlaySFX("groaning-angry", false, 1, 0)
+                ~ StopSFX("groaning-angry", 2, 1)
                 The key refuses to turn, but you jiggle it in the lock, careful to not force it, and it turns. You sigh with relief as <>
             
                 #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
+                
                 the chains and lock fall to the ground. The church groans angrily in response. 
                 
                 { - LIST_COUNT(Locks_Undone):
@@ -627,6 +650,8 @@ TODO: maybe more here, but i think it's fine
     
     - items_obtained ? (Simple_Key) and !broke_key: 
         ~ Locks_Undone += (Key_Lock)
+        ~ PlaySFX("groaning-angry", false, 1, 0)
+        ~ StopSFX("groaning-angry", 2, 1)
         You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it. You sigh with relief as <>
             
         #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
@@ -652,14 +677,17 @@ TODO: maybe more here, but i think it's fine
 ~ Locks_Undone += (Clippers_lock)
 
 #PLAY: cut_chain
+~ PlaySFX("cut_chain", false, 0, 0)
 You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain. {Church_Encounters ? (Finger_Chopped): You flinch at the sound out the chain snapping, reminded of the sound when you let them take your finger. A dull pain echos through your stump.}
 
 #PLAY: cut_chain
+~ PlaySFX("cut_chain", false, 0, 0)
 {Locks_Undone !? (Key_Lock): You look at the rest of the chains that are held together with the old looking lock. {items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): You try the key you found but...}}
 
 *[Cut the chains]
     ~ Locks_Undone += (Key_Lock)
     #PLAY: cut_chain
+    ~ PlaySFX("cut_chain", false, 0, 0)
     You cut the chain close to the lock, and it falls to the ground along with the chains it was holding up. 
 
 *[Use the key]
@@ -807,6 +835,8 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     {Stay_Tracker >= 2.5: You fish the key out of your pocket. Your hand shakes as you try to slide it into the hole. You miss a few times before dropping the key to the floor. "Get it together..." You mutter, shaking out your hands before picking up the key and putting it into the lock. }{Stay_Tracker < 2.5: You fish the key out of your pocket, and try it on the only lock with a key hole. } It resists slightly, but with a little force, you're able to turn it. 
     
     #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
+    ~ PlaySFX("groaning-angry", false, 0, 0.25)
+    ~ StopSFX("groaning-angry", 2, 1)
     The chains and lock fall to the ground. The church groans angrily in response. 
     
     { - LIST_COUNT(Locks_Undone):
@@ -829,6 +859,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
     You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
 
     #PLAY: cut_chain
+    ~ PlaySFX("cut_chain", false, 0, 0)
     {Church_Encounters ? (Finger_Chopped) and !finger_pain_pass: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take your finger. A dull pain echos through your stump at the memory.} {Church_Encounters ? (Finger_Chopped) and finger_pain_pass: You don't flinch at the sound out the chain snapping, but feel a slight smile come to your lips. The stump on your hand aches at the memory, but it's a soothing pain. } {Church_Encounters ? (Was_Coward): You flinch at the sound out the chain snapping, reminding you of the sound when you let them take her finger. Her cries echo in your ears. }
     
     You shake the memory from your head and {temp_string}
