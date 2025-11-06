@@ -1,7 +1,10 @@
 === TESTING_AH ===
-#PROP: [polaroid true], [curtain_full true], [curtain_torn true]
-Another email with the same subject quickly replaces it. You don't think and delete it again. 
+#IMAGE: Open_Door #PROP: Open_Door true #DELAY: 5
+Confused, you  numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
-#PROP: [polaroid false], [curtain_full false], [curtain_torn true]
+*[You reach out a hand]
+
+- ???
+
 But yet another takes it's place.
--> END
+-> Endings.Bad_End_1

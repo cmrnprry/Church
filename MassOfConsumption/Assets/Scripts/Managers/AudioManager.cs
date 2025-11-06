@@ -71,7 +71,7 @@ namespace AYellowpaper.SerializedCollections
 
         private void StopSFX(string src, float fadeOut = 0, float delay = 0)
         {
-            if (SFXDictionary.ContainsKey(src))
+            if (SFXDictionary.ContainsKey(src) && sources.ContainsKey(src))
             {
                 if (fadeOut > 0 || delay > 0)
                     StartCoroutine(FadeOut(sources[src], fadeOut, delay));

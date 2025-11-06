@@ -460,10 +460,11 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 ////////// ENDING INTERACTIONS ////////// 
 
 = Unsure
+#IMAGE: Open_Door #PROP: Closed_Door true
 Confused, you  numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
 *[You reach out a hand]
-
+TODO choice
 - But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay open. You feel like...
 
 *[Laughing]

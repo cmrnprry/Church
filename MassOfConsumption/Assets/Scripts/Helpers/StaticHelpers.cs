@@ -82,6 +82,37 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
+        public static void SetProp(string src, bool visibility)
+        {
+            if (GameManager.instance.PropDictionary.ContainsKey(src))
+            {
+                var obj = GameManager.instance.PropDictionary[src];
+                obj.SetActive(visibility);
+
+
+                if (obj.TryGetComponent(out OnOffHelpers helper))
+                {
+                    if (src == "Closed_Door" || src == "Open_Door")
+                    {
+                        obj.GetComponent<OpenDoorHelper>().To_Open = (src == "Closed_Door") ? false : true;
+                    }
+
+
+                    helper.FlipVisibility(visibility);
+                }
+                else
+                {
+                    foreach (Transform child in obj.transform)
+                    {
+                        if (child.TryGetComponent(out OnOffHelpers child_helper))
+                            child_helper.FlipVisibility(visibility);
+                    }
+                }
+
+                SaveSystem.SetCurrentProp(src, visibility);
+            }
+        }
+
         public static void ShiftImage(Image background, bool wasVisible = false, bool isNonBus = false)
         {
             int pos = wasVisible ? -100 : 100;

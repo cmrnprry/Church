@@ -45,7 +45,6 @@ public class SaveSlot : MonoBehaviour
 
         if (SaveSystem.CheckForData(slotID))
         {
-            Debug.Log($"setting data for {slotID}");
             text.text = SaveSystem.CheckForSaveData(slotID);
 
             image.sprite = SaveSystem.GetCurrentSprite(slotID);
@@ -57,7 +56,6 @@ public class SaveSlot : MonoBehaviour
     public void UpdateData()
     {
         OnSave?.Invoke(slotID);
-        Debug.Log("updating save at " + slotID);
         DateTime DateCurrent = DateTime.Now;
         text.text = String.Format("{0:d} {0:t}", DateCurrent);
 

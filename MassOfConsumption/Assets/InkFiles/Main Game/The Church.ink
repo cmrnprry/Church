@@ -117,7 +117,6 @@ You shift your weight, and check your watch. Your boss has been watching you lik
 * ["I should really run home and grab it."]
 
 -  
-#STOP: bus_ambience, 2
 ~ StopSFX("bus_ambience", 2, 0)
 She blinks at you, then shrugs, "Whatever you say." She says, exasperated, and closes the doors. You wince at her tone and hope you didn't ruin the relationship as you watch her pull away. 
 
@@ -136,6 +135,7 @@ Once the bus is out of view, you let out the breath you were holding and steel y
 ~ Church_Investigation += (Called)
 ~ temp temp_calledtwicetemp = false
 
+#IMAGE: Church_Looming #PROP: [closed_gates true]
 You cross the street to stand before the church, typing the number displayed into your phone. {Church_Interest == "drawn": You hang your arms over the fence as the phone rings. | You turn your back to the church and pace as the phone rings. You stick your free hand in your pocket, lightly caressing the photo that sits there. } 
 
 #PLAY: sfx_name
@@ -210,7 +210,7 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
                 ~ Church_Investigation += (Teleported)
                 ~ Church_Investigation += (Dropped_Phone)
                 ~ Stay_Tracker += 0.5
-                #DELAY: 1.5
+                #DELAY: 1.5 #PROP: [open_gates true], [closed_gates false]
                 You drop your phone and throw the gate open. You trip over yourself as you run down the path and to the door. You push through the church door and—
                 -> Job.Teleport
             
@@ -239,16 +239,19 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
 *[Enter the church]
     ~ Church_Investigation += (Teleported)
     ~ Stay_Tracker += 0.5
-    
-    #DELAY: 1.5
+
+TODO zoom in quickly on door
+    #DELAY: 1.5 #PROP: [open_gates true], [closed_gates false]
     You {Church_Interest != "drawn": push | throw} the gate open, {Church_Interest != "drawn": walking up the path, not entirely sure why you're doing this. | tripping over yourself as you run up the path and to the door.} You enter through the church door and-
     -> Job.Teleport
 
 = Break_in
 ~ Church_Investigation += (Entered)
-#DELAY: 1.5
+TODO zoom in quickly on door
+#DELAY: 1.5 #IMAGE: Church_Looming #PROP: [open_gates true]
 You cross the street and push the church gates open. {Church_Interest == "drawn": You trip over yourself as you run down the path and to the door. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. You hope whatever you find is worth being late for work for.} You push through the church door and— | You walk up the path, not entirely sure why you're doing this. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. Work be damned at this point. There's something happening here.} You enter through the church door and— }
 
+#IMAGE: Default #PROP: [open_gates false]
 You're standing in an old church. The floor boards creek under your weight and everything is covered in a thin layer of dirt and grime. It's empty and dusty and it's— "Just a church?" You finish the sentence out loud. You feel...
 
 * [Disappointed]
@@ -278,6 +281,7 @@ You're standing in an old church. The floor boards creek under your weight and e
 
 - 
 ~ Church_Investigation += Late
+#IMAGE: Bus Stop
 You hope the next bus comes soon. {Church_Investigation !? (Starving): <>}
 
 Your phone chirps and you grimace.
@@ -289,19 +293,19 @@ Your phone chirps and you grimace.
     {Church_Investigation ? (Starving): You fish your phone from your pocket to quickly check the time. You glance down for a second to see a bombardment of message from your boss. | You pull out your phone to see how long it is til the next bus is only to be bombarded with messages from your boss. }
     
 -
-#DELAY: 1.5
+#DELAY: 0.5
 ~ PlaySFX("email_ding", false, 0, 0)
 "Where are you????"
 
-#DELAY: 1.5
+#DELAY: 0.5
 ~ PlaySFX("email_ding", false, 0, 0)
 "This is the 3rd time this quarter!"
 
-#DELAY: 1.5
+#DELAY: 0.5
 ~ PlaySFX("email_ding", false, 0, 0)
 "You can't keep doing this."
 
-#DELAY: 1.5
+#DELAY: 0.5
 ~ PlaySFX("email_ding", false, 0, 0)
 "Did you finish my presentation for Project Cypher??"
 
@@ -376,7 +380,6 @@ Your eyes dart from him to the church behind him and back. You're losing it. Ove
 ~ StopSFX("bus_ambience", 2, 0)
 You ignore the driver's further probing and walk around the bus, pressing a hand against it to steady yourself. The driver continues to shout after you, but you ignore him.
 
-#IMAGE: Default
 ->return_to
 
 === Bus ===
@@ -410,7 +413,6 @@ You watch the church through the window until it becomes a dot in the distance. 
     ->Bus.home
     
 *[You want to forget about the church.]
-    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
@@ -418,7 +420,6 @@ You watch the church through the window until it becomes a dot in the distance. 
 You watch the church through the window until it fades into a dot in the distance. Even after it's gone, you still feel on edge. A part of you wants to call out sick and go back to the church. It's waiting for you.
 
 *[You <i>need</i> to forget about the church.]
-    #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
     You fear what what will happen if you can't.
     ->Job
 
@@ -478,6 +479,9 @@ The whole office is quiet as your boss gets louder and louder.
  - TeleportOrLate != "Teleport": 
     ~Intrusive(1, "Why did you go in?", "Stop.Stop_Thinking")
 }
+
+~ Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
+~ PlaySFX("office_ambience", true, 1, 0)
 You stare blankly at your computer screen, replaying the "conversation" over and over in your head. You should do something to seem useful.
 
 *[Scan some documents]
@@ -487,11 +491,12 @@ You stare blankly at your computer screen, replaying the "conversation" over and
     -> Job.Emails
 
 === Job ===
-#STOP: bus_ambience, 1
-~Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
+#IMAGE: Default #CHECKPOINT: 1, You arrive at work.
+{Church_Investigation ? (Late): -> Late_Work}
+
+~ Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
 ~ PlaySFX("office_ambience", true, 1, 0)
 ~ StopSFX("bus_ambience", 1, 0)
-{Church_Investigation ? (Late): -> Late_Work}
 At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
 
 ~Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
@@ -516,7 +521,7 @@ You find yourself in your boss' office, staring at the floor as her eyes bore in
 -> Job_Yelled_At("Late_Work") 
 
 = Teleport
-#IMAGE: Default
+#IMAGE: Default #CHECKPOINT: 1, You arrive at work.
 "Excuse you! Is there something so important that you needed to barge in here?" You blink at the unexpected harsh lighting, finding yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were about to enter the church so how? "Well?"
 
 *[Apologize]
@@ -889,7 +894,7 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
         {photo_ripped: You lay out the pieces of the polaroid, all too small to really make anything out. You can't bring yourself to throw it away, instead placing each piece in the small drawer of your desk. You'll fix this tomorrow, after a good night's sleep.}
         
     - Work_Encounter == Fired: 
-        #STOP: office_ambience, 1 #IMAGE: Bus Stop
+        #IMAGE: Bus Stop
         ~ StopSFX("office_ambience", 1, 0)
         You sit at the bus stop, your boss's words clanging around your head. It's not the first time she's yelled at you before, but this felt worse. You're almost relieved she fired you. The bus comes quickly, and you look forward to having the day to yourself. 
     
@@ -898,7 +903,7 @@ You don't know how, but you know it. You slam you fist against your desk. "Why c
 
 {Remembered_Past: You need to avoid the church. It wants you back, and everything inside of you screams that you cannot go back— that if you do, you won't come out again.}
 
-#STOP: office_ambience, 1 # PLAY: bus_ambience, true, 2 #IMAGE: Bus Stop
+#IMAGE: Bus Stop
 ~ StopSFX("office_ambience", 1, 0)
 ~ PlaySFX("bus_ambience", true, 2, 0)
 The bus ride home is shorter than it's ever been. You get off at your regular stop. The church is still there. You debate taking a longer way home by walking up and around the block, rather than walking past the front gates of the church. {Remembered_Past: You wonder if it will make a difference if you do.}
@@ -1852,11 +1857,11 @@ A light melody begins to play. A lullaby, you think. It was a comfort when you w
     -> Trapped.Refuse
 
 -
-#ENDING: 4, BAD ENDING: Why Shouldn't I stay?
 Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
 
 *[The church offers solace.]
--> Endings.Bad_End_4
+    #ENDING: 4, BAD ENDING: Why Shouldn't I stay?
+    -> Endings.Bad_End_4
 
 = Refuse
 #PLAY: groaning_angry, true #STOP: groaning_angry, 2

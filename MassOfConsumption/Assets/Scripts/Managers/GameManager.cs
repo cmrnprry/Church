@@ -300,7 +300,17 @@ namespace AYellowpaper.SerializedCollections
 
             foreach (KeyValuePair<string, GameObject> pair in PropDictionary)
             {
-                PropDictionary[pair.Key].SetActive(SaveSystem.OnLoadPropData(pair.Key));
+                bool vis = SaveSystem.OnLoadPropData(pair.Key);
+
+                if (pair.Key == "Closed_Door" && SaveSystem.OnLoadPropData("Open_Door"))
+                {
+                    continue;
+                }
+
+                if (vis)
+                    StaticHelpers.SetProp(pair.Key, vis);
+                else
+                    PropDictionary[pair.Key].SetActive(vis);
             }
 
             intrusiveThoughts.KillAllThoughts(true);
@@ -336,9 +346,10 @@ namespace AYellowpaper.SerializedCollections
                     ClickToContinue = true;
 
                     yield return new WaitUntil(() =>
-                                           Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && can_click));
+                                           Input.GetButtonDown("Continue") || can_click);
 
                     ClickToContinue = false;
+                    can_click = false;
                 }
             }
 
@@ -361,6 +372,11 @@ namespace AYellowpaper.SerializedCollections
             StartCoroutine(ContinueStory(isStart));
         }
 
+        public void ClickedToContinue()
+        {
+            can_click = true;
+        }
+
         // ReSharper disable Unity.PerformanceAnalysis
         private IEnumerator ContinueStory(bool isStart = false)
         {
@@ -372,8 +388,7 @@ namespace AYellowpaper.SerializedCollections
                     yield return new WaitForSeconds(.7f);
 
 
-                ContinueText = Story.Continue(); // gets next line
-                ContinueText = ContinueText?.Trim(); // removes white space from text
+                ContinueText = Story.Continue().Trim(); // get next line and remove white space from text
 
                 if (string.IsNullOrWhiteSpace(ContinueText) || string.IsNullOrEmpty(ContinueText))
                 {
@@ -423,29 +438,6 @@ namespace AYellowpaper.SerializedCollections
 
                 SetSaveDataForTextBox();
             }
-            else if (Story.currentChoices.Count > 0)
-            {
-                ClickToContinue = false;
-                can_click = false;
-                DisplayChoices();
-                yield break;
-            }
-
-            if (Story.canContinue && Text_Delay < 0)
-            {
-                if (autoplay)
-                    yield return new WaitForSeconds(NextTextDelay);
-                else //wait for input to continue
-                {
-                    ClickToContinue = true;
-
-                    yield return new WaitUntil(() =>
-                                           Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && can_click));
-
-                    ClickToContinue = false;
-                }
-
-            }
 
             if (Text_Delay > 0)
             {
@@ -453,8 +445,39 @@ namespace AYellowpaper.SerializedCollections
                 Text_Delay = -1;
             }
 
-            if (hideChoices)
+
+            if (Story.canContinue)
+            {
+                if (autoplay)
+                    yield return new WaitForSeconds(NextTextDelay);
+                else //wait for input to continue
+                {
+                    ClickToContinue = true;
+                    can_click = false;
+
+                    yield return new WaitUntil(() =>
+                                           Input.GetButtonDown("Continue") || can_click);
+
+                    ClickToContinue = false;
+                    can_click = false;
+                }
+
+                if (hideChoices)
+                    yield break;
+            }
+            else if (Story.currentChoices.Count > 0)
+            {
+                ClickToContinue = false;
+                can_click = false;
+                DisplayChoices();
                 yield break;
+            }
+            else //game is over
+            {
+                Debug.Log("GAME OVER");
+                yield break;
+            }
+
 
             yield return new WaitForFixedUpdate();
             DisplayNextLine();
@@ -488,6 +511,7 @@ namespace AYellowpaper.SerializedCollections
             linked.enabled = true;
             ReplaceData = new ReplaceChoice(value, uniqueID);
         }
+
 
         private void CycleThroughTags(string[] Tag)
         {
@@ -537,25 +561,7 @@ namespace AYellowpaper.SerializedCollections
                         string src = p[0].Trim();
                         bool visibility = p[1].Trim().ToLower() == "true" ? true : false;
 
-                        if (PropDictionary.ContainsKey(src))
-                        {
-                            var obj = PropDictionary[src];
-                            obj.SetActive(visibility);
-
-
-                            if (obj.TryGetComponent(out OnOffHelpers helper))
-                                helper.FlipVisibility(visibility);
-                            else
-                            {
-                                foreach (Transform child in obj.transform)
-                                {
-                                    if (child.TryGetComponent(out OnOffHelpers child_helper))
-                                        child_helper.FlipVisibility(visibility);
-                                }
-                            }
-
-                            SaveSystem.SetCurrentProp(src, visibility);
-                        }
+                        StaticHelpers.SetProp(src, visibility);
                     }
 
                     break;
@@ -565,7 +571,7 @@ namespace AYellowpaper.SerializedCollections
                 case "REPLACE": //on click, replaces text with new text
                     SetReplaceChoiceData(value);
                     break;
-                case "ENDING": //unlocks an ending
+                case "ENDING": //unlocks an ending   9, Good Ending: It Has Been a Long, Long Night
                     string[] endings = value.Split(",");
                     DataManager.instance.UnlockEnding(Int32.Parse(endings[0].Trim()), endings[1].Trim());
                     break;

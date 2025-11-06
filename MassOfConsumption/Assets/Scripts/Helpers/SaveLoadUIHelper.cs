@@ -78,7 +78,6 @@ public class SaveLoadUIHelper : MonoBehaviour
                 {
                     slot.UpdateData();
                     OverwriteSaveData.SetActive(false);
-                    button.onClick.RemoveAllListeners();
                 });
             }
         }
