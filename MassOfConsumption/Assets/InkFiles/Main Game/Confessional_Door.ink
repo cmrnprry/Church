@@ -97,7 +97,6 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 
 = No_Confessions
 ~ Stay_Tracker += 0.5
-#DELAY: 4 #PLAY: curtain
 ~ PlaySFX("curtain", false, 0, 0)
 ~ Confessional_Encounters += (Killed_Girl)
 
@@ -111,9 +110,9 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 #DELAY: 1.5
 The sound of the curtain tearing—
 
-#CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5
+
 ~ PlaySFX("door_thud", false, 0, 0)
-<i>THud</i>
+<i>THud</i>#CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5
 
 Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your stomach.
 

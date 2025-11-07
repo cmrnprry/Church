@@ -15,10 +15,10 @@ LIST items_obtained = Skeleton_Key, Simple_Key, Clippers, Combo
 LIST Priest_Feeling = anger, guilt, dread
 LIST Light_Feeling = relief, confused, worry
 
-LIST Church_Interest = No_Care = 1, Drawn = 2, Nauseous = 3
+VAR Church_Interest = ""
 LIST Church_Feeling = Familiar = 1, Uncomforable = 2, Evocative = 3, Laughing = 4, Crying = 5
-LIST Church_Entered = Disappointed = 1, Satisfied = 2, Anxious = 3
-~ Church_Entered = -1 //setting this to start
+LIST Church_List = Disappointed = 1, Satisfied = 2, Anxious = 3
+VAR Church_Entered = None
 
 //Before Work Investigation
 LIST Church_Investigation = Investigated, Called, Dropped_Phone, Entered, Teleported, Saw_Windows, Late, Starving

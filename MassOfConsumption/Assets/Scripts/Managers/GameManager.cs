@@ -354,10 +354,7 @@ namespace AYellowpaper.SerializedCollections
             }
 
             if (Text_Delay > 0)
-            {
                 yield return new WaitForSeconds(Text_Delay);
-                Text_Delay = -1;
-            }
 
             DisplayNextLine();
         }
@@ -381,6 +378,7 @@ namespace AYellowpaper.SerializedCollections
         private IEnumerator ContinueStory(bool isStart = false)
         {
             bool hideChoices = false;
+            Text_Delay = -1;
 
             if (Story.canContinue)
             {
@@ -405,6 +403,10 @@ namespace AYellowpaper.SerializedCollections
                 classes.Clear();
 
                 yield return new WaitForEndOfFrame();
+
+                if (Story.currentTags.Contains("CLEAR"))
+                    ClearOutTextBoxes();
+
 
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
@@ -440,13 +442,9 @@ namespace AYellowpaper.SerializedCollections
             }
 
             if (Text_Delay > 0)
-            {
                 yield return new WaitForSeconds(Text_Delay);
-                Text_Delay = -1;
-            }
 
-
-            if (Story.canContinue)
+            if (Story.canContinue && Text_Delay <= 0)
             {
                 if (autoplay)
                     yield return new WaitForSeconds(NextTextDelay);
@@ -472,7 +470,7 @@ namespace AYellowpaper.SerializedCollections
                 DisplayChoices();
                 yield break;
             }
-            else //game is over
+            else if (!Story.canContinue) //game is over
             {
                 Debug.Log("GAME OVER");
                 yield break;
@@ -512,6 +510,13 @@ namespace AYellowpaper.SerializedCollections
             ReplaceData = new ReplaceChoice(value, uniqueID);
         }
 
+        private void ClearOutTextBoxes()
+        {
+            SaveSystem.ClearCurrentTextData();
+            DeleteOldChoices();
+            DeleteOldTextBoxes();
+            DataManager.instance.SetHistoryText();
+        }
 
         private void CycleThroughTags(string[] Tag)
         {
@@ -528,13 +533,6 @@ namespace AYellowpaper.SerializedCollections
                     ReplaceData = new ReplaceChoice("", -1);
                     SceneManager.LoadScene(0);
                     break;
-                case "CLEAR":
-                    SaveSystem.ClearCurrentTextData();
-                    DeleteOldChoices();
-                    DeleteOldTextBoxes(value != "");
-                    DataManager.instance.SetHistoryText();
-                    break;
-
                 case "IMAGE": //Sets background image
                     if (value == "Bus Stop Right")
                         StaticHelpers.ShiftImage(BackgroundImage, true);

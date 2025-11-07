@@ -46,7 +46,7 @@ namespace AYellowpaper.SerializedCollections
 
         private void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
         {
-            if (SFXDictionary.ContainsKey(src))
+            if (SFXDictionary.ContainsKey(src) && !sources.ContainsKey(src))
             {
                 var sfx = Instantiate(SFXSource, SFXParent);
                 float kill_time = SFXDictionary[src].length + fadeIn + delay + 0.5f;

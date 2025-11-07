@@ -72,7 +72,6 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         cycle_color = next_color;
 
         linkIndex = -1;
-        GameManager.instance.CanClick = true;
     }
 
     private void OnHover(string keyword, Vector3 mousePos)

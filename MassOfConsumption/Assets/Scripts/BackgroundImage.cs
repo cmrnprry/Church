@@ -239,6 +239,18 @@ public class BackgroundImage : MonoBehaviour
                     rect.DOShakePosition(0.5f, new Vector3(10, 10, 10), 28, 23).SetLoops(-1, LoopType.Yoyo)
                         .SetDelay(1.05f);
                     break;
+                case "stop-4":
+                    duration.SetValue(25f, 20);
+                    dur = duration.GetRandomValue();
+                    class_sequence.Append(rect.DOScale(new Vector3(1.75f, 1.75f, 1.75f), dur))
+                        .Insert(0, rect.DOAnchorPosY(-280, dur));
+                    break;
+                case "stop-5":
+                    duration.SetValue(25f, 20);
+                    dur = duration.GetRandomValue();
+                    class_sequence.Append(rect.DOScale(new Vector3(2.5f, 2.5f, 2.5f), dur))
+                        .Insert(0, rect.DOAnchorPosY(-370, dur));
+                    break;
                 default:
                     Debug.LogWarning($"Could not add IClass {toAdd} to BackgroundImage.");
                     break;
@@ -286,5 +298,9 @@ public class BackgroundImage : MonoBehaviour
             class_sequence.Kill(true);
 
         rect.DOKill(true);
+
+
+        rect.DOScale(1, 0.5f);
+        rect.DOAnchorPos(Vector2.zero, 0.5f);
     }
 }

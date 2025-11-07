@@ -468,10 +468,10 @@ TODO choice
 - But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay open. You feel like...
 
 *[Laughing]
-    ~ Church_Feeling = Laughing
+    ~ Church_Feeling = "laughing"
 
 *[Crying]
-    ~ Church_Feeling = Crying
+    ~ Church_Feeling = "crying"
 
 - You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 

@@ -112,7 +112,7 @@ public class TextObjectEffects : MonoBehaviour
 
         if (toAdd != "NULL" || toAdd != "")
         {
-            float size = SaveSystem.GetTextSize();;
+            float current_size = SaveSystem.GetTextSize();;
             VerticalLayoutGroup layout = this.transform.parent.gameObject.GetComponent<VerticalLayoutGroup>();
             
             if (class_sequence == null || !class_sequence.active)
@@ -125,20 +125,20 @@ public class TextObjectEffects : MonoBehaviour
             {
                 case "Bus_Honk":
                     text.enableAutoSizing = false;
-                    class_sequence.Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(size, 0.1f))
-                        .Append(text.DOFontSize(80, 0.2f)).Insert(1.65f, text.DOFontSize(size, 0.1f));
+                    class_sequence.Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(current_size, 0.1f))
+                        .Append(text.DOFontSize(80, 0.2f)).Insert(1.65f, text.DOFontSize(current_size, 0.1f));
                     break;
                 case "Bang_Confessional":
                     text.enableAutoSizing = false;
-                    class_sequence.Append(text.DOFontSize(80, 0.25f)).Append(text.DOFontSize(size, 0.09f))
-                        .Append(text.DOFontSize(80, 0.25f)).Append(text.DOFontSize(size, 0.09f))
-                        .Append(text.DOFontSize(80, 0.25f)).Insert(1.15f, text.DOFontSize(size, 0.1f));
+                    class_sequence.Append(text.DOFontSize(80, 0.25f)).Append(text.DOFontSize(current_size, 0.09f))
+                        .Append(text.DOFontSize(80, 0.25f)).Append(text.DOFontSize(current_size, 0.09f))
+                        .Append(text.DOFontSize(80, 0.25f)).Insert(1.15f, text.DOFontSize(current_size, 0.1f));
                     break;
                 case "Bang_Short":
                     text.enableAutoSizing = false;
-                    class_sequence.Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(size, 0.05f))
-                        .Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(size, 0.05f))
-                        .Append(text.DOFontSize(80, 0.2f)).Insert(1.05f, text.DOFontSize(size, 0.1f));
+                    class_sequence.Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(current_size, 0.05f))
+                        .Append(text.DOFontSize(80, 0.2f)).Append(text.DOFontSize(current_size, 0.05f))
+                        .Append(text.DOFontSize(80, 0.2f)).Insert(1.05f, text.DOFontSize(current_size, 0.1f));
                     break;
                 case "Kick":
                     layout.enabled = false;

@@ -4,35 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class ImageHelper : OnOffHelpers
+public class RawImageHelper : OnOffHelpers
 {
-    private Image image;
+    private RawImage raw_image;
     private OnOffHelpers turnoff_OnOff;
     [SerializeField] private float end_alpha = 1;
 
     private void Start()
     {
-        image = GetComponent<Image>();
+        raw_image = GetComponent<RawImage>();
 
-        if (turnon != null)
+        if (turnon != null && turnoff_OnOff == null)
             turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
     }
 
     private void OnEnable()
     {
-        if (image == null)
-            image = GetComponent<Image>();
+        if (raw_image == null)
+            raw_image = GetComponent<RawImage>();
 
-        if (turnon != null)
+        if (turnon != null && turnoff_OnOff == null)
             turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
     }
 
     protected override void TurnOn()
     {
-        if (image == null)
-            image = GetComponent<Image>();
+        if (raw_image == null)
+            raw_image = GetComponent<RawImage>();
 
-        image.DOFade(end_alpha, duration).OnPlay(() =>
+        raw_image.DOFade(end_alpha, duration).OnPlay(() =>
         {
             if (turnon != null && turnoff_OnOff == null)
                 turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
@@ -43,10 +43,10 @@ public class ImageHelper : OnOffHelpers
 
     protected override void TurnOff()
     {
-        if (image == null)
-            image = GetComponent<Image>();
+        if (raw_image == null)
+            raw_image = GetComponent<RawImage>();
 
-        image.DOFade(0, duration).OnPlay(() =>
+        raw_image.DOFade(0, duration).OnPlay(() =>
         {
             if (turnon != null && turnoff_OnOff == null)
                 turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
