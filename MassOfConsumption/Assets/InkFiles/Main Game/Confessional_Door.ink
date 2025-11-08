@@ -7,7 +7,7 @@
     //if this is the first area we are visiting
     - visited_state <= 0:
         ~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
-        You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top.
+        You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top. #IMAGE: Default #PROP: [curtain_full false]
         
         You think you'd know if there were anything else in here.
         
@@ -26,7 +26,7 @@
  
         
     - visited_state == 1 and previous_area == Enter_Pews:
-        While you wait for the service to be over, you look around the cramped space for something useful.
+        While you wait for the service to be over, you look around the cramped space for something useful. #IMAGE: Default #PROP: [curtain_full false]
         
         You look around the crammed space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting. }
     
@@ -34,7 +34,7 @@
         -> Confessional_Door.Searched_Area(false)
         
     - else:
-        You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. 
+        You sit on the cold wooden bench. Just like the outside, the inside doesn't have many details. The grate that a priest would speak through has the same lattice work that the door does. #IMAGE: Default #PROP: [curtain_full false]
         
         You look around the cramped space and find nothing. The booth is empty. {Confessional_Encounters ? (Finished_Curtain_Side): You already found a key earlier, what more could be in the booth? | You don't know what you were expecting.}
         -> Confessional_Door.Searched_Area(false)
@@ -104,15 +104,13 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 
 {Confessional_Encounters ? (Pressed_Emily) or Confessional_Encounters ? (Talked_to_Girl): | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
 
-#DELAY: 2.5
-​
-
-#DELAY: 1.5
+TODO sfx
+#DELAY: 0.5
 The sound of the curtain tearing—
 
 
 ~ PlaySFX("door_thud", false, 0, 0)
-<i>THud</i>#CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5
+<i>THud</i>#CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5 #CLEAR
 
 Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your stomach.
 
@@ -125,9 +123,9 @@ Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your
 ~Intrusive(3, "Do something", "")
 You can hear wheezing, but she does not answer. You squeeze your hands together, your inaction causing the panic living in your chest to grow. You need to act.
 
-#CLASS: Fidget
+
 ~Intrusive(2, "Help her!", "")
-Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow motion toward it. You hear uneven breathing and gasping from outside.
+Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow motion toward it. You hear uneven breathing and gasping from outside. #CLASS: Fidget
 
 *["Are you okay?"]
 
@@ -151,7 +149,6 @@ It is deathly quiet outside.
 
 You throw the door open and fall onto the ground outside the booth. You crawl on your hands and feet looking for her. "I'm- Say something if you can hear me!" 
 
-#PLAY: flashlight 
 ~ PlaySFX("flashlight", false, 0, 0)
 ~Intrusive(4, "You're too late", "")
 Your voice hangs in the air, but you don't stop looking. You stumble into fabric, and your hands graze deep grooves in the wood. You fumble with your flashlight. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
@@ -185,21 +182,26 @@ There's a splatter of blood just outside it, next to the ripped off piece of cur
 = Rush_Prt_2
 You back up as far as you can and throw yourself at the door.
 
+~ PlaySFX("door_thud", false, 0, 0)
 The wood splinters.
 
 *[Again]
 
-- The wood around the lock is bent and warped. {Leg_State >= Sore: Your leg tremble from the effort.}
+- 
+~ PlaySFX("door_thud", false, 0, 0)
+The wood around the lock is bent and warped. {Leg_State >= Sore: Your leg tremble from the effort.}
 
 
 *[Again]
 
 - ~temp_bool = false
 
+~ PlaySFX("door_thud", false, 0, 0)
 There's a small hole you can see through. You see movement from outside. {Leg_State >= Sore: Your leg screams from the the amount of weight you're putting on it. }
 
 
 *[One more time]
+    ~ PlaySFX("door_thud", false, 0, 0)
     You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
     
     The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
@@ -580,11 +582,10 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 ~ Have_Visited += Confessional_DoorSide
 ~ visited_state += 1
 
-{visited_state:
-    
-    - 1:
+{
+    - visited_state == 1:
         ->After_First.Confessional_After
-    - 2:
+    - visited_state == 2:
         -> After_Second.Confessional_Sin_Second
     - else:
         -> Last_Stop.Confessional_Sin_Last

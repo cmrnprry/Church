@@ -52,6 +52,9 @@ public class ImageHelper : OnOffHelpers
                 turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
 
             turnoff_OnOff.FlipVisibility(false);
+        }).OnComplete(() =>
+        {
+            image.gameObject.SetActive(false);
         });
     }
 }

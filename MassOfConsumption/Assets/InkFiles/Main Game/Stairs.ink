@@ -955,11 +955,10 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 ~ current_area = Main_Body
 ~ visited_state += 1
 
-{visited_state:
-    
-    - 1:
+{
+    - visited_state == 1:
         ->After_First.Side_Room_After
-    - 2:
+    - visited_state == 2:
         -> After_Second.Stairs_Second
     - else:
         -> Last_Stop.Stairs_Last

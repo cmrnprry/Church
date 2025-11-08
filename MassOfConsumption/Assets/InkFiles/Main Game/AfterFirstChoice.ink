@@ -1,7 +1,7 @@
 ===After_First===
 
 = Confessional_After
-#CHECKPOINT: 3, The pews are... full?
+#CHECKPOINT: 3, The pews are... full? #IMAGE: Church_Inside
 You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
@@ -420,7 +420,7 @@ There are still more places you need to look. <>
 -> After_Second.Return_to_Search
 
 = Return_to_Search
-#CHECKPOINT: 5, You need to keep searching.
+#CHECKPOINT: 5, You need to keep searching. #EFFECT: click_move_main #IMAGE: Church_Inside
 You decide to look...
 
 * {Have_Visited !? (Enter_Pews)} [In the pews]
@@ -595,19 +595,20 @@ You need to move on. <>
 
 = Return_to_Search
 TODO: by this point player should be alrerted if they can end the game or keep searching. 
-#CHECKPOINT: 7, There's only a few places left to look.
+#CHECKPOINT: 7, There's only a few places left to look. #EFFECT: click_move_main #IMAGE: Church_Inside
 {LIST_COUNT(Have_Visited) >= 4: There's only one place you haven't checked yet. {Saw_Locks: | You have collected a variety of items. If, no. <i>When</i> you find the heart, you hope you'll be ready.} | {LIST_COUNT(Have_Visited) >= 3: There are only a couple places you haven't looked yet. }}{Saw_Locks: You know where the heart most likely is, {items_obtained ? (Combo, Clippers): and you should have enough items to open the door.} Whenever you're ready, the heart is waiting. }
 
-* {Have_Visited !? (Enter_Pews)} [In the pews] -> Pews
++{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[confessional] -> Confessional
 
-*{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[In the confessional] -> Confessional
 
-* {Have_Visited !? (Stairs_Up)} [Somewhere down the hall]
++ {Have_Visited !? (Stairs_Up)} [stairs]
     -> Inside.Investigate_Stairs_Area
 
-* {Have_Visited ? (Stairs_Up)} [Go up the spiral staircase.] 
++ {Have_Visited ? (Stairs_Up)} [stairs] 
     ~temp_bool = false
     You stare up the stairs. They are just as tall as you remember. You take a deep breath, shake out your limbs and begin to climb.
+    
++ {Have_Visited !? (Enter_Pews)} [pews] -> Pews
 
 - 
 

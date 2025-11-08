@@ -330,11 +330,10 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
 ~ Have_Visited += Enter_Pews
 ~ visited_state += 1
 
-{visited_state:
-    
-    - 1:
+{
+    - visited_state == 1:
         ->After_First.Pews_After
-    - 2:
+    - visited_state == 2:
         -> After_Second.Pews_Second
     - else:
         -> Last_Stop.Pews_Last

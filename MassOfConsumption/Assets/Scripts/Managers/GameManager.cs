@@ -231,6 +231,7 @@ namespace AYellowpaper.SerializedCollections
 
         private void GetDataOnLoad()
         {
+            bool hideChoices = false;
             DeleteOldChoices();
             DeleteOldTextBoxes();
 
@@ -272,6 +273,23 @@ namespace AYellowpaper.SerializedCollections
             }
 
             Story.state.LoadJson(SaveSystem.GetStory());
+
+            foreach (var story_tag in Story.currentTags)
+            {
+                if (story_tag.Contains("CLASS"))
+                {
+                    Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
+                    Scroll.content.ForceUpdateRectTransforms();
+                }
+
+                if (story_tag.Contains("click_move"))
+                {
+                    ClickToContinue = false;
+                    hideChoices = true;
+                }
+
+                CycleThroughTags(story_tag.Split(':'));
+            }
 
             if (BackgroundDictionary.ContainsKey(SaveSystem.GetCurrentSpriteKey()))
             {
@@ -332,10 +350,10 @@ namespace AYellowpaper.SerializedCollections
             }
 
             Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
-            StartCoroutine(AfterLoad());
+            StartCoroutine(AfterLoad(hideChoices));
         }
 
-        private IEnumerator AfterLoad()
+        private IEnumerator AfterLoad(bool hide_choices = false)
         {
             if (Story.canContinue && Text_Delay <= 0)
             {
@@ -352,6 +370,8 @@ namespace AYellowpaper.SerializedCollections
                     can_click = false;
                 }
             }
+            else if (Story.currentChoices.Count > 0 && hide_choices)
+                yield break;
 
             if (Text_Delay > 0)
                 yield return new WaitForSeconds(Text_Delay);
@@ -407,7 +427,6 @@ namespace AYellowpaper.SerializedCollections
                 if (Story.currentTags.Contains("CLEAR"))
                     ClearOutTextBoxes();
 
-
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
                 foreach (var story_tag in Story.currentTags)
@@ -418,15 +437,14 @@ namespace AYellowpaper.SerializedCollections
                         Scroll.content.ForceUpdateRectTransforms();
                     }
 
-                    yield return null;
-                    CycleThroughTags(story_tag.Split(':'));
-
                     if (story_tag.Contains("click_move"))
                     {
                         ClickToContinue = false;
-                        can_click = false;
                         hideChoices = true;
                     }
+
+                    yield return null;
+                    CycleThroughTags(story_tag.Split(':'));
                 }
 
                 StartCoroutine(StaticHelpers.CheckSkip());
@@ -459,12 +477,12 @@ namespace AYellowpaper.SerializedCollections
                     ClickToContinue = false;
                     can_click = false;
                 }
-
-                if (hideChoices)
-                    yield break;
             }
             else if (Story.currentChoices.Count > 0)
             {
+                if (hideChoices)
+                    yield break;
+
                 ClickToContinue = false;
                 can_click = false;
                 DisplayChoices();
@@ -700,6 +718,7 @@ namespace AYellowpaper.SerializedCollections
         private void ControlGlow(string type)
         {
             var anim = LightingDictionary["Animator"].GetComponent<Animator>();
+            anim.enabled = true;
 
             if (type == "intense")
             {
@@ -740,8 +759,7 @@ namespace AYellowpaper.SerializedCollections
 
         private void ClickToMove(int Index)
         {
-            var move = clicktomove[Index];
-            move.SetActive(true);
+            var move = clicktomove[Index];            
 
             if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
                 DeleteOldChoices();
@@ -749,9 +767,29 @@ namespace AYellowpaper.SerializedCollections
             for (int index = 0; index < move.transform.childCount; index++)
             {
                 int i = index;
-                var Button = move.transform.GetChild(index).gameObject.GetComponent<Button>();
-                Button.onClick.AddListener(() => OnClickChoiceButton(Story.currentChoices[i]));
+                var obj = move.transform.GetChild(index);
+                var Button = obj.gameObject.GetComponent<Button>();
+                Button.onClick.RemoveAllListeners();
+
+                foreach (var choice in Story.currentChoices)
+                {
+                    if (obj.name.ToLower() == choice.text)
+                    {
+                        obj.gameObject.SetActive(true);
+                        Button.onClick.AddListener(() =>
+                        {
+                            OnClickChoiceButton(choice);
+                            foreach (Transform child in move.transform)
+                            {
+                                child.gameObject.SetActive(false);
+                            }
+                         });
+                        break;
+                    }
+                }
             }
+
+            move.SetActive(true);
         }
 
         private void AddCycleText(string[] cycle_list)

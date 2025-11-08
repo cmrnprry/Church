@@ -653,11 +653,10 @@ They begin to sing, hands out stretched for you to take. The music flows through
 ~ Have_Visited += Enter_Office
 ~ visited_state += 1
 
-{visited_state:
-    
-    - 1:
+{
+    - visited_state == 1:
         ->After_First.Side_Room_After
-    - 2:
+    - visited_state == 2:
         -> After_Second.Stairs_Second
     - else:
         -> Last_Stop.Stairs_Last

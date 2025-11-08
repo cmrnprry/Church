@@ -87,7 +87,8 @@ namespace AYellowpaper.SerializedCollections
             if (GameManager.instance.PropDictionary.ContainsKey(src))
             {
                 var obj = GameManager.instance.PropDictionary[src];
-                obj.SetActive(visibility);
+                if (!obj.activeSelf)
+                    obj.SetActive(visibility);
 
 
                 if (obj.TryGetComponent(out OnOffHelpers helper))

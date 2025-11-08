@@ -1,11 +1,11 @@
 === Confessional_Curtain ===
 ~ current_area = Confessional_CurtainSide 
-~ Have_Visited += Confessional_CurtainSide 
+~ Have_Visited += Confessional_CurtainSide
 {
     //if this is the first area we are visiting
     - visited_state <= 0:
         ~ PlaySFX("curtain", false, 0, 0)
-        You push aside the curtain and find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable bench, and a small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty. #PLAY: curtain
+        You push aside the curtain and find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable bench, and a small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty. #IMAGE: Default #PROP: [curtain_full false]
         
         You think you'd know if there were anything else in here.
         
@@ -18,7 +18,7 @@
         
         *[What is the point of searching?]
             ~ Stay_Tracker += 0.5
-            You plop onto wooden bench, and stare into dark abyss that is the church. If the heart is the church's weakness, it's not going to be left in the open or easy to find. There's no way to know if it even <i>exists.</i> There's no way of knowing if that voice was even really here to help you or just another trick of the church.
+            You plop onto wooden bench, and stare into dark abyss that is the church. If the heart is the church's weakness, it's not going to be left in the open or easy to find. There's no way to know if it even <i>exists.</i> There's no way of knowing if that voice was even really here to help you or just another trick of the church. #IMAGE: Default #PROP: [curtain_full false]
             
             Of course the confessional is empty. What did you expect? Why did you enter?
             -> Confessional_Curtain.Nothing_Here(false)
@@ -26,7 +26,7 @@
     - visited_state == 1:
         {
             - previous_area == Enter_Pews:
-                While you wait for the service to be over, you look around the cramped space for something useful.
+                While you wait for the service to be over, you look around the cramped space for something useful. #IMAGE: Default #PROP: [curtain_full false]
     
                 A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
             
@@ -40,7 +40,7 @@
                 ->Confessional_Curtain.Why_Enter
             - else:
                 //We come here if it's after the pews 1st choice
-                You decide to check the confessional. You saw the curtain move, someone <i>must</i> be in there. Carefully and quietly, you approach it.
+                You decide to check the confessional. You saw the curtain move, someone <i>must</i> be in there. Carefully and quietly, you approach it. #IMAGE: Default #PROP: [curtain_full false]
                 
                 Once in front of it, you think you can hear shuffling from inside. You steel yourself, and rip the curtain open. 
                 
@@ -50,7 +50,7 @@
                 -> Confessional_Curtain.Nothing_Here(true)
         }
     - else:
-        You push aside the curtain, and sit on the cold, wooden bench. {Confessional_Encounters ? (Finished_Door_Side): The booth almost identical to the other side. A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.| The booth is small and empty, save for a small bucket sitting in the corner. You assume the booth must leak, but the bucket is empty. The grate that a priest would speak through has the same lattice work that the door does. } 
+        You push aside the curtain, and sit on the cold, wooden bench. {Confessional_Encounters ? (Finished_Door_Side): The booth almost identical to the other side. A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.| The booth is small and empty, save for a small bucket sitting in the corner. You assume the booth must leak, but the bucket is empty. The grate that a priest would speak through has the same lattice work that the door does. } #IMAGE: Default #PROP: [curtain_full false]
     
         {Confessional_Encounters ? (Finished_Door_Side): What are you expecting to find here? Why did you enter? | There is nothing remotely resembling the heart in here. What were you expecting? Why did you enter?}
         -> Confessional_Curtain.Nothing_Here(true)
@@ -195,18 +195,17 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 <i>Plink!</i>#DELAY: 1
 
 #DELAY: 1.5
-The voice is silent. You squirm uncomfortably in your seat. You press your lips firmly together and chew the inside of your cheek. <>
+The voice is silent. You squirm uncomfortably in your seat. You press your lips firmly together and chew the inside of your cheek. 
 
-#DELAY: 2
-{Stay_Tracker < 2: You want to keep silent, but the silence feels too loud. | What you say next seems to just tumble out.}
+{Stay_Tracker < 2: <> You want to keep silent, but the silence feels too loud. | <> What you say next seems to just tumble out.}
 
 
 { 
 - Stay_Tracker < 2: 
-        #DELAY: 3
+        #DELAY: 1.5
         You need to say something. There's an itch caught in your throat, begging you to speak. You chomp down onto a chunk of the inside of your bottom lip. Your mouth taste like copper.
 
-        #DELAY: 3
+        #DELAY: 1
         What you say next seems to just tumble out.
 }
 
@@ -355,7 +354,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
     
         #PLAY: leak #DELAY: 1.5 
         ~ PlaySFX("leak", false, 0, 0)
-        <i>Plink!</i> The bucket is filling fast. You can see that the [liquid] seems... thicker than just water.#REPLACE: liquid
+        <i>Plink!</i> The bucket is filling fast. You can see that the liquid seems... thicker than just water. #REPLACE: liquid
         
         *[liquid]
             ->Confessional_Curtain.liquid
@@ -402,7 +401,7 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
 <i>Plink!</i>#DELAY: 1.5
 
 #REPLACE: liquid
-The bucket is filling fast. You can see that the [liquid] seems... thicker than just water.
+The bucket is filling fast. You can see that the liquid seems... thicker than just water.
 
 *[liquid]
     ->Confessional_Curtain.liquid
@@ -453,8 +452,6 @@ The booth could come apart at any moment. You need to get out of here.
     -> Confessional_Curtain.Look_Other_Side
 
 = Get_Out
-
-
 ~ PlaySFX("bang_confessional", false, 0, 0)
 Bang!#CLASS: Bang_Confessional #DELAY: 0.5
 
@@ -498,8 +495,10 @@ Bang!#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
 
 - Inside, the booth is empty, and pristine. The divider is not splintered, and the separating grate is back in place. It looks almost identical to the side you had been on. 
 
-TODO image key
-On the bench sits a small key. {Stay_Tracker >= 2: You pick it up and turn it over in your hands. Was this a gift? {Temp_Bool: | A peace offering from the creature that had once been here? } | You pick it up, and shove it in your pocket. You wonder why it gave it to you. If it was purposeful or not.} You offer the confessional one last look before moving on.
+#PROP: [skeleton_key true]
+On the bench sits a small key. {Stay_Tracker >= 2: You pick it up and turn it over in your hands. Was this a gift? {Temp_Bool: | A peace offering from the creature that had once been here? } | You pick it up, and shove it in your pocket. You wonder why it gave it to you. If it was purposeful or not.} 
+
+You offer the confessional one last look before moving on. #PROP: [skeleton_key false]
 
 *[Return to your search]
     -> Confessional_Curtain.Leave_Progress
@@ -534,7 +533,7 @@ On the bench sits a small key.
 
     "The more you fight, the sweeter the meal you will be." The gruff voice growls. It's scratchy and low. "Don't mistake this for kindness."
 
-    TODO image key
+    #PROP: [skeleton_key true]
     Something cold and metal is pressed into your palm, and you're released. You yank your arm back through the opening, falling into the opposite side. Your arm throbs where the thing grabbed you. In your hand is the key. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.
     
     The booth is quiet, save for your own breathing. You place the key in your pocket.
@@ -545,10 +544,10 @@ On the bench sits a small key.
 
     The church fixed itself. 
     
-    TODO image key
+    #PROP: [skeleton_key true]
     You hesitate before stepping inside, quickly grabbing the key and leaving the booth. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.You shove the key in your pocket.
 
-- 
+- #PROP: [skeleton_key false]
 *[Return to your search]
     -> Confessional_Curtain.Leave_Progress
 
@@ -878,7 +877,7 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 ~ PlaySFX("leak", false, 0, 0)
 <i>Pl....in.....k!</i>
         
-The last water drop is much slower than the rest, the bucket almost full. You can see that the [liquid] seems... thicker than just water.
+The last water drop is much slower than the rest, the bucket almost full. You can see that the liquid seems... thicker than just water. #REPLACE: liquid
         
 "Of course." The voice changes. "You'll have all the time in the world here. Doesn't that sound grand?"
         
@@ -902,7 +901,7 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
 ~ PlaySFX("leak", false, 0, 0.5)
 <i>Plink! Plink! Plink!</i>#DELAY: 1.5
 
-The bucket is filling fast. You can see the [liquid] seems... thicker than just water.
+The bucket is filling fast. You can see the liquid seems... thicker than just water. #REPLACE: liquid
 
 "You'll have all the time in the world here. All you have to do is stay!" The voice is excited. "Doesn't that sound grand?" 
 
@@ -1181,11 +1180,10 @@ TODO SFX (think we have one that can be resued)
 
 - You grab it out of the pool of liquid. It's sticky and thick, almost like... Your stomach churns. Saliva?
 
-#PROP: [skeleton_key, true]
+#PROP: [skeleton_key true]
 You wipe the key off using the confessional curtain. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design. You stick it in your pocket and look at the grate the pastor spoke to you through. 
 
-#PROP: [skeleton_key, false]
-You wonder if you'll meet it again.
+You wonder if you'll meet it again. #PROP: [skeleton_key false]
 
 *[Return to your search]
     -> Confessional_Curtain.Leave_Progress
@@ -1323,11 +1321,11 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 ~ current_area = Main_Body 
 
 ~ visited_state += 1
-{- visited_state:
+{
     
-    - 1:
+    - visited_state == 1:
         ->After_First.Confessional_After
-    - 2:
+    - visited_state == 2:
         -> After_Second.Confessional_Sin_Second
     - else:
         -> Last_Stop.Confessional_Sin_Last

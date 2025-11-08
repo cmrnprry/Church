@@ -11,7 +11,8 @@ INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
--> Trapped
+
+-> StartGame
 === StartGame ====
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
@@ -1978,7 +1979,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
     
     ~ PlaySFX("screeching", false, 0, 0)
-    #EFFECT: Force_Open #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: scream-glow
+    #CLEAR #EFFECT: Force_Open #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: scream-glow
     An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
     
     **[You can barely stand it]
@@ -2027,7 +2028,7 @@ On the ground in front of you sits a flashlight and a note.
 It looks battery operated, and gives off enough light to see around you. You should be able to explore with this. #PROP: [flashlight true]
 
 *[Read the note]
-    #EFFECT: flashlight_on #PROP: [flashlight false], [note, true]
+    #EFFECT: flashlight_on #PROP: [flashlight false], [note true]
 
 - The note is from an old piece of parchment. It feels like it could crumple into dust.
 
@@ -2058,9 +2059,7 @@ The flashlight gives off enough light for you to see what's near you. You can ma
 ->Look_For_Heart
 
 = Look_For_Heart
-#EFFECT: click_move_main
-TODO: update this based on where we last were and punch up a bit
-You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image)
+You have a goal now. <i>Find and destroy the heart.</i> You don't know where the "heart" of the church is, but if you have to guess it would be.... (click highlighted image) #EFFECT: click_move_main #IMAGE: Church_Inside
 
 +[confessional]
     -> Confessional
@@ -2074,25 +2073,24 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
 = Investigate_Stairs_Area
 ~ temp Temp_Check = true
 
-
 { Room_State:
-    - Normal: You {Leg_State >= Limping: limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another, larger set of stairs that lead both up and down. 
+    - Normal: You {Leg_State >= Limping: limp up | climb} the short set of stairs, and notice a door over the last few steps, rather than at the top of the landing. The hall extends to another, larger set of stairs that lead both up and down.  #IMAGE: Default
     
         ~ Temp_Check = false
     
-    - Short: {Looked_For_Items: You {Leg_State >= Limping: limp up | climb} the short set of stairs, expecting to find the office door at the end of the hall. Instead, it sits on wall adjacent to the stairs, hovering over the last few. Glancing down the hall, you see it now hosts a set of stairs that go both up and down. | You {Leg_State >= Limping: limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember, it now being about the same hight as you.}
+    - Short: {Looked_For_Items: You {Leg_State >= Limping: limp up | climb} the short set of stairs, expecting to find the office door at the end of the hall. Instead, it sits on wall adjacent to the stairs, hovering over the last few. Glancing down the hall, you see it now hosts a set of stairs that go both up and down. | You {Leg_State >= Limping: limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember, it now being about the same hight as you.} #IMAGE: Default
     
-         You bite your lip. {Looked_For_Items: Maybe you got confused while searching in the dark. | You're probably misremembering.}
+         You bite your lip. {Looked_For_Items: Maybe you got confused while searching in the dark. | You're probably misremembering.} #IMAGE: Default
         
-    - Half: You {Leg_State >= Limping: limp up | climb} the short set of stairs. You frown at the door, lightly touching the wall where the top half used to be. The door is half as tall as it was last you visited. You knock on the wall and it feels solid.
+    - Half: You {Leg_State >= Limping: limp up | climb} the short set of stairs. You frown at the door, lightly touching the wall where the top half used to be. The door is half as tall as it was last you visited. You knock on the wall and it feels solid. #IMAGE: Default
     
-    - Crawl: You {Leg_State >= Limping: limp up | climb} the short set of stairs, and let out an exasperated laugh. The door to the office is no longer a door, but a small opening through the wall. You crouch down and look through. The office itself looks the same, and you think you could fit through if you army crawl.
+    - Crawl: You {Leg_State >= Limping: limp up | climb} the short set of stairs, and let out an exasperated laugh. The door to the office is no longer a door, but a small opening through the wall. You crouch down and look through. The office itself looks the same, and you think you could fit through if you army crawl. #IMAGE: Default
 
-    - else: You {Leg_State >= Limping: limp up | climb} the short set of stairs. The doorway to the office is gone. {Room_State == Gone: You hope you got everything you needed from it. }{Room_State == Destroyed: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.}
+    - else: You {Leg_State >= Limping: limp up | climb} the short set of stairs. The doorway to the office is gone. {Room_State == Gone: You hope you got everything you needed from it. }{Room_State == Destroyed: The church destroyed that room. At least you managed to get what you needed from it. Or at least you hope you did.} #IMAGE: Default
 
 }
 
-*[Examine the stairs]
++[Examine the stairs]
     You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items: How did you miss this before?}
 
     **[Go upstairs]
@@ -2104,21 +2102,21 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     **{Book_Knowledge !? (Read_Mom_Old_Book) or Book_Knowledge !? (Read_Mom_Young_Book) or Book_Knowledge !? (Read_Oldin_Book) or !read_mary_book}[Go back to the {Temp_Check: office | door}]
         ->Office_Area.Office
 
-*{ Room_State <= Crawl }[{Temp_Check: Enter the office | Go through the door}]
++{ Room_State <= Crawl }[{Temp_Check: Enter the office | Go through the door}]
     ->Office_Area.Office
 
-*{visited_state < 1} [Return to the main body of the church]
++{visited_state < 1} [Return to the main body of the church]
     ->Inside.Look_For_Heart
 
 === Confessional ===
-# IMAGE: Confessional_CloseUp #PROP: [curtain_full true]  #EFFECT: click_move_confessional
+# IMAGE: Confessional_CloseUp #PROP: [curtain_full true] #EFFECT: click_move_confessional
 You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessional booth. {Confessional_Encounters ? (Killed_Girl): Your eyes linger on the intact curtain. } approach the confessional booth. {Confessional_Encounters !? (Finished_Curtain_Side, Finished_Door_Side): It is a plain, wooden box. The most detail is the lattice work on the door the priest uses to enter and exit. A heavy, dark blue curtain covers the side a sinner enters to confess.} (click highlighted image)
 
 
-* {Confessional_Encounters !? (Finished_Door_Side)} [door_confessional]
+* {Confessional_Encounters !? (Finished_Door_Side)} [door]
         ->Confessional_Door
 
-* {Confessional_Encounters !? (Finished_Curtain_Side)} [curtain_confessional]
+* {Confessional_Encounters !? (Finished_Curtain_Side)} [curtain]
         ~temp_bool = false
         ->Confessional_Curtain
 
