@@ -262,7 +262,6 @@ You're standing in an old church. The floor boards creek under your weight and e
             ~ Church_Investigation += (Starving)
             You blink and lick your lips. Starving? You're not sure why that is the word you chose, but that is the only word that feels like it fits. Starving. The church is starving. 
             
-            TODO: think of better words to cycle here. think of words for church rooms, mouths, and all that
             #CYCLE: room, cavity, mouth 
             Your body feels tight and stiff, and your eyes jump to every dark corner. The empty room feels bigger, or maybe you got smaller? Goosebumps liter your skin as you back out of the church. You don't want to turn your back to the open @. <>
             
@@ -1087,7 +1086,6 @@ You take a few steps before stopping, and look back at the open gate. You want t
     ~ TempBool = true
     ~ StopSFX("footsteps_child_grass", 3, 0)
     ~ PlaySFX("footsteps_child_grass", false, 0, 0)
-    TODO fade out?
     No sooner than you think it, you hear the sound of little feet and laugher carried on the wind. 
 
 *[Or an animal gets trapped]
@@ -1772,7 +1770,6 @@ It was a simple thought. You are in a church, after all. You clasp your hands to
 *[This to all be over soon]
 
 *[A way out]
-TODO: make above a bit better
 - 
 #CYCLE: God, a higher power, the universe, anyone listening
 You mumble a prayer to @. You doubt you'll get an answer, but you feel a little lighter. As you open your eyes, you feel breath against your ear. You tense.
@@ -1947,7 +1944,6 @@ You stagger backward, deeper into the church, an intense pressure pressing down 
     ~ Stay_Tracker += 0.5
     ~ Light_Feeling = relief
 
-TODO: maybe a better word than worry?
 *[Worry]
     ~ Stay_Tracker -= 0.5
     ~ Light_Feeling = worry
@@ -2050,7 +2046,6 @@ It looks battery operated, and gives off enough light to see around you. You sho
 
 - 
 *[You try not to think too hard about it]
-TODO: if you choose heart this is a little weird
 - 
 
 #IMAGE: Church_Inside #CHECKPOINT: 3, You are told to find the heart.

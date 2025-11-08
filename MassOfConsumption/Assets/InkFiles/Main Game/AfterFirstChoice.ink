@@ -192,7 +192,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
 *[Take a seat at a pew]
     ->After_First.Take_Seat
 
-*[Got to the stairwell]
+*[Sprint to the stairwell]
     ->After_First.Stairs_After
 
 *[Stay hidden]
@@ -249,21 +249,16 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 ~temp_bool = true
 #CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage and walk past the pews. Everyone is gone.
-TODO: update this
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 #CYCLE: null, Anxiety, Dread, Doubt, Confusion
 You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
 
-#PLAY: child-wood-footsteps, 1 #PLAY: curtain
 ~ PlaySFX("curtain", false, 0, 0)
 ~ PlaySFX("child-wood-footsteps", false, 0, 0) 
-TODO fade out?
 You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional.
 
-#PLAY: child-wood-footsteps
 ~ PlaySFX("child-wood-footsteps", false, 0, 0) 
-TODO fade out?
 You whip around, and just barely miss seeing someone run up the stairs.
 
 *[Check inside the confessional]
@@ -274,7 +269,8 @@ You whip around, and just barely miss seeing someone run up the stairs.
 
 = Side_Room_After
 #CHECKPOINT: 3, The pews are... full?
-You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stair well to see the pews are full of people. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
+TODO organ music
+You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stairwell to see the pews are full of people. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
 The confessional at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
 
@@ -282,17 +278,18 @@ The confessional at the other end of the room glows from a light, red light. You
     ->After_First.Take_Seat
 
 *[Go to the confessional]
+    ~ previous_area = Enter_Pews
 
-- There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs.
+- There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. 
 
-You hear someone call your name, but you don't dare turn around. Instead, you quicken your pace and hide in the...
+You hear someone call your name, but you don't dare turn around. Instead, you quicken your pace and hide in the... # IMAGE: Confessional_CloseUp #PROP: [curtain_full true] #EFFECT: click_move_confessional
 
-*[Door side confessional]
--> Confessional_Door
+*[door]
+    -> Confessional_Door
 
-*[Curtain side confessional]
-~temp_bool = false
--> Confessional_Curtain
+*[curtain]
+    ~temp_bool = false
+    -> Confessional_Curtain
 
 === After_Second===
 
@@ -319,7 +316,7 @@ You bow your head and close your eyes. @ bubbles up in your chest, and tears for
 You need to return to your search. <>
 -> After_Second.Return_to_Search
 
-= Confessional_Priest_Second
+= Confessional_Sin_Second
 {
     - Confessional_Encounters ? (Killed_Girl):
         {
@@ -362,7 +359,7 @@ There are still more places you need to look. <>
 
 -> After_Second.Return_to_Search
 
-= Confessional_Sin_Second
+= Confessional_Priest_Second
 #CHECKPOINT: 4, You gained a key, but...
 {
     - temp_string == "accept":
@@ -423,13 +420,13 @@ There are still more places you need to look. <>
 #CHECKPOINT: 5, You need to keep searching. #EFFECT: click_move_main #IMAGE: Church_Inside
 You decide to look...
 
-* {Have_Visited !? (Enter_Pews)} [In the pews]
+* {Have_Visited !? (Enter_Pews)} [pews]
     -> Pews
 
-*{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[In the confessional]
+*{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[confessional]
     -> Confessional
 
-* [Somewhere up the stairs]
+* [stairs]
     -> Stairs
 
 === Last_Stop ===
@@ -594,7 +591,6 @@ You need to move on. <>
 ->After_Second.Return_to_Search
 
 = Return_to_Search
-TODO: by this point player should be alrerted if they can end the game or keep searching. 
 #CHECKPOINT: 7, There's only a few places left to look. #EFFECT: click_move_main #IMAGE: Church_Inside
 {LIST_COUNT(Have_Visited) >= 4: There's only one place you haven't checked yet. {Saw_Locks: | You have collected a variety of items. If, no. <i>When</i> you find the heart, you hope you'll be ready.} | {LIST_COUNT(Have_Visited) >= 3: There are only a couple places you haven't looked yet. }}{Saw_Locks: You know where the heart most likely is, {items_obtained ? (Combo, Clippers): and you should have enough items to open the door.} Whenever you're ready, the heart is waiting. }
 

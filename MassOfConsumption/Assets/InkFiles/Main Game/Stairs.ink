@@ -1,7 +1,7 @@
 === Stairs ===
 
 = Examine_Stairs
-{Have_Visited !? (Stairs_Up) and Downstairs_State <= None: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and visited_state < 1: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.}
+{Have_Visited !? (Stairs_Up) and Downstairs_State <= None: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and visited_state < 1: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.} #IMAGE: Defualt
 
 +[Go upstairs]
     ->Stairs.Upstairs
@@ -12,186 +12,6 @@
 + {Room_State < Gone} [Enter office]
     You turn around are return to the office door. {Room_State == Half: You frown at the doorway. Was it always that short? } {Room_State == Crawl: You blink at the doorway. It was definitely not always that short. You think you would remember needing to army crawl to enter.}
         ->Office_Area.Office
-
-= Unsure
-Confused, you leave the room, and wander numbly back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
-
-*[You reach out a hand.]
-
-But the church looks at you again, bathing you in the wonderfully comfortable red light. The door stay open. You feel like...
-
-*[Laughing]
-~ Church_Feeling = "laugh"
-
-*[Crying]
-~ Church_Feeling = "cry"
-
-- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
-
-{
-    - Confessional_Encounters ? (Finished_Door_Side):
-        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Emily |.} She's crying. "You're leaving me all alone? Again?"
-        
-        You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
-        {
-            - Priest_Feeling == guilt:
-                Tears well in your eyes, and you fall to your knees, bowing your head, holding the fabric to your face. <Guilt, Shame, Remorse> bubbles up inside you. 
-                
-                {
-                    - Stay_Tracker >= 1.5:
-                        "No." you croak. How could you leave her again? After all she's been through?
-
-                        "Thank goodness." she says, and you feel someone hug you from behind. You turn to hug her back.
-                
-                        *[No one is there.]
-                        ->Stairs.Sit_Pews
-                    - else:
-                        But the guilt is misplaced. You didn't hurt her. You don't even know if she's real.
-                        
-                        "Yes." You say and fall forward.
-                        
-                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                        *[You stand, dust yourself off, and walk home.]
-                        ->Stairs.Leave
-                }
-                
-            - Priest_Feeling == dread:
-                You drop the fabric, and watch it fall to the floor. You can feel the crisp outside wind blowing into the church, but the fabric does not react to it.
-                
-                "It's not real." You mummer, and fix your gaze on the outside. "It's not real."
-                
-                "But <i>I</i> am." the little girl wails, and something warm slams into your back. "<i>I'm</i> real, so <i>promise</i> you won't leave me alone again!"
-                
-                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
-                        
-                "I...." you croak. It's real this time. It's not a trick. 
-                
-                {
-                    - Stay_Tracker >= 2:
-                        "I won't." you whimper. If it is real, how could you leave her again? "I promise"
-
-                        "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
-                
-                        *[No one is there.]
-                        ->Stairs.Sit_Pews
-                        
-                    - else:
-                        You steel yourself.  You don't even know if she's real.
-                        
-                        "No." You say and fall forward.
-                        
-                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                        *[You stand, dust yourself off, and walk home.]
-                        ->Stairs.Leave
-                }
-            
-            - Priest_Feeling == anger:
-                You throw the fabric to the ground. "Do you think this will work the second time?" You {Church_Feeling}.
-                
-                "Don't leave me. <i>Please</i> don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
-                
-                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
-                        
-                "I...." you croak. It's real this time. It's not a trick. 
-                
-                {
-                    - Stay_Tracker >= 2:
-                        Your resolve breaks, "I won't." 
-
-                        "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
-                        
-                        *[No one is there.]
-                        ->Stairs.Sit_Pews
-                    - else:
-                        You steel yourself.
-                        
-                        "No." You say and fall forward.
-                        
-                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                        *[You stand, dust yourself off, and walk home.]
-                        ->Stairs.Leave
-                }
-        }
-        
-    - Church_Encounters ? (Was_Coward):
-        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Read_Mom_Old_Book):, Ophelia." |.} "You're just going to leave?"
-        
-        {
-            - Stay_Tracker >= 2.5:
-                "I..." You don't know how to answer. You look down at your hands, they're intact. You still have all ten. You ball them into fists. "I..."
-
-                "You don't deserve to leave."
-                
-                *[Maybe she's right...]
-                ->Stairs.Sit_Pews
-            - else:
-            "Yes." You say and fall forward.
-                        
-            There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-            *[You stand, dust yourself off, and walk home.]
-            ->Stairs.Leave
-        }
-        
-    - else:
-        The red light intensifies, a comforting pressure. You fall to the floor, and begin to crawl. Your body is heavy. Each movement harder than the last. 
-        
-        The way out is within your reach. It's just a bit further. The light grows brighter. Your limbs shake.
-        
-        {
-            - Church_Encounters ? (Leave_Light):
-                You don't want to leave it, but you know you have to. You want to. You want...
-            
-                What do you want?
-            
-                You stop, and sit back. You stare up at the church window, and it looks back at you.
-                
-            {
-                - Stay_Tracker >= 2.5:
-                    What are you fighting so hard for?
-                    
-                    {finger_pain_pass: You look down at the hand that's missing a finger. | You think about all you've been through. }
-                    
-                    *[You've already given up so much.]
-                        ->Stairs.Sit_Pews
-                - else:
-                    You didn't leave this light until the church decided you could last time, but this time... Your finger tips escape the light, reaching out through the church door. 
-                
-                    That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                    *[You stand, dust yourself off, and walk home.]
-                        ->Stairs.Leave
-            }
-            - else:
-                You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
-                
-                That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                *[You stand, dust yourself off, and walk home.]
-                ->Stairs.Leave
-        }
-}
-
-= Sit_Pews
-The front door closes, and you drift deeper into the church. Organ music begins to play.
-
-You end up in the pews, just like your book said you would. You sit down, and close your eyes, taking in the church music. When you open them, the pews are filled with people, all turned towards you. It's people you've read about, smiling at you. Welcoming you.
-
-They begin to sing, hands out stretched for you to take. The music flows through you, and you feel a smile come to your face.
-
-*[Take their hands.]
-
-- #ENDING: 7, Bad? Ending: Finding Peace
-*[And find peace.]
-    ->Endings.Bad_End_7
-
-= Leave
-*[It has been a long night.]
-    #ENDING: 9, Good Ending: It Has Been a Long, Long Night
-    ->Endings.Good_End_9
 
 
 ////////// DOWNSTAIRS INTERACTIONS ////////// 
@@ -252,13 +72,11 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
     - Downstairs_State <= Bad_Vibes:
         ~ Downstairs_State = Bad_Vibes
         
-        #PLAY: flashlight_on
         ~ PlaySFX("flashlight_on", false, 0, 0)
-        You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below.
+        You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below. #IMAGE: Stairs_Down
 
         You tense, every fiber of your being telling you to not continue down.
     - Downstairs_State == Stink:
-        #PLAY: flashlight_on
         ~ PlaySFX("flashlight_on", false, 0, 0)
         You approach the stairs again, and plug your nose. You breath through your mouth as you quickly descend. The stench punches you in the face, hanging heavy in the air. You take deep, deliberate breaths, as you continue.
         
@@ -285,7 +103,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
 -> Down_Stink(false)
 
 = In_Basement
-The door opens, and you are assaulted by the stench. Your eyes water and you pull your shirt over your nose and mouth, not that it does much. You take a few steps inside, trying to see what's the cause of this god awful smell.
+The door opens, and you are assaulted by the stench. Your eyes water and you pull your shirt over your nose and mouth, not that it does much. You take a few steps inside, trying to see what's the cause of this god awful smell. #IMAGE: Basement
 
 The room is covered in the pink, bulging flesh, thick ooze drips from the ceiling. You pan your flash light around. The room is filled with furniture covered in tarps.
 
@@ -295,7 +113,6 @@ The room is covered in the pink, bulging flesh, thick ooze drips from the ceilin
     #DELAY: 1.5
     You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistently falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
     
-    #PLAY: flashlight_on #PLAY: 1, flashlight_off #PLAY: 1, flashlight_on #PLAY: 1, flashlight_off
     ~ PlaySFX("flashlight_on", false, 0, 0)
     ~ PlaySFX("flashlight_off", false, 0, 0.25)
     ~ PlaySFX("flashlight_on", false, 0, 0.5)
@@ -313,13 +130,11 @@ You pass by what you assume is a standing coat hanger, and stare at it. It is ta
     #IMAGE: Default #CYCLE: person, animal, zombie, creature, beast #DELAY: 3.5
     You scream and fall backward, landing in a puddle. You fix your flashlight on the @, trying to make sense of it all. It's fused into the coat rack, limbs sewn into wrong places and the metal forced into flesh so it keeps its shape. And its face? Its face was a writhing mass of-
     
-    TODO: sound
-    #CYCLE: person, animal, zombie, creature, beast #PLAY: flashlight_on #PLAY: 1, flashlight_off #PLAY: 1, flashlight_on #PLAY: 1, flashlight_off
     ~ PlaySFX("flashlight_on", false, 0, 0)
     ~ PlaySFX("flashlight_off", false, 0, 0.25)
     ~ PlaySFX("flashlight_on", false, 0, 0.5)
     ~ PlaySFX("flashlight_off", false, 0, 0.75)
-    The @ twitches, snapping bones and warping metal to look at you. A squeak escapes you and you drop your flashlight. It flickers as it rolls away, and turns offs. The thing groans as more bones snap and it falls, landing on top of you.
+    The @ twitches, snapping bones and warping metal to look at you. A squeak escapes you and you drop your flashlight. It flickers as it rolls away, and turns offs. The thing groans as more bones snap and it falls, landing on top of you.#CYCLE: person, animal, zombie, creature, beast 
     ~temp_bool = 0
     
     **[Get it off]
@@ -441,7 +256,7 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
     "Whatever," you mutter and continue down the stairs. Maybe you stepped in something. Or something died in the stairs and you didn't notice the first time around.
 
 *[Retrace your steps]
-    Taking a deep breath through your mouth, you start back up the stairs. {Downstairs_State >= Stink: There's no way you just walked right past the landing like that. There's a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} 
+    Taking a deep breath through your mouth, you start back up the stairs. {Downstairs_State >= Stink: There's no way you just walked right past the landing like that. There's a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} #IMAGE: Stairs_Up
     
     After climbing the stairs for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {Looked_For_Items or Church_Investigation ? (Teleported): <i>Is the church messing with me?</i> | <i>How did...?</i>} 
     ~ Downstairs_State = Stink
@@ -455,7 +270,7 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
             ->Stairs.Upstairs_Landing(false)
     
     **[Turn around and try again]
-        "Third time's the charm," You mutter, turning back down the stairs, methodically checking for the landing after each step. 
+        "Third time's the charm," You mutter, turning back down the stairs, methodically checking for the landing after each step. #IMAGE: Stairs_Down
 
 - A flight or two later, you barely make out a flat platform at the edge of your flashlight's range. You don't think, you rush down the rest of the stairs, running face first into a door. {Temp_Can_Smell: The smell ten times stronger than before. | The scent of rotting flesh hits you a second later.}
         
@@ -511,20 +326,18 @@ The stench fades and the substance coating the walls dissipates as you reach the
 
 = Upstairs
 ~ Have_Visited += (Stairs_Up)
-#IMAGE: Stairs_Up #PLAY: flashlight_on #EFFECT: Flash-On
 ~ PlaySFX("flashlight_on", false, 0, 0)
-You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up.
+You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up. #IMAGE: Stairs_Up #EFFECT: Flash-On
 
 Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs quiver from effort. {Leg_State > Tense: The leg you used to kick the door in feels particularly weak.}
 
 *[Give up]
-    Shaking your head, you make the journey back down the stairs. Thankfully, going down is much easier than going up. As the hand rail once again rises to sit at a reasonable height and the spiral gradually straightens out, you know you made the correct choice.
+    Shaking your head, you make the journey back down the stairs. Thankfully, going down is much easier than going up. As the hand rail once again rises to sit at a reasonable height and the spiral gradually straightens out, you know you made the correct choice. #IMAGE: Stairs_Down
         -> Stairs.Downstairs_Trick
 
 *[Power through]
     
 - You push through, only stopping to rest when your limbs refuse to cooperate. 
-
 At some point, you end up almost fully vertical, treating the stairs as a ladder. Your finger tips burn from gripping the ground so tightly{Leg_State >= Limping:, your injured leg screaming from the exertion}. Resting became a risk, fearing that losing any momentum, even for a moment, would cause you to fall back and tumble back to the start.
 
 *[<i>How tall is this church?</i>]
@@ -534,7 +347,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 ~ Have_Visited += (Stairs_Up)
 {
     - from_trick:
-        You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. {Met_Mimic: You look around, looking for the mimic, but find yourself alone. The sound of it's enraged screeching echos in your head. She saved you, and you hope you can pay her back one day. | That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.}
+        You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. {Met_Mimic: You look around, looking for the mimic, but find yourself alone. The sound of it's enraged screeching echos in your head. She saved you, and you hope you can pay her back one day. | That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.} #IMAGE: Default
         
         You find yourself on a small landing, maybe only five feet by five feet. It sharply drops off on the edges. You crawl forward to the edge and look down. You find yourself staring down the spiral staircase, it's coils wound much tighter and steeper than you thought possible. You back up from the edge.
         
@@ -567,12 +380,11 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 
 - 
 ~ Saw_Locks = true
--> Stairs.Locks
+    -> Stairs.Locks
 
 = Look_Close_Locks(visited)
 *[Lock that needs a key]
     The top lock looks like something you'd find in an antique shop, made of heavy metal. It has a small key hole, and is holding the majority of chains together. The chains themselves aren't very think, but they are sturdy. {broke_key: You mentally kick yourself for snapping the key earlier, and hope it wasn't for this.}
-TODO: maybe more here, but i think it's fine
 
 *[Lock that needs a code]
     The middle lock looks slightly newer. It doesn't require a key, but a four digit number code. It is attached to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
@@ -736,7 +548,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 Your book. Of course. The one you left in the office. even without it, you clearly remember the number. With shaking hands, you input the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
             - else:
                 *[Try a few more combinations]
-                    ->Random_Locks
+                    ->Random_Locks(0)
                     
                 *[Leave to search for your book]
                     ~ Need_Find_Book = true
@@ -794,7 +606,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                     -> Stairs.Locks
             - else:
                 *[Try a few more combinations]
-                    ->Random_Locks
+                    ->Random_Locks(0)
                     
                 *[Leave to double-check the books]
                     ~Need_Double_Check = true
@@ -810,9 +622,49 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         }
 }
 
-= Random_Locks
+= Random_Locks(Count)
+{Count <= 0: You pick a few random numbers, not really thinking.}
 
-->END
+{Count > 3: You drop the lock and kick the door. This isn't working. }
+*[{Book_Knowledge ? (Ripped_Pages): Leave to search for your book | Leave to double-check the books}]
+    ~Need_Double_Check = true
+    {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. {LIST_COUNT(Locks_Undone) == 2: Once you find {Book_Knowledge ? (Ripped_Pages): your| Ophelia's} book, and re-learn its number, you'll finally be able to open the door. | After you find {Book_Knowledge ? (Ripped_Pages): your| her} book, you'll have to thoroughly search to find things to open the remaining lock{LIST_COUNT(Locks_Undone) == 0:s}.}
+    
+    You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
+
+    Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral ascending into darkness. You beeline for the office, ready to search for {Book_Knowledge ? (Ripped_Pages): your| her} book.
+    
+    ->Office_Area.Office
+
+*{Count <= 3} [2575]
+    Nope.
+    ->Random_Locks(Count + 1)
+
+*{Count <= 3}[2758]
+    The lock pulls a bit, but doesn't come undone.
+    ->Random_Locks(Count + 1)
+    
+
+*{Count <= 3}[5275]
+    Not that one.
+    ->Random_Locks(Count + 1)
+    
+*{Count <= 3}[2785]
+    The lock slides off. {Book_Knowledge ? (Ripped_Pages):  Oh. 2785. That must be your number. You don't know how you feel about that. | Oh! You're surprised you were able to figure it out through chance. 2785. You frown. You feel like that wasn't her number, but if it opened the lock, it must ahve been.}
+    
+    { - LIST_COUNT(Locks_Undone):
+        - 1: One lock down, two more to go.
+        - 2: Two locks down, one more to go.
+        - 3: That's the last of them.
+    }
+    
+    -> Stairs.Locks
+
+*{Count <= 3}[2754]
+    The lock pulls a bit, but doesn't come undone.
+    ->Random_Locks(Count + 1)
+
+
 = Return_Down
 {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. Hopefully you'll find something able to open the {LIST_COUNT(Locks_Undone) > 0: remaining} locks somewhere else in the church. You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
 

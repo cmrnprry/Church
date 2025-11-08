@@ -104,13 +104,12 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 
 {Confessional_Encounters ? (Pressed_Emily) or Confessional_Encounters ? (Talked_to_Girl): | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
 
-TODO sfx
-#DELAY: 0.5
-The sound of the curtain tearing—
+~ PlaySFX("curtain_tear", false, 0, 0)
+The sound of the curtain tearing— #DELAY: 1
 
 
-~ PlaySFX("door_thud", false, 0, 0)
-<i>THud</i>#CLASS: Slide_Down #PLAY: door_thud #DELAY: 1.5 #CLEAR
+~ PlaySFX("girl_thud", false, 0, 0)
+<i>THud</i>#CLASS: Slide_Down #DELAY: 1.5 #CLEAR
 
 Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your stomach.
 
@@ -241,7 +240,8 @@ You feel...
     #IMAGE: Default #PROP: [curtain_torn false]
     You slam your fist into the ground. Again and again until the skin splits and splinters stick inside. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | {Reaction == "Sat_There": You just- You just <i>sat</i> there. Sat there and did <i>nothing.</i>| {Reaction == "Watched": You watched her writher and writhe on the ground. Did that make you feel better? To see her in pain like that? | You should have moved faster. Pushed harder. Why can't you do anything right? }}} But what did it even matter? <i>There's no one here.</i>
     
-    You grab the fabric from the ground and start ripping it apart. <i>Riiiippp!</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp!</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp!</i>  {Book_Knowledge ? (Read_Mom_Old_Book): You know she was once a real person, but was that her? Or was that the church? | What can you trust if your own sense are compromised?} <i>Riiiippp!</i> 
+    ~PlaySFX("fabric_ripping", false, 0, 0)
+    You grab the fabric from the ground and start ripping it apart. <i>Riiiippp!</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp!</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp!</i>  {Book_Knowledge ? (Read_Mom_Old_Book): You know she was once a real person, but was that her? Or was that the church? | What can you trust if your own sense are compromised?} <i>Riiiippp!</i> <i>Riiiippp!</i> <i>Riiiippp!</i>
     
     The fabric sits in tiny scraps in your hands. You throw them away from you and they land unceremoniously on the blood splatter in front of you. You stare vacantly at it, then up at the confessional.
 
@@ -549,8 +549,9 @@ You ball your fists. It's not the same as what happened to you, but it's similar
     
     **[Leave the booth]
     
-    -- You didn't find the heart, but at least you learned a bit more about the church. You hope it will help you later.
-TODO summarize a bit
+    -- You didn't find the heart, but at least you learned a bit more about the church. It preys on famlies it seems, luring in one person in hopes of ensaring them all. {Church_Investigation ? (Called): Your grandparents have already been digested, you think. It tried to use them to get to you. | You wonder if you are the first one to be taken in your family. Or if you're the last.}
+    
+        You clench your fists. You will get out of here. You won't let the church win.
         -> Confessional_Door.Return_to_Search
 
 *[Tell her to leave]

@@ -7,7 +7,7 @@
 -> Office_Choices
 
 = Office
-{Have_Visited !? (Enter_Office): {Looked_For_Items: It's the office door from earlier, but it seems shorter than you remember, it now being about the same hight as you. You duck | You hope something useful lies behind, and enter} through the doorway. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.} | {Room_State == Half: You open the door and crouch-walk through.} {Room_State == Crawl: You open the door and army crawl through.} Despite the change in door size, the rest of the room remains how you remember it. }
+{Have_Visited !? (Enter_Office): {Looked_For_Items: It's the office door from earlier, but it seems shorter than you remember, it now being about the same hight as you. You duck | You hope something useful lies behind, and enter} through the doorway. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.} | {Room_State == Half: You open the door and crouch-walk through.} {Room_State == Crawl: You open the door and army crawl through.} Despite the change in door size, the rest of the room remains how you remember it. } #IMAGE: Office
 
 ~ Have_Visited += (Enter_Office)
 ~ Room_State++
@@ -49,18 +49,20 @@ You walk around and plot onto the old desk chair. It groans in protest under you
 
  You pull open the desk drawers and dig through their contents. Most only contain broken, or otherwise unusable, writing utensils and paper scraps to old to make any text out, but one drawer holds a key.
 
+#PROP: [simple_key true]
 The key is {items_obtained ? (Skeleton_Key): about the same size as the one you got before, but much less interesting. It is grey and nondescript, and i| small, grey and nondescript. I}t looks similar to a generic house key. You turn it over in your hands before slipping it into your pocket. {Saw_Locks: It might fit the lock upstairs. | It will probably be useful later.}
 
 *[{Explore_Office_Bookshelf !? (Check_Books): Browse the bookshelves | Search through books again}]
     -> Office_Area.Books
         
 *{visited_state < 1} [Return to stairwell]
+    #PROP: [simple_key false]
     You exit the office, planning to come back later. <>
     -> Stairs.Examine_Stairs
 
 = Books
 ~ Book_Knowledge += (Explored_Books)
-You approach the bookshelves. The books all look to be leather bound, and in better condition than the rest of the items littering the shelves. Water-stained boxes and a decaying wooden chest decorate the shelves. 
+You approach the bookshelves. The books all look to be leather bound, and in better condition than the rest of the items littering the shelves. Water-stained boxes and a decaying wooden chest decorate the shelves. #PROP: [simple_key false]
 
 *{Have_Visited ? (Check_Boxes) == false} [Pick through the boxes]
     ~ Explore_Office_Bookshelf += (Check_Boxes)
@@ -80,9 +82,9 @@ You approach the bookshelves. The books all look to be leather bound, and in bet
     ~ Explore_Office_Bookshelf += (Check_Books)
     You skim the covers of a few books from the closest shelf. You grab a random book from the shelf. <>
 
-- It has no title, but the number 2743 is on the cover in thick, gold-colored lettering. The first page has the name "Mary" in script. A dedication, maybe? You flip to the next page and begin to read. The color immediately drains from your face. You jump to the end, and your stomach tightens. You throw the book to the floor, and grab another off it's shelf. 1924, Jeff. 2952, Adrian. 1853, Reed. 
+- It has no title, but the number 2743 is on the cover in thick, gold-colored lettering. The first page has the name "Mary" in script. A dedication, maybe? You flip to the next page and begin to read. The color immediately drains from your face. 
 
-All the stories are the same: They entered the church, and never left.
+You jump to the end, and your stomach tightens. You throw the book to the floor, and grab another off it's shelf. 1924, Jeff. 2952, Adrian. 1853, Reed. All the stories are the same: They entered the church, and never left.
 
 *[Finish Mary's book]
     Tentatively, you pick up Mary's book again, and begin to read. <>
@@ -152,13 +154,13 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
             -> Open_Chest(->Office_Area.Your_Book)
         - Book_Knowledge ? (Saw_Your_Book):
             ~ Temp_Bool = true
-            , and trace the numbers. You look at the first page, anxious to see if this is indeed your book. Your legs turn to jelly and you collapse to the ground. "Oh..." 
+            , and trace the numbers. You look at the first page, anxious to see if this is indeed your book. Your legs turn to jelly and you collapse to the ground. "Oh..." #PROP: [yourbook true]
     }
         
         
     - Book_Knowledge !? (Saw_Your_Book) && Explore_Office_Bookshelf ? (Check_Chest):
         ~ Book_Knowledge += (Saw_Your_Book)
-        , and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..."
+        , and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..." #PROP: [your_book true]
 }
 
 *[{Temp_Bool: It's your book | The book is about <i>you.</i>}]
@@ -212,7 +214,7 @@ You clutch the book tightly in your hands. {Stay_Tracker < 2: You cannot accept 
 
 - 
 ~ Stay_Tracker -= 0.5
-You stare at the page, {Stay_Tracker < 2: and without another thought, | hesitating for a moment. You stare at the page with a sour taste in your mouth. You bite the inside of your cheek, and} rip it out. There is a quivering pain in your lower back, but ignore it. You feel a flooding sense of reassurance as you stare at the blank page. Your book is no longer finished.
+You stare at the page, {Stay_Tracker < 2: and without another thought, | hesitating for a moment. You stare at the page with a sour taste in your mouth. You bite the inside of your cheek, and} rip it out. There is a quivering pain in your lower back, but ignore it. You feel a flooding sense of reassurance as you stare at the blank page. Your book is no longer finished. #PROP: [your_book false]
 
 Before you can flip the book closed, you see movement on the page. Your body tenses as you watch ink stain the page and the words reappear. <i>You found peace.</i> You shake your head, {Stay_Tracker < 2: lip curling. | eyes wide.}
 
@@ -237,7 +239,7 @@ Your entire body trembles.
 
 - 
 ~ Book_Knowledge += (Branded)
-You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You-
+You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You—
 
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
@@ -460,11 +462,14 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 ////////// ENDING INTERACTIONS ////////// 
 
 = Unsure
-#IMAGE: Open_Door #PROP: Closed_Door true
+#IMAGE: Open_Door #PROP: [Closed_Door true], [your_book false]
 Confused, you  numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
-*[You reach out a hand]
-TODO choice
+*[Reach out a hand]
+
+*[Look away]
+    ~Stay_Tracker += 1
+
 - But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay open. You feel like...
 
 *[Laughing]
@@ -615,14 +620,12 @@ TODO choice
             - else:
                 <> You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
                 
-                #PLAY: Church-anger, 0, 1  #STOP: Church-anger, 0, 2
                 ~ PlaySFX("Church-anger", false, 0, 0) 
                 ~ StopSFX("Church-anger", 1, 2)
-                TODO what
                 That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
         
                 *[You stand, dust yourself off, and walk home.]
-                ->Office_Area.End_Game
+                    ->Office_Area.End_Game
         }
 }
 
@@ -691,7 +694,7 @@ They begin to sing, hands out stretched for you to take. The music flows through
 //if we are here, player HAS to know about their book
 
 === Take_Or_Return(IsTake) ===
-{Book_Knowledge ? (Branded): {IsTake: You tuck the book under your arm. Leaving it behind feels wrong somehow. | You struggle to your feet and shuffle to the bookshelf. You gently place your book on the shelf and slide it back until it hits the wall. You want nothing to do with it anymore.} You... You should do something. Return to your search. Find the heart. Destroy it. Escape. | {IsTake: You tuck the book under your arm. {Book_Knowledge ? (Read_End): You may already know how this could end, or at least, how the <i>church</i> thinks it will end, but something tells you to keep your book with you. {Stay_Tracker >= 2: Just in case something changes.} | You don't want to know how this story ends, but in case you change your mind, you'll have that choice.} | {Book_Knowledge ? (Read_End): You place the book back on the shelf. You know how it ends- Or rather, how the church thinks it will end. | You don't want to know how this story ends, not when there's still something you can do. You put the book back on the shelf.} } {Stay_Tracker < 2: You shouldn't give too much weight to it. That's what the church wants. | You chew your lip{Book_Knowledge ? (Kept_Book): and tighten your grip on it}. } You should do something productive instead of dwelling on it. {Saw_Locks: You remember the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}}
+{Book_Knowledge ? (Branded): {IsTake: You tuck the book under your arm. Leaving it behind feels wrong somehow. | You struggle to your feet and shuffle to the bookshelf. You gently place your book on the shelf and slide it back until it hits the wall. You want nothing to do with it anymore.} You... You should do something. Return to your search. Find the heart. Destroy it. Escape. | {IsTake: You tuck the book under your arm. {Book_Knowledge ? (Read_End): You may already know how this could end, or at least, how the <i>church</i> thinks it will end, but something tells you to keep your book with you. {Stay_Tracker >= 2: Just in case something changes.} | You don't want to know how this story ends, but in case you change your mind, you'll have that choice.} | {Book_Knowledge ? (Read_End): You place the book back on the shelf. You know how it ends- Or rather, how the church thinks it will end. | You don't want to know how this story ends, not when there's still something you can do. You put the book back on the shelf.} } {Stay_Tracker < 2: You shouldn't give too much weight to it. That's what the church wants. | You chew your lip{Book_Knowledge ? (Kept_Book): and tighten your grip on it}. } You should do something productive instead of dwelling on it. {Saw_Locks: You remember the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}} #PROP: [your_book false]
 
 *{(Explore_Office_Bookshelf !? (Check_Boxes))} [Pick through the boxes]
     ~ Explore_Office_Bookshelf += (Check_Boxes)
@@ -739,7 +742,7 @@ They begin to sing, hands out stretched for you to take. The music flows through
     
 - 
 
-*{Confessional_Encounters ? (Finished_Curtain_Side)} [The wider one] //oldin
+*{Confessional_Encounters ? (Finished_Curtain_Side)} [((DO NOT PICK THIS IT WILL SOFT LOCK YOU)) The wider one] //oldin
     -> Olin_Book
 
 *[The smaller one] //mom
@@ -827,6 +830,9 @@ She reaches the top and finds a set of locks on a door that has a pulsating red 
     
 *[Finish Ophelia's book]
     ~ Finish_ophelia = true
+
+*[Move on with your search]
+    -> Office_Area.Exit_Office_Continue
 
 
 - You keep a finger to keep track of the page with the code and finish the book. The number lock pops open, but the key she found doesn't fit and she flings the key over the edge. She holds the book and debates throwing it as well, before collapsing and she reads the book again. She re-reads the same passage a few times before fury over takes her and she rips out page after page after page. {Book_Knowledge ? (Branded): You wince, knowing what comes next. You read a few passages before slamming the book shut. | Bile rises in your throat as you read the next few passages before you slam the book shut.} You don't need to read what the church did to her.

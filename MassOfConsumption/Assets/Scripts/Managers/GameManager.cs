@@ -554,7 +554,7 @@ namespace AYellowpaper.SerializedCollections
                 case "IMAGE": //Sets background image
                     if (value == "Bus Stop Right")
                         StaticHelpers.ShiftImage(BackgroundImage, true);
-                    else if (BackgroundDictionary.ContainsKey(value))
+                    else if (BackgroundDictionary.ContainsKey(value) && SaveSystem.GetCurrentSpriteKey() != value)
                     {
                         var temp = DefualtImage.GetComponentsInChildren<Image>();
 

@@ -10,6 +10,7 @@ You duck into the room and the door closes behind you, but you don't bother look
 ~Intrusive(3, "Take a sip", "Open_the_Door.Consume")
 ~Intrusive(2, "So hungry", "Open_the_Door.Consume")
 ~Intrusive(2, "So thirstry", "Open_the_Door.Consume")
+~ PlaySFX("stomach_growling", false, 0, 0)
 Your mouth begins to water and your stomach growls. When was the last time you ate? Or the last time you drank?
 
 ~ temp_bool = true
@@ -36,7 +37,7 @@ Your mouth begins to water and your stomach growls. When was the last time you a
 *[You can't get enough.]
 
 - 
-TODO sfx
+~ PlaySFX("stomach_growling", false, 0, 0)
 Your stomach growls and you stop drinking, only long enough to take a breath, and snatch the bread from the table. You rip into it, tearing the flesh from the bone.
 
 #CYCLE: chewy, soft, meaty, exquisite
@@ -79,9 +80,8 @@ You look back at the glowing heart.
 -> Open_the_Door.Pick_Up
 
 = Pick_Up
-#PLAY: groan #EFFECT: BlinkOnClick_False #EFFECT: Force_Open
-~ PlaySFX("groan", false, 0, 0)
-Carefully, you reach out and take the heart out of the water. The church groans. The heart softly pulses in your hand.
+~ PlaySFX("groaning_afraid", false, 0, 0)
+Carefully, you reach out and take the heart out of the water. The church groans. The heart softly pulses in your hand. #EFFECT: BlinkOnClick_False #EFFECT: Force_Open
 
 {Stay_Tracker >= 2.5: It's beautiful. | {Stay_Tracker >= 1.5: It's unnatural. | It's disgusting.}}
 
@@ -117,7 +117,7 @@ You are so close to freedom. You stand in the doorway. The heart pulses faster, 
     You step outside, into the real world, and take the heart with you. The church gates creak open, allowing you to finally escape it's grasp. 
     
     **[Leave the heart in the church]
-        TODO sfx
+        ~ PlaySFX("groaning_happy", false, 0, 0)
         ~ Stay_Tracker += 0.5
         You leave the heart at the gates as you set off the property. The church purrs in thanks, and snaps the gates shut. You blink and it's gone, leaving behind an empty plot of land.
         -> Open_the_Door.Leave
@@ -133,10 +133,10 @@ You are so close to freedom. You stand in the doorway. The heart pulses faster, 
 
 
 = Crush_it
-#EFFECT: Force_Open
+#EFFECT: Force_Open #PROP: [squeeze_heart true]
 Holding the heart in one hand, you begin to squeeze. It doesn't take much effort, almost like crushing an egg. The heart oozes blood and pulsates faster. The light begins to die.
 
-TODO sfx
+~ PlaySFX("groaning_hurt_1", false, 0, 0)
 The whine of a wounded animal reverberates through the room.
 
 *[The church is in pain]
@@ -146,12 +146,12 @@ The whine of a wounded animal reverberates through the room.
 You think of everything you went through because of the church. You think of the church's sight. {Confessional_Encounters ? (Killed_Girl):Of the little girl you couldn't save.}{Church_Encounters ? (Finger_Chopped):Of the finger that was taken from you.}{Church_Encounters ? (Leave_Light):Of the tantrums the church would throw when you didn't listen.} Of all the tricks it used into making you think you wanted to stay. Of all the people who can never leave. Will never leave.
 
 #EFFECT: Force_Closed 
-TODO sfx
+~ PlaySFX("groaning_hurt_2", false, 0, 0)
 You squeeze harder, until your nails pierce your palm. The light is almost gone now. The church squeals pitifully in response. You drop whatever remains of the heart, and it falls to the floor with a wet <i>splat!</i>
 
 *[The light fades to nothing]
 
-- {crushed_at_door: The building shakes. You try the door, but it is gone. | The room goes dark, and the building shakes. You try the door, but it's gone.}
+- {crushed_at_door: The building shakes. You try the door, but it is gone. | The room goes dark, and the building shakes. You try the door, but it's gone.} #PROP: [squeeze_heart false]
 
 *[{crushed_at_door: Step outside | You are falling }]
 
@@ -161,7 +161,8 @@ You squeeze harder, until your nails pierce your palm. The light is almost gone 
     - crushed_at_door:
         In one calm movement, you step outside the doorway. You walk backwards, watching the church until you are outside its gates.
         
-        TODO sfx
+        ~ PlaySFX("screeching", true, 0, 0)
+        ~ StopSFX("screeching", 1, 0.5)
         The church groans and screams as it falls in on itself. It begins to shine so brightly that you are forced to shield your eyes. With one last cry, the light is gone. When you look back, so is the church.
         
         -> Open_the_Door.Leave
@@ -269,10 +270,8 @@ The heart beats in your hand, a lovely red color. It resembles a sweet apple. Ar
 *[Take a bite]
 
 - 
-#PLAY: shriek #CLASS: Angry-Screeching
-#EFFECT: Force_Blink
 ~ PlaySFX("shriek", false, 0, 0)
-The church shrieks in response. It shakes and shutters. The ghostly figures clutch their heads in agony.
+The church shrieks in response. It shakes and shutters. The ghostly figures clutch their heads in agony. #PROP: [eat_heart true] #CLASS: Angry-Screeching #EFFECT: Force_Blink
 
 Cool, sweet juice slides down your face. Yes. It tastes just like an apple. The sweetest, crispest apple you've ever had.
 
@@ -286,7 +285,7 @@ All your worries melt away. You're not even sure why you were fighting so hard t
 
 *[Finish it]
 
-- You chew and chew until there's nothing left.
+- You chew and chew until there's nothing left. #PROP: [eat_heart false]
 
 The heart is gone. 
 

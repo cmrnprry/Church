@@ -42,7 +42,6 @@ namespace AYellowpaper.SerializedCollections
                     });
 
                     LastWasDefault = false;
-                    SaveSystem.SetCurrentSprite(key.Trim());
                 }
             }
             else //a non-deafult background is shown
@@ -51,8 +50,6 @@ namespace AYellowpaper.SerializedCollections
                 {
                     backgrounds[0].sprite = sprite;
                     backgrounds[1].sprite = sprite;
-                    SaveSystem.SetCurrentSprite("Default");
-
 
                     backgrounds[2].DOFade(0, 0.25f).OnComplete(() =>
                     {
@@ -77,9 +74,10 @@ namespace AYellowpaper.SerializedCollections
                     });
 
                     LastWasDefault = false;
-                    SaveSystem.SetCurrentSprite(key.Trim());
                 }
             }
+
+            SaveSystem.SetCurrentSprite(key.Trim());
         }
 
         public static void SetProp(string src, bool visibility)

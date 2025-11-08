@@ -33,6 +33,7 @@ You don't find much of anything. With a huff, you plop onto the last pew you sea
 TODO play organ sound ((steal from isaac music))
 Your eyes snap open as the church organ begins to play. You find the pews are {visited_state > 1: once again filled with flickering, faceless "people." | filled with people. You can't make out any of the faces or any other distinguishing features. You can only tell that the figures are vaguely people-shaped. Their images flicker in and out of view.} Some sit next to you, but none acknowledge you.
 
+~PlaySFX("talking_reverse", true, 1, 0)
 A priest ascends the stage and addresses the masses. You can't understand what's being said. It only sounds like grunts and groans to your ears.
 
 *[Sneak away]
@@ -53,7 +54,10 @@ A priest ascends the stage and addresses the masses. You can't understand what's
 *[Wait for the sermon to be over]
     
 
-- {Frozen_Hand: You press your hand between your thighs to warm it, and hope the sermon will be over soon. <>| You stay in your seat, hoping it will end soon. The longer you listen to the priest drone on, the more you find yourself nodding along. You flinch and pat your cheeks to wake yourself up. } 
+- 
+~StopSFX("talking_reverse", 1, 0)
+~PlaySFX("talking", true, 1, 0)
+{Frozen_Hand: You press your hand between your thighs to warm it, and hope the sermon will be over soon. <>| You stay in your seat, hoping it will end soon. The longer you listen to the priest drone on, the more you find yourself nodding along. You flinch and pat your cheeks to wake yourself up. } 
 
 You {Frozen_Hand: | lightly hum to drown out the priest's words and }focus on the back of the seat in front of you. A bible is held in the pocket attached to the back of the pew. Reading it will probably pass the time, but you can still sneak away.
 
@@ -67,6 +71,8 @@ You {Frozen_Hand: | lightly hum to drown out the priest's words and }focus on th
 *[Wait a little longer]
     TODO steal organ music
     ~ chose_wait = true
+    ~StopSFX("talking_reverse", 2, 1.5)
+    ~StopSFX("talking", 2, 1.5)
     The priest stops talking and shuffles to the organ. The people in the pews sway slightly and nod along. You close your eyes and sink in your seat. You keep humming, louder and louder to drown out the organ until you can only hear yourself and nothing else.
     
 - "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. {chose_wait: It rises from the organ and points to you. You tense. The light from the window behind it spotlights you. It's the same {temp_string} feeling as before. {Church_Encounters !? (Leave_Light): It warms your body, and the tension in you shoulders melt away. | Your skin tingles under it's warmth. It's uncomfortable. }}
@@ -84,6 +90,8 @@ He beckons you to join him. All eyes are on you. {Church_Encounters !? (Leave_Li
 = Get_Up
 You rise to your feet, intending to leave the area. You try to keep your head down to avoid being seen, but the moment you step into the aisle, a red light spotlights you. You tense. It's the same {temp_string} feeling as before. {Church_Encounters !? (Leave_Light): It warms your body, and the tension in you shoulders melt away. | Your skin tingles under it's warmth. It's uncomfortable.}
 
+~StopSFX("talking_reverse", 2, 1.5)
+~StopSFX("talking", 2, 1.5)
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. It beckons you to join it on stage. All eyes are on you. 
 
 {Church_Encounters ? (Leave_Light): You fidget with your clothing, unsure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
@@ -127,6 +135,7 @@ Once there, you stand next to the ghostly pastor. It grabs your hand and raises 
 = On_Stage
 { temp_bool: It ignores the question, and releases your hand. | You jerk your hand from its grasp, and it laughs again.} "Stand... Here..."
 
+#PROP: [priest true]
 "What is-" You try to ask, but the pastor once again takes ahold of you and moves you to be center stage. Another person appears, wheeling over a very tangible cart with a container of water. Their hands are more solid when touching the cart, and you see their left hand is missing a few fingers. The paster grabs something from behind the podium. "Can you explain to me what's—"
 
 "Now, which hand...?" It asks, its own behind it's back.
@@ -163,7 +172,7 @@ You look at the tub of water in front of you.
     ~ Stay_Tracker -= 0.5
     ->Pews.Refuse_Him
 
-- You assume this will be a hand-washing ritual, and hold out your hand over the container of water. The pastor takes you by the wrist, and gently places it in the water. The crowd begins to chant. 
+- You assume this will be a hand-washing ritual, and hold out your hand over the container of water. The pastor takes you by the wrist, and gently places it in the water. The crowd begins to chant. #PROP: [priest false]
 
 "Hold it... there. Don't move." It says something to the crowd, and members of the audience each raise a hand. Some even raise two. All of them are missing at least one finger on their raised hand. "It will only... hurt a bit..."
 
@@ -242,7 +251,7 @@ Your screams become whimpers as you wait for the pain to pass.
     -> Pews.Pews_Continue
 
 = Refuse_Him
-You take another look at the water, then the pastor. "No, I think I'm okay." 
+You take another look at the water, then the pastor. "No, I think I'm okay." #PROP: [priest false]
 
 The pastor lets out a deep, guttural growl. "Fine then." He snaps his head to crowd, and points at a woman in the second row. "Your turn then." 
 
