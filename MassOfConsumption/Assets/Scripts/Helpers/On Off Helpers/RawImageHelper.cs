@@ -38,6 +38,9 @@ public class RawImageHelper : OnOffHelpers
                 turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
 
             turnoff_OnOff.FlipVisibility(true);
+        }).OnComplete(() =>
+        {
+            this.gameObject.SetActive(false);
         });
     }
 

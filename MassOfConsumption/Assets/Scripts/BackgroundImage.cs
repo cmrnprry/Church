@@ -28,12 +28,14 @@ public struct ZoomData
     [SerializeField] public float scale;
     [SerializeField] public Vector2 position;
     [SerializeField] public float duration;
+    [SerializeField] public float delay;
 
-    public ZoomData(float scale, Vector2 position, float duration)
+    public ZoomData(float scale, Vector2 position, float duration, float delay)
     {
         this.scale = scale;
         this.position = position;
         this.duration = duration;
+        this.delay = delay;
     }
 
     public bool IsNull()
@@ -112,9 +114,9 @@ public class BackgroundImage : MonoBehaviour
         ZoomImage(data.scale, data.position, data.duration);
     }
 
-    public void ZoomImage(float scale, Vector2 position, float duration = 0.5f)
+    public void ZoomImage(float scale, Vector2 position, float duration = 0.5f, float delay = 0.5f)
     {
-        var data = new ZoomData(scale, position, duration);
+        var data = new ZoomData(scale, position, duration, delay);
         SaveSystem.AddImageZoomData(data);
 
         KillZoomTweens();
@@ -127,8 +129,8 @@ public class BackgroundImage : MonoBehaviour
 
         Vector3 scale_vector = new Vector3(scale, scale, scale);
 
-        zoom_sequence.Append(rect.DOScale(scale_vector, duration))
-            .Insert(0, rect.DOAnchorPos(position, duration));
+        zoom_sequence.AppendInterval(delay).Append(rect.DOScale(scale_vector, duration))
+            .Join(rect.DOAnchorPos(position, duration));
     }
 
     void BlurEffectCallback()
@@ -165,7 +167,7 @@ public class BackgroundImage : MonoBehaviour
 
 
         float dur = 0;
-        if (toAdd != "NULL")
+        if (toAdd != "NULL" && toAdd!= "")
         {
             StopEffect = false;
             switch (toAdd)
@@ -279,9 +281,6 @@ public class BackgroundImage : MonoBehaviour
     private void KillAllTweens()
     {
         KillZoomTweens();
-        rect.DOScale(1, 0);
-        rect.DOAnchorPos(Vector2.zero, 0);
-
         KillClassTweens();
     }
 
@@ -289,6 +288,8 @@ public class BackgroundImage : MonoBehaviour
     {
         if (zoom_sequence != null && zoom_sequence.IsPlaying())
             zoom_sequence.Kill(true);
+
+        zoom_sequence = null;
     }
 
     private void KillClassTweens()
@@ -297,10 +298,14 @@ public class BackgroundImage : MonoBehaviour
         if (class_sequence != null && class_sequence.IsPlaying())
             class_sequence.Kill(true);
 
-        rect.DOKill(true);
+        class_sequence = null;
+        if (rect != null)
+        {
+            rect.DOKill(true);
+            rect.DOScale(1, 0.5f);
+            rect.DOAnchorPos(Vector2.zero, 0.5f);
+        }
 
 
-        rect.DOScale(1, 0.5f);
-        rect.DOAnchorPos(Vector2.zero, 0.5f);
     }
 }

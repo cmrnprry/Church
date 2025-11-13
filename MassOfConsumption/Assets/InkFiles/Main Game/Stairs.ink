@@ -6,7 +6,7 @@
 +[Go upstairs]
     ->Stairs.Upstairs
     
-+[Go downstairs]
++{Downstairs_State < Flesh} [Go downstairs]
     ->Stairs.Downstairs
     
 + {Room_State < Gone} [Enter office]
@@ -44,7 +44,6 @@ You shine your light to the end of the staircase, and see a door at the end of t
 *[See what's behind the door]
 
 *[Turn. Back.]
-    #PLAY: flashlight_off
     ~ PlaySFX("flashlight_off", false, 0, 0)
     Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
 
@@ -52,13 +51,11 @@ You shine your light to the end of the staircase, and see a door at the end of t
     ->Stairs.Turn_Back
 
 - 
-#PLAY: 1, squish-squash
 ~ PlaySFX("squish-squash", true, 1, 0)
 <i>You've made it this far, might as well see it it toward the end,</i> you think, and take another deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
 <i>Squish</i>
 
-#stop: 3, squish-squash
 ~ StopSFX("squish-squash", 3, 0)
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
@@ -81,7 +78,6 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
         You approach the stairs again, and plug your nose. You breath through your mouth as you quickly descend. The stench punches you in the face, hanging heavy in the air. You take deep, deliberate breaths, as you continue.
         
     - else:
-        #PLAY: flashlight_on
         ~ PlaySFX("flashlight_on", false, 0, 0)
         You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
 }
@@ -98,9 +94,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
     - else: -> Down_Stink(false)
 }
 
--
-
--> Down_Stink(false)
+- -> Down_Stink(false)
 
 = In_Basement
 The door opens, and you are assaulted by the stench. Your eyes water and you pull your shirt over your nose and mouth, not that it does much. You take a few steps inside, trying to see what's the cause of this god awful smell. #IMAGE: Basement
@@ -256,7 +250,7 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
     "Whatever," you mutter and continue down the stairs. Maybe you stepped in something. Or something died in the stairs and you didn't notice the first time around.
 
 *[Retrace your steps]
-    Taking a deep breath through your mouth, you start back up the stairs. {Downstairs_State >= Stink: There's no way you just walked right past the landing like that. There's a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} #IMAGE: Stairs_Up
+    Taking a deep breath through your mouth, you start back up the stairs. {Downstairs_State >= Stink: There's no way you just walked right past the landing like that. There's a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} #IMAGE: Stairs_Up #PROP: [stairs true]
     
     After climbing the stairs for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {Looked_For_Items or Church_Investigation ? (Teleported): <i>Is the church messing with me?</i> | <i>How did...?</i>} 
     ~ Downstairs_State = Stink
@@ -270,7 +264,7 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
             ->Stairs.Upstairs_Landing(false)
     
     **[Turn around and try again]
-        "Third time's the charm," You mutter, turning back down the stairs, methodically checking for the landing after each step. #IMAGE: Stairs_Down
+        "Third time's the charm," You mutter, turning back down the stairs, methodically checking for the landing after each step. #IMAGE: Stairs_Down #PROP: [stairs false]
 
 - A flight or two later, you barely make out a flat platform at the edge of your flashlight's range. You don't think, you rush down the rest of the stairs, running face first into a door. {Temp_Can_Smell: The smell ten times stronger than before. | The scent of rotting flesh hits you a second later.}
         
@@ -299,20 +293,19 @@ In frustration you kick the door{Leg_State >= Limping:, then suppress a curse as
 *[Take your chances with the stairs]
 
 - 
-#CYCLE: mold, meat, fungus, flesh #PLAY: 1, squish-squash
-~ PlaySFX("squish-squash", false, 1, 0)
-You don't think anything could be worse than the smell emanating from the door in front of you and decide to try climbing the stairs one last time. The @ sticks to your shoes as you step on it{Temp_Touched_Mass:.|, like warm gum.} Your lip curls.
 
-The stench fades and the substance coating the walls dissipates as you reach the top. You pull yourself out of the stairwell, finding yourself at the landing you were desperately searching for. You could almost kiss the ground.
+~ PlaySFX("squish-squash", false, 1, 0)
+You don't think anything could be worse than the smell emanating from the door in front of you and decide to try climbing the stairs one last time. The @ sticks to your shoes as you step on it{Temp_Touched_Mass:.|, like warm gum.} Your lip curls. #CYCLE: mold, meat, fungus, flesh
+
+The stench fades and the substance coating the walls dissipates as you reach the top. You pull yourself out of the stairwell, finding yourself at the landing you were desperately searching for. You could almost kiss the ground. #IMAGE: Default
 
 *[Rest for a bit]
-    #DELAY: 3
-    You collapse to the floor and massage your thighs. You close your eyes and lean against the wall between the stairs. Your body welcomes the much needed break, as you feel some tension release.
+    You collapse to the floor and massage your thighs. You close your eyes and lean against the wall between the stairs. Your body welcomes the much needed break, as you feel some tension release. #DELAY: 1.5
     
     "There's no time for this!" A woman's voice, soft but full of anger, rips through the quiet and freezing hands shove you over the edge of the stairs.
     
-    #DELAY: 2
-    Your eyes snap open as you pull yourself into a ball, covering your head with your arms. Your whole body tenses as you brace for impact—
+    
+    Your eyes snap open as you pull yourself into a ball, covering your head with your arms. Your whole body tenses as you brace for impact— #DELAY: 0.25
     ->Stairs.Upstairs_Landing(true)
 
 *[Enter the office]
@@ -327,7 +320,7 @@ The stench fades and the substance coating the walls dissipates as you reach the
 = Upstairs
 ~ Have_Visited += (Stairs_Up)
 ~ PlaySFX("flashlight_on", false, 0, 0)
-You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up. #IMAGE: Stairs_Up #EFFECT: Flash-On
+You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up. #IMAGE: Stairs_Up #EFFECT: Flash-On #PROP: [stairs true]
 
 Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs quiver from effort. {Leg_State > Tense: The leg you used to kick the door in feels particularly weak.}
 
@@ -347,22 +340,22 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 ~ Have_Visited += (Stairs_Up)
 {
     - from_trick:
-        You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. {Met_Mimic: You look around, looking for the mimic, but find yourself alone. The sound of it's enraged screeching echos in your head. She saved you, and you hope you can pay her back one day. | That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.} #IMAGE: Default
+        You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. {Met_Mimic: You look around, looking for the mimic, but find yourself alone. The sound of it's enraged screeching echos in your head. She saved you, and you hope you can pay her back one day. | That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.} #IMAGE: Default #PROP: [stairs false]
         
         You find yourself on a small landing, maybe only five feet by five feet. It sharply drops off on the edges. You crawl forward to the edge and look down. You find yourself staring down the spiral staircase, it's coils wound much tighter and steeper than you thought possible. You back up from the edge.
         
         Behind you is the door you crashed into. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
         
     - else:
-        After countless flights of stairs, you make it to a landing, crawling your way onto solid ground. You lay flat on your back, catching your breath. {Leg_State >= Sore: Any longer on the stairs, and you think you may have fallen.}
+        After countless flights of stairs, you make it to a landing, crawling your way onto solid ground. You lay flat on your back, catching your breath. {Leg_State >= Sore: Any longer on the stairs, and you think you may have fallen.} #IMAGE: Default #PROP: [stairs false]
         
-        The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it.
+        The only thing on the landing is a door. It's old and wooden, much like the rest of the church. It is covered in chains and locks. A metal bar is bolted across the door in a way where you could not pull or push it open, even without the chains. Soft, pulsing, red light peaks out from under it. 
 }
 
 *[Examine the locks]
     
 *[Peek through the keyhole]
-    TODO: maybe art here if i wanna be crazy
+    #IMAGE: Heart_Room #PROP: [Keyhole true] 
     You approach the door and peek through the keyhole. You can't make out much, but you can see a small table and something placed upon it. That looks to be the source of the glowing.
     
     #CYCLE: anxiety, excitement, fear, unease, hope
@@ -371,7 +364,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
     **[Examine the locks]
 
 - 
-{Saw_Locks: The locks look the same as you remember. {LIST_COUNT(items_obtained) <= 0: You don't have anything new to try with them, so you're not sure why you came back up.}| You approach the door, taking a closer look at the various locks and chains blocking it. There are three main locks from what you can tell. One that needs a code, one that needs a key and a sliding lock. Look closer at the...}
+{Saw_Locks: The locks look the same as you remember. {LIST_COUNT(items_obtained) <= 0: You don't have anything new to try with them, so you're not sure why you came back up.}| You approach the door, taking a closer look at the various locks and chains blocking it. There are three main locks from what you can tell. One that needs a code, one that needs a key and a sliding lock. Look closer at the...} #IMAGE: Default #PROP: [Keyhole false]
 
 {
     - Saw_Locks == false:
@@ -664,7 +657,6 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
     The lock pulls a bit, but doesn't come undone.
     ->Random_Locks(Count + 1)
 
-
 = Return_Down
 {LIST_COUNT(Locks_Undone) == 1: With one lock down, | {LIST_COUNT(Locks_Undone) == 2: With two locks down,| Unsure of what more you can do,}} you head back down. Hopefully you'll find something able to open the {LIST_COUNT(Locks_Undone) > 0: remaining} locks somewhere else in the church. You mentally prepare yourself, dreading the climb, only to find the staircase has transformed from a dizzying steep spiral staircase into a normal single flight of stairs. Short enough that you can see the bottom of the landing.
 
@@ -672,10 +664,13 @@ Tentatively, you descend the stairs, ready for it to warp or change at any momen
 
 If you weren't sure before, you are now: Behind that door lies the heart.
 
-*[Enter the office]
++[Enter the office]
     ->Office_Area.Office
 
-*[Return to the main body of the church]
++{Downstairs_State < Flesh}[Go downstairs]
+    ->Stairs.Downstairs    
+
++[Return to the main body of the church]
     -> Stairs.Exit_Stairs_Area
 
 = Upstairs_End

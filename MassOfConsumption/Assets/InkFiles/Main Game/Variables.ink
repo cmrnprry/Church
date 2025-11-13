@@ -1,6 +1,7 @@
 EXTERNAL PlaySFX(src, loop, fade_in, delay)
 EXTERNAL StopSFX(src, fade_out, delay)
 EXTERNAL Intrusive(amount, text, jump_to)
+EXTERNAL ZoomImage(scale, pos, length, delay)
 
 //Temp
 VAR temp_string = ""
@@ -16,8 +17,8 @@ LIST Priest_Feeling = anger, guilt, dread
 LIST Light_Feeling = relief, confused, worry
 
 VAR Church_Interest = ""
-LIST Church_Feeling = Familiar = 1, Uncomforable = 2, Evocative = 3, Laughing = 4, Crying = 5
-LIST Church_List = Disappointed = 1, Satisfied = 2, Anxious = 3
+VAR Church_Feeling = ""
+LIST Church_List = Disappointed = 1, Satisfied = 2, Anxious = 3, Familiar = 1, Uncomforable = 2, Evocative = 3, Laughing = 4, Crying = 5
 VAR Church_Entered = None
 
 //Before Work Investigation
@@ -97,6 +98,9 @@ VAR Finish_ophelia = false
     ~ return 1
 
 === function Intrusive(amount, text, jump_to)
+    ~ return 1
+
+=== function ZoomImage(scale, pos, length, delay)
     ~ return 1
 
 

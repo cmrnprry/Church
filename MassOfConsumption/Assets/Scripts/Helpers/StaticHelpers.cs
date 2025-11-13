@@ -96,13 +96,15 @@ namespace AYellowpaper.SerializedCollections
                         obj.GetComponent<OpenDoorHelper>().To_Open = (src == "Closed_Door") ? false : true;
                     }
 
-
                     helper.FlipVisibility(visibility);
                 }
                 else
                 {
                     foreach (Transform child in obj.transform)
                     {
+                        if (!child.gameObject.activeSelf)
+                            child.gameObject.SetActive(true);
+
                         if (child.TryGetComponent(out OnOffHelpers child_helper))
                             child_helper.FlipVisibility(visibility);
                     }
@@ -134,7 +136,7 @@ namespace AYellowpaper.SerializedCollections
             currentTextbox.alpha = 225;
             yield return null;
 
-            Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
+            Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
             Scroll.content.ForceUpdateRectTransforms();
 
             currentTextbox.ForceMeshUpdate();

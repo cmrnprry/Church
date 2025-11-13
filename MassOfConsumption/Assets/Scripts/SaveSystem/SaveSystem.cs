@@ -50,6 +50,7 @@ public static class SaveSystem
         Story story)
     {
         slotData.InkStory = story.ToJson();
+        slotData.ImageData.SetImageKey("Default");
 
         foreach (KeyValuePair<string, GameObject> prop in props)
         {
@@ -391,10 +392,8 @@ public static class SaveSystem
         return GameManager.instance.BackgroundDictionary[temp_data.ImageData.GetImageKey()];
     }
 
-    public static string GetCurrentSpriteKey(string slotID = "")
+    public static string GetCurrentSpriteKey()
     {
-        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
-
         return slotData.ImageData.GetImageKey();
     }
 
@@ -462,6 +461,11 @@ public static class SaveSystem
         return settingsData.visual_overlay;
     }
 
+    public static bool GetLineBoilValue()
+    {
+        return settingsData.image_overlay;
+    }
+
     public static bool GetTextEffectsValue()
     {
         return settingsData.text_effects;
@@ -491,6 +495,15 @@ public static class SaveSystem
     {
         settingsData.autoplay = value;
         SaveSettingsData();
+    }
+
+    public static void SetLineBoilValue(bool value)
+    {
+        settingsData.image_overlay = value;
+        SaveSettingsData();
+
+
+        GameManager.instance.FlipLineBoil(value);
     }
 
     public static void SetOverlayValue(bool value)

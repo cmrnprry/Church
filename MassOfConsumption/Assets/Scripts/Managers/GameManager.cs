@@ -204,11 +204,28 @@ namespace AYellowpaper.SerializedCollections
 
             SaveSystem.SetSettingsOnLoad();
 
+            Story.onError += (msg, type) => {
+                if (type == Ink.ErrorType.Warning)
+                    Debug.LogWarning(msg);
+                else
+                    Debug.LogError(msg);
+            };
+
 
             Story.BindExternalFunction("Intrusive", (int amount, string text, string jump_to) =>
             {
                 StaticHelpers.AddIntrusiveThoughts(amount, text, jump_to, intrusiveThoughts);
                 SaveSystem.AddIntrusiveThroughts(amount, text, jump_to);
+            });
+
+            Story.BindExternalFunction("ZoomImage", (float zoom, string pos, float dur, float delay) =>
+            {
+                var list = pos.Split(',');
+                var xpos = float.Parse(list[0].Trim());
+                var ypos = float.Parse(list[1].Trim());
+                Vector2 zoom_pos = new Vector2(xpos, ypos);
+
+                ImageClassData.ZoomImage(zoom, zoom_pos, dur, delay);
             });
         }
 
@@ -278,7 +295,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (story_tag.Contains("CLASS"))
                 {
-                    Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
+                    Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
                     Scroll.content.ForceUpdateRectTransforms();
                 }
 
@@ -349,8 +366,14 @@ namespace AYellowpaper.SerializedCollections
                 Flashlight.isOn = true;
             }
 
-            Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
+            Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
             StartCoroutine(AfterLoad(hideChoices));
+        }
+
+        public void FlipLineBoil(bool value)
+        {
+            float strn = value ? BackgroundImage.materialForRendering.GetFloat("_Strength") : 0.0f;
+            BackgroundImage.materialForRendering.SetFloat("_Strength", strn);
         }
 
         private IEnumerator AfterLoad(bool hide_choices = false)
@@ -382,6 +405,27 @@ namespace AYellowpaper.SerializedCollections
         public void StartGame()
         {
             StartCoroutine(ContinueStory(true));
+        }
+
+        private void ReturnToMainMenu()
+        {
+            SaveSystem.Restart();
+            ReplaceData = new ReplaceChoice("", -1);
+
+            text_color = TextPrefab.color;
+            text_color.a = 1;
+            ReplaceData = new ReplaceChoice("", -1);
+            ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
+            GlobalLight.color = OutsideLight;
+            DeleteOldTextBoxes();
+            DeleteOldChoices();
+
+            Story.ChoosePathString("StartGame");
+
+            SaveSystem.Init();
+            SaveSystem.SlotInit(BackgroundDictionary, PropDictionary, Story);
+
+            TransistionsAndLoading.instance.ToMainMenu();
         }
 
         private void DisplayNextLine(bool isStart = false)
@@ -425,7 +469,11 @@ namespace AYellowpaper.SerializedCollections
                 yield return new WaitForEndOfFrame();
 
                 if (Story.currentTags.Contains("CLEAR"))
+                {
                     ClearOutTextBoxes();
+                    yield return new WaitForSeconds(AutoScrollDelay + 0.15f);
+                }
+
 
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
@@ -433,7 +481,7 @@ namespace AYellowpaper.SerializedCollections
                 {
                     if (story_tag.Contains("CLASS"))
                     {
-                        Scroll.DOVerticalNormalizedPos(0, AutoScrollDelay);
+                        Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
                         Scroll.content.ForceUpdateRectTransforms();
                     }
 
@@ -491,6 +539,7 @@ namespace AYellowpaper.SerializedCollections
             else if (!Story.canContinue) //game is over
             {
                 Debug.Log("GAME OVER");
+                ReturnToMainMenu();
                 yield break;
             }
 
@@ -498,6 +547,7 @@ namespace AYellowpaper.SerializedCollections
             yield return new WaitForFixedUpdate();
             DisplayNextLine();
         }
+
 
         private void SetSaveDataForTextBox()
         {
@@ -546,11 +596,6 @@ namespace AYellowpaper.SerializedCollections
 
             switch (key)
             {
-                case "RESTART":
-                    SaveSystem.Restart();
-                    ReplaceData = new ReplaceChoice("", -1);
-                    SceneManager.LoadScene(0);
-                    break;
                 case "IMAGE": //Sets background image
                     if (value == "Bus Stop Right")
                         StaticHelpers.ShiftImage(BackgroundImage, true);
@@ -577,6 +622,9 @@ namespace AYellowpaper.SerializedCollections
                         string src = p[0].Trim();
                         bool visibility = p[1].Trim().ToLower() == "true" ? true : false;
 
+                        if (src == "stairs" && visibility && !SaveSystem.GetOverlayValue())
+                            continue;
+
                         StaticHelpers.SetProp(src, visibility);
                     }
 
@@ -594,14 +642,6 @@ namespace AYellowpaper.SerializedCollections
                 case "CYCLE": //on click, text cycles through set options
                     string[] cycle_list = value.Split(',');
                     AddCycleText(cycle_list);
-                    break;
-                case "ZOOM": // [scale], [xpos], [ypos], [dur]
-                    string[] zoom_list = value.Split(",");
-                    float zoom = float.Parse(zoom_list[0]);
-                    float dur = float.Parse(zoom_list[3]);
-                    Vector2 zoom_pos = new Vector2(float.Parse(zoom_list[1]), float.Parse(zoom_list[2]));
-
-                    ImageClassData.ZoomImage(zoom, zoom_pos, dur);
                     break;
                 case "CLASS": //edits the text (within the textbox)'s visuals
                     classes.Add(value);
@@ -759,7 +799,7 @@ namespace AYellowpaper.SerializedCollections
 
         private void ClickToMove(int Index)
         {
-            var move = clicktomove[Index];            
+            var move = clicktomove[Index];
 
             if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
                 DeleteOldChoices();
@@ -783,7 +823,7 @@ namespace AYellowpaper.SerializedCollections
                             {
                                 child.gameObject.SetActive(false);
                             }
-                         });
+                        });
                         break;
                     }
                 }

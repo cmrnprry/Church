@@ -56,8 +56,10 @@ public class SettingsUIButton : MonoBehaviour
         Color text_color = (isSelected) ? Light : Dark;
         Color image_color = (isSelected) ? Accent : Light;
 
-        Text.DOColor(text_color, 0.1f);
-        Background.DOColor(image_color, 0.1f);
+        if (Text != null)
+            Text.DOColor(text_color, 0.1f);
+        if (Background != null)
+            Background.DOColor(image_color, 0.1f);
     }
 
     public void ClickPage()

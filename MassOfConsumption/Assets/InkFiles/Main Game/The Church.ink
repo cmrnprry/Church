@@ -12,8 +12,9 @@ INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
 
--> StartGame
+-> Stairs
 === StartGame ====
+#IMAGE: Default
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
 
 It was dark when you passed, and you keep telling yourself that your tired brain mistook a construction site billboard for a church. They must be building one there.
@@ -206,6 +207,7 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
                 ~ Church_Investigation += (Teleported)
                 ~ Church_Investigation += (Dropped_Phone)
                 ~ Stay_Tracker += 0.5
+                ~ PlaySFX("gate_open", false, 0, 0)
                 You drop your phone and throw the gate open. You trip over yourself as you run down the path and to the door. You push through the church door and— #DELAY: 0.25 #PROP: [open_gates true], [closed_gates false]
                 -> Job.Teleport
             
@@ -234,17 +236,22 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
 *[Enter the church]
     ~ Church_Investigation += (Teleported)
     ~ Stay_Tracker += 0.5
-
-TODO zoom in quickly on door
-    You {Church_Interest != "drawn": push | throw} the gate open, {Church_Interest != "drawn": walking up the path, not entirely sure why you're doing this. | tripping over yourself as you run up the path and to the door.} You enter through the church door and- #DELAY: 0.25 #PROP: [open_gates true], [closed_gates false]
+    ~ ZoomImage(28.7, "-10354.4,8052", 1.5, 0.75)
+    ~ PlaySFX("footsteps_player", true, 0, 0)
+    ~ PlaySFX("gate_open", false, 0, 0)
+    You {Church_Interest != "drawn": push | throw} the gate open, {Church_Interest != "drawn": walking up the path, not entirely sure why you're doing this. | tripping over yourself as you run up the path and to the door.} You enter through the church door and- #DELAY: 1.5 #PROP: [open_gates true], [closed_gates false]
     -> Job.Teleport
 
 = Break_in
 ~ Church_Investigation += (Entered)
-TODO zoom in quickly on door
-#IMAGE: Church_Looming #PROP: [open_gates true]
+~ ZoomImage(28.7, "-10354.4,8052", 2.5, 0.75)
+~ PlaySFX("footsteps_player", true, 0, 0)
+~ PlaySFX("gate_open", false, 0, 0)
+#IMAGE: Church_Looming #PROP: [open_gates true] #DELAY: 2
 You cross the street and push the church gates open. {Church_Interest == "drawn": You trip over yourself as you run down the path and to the door. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. You hope whatever you find is worth being late for work for.} You push through the church door and— | You walk up the path, not entirely sure why you're doing this. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. Work be damned at this point. There's something happening here.} You enter through the church door and— }
 
+~ StopSFX("footsteps_player", 0, 0)
+~ ZoomImage(1, "0,0", 0.15, 0)
 #IMAGE: Default #PROP: [open_gates false]
 You're standing in an old church. The floor boards creek under your weight and everything is covered in a thin layer of dirt and grime. It's empty and dusty and it's— "Just a church?" You finish the sentence out loud. You feel...
 
@@ -313,20 +320,24 @@ Your phone chirps and you grimace.
 
 = Window
 ~ Church_Investigation += (Saw_Windows)
-#ZOOM: 1.5, -242, -121, 1.25 #ICLASS: Swimming
+~ ZoomImage(1.5, "-242, -121", 1.25, 0)
+#ICLASS: Swimming
 The church's windows are made of stained glass, which isn’t out-of-the-ordinary for the structure. You squint, trying to make out the image on the windows. But no matter how hard you focus, you can't describe the picture on the glass.
 
-#CYCLE: depiction of christ, cross, eye, bird #ZOOM: 2.5, -736, -453, 1 #ICLASS: Swimming-2
+~ ZoomImage(2.5, "-736, -453", 1, 0)
+#CYCLE: depiction of christ, cross, eye, bird #ICLASS: Swimming-2
 The image swims in your vision. Just as you think you've got it, it changes. You think it could be a @. You make a mental note to get your eyes checked on your next day off, whenever that might be.
 
-#DELAY: 1 #ZOOM: 5, -1545, -1042, .75 #ICLASS: Swimming-3
+~ ZoomImage(5, "-1545,-1042", 0.75, 0)
+#DELAY: 1 #ICLASS: Swimming-3
 Blood thunders in your ears as pressure builds behind your eyes. You strain to—
 
 ~ PlaySFX("Bus_Honk", false, 0, 0)
 ~ PlaySFX("bus_ambience", true, 1.5, 0)
 HOOOOONNNKK!! #CLEAR #DELAY: 1.5 #CLASS: Bus_Honk
 
-#CLEAR #ZOOM: 1, 0, 0, .5  #ICLASS: NULL
+~ ZoomImage(1, "0,0", 0.15, 0)
+#CLEAR #ICLASS: NULL
 You stumble backwards as the bus swerves, narrowly avoiding you. The driver opens the door and asks if you're alright. You feel yourself nodding, heart pounding. A knot forms in your stomach.
 
 *[Your eyes don't leave the church]
@@ -480,13 +491,12 @@ You stare blankly at your computer screen, replaying the "conversation" over and
     -> Job.Emails
 
 === Job ===
-#IMAGE: Default #CHECKPOINT: 1, You arrive at work.
 {Church_Investigation ? (Late): -> Late_Work}
 
 ~ Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
 ~ PlaySFX("office_ambience", true, 1, 0)
 ~ StopSFX("bus_ambience", 1, 0)
-At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen.
+At the office, you get less work done than usual. You find yourself absently doodling and scribbling on scrap paper. Typing nonsense, only to delete it after. Staring blankly into your computer screen. #IMAGE: Default #CHECKPOINT: 1, You arrive at work.
 
 ~Intrusive(2, "Is it still there?", "Job.Stop_Thinking")
 There is only one thing on your mind, one thing that shouldn't exist but it does. That {Church_Feeling} church.
@@ -495,11 +505,9 @@ There is only one thing on your mind, one thing that shouldn't exist but it does
 You should do something to take your mind off it.
 
 *[Scan some documents]
-    #REMOVE: INTRUSIVE
     -> Job.Scan
 
 *[Catch up on emails]
-    #REMOVE: INTRUSIVE
     -> Job.Emails
 
 = Late_Work
@@ -510,8 +518,9 @@ You find yourself in your boss' office, staring at the floor as her eyes bore in
 -> Job_Yelled_At("Late_Work") 
 
 = Teleport
-#IMAGE: Default #CHECKPOINT: 1, You arrive at work.
-"Excuse you! Is there something so important that you needed to barge in here?" You blink at the unexpected harsh lighting, finding yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were about to enter the church so how? "Well?"
+~ StopSFX("footsteps_player", 0, 0)
+
+"Excuse you! Is there something so important that you needed to barge in here?" You blink at the unexpected harsh lighting, finding yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were about to enter the church so how? "Well?" #IMAGE: Default #CHECKPOINT: 1, You arrive at work. #PROP: [open_gates false]
 
 *[Apologize]
     "Sorry, I— Sorry." You stumble over your words and look at the floor as you leave, closing the door behind you. 
@@ -534,9 +543,8 @@ You sink into your chair and lean your head against the desk. You <i>were</i> at
 -> Job_Yelled_At("Teleport") 
 
 = Go_to_Church_Scan
-#REMOVE: INTRUSIVE
 ~ Work_Encounter += (Leave_Suddenly)
-You set aside your paper stack and stare at it. None of this is important or meaningful, just busy work that someone has to do. And that someone happens to be you. You want to leave. 
+You set aside your paper stack and stare at it. None of this is important or meaningful, just busy work that someone has to do. And that someone happens to be you. You want to leave. #REMOVE: INTRUSIVE
 
 You return to your desk and gather your things before making your way to the door. You feel a little lighter as you leave, like leaving and returning to the church makes sense. 
 
@@ -546,7 +554,7 @@ You take a deep breath, and exit the office— and find yourself in front of the
 
 = Scan
 ~ Work_Encounter += (Scanner_Interaction)
-You choose to do something mindless and easy. You grab a stack of papers marketing needs sent out, and head to the machine.
+You choose to do something mindless and easy. You grab a stack of papers marketing needs sent out, and head to the machine. #REMOVE: INTRUSIVE
 
 *[Maybe the monotony will take your mind off things]
 
@@ -602,7 +610,7 @@ No, you didn't write this. You know you didn't. Did the church...? {Church_Inves
 
 = Emails
 ~ PlaySFX("email_ding", false, 0, 1)
-You pull up your email and scroll through the new ones, only reading the subject lines for anything that seems important. Meeting invitation, spam, spam, client question, church inquiry, meeting— #DELAY: 0.25
+You pull up your email and scroll through the new ones, only reading the subject lines for anything that seems important. Meeting invitation, spam, spam, client question, church inquiry, meeting— #DELAY: 0.25 #REMOVE: INTRUSIVE
 
 ~Intrusive(3, "Is it the same church?", "Job.Email_Open")
 Wait. Church inquiry?
@@ -676,15 +684,14 @@ No, you didn't write this. You know you didn't. Did the church...? {Church_Inves
 ->Walk_Home_From_Work
 
 = Email_Trash
-#REMOVE: INTRUSIVE
 ~ Remembered_Past = true
-You can't stop yourself as you navigate to your trash bin, and search for the "Church Inquiry" email. You stare at it for a beat, gathering courage, before clicking the email.
+You can't stop yourself as you navigate to your trash bin, and search for the "Church Inquiry" email. You stare at it for a beat, gathering courage, before clicking the email. #REMOVE: INTRUSIVE
 
 -> Job.Open
 
 = Email_Open
-#REMOVE: INTRUSIVE
 ~ Remembered_Past = true
+#REMOVE: INTRUSIVE
 Your curiosity gets the better of you click the email. <>
 
 -> Job.Open
@@ -724,10 +731,9 @@ Your mind starts to wander as your boss continues to berate you. It wanders back
     -> Job.Emails
 
 = Go_to_Church
-#REMOVE: INTRUSIVE
 ~ Work_Encounter += (Leave_Suddenly)
 
-You stand up from your desk sharply. You need to leave. You're barely getting anything done today{Church_Investigation ? (Teleported) or Church_Investigation ? (Late): , and you already ruined the day by {Church_Investigation ? (Late): being late | ruining the meeting}}. You gather your things and make your way to the door. You feel a little lighter as you leave, like leaving and returning to the church makes sense. 
+You stand up from your desk sharply. You need to leave. You're barely getting anything done today{Church_Investigation ? (Teleported) or Church_Investigation ? (Late): , and you already ruined the day by {Church_Investigation ? (Late): being late | ruining the meeting}}. You gather your things and make your way to the door. You feel a little lighter as you leave, like leaving and returning to the church makes sense. #REMOVE: INTRUSIVE
 
 You take a deep breath, and exit the office— and find yourself in front of the church.
 
@@ -829,7 +835,7 @@ You slam the laptop shut. A fuzzy memory tickles the back of your mind. Suddenly
     You can see the door opening, but the younger you didn't feel relief. No, they felt... dread? They had to crawl because their legs shook so badly. The whole time they clutched something in their hand. Something they couldn't take with them and had to leave behind. It was something- No. Someone?
     
 * [The fear]
-    You were terrified. It was dark. So, so dark that even in the memory all you can see is the inky darkness. The younger you curled into a ball and cried until there was nothing left to cry. Then, a warm red light illuminated you, along with a soft melody. And someone... reached out...? They pulled you-
+    You were terrified. It was dark. So, so dark that even in the memory all you can see is the inky darkness. The younger you curled into a ball and cried until there was nothing left to cry. Then, a warm red light illuminated you, along with a soft melody. And someone... reached out...? They pulled you—
 
 * [The aftermath]
     Your grandmother wouldn't let you out of her grasp for at least a month after they got you back. There were a lot of cops and doctors and questions. You remember the dull feeling of loss, like you left something- No. Someone, behind.
@@ -1033,7 +1039,7 @@ You spin around to face it, and find yourself.. in front... of the church? You l
 *[Continue up the path]
 
 - 
-#ZOOM: 1.5, -228, 203, 1.5 
+~ ZoomImage(1.5, "-228,203", 1.5, 0)
 You take a another step onto the property. The ground is soft, but firm. You crouch down in front of the closest light. They have tiny solar panels on the top. In this position, the lawn is at eye level, but not a single weed crosses onto the soft dirt.
 
 You stand up and trace the path with your eyes, looking for anything that disturbs it.
@@ -1197,15 +1203,17 @@ You frown, double check that you called the correct number, and redial. You get 
 
 === Walk_Up_Path(State) ===
 ~ PlaySFX("footsteps_player", true, 0, 0)
-You take one step forward. #ZOOM: 1.75, -562, 345, 1.5
+~ ZoomImage(1.75, "-562,345", 1.5, 0)
+You take one step forward.
 
 *[And keep walking]
 
 -
 ~ PlaySFX("footsteps_scary", true, 2, 0)
-And walking. #ZOOM: 2, -562, 448, 1.5
+~ ZoomImage(2, "-562,448", 1.5, 0)
+And walking.
 
-- You're moving automatically{State == "From_Remember":, but you don't really care.You stop when you pass another piece of your photo. You think the rest are inside. |. {Church_Interest == "drawn" or Church_Feeling == Disappointed: Your heart pounds in your chest. | {Remembered_Past or Church_Interest == "nothing" or Church_Feeling == Disappointed: You want to go home.}}} The church door is open and inviting. You can't see inside. 
+You're moving automatically{State == "From_Remember":, but you don't really care.You stop when you pass another piece of your photo. You think the rest are inside. |. {Church_Interest == "drawn" or Church_Entered == Disappointed: Your heart pounds in your chest. | {Remembered_Past or Church_Interest == "nothing" or Church_Entered == Disappointed: You want to go home.}}} The church door is open and inviting. You can't see inside. 
 
 Around halfway up the path, you hear another set of footsteps.
 
@@ -1219,9 +1227,9 @@ Around halfway up the path, you hear another set of footsteps.
 -
 ~ StopSFX("footsteps_player", 0, 0)
 ~ StopSFX("footsteps_scary", 3, 0)
-Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {Church_Feeling == Satisfied or !Remembered_Past or State == "From_Remember": You're being overly sensitive after a... @ work day.| It has to be another trick. } #CYCLE: interesting, awful, long, disastrous
+Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {Church_Entered == Satisfied or !Remembered_Past or State == "From_Remember": You're being overly sensitive after a... @ work day.| It has to be another trick. } #CYCLE: interesting, awful, long, disastrous
 
-{Church_Feeling == Satisfied or !Remembered_Past or State == "From_Remember": Still. If someone <i>is</i> following you, they must know you know at this point. | <s>Something</s> Someone is behind you, and they know you know.} Your only choice is the church or confrontation. Your knees lock as your mind races. You must choose.
+{Church_Entered == Satisfied or !Remembered_Past or State == "From_Remember": Still. If someone <i>is</i> following you, they must know you know at this point. | <s>Something</s> Someone is behind you, and they know you know.} Your only choice is the church or confrontation. Your knees lock as your mind races. You must choose.
 
 *[The church]
     ->Walk_Up_Path.Run(State)
@@ -1238,14 +1246,14 @@ You take a breath and quickly spin around, ready for whatever may await you, and
 
 Nothing. No one's there. You laugh. 
 
-{Remembered_Past or Church_Feeling == Disappointed or Church_Investigation ? (Teleported): The church will do anything to lure you in.| Your mind is playing tricks on you. It was probably the wind.}
+{Remembered_Past or Church_Entered == Disappointed or Church_Investigation ? (Teleported): The church will do anything to lure you in.| Your mind is playing tricks on you. It was probably the wind.}
 
 { Remembered_Past: You decide that you've been too close for too long and start for the gate. You think you deserve a long, hot bath after today.| You decide that you've trespassed for long enough, and start for the gate. You think you deserve a long, hot bath after today. }
 
 *[Walk to the gate]
 
 - 
-#ZOOM: 1, 0, 0, 0.5
+~ ZoomImage(1, "0,0", 0.5, 0)
 You grab the gate with both hands, and look up at the church one last time. It's quiet and dark. { Remembered_Past: It lost. }
 
 *[Pull the gate closed]
@@ -1289,13 +1297,14 @@ You try the knob.
 = Run(State)
 ~ PlaySFX("footsteps_player", true, 0, 0)
 ~ PlaySFX("footsteps_scary", true, 0, 0)
-#ZOOM: 2.5, -866, 658, 0.5
+~ ZoomImage(2.5, "-866,658", 0.5, 0)
 { 
      - State == "From_Remember":
+     
         You don't stop to think about what you see. You trip over yourself as you turn and sprint to the church. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
         
     - temp_bool: 
-        Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing.
+        Adrenaline floods your veins, and you break into a sprint. You can't hear anything over the blood pounding in your ears, but you swear you can feel someone trying to grab at your clothing. 
     - else:
         {Remembered_Past: Against your better instincts, you pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.| You pick up the pace, and you hear the footsteps getting closer. Adrenaline floods your veins, and you can't think straight. You start running, and so do they.}
 }
@@ -1308,11 +1317,12 @@ You still cannot see in church.
 ~ PlaySFX("door_slam", false, 0, 0.5)
 ~ StopSFX("footsteps_player", 0, 0)
 ~ StopSFX("footsteps_scary", 0, 3)
-You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back {State == "From_Remember": whatever | whoever} was chasing you. #ZOOM: 1, 0, 0, 0.5 #STOP: footsteps_player #STOP: footsteps_scary, 0, 1 #DELAY: 5 #EFFECT: LightDark #IMAGE: Default #PROP: [Breathing false], [open_gates false]
+~ ZoomImage(1, "0,0", 0.5, 0)
+You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back {State == "From_Remember": whatever | whoever} was chasing you.#DELAY: 1.5 #EFFECT: LightDark #IMAGE: Default #PROP: [Breathing false], [open_gates false]
 
 
-~ PlaySFX("bang_short", false, 0, 0)
-BANG! #CLEAR #CLASS: Bang_Short #DELAY: 2
+~ PlaySFX("bang_short", false, 0, 0.5)
+BANG! #CLEAR #CLASS: Bang_Short #DELAY: 1.5
 
 {State == "From_Remember": Whatever | Whoever} was out there is slamming {State == "From_Remember": itself | themself} into the door. It takes all your strength to keep {State == "From_Remember": it | them} from getting in.
 
@@ -1327,14 +1337,14 @@ BANG! #CLEAR #CLASS: Bang_Short #DELAY: 2
 {TempBool: You wait, saying nothing. {State == "From_Remember": It has to get bored sooner or later. If you stay quiet, you pray it will go away. } | {State == "From_Remember": "I have a weapon!" Your voice cracks. "I- I'll use it!!" | "I DON'T HAVE ANY MONEY!"}}#DELAY: 1
 
 
-~ PlaySFX("bang_short", false, 0, 0)
+~ PlaySFX("bang_short", false, 0, 0.5)
 BANG! #CLEAR #CLASS: Bang_Short #DELAY: 1.5
 
 #DELAY: 1.5
 {TempBool: {State == "From_Remember": You hold back a whimper, hearing it drag it's nails drag across the door and growl in frustration. | They can't keep this up forever. }| {State == "From_Remember": "Just- Just leave before I-" | "I DON'T HAVE ANYTHING!"}}
 
 
-~ PlaySFX("bang_short", false, 0, 0)
+~ PlaySFX("bang_short", false, 0, 0.5)
 BANG! #CLEAR #CLASS: Bang_Short
     
 
@@ -1351,7 +1361,7 @@ When you feel safe again, you try to open the knob.
 
 === Locked ===
 #CHECKPOINT: 2, Locked?
-Locked? {Church_Investigation ? (Entered): {Church_Investigation ? (Teleported): | Did it get stuck? It was fine last time you entered, {Remembered_Past: but maybe this time... | but {Church_Feeling == Anxious or Church_Feeling == Disappointed: maybe it's possible that... | maybe slamming it shut caused it to get caught? }} {Church_Feeling == Anxious or Church_Feeling == Disappointed: Your heart pounds wildly in your chest. {Church_Feeling == Anxious: <i>It couldn't be.</i> | {Church_Feeling == Disappointed: <i>Could it be that?</i>}}}} | {Church_Interest == "drawn" or Church_Feeling == Disappointed and Remembered_Past: You may have been interested in the church{Church_Feeling == Disappointed: and what it could do}, but you'd rather not spend the rest of your day locked in here. | {Remembered_Past or Church_Feeling == Anxious or Church_Feeling == Disappointed: The blood drains from your face{Remembered_Past: as you realize what you've done. |{Church_Feeling == Disappointed: as your mouth can't decide to smile or frown.| as an ominous feeling spreads from your chest. }}}}}
+Locked? {Church_Investigation ? (Entered): {Church_Investigation ? (Teleported): | Did it get stuck? It was fine last time you entered, {Remembered_Past: but maybe this time... | but {Church_Entered == Anxious or Church_Entered == Disappointed: maybe it's possible that... | maybe slamming it shut caused it to get caught? }} {Church_Entered == Anxious or Church_Entered == Disappointed: Your heart pounds wildly in your chest. {Church_Entered == Anxious: <i>It couldn't be.</i> | {Church_Entered == Disappointed: <i>Could it be that?</i>}}}} | {Church_Interest == "drawn" or Church_Entered == Disappointed and Remembered_Past: You may have been interested in the church{Church_Entered == Disappointed: and what it could do}, but you'd rather not spend the rest of your day locked in here. | {Remembered_Past or Church_Entered == Anxious or Church_Entered == Disappointed: The blood drains from your face{Remembered_Past: as you realize what you've done. |{Church_Entered == Disappointed: as your mouth can't decide to smile or frown.| as an ominous feeling spreads from your chest. }}}}}
 
 ~ PlaySFX("lock_rattle", false, 0, 0)
 You jiggle the handle again. 

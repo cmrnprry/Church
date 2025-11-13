@@ -12,7 +12,7 @@ public class SettingsUIData : MonoBehaviour
     [SerializeField] private Slider TextSpeed_Slider;
     [SerializeField] private Slider TextSize_Slider;
     [SerializeField] private TMP_Dropdown Font_dropdown;
-    [SerializeField] private ToggleSwitchColorChange AutoPlayToggle, VisualOverlay, TextEffectsOverlay;
+    [SerializeField] private ToggleSwitchColorChange AutoPlayToggle, LineBoilOverlay, VisualOverlay, TextEffectsOverlay;
 
 
     [Header("Audio Settings")]
@@ -31,39 +31,80 @@ public class SettingsUIData : MonoBehaviour
 
     public void OnEnable()
     {
-        var isfull = SaveSystem.GetFullscreen();
-        full.isOn = isfull;
-        window.isOn = !isfull;
+        if (full != null && window != null)
+        {
+            var isfull = SaveSystem.GetFullscreen();
+            full.isOn = isfull;
+            window.isOn = !isfull;
+        }
+        if (Screensize_Dropdown != null)
+            Screensize_Dropdown.value = SaveSystem.GetSettingsIndex();
 
-        Screensize_Dropdown.value = SaveSystem.GetSettingsIndex();
+        if (muteToggle != null)
+            muteToggle.SetValue(SaveSystem.GetMuteValue());
+        if (sfxSlider != null)
+            sfxSlider.value = SaveSystem.GetAudioVolume(Audio.SFX);
+        if (bgmSlider != null)
+            bgmSlider.value = SaveSystem.GetAudioVolume(Audio.BGM);
 
-        muteToggle.SetValue(SaveSystem.GetMuteValue());
-        sfxSlider.value = SaveSystem.GetAudioVolume(Audio.SFX);
-        bgmSlider.value = SaveSystem.GetAudioVolume(Audio.BGM);
+        if (AutoPlayToggle != null)
+        {
+            AutoPlayToggle.SetValue(SaveSystem.GetAutoplayValue());
+            SetAutoPlay(SaveSystem.GetAutoplayValue());
+        }
 
-        AutoPlayToggle.SetValue(SaveSystem.GetAutoplayValue());
-        SetAutoPlay(SaveSystem.GetAutoplayValue());
 
-        VisualOverlay.SetValue(SaveSystem.GetOverlayValue());
-        SetOverlayPlay(SaveSystem.GetOverlayValue());
+        if (LineBoilOverlay != null)
+        {
+            LineBoilOverlay.SetValue(SaveSystem.GetLineBoilValue());
+            SetLineBoil(SaveSystem.GetLineBoilValue());
+        }
 
-        TextEffectsOverlay.SetValue(SaveSystem.GetTextEffectsValue());
-        SetTextEffectsPlay(SaveSystem.GetTextEffectsValue());
+        if (VisualOverlay != null)
+        {
+            VisualOverlay.SetValue(SaveSystem.GetOverlayValue());
+            SetOverlayPlay(SaveSystem.GetOverlayValue());
+        }
 
-        TextSpeed_Slider.value = SaveSystem.GetTextSpeed();
-        SetTextSpeedValue(SaveSystem.GetTextSpeed());
 
-        TextSize_Slider.value = SaveSystem.GetTextSize();
-        SetTextSizeValue(SaveSystem.GetTextSize());
+        if (TextEffectsOverlay != null)
+        {
+            TextEffectsOverlay.SetValue(SaveSystem.GetTextEffectsValue());
+            SetTextEffectsPlay(SaveSystem.GetTextEffectsValue());
+        }
 
-        Font_dropdown.value = SaveSystem.GetTextFontIndex();
-        SetFont(SaveSystem.GetTextFontIndex());
+
+        if (TextSpeed_Slider != null)
+        {
+            TextSpeed_Slider.value = SaveSystem.GetTextSpeed();
+            SetTextSpeedValue(SaveSystem.GetTextSpeed());
+        }
+
+
+        if (TextSize_Slider != null)
+        {
+            TextSize_Slider.value = SaveSystem.GetTextSize();
+            SetTextSizeValue(SaveSystem.GetTextSize());
+        }
+
+
+        if (Font_dropdown != null)
+        {
+            Font_dropdown.value = SaveSystem.GetTextFontIndex();
+            SetFont(SaveSystem.GetTextFontIndex());
+        }
+
     }
 
     public void SetAutoPlay(bool value)
     {
         SaveSystem.SetAutoplayValue(value);
         GameManager.instance.AutoPlay = value;
+    }
+
+    public void SetLineBoil(bool value)
+    {
+        SaveSystem.SetLineBoilValue(value);
     }
 
     public void SetOverlayPlay(bool value)

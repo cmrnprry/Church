@@ -70,7 +70,7 @@ public struct SavedImageData
     {
         CurrentImageKey = key;
         ImageClasses = "";
-        ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1);
+        ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1, -1);
     }
 
     public void SetImageKey(string key)
@@ -80,7 +80,7 @@ public struct SavedImageData
 
     public void ResetZoom()
     {
-        ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1);
+        ImageZooms = new ZoomData(-1, new Vector2(-1, -1), -1, -1);
     }
 
     public void ResetClasses()
@@ -216,6 +216,7 @@ namespace AYellowpaper.SerializedCollections
         public bool autoplay;
         public bool visual_overlay;
         public bool text_effects;
+        public bool image_overlay;
 
         public float text_speed;
         public float text_size;
@@ -241,6 +242,7 @@ namespace AYellowpaper.SerializedCollections
 
             visual_overlay = true;
             text_effects = true;
+            image_overlay = true;
 
             EndingsDictionary = new SerializedDictionary<int, string>();
 
