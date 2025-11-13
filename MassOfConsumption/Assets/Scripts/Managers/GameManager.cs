@@ -372,8 +372,8 @@ namespace AYellowpaper.SerializedCollections
 
         public void FlipLineBoil(bool value)
         {
-            float strn = value ? BackgroundImage.materialForRendering.GetFloat("_Strength") : 0.0f;
-            BackgroundImage.materialForRendering.SetFloat("_Strength", strn);
+            float strn = value ? 0.005 : 0.0f;
+            BackgroundImage.defaultMaterial.SetFloat("_Strength", strn);
         }
 
         private IEnumerator AfterLoad(bool hide_choices = false)
