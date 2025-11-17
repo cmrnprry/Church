@@ -18,11 +18,9 @@ namespace AYellowpaper.SerializedCollections
 
         //For skipping text
         public static bool CurrentlySkipping = false;
-        public static bool StillNeedToSkip = true;
 
         public static void SetBackgroundImage(string key, Sprite sprite, Image[] backgrounds, Animator anim)
         {
-            Debug.Log("Current Image is: " + key);
             Sequence seq = DOTween.Sequence();
             if (LastWasDefault) //if default background is currently shown
             {
@@ -135,8 +133,7 @@ namespace AYellowpaper.SerializedCollections
             currentTextbox.text = text;
             currentTextbox.alpha = 225;
             yield return null;
-
-            Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
+            Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
             Scroll.content.ForceUpdateRectTransforms();
 
             currentTextbox.ForceMeshUpdate();
@@ -149,10 +146,8 @@ namespace AYellowpaper.SerializedCollections
                 {
                     IsTyping = false;
                     currentTextbox.maxVisibleCharacters = totalCharacters;
-
                     yield return new WaitForEndOfFrame();
                     CurrentlySkipping = false;
-                    StillNeedToSkip = true;
 
                     yield break;
                 }
@@ -174,6 +169,8 @@ namespace AYellowpaper.SerializedCollections
         public static IEnumerator CheckSkip()
         {
             yield return new WaitUntil(() => IsTyping);
+
+
             yield return new WaitUntil(() =>
                                                (Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && GameManager.instance.CanClick)) || !IsTyping || CurrentlySkipping);
 

@@ -1,6 +1,6 @@
+using Febucci.UI.Styles;
 using System.Collections.Generic;
 using System.Text;
-using Febucci.UI.Styles;
 
 namespace Febucci.UI.Core.Parsing
 {
@@ -21,7 +21,8 @@ namespace Febucci.UI.Core.Parsing
 
         public override bool TryProcessingTag(string textInsideBrackets, int tagLength, ref int realTextIndex, StringBuilder finalTextBuilder, int internalOrder)
         {
-            if (!sheet) return false;
+            if (!sheet)
+                return false;
 
             textInsideBrackets = textInsideBrackets.ToLower(); //styles are case insensitive
 
@@ -35,7 +36,7 @@ namespace Febucci.UI.Core.Parsing
             string fullTag = textInsideBrackets.Substring(tagStart);
 
             // adds the tag to the list
-            if(sheet.TryGetStyle(fullTag, out var style))
+            if (sheet.TryGetStyle(fullTag, out var style))
             {
                 if (isClosing)
                 {

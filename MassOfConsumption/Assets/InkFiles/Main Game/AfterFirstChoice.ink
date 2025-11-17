@@ -251,8 +251,8 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 You drop down from the stage and walk past the pews. Everyone is gone.
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
-#CYCLE: null, Anxiety, Dread, Doubt, Confusion
-You bow your head and close your eyes. @ bubble up in your chest, and tears form in your eyes. 
+#CYCLE: Anxiety, Dread, Doubt, Confusion
+You bow your head and close your eyes. @ bubble up in your chest. 
 
 ~ PlaySFX("curtain", false, 0, 0)
 ~ PlaySFX("child-wood-footsteps", false, 0, 0) 

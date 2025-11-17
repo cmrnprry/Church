@@ -252,6 +252,18 @@ namespace AYellowpaper.SerializedCollections
             DeleteOldChoices();
             DeleteOldTextBoxes();
 
+            foreach (var audio in SaveSystem.GetCurrentAudioPlaying())
+            {
+                if (audio.type == Audio.BGM)
+                {
+                    AudioManager.instance.PlayBGM(audio.src, audio.isLooping, audio.fade_in, audio.fade_out);
+                }
+                else if (audio.type == Audio.SFX)
+                {
+                    AudioManager.instance.PlaySFX(audio.src, audio.isLooping, audio.fade_in, audio.delay);
+                }
+            }
+
             for (int i = 0; i < SaveSystem.GetCurrentTextLength(); i++)
             {
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
@@ -295,7 +307,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (story_tag.Contains("CLASS"))
                 {
-                    Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
+                    Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
                     Scroll.content.ForceUpdateRectTransforms();
                 }
 
@@ -324,6 +336,10 @@ namespace AYellowpaper.SerializedCollections
 
                 if (ImageClassData == null)
                     ImageClassData = BackgroundImage.gameObject.GetComponent<BackgroundImage>();
+
+                //remove anythign that's currently applied
+                ImageClassData.RemoveZoomTweens();
+                ImageClassData.RemoveClassTweens();
 
                 if (!zoomdata.IsNull())
                     ImageClassData.ZoomImage(zoomdata.scale, zoomdata.position, zoomdata.duration);
@@ -366,14 +382,8 @@ namespace AYellowpaper.SerializedCollections
                 Flashlight.isOn = true;
             }
 
-            Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
+            Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
             StartCoroutine(AfterLoad(hideChoices));
-        }
-
-        public void FlipLineBoil(bool value)
-        {
-            float strn = value ? 0.005 : 0.0f;
-            BackgroundImage.defaultMaterial.SetFloat("_Strength", strn);
         }
 
         private IEnumerator AfterLoad(bool hide_choices = false)
@@ -481,7 +491,7 @@ namespace AYellowpaper.SerializedCollections
                 {
                     if (story_tag.Contains("CLASS"))
                     {
-                        Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
+                        Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
                         Scroll.content.ForceUpdateRectTransforms();
                     }
 
@@ -547,7 +557,6 @@ namespace AYellowpaper.SerializedCollections
             yield return new WaitForFixedUpdate();
             DisplayNextLine();
         }
-
 
         private void SetSaveDataForTextBox()
         {
@@ -661,11 +670,11 @@ namespace AYellowpaper.SerializedCollections
                     Effects(value);
                     break;
                 case "REMOVE": //removes stuff i dont want
-                    if (value == "ZOOM")
+                    if (value.ToLower() == "zoom")
                         ImageClassData.RemoveZoomTweens();
-                    else if (value == "ICLASS")
+                    else if (value.ToLower() == "iclass")
                         ImageClassData.RemoveClassTweens();
-                    else if (value == "INTRUSIVE")
+                    else if (value.ToLower() == "intrusive")
                         intrusiveThoughts.KillAllThoughts();
                     break;
                 default:
@@ -691,12 +700,11 @@ namespace AYellowpaper.SerializedCollections
                 case "Force_Closed":
                     GameManager.instance.CanClick = false;
                     OnForceClosed?.Invoke();
-                    should_blink = false;
+                    //should_blink = false;
                     break;
                 case "Force_Open":
                     GameManager.instance.CanClick = false;
                     OnForceOpen?.Invoke();
-                    should_blink = false;
                     break;
                 case "flashlight_on":
                     SaveSystem.SetFlashlight(true);
@@ -992,7 +1000,7 @@ namespace AYellowpaper.SerializedCollections
             ColorUtility.TryParseHtmlString("#a80f0f", out var color);
             text_fade.Insert((autoplay ? 0.5f : 1f),
                 choice_text.DOColor(color, ChoiceShowDelay)).OnComplete(
-                () => { choiceButton.enabled = true; });
+                () => { if (choiceButton != null) choiceButton.enabled = true; });
 
             return choiceButton;
         }

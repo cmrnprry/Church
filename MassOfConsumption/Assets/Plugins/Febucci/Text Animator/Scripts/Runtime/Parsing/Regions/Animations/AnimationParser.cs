@@ -1,7 +1,7 @@
+using Febucci.UI.Effects;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Febucci.UI.Effects;
 
 namespace Febucci.UI.Core.Parsing
 {
@@ -41,15 +41,18 @@ namespace Febucci.UI.Core.Parsing
             base.OnInitialize();
 
             _results = new Dictionary<string, AnimationRegion>();
-            if(database) database.BuildOnce();
+            if (database)
+                database.BuildOnce();
         }
 
 
         public override bool TryProcessingTag(string textInsideBrackets, int tagLength, ref int realTextIndex, StringBuilder finalTextBuilder, int internalOrder)
         {
-            if (!database) return false;
+            if (!database)
+                return false;
 
-            if(!database.IsCaseSensitive) textInsideBrackets = textInsideBrackets.ToLowerInvariant(); //animations are case insensitive
+            if (!database.IsCaseSensitive)
+                textInsideBrackets = textInsideBrackets.ToLowerInvariant(); //animations are case insensitive
 
             //Makes sure the database is built
             database.BuildOnce();
@@ -84,11 +87,13 @@ namespace Febucci.UI.Core.Parsing
             //TODO tests for this
             if (middleSymbol != middleSymbolDefault)
             {
-                if(tempTagName[0] != middleSymbol) return false;
+                if (tempTagName[0] != middleSymbol)
+                    return false;
                 tempTagName = tempTagName.Substring(1);
             }
 
-            if (!database.ContainsKey(tempTagName)) return false; //Skips unrecognized tags
+            if (!database.ContainsKey(tempTagName))
+                return false; //Skips unrecognized tags
 
             //----ADDS RESULT----
             if (isClosing)
@@ -100,7 +105,7 @@ namespace Febucci.UI.Core.Parsing
             {
                 //Creates new region if it doesn't exist yet
                 if (!_results.ContainsKey(tempTagName))
-                    _results.Add(tempTagName, new AnimationRegion(tempTagName,  visibilityMode, database[tempTagName]));
+                    _results.Add(tempTagName, new AnimationRegion(tempTagName, visibilityMode, database[tempTagName]));
 
                 _results[tempTagName].OpenNewRange(realTextIndex, tempTagWords);
             }

@@ -23,6 +23,9 @@ namespace AYellowpaper.SerializedCollections
         [SerializedDictionary("Prop Object", "Enabled")]
         public SerializedDictionary<string, bool> PropDictionary;
 
+        [SerializedDictionary("SRC", "Data")]
+        public SerializedDictionary<string, PlayingAudioData> LoopingPlaying;
+
         public string[] IntrusiveThoughts;
         public ColorData GlobalColor;
         public bool HasFlashlight;
@@ -36,6 +39,7 @@ namespace AYellowpaper.SerializedCollections
             IntrusiveThoughts = Array.Empty<string>();
             PropDictionary = new SerializedDictionary<string, bool>();
             DisplayedTextDictionary = new SerializedDictionary<int, SavedTextData>();
+            LoopingPlaying = new SerializedDictionary<string, PlayingAudioData>();
             GlobalColor = new ColorData(0.8784314f, 0.8078431f, 0.8078431f, 1);
             HasFlashlight = false;
         }
@@ -197,6 +201,51 @@ public struct ReplaceChoice
     }
 }
 
+[System.Serializable]
+public struct PlayingAudioData
+{
+    public string src;
+    public Audio type;
+    public bool isLooping;
+    public float fade_in, fade_out, delay;
+
+    public PlayingAudioData(string name, Audio t)
+    {
+        src = name;
+        type = t;
+
+        isLooping = true;
+
+        fade_in = 0;
+        fade_out = 0;
+        delay = 0;
+    }
+
+    public PlayingAudioData(string name, Audio t, float f_in, float f_out, float d)
+    {
+        src = name;
+        type = t;
+
+        isLooping = true;
+
+        fade_in = f_in;
+        fade_out = f_out;
+        delay = d;
+    }
+
+    public PlayingAudioData(string name, Audio t, bool loop, float f_in, float f_out, float d)
+    {
+        src = name;
+        type = t;
+
+        isLooping = loop;
+
+        fade_in = f_in;
+        fade_out = f_out;
+        delay = d;
+    }
+}
+
 namespace AYellowpaper.SerializedCollections
 {
     public class SettingsData
@@ -214,6 +263,7 @@ namespace AYellowpaper.SerializedCollections
 
         //GAMEPLAY
         public bool autoplay;
+        public bool scroll_direction;
         public bool visual_overlay;
         public bool text_effects;
         public bool image_overlay;
@@ -239,7 +289,7 @@ namespace AYellowpaper.SerializedCollections
             text_speed = -1;
             font_index = 0;
             autoplay = false;
-
+            scroll_direction = true;
             visual_overlay = true;
             text_effects = true;
             image_overlay = true;

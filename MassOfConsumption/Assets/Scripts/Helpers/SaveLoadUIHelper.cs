@@ -26,7 +26,7 @@ public class SaveLoadUIHelper : MonoBehaviour
     {
         for (int i = 0; i < Max_Pages; i++)
         {
-            var slot_page = Instantiate(SlotPagePrefab, SlotPageParent);
+            GameObject slot_page = Instantiate(SlotPagePrefab, SlotPageParent);
             PageSlots.Add(slot_page);
             SetSaveSlots(slot_page, (i == 0));
 
@@ -42,7 +42,7 @@ public class SaveLoadUIHelper : MonoBehaviour
     {
         for (int i = 0; i < Max_Slots; i++)
         {
-            var save_slot = Instantiate(SaveSlotsPrefab, Parent.transform);
+            GameObject save_slot = Instantiate(SaveSlotsPrefab, Parent.transform);
             save_slot.GetComponent<SaveSlot>().SetUpData(Slot_Index);
             Slot_Index++;
         }
@@ -76,6 +76,7 @@ public class SaveLoadUIHelper : MonoBehaviour
 
                 button.onClick.AddListener(() =>
                 {
+                    Debug.Log(SaveSystem.GetCurrentSprite());
                     slot.UpdateData();
                     OverwriteSaveData.SetActive(false);
                 });

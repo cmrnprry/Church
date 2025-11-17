@@ -24,11 +24,17 @@ namespace Febucci.UI.Effects
 
         public override void SetModifier(ModifierInfo modifier)
         {
-            switch(modifier.name)
+            switch (modifier.name)
             {
-                case "a": amplitude = baseAmplitude * modifier.value * -1 + 1; break;
-                case "f": frequency = baseFrequency * modifier.value; break;
-                case "w": waveSize = baseWaveSize * modifier.value; break;
+                case "a":
+                    amplitude = baseAmplitude * modifier.value * -1 + 1;
+                    break;
+                case "f":
+                    frequency = baseFrequency * modifier.value;
+                    break;
+                case "w":
+                    waveSize = baseWaveSize * modifier.value;
+                    break;
             }
         }
 
@@ -36,7 +42,7 @@ namespace Febucci.UI.Effects
         {
             character.current.positions.LerpUnclamped(
                 character.current.positions.GetMiddlePos(),
-                (Mathf.Cos(animator.time.timeSinceStart* frequency + character.index * waveSize) + 1) / 2f * amplitude);
+                (Mathf.Cos(animator.time.timeSinceStart * frequency + character.index * waveSize) + 1) / 2f * amplitude);
         }
     }
 }

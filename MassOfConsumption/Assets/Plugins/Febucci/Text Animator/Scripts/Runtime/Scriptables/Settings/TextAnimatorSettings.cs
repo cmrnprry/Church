@@ -23,7 +23,8 @@ namespace Febucci.UI
         {
             get
             {
-                if (instance) return instance;
+                if (instance)
+                    return instance;
 
                 LoadSettings();
                 return instance;
@@ -35,7 +36,8 @@ namespace Febucci.UI
         /// </summary>
         public static void LoadSettings()
         {
-            if(instance) return;
+            if (instance)
+                return;
             instance = Resources.Load<TextAnimatorSettings>(expectedName);
         }
 
@@ -44,7 +46,8 @@ namespace Febucci.UI
         /// </summary>
         public static void UnloadSettings()
         {
-            if(!instance) return;
+            if (!instance)
+                return;
 
             Resources.UnloadAsset(instance);
             instance = null;
@@ -66,7 +69,8 @@ namespace Febucci.UI
         /// <param name="enabled"></param>
         public static void SetAppearancesActive(bool enabled)
         {
-            if (Instance) Instance.appearances.enabled = enabled;
+            if (Instance)
+                Instance.appearances.enabled = enabled;
         }
 
         /// <summary>
@@ -75,7 +79,8 @@ namespace Febucci.UI
         /// <param name="enabled"></param>
         public static void SetBehaviorsActive(bool enabled)
         {
-            if (Instance) Instance.behaviors.enabled = enabled;
+            if (Instance)
+                Instance.behaviors.enabled = enabled;
         }
 
         [System.Serializable]

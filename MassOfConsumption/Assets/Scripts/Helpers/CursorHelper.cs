@@ -39,8 +39,8 @@ public class CursorHelper : MonoBehaviour
         SaveUIPageNumber.OnCursorExit += OnHoverEnd;
 
         GameManager.OnForceBlink += ForceBlink;
-        GameManager.OnForceClosed += ForceOpen;
-        GameManager.OnForceOpen += ForceClose;
+        GameManager.OnForceClosed += ForceClose;
+        GameManager.OnForceOpen += ForceOpen;
     }
 
     private void OnDisable()
@@ -93,7 +93,7 @@ public class CursorHelper : MonoBehaviour
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
 
-        if (Input.GetMouseButtonDown(0) && !ClickObject && GameManager.instance.ShouldBlink)
+        if (Input.GetMouseButtonDown(0) && img.sprite != sprites[4] && img.sprite != sprites[5] && img.sprite != sprites[6] && GameManager.instance.ShouldBlink)
         {
             if (routine != null)
                 StopCoroutine(routine);
@@ -106,20 +106,23 @@ public class CursorHelper : MonoBehaviour
 
     IEnumerator Blink()
     {
+        int start = isOpen ? 3 : 1;
         yield return new WaitForSeconds(0.15f);
-        img.sprite = sprites[1];
+        img.sprite = sprites[start];
 
         yield return new WaitForSeconds(0.15f);
         img.sprite = sprites[2];
 
         yield return new WaitForSeconds(0.35f);
-        img.sprite = sprites[3];
+        start = isOpen ? 1 : 3;
+        img.sprite = sprites[start];
 
         yield return new WaitForSeconds(0.15f);
         img.sprite = sprites[2];
 
         yield return new WaitForSeconds(0.15f);
-        img.sprite = sprites[1];
+        start = isOpen ? 3 : 1;
+        img.sprite = sprites[start];
 
         yield return new WaitForSeconds(0.15f);
         img.sprite = isNeutral ? sprites[0] : (isOpen ? sprites[3] : sprites[1]);
@@ -158,9 +161,7 @@ public class CursorHelper : MonoBehaviour
 
     public void OnHoverEnd()
     {
-
         img.sprite = isNeutral ? sprites[0] : (isOpen ? sprites[3] : sprites[1]);
-        ClickObject = false;
     }
 
     public void OnHoverStart()
@@ -175,7 +176,6 @@ public class CursorHelper : MonoBehaviour
     public void OnHoverTextBoxEnd()
     {
         img.sprite = isNeutral ? sprites[0] : (isOpen ? sprites[3] : sprites[1]);
-        ClickObject = false;
         ClickText = false;
     }
 

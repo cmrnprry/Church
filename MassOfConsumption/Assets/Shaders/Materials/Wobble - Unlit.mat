@@ -60,6 +60,6 @@ Material:
     m_Floats:
     - _Offset: 0.05
     - _Speed: 10
-    - _Strength: 0.05
+    - _Strength: 0.005
     m_Colors: []
   m_BuildTextureStacks: []

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class DataManager : MonoBehaviour
@@ -10,6 +11,8 @@ public class DataManager : MonoBehaviour
 
     public TMProGlobal HistoryText;
     public List<TMProGlobal> Endings = new List<TMProGlobal>();
+
+    public List<Image> images = new List<Image>();
 
 
     private void Awake()
@@ -30,6 +33,8 @@ public class DataManager : MonoBehaviour
             item.text = SaveSystem.GetEnding(index);
             index++;
         }
+
+        FlipLineBoil(SaveSystem.GetLineBoilValue());
     }
 
     private void OnEnable()
@@ -64,5 +69,16 @@ public class DataManager : MonoBehaviour
     public void SetHistoryText()
     {
         HistoryText.text = SaveSystem.GetSavedHistory();
+    }
+
+    public void FlipLineBoil(bool value)
+    {
+        float strn = value ? 0.005f : 0.0f;
+        foreach (Image img in images)
+        {
+            img.materialForRendering.SetFloat("_Strength", strn);
+            img.defaultMaterial.SetFloat("_Strength", strn);
+        }
+
     }
 }

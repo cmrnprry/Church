@@ -83,10 +83,18 @@ namespace Febucci.UI.Effects
                 case "x":
                     switch (modifier.value)
                     {
-                        case -1: type = ExpType.Left; break;
-                        case 0: type = ExpType.Middle; break;
-                        case 1: type = ExpType.Right; break;
-                        default: Debug.LogError($"Text Animator: you set an '{modifier.name}' modifier with value '{modifier.value}' for the HorizontalExpandAppearance effect, but it can only be '-1', '0', or '1'"); break;
+                        case -1:
+                            type = ExpType.Left;
+                            break;
+                        case 0:
+                            type = ExpType.Middle;
+                            break;
+                        case 1:
+                            type = ExpType.Right;
+                            break;
+                        default:
+                            Debug.LogError($"Text Animator: you set an '{modifier.name}' modifier with value '{modifier.value}' for the HorizontalExpandAppearance effect, but it can only be '-1', '0', or '1'");
+                            break;
                     }
                     break;
                 default:

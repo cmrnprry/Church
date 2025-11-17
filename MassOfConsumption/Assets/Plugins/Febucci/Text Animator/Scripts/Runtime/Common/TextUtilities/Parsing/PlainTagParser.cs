@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Febucci.Numbers;
+using System;
 using System.Text;
-using Febucci.Numbers;
 
 namespace Febucci.TextUtils.Parsing
 {
@@ -24,11 +24,13 @@ namespace Febucci.TextUtils.Parsing
             StringBuilder finalTextBuilder, int internalOrder)
         {
             textInsideBrackets = textInsideBrackets.ToLower();
-            if (tagLength <= 1) return false;
+            if (tagLength <= 1)
+                return false;
 
             if (textInsideBrackets[0] == closingSymbol) // closes
             {
-                if (!textInsideBrackets.Substring(1, tagLength - 1).Equals(tag)) return false;
+                if (!textInsideBrackets.Substring(1, tagLength - 1).Equals(tag))
+                    return false;
 
                 if (results.Length > 0 && hasOpened)
                 {
@@ -39,11 +41,12 @@ namespace Febucci.TextUtils.Parsing
             }
             else
             {
-                if (!textInsideBrackets.Equals(tag)) return false;
+                if (!textInsideBrackets.Equals(tag))
+                    return false;
                 hasOpened = true;
                 var newTag = new Vector2Int(realTextIndex, int.MaxValue);
-                Array.Resize(ref results, results.Length+1);
-                results[results.Length-1] = newTag;
+                Array.Resize(ref results, results.Length + 1);
+                results[results.Length - 1] = newTag;
                 return true;
             }
 

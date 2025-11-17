@@ -34,10 +34,13 @@ public class ImageHelper : OnOffHelpers
 
         image.DOFade(end_alpha, duration).OnPlay(() =>
         {
-            if (turnon != null && turnoff_OnOff == null)
-                turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
+            if (turnon != null)
+            {
+                if (turnoff_OnOff == null)
+                    turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
 
-            turnoff_OnOff.FlipVisibility(true);
+                turnoff_OnOff.FlipVisibility(true);
+            }
         });
     }
 
@@ -48,10 +51,13 @@ public class ImageHelper : OnOffHelpers
 
         image.DOFade(0, duration).OnPlay(() =>
         {
-            if (turnon != null && turnoff_OnOff == null)
+            if (turnon != null)
+            {
+                if (turnoff_OnOff == null)
                 turnoff_OnOff = turnon.GetComponent<OnOffHelpers>();
+                    turnoff_OnOff.FlipVisibility(false);
+            }
 
-            turnoff_OnOff.FlipVisibility(false);
         }).OnComplete(() =>
         {
             image.gameObject.SetActive(false);

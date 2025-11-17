@@ -20,9 +20,13 @@ namespace Febucci.UI.Effects
             switch (modifier.name)
             {
                 //frequency
-                case "f": angleSpeed = baseRotSpeed * modifier.value; break;
+                case "f":
+                    angleSpeed = baseRotSpeed * modifier.value;
+                    break;
                 //angle diff
-                case "w": angleDiffBetweenChars = baseDiffBetweenChars * modifier.value; break;
+                case "w":
+                    angleDiffBetweenChars = baseDiffBetweenChars * modifier.value;
+                    break;
             }
         }
 
@@ -34,7 +38,7 @@ namespace Febucci.UI.Effects
 
         public override void ApplyEffectTo(ref Core.CharacterData character, TAnimCore animator)
         {
-            character.current.positions.RotateChar(-animator.time.timeSinceStart * angleSpeed 
+            character.current.positions.RotateChar(-animator.time.timeSinceStart * angleSpeed
                 + angleDiffBetweenChars * character.index);
         }
     }

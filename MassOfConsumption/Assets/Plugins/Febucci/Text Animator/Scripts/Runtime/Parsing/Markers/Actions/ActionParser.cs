@@ -1,5 +1,5 @@
-using System.Text;
 using Febucci.UI.Actions;
+using System.Text;
 
 namespace Febucci.UI.Core.Parsing
 {
@@ -21,7 +21,8 @@ namespace Febucci.UI.Core.Parsing
         {
             base.OnInitialize();
             _results = new ActionMarker[0];
-            if(database) database.BuildOnce();
+            if (database)
+                database.BuildOnce();
         }
 
         public override bool TryProcessingTag(string textInsideBrackets, int tagLength, ref int realTextIndex, StringBuilder finalTextBuilder, int internalOrder)
@@ -34,15 +35,17 @@ namespace Febucci.UI.Core.Parsing
             //if there's an equal sign, it means there are parameters
             int equalIndex = textInsideBrackets.IndexOf('=');
             string actionName = equalIndex == -1 ? textInsideBrackets : textInsideBrackets.Substring(0, equalIndex);
-            if(!database.IsCaseSensitive) actionName = actionName.ToLower();
+            if (!database.IsCaseSensitive)
+                actionName = actionName.ToLower();
 
-            if (!database.ContainsKey(actionName)) return false; //skips unrecognized tags
+            if (!database.ContainsKey(actionName))
+                return false; //skips unrecognized tags
 
             //Creates a new action
             ActionMarker textAction;
 
             //If the action has parameters
-            if(equalIndex != -1)
+            if (equalIndex != -1)
             {
                 string parameters = textInsideBrackets.Substring(equalIndex + 1);
                 textAction = new ActionMarker(actionName, realTextIndex, internalOrder, parameters.Replace(" ", "").Split(','));

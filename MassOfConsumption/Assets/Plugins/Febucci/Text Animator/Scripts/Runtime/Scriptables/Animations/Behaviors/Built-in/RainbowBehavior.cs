@@ -19,9 +19,13 @@ namespace Febucci.UI.Effects
             switch (modifier.name)
             {
                 //frequency
-                case "f": frequency = baseFrequency * modifier.value; break;
+                case "f":
+                    frequency = baseFrequency * modifier.value;
+                    break;
                 //wave size
-                case "s": waveSize = baseWaveSize * modifier.value; break;
+                case "s":
+                    waveSize = baseWaveSize * modifier.value;
+                    break;
             }
         }
 

@@ -49,14 +49,15 @@ A priest ascends the stage and addresses the masses. You can't understand what's
 
     The figure makes a guttural sound and snaps their gaze towards you. Pain shoots through you as the temperature plummets further. You pull back, cradling your hand close to your body as you desperately try to warm it back up. "Sorry! Sorry!"
 
+    TODO sfx
     The figure growls again, and seems to make itself smaller by pulling at its edges. Your fingers are stiff and any attempt to move them sends a dull pain up your arm.  You don't want to do that again.
 
 *[Wait for the sermon to be over]
     
 
 - 
-~StopSFX("talking_reverse", 1, 0)
-~PlaySFX("talking", true, 1, 0)
+~StopSFX("talking_reverse", 0.25, 0)
+~PlaySFX("talking", true, 0.5, 0)
 {Frozen_Hand: You press your hand between your thighs to warm it, and hope the sermon will be over soon. <>| You stay in your seat, hoping it will end soon. The longer you listen to the priest drone on, the more you find yourself nodding along. You flinch and pat your cheeks to wake yourself up. } 
 
 You {Frozen_Hand: | lightly hum to drown out the priest's words and }focus on the back of the seat in front of you. A bible is held in the pocket attached to the back of the pew. Reading it will probably pass the time, but you can still sneak away.
@@ -71,8 +72,8 @@ You {Frozen_Hand: | lightly hum to drown out the priest's words and }focus on th
 *[Wait a little longer]
     TODO steal organ music
     ~ chose_wait = true
-    ~StopSFX("talking_reverse", 2, 1.5)
-    ~StopSFX("talking", 2, 1.5)
+    ~StopSFX("talking_reverse", 0.25, 0)
+    ~StopSFX("talking", 0.25, 0)
     The priest stops talking and shuffles to the organ. The people in the pews sway slightly and nod along. You close your eyes and sink in your seat. You keep humming, louder and louder to drown out the organ until you can only hear yourself and nothing else.
     
 - "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. {chose_wait: It rises from the organ and points to you. You tense. The light from the window behind it spotlights you. It's the same {temp_string} feeling as before. {Church_Encounters !? (Leave_Light): It warms your body, and the tension in you shoulders melt away. | Your skin tingles under it's warmth. It's uncomfortable. }}
@@ -90,8 +91,8 @@ He beckons you to join him. All eyes are on you. {Church_Encounters !? (Leave_Li
 = Get_Up
 You rise to your feet, intending to leave the area. You try to keep your head down to avoid being seen, but the moment you step into the aisle, a red light spotlights you. You tense. It's the same {temp_string} feeling as before. {Church_Encounters !? (Leave_Light): It warms your body, and the tension in you shoulders melt away. | Your skin tingles under it's warmth. It's uncomfortable.}
 
-~StopSFX("talking_reverse", 2, 1.5)
-~StopSFX("talking", 2, 1.5)
+~StopSFX("talking_reverse", 0.25, 0)
+~StopSFX("talking", 0.25, 0)
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. It beckons you to join it on stage. All eyes are on you. 
 
 {Church_Encounters ? (Leave_Light): You fidget with your clothing, unsure what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your back. Your eyes dart from the window, to the pastor, to the figures in the pews. }
@@ -196,6 +197,7 @@ Your screams become whimpers as you wait for the pain to pass.
 
 *[It never does]
     ~ Stay_Tracker -= 1
+    TODO sfx
     The pain never dies. It continues to be a harsh, pulsating hurt. "It won't go away... unless you let it," the pastor growls. "You need... to be willing."
 
     You furiously shake your head. "Fine fine finefineFINE!" The paster hurls the wire cutters to the ground, and stamps it's feet  like a child throwing a tantrum. "Have it... YOUR way, then."
@@ -253,6 +255,7 @@ Your screams become whimpers as you wait for the pain to pass.
 = Refuse_Him
 You take another look at the water, then the pastor. "No, I think I'm okay." #PROP: [priest false]
 
+TODO sfx
 The pastor lets out a deep, guttural growl. "Fine then." He snaps his head to crowd, and points at a woman in the second row. "Your turn then." 
 
 A woman floats to the stage, and stands next you. She looks at you, and though she doesn't have a face, you can sense of deep fear in her. She looks back to the pastor, who is holding out it's hand, waiting for hers. 
@@ -295,8 +298,19 @@ It releases you.
 
 The pastor recites something. It pulls his free hand from behind his back, and reveals a pair of wire cutters. The woman is pleading with him. With you.
 
-*[You do nothing to stop it.]
-TODO should you be able to do something to stop it?
+*[You do nothing to stop it]
+
+*[You push her out of the way]
+    She falls to the ground and it releases her, cocking it's head at you. She falls to her feet, thanking you. She bows her head to your feet and you notice her had is missing fingers.
+
+    "You are... confusing." It grabs your wrist. "But this must mean... that you are willing. It will only... hurt a bit..."
+
+    It turns to the crowd, and they begin to chant. You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it exclaims and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
+    
+    It releases you. 
+    
+    *** [You stumble back]
+        -> Pews.Finger_Gone
 - 
 
 TODO i think we have an sfx

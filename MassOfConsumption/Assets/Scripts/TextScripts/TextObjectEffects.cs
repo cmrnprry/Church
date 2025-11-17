@@ -89,8 +89,8 @@ public class TextObjectEffects : MonoBehaviour
             if (!anim.textInfo.characterInfo[ii].isVisible) continue;
             Vector3 currCharOffset = anim.GetCharOffset(ii);
 
-            anim.DOPunchCharOffset(ii, currCharOffset, 0);
-            anim.DOFadeChar(ii, 1, 0);
+            anim.DOPunchCharOffset(ii, currCharOffset, 0.05f);
+            anim.DOFadeChar(ii, 1, 0.05f);
         }
     }
 

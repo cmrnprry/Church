@@ -31,7 +31,9 @@ namespace Febucci.UI.Effects
                 case "f":
                     SetTimeToShow(baseSpeed * modifier.value);
                     break;
-                case "d": delay = baseDelay * modifier.value; break;
+                case "d":
+                    delay = baseDelay * modifier.value;
+                    break;
             }
         }
 
@@ -42,7 +44,8 @@ namespace Febucci.UI.Effects
 
             float charPct = (character.passedTime - delay) / timeToShow;
 
-            if (charPct > 1) charPct = 1;
+            if (charPct > 1)
+                charPct = 1;
 
             //Lerps
             if (charPct < 1 && charPct >= 0)

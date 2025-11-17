@@ -57,7 +57,9 @@ namespace Febucci.UI.Effects
                     diagonalFromBttmLeft = (int)modifier.value == 1;
                     UpdateOrientation();
                     break;
-                default: base.SetModifier(modifier); break;
+                default:
+                    base.SetModifier(modifier);
+                    break;
             }
         }
     }

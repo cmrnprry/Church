@@ -22,24 +22,29 @@ namespace Febucci.UI.Styles
                 built = false;
             }
         }
-        
+
         bool built;
         Dictionary<string, Style> dictionary;
 
         public void BuildOnce()
         {
-            if (built) return;
+            if (built)
+                return;
             built = true;
-            
-            if(dictionary != null) dictionary.Clear();
-            else dictionary = new Dictionary<string, Style>();
-            
-            if (styles == null) return;
-            
+
+            if (dictionary != null)
+                dictionary.Clear();
+            else
+                dictionary = new Dictionary<string, Style>();
+
+            if (styles == null)
+                return;
+
             foreach (var style in styles)
             {
                 var tag = style.styleTag.ToLowerInvariant();
-                if (string.IsNullOrEmpty(tag)) continue;
+                if (string.IsNullOrEmpty(tag))
+                    continue;
 
                 if (dictionary.ContainsKey(tag))
                 {

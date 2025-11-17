@@ -111,7 +111,9 @@ public class BackgroundImage : MonoBehaviour
     private void AddZoomTweens()
     {
         var data = SaveSystem.GetImageZoomData();
-        ZoomImage(data.scale, data.position, data.duration);
+
+        if (!data.IsNull())
+         ZoomImage(data.scale, data.position, data.duration);
     }
 
     public void ZoomImage(float scale, Vector2 position, float duration = 0.5f, float delay = 0.5f)
@@ -120,9 +122,7 @@ public class BackgroundImage : MonoBehaviour
         SaveSystem.AddImageZoomData(data);
 
         KillZoomTweens();
-
-        if (zoom_sequence == null || !zoom_sequence.active)
-            zoom_sequence = DOTween.Sequence();
+        zoom_sequence = DOTween.Sequence();
 
         if (!GameManager.instance.VisualOverlay)
             return;
@@ -155,9 +155,7 @@ public class BackgroundImage : MonoBehaviour
         SaveSystem.AddImageClassData(toAdd);
 
         KillClassTweens();
-
-        if (class_sequence == null || !class_sequence.active)
-            class_sequence = DOTween.Sequence();
+        class_sequence = DOTween.Sequence();
 
         if (!GameManager.instance.VisualOverlay)
             return;
@@ -167,7 +165,7 @@ public class BackgroundImage : MonoBehaviour
 
 
         float dur = 0;
-        if (toAdd != "NULL" && toAdd!= "")
+        if (toAdd != "NULL" && toAdd != "")
         {
             StopEffect = false;
             switch (toAdd)
@@ -268,7 +266,7 @@ public class BackgroundImage : MonoBehaviour
 
     public void RemoveClassTweens()
     {
-        KillClassTweens();
+        KillClassTweens(true);
         SaveSystem.ResetImageData();
     }
 
@@ -288,24 +286,19 @@ public class BackgroundImage : MonoBehaviour
     {
         if (zoom_sequence != null && zoom_sequence.IsPlaying())
             zoom_sequence.Kill(true);
-
-        zoom_sequence = null;
     }
 
-    private void KillClassTweens()
+    private void KillClassTweens(bool ShouldReset = false)
     {
         StopEffect = true;
         if (class_sequence != null && class_sequence.IsPlaying())
             class_sequence.Kill(true);
 
-        class_sequence = null;
-        if (rect != null)
+        if (rect != null && ShouldReset)
         {
             rect.DOKill(true);
             rect.DOScale(1, 0.5f);
             rect.DOAnchorPos(Vector2.zero, 0.5f);
         }
-
-
     }
 }

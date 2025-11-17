@@ -159,6 +159,7 @@ public class TransistionsAndLoading : MonoBehaviour
 
         print("seeing");
     }
+    
     public void ShowSettings()
     {
         TransitionScreen.gameObject.SetActive(true);

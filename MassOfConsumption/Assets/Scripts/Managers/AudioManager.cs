@@ -15,6 +15,11 @@ namespace AYellowpaper.SerializedCollections
         [Header("Settings Volume")]
         public AudioMixer mixer;
 
+        [SerializedDictionary("BGM name", "BGM")]
+        public SerializedDictionary<string, AudioClip> BGMDictionary;
+        [SerializeField] private AudioSource BGMSource;
+        [SerializeField] private Transform BGMParent;
+
         [SerializedDictionary("SFX name", "SFX")]
         public SerializedDictionary<string, AudioClip> SFXDictionary;
         [SerializeField] private AudioSource SFXSource;
@@ -42,9 +47,50 @@ namespace AYellowpaper.SerializedCollections
             {
                 StopSFX(src, fade_out, delay);
             });
+
+            GameManager.instance.Story.BindExternalFunction("PlayBGM", (string src, bool loop, float fade_in, float fade_out) =>
+            {
+                PlayBGM(src, loop, fade_in, fade_out);
+            });
+
+            GameManager.instance.Story.BindExternalFunction("StopBGM", (string src, float fade_out, float delay) =>
+            {
+                StopSFX(src, fade_out, delay);
+            });
+
+            PlayBGM("generic", true, 1);
         }
 
-        private void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
+        public void PlayBGM(string src, bool shouldLoop = false, float fadeIn = 0, float fade_out = 0)
+        {
+            if (BGMDictionary.ContainsKey(src) && !sources.ContainsKey(src))
+            {
+                var bgm = Instantiate(BGMSource, BGMParent);
+                float kill_time = BGMDictionary[src].length + fadeIn + fade_out + 0.5f;
+
+                bgm.clip = BGMDictionary[src];
+                bgm.loop = shouldLoop;
+
+                if (fadeIn > 0 || fade_out > 0)
+                    StartCoroutine(FadeIn(bgm, fadeIn, fade_out, true));
+                else
+                    bgm.Play();
+
+                //if it's looping, add it to the list, otherwise kill it after the kill timer
+                if (shouldLoop)
+                {
+                    sources.Add(src, bgm);
+                    var data = new PlayingAudioData(src, Audio.BGM, fadeIn, fade_out, 0);
+                    SaveSystem.AddCurrentAudioPlaying(data);
+                }
+                else if (fade_out <= 0)
+                    Destroy(bgm.gameObject, kill_time);
+            }
+            else
+                Debug.LogWarning($"Cannot Find BGM: {src}");
+        }
+
+        public void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
         {
             if (SFXDictionary.ContainsKey(src) && !sources.ContainsKey(src))
             {
@@ -61,7 +107,11 @@ namespace AYellowpaper.SerializedCollections
 
                 //if it's looping, add it to the list, otherwise kill it after the kill timer
                 if (shouldLoop)
+                {
                     sources.Add(src, sfx);
+                    var data = new PlayingAudioData(src, Audio.SFX, fadeIn, 0, delay);
+                    SaveSystem.AddCurrentAudioPlaying(data);
+                }
                 else
                     Destroy(sfx.gameObject, kill_time);
             }
@@ -71,27 +121,56 @@ namespace AYellowpaper.SerializedCollections
 
         private void StopSFX(string src, float fadeOut = 0, float delay = 0)
         {
-            if (SFXDictionary.ContainsKey(src) && sources.ContainsKey(src))
+            if ((SFXDictionary.ContainsKey(src) || BGMDictionary.ContainsKey(src)) && sources.ContainsKey(src))
             {
                 if (fadeOut > 0 || delay > 0)
                     StartCoroutine(FadeOut(sources[src], fadeOut, delay));
-                else
+                else if (sources[src] != null)
                 {
                     sources[src].Stop();
                     Destroy(sources[src].gameObject);
                 }
 
                 sources.Remove(src);
+                SaveSystem.RemoveCurrentAudioPlaying(src);
             }
         }
 
-        private IEnumerator FadeIn(AudioSource src, float duration = 0, float delay = 0)
+        public void KillAllAudio()
+        {
+            foreach (KeyValuePair<string, AudioSource> src in sources)
+            {
+                if (sources[src.Key] != null)
+                {
+                    sources[src.Key].Stop();
+                    Destroy(sources[src.Key].gameObject);
+                }
+
+                SaveSystem.RemoveCurrentAudioPlaying(src.Key);
+            }
+
+            sources.Clear();
+        }
+
+        private IEnumerator FadeIn(AudioSource src, float duration = 0, float delay = 0, bool isBGM = false)
         {
             src.volume = 0;
-            yield return new WaitForSeconds(delay);
+            if (!isBGM)
+                yield return new WaitForSeconds(delay);
 
-            src.Play();
-            src.DOFade(1, duration);
+            if (src != null)
+            {
+                src.Play();
+                src.DOFade(1, duration);
+            }
+
+
+            if (isBGM && delay > 0)
+            {
+                yield return new WaitForSeconds(duration);
+                StartCoroutine(FadeOut(src, delay));
+            }
+
         }
 
         private IEnumerator FadeOut(AudioSource src, float duration = 0, float delay = 0)

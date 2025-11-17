@@ -1,5 +1,4 @@
 ﻿using Febucci.UI.Core;
-using Febucci.UI.Effects;
 using UnityEngine;
 using Tween = Febucci.Numbers.Tween;
 
@@ -29,8 +28,12 @@ namespace Febucci.UI.Effects
         {
             switch (modifier.name)
             {
-                case "a": amount = baseAmount * modifier.value; break;
-                default: base.SetModifier(modifier); break;
+                case "a":
+                    amount = baseAmount * modifier.value;
+                    break;
+                default:
+                    base.SetModifier(modifier);
+                    break;
             }
         }
     }

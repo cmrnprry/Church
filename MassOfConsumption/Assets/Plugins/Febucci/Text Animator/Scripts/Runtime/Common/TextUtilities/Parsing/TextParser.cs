@@ -1,5 +1,4 @@
 using System.Text;
-using Febucci.TextUtils.Parsing;
 
 namespace Febucci.TextUtils.Parsing
 {
@@ -10,7 +9,7 @@ namespace Febucci.TextUtils.Parsing
     {
         public static string ParseText(string text, params TagParserBase[] rules)
         {
-            if(rules == null || rules.Length == 0)
+            if (rules == null || rules.Length == 0)
             {
                 return text;
             }
@@ -36,7 +35,7 @@ namespace Febucci.TextUtils.Parsing
             bool allowParsing = true;
 
             //For every character in text
-            for(int textIndex = 0, realTextIndex = 0; textIndex < len; textIndex++)
+            for (int textIndex = 0, realTextIndex = 0; textIndex < len; textIndex++)
             {
                 foundTag = false;
 
@@ -44,7 +43,7 @@ namespace Febucci.TextUtils.Parsing
                 if (characters[textIndex] == '<')
                 {
                     int closeIndex = text.IndexOf('>', textIndex + 1);
-                    if(closeIndex>0)
+                    if (closeIndex > 0)
                     {
                         int tagLength = closeIndex - textIndex + 1;
                         void PasteTagToText()

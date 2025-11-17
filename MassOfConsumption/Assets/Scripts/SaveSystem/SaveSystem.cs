@@ -78,14 +78,13 @@ public static class SaveSystem
     public static bool CheckForData(string slotID)
     {
         string path = Application.persistentDataPath + "/" + slotID + ".json";
-        bool isData;
-        isData = System.IO.File.Exists(path);
+        bool isData = System.IO.File.Exists(path);
         return isData;
     }
 
     public static bool HasSaveData()
     {
-        if(!string.IsNullOrEmpty(settingsData.mostRecentSlot))
+        if (!string.IsNullOrEmpty(settingsData.mostRecentSlot))
         {
             string path = Application.persistentDataPath + "/" + settingsData.mostRecentSlot + ".json";
 
@@ -110,9 +109,7 @@ public static class SaveSystem
         if (System.IO.File.Exists(path))
         {
             string json = System.IO.File.ReadAllText(path);
-            slotData = JsonUtility.FromJson<SlotData>(json);
-
-            return slotData;
+            return JsonUtility.FromJson<SlotData>(json);
         }
         else
         {
@@ -153,6 +150,9 @@ public static class SaveSystem
             string json = System.IO.File.ReadAllText(path);
             slotData = JsonUtility.FromJson<SlotData>(json);
 
+            //kill all playing audio
+            AudioManager.instance.KillAllAudio();
+
             OnLoad?.Invoke();
         }
         else
@@ -162,6 +162,31 @@ public static class SaveSystem
     }
 
     /*        GETTERS AND SETTERSs          */
+
+    public static List<PlayingAudioData> GetCurrentAudioPlaying(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        return temp_data.LoopingPlaying.Values.ToList();
+    }
+
+    public static void AddCurrentAudioPlaying(PlayingAudioData data, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        if (temp_data.LoopingPlaying.ContainsKey(data.src))
+            temp_data.LoopingPlaying[data.src] = data;
+        else
+            temp_data.LoopingPlaying.Add(data.src, data);
+
+        SaveSettingsData();
+    }
+
+    public static void RemoveCurrentAudioPlaying(string key, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        temp_data.LoopingPlaying.Remove(key);
+
+        SaveSettingsData();
+    }
 
 
     public static bool OnLoadPropData(string key, string slotID = "")
@@ -325,11 +350,11 @@ public static class SaveSystem
         float mute = GetMuteValue() ? 0 : 1;
         AudioManager.instance.AdjustSFX(GetAudioVolume(Audio.SFX));
         AudioManager.instance.AdjustBGM(GetAudioVolume(Audio.BGM));
-        AudioManager.instance.MuteAudio((int) mute);
+        AudioManager.instance.MuteAudio((int)mute);
 
         //set autoplay values
         GameManager.instance.AutoPlay = GetAutoplayValue();
-        
+
         GameManager.instance.VisualOverlay = GetOverlayValue();
         GameManager.instance.TextEffects = GetTextEffectsValue();
         GameManager.instance.DelayTimings = GetTextSpeed();
@@ -456,6 +481,11 @@ public static class SaveSystem
         return settingsData.autoplay;
     }
 
+    public static bool GetScrollDir()
+    {
+        return settingsData.scroll_direction;
+    }
+
     public static bool GetOverlayValue()
     {
         return settingsData.visual_overlay;
@@ -475,17 +505,17 @@ public static class SaveSystem
     {
         return settingsData.text_speed;
     }
-    
+
     public static float GetTextSize()
     {
         return settingsData.text_size;
     }
-    
+
     public static TMP_FontAsset GetTextFont()
     {
         return GameManager.instance.Fonts[settingsData.font_index];
     }
-    
+
     public static int GetTextFontIndex()
     {
         return settingsData.font_index;
@@ -497,13 +527,19 @@ public static class SaveSystem
         SaveSettingsData();
     }
 
+    public static void SetScrollDirValue(bool value)
+    {
+        settingsData.scroll_direction = value;
+        SaveSettingsData();
+    }
+
     public static void SetLineBoilValue(bool value)
     {
         settingsData.image_overlay = value;
         SaveSettingsData();
 
 
-        GameManager.instance.FlipLineBoil(value);
+        DataManager.instance.FlipLineBoil(value);
     }
 
     public static void SetOverlayValue(bool value)
@@ -523,13 +559,13 @@ public static class SaveSystem
         settingsData.text_speed = value;
         SaveSettingsData();
     }
-    
+
     public static void SetTextSize(float value)
     {
         settingsData.text_size = value;
         SaveSettingsData();
     }
-    
+
     public static void SetFontIndex(int value)
     {
         settingsData.font_index = value;

@@ -27,7 +27,7 @@ It smells of old, rotten meat left in the sun. Of putrid sour milk left out for 
 *[Push through]
     ->->
 *[Turn back]
-    {From_Mimic: You pray the mimic is gone as y| Y}ou stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing. {From_Mimic: There's no sign of the creature anywhere, thankfully.}
+    {From_Mimic: You pray the mimic is gone as y| Y}ou stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. Luckily, the smell doesn't seem to have stuck to your clothing. {From_Mimic: There's no sign of the creature anywhere, thankfully.} #IMAGE: Default
     ->Stairs.Turn_Back
     
 
@@ -45,7 +45,7 @@ You shine your light to the end of the staircase, and see a door at the end of t
 
 *[Turn. Back.]
     ~ PlaySFX("flashlight_off", false, 0, 0)
-    Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. 
+    Without a second thought, you rush back up the stairs to the hall. You take a deep refreshing breath of the clean air at the top, and try to make sense of what you just saw. #IMAGE: Default
 
     The flesh, it— it <i>reacted</i> to your touch. Your skin crawls at the thought. You don't think you should go back down there.
     ->Stairs.Turn_Back
@@ -85,7 +85,7 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
 *[{Downstairs_State <= Bad_Vibes: Continue down | Push through}]
 
 *[Turn back]
-   {Downstairs_State <= Bad_Vibes: You turn back up the stairs. It doesn't feel right. |  You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. You can try again later.}
+   {Downstairs_State <= Bad_Vibes: You turn back up the stairs. It doesn't feel right. |  You stumble back up the stairs to the hall, and take a deep refreshing breath of the clean air. You can try again later.} #IMAGE: Default
     ->Stairs.Turn_Back
 -
 
@@ -227,14 +227,11 @@ You can't feel your legs.
 ->Endings.Bad_End_1
 
 = Turn_Back
-*[Go upstairs]
++[Go upstairs]
     ->Stairs.Upstairs
 
-*[Enter the office]
++[Enter the office]
     ->Office_Area.Office
-
-*[Return to the main body of the church]
-    -> Stairs.Exit_Stairs_Area
 
 
 ////////// UPSTAIRS INTERACTIONS ////////// 

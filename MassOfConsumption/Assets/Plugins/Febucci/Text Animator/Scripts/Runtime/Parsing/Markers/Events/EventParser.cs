@@ -7,7 +7,7 @@ namespace Febucci.UI.Core.Parsing
         const char eventSymbol = '?';
 
         public EventParser(char openingBracket, char closingBracket, char closingTagSymbol)
-            : base(openingBracket, closingBracket, closingTagSymbol){ }
+            : base(openingBracket, closingBracket, closingTagSymbol) { }
 
         EventMarker[] _results;
 
@@ -30,7 +30,7 @@ namespace Febucci.UI.Core.Parsing
 
             //If the event has parameters
             int indexOfEquals = textInsideBrackets.IndexOf('=');
-            if(indexOfEquals != -1)
+            if (indexOfEquals != -1)
             {
                 string eventName = textInsideBrackets.Substring(1, indexOfEquals - 1);
                 string parameters = textInsideBrackets.Substring(indexOfEquals + 1);

@@ -9,35 +9,45 @@
 = Office
 {Have_Visited !? (Enter_Office): {Looked_For_Items: It's the office door from earlier, but it seems shorter than you remember, it now being about the same hight as you. You duck | You hope something useful lies behind, and enter} through the doorway. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.} | {Room_State == Half: You open the door and crouch-walk through.} {Room_State == Crawl: You open the door and army crawl through.} Despite the change in door size, the rest of the room remains how you remember it. } #IMAGE: Office
 
+
+
 ~ Have_Visited += (Enter_Office)
 ~ Room_State++
 -> Office_Choices
 
 = Office_Choices
-*{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
+
++{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
     ->Office_Area.Desk
 
-+[{Explore_Office_Bookshelf !? (Check_Books): Browse the bookshelves | Search through books again}]
-    {
-        -Book_Knowledge ? Explored_Books:
-            You take another crack at reading through the books. You now have a better idea about what to look for. <>
-            {
-                - Book_Knowledge !? (Read_Mom_Old_Book) or Book_Knowledge !? (Read_Mom_Young_Book) or Book_Knowledge !? (Read_Oldin_Book) or !read_mary_book:
-                    {Book_Knowledge !? (Read_Mom_Young_Book): {Confessional_Encounters ? (Talked_to_Girl): You look for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not. {Saw_Locks: You hope that she had also seen the chains and locks you have.}} | {Confessional_Encounters ? (Finished_Door_Side) and Book_Knowledge !? (Read_Oldin_Book):The priest you confessed to didn't tell you a lot, but you think it might be enough to find <i>something</i> in his book.}} After some searching you find a book that seems to match what you're searching for.
-            
-                * [Read the book]
-                    {Confessional_Encounters ? (Finished_Curtain_Side) and Book_Knowledge !? (Read_Mom_Young_Book): ->Take_Or_Return.Mom_Young_Book | {Confessional_Encounters ? (Finished_Door_Side) and Book_Knowledge !? (Read_Oldin_Book): ->Take_Or_Return.Olin_Book | {Book_Knowledge !? (Read_Mom_Old_Book): ->Take_Or_Return.Mom_Old_Book}}}
-                
-            - !read_mary_book:
-                With no further information, you grab a random book to start reading. The number 1243 is on the cover in thick, gold-colored lettering.
++{Explore_Office_Bookshelf !? (Check_Books)}[Browse the bookshelves]
+    ->Office_Area.Books
 
-                The first page has the name "Mary" in script. -> Office_Area.Mary_Book
-        }
++{Explore_Office_Bookshelf ? (Check_Books) and (!read_mary_book or Book_Knowledge !? (Read_Oldin_Book) or Book_Knowledge !? (Read_Mom_Young_Book) or Book_Knowledge !? (Read_Mom_Old_Book))}[Search through books again]
+    {
+        - !read_mary_book:
+        With no further information, you grab a random book to start reading. The number 1243 is on the cover in thick, gold-colored lettering.
+
+        The first page has the name "Mary" in script. -> Office_Area.Mary_Book
+        
+        - (Book_Knowledge !? (Read_Mom_Old_Book)) or ((Book_Knowledge !? (Read_Mom_Young_Book) or Book_Knowledge !? (Read_Oldin_Book)) and (Confessional_Encounters ? (Finished_Curtain_Side) or Confessional_Encounters ? (Confessional_DoorSide))):
+            {Book_Knowledge !? (Read_Mom_Young_Book): You take another crack at reading through the books. You now have a better idea about what to look for. {Confessional_Encounters ? (Talked_to_Girl): You look for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not. {Saw_Locks: You hope that she had also seen the chains and locks you have.}} | {Confessional_Encounters ? (Finished_Door_Side) and Book_Knowledge !? (Read_Oldin_Book):The priest you confessed to didn't tell you a lot, but you think it might be enough to find <i>something</i> in his book.}} After some searching you find a book that seems to match what you're searching for.
+    
+        * [Read the book]
+            {Confessional_Encounters ? (Finished_Curtain_Side) and Book_Knowledge !? (Read_Mom_Young_Book): ->Take_Or_Return.Mom_Young_Book | {Confessional_Encounters ? (Finished_Door_Side) and Book_Knowledge !? (Read_Oldin_Book): ->Take_Or_Return.Olin_Book | {Book_Knowledge !? (Read_Mom_Old_Book): ->Take_Or_Return.Mom_Old_Book}}}
         - else:
-            ->Office_Area.Books
-    }  
+            You flip through books, searching to see if anyone else has escaped, but come up empty. You should come back after learning more.
             
-*{visited_state < 1} [Exit and examine the stairwell]
+                ++{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
+                     ->Office_Area.Desk
+            
+                **[Move on with your search]
+                    -> Office_Area.Exit_Office_Continue
+            -> Office_Choices
+    }  
+
+*{visited_state >= 1} [Exit and examine the stairwell]
+    #IMAGE: Defualt
     You exit the office, planning to come back later. <>
     -> Stairs.Examine_Stairs
 
@@ -112,21 +122,21 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
     ~Explore_Office_Bookshelf += (Check_Books)
     {
         - Have_Visited ? (Confessional_CurtainSide): 
-        You half-heartedly flip through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is...
+            You yank the book off the shelf, expecting more of the same. You sit up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is...
         
-        *[2755]
-            {
-                - Have_Visited ? (Confessional_DoorSide): 
-                    ->Take_Or_Return.Mom_Young_Book
-                - else:
-                    ->Take_Or_Return.Mom_Old_Book
-            }
-            
-        *[2750]
-            ->Take_Or_Return.Olin_Book
+            *[2755]
+                {
+                    - Have_Visited ? (Confessional_DoorSide): 
+                        ->Take_Or_Return.Mom_Young_Book
+                    - else:
+                        ->Take_Or_Return.Mom_Old_Book
+                }
+                
+            *[2750]
+                ->Take_Or_Return.Olin_Book
             
         - else: 
-            You half-heartedly flip through it before sitting up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is 2755.
+            You yank the book off the shelf, expecting more of the same. You sit up sharply. This person's story goes deeper than a failed escape or instant death. You check the front cover again, taking note that the number on the cover is 2755.
             
             {
                 - Have_Visited ? (Confessional_DoorSide): 
@@ -149,12 +159,14 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
             ~ Explore_Office_Bookshelf += (Check_Chest)
             You pull book after book off the shelves, looking at the first page for your name, and throwing it to the floor when it's not. When you run out of books, you go through the boxes. 
             
-            "Where is it? Where could it possibly be?" You grab the chest, give it a shake, and hear something inside. You try to open it, but it's locked. "Maybe in here?" you mutter. You look through the key hole, but can't see anything. "It could be..."
+            "Where is it? Where could it possibly be?" You grab the chest, and nearly drop it. The sides are slick with a wet, velvety mold. You wipe your hands on your pants and clench and unclench them, trying to forget the feeling. You give it a shake, and hear something thumping around inside.
+            
+            You try to open it, but it's locked. "Maybe in here?" you mutter. You look through the key hole, but can't see anything. "It could be..."
     
             -> Open_Chest(->Office_Area.Your_Book)
         - Book_Knowledge ? (Saw_Your_Book):
             ~ Temp_Bool = true
-            , and trace the numbers. You look at the first page, anxious to see if this is indeed your book. Your legs turn to jelly and you collapse to the ground. "Oh..." #PROP: [yourbook true]
+            , and trace the numbers. You look at the first page, anxious to see if this is indeed your book. Your legs turn to jelly and you collapse to the ground. "Oh..." #PROP: [your_book true]
     }
         
         
@@ -163,7 +175,7 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
         , and trace the numbers. You read the first page, and fall to the ground with a croak "That's... That's not..." #PROP: [your_book true]
 }
 
-*[{Temp_Bool: It's your book | The book is about <i>you.</i>}]
+*[{Temp_Bool: It's <i>your</i> book | The book is about <i>you.</i>}]
     ~ Book_Knowledge += (Read_Start)
 
 - 
@@ -462,15 +474,19 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 ////////// ENDING INTERACTIONS ////////// 
 
 = Unsure
-#IMAGE: Open_Door #PROP: [Closed_Door true], [your_book false]
-Confused, you  numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
+TODO door creak sfx
+#IMAGE: Open_Door #PROP: [Open_Door true], [your_book false]
+Confused, you numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
 
 *[Reach out a hand]
+    But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay opens. You feel like...
 
 *[Look away]
     ~Stay_Tracker += 1
+    #CYCLE: conflicted, wary, hesitant
+    You look at the body of the church behind you. You feel @ about leaving it behind. The eye opens, and looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door sways in the wind. You feel like...
 
-- But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay open. You feel like...
+- 
 
 *[Laughing]
     ~ Church_Feeling = "laughing"
@@ -478,38 +494,39 @@ Confused, you  numbly wander back into the main body of the church. You find you
 *[Crying]
     ~ Church_Feeling = "crying"
 
-- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your legs are glued to your spot on the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
+- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your leg glues itself to your the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
 
 {
-    - Confessional_Encounters ? (Finished_Door_Side):
+    - Confessional_Encounters ? (Killed_Girl):
         "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Ophelia |.} She's crying. "You're leaving me all alone? Again?"
         
-        You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain.
+        You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain. <>
         {
             - Priest_Feeling == guilt:
-                Tears well in your eyes, and you fall to your knees, bowing your head, holding the fabric to your face. <Guilt, Shame, Remorse> bubbles up inside you. 
+                #CYCLE: Guilt, Shame, Remorse
+                Tears well in your eyes, and you fall to your knees, bowing your head, holding the fabric to your face. @ bubbles up inside you. 
                 
-                {
-                    - Stay_Tracker >= 1.5:
-                        "No." you croak. How could you leave her again? After all she's been through?
+                *["I won't."]
+                    How could you leave her again? After all she's been through?
 
-                        "Thank goodness." she says, and you feel someone hug you from behind. You turn to hug her back.
-                
-                        *[No one is there.]
+                    "Thank goodness." she says, and you feel someone hug you from behind. You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands. You turn to hug her back.
+            
+                    **[No one is there.]
                         ->Office_Area.Sit_Pews
-                    - else:
-                        But the guilt is misplaced. You didn't hurt her. You don't even know if she's real.
                         
-                        "Yes." You say and fall forward.
-                        
-                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                        *[You stand, dust yourself off, and walk home.]
+                 *["I'm sorry."]
+                    But the guilt is misplaced. You didn't hurt her. You don't even know if she's real.
+                    
+                    "Yes." You say and fall forward.
+                    
+                    There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+    
+                    **[You stand and dust yourself off]
                         ->Office_Area.End_Game
-                }
+                
                 
             - Priest_Feeling == dread:
-                You drop the fabric, and watch it fall to the floor. You can feel the crisp outside wind blowing into the church, but the fabric does not react to it.
+                You drop the fabric, and watch it fall to the floor. The crisp outside wind blows into the church, but the fabric does not react to it.
                 
                 "It's not real." You mummer, and fix your gaze on the outside. "It's not real."
                 
@@ -517,27 +534,27 @@ Confused, you  numbly wander back into the main body of the church. You find you
                 
                 You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
                         
-                "I...." you croak. It's real this time. It's not a trick. 
+                "I...." you croak.
                 
-                {
-                    - Stay_Tracker >= 2:
-                        "I won't." you whimper. If it is real, how could you leave her again? "I promise"
+                *["I won't]
+                    "I won't." you whimper. If it is real, how could you leave her again? "I promise"
 
-                        "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
-                
-                        *[No one is there.]
+                    "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
+            
+                    **[No one is there.]
                         ->Office_Area.Sit_Pews
                         
-                    - else:
-                        You steel yourself.  You don't even know if she's real.
-                        
-                        "No." You say and fall forward.
-                        
-                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                        *[You stand, dust yourself off, and walk home.]
+                *["I'm sorry."]
+                    You steel yourself.  You don't even know if she's real.
+                    
+                    "No." You say and fall forward.
+                    
+                    ~ PlaySFX("Church-anger", false, 0, 0) 
+                    ~ StopSFX("Church-anger", 1, 2)
+                    There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
+    
+                    **[You stand and dust yourself off]
                         ->Office_Area.End_Game
-                }
             
             - Priest_Feeling == anger:
                 You throw the fabric to the ground. "Do you think this will work the second time?" You {Church_Feeling}.
@@ -548,50 +565,78 @@ Confused, you  numbly wander back into the main body of the church. You find you
                         
                 "I...." you croak. It's real this time. It's not a trick. 
                 
-                {
-                    - Stay_Tracker >= 2:
-                        Your resolve breaks, "I won't." 
-
-                        "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
+                *["I won't."]
+                    Your resolve breaks. "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
                         
-                        *[No one is there.]
+                    **[No one is there.]
                         ->Office_Area.Sit_Pews
-                    - else:
-                        You steel yourself.
-                        
-                        "No." You say and fall forward.
-                        
-                        There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
-        
-                        *[You stand, dust yourself off, and walk home.]
-                        ->Office_Area.End_Game
-                }
+                
+                *["I have to."]
+                    You steel yourself.
+                    
+                    "No." You say and fall forward.
+                    
+                    ~ PlaySFX("Church-anger", false, 0, 0) 
+                    ~ StopSFX("Church-anger", 1, 2)
+                    There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
+    
+                    **[You stand and dust yourself off]
+                    ->Office_Area.End_Game
+                
         }
         
     - Church_Encounters ? (Was_Coward):
-        "Coward." You stop. It's the woman who helped you{Book_Knowledge ? (Read_Mom_Old_Book):, Ophelia." |.} "You're just going to leave?"
+        "Coward." You stop. It's the woman who helped you{Ophelia_Related:, Ophelia." |.} "You're just going to leave?"
+            
+            *[Yes]
+                ~ PlaySFX("Church-anger", false, 0, 0) 
+                ~ StopSFX("Church-anger", 1, 2)
+                There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
+            
+                ***[You stand and dust yourself off]
+                    ->Office_Area.End_Game
+            
+            *[No]
+                ~Stay_Tracker += 1
         
-        {
-            - Stay_Tracker >= 2.5:
                 "I..." You don't know how to answer. You look down at your hands, they're intact. You still have all ten. You ball them into fists. "I..."
-
+    
                 "You don't deserve to leave."
+                    
+                **[She's right]
+                    ->Office_Area.Sit_Pews
+                    
+                **[She's wrong]
+                    "I do. You all did." You say and fall forward.
+    
+                    ~ PlaySFX("Church-anger", false, 0, 0) 
+                    ~ StopSFX("Church-anger", 1, 2)
+                    There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
                 
-                *[Maybe she's right...]
-                ->Office_Area.Sit_Pews
-            - else:
-            "Yes." You say and fall forward.
-                        
-            There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+                    ***[You stand and dust yourself off]
+                        ->Office_Area.End_Game
+    - Book_Knowledge ? (Branded):
+        ~ Intrusive(6, "You found peace", "")
+        The carvings in your skin pulsate the closer you get to the door. You fall to the floor, and begin to crawl. Your body is heavy. Each movement harder than the last. The way out is within your reach. It's just a bit further. The light grows brighter. Your limbs shake.
         
-            *[You stand, dust yourself off, and walk home.]
-            ->Office_Area.End_Game
-        }
+        ~ Intrusive(6, "You found peace", "")
+        You grind your teeth and dig your nails into the wood. You can feel the church tracing the writing in your skin. Whispering the words into your ears. You push yourself to your feet, standing before the open door, trying to find to the strength to take the last step.
+        
+        *[You found peace]
+            The pain passes, and the brand feels like a comforting hug. The church's words become your own thoughts. <> 
+            ->Office_Area.Sit_Pews
+            
+        *[This isn't peace]
+            ~ PlaySFX("Church-anger", false, 0, 0) 
+            ~ StopSFX("Church-anger", 1, 2)
+            How could it be? You throw yourself out the door and onto the sidewalk. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false] #REMOVE: Intrusive
+                
+            ***[You stand and dust yourself off]
+                ->Office_Area.End_Game
+            
         
     - else:
-        The red light intensifies, a comforting pressure. You fall to the floor, and begin to crawl. Your body is heavy. Each movement harder than the last. 
-        
-        The way out is within your reach. It's just a bit further. The light grows brighter. Your limbs shake.
+        The red light intensifies, a comforting pressure. You fall to the floor, and begin to crawl. Your body is heavy. Each movement harder than the last. The way out is within your reach. It's just a bit further. The light grows brighter. Your limbs shake.
         
         {
             - Church_Encounters ? (Leave_Light):
@@ -611,10 +656,12 @@ Confused, you  numbly wander back into the main body of the church. You find you
                         ->Office_Area.Sit_Pews
                 - else:
                     You didn't leave this light until the church decided you could last time, but this time... Your finger tips escape the light, reaching out through the church door. 
-                
-                    That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+                    
+                    ~ PlaySFX("Church-anger", false, 0, 0) 
+                    ~ StopSFX("Church-anger", 1, 2)
+                    That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
         
-                    *[You stand, dust yourself off, and walk home.]
+                    *[You stand and dust yourself off]
                         ->Office_Area.End_Game
             }
             - else:
@@ -622,16 +669,18 @@ Confused, you  numbly wander back into the main body of the church. You find you
                 
                 ~ PlaySFX("Church-anger", false, 0, 0) 
                 ~ StopSFX("Church-anger", 1, 2)
-                That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+                That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
         
-                *[You stand, dust yourself off, and walk home.]
+                *[You stand and dust yourself off]
                     ->Office_Area.End_Game
         }
 }
 
 = Sit_Pews
-The front door closes, and you drift deeper into the church. Organ music begins to play.
+The front door closes, and you drift deeper into the church. Organ music begins to play. #PROP: [Open_Door false], [Closed_Door true] 
 
+TODO SFX
+#IMAGE: Church_Inside #PROP: [Closed_Door false] 
 You end up in the pews, just like your book said you would. You sit down, and close your eyes, taking in the church music. When you open them, the pews are filled with people, all turned towards you. It's people you've read about, smiling at you. Welcoming you.
 
 They begin to sing, hands out stretched for you to take. The music flows through you, and you feel a smile come to your face.
@@ -643,6 +692,7 @@ They begin to sing, hands out stretched for you to take. The music flows through
     ->Endings.Bad_End_7
 
 = End_Game
+TODO if you have a high stya then cryin the dirt
 *[It has been a long night]
     #ENDING: 9, Good Ending: It Has Been a Long, Long Night
     ->Endings.Good_End_9
@@ -724,6 +774,12 @@ They begin to sing, hands out stretched for you to take. The music flows through
 
 *[{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl): Look for her book | Read through the books}]
 
+*{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
+    ->Office_Area.Desk
+    
+*[Move on with your search]
+    -> Office_Area.Exit_Office_Continue
+
 - {Saw_Locks: With the minimal knowledge you have, you skim through as many books as you can. You search and search, {Confessional_Encounters ? (Talked_to_Girl): looking for any and every book that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | but you don't know enough about her to even know if you've passed her book or not.} | You pick up a book at random, skimming though them for any relevant or interesting information. {Confessional_Encounters ? (Talked_to_Girl): You try to focus on books that matches the story the little girl told you. A sick child that thinks her parents resent her, a mother that had a sick child, or a father that was a priest. | You read book after book after book, but you don't know what you're looking for.}}
 
 {Saw_Locks: You read book after book, story after story about the victims of the church. | Each story you read all are about victims of the church.} All the stories only describe parts where the victim is in or near the church, so most have gaps{Book_Knowledge ? (Read_Start):, much like your own book}. Many stories mimic your own, but some never knew they were ever in danger. Some attempted to escape, but all of them had the same ending.
@@ -733,16 +789,19 @@ They begin to sing, hands out stretched for you to take. The music flows through
 * [Come back later]
     You have has enough reading, and decide you need to move on. You're sure something in here has the information you want, but blindly reading isn't helping. You'll come back when you know more.
     
+    ->Office_Area.Office_Choices
+    
     **[Go to the stairwell]
         You exit the office, planning to come back later. <>
         -> Stairs.Examine_Stairs
     
-* [Keep reading]
+* {(Confessional_Encounters ? (Finished_Curtain_Side) or Confessional_Encounters ? (Confessional_DoorSide)) and Book_Knowledge !? (Read_Mom_Old_Book)} [Keep reading]
     You sigh deeply and grab another book. You grab...
-    
-- 
 
-*{Confessional_Encounters ? (Finished_Curtain_Side)} [((DO NOT PICK THIS IT WILL SOFT LOCK YOU)) The wider one] //oldin
+    
+- {Confessional_Encounters !? (Finished_Curtain_Side, Confessional_DoorSide): -> Mom_Old_Book}
+
+*{Confessional_Encounters ? (Finished_Curtain_Side)} [The wider one] //oldin
     -> Olin_Book
 
 *[The smaller one] //mom
@@ -831,11 +890,10 @@ She reaches the top and finds a set of locks on a door that has a pulsating red 
 *[Finish Ophelia's book]
     ~ Finish_ophelia = true
 
-*[Move on with your search]
-    -> Office_Area.Exit_Office_Continue
 
+- You keep a finger to keep track of the page with the code and finish the book. The number lock pops open, but the key she found doesn't fit and she flings the key over the edge. She holds the book and debates throwing it as well, before collapsing and she reads the book again. She re-reads the same passage a few times before fury over takes her and she rips out page after page after page. 
 
-- You keep a finger to keep track of the page with the code and finish the book. The number lock pops open, but the key she found doesn't fit and she flings the key over the edge. She holds the book and debates throwing it as well, before collapsing and she reads the book again. She re-reads the same passage a few times before fury over takes her and she rips out page after page after page. {Book_Knowledge ? (Branded): You wince, knowing what comes next. You read a few passages before slamming the book shut. | Bile rises in your throat as you read the next few passages before you slam the book shut.} You don't need to read what the church did to her.
+{Book_Knowledge ? (Branded): You wince, knowing what comes next. You read a few passages before slamming the book shut. | Bile rises in your throat as you read the next few passages before you slam the book shut.} You don't need to read what the church did to her.
 
 *[Rip out the code page]
     ->Office_Area.Rip_out_Ophelia
@@ -845,10 +903,7 @@ She reaches the top and finds a set of locks on a door that has a pulsating red 
             
 *{Book_Knowledge !? (Saw_Your_Book)} [Look for your book]
     -> Office_Area.Your_Book
-    
-*[Move on with your search]
-    -> Office_Area.Exit_Office_Continue
-
+  
 
 
 

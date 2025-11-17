@@ -1,11 +1,11 @@
-﻿using UnityEngine;
-using System.Text;
+﻿using Febucci.UI.Effects;
 using System;
-using Febucci.UI.Effects;
+using System.Text;
+using UnityEngine;
 
 namespace Febucci.UI.Core.Parsing
 {
-    
+
     [Flags]
     public enum VisibilityMode
     {
@@ -13,7 +13,7 @@ namespace Febucci.UI.Core.Parsing
         OnHiding = 2,
         Persistent = OnVisible | OnHiding,
     }
-    
+
     /// <summary>
     /// Contains information of a region in the text
     /// </summary>
@@ -45,7 +45,8 @@ namespace Febucci.UI.Core.Parsing
             {
                 string tag = tagWords[i];
                 int equalIndex = tag.IndexOf('=');
-                if (equalIndex <= 0) continue; //invalid modifier
+                if (equalIndex <= 0)
+                    continue; //invalid modifier
 
                 if (FormatUtils.TryGetFloat(tag.Substring(equalIndex + 1), 0, out var result))
                 {
@@ -60,11 +61,13 @@ namespace Febucci.UI.Core.Parsing
         //TODO testing
         public void TryClosingRange(int endIndex)
         {
-            if (ranges.Length == 0) return; //no otherTag was opened before
+            if (ranges.Length == 0)
+                return; //no otherTag was opened before
 
             for (int i = ranges.Length - 1; i >= 0; i--)
             {
-                if (ranges[i].indexes.y != int.MaxValue) continue; // otherTag was already closed
+                if (ranges[i].indexes.y != int.MaxValue)
+                    continue; // otherTag was already closed
 
                 var range = ranges[i];
                 range.indexes.y = endIndex;
@@ -75,11 +78,13 @@ namespace Febucci.UI.Core.Parsing
 
         public void CloseAllOpenedRanges(int endIndex)
         {
-            if (ranges.Length == 0) return; //no otherTag was opened before
+            if (ranges.Length == 0)
+                return; //no otherTag was opened before
 
             for (int i = ranges.Length - 1; i >= 0; i--)
             {
-                if (ranges[i].indexes.y != int.MaxValue) continue; // otherTag was already closed
+                if (ranges[i].indexes.y != int.MaxValue)
+                    continue; // otherTag was already closed
 
                 var range = ranges[i];
                 range.indexes.y = endIndex;
@@ -89,12 +94,12 @@ namespace Febucci.UI.Core.Parsing
         #endregion
 
         #region Animation
-        
+
         public virtual void SetupContextFor(TAnimCore animator, ModifierInfo[] modifiers)
         {
             animation.ResetContext(animator);
 
-            foreach(var mod in modifiers)
+            foreach (var mod in modifiers)
                 animation.SetModifier(mod);
         }
         #endregion
@@ -104,7 +109,8 @@ namespace Febucci.UI.Core.Parsing
             StringBuilder text = new StringBuilder();
             text.Append("tag: ");
             text.Append(tagId);
-            if (ranges.Length == 0) text.Append("\nNo ranges");
+            if (ranges.Length == 0)
+                text.Append("\nNo ranges");
             else
             {
                 for (int i = 0; i < ranges.Length; i++)

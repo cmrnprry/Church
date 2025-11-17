@@ -1,7 +1,6 @@
 ﻿using Febucci.UI.Core;
-using Febucci.UI.Effects;
-using Tween = Febucci.Numbers.Tween;
 using UnityEngine;
+using Tween = Febucci.Numbers.Tween;
 
 namespace Febucci.UI.Effects
 {
@@ -27,7 +26,7 @@ namespace Febucci.UI.Effects
             directions = new Vector3[20];
 
             //Calculates a random direction for each character (which won't change)
-            for(int i = 0; i < directions.Length; i++)
+            for (int i = 0; i < directions.Length; i++)
             {
                 directions[i] = TextUtilities.fakeRandoms[Random.Range(0, TextUtilities.fakeRandomsCount - 1)] * Mathf.Sign(Mathf.Sin(i));
             }
@@ -50,8 +49,12 @@ namespace Febucci.UI.Effects
         {
             switch (modifier.name)
             {
-                case "a": amount = baseAmount * modifier.value; break;
-                default: base.SetModifier(modifier); break;
+                case "a":
+                    amount = baseAmount * modifier.value;
+                    break;
+                default:
+                    base.SetModifier(modifier);
+                    break;
             }
         }
     }

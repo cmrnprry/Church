@@ -38,6 +38,15 @@ public class IntrusiveThought : MonoBehaviour
         text_box.alpha = fade_min.GetRandomValue();
     }
 
+    private void OnDestroy()
+    {
+        if (rect_sequence != null)
+            rect_sequence.Kill();
+
+        if (text_sequence != null)
+            text_sequence.Kill();
+    }
+
     public void SetButtonCallback(string jump_to)
     {
 
@@ -74,7 +83,9 @@ public class IntrusiveThought : MonoBehaviour
         text_sequence = DOTween.Sequence();
 
         wait.SetValue(1.5f, 0.5f);
-        rect.DOScale(1f, 0.15f);
+
+        if (rect != null)
+            rect.DOScale(1f, 0.15f);
 
         DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text_box);
 
@@ -85,6 +96,10 @@ public class IntrusiveThought : MonoBehaviour
         {
             if (!anim.textInfo.characterInfo[ii].isVisible)
                 continue;
+
+            if (text_box == null)
+                break;
+
             Vector3 currCharOffset = anim.GetCharOffset(ii);
 
             rect_sequence
@@ -100,29 +115,40 @@ public class IntrusiveThought : MonoBehaviour
 
     public void KillAllThoughts()
     {
-        rect_sequence.Kill();
-        text_sequence.Kill();
+        if (rect_sequence != null)
+            rect_sequence.Kill();
+
+        if (text_sequence != null)
+            text_sequence.Kill();
 
         rect_sequence = DOTween.Sequence();
         text_sequence = DOTween.Sequence();
 
         ResetIndividualCharacters();
-        text_box.DOFade(0, 0.5f);
-        rect.DOScale(1.25f, 0.5f).OnComplete(() => { Destroy(this.gameObject); });
+
+        if (text_box != null)
+            text_box.DOFade(0, 0.5f);
+
+        if (rect != null)
+            rect.DOScale(1.25f, 0.5f).OnComplete(() => { Destroy(this.gameObject); });
     }
 
     private void ResetIndividualCharacters()
     {
+        if (text_box == null)
+            return;
+
         DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text_box);
 
         for (int ii = 0; ii < anim.textInfo.characterCount; ++ii)
         {
             if (!anim.textInfo.characterInfo[ii].isVisible)
                 continue;
+
             Vector3 currCharOffset = anim.GetCharOffset(ii);
 
-            anim.DOPunchCharOffset(ii, currCharOffset, 0);
-            anim.DOFadeChar(ii, 1, 0);
+            anim.DOPunchCharOffset(ii, currCharOffset, 0.05f);
+            anim.DOFadeChar(ii, 1, 0.05f);
         }
     }
 }

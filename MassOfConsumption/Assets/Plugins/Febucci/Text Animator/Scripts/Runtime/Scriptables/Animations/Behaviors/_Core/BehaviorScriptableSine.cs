@@ -7,7 +7,7 @@ namespace Febucci.UI.Effects
         //--- BASE VALUES ---
         public float baseAmplitude = 1;
         public float baseFrequency = 1;
-        [UnityEngine.Range(0,1)] public float baseWaveSize = .2f;
+        [UnityEngine.Range(0, 1)] public float baseWaveSize = .2f;
 
         //--- EFFECTS INFO ---
         protected float amplitude;
@@ -24,13 +24,19 @@ namespace Febucci.UI.Effects
 
         public override void SetModifier(ModifierInfo modifier)
         {
-            switch(modifier.name)
+            switch (modifier.name)
             {
-                case "a": amplitude = baseAmplitude * modifier.value; break;
-                case "f": frequency = baseFrequency * modifier.value; break;
+                case "a":
+                    amplitude = baseAmplitude * modifier.value;
+                    break;
+                case "f":
+                    frequency = baseFrequency * modifier.value;
+                    break;
                 //TODO if wavesize is 0, then this never changes. Maybe
                 //set it directly instead of multiplying?
-                case "w": waveSize = baseWaveSize * modifier.value; break;
+                case "w":
+                    waveSize = baseWaveSize * modifier.value;
+                    break;
             }
         }
     }

@@ -52,16 +52,20 @@ namespace Febucci.UI.Effects
         {
             pct = Tween.EaseInOut(character.passedTime / duration);
 
-           character.current.positions[targetA] = Vector3.LerpUnclamped(character.current.positions[startA], character.current.positions[targetA], pct);
-           character.current.positions[targetB] = Vector3.LerpUnclamped(character.current.positions[startB], character.current.positions[targetB], pct);
+            character.current.positions[targetA] = Vector3.LerpUnclamped(character.current.positions[startA], character.current.positions[targetA], pct);
+            character.current.positions[targetB] = Vector3.LerpUnclamped(character.current.positions[startB], character.current.positions[targetB], pct);
         }
 
         public override void SetModifier(ModifierInfo modifier)
         {
             switch (modifier.name)
             {
-                case "bot": SetOrientation((int)modifier.value == 1); break;
-                default: base.SetModifier(modifier); break;
+                case "bot":
+                    SetOrientation((int)modifier.value == 1);
+                    break;
+                default:
+                    base.SetModifier(modifier);
+                    break;
             }
         }
     }

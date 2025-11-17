@@ -30,7 +30,7 @@ namespace Febucci.UI.Effects
         protected override void OnInitialize()
         {
             base.OnInitialize();
-            
+
             randIndex = Random.Range(0, TextUtilities.fakeRandomsCount);
         }
 
@@ -47,9 +47,15 @@ namespace Febucci.UI.Effects
         {
             switch (modifier.name)
             {
-                case "a": amplitude = baseAmplitude * modifier.value; break;
-                case "d": delay = baseDelay * modifier.value; break;
-                case "w": waveSize = baseWaveSize * modifier.value; break;
+                case "a":
+                    amplitude = baseAmplitude * modifier.value;
+                    break;
+                case "d":
+                    delay = baseDelay * modifier.value;
+                    break;
+                case "w":
+                    waveSize = baseWaveSize * modifier.value;
+                    break;
             }
 
             ClampValues();
@@ -63,7 +69,8 @@ namespace Febucci.UI.Effects
             timePassed += character.index * waveSize;
 
             randIndex = Mathf.RoundToInt(timePassed / delay) % (TextUtilities.fakeRandomsCount);
-            if(randIndex<0) randIndex *= -1; //always positive
+            if (randIndex < 0)
+                randIndex *= -1; //always positive
 
             character.current.positions.MoveChar
             (
