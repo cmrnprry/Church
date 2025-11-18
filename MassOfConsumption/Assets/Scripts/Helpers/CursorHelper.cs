@@ -14,7 +14,6 @@ public class CursorHelper : MonoBehaviour
     public List<Sprite> sprites = new List<Sprite>();
     private Image img;
     private Coroutine routine;
-    private bool ClickObject = false, ClickText = false, isOpen, isNeutral = true;
 
 
     void Start()
@@ -65,10 +64,12 @@ public class CursorHelper : MonoBehaviour
     private void ForceOpen()
     {
         if (routine != null)
-            StopCoroutine(routine);
+            StopCoroutine(routine);        
+
+        SaveSystem.SetIsCursorNeutral(false);
+        SaveSystem.SetIsCursorOpen(true);
+
         routine = StartCoroutine(Open());
-        isNeutral = false;
-        isOpen = true;
     }
 
     private void ForceBlink()
@@ -83,6 +84,10 @@ public class CursorHelper : MonoBehaviour
     {
         if (routine != null)
             StopCoroutine(routine);
+
+        SaveSystem.SetIsCursorOpen(false);
+        SaveSystem.SetIsCursorNeutral(false);
+
         routine = StartCoroutine(Close());
     }
 
@@ -106,62 +111,61 @@ public class CursorHelper : MonoBehaviour
 
     IEnumerator Blink()
     {
-        int start = isOpen ? 3 : 1;
-        yield return new WaitForSeconds(0.15f);
+        int start = SaveSystem.IsCursorOpen() ? 3 : 1;
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[start];
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[2];
 
-        yield return new WaitForSeconds(0.35f);
-        start = isOpen ? 1 : 3;
+        yield return new WaitForSeconds(0.25f);
+        start = SaveSystem.IsCursorOpen() ? 1 : 3;
         img.sprite = sprites[start];
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[2];
 
-        yield return new WaitForSeconds(0.15f);
-        start = isOpen ? 3 : 1;
+        yield return new WaitForSeconds(0.1f);
+        start = SaveSystem.IsCursorOpen() ? 3 : 1;
         img.sprite = sprites[start];
 
-        yield return new WaitForSeconds(0.15f);
-        img.sprite = isNeutral ? sprites[0] : (isOpen ? sprites[3] : sprites[1]);
+        yield return new WaitForSeconds(0.1f);
+        img.sprite = SaveSystem.IsCursorNeutral() ? sprites[0] : (SaveSystem.IsCursorOpen() ? sprites[3] : sprites[1]);
 
     }
 
     IEnumerator Open()
     {
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[1];
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[2];
 
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.25f);
         img.sprite = sprites[3];
     }
-
     IEnumerator Close()
     {
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(0.25f);
         img.sprite = sprites[3];
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[2];
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[1];
 
         if (!GameManager.instance.ShouldBlink)
         {
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.1f);
             img.sprite = sprites[0];
         }
     }
 
     public void OnHoverEnd()
     {
-        img.sprite = isNeutral ? sprites[0] : (isOpen ? sprites[3] : sprites[1]);
+        img.sprite = SaveSystem.IsCursorNeutral() ? sprites[0] : (SaveSystem.IsCursorOpen() ? sprites[3] : sprites[1]);
     }
 
     public void OnHoverStart()
@@ -170,13 +174,11 @@ public class CursorHelper : MonoBehaviour
             StopCoroutine(routine);
 
         img.sprite = sprites[4];
-        ClickObject = true;
     }
 
     public void OnHoverTextBoxEnd()
     {
-        img.sprite = isNeutral ? sprites[0] : (isOpen ? sprites[3] : sprites[1]);
-        ClickText = false;
+        img.sprite = SaveSystem.IsCursorNeutral() ? sprites[0] : (SaveSystem.IsCursorOpen() ? sprites[3] : sprites[1]);
     }
 
     public void OnHoverTextBoxStart()
@@ -186,8 +188,6 @@ public class CursorHelper : MonoBehaviour
             if (routine != null)
                 StopCoroutine(routine);
             img.sprite = sprites[4];
-            ClickObject = true;
-            ClickText = true;
         }
     }
 }

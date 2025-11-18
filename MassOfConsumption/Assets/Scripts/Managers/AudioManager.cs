@@ -161,7 +161,7 @@ namespace AYellowpaper.SerializedCollections
             if (src != null)
             {
                 src.Play();
-                src.DOFade(1, duration);
+                src.DOFade(1, duration).SetEase(Ease.InSine);
             }
 
 
@@ -177,7 +177,7 @@ namespace AYellowpaper.SerializedCollections
         {
             yield return new WaitForSeconds(delay);
 
-            src.DOFade(0, duration);
+            src.DOFade(0, duration).SetEase(Ease.InSine);
 
             yield return new WaitForSeconds(duration);
             src.Stop();

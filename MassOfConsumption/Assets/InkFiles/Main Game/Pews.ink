@@ -1,5 +1,5 @@
 === Pews ===
-//TODO: add in bits about the people reflecting the books?
+TODO: add in bits about the people reflecting the books?
 ~ temp_string = ""
 ~ Have_Visited += (Enter_Pews)
 
@@ -17,6 +17,7 @@ You don't find much of anything. With a huff, you plop onto the last pew you sea
 
 
 * [You should move on]
+    ~PlayBGM("organ", false, 0, 0)
 
 -
 {
@@ -30,8 +31,8 @@ You don't find much of anything. With a huff, you plop onto the last pew you sea
         ~temp_string = "uneasy"
 }
 
-TODO play organ sound ((steal from isaac music))
-Your eyes snap open as the church organ begins to play. You find the pews are {visited_state > 1: once again filled with flickering, faceless "people." | filled with people. You can't make out any of the faces or any other distinguishing features. You can only tell that the figures are vaguely people-shaped. Their images flicker in and out of view.} Some sit next to you, but none acknowledge you.
+
+Your eyes snap open as the church organ begins to play. You find the pews are {visited_state > 1: once again filled with flickering, faceless "people." | filled with people. You can't make out any of the faces or any other distinguishing features. You can only tell that the figures are vaguely people-shaped. Their images flicker in and out of view.} Some sit next to you, but none acknowledge you. #PROP: [Pews true]
 
 ~PlaySFX("talking_reverse", true, 1, 0)
 A priest ascends the stage and addresses the masses. You can't understand what's being said. It only sounds like grunts and groans to your ears.
@@ -49,7 +50,7 @@ A priest ascends the stage and addresses the masses. You can't understand what's
 
     The figure makes a guttural sound and snaps their gaze towards you. Pain shoots through you as the temperature plummets further. You pull back, cradling your hand close to your body as you desperately try to warm it back up. "Sorry! Sorry!"
 
-    TODO sfx
+    ~ PlaySFX("growling", false, 0, 0)
     The figure growls again, and seems to make itself smaller by pulling at its edges. Your fingers are stiff and any attempt to move them sends a dull pain up your arm.  You don't want to do that again.
 
 *[Wait for the sermon to be over]
@@ -70,13 +71,16 @@ You {Frozen_Hand: | lightly hum to drown out the priest's words and }focus on th
     ->Pews.Get_Up
     
 *[Wait a little longer]
-    TODO steal organ music
     ~ chose_wait = true
     ~StopSFX("talking_reverse", 0.25, 0)
     ~StopSFX("talking", 0.25, 0)
+    ~PlayBGM("organ", true, 0, 0)
+    ~StopSFX("organ", 3, 1)
     The priest stops talking and shuffles to the organ. The people in the pews sway slightly and nod along. You close your eyes and sink in your seat. You keep humming, louder and louder to drown out the organ until you can only hear yourself and nothing else.
     
-- "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. {chose_wait: It rises from the organ and points to you. You tense. The light from the window behind it spotlights you. It's the same {temp_string} feeling as before. {Church_Encounters !? (Leave_Light): It warms your body, and the tension in you shoulders melt away. | Your skin tingles under it's warmth. It's uncomfortable. }}
+- 
+
+"Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. {chose_wait: It rises from the organ and points to you. You tense. The light from the window behind it spotlights you. It's the same {temp_string} feeling as before. {Church_Encounters !? (Leave_Light): It warms your body, and the tension in you shoulders melt away. | Your skin tingles under it's warmth. It's uncomfortable. }}
 
 He beckons you to join him. All eyes are on you. {Church_Encounters !? (Leave_Light): You fidget with your clothing, unsure of what to do with your hands. You feel like a child getting called on in class when you don't know the answer. | A bead of sweat rolls down your face. Your eyes dart from the window, to the pastor, to the figures in the pews. }
 
@@ -137,7 +141,7 @@ Once there, you stand next to the ghostly pastor. It grabs your hand and raises 
 { temp_bool: It ignores the question, and releases your hand. | You jerk your hand from its grasp, and it laughs again.} "Stand... Here..."
 
 #PROP: [priest true]
-"What is-" You try to ask, but the pastor once again takes ahold of you and moves you to be center stage. Another person appears, wheeling over a very tangible cart with a container of water. Their hands are more solid when touching the cart, and you see their left hand is missing a few fingers. The paster grabs something from behind the podium. "Can you explain to me what's—"
+"What is-" You try to ask, but the pastor once again takes ahold of you and moves you to be center stage. Another person appears, wheeling over a very tangible cart with a container of water. Their hands are more solid when touching the cart. Their left hand is missing a few fingers. The paster grabs something from behind the podium. "Can you explain to me what's—"
 
 "Now, which hand...?" It asks, its own behind it's back.
 
@@ -148,17 +152,19 @@ Once there, you stand next to the ghostly pastor. It grabs your hand and raises 
 *[Left]
     ~ Stay_Tracker += 0.5
     ~ temp_string = "Left"
+    "Left, I guess, but for <i>what?</i>" you ask, exasperated.
 
 *[Right]
     ~ Stay_Tracker += 0.5
     ~ temp_string = "Right"
+    "Right, I guess, but for <i>what?</i>" you ask, exasperated.
 
 *[Demand an answer]
     ~ Stay_Tracker -= 0.5
     ~ temp_string = ""
 
 -
-{temp_string != "": "{temp_string}, I guess, but for <i>what?</i>" you ask, exasperated. <br><br> "Prove your... faith." It holds out a hand, evidently expecting yours in return. "Every member does it. It only hurts... a pinch."}
+{temp_string != "": "Prove your... faith." It holds out a hand, evidently expecting yours in return. "Every member does it. It only hurts... a pinch."}
 
 "I'm not doing <i>anything</i> until you tell me <i>what is going on!</i>" You borderline shout. 
 
@@ -177,10 +183,12 @@ You look at the tub of water in front of you.
 
 "Hold it... there. Don't move." It says something to the crowd, and members of the audience each raise a hand. Some even raise two. All of them are missing at least one finger on their raised hand. "It will only... hurt a bit..."
 
-"Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls its free hand from behind it's back, and reveals a pair of wire cutters. It dawns on you what exactly they're for only a moment too late. "Waitwaitwaitwait—!" 
+~ PlaySFX("climax_long", true, 0, 0) 
+"Hurt? What do you—?" Before you can finish speaking, it begins reciting something. It pulls its free hand from behind it's back, and reveals a pair of wire cutters. It dawns on you what exactly they're for only a moment too late. "Waitwaitwaitwait—!" #DELAY: 0.5
 
 You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank you..." it says softly and in one swift motion, cuts off one of your fingers with a sickening <i>crunch.</i> 
 
+~ StopSFX("climax_long", 10, 0)
 And then, it releases you.
 
 * [You stumble back.]
@@ -188,6 +196,8 @@ And then, it releases you.
 
 = Finger_Gone
 ~ Church_Encounters += (Finger_Chopped)
+~ PlaySFX("heartbeat", true, 0, 0) 
+~ PlaySFX("tinitus", true, 0, 0) 
 Your hand is gushing blood. You're screaming, you think. Everything is moving in slow motion as you stumble backwards. You don't know where you're going, just that you need to get away.
 
 The pastor walks towards you with the severed finger in one hand and wire cutters in the other. It doesn't have a face but you know it's smiling. Your back reaches a wall and you slide into a sitting position. It crouches in front of you. "Hush... Hush... Hush..." it consoles you. "It only hurts... for a minute.
@@ -197,7 +207,7 @@ Your screams become whimpers as you wait for the pain to pass.
 
 *[It never does]
     ~ Stay_Tracker -= 1
-    TODO sfx
+    ~ PlaySFX("growling", false, 0, 0)
     The pain never dies. It continues to be a harsh, pulsating hurt. "It won't go away... unless you let it," the pastor growls. "You need... to be willing."
 
     You furiously shake your head. "Fine fine finefineFINE!" The paster hurls the wire cutters to the ground, and stamps it's feet  like a child throwing a tantrum. "Have it... YOUR way, then."
@@ -209,12 +219,16 @@ Your screams become whimpers as you wait for the pain to pass.
     
         It returns to center stage, and the crowd erupts into applause. "Now... let us bow our heads... and pray." 
         
+        ~ StopSFX("heartbeat", 5, 0) 
+        ~ StopSFX("tinitus", 5, 0)
         You wrap up the bloody stump on your hand, hoping to escape while they're distracted. The prayer stops and you flinch, afraid of what will come next. And yet, nothing does. The ghastly priest is gone. The crowd is gone. All that remains of the encounter are the wire cutters sitting on the floor in front of you, and the dull pain where your finger used to be. 
         
 
 *[At some point, it does]
     ~ Stay_Tracker += 1
     ~ finger_pain_pass = true
+    ~ StopSFX("heartbeat", 5, 0) 
+    ~ StopSFX("tinitus", 5, 0)
     You don't know how long it takes, but the pain dies to a dull throbbing. "There, you see?" the pastor says. "Now, be at peace."
 
     You watch as he tilts his head back and slowly lowers your finger into his featureless face. There's a crunch that coaxes a gasp from you, followed by another, and another; each one making you feel lighter than the last. The way the man's jaw rolls with each <i>snap</i> makes you wince.
@@ -232,13 +246,13 @@ Your screams become whimpers as you wait for the pain to pass.
             ~ Stay_Tracker += 0.5
             The pastor utters a prayer in the inhuman language. Yet, strangely enough, you feel as though you can understand it. Not to the extent that you would be able to translate it, but enough that you know innately the meaning behind each phrase. 
         
-            When the prayer finishes you glance up, smiling, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. 
+            When the prayer finishes you glance up, smiling, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. #PROP: [Pews false]
         
         ***[Turn away]
             ~ Stay_Tracker -= 0.5
             The pastor utters a prayer in the inhuman language. It is still harsh and foreign to your ears, and yet, it is strangely comforting. 
         
-            When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. 
+            When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. #PROP: [Pews false]
             
 
 - 
@@ -311,10 +325,9 @@ The pastor recites something. It pulls his free hand from behind his back, and r
     
     *** [You stumble back]
         -> Pews.Finger_Gone
-- 
 
-TODO i think we have an sfx
-"Coward." she spits at you, before the pastor uses the cutters to cut off one of the woman's fingers with a sickening <i>crunch.</i> She falls to the ground, cradling her bleeding hand. You see that her other hand is also missing fingers.
+
+- "Coward." she spits at you, before the pastor uses the cutters to cut off one of the woman's fingers with a sickening <i>crunch.</i> She falls to the ground, cradling her bleeding hand. You see that her other hand is also missing fingers.
 
 The pastor places the wire cutter on the tray with the container of now bloodied water. The crowd claps. "Now... let us bow our heads... and pray." The crowd bows their heads.
 
@@ -327,7 +340,8 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
     You turn away from her, unable to face her. 
 
     "Coward. Coward!" She clambers to her feet and pulls at your shirt collar. You squeeze your eyes shut. "After all I..."
-    She releases you and throws something at your feet. Her voice rings in your ears, but eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone.| The woman is gone.} All that's left of the encounter are the wire cutters sitting on at your feet and the blood staining your shirt.
+    
+    She releases you and throws something at your feet. Her voice rings in your ears, but eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone.| The woman is gone.} All that's left of the encounter are the wire cutters sitting on at your feet and the blood staining your shirt. #PROP: [Pews false]
 
 *[Apologize]
     ~ Stay_Tracker -= 0.5
@@ -335,7 +349,7 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
 
     "Coward. Coward!" Her voice is full of hate. She clambers to her feet, and grabs the wire cutters with her non-hurt hand. She throws them at your feet. "After <i>everything</i> I did for you!"
 
-    Her voice rings in your ears, and you look away. Eventually, it is silent. When you turn back, only to see you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone. | The woman is gone.} All that's left of the encounter are the wire cutters sitting at your feet and blood staining the wood.
+    Her voice rings in your ears, and you look away. Eventually, it is silent. When you turn back, only to see you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone. | The woman is gone.} All that's left of the encounter are the wire cutters sitting at your feet and blood staining the wood. #PROP: [Pews false]
 - 
 
 *[Pick up the wire cutters]

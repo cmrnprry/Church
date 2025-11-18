@@ -770,7 +770,7 @@ namespace AYellowpaper.SerializedCollections
 
             if (type == "intense")
             {
-                anim.enabled = true;
+                anim.SetTrigger("Toggle");
             }
             else if (type == "leave")
             {
@@ -786,22 +786,7 @@ namespace AYellowpaper.SerializedCollections
             }
             else if (type == "intial")
             {
-                var onj = LightingDictionary["IntialSight"]; //#EFFECT: IntialSight
 
-                var intial_light = onj.GetComponent<Light2D>();
-
-                if (onj.activeSelf)
-                {
-                    DOTween.To(() => intial_light.intensity,
-                            value => intial_light.intensity = value, 0, 1.5f)
-                        .OnComplete(() => { onj.gameObject.SetActive(false); });
-                }
-                else
-                {
-                    onj.gameObject.SetActive(true);
-                    DOTween.To(() => intial_light.intensity,
-                        value => intial_light.intensity = value, 10, .5f);
-                }
             }
         }
 

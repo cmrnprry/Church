@@ -12,7 +12,7 @@ INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
 
--> Trapped.Light
+-> Inside
 === StartGame ====
 #IMAGE: Default
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -1998,7 +1998,10 @@ The room turns still. Silent.
 -> Trapped.Light
 
 = Light
-A red light glows from above you. #EFFECT: BlinkOnClick_True #EFFECT: Force_Open
+~ PlayBGM("watched", true, 10, 0)
+~ StopSFX("generic", 2, 0)
+~ StopSFX("inside", 2, 0)
+A red light glows from above you. #EFFECT: BlinkOnClick_True #EFFECT: Force_Open #EFFECT: IntialSight
 *[Look at the light]
 
 *[Look at the light]
@@ -2041,23 +2044,22 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
 *[But you don't want to feel like this]
     ~ Church_Encounters += (Leave_Light)
     ~ Stay_Tracker -= 0.5
-    #DELAY: 3.5 #EFFECT: leave-glow
-    #EFFECT: Force_Closed
-    You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church.
+    ~ StopSFX("watched", 2, 0)
+    You take a heavy step back and pull away from the light. This feeling of { temp_string } This much you know. This much you trust. The rest is the church. #EFFECT: Force_Closed #DELAY: 3.5 #EFFECT: leave-glow
     
     ~ PlaySFX("screeching", false, 0, 0)
-    #CLEAR #EFFECT: Force_Open #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: scream-glow
-    An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. 
+    ~ PlaySFX("climax_long", true, 2.5, 0)
+    An earsplitting shriek pierces through the building. You cover your ears, but it only gets louder and louder the more you block it out. The pressure builds until you can barely stand, the warm bath of the light burns your skin. #CLEAR #EFFECT: Force_Open #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: scream-glow
     
     **[You can barely stand it]
-        ~ StopSFX("screeching", 0, 0)
-        Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. #EFFECT: remove-glow
+        Just as suddenly as it all started, it stops. The eye snaps closed, and the red light disappears with it. The window returns to it's normal, swirling state. #EFFECT: remove-glow #EFFECT: Force_Closed
     
         The pressure alleviates, the burning stops, and all the { Light_Feeling  == confused: confused emotions go| {Light_Feeling } goes} with it.
     
         You dig your nails into your hand.
     
         ***[Turn away from the window]
+            ~ StopSFX("climax_long", 2.5, 0)
             -> Inside
 
 *[But you are not ready to leave]
@@ -2066,8 +2068,8 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     ~ Stay_Tracker += 1
     
     ~ PlaySFX("groaning_happy", false, 0.25, 0)
-    ~ StopSFX("groaning_happy", 1.5, 0.5)
-    A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. #EFFECT: leave-glow #EFFECT: IntialSight #EFFECT: EFFECT: Force_Closed
+    ~ StopSFX("watched", 10, 0)
+    A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. #EFFECT: leave-glow #EFFECT: IntialSight #EFFECT: Force_Closed
 
     "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { Light_Feeling  == confused: confused emotions go | {Light_Feeling} goes } with it. The window returns to it's normal, swirling state. 
 
@@ -2077,6 +2079,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
         -> Inside
 
 === Inside ===
+~PlayBGM("inside", true, 5, 0)
 On the ground in front of you sits a flashlight and a note.
 
 *[Pick up the flashlight]
@@ -2146,7 +2149,7 @@ You have a goal now. <i>Find and destroy the heart.</i> You don't know where the
     
     - Short: {Looked_For_Items: You {Leg_State >= Limping: limp up | climb} the short set of stairs, expecting to find the office door at the end of the hall. Instead, it sits on wall adjacent to the stairs, hovering over the last few. Glancing down the hall, you see it now hosts a set of stairs that go both up and down. | You {Leg_State >= Limping: limp up | climb} the short set of stairs. The door seems a little a bit shorter than you remember, it now being about the same hight as you.} #IMAGE: Default
     
-         You bite your lip. {Looked_For_Items: Maybe you got confused while searching in the dark. | You're probably misremembering.} #IMAGE: Default
+         You bite your lip. {Looked_For_Items: Maybe you got confused while searching in the dark. | You're probably misremembering.}
         
     - Half: You {Leg_State >= Limping: limp up | climb} the short set of stairs. You frown at the door, lightly touching the wall where the top half used to be. The door is half as tall as it was last you visited. You knock on the wall and it feels solid. #IMAGE: Default
     

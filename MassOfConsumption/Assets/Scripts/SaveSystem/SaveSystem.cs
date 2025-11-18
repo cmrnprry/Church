@@ -147,11 +147,11 @@ public static class SaveSystem
 
         if (System.IO.File.Exists(path))
         {
-            string json = System.IO.File.ReadAllText(path);
-            slotData = JsonUtility.FromJson<SlotData>(json);
-
             //kill all playing audio
             AudioManager.instance.KillAllAudio();
+
+            string json = System.IO.File.ReadAllText(path);
+            slotData = JsonUtility.FromJson<SlotData>(json);
 
             OnLoad?.Invoke();
         }
@@ -162,6 +162,30 @@ public static class SaveSystem
     }
 
     /*        GETTERS AND SETTERSs          */
+
+    public static bool IsCursorOpen(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        return temp_data.isOpen;
+    }
+
+    public static bool IsCursorNeutral(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        return temp_data.isNeutral;
+    }
+
+    public static void SetIsCursorOpen(bool value, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        temp_data.isOpen = value;
+    }
+
+    public static void SetIsCursorNeutral(bool value, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        temp_data.isNeutral = value;
+    }
 
     public static List<PlayingAudioData> GetCurrentAudioPlaying(string slotID = "")
     {

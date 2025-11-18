@@ -30,6 +30,10 @@ namespace AYellowpaper.SerializedCollections
         public ColorData GlobalColor;
         public bool HasFlashlight;
 
+        //cursor data
+        public bool isOpen;
+        public bool isNeutral;
+
         public SlotData()
         {
             InkStory = string.Empty;
@@ -42,6 +46,8 @@ namespace AYellowpaper.SerializedCollections
             LoopingPlaying = new SerializedDictionary<string, PlayingAudioData>();
             GlobalColor = new ColorData(0.8784314f, 0.8078431f, 0.8078431f, 1);
             HasFlashlight = false;
+            isOpen = false;
+            isNeutral = true;
         }
     }
 }

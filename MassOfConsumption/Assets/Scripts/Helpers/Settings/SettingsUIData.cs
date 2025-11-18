@@ -111,7 +111,6 @@ public class SettingsUIData : MonoBehaviour
     public void SetScrollDir(bool value)
     {
         SaveSystem.SetScrollDirValue(value);
-        GameManager.instance.AutoPlay = value;
     }
 
     public void SetLineBoil(bool value)
