@@ -37,6 +37,9 @@ public class CursorHelper : MonoBehaviour
         SaveUIPageNumber.OnCursorEnter += OnHoverStart;
         SaveUIPageNumber.OnCursorExit += OnHoverEnd;
 
+        ClickToMoveHelper.OnCursorEnter += OnHoverStart;
+        ClickToMoveHelper.OnCursorExit += OnHoverEnd;
+
         GameManager.OnForceBlink += ForceBlink;
         GameManager.OnForceClosed += ForceClose;
         GameManager.OnForceOpen += ForceOpen;
@@ -55,6 +58,9 @@ public class CursorHelper : MonoBehaviour
 
         SaveUIPageNumber.OnCursorEnter -= OnHoverStart;
         SaveUIPageNumber.OnCursorExit -= OnHoverEnd;
+
+        ClickToMoveHelper.OnCursorEnter -= OnHoverStart;
+        ClickToMoveHelper.OnCursorExit -= OnHoverEnd;
 
         GameManager.OnForceBlink -= ForceBlink;
         GameManager.OnForceClosed -= ForceOpen;
@@ -76,6 +82,8 @@ public class CursorHelper : MonoBehaviour
     {
         if (routine != null)
             StopCoroutine(routine);
+
+        SaveSystem.SetIsCursorOpen(false);
 
         routine = StartCoroutine(Blink());
     }

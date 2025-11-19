@@ -94,6 +94,7 @@ namespace AYellowpaper.SerializedCollections
         [SerializeField] private VerticalLayoutGroup ChoiceButtonContainer;
         [SerializeField] private LabledButton ChoiceButtonPrefab;
         [SerializeField] private ScrollRect Scroll;
+        [SerializeField] private VerticalLayoutGroup TextContainer;
 
         [Header("Image Data")]
         [SerializeField] private Animator anim;
@@ -204,7 +205,8 @@ namespace AYellowpaper.SerializedCollections
 
             SaveSystem.SetSettingsOnLoad();
 
-            Story.onError += (msg, type) => {
+            Story.onError += (msg, type) =>
+            {
                 if (type == Ink.ErrorType.Warning)
                     Debug.LogWarning(msg);
                 else
@@ -239,6 +241,11 @@ namespace AYellowpaper.SerializedCollections
         {
             SaveSlot.OnSave -= SetDataOnSave;
             SaveSystem.OnLoad -= GetDataOnLoad;
+        }
+
+        public void SetTextFlow(bool val)
+        {
+            TextContainer.reverseArrangement = val;
         }
 
         private void SetDataOnSave(string ID)
@@ -694,16 +701,16 @@ namespace AYellowpaper.SerializedCollections
                     should_blink = false;
                     break;
                 case "Force_Blink":
-                    GameManager.instance.CanClick = false;
+                   CanClick = false;
                     OnForceBlink?.Invoke();
                     break;
                 case "Force_Closed":
-                    GameManager.instance.CanClick = false;
+                    CanClick = false;
                     OnForceClosed?.Invoke();
                     //should_blink = false;
                     break;
                 case "Force_Open":
-                    GameManager.instance.CanClick = false;
+                   CanClick = false;
                     OnForceOpen?.Invoke();
                     break;
                 case "flashlight_on":
@@ -729,6 +736,9 @@ namespace AYellowpaper.SerializedCollections
                 case "LightDark":
                     GlobalLight.color = DarkLight;
                     SaveSystem.SetColorData(DarkLight);
+                    break;
+                case "Remove_Finger":
+                    ControlGlow("Finger");
                     break;
                 case "IntialSight":
                     ControlGlow("intial");
@@ -765,29 +775,46 @@ namespace AYellowpaper.SerializedCollections
 
         private void ControlGlow(string type)
         {
-            var anim = LightingDictionary["Animator"].GetComponent<Animator>();
-            anim.enabled = true;
+            if (!SaveSystem.GetOverlayValue())
+                return;
 
-            if (type == "intense")
+            if (type == "Finger")
             {
-                anim.SetTrigger("Toggle");
+                var light = LightingDictionary["Finger"].GetComponent<Light2D>();
+                DOTween.To(() => light.intensity, value => light.intensity = value, 13, 2).SetEase(Ease.OutSine).OnComplete(() =>
+                {
+                    DOTween.To(() => light.intensity, value => light.intensity = value, 3, 2).SetEase(Ease.OutSine);
+                });
+                BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(3, 100, 30, 40).SetEase(Ease.InOutBounce);
+                PropDictionary["Pews"].GetComponent<RectTransform>().DOShakePosition(3, 100, 30, 40).SetEase(Ease.InOutBounce);
             }
-            else if (type == "leave")
+            else
             {
-                anim.SetTrigger("Leave");
-            }
-            else if (type == "stay")
-            {
-                anim.SetTrigger("Stay");
-            }
-            else if (type == "scream")
-            {
-                anim.SetTrigger("Scream");
-            }
-            else if (type == "intial")
-            {
+                var anim = LightingDictionary["Animator"].GetComponent<Animator>();
+                anim.enabled = true;
 
+                if (type == "intense")
+                {
+                    anim.SetTrigger("Toggle");
+                }
+                else if (type == "leave")
+                {
+                    anim.SetTrigger("Leave");
+                }
+                else if (type == "stay")
+                {
+                    anim.SetTrigger("Stay");
+                }
+                else if (type == "scream")
+                {
+                    anim.SetTrigger("Scream");
+                }
+                else if (type == "intial")
+                {
+
+                }
             }
+
         }
 
         private void ClickToMove(int Index)

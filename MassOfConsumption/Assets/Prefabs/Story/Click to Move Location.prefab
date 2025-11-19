@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 6015988199801523938}
   - component: {fileID: 1773176999773052269}
   - component: {fileID: 2888006258623948223}
+  - component: {fileID: 1589677164946143859}
   m_Layer: 5
   m_Name: Click to Move Location
   m_TagString: Untagged
@@ -298,6 +299,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 1
           m_CallState: 2
+        - m_Target: {fileID: 1589677164946143859}
+          m_TargetAssemblyTypeName: ClickToMoveHelper, Assembly-CSharp
+          m_MethodName: OnHoverStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
   - eventID: 1
     callback:
       m_PersistentCalls:
@@ -306,6 +319,18 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_MethodName: SetActive
           m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1589677164946143859}
+          m_TargetAssemblyTypeName: ClickToMoveHelper, Assembly-CSharp
+          m_MethodName: OnHoverEnd
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -370,6 +395,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1589677164946143859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8549397451545051280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b18cd15ed0a4943b1893cb70005de5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8589478626367184982
 GameObject:
   m_ObjectHideFlags: 0

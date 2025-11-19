@@ -378,6 +378,7 @@ public static class SaveSystem
 
         //set autoplay values
         GameManager.instance.AutoPlay = GetAutoplayValue();
+        GameManager.instance.SetTextFlow(GetScrollDir());
 
         GameManager.instance.VisualOverlay = GetOverlayValue();
         GameManager.instance.TextEffects = GetTextEffectsValue();

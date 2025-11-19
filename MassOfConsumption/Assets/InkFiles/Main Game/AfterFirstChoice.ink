@@ -29,7 +29,7 @@ The stairwell at the other end of the room glows from a light, red light. Your e
 
 Quickly, and quietly you a seat in the front row, and the light dims. A pastor climbs the stage and looks around, nodding at the figures. It looks at you, and tilts it's head. While it has no face, you can feel it smiling. It raises a hand, and points at you. You try to hide in your seat, and look away.
 
-A red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. {Church_Encounters ? (Leave_Light): "It warms your body, and some of the tension melts away." | "Your skin tingles under it's warmth. It's uncomfortable. " } 
+A red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. {Church_Encounters ? (Leave_Light): "It warms your body, and some of the tension melts away." | "Your skin tingles under it's warmth. It's uncomfortable. " } #PROP: [Pews_Lighting true]
 
 "Ah, there... you... are..." The pastor says, each word drawn out and emphasized. It's voice is raspy and harsh, like it's not used to speaking human language. 
 
@@ -38,10 +38,10 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 ~temp_bool = false
 
 *[Go to the stage]
-->Pews.Go_to_Stage
+    ->Pews.Go_to_Stage
 
 *[Leave]
-->Pews.Try_Leave(false)
+    ->Pews.Try_Leave(false)
 
 = Stairs_After
 There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down.
@@ -251,15 +251,14 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 You drop down from the stage and walk past the pews. Everyone is gone.
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
-#CYCLE: Anxiety, Dread, Doubt, Confusion
-You bow your head and close your eyes. @ bubble up in your chest. 
+~ PlaySFX("curtain", false, 0, 2) 
+You bow your head and close your eyes. @ bubbles up in your chest. #CYCLE: Anxiety, Dread, Doubt, Confusion #DELAY: 3
 
-~ PlaySFX("curtain", false, 0, 0)
-~ PlaySFX("child-wood-footsteps", false, 0, 0) 
-You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional.
+~ PlaySFX("child-wood-footsteps", false, 0, 0)
+You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional. #IMAGE: Confessional_CloseUp #PROP: [curtain_wiggle true] #DELAY: 3
 
-~ PlaySFX("child-wood-footsteps", false, 0, 0) 
-You whip around, and just barely miss seeing someone run up the stairs.
+ 
+You whip around, and just barely miss seeing someone run up the stairs. #IMAGE: Church_Inside #PROP: [curtain_wiggle false]
 
 *[Check inside the confessional]
     ->Confessional_Curtain
@@ -269,10 +268,10 @@ You whip around, and just barely miss seeing someone run up the stairs.
 
 = Side_Room_After
 #CHECKPOINT: 3, The pews are... full?
-TODO organ music
+~PlayBGM("organ", false, 0, 0)
 You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stairwell to see the pews are full of people. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
 
-The confessional at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
+The confessional at the other end of the room glows from a light, red light. 
 
 *[Take a seat at a pew]
     ->After_First.Take_Seat
@@ -314,7 +313,7 @@ You bow your head and close your eyes. @ bubbles up in your chest, and tears for
 {Stay_Tracker <= 2: "I'm <i>going</i> to get out of here." You say. "Do you hear me? I'm <i>going</i> to get out of here!" | <i>I will get out of here.</i> you think to yourself. <i>I...</i>}
 
 You need to return to your search. <>
--> After_Second.Return_to_Search
+    -> After_Second.Return_to_Search
 
 = Confessional_Sin_Second
 {

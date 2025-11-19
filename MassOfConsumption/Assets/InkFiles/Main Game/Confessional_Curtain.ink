@@ -25,7 +25,7 @@
         
     - visited_state == 1:
         {
-            - previous_area == Enter_Pews:
+            - previous_area != Enter_Pews:
                 While you wait for the service to be over, you look around the cramped space for something useful. #IMAGE: Default #PROP: [curtain_full false]
     
                 A small bucket sits in the corner by the divider. You assume the booth must leak, but the bucket is empty.
@@ -40,9 +40,9 @@
                 ->Confessional_Curtain.Why_Enter
             - else:
                 //We come here if it's after the pews 1st choice
-                You decide to check the confessional. You saw the curtain move, someone <i>must</i> be in there. Carefully and quietly, you approach it. #IMAGE: Default #PROP: [curtain_full false]
+                You decide to check the confessional. You saw the curtain move, someone <i>must</i> be in there. Carefully and quietly, you approach it. #IMAGE: Confessional_CloseUp #PROP: [curtain_full true]
                 
-                Once in front of it, you think you can hear shuffling from inside. You steel yourself, and rip the curtain open. 
+                Once in front of it, you think you can hear shuffling from inside. You steel yourself, and rip the curtain open. #IMAGE: Default #PROP: [curtain_full false]
                 
                 It's empty. "Ha.. Hahaha..." you laugh and step inside. {Confessional_Encounters ? (Finished_Door_Side): It's almost identical to the other side. | The grate that a priest would speak through has the same lattice work that the door does. } A small bucket sits in the corner by the divider.
                 
@@ -84,11 +84,9 @@
 Your heart races and your body tenses. Another person? Will they help you? Can you trust them? {Confessional_Encounters ? (Killed_Girl):  ... Will it end the same way it did with {Book_Knowledge ? Read_Mom_Young_Book: the young Ophelia| the girl}?}
 
 *["Have you seen a heart?"]
-    #DELAY: 1
     "I cannot say I have." He chuckles. "Unless you mean your own? Maybe a confession would help you find it?"
 
 *["Who are you?"]
-    #DELAY: 1
     "That does not matter." He says. {temp_bool: "I will ask again: What is it you have to confess?" | "Do you have something to confess?"}
 
 - 
@@ -136,7 +134,7 @@ Your heart races and your body tenses. Another person? Will they help you? Can y
     ->Confessional_Curtain.Leave_NoProgress
 
 = Question(replace)
-#DELAY: 1.5
+#DELAY: 0.5
 You frown, "No, that's not what-"
 
 "I do not have all day, and there are others waiting their turn." The voice cuts you off. "So this is the last time I'll ask you this: What. Do. You. Wish. To. Confess?"
@@ -334,6 +332,8 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         ~ PlaySFX("leak", false, 0, 0)
         <i>Plink!</i> The bucket is half full.#DELAY: 1.5
 
+        ~ PlayBGM("watched", true, 20, 0)
+        ~ StopSFX("inside", 20, 0)
         "I understand. Do you feel a sense of relief now?" You do. You feel a little lighter after someone saying it out loud. "Knowing you don't have to go back to that?"
 
         Your stomach drops.
@@ -347,6 +347,8 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
     - else: //disagreed last time
         "I don't think—"
         
+        ~ PlayBGM("watched", true, 20, 0)
+        ~ StopSFX("inside", 20, 0)
         The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. You <i>are</i> happier here, yes?"
         
         #DELAY: 1.5
@@ -421,6 +423,7 @@ The bucket is filling fast. You can see that the liquid seems... thicker than ju
 ~ Stay_Tracker -= 1
 ~ Confessional_Encounters += (Finished_Curtain_Side)
 
+~ StopSFX("watched", 10, 0)
 {reason != "": "{Walk_Home ? (Different_Path):When I tried to avoid the church, it pulled me back. }{Church_Encounters ? (Leave_Light):When I rejected it's sight, it burned me. }{Looked_For_Items:When I tried to escape, it <i>taunted</i> me with a {Object}. }When I wanted to <i>leave</i> the church <i>would not let me."</i> You clench your fists. "So tell me, {reason}"}
 
 *[The voice is silent]
@@ -429,7 +432,9 @@ The bucket is filling fast. You can see that the liquid seems... thicker than ju
 ~ Confessional_Encounters += (Angered_Priest)
 
 ~ PlaySFX("bang_confessional", false, 0, 0)
-Bang!#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
+~ PlaySFX("climax_short", false, 0, 0)
+~ PlayBGM("watched", true, 5, 5)
+Bang!#CLASS: Bang_Confessional #DELAY: 0.5
 
 The wood divider splinters as <strike>the priest</strike> whatever is on the other side slams into it. "HOW could you be so IGNORANT? So UNGRATEFUL? SO STUPID?" The calm softness <strike>he</strike> it used to speak to you before is gone. Its voice contorts and stretches as it changes from something human to something guttural and monstrous.
 
@@ -439,6 +444,7 @@ The bucket tips over, and the liquid spills out. It sticks to your shoes, much t
 
 - 
 ~ PlaySFX("bang_confessional", false, 0, 0)
+~ PlaySFX("climax_short", false, 0, 0)
 Bang!#CLASS: Bang_Confessional #DELAY: 0.5
 
 "It only want to HELP you. It LET you go, to SHOW you that. How UN-GRATE-FUL." With every syllable it slams into the wood. The grate it has been talking through falls onto your side of the confessional. It's voice screeches. "STUPID STUPID STUPID STUPID!"
@@ -453,6 +459,7 @@ The booth could come apart at any moment. You need to get out of here.
 
 = Get_Out
 ~ PlaySFX("bang_confessional", false, 0, 0)
+~ PlaySFX("climax_short", false, 0, 0)
 Bang!#CLASS: Bang_Confessional #DELAY: 0.5
 
 You cover your face as tiny, stinging, wooden splinters fly toward you. You need to get OUT, before that... that THING gets IN.
@@ -470,8 +477,8 @@ You {Leg_State > Sore: hobble through the curtain as fast as you can | push thro
 - 
 
 ~ PlaySFX("bang_confessional", false, 0, 0)
+~ PlaySFX("climax_short", false, 0, 0)
 Bang!#CLASS: Bang_Confessional #PLAY: bang_confessional #DELAY: 0.5
-
 
 {
 
@@ -506,6 +513,7 @@ You offer the confessional one last look before moving on. #PROP: [skeleton_key 
 = Look_Other_Side
 
 ~ PlaySFX("bang_confessional", false, 0, 0)
+~ PlaySFX("climax_short", false, 0, 0)
 Bang!#CLASS: Bang_Confessional #DELAY: 0.5
 
 You cover your face as wooden splinters fly toward you as tiny, stinging flecks of wood. You take a step closer to the hole in the divider. You raise your flashlight, and peer through the hole.
@@ -523,12 +531,12 @@ On the bench sits a small key.
 
 *[Reach your arm through]
     ~ Confessional_Encounters += (Reached_Through)
-    #PLAY: flashlight_off 
     ~ PlaySFX("flashlight_off", false, 0, 0)
     You place the flashlight back in your pocket, and reach your arm through. blindly feeling around.  Your fingertips just barely brush the bench it's sitting on. #EFFECT: flashlight_off
 
     You reach in deeper, your face pressing against the mangled wood. "Just a bit... more..." you mumble to yourself.
     
+    ~ PlaySFX("climax_short", false, 0, 0)
     Your fingers brush against the key again when a cold hand grabs your arm. You jerk away, but it holds tight, fingers digging into your wrist.
 
     "The more you fight, the sweeter the meal you will be." The gruff voice growls. It's scratchy and low. "Don't mistake this for kindness."
@@ -537,6 +545,7 @@ On the bench sits a small key.
     Something cold and metal is pressed into your palm, and you're released. You yank your arm back through the opening, falling into the opposite side. Your arm throbs where the thing grabbed you. In your hand is the key. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.
     
     The booth is quiet, save for your own breathing. You place the key in your pocket.
+    
 *[Go around]
     #PLAY: flashlight_off
     ~ PlaySFX("flashlight_off", false, 0, 0)
@@ -687,6 +696,8 @@ The voice is silent.
         ~ PlaySFX("leak", false, 0, 0.5)
         <i>Plink! Plink! Plink!</i>#DELAY: 1.5
     
+        ~ PlayBGM("watched", true, 20, 0)
+        ~ StopSFX("inside", 20, 0)
         "I think you are sabotaging yourself on purpose." The voice is gentle. Soft. " Something, out <i>there</i> is making you this way. So aren't you so glad you can stay?"
         
         -> Confessional_Curtain.TooMuch_Choice
@@ -713,7 +724,9 @@ The voice is silent.
             Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that—"
     
             It cuts you off again.
-    
+
+            ~ PlayBGM("watched", true, 20, 0)
+            ~ StopSFX("inside", 20, 0)
             "I think you are sabotaging yourself on purpose." The voice is stern, and cold. "Something, out <i>there</i> is making you this way. So aren't you so glad you can stay?"
             -> Confessional_Curtain.TooMuch_Choice
 
@@ -741,7 +754,9 @@ You pick your nails and flinch when you peel your nail a little too close to the
 
 "You are more... stubborn than expected." The voice spits out the words. "But I can wait for as long as you need. I have <i>all</i> the time in the world."
 
-Your skin crawls. The silence returns.
+Your skin crawls. 
+
+The silence returns.
 
 *[Fill the silence]
 {
@@ -771,6 +786,8 @@ Your skin crawls. The silence returns.
     ~ PlaySFX("leak", false, 0, 0.5)
     <i>Plink! Plink! Plink!</i>#DELAY: 1.5
 
+    ~ PlayBGM("watched", true, 20, 0)
+    ~ StopSFX("inside", 20, 0)
     "It's not your fault that the outside world is unsympathetic." The voice is gentle. Soft. "So aren't you so glad you can stay?"
 
     -> Confessional_Curtain.TooMuch_Choice
@@ -797,6 +814,8 @@ Your skin crawls. The silence returns.
     
         It cuts you off again.
     
+        ~ PlayBGM("watched", true, 20, 0)
+        ~ StopSFX("inside", 20, 0)
         "I think you are sabotaging yourself on purpose." The voice is stern, and cold. "Something, out <i>there</i> is making you this way. So aren't you so glad you can stay?"
         -> Confessional_Curtain.TooMuch_Choice
 
@@ -827,6 +846,8 @@ The voice finally continues, and you can breathe again. "So you are picking thes
     ~ PlaySFX("leak", false, 0, 0.5)
     <i>Plink! Plink! Plink!</i>#DELAY: 1.5
 
+    ~ PlayBGM("watched", true, 20, 0)
+    ~ StopSFX("inside", 20, 0)
     "I think you are sabotaging yourself on purpose." The voice is gentle. Soft. "Something, out <i>there</i> is making you this way. So, aren't you so glad you can stay?"
     
     -> Confessional_Curtain.TooMuch_Choice
@@ -853,6 +874,8 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 
         It cuts you off again.
 
+        ~ PlayBGM("watched", true, 20, 0)
+        ~ StopSFX("inside", 20, 0)
         "I think you are sabotaging yourself on purpose." The voice is stern, and cold. "Something, out <i>there</i> is making you this way. So, aren't you so glad you can stay?"
         -> Confessional_Curtain.TooMuch_Choice  
 
@@ -868,6 +891,8 @@ The voice finally continues, and you can breathe again. "So you are picking thes
     -> Confessional_Curtain.Personal_End
         
 *["Stay?"]
+~ PlayBGM("watched", true, 20, 0)
+~ StopSFX("inside", 20, 0)
 
 - 
 #DELAY: 0.5
@@ -895,7 +920,6 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
     -> Confessional_Curtain.Personal_End
 
 = Personal_End
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
@@ -992,18 +1016,20 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 *[Continue waiting]
     ~ Confessional_Encounters += (Stubborn_to_Priest)
+    
 - Finally, the voice breaks the silence.
 
 "You are more... stubborn than expected." The voice spits out the words. "But I can wait for as long as you need. I have <i>all</i> the time in the world."
 
-    Your skin crawls. The silence returns.
+Your skin crawls. 
+    
+The silence returns.
 
 *[Fill the silence]
     "I wake up, go to work, come home, watch TV while eating dinner, and go to bed." You wring your hands together, suddenly embarrassed. "It's a routine. There's nothing to tell."
     ->Confessional_Curtain.No_Talk
 
 *[Leave the booth]
-    #PLAY: curtain
     ~ PlaySFX("curtain", false, 0, 0)
     You stand and leave the booth. You stare at the confessional. It's quiet. You're not sure what's in there, but you're at a stalemate with whatever was on the other side. If you're not going to talk, there's no reason to stick around.
         
@@ -1026,9 +1052,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     #DELAY: 1
     You feel yourself nodding. "I... My job is a means to an end. It's enough to keep me alive, but not enough to... do more..."
     
-    #PLAY: leak #DELAY: 1.5
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Plink!</i>
+    <i>Plink!</i> #DELAY: 1.5
     
     "I see. So why {Stay_Tracker <= 1:do you fight it | don't you stay} then?"
 
@@ -1037,9 +1062,8 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
     #DELAY: 1
     You feel yourself shake your head. "I... My job is a means to an end, but it keeps me alive. I'm saving so one day I'll be able to... do more."
         
-    #PLAY: leak #DELAY: 1.5
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Plink!</i>
+    <i>Plink!</i>#DELAY: 1.5
         
     "I see. So why {Stay_Tracker <= 1:fight it | don't you stay} then?"
 
@@ -1049,21 +1073,24 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 *[Stay silent]
 
-- #PLAY: leak 
+-
 ~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>#DELAY: 1.5
 
 
 {
 - Temp_Bool:
+    ~ PlayBGM("watched", true, 20, 0)
+    ~ StopSFX("inside", 20, 0)
     "You complain of routine. You wish for more." The voice becomes softer as it speaks. "So <i>why</i> {Stay_Tracker <= 1: fight it? | don't you stay stay? } Choose the church. It can offer everything you want and more."
     
 - else:
     What is it talking about? {Stay_Tracker <= 1.5: Of course you fight the church. You want to <i>leave.</i> | Stay? When have you ever wished to...}
 
+    ~ PlayBGM("watched", true, 20, 0)
+    ~ StopSFX("inside", 20, 0)
     "You can say you're content with your life <i>out there,</i> but we both know you want to stay <i>here"</i> The voice becomes harder as it speaks. "The church has so much to offer you, you know this. {Stay_Tracker <= 1.5: So, why is it you fight the church? | So why are you <i>fighting</i> to leave?}"
 
-    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
     ~ PlaySFX("leak", false, 0, 0)
     ~ PlaySFX("leak", false, 0, 0.25)
     ~ PlaySFX("leak", false, 0, 0.5)
@@ -1088,7 +1115,6 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 #DELAY: 1
 "Your life is a routine. A boring, worthless routine." You flinch at the words. "You struggle everyday and for what?"
 
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
@@ -1097,7 +1123,6 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 #DELAY: 2
 "{Temp_String}"
 
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
@@ -1153,7 +1178,6 @@ You squirm uncomfortably in your seat. The quiet seems deafening.
 
 You nod.
 
-
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
@@ -1164,6 +1188,7 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 "All the church wants is to give you more than the world out there." You nod. "The church only wants the best for you. So, just. Stop. Fighting. It."
 
 *[You nod]
+    ~ StopSFX("watched", 15, 0)
 
 - 
 
@@ -1319,15 +1344,19 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 ~ previous_area = Confessional_CurtainSide
 ~ items_obtained += (Skeleton_Key)
 ~ current_area = Main_Body 
+~ PlayBGM("inside", true, 30, 0)
 
 ~ visited_state += 1
 {
     
     - visited_state == 1:
+        #PROP: [skeleton_key false]
         ->After_First.Confessional_After
     - visited_state == 2:
+        #PROP: [skeleton_key false]
         -> After_Second.Confessional_Sin_Second
     - else:
+        #PROP: [skeleton_key false]
         -> Last_Stop.Confessional_Sin_Last
 }
 
