@@ -98,18 +98,40 @@ namespace AYellowpaper.SerializedCollections
                 }
                 else
                 {
-                    foreach (Transform child in obj.transform)
+                    if (src == "eat_heart" || src == "squeeze_heart")
+                        ChoseHand(obj.transform, visibility);
+                    else
                     {
-                        if (!child.gameObject.activeSelf)
-                            child.gameObject.SetActive(true);
+                        foreach (Transform child in obj.transform)
+                        {
+                            if (!child.gameObject.activeSelf)
+                                child.gameObject.SetActive(true);
 
-                        if (child.TryGetComponent(out OnOffHelpers child_helper))
-                            child_helper.FlipVisibility(visibility);
+                            if (child.TryGetComponent(out OnOffHelpers child_helper))
+                                child_helper.FlipVisibility(visibility);
+                        }
                     }
+
                 }
 
                 SaveSystem.SetCurrentProp(src, visibility);
             }
+        }
+
+        private static void ChoseHand(Transform parent, bool visibility)
+        {
+            bool isChopped = GameManager.instance.Story.variablesState["Church_Encounters"].ToString().Contains("Finger_Chopped");
+            bool isBranded = GameManager.instance.Story.variablesState["Book_Knowledge"].ToString().Contains("Branded");
+
+            int child_index = (!isBranded && isChopped) ? 1 : 0;
+            child_index = (isBranded && isChopped) ? 3 : child_index;
+            child_index = (isBranded && !isChopped) ? 2 : child_index;
+
+            if (!parent.GetChild(child_index).gameObject.activeSelf)
+                parent.GetChild(child_index).gameObject.SetActive(true);
+
+            if (parent.GetChild(child_index).TryGetComponent(out OnOffHelpers child_helper))
+                child_helper.FlipVisibility(visibility);
         }
 
         public static void ShiftImage(Image background, bool wasVisible = false, bool isNonBus = false)

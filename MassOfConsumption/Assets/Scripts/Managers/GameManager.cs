@@ -701,7 +701,7 @@ namespace AYellowpaper.SerializedCollections
                     should_blink = false;
                     break;
                 case "Force_Blink":
-                   CanClick = false;
+                    CanClick = false;
                     OnForceBlink?.Invoke();
                     break;
                 case "Force_Closed":
@@ -710,7 +710,7 @@ namespace AYellowpaper.SerializedCollections
                     //should_blink = false;
                     break;
                 case "Force_Open":
-                   CanClick = false;
+                    CanClick = false;
                     OnForceOpen?.Invoke();
                     break;
                 case "flashlight_on":
@@ -736,6 +736,9 @@ namespace AYellowpaper.SerializedCollections
                 case "LightDark":
                     GlobalLight.color = DarkLight;
                     SaveSystem.SetColorData(DarkLight);
+                    break;
+                case "Shake_Confessional":
+                    EffectImages("Confessional");
                     break;
                 case "Remove_Finger":
                     ControlGlow("Finger");
@@ -770,6 +773,18 @@ namespace AYellowpaper.SerializedCollections
                 default:
                     Debug.LogWarning($"Effect {key} could not be found.");
                     break;
+            }
+        }
+
+        private void EffectImages(string type)
+        {
+            if (!SaveSystem.GetOverlayValue())
+                return;
+
+            if (type == "Confessional")
+            {
+                BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
+                PropDictionary["curtain_full"].GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
             }
         }
 

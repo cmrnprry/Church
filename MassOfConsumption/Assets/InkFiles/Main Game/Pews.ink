@@ -260,7 +260,7 @@ Your screams become whimpers as you wait for the pain to pass.
             ~ Stay_Tracker -= 0.5
             The pastor utters a prayer in the inhuman language. It is still harsh and foreign to your ears, and yet, it is strangely comforting. 
         
-            When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. #PROP: [Pews false]
+            When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. #PROP: [Pews false] 
             
 
 - 

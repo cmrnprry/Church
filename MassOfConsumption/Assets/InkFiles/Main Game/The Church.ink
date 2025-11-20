@@ -11,8 +11,7 @@ INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
-
--> Pews.Pews_Continue
+-> After_First.Confessional_After
 === StartGame ====
 #IMAGE: Default
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -878,7 +877,7 @@ You slam the laptop shut. A fuzzy memory tickles the back of your mind. Suddenly
 
 - Your coworker stares at you is disbelief, and you shove your hand into your pocket, searching for the polaroid inside, hoping to calm yourself, only to find it missing.
 
-~ photo_ripped = AT_WORK
+~ RIPPED = AT_WORK
  "No no no, where...?" You franticly search every pocket, finding them all empty. You look to your desk and find small, ripped pieces of a once comforting memory. "Did I...?"
 
 "Seriously, what's up with you?!" He asks as you gather the pieces in your hands, and begin trying to tape them together, but the pieces are too small. You swallow the lump in your throat, and face your coworker. "Uhhh... You alright?"
@@ -951,7 +950,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     You reach into your empty pocket before remembering. Right. You destroyed it. You bite your lip and keep moving. <>
 
 *{!photo_ripped} [Check your polaroid]
-    ~ photo_ripped = SOME_IN_POCKET
+    ~ RIPPED = SOME_IN_POCKET
     ~ Remembered_Past = true
     ~ PlayBGM("watched", true, 30, 0)
     #PROP: [polaroid true]
@@ -1772,7 +1771,7 @@ You mentally kick yourself for letting this happen. {Walk_Home ? (Different_Path
 }
 
 = Remember
-~ photo_ripped = ALL_IN_POCKET
+~ RIPPED = ALL_IN_POCKET
 # REMOVE: INTRUSIVE #PROP: [polaroid true]
 You pull the polaroid out from your pocket, hoping to think about better times. It's dark, but you can see enough to make out shapes. You trace the image of your younger self, and the gate behind them with your finger, then the church behind—
 

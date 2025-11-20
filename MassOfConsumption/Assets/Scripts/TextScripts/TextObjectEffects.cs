@@ -82,6 +82,9 @@ public class TextObjectEffects : MonoBehaviour
 
     private void ResetIndividualCharacters()
     {
+        if (text == null)
+            return;
+
         DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text);
 
         for (int ii = 0; ii < anim.textInfo.characterCount; ++ii)
@@ -112,12 +115,12 @@ public class TextObjectEffects : MonoBehaviour
 
         if (toAdd != "NULL" || toAdd != "")
         {
-            float current_size = SaveSystem.GetTextSize();;
+            float current_size = SaveSystem.GetTextSize(); ;
             VerticalLayoutGroup layout = this.transform.parent.gameObject.GetComponent<VerticalLayoutGroup>();
-            
+
             if (class_sequence == null || !class_sequence.active)
                 class_sequence = DOTween.Sequence();
-        
+
             if (fade_sequence == null || !fade_sequence.active)
                 fade_sequence = DOTween.Sequence();
 

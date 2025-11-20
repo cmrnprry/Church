@@ -587,9 +587,9 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
     - visited_state == 1:
         ->After_First.Confessional_After
     - visited_state == 2:
-        -> After_Second.Confessional_Sin_Second
+        -> After_Second.Confessional_Priest_Second
     - else:
-        -> Last_Stop.Confessional_Sin_Last
+        -> Last_Stop.Confessional_Priest_Last
 }
 
 

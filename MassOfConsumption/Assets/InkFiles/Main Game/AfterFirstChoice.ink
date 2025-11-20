@@ -2,9 +2,7 @@
 
 = Confessional_After
 #CHECKPOINT: 3, The pews are... full? #IMAGE: Church_Inside
-You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
-
-The stairwell at the other end of the room glows from a light, red light. Your eyes scan the windows, but the eyes are closed.
+You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you. #PROP: [Pews true]
 
 *[Take a seat at the pews]
     ->After_First.Take_Seat
@@ -44,7 +42,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
     ->Pews.Try_Leave(false)
 
 = Stairs_After
-There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down.
+There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down. #IMAGE: Default #PROP: [Pews false]
 
 You hear someone call your name, but you don't dare turn around. You don't know if you're being followed or not. You choose the... 
 
@@ -165,7 +163,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
 {
     - Confessional_Encounters !? (Finished_Curtain_Side) && Confessional_Encounters ? (Finished_Door_Side):
         ~temp_bool = false
-        Slowly and carefully, you walk backwards, trying not to make a sound, until you feel the edge of the curtain. The sound is enough, and all heads snap to look at you. One of the people shifts, but you slip past the curtain, and into the booth. You sit on the bench, and pull your feet up so they can't be seen from under the curtain.
+        Slowly and carefully, you walk backwards, trying not to make a sound, until you feel the edge of the curtain. The sound is enough, and all heads snap to look at you. One of the people shifts, but you slip past the curtain, and into the booth. You sit on the bench, and pull your feet up so they can't be seen from under the curtain. #IMAGE: Default #PROP: [Pews false]
         
         You hold your breath, listening for movement. You hear a shuffling, and see a shadow move in front of the curtain. A hand with long, thin fingers reaches into the booth and slide from side to side.
         
@@ -177,14 +175,15 @@ You hear someone call your name, but you don't dare turn around. You don't know 
         
     - else:
         ~temp_bool = true
-        Slowly and carefully, you walk backwards, trying not to make a sound, until your back hits the door with a light thud. The sound is enough, and all heads snap to look at you. One of the people stands, growing taller and taller, never seeming to stop.
+        ~PlaySFX("door_thud", false, 0, 0)
+        Slowly and carefully, you walk backwards, trying not to make a sound, until your back hits the door with a light thud. The sound is enough, and all heads snap to look at you. One of the people stands, growing taller and taller, never seeming to stop. 
         
-        
+        TODO make this effect maybe
         You fumble to for the knob, not wanting to take your eyes off it. It stops growing, and bends, leaning toward you.
         
         A scream bubbles in your throat, but never makes it out. It stops in front of you, and tilts it's head. It says something you can't understand. A cross between human language and the growl of a creature. It reaches out.
         
-        You find the knob and turn it, falling back into the confessional. You kick the door closed and scramble toward it, using your body to hold the creature back. It never pushes back.
+        You find the knob and turn it, falling back into the confessional. You kick the door closed and scramble toward it, using your body to hold the creature back. It never pushes back. #IMAGE: Default #PROP: [Pews false]
         
         Slowly, slowly, you reach get to your feet, and look through the grate. The creature is gone, but the light from the stairwell and people in th pews remain.
 }
@@ -251,10 +250,10 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 You drop down from the stage and walk past the pews. Everyone is gone.
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
-~ PlaySFX("curtain", false, 0, 2) 
+~ PlaySFX("curtain", false, 0, 2.5) 
 You bow your head and close your eyes. @ bubbles up in your chest. #CYCLE: Anxiety, Dread, Doubt, Confusion #DELAY: 3
 
-~ PlaySFX("child-wood-footsteps", false, 0, 0)
+~ PlaySFX("child-wood-footsteps", false, 0, 2.5)
 You jerk your head up, and look to the sound. The curtain of the confessional sways. Someone is inside. You slowly stand, watching the confessional. #IMAGE: Confessional_CloseUp #PROP: [curtain_wiggle true] #DELAY: 3
 
  
@@ -315,7 +314,7 @@ You bow your head and close your eyes. @ bubbles up in your chest, and tears for
 You need to return to your search. <>
     -> After_Second.Return_to_Search
 
-= Confessional_Sin_Second
+= Confessional_Priest_Second
 {
     - Confessional_Encounters ? (Killed_Girl):
         {
@@ -358,7 +357,7 @@ There are still more places you need to look. <>
 
 -> After_Second.Return_to_Search
 
-= Confessional_Priest_Second
+= Confessional_Sin_Second
 #CHECKPOINT: 4, You gained a key, but...
 {
     - temp_string == "accept":
@@ -369,7 +368,7 @@ There are still more places you need to look. <>
         ~ temp_string = ""
 }
 
-You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and Explore_Office_Bookshelf ? (Broke_Chest) == false: You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{Explore_Office_Bookshelf ? (Broke_Chest): You should see if it fits the chest you found in the side office.} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.}
+You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and Explore_Office_Bookshelf ? (Broke_Chest) == false: You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{Explore_Office_Bookshelf ? (Broke_Chest): You should see if it fits the chest you found in the side office.} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.} 
 
 There are still more places you need to look. <>
 
