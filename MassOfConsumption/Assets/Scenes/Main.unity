@@ -18329,7 +18329,7 @@ MonoBehaviour:
     - Key: footsteps_scary
       Value: {fileID: 8300000, guid: 9e685f92c10088144a7704cd212990d5, type: 3}
     - Key: footsteps_squishy
-      Value: {fileID: 8300000, guid: 7c93422338b8a4d51b4fa77174692ff2, type: 3}
+      Value: {fileID: 8300000, guid: b1913ca4bb92c8a48b4cb1e066904faf, type: 3}
     - Key: gate_closed
       Value: {fileID: 8300000, guid: 06a5512253b08439795a4c5038d908a1, type: 3}
     - Key: gate_open

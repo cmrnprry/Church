@@ -53,10 +53,11 @@ namespace AYellowpaper.SerializedCollections
                 PlayBGM(src, loop, fade_in, fade_out);
             });
 
-            GameManager.instance.Story.BindExternalFunction("StopBGM", (string src, float fade_out, float delay) =>
+            GameManager.instance.Story.BindExternalFunction("StopAll", () =>
             {
-                StopSFX(src, fade_out, delay);
+                KillAllAudio();
             });
+
 
             PlayBGM("generic", true, 1);
         }

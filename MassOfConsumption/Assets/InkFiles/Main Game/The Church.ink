@@ -11,7 +11,10 @@ INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
--> After_First.Confessional_After
+~ PlayBGM("inside", true, 0, 0)
+~ StopSFX("generic", 0, 0)
+
+-> Confessional
 === StartGame ====
 #IMAGE: Default
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -1887,7 +1890,7 @@ A light melody begins to play. A lullaby, you think. It was a comfort when you w
 Your eyelids grow heavy, and you think you understand why the church released you the first time. You were too young before, but you know better now. 
 
 *[The church offers solace]
-    #ENDING: 4, BAD ENDING: Why Shouldn't I stay?
+    #ENDING: 4, Bad Ending - Why Shouldn't I stay?
     -> Endings.Bad_End_4
 
 = Refuse
@@ -1937,7 +1940,7 @@ Your eyelids grow heavy, and you think you understand why the church released yo
     ***[You fall asleep]
     
         --- 
-        #ENDING: 3, BAD ENDING-Sleeping Forever
+        #ENDING: 3, Bad Endings - Sleeping Forever
         ...
         ****[But you don't wake up]
         ->Endings.Bad_End_3
@@ -2189,7 +2192,8 @@ You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessio
         ->Confessional_Curtain
 
 === Endings ===
-
+~ StopAll()
+~ PlayBGM("generic", true, 0, 0)
 - ->END
 
 = Bad_End_1

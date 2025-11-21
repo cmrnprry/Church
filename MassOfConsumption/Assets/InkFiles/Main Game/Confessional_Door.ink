@@ -58,7 +58,7 @@ You stand to leave when you hear the curtain open and close from the other side 
 *[Wait]
     -> Confessional_Door.Wait_Curtain
 
-*[Leave]
+*[Leave the booth]
     -> Confessional_Door.Leave_Booth(false)
 
 = Leave_Booth(hasVisited)
@@ -70,7 +70,7 @@ You frantically grab at the the door, not wanting to face whatever is on the oth
 * [Say something]
     -> Confessional_Door.CallOut(!hasVisited)
 
-*[Leave]
+*[Exit the booth]
     ->Confessional_Door.Leave_Real
 
 = Wait_Curtain
@@ -97,14 +97,16 @@ It's the almost same voice from earlier- The one that gave you the flashlight an
 
 = No_Confessions
 ~ Stay_Tracker += 0.5
-~ PlaySFX("curtain", false, 0, 0)
 ~ Confessional_Encounters += (Killed_Girl)
 
 {Confessional_Encounters ? (Tell_Her_Leave): | {Confessional_Encounters ? (Pressed_Emily): The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | {Confessional_Encounters ? (Talked_to_Girl): "You're lying!" The curtain opens. "I'm— Leaving—" Her voice is cut off by a massive coughing fit. "You— <i>You</i>" she wheezes between coughs. "Don't—" | You shake your head and apologize again. "They, uh, ended just a few moments ago. They restart tomorrow morning." You clear your throat and hope that sounded priestly enough. }}}
 
+~ PlaySFX("curtain", false, 0, 0)
 {Confessional_Encounters ? (Pressed_Emily) or Confessional_Encounters ? (Talked_to_Girl): | "Oh..." You hear a soft thud as she jumps off the bench. The curtain opens. "Thank—" Her voice is cut off by a massive coughing fit. "Thank— you—" she wheezes between coughs. }
 
 ~ PlaySFX("curtain_tear", false, 0, 0)
+~ StopSFX("inside", 10, 0)
+~ PlayBGM("watched", true, 10, 0)
 The sound of the curtain tearing— #DELAY: 1
 
 
@@ -146,6 +148,7 @@ It is deathly quiet outside.
 *[<i><b>Open the door</b></i>]
 - 
 
+~ PlaySFX("girl_thud", false, 0, 0)
 You throw the door open and fall onto the ground outside the booth. You crawl on your hands and feet looking for her. "I'm- Say something if you can hear me!" 
 
 ~ PlaySFX("flashlight", false, 0, 0)
@@ -200,7 +203,7 @@ There's a small hole you can see through. You see movement from outside. {Leg_St
 
 
 *[One more time]
-    ~ PlaySFX("door_thud", false, 0, 0)
+    ~ PlaySFX("girl_thud", false, 0, 0)
     You step back and throw yourself at the door one last time. It gives, and you fall onto the floor. You quickly get to your feet and go to where you saw the movement.
     
     The ripped piece of curtain lays just outside of the booth. There's a splatter of blood and scratch marks etched into the wooden floor. Your flashlight shines on broken pieces of nail.
@@ -221,9 +224,9 @@ You shine your flashlight through at the movement. What you assume to be the gir
 -> Confessional_Door.End_Booth_Encounter("Watched")
 
 = End_Booth_Encounter(Reaction)
-# IMAGE: Confessional_CloseUp #PROP: [curtain_torn true]  #REMOVE: INTRUSIVE
+~ StopSFX("watched", 10, 0)
 ~ Confessional_Encounters += (Finished_Door_Side, Killed_Girl)
-<i>This is your fault.</i>
+<i>This is your fault.</i> # IMAGE: Confessional_CloseUp #PROP: [curtain_torn true]  #REMOVE: INTRUSIVE
 
 There's no sign of the girl. 
 
@@ -231,16 +234,18 @@ There's no sign of the girl.
 
 You kneel in front of the booth. 
 
+~ PlayBGM("inside", true, 30, 0)
 You feel...
 
 *[Angry] 
     ~ Priest_Feeling = (anger)
     ~ Stay_Tracker -= 0.5
     ~temp_string = "You grind your teeth"
+    ~ PlaySFX("door_thud", false, 0, 1)
     #IMAGE: Default #PROP: [curtain_torn false]
     You slam your fist into the ground. Again and again until the skin splits and splinters stick inside. {Confessional_Encounters ? (Pressed_Emily): <i>You</i> pressed her. <i>You</i> did this. | {Reaction == "Sat_There": You just- You just <i>sat</i> there. Sat there and did <i>nothing.</i>| {Reaction == "Watched": You watched her writher and writhe on the ground. Did that make you feel better? To see her in pain like that? | You should have moved faster. Pushed harder. Why can't you do anything right? }}} But what did it even matter? <i>There's no one here.</i>
     
-    ~PlaySFX("fabric_ripping", false, 0, 0)
+    ~PlaySFX("fabric_ripping_1", false, 0, 0)
     You grab the fabric from the ground and start ripping it apart. <i>Riiiippp!</i> {Confessional_Encounters ? (Lie_to_Her): She's not here, was it real? | Is anything in here real? } <i>Riiiippp!</i> { Confessional_Encounters ? (Lie_to_Her): If she isn't real, is it still your fault? | Can you trust your ears? Your eyes? } <i>Riiiippp!</i>  {Book_Knowledge ? (Read_Mom_Old_Book): You know she was once a real person, but was that her? Or was that the church? | What can you trust if your own sense are compromised?} <i>Riiiippp!</i> <i>Riiiippp!</i> <i>Riiiippp!</i>
     
     The fabric sits in tiny scraps in your hands. You throw them away from you and they land unceremoniously on the blood splatter in front of you. You stare vacantly at it, then up at the confessional.
@@ -248,7 +253,7 @@ You feel...
 *[Guilty]
     ~ Priest_Feeling = (guilt)
     ~ Stay_Tracker += 0.5
-    ~temp_string = "You grimace"
+    ~ temp_string = "You grimace"
     # IMAGE: Default #PROP: [curtain_torn false]
     You gather up the fabric in your hands. You swallow back the lump ever growing in your throat. {Confessional_Encounters ? (Pressed_Emily): You... <i>You</i> pressed her. <i>You</i> did this. It's <i>your</i> fault. | This is... your... fault? } {Reaction == "Sat_There": You... did you even try? Why... why didn't you get up? Move faster? Do something? | {Reaction == "Watched": You were so close, but instead you <i>stopped  to watch?</i> Why? Just to confirm what your ears and gut already knew? | You took so long playing with the door. It came down so easily when you put your back into it. If you had done that sooner then- }}
     
@@ -425,6 +430,8 @@ The words tumble out before you fully realize what you're agreeing to. You chew 
 
 - "{Temp_Bool:Probably, but }I wish... I wish we could all just be home and together again..." she mutters. "When Mommy brings me, they just argue the <i>entire time.</i>"
 
+~ PlayBGM("watched", true, 10, 0)
+~ StopSFX("inside", 0, 0)
 Your stomach drops. Here? <i>This</i> church? {Confessional_Encounters ? (Finished_Curtain_Side): If her father is a priest... Was he...?} Your mind races.
 
 *["What do you mean?"]
@@ -443,11 +450,11 @@ You have many questions, but she is still a child. You rub your hands over your 
     "No, no, of course not." You hear her sigh with relief. "But can you talk more about your dad not leaving the church?"
     
     "You don't know? I don't wanna get in trouble..."
-        
+
     "You won't."
-        
-        "Promise?"
-        -> Confessional_Door.Promise
+
+    "Promise?"
+    -> Confessional_Door.Promise
 
 *[Let up]
     "No, no, of course not." You hear her sigh with relief. You close your eyes and lean your head back until it hits the wall of the booth. "Only making sure I understood you."
@@ -539,9 +546,9 @@ You ball your fists. It's not the same as what happened to you, but it's similar
 "Mhm... Where's my dad?" She is hopeful.
 
 *[Lie to her]
+    ~StopSFX("watched", 10, 0)
     You don't think it matters. You know she's already gone, but it still feels bad to lie. You hope she forgives you. "He went to his office to finish a few things. If you wait by the door, he'll come find you."
     
-    #PLAY: curtain
     ~ PlaySFX("curtain", false, 0, 0)
     "Okay, I'll... I'll do that." She sniffs, and the curtain opens. "Thank you."
     
@@ -556,7 +563,6 @@ You ball your fists. It's not the same as what happened to you, but it's similar
 
 *[Tell her to leave]
     ~ Confessional_Encounters += (Tell_Her_Leave)
-    
     
 - You don't think it matters, but you can't leave this girl to be digested, even if she's already gone. You think back to how you got out as a child, though it's still fuzzy.
 
@@ -577,7 +583,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 
 = Return_to_Search
 ~ Confessional_Encounters += (Finished_Door_Side)
-
+~ PlayBGM("inside", true, 30, 0)
 ~ previous_area = Confessional_DoorSide
 ~ current_area = Main_Body 
 ~ Have_Visited += Confessional_DoorSide

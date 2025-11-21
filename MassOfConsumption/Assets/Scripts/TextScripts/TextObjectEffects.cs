@@ -87,6 +87,9 @@ public class TextObjectEffects : MonoBehaviour
 
         DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text);
 
+        if (anim.textInfo == null)
+            return;
+
         for (int ii = 0; ii < anim.textInfo.characterCount; ++ii)
         {
             if (!anim.textInfo.characterInfo[ii].isVisible) continue;
@@ -118,11 +121,9 @@ public class TextObjectEffects : MonoBehaviour
             float current_size = SaveSystem.GetTextSize(); ;
             VerticalLayoutGroup layout = this.transform.parent.gameObject.GetComponent<VerticalLayoutGroup>();
 
-            if (class_sequence == null || !class_sequence.active)
-                class_sequence = DOTween.Sequence();
+            class_sequence = DOTween.Sequence();
 
-            if (fade_sequence == null || !fade_sequence.active)
-                fade_sequence = DOTween.Sequence();
+            fade_sequence = DOTween.Sequence();
 
             switch (toAdd)
             {
@@ -221,5 +222,11 @@ public class TextObjectEffects : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        fade_sequence.Kill(true);
+        class_sequence.Kill(true);
     }
 }

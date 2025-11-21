@@ -1,6 +1,7 @@
 EXTERNAL PlaySFX(src, loop, fade_in, delay)
 EXTERNAL PlayBGM(src, loop, fade_in, fade_out)
 EXTERNAL StopSFX(src, fade_out, delay)
+EXTERNAL StopAll()
 EXTERNAL Intrusive(amount, text, jump_to)
 EXTERNAL ZoomImage(scale, pos, length, delay)
 
@@ -106,6 +107,9 @@ VAR Finish_ophelia = false
 
 === function PlayBGM(src, loop, fade_in, delay)
     ~ return 1
+    
+=== function StopAll()
+~ return 1
 
 
 

@@ -1191,7 +1191,6 @@ The liquid crawls towards your shoes. You don't think it's water at all.
 
 A small key falls into the bucket, causing the bucket to fall over, and the liquid to spill onto the floor. You lift your feet to avoid your shoes from soaking through, and the liquid stretches like you stepped in gum. Is this...? You gag.
 
-TODO SFX (think we have one that can be resued)  
 "A gift for you. An olive branch of sorts." You hear the door open. {broke_key or Explore_Office_Bookshelf ? (Broke_Chest): "Although, it looks like you may not need it." | "I hope you like the gift."} He laughs, and the door closes and you know you are alone. {Book_Knowledge ? (Branded): Your branding stings. }
 
 *[Pick up the key]
@@ -1314,7 +1313,7 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 *[A single tear rolls down your cheek.]
 
 - 
-#ENDING: 5, Bad Ending: Finding Solace
+#ENDING: 5, Bad Ending - Finding Solace
 *[You've never known solace like this.]
     ->Endings.Bad_End_5
 
@@ -1330,6 +1329,7 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 ~ previous_area = Confessional_CurtainSide
 ~ items_obtained += (Skeleton_Key)
 ~ current_area = Main_Body 
+~ StopAll()
 ~ PlayBGM("inside", true, 30, 0)
 
 ~ visited_state += 1

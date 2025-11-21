@@ -94,6 +94,8 @@ You approach the bookshelves. The books all look to be leather bound, and in bet
 
 - It has no title, but the number 2743 is on the cover in thick, gold-colored lettering. The first page has the name "Mary" in script. A dedication, maybe? You flip to the next page and begin to read. The color immediately drains from your face. 
 
+~ PlayBGM("watched", true, 10, 0)
+~ StopSFX("inside", 10, 0)
 You jump to the end, and your stomach tightens. You throw the book to the floor, and grab another off it's shelf. 1924, Jeff. 2952, Adrian. 1853, Reed. All the stories are the same: They entered the church, and never left.
 
 *[Finish Mary's book]
@@ -113,6 +115,8 @@ Once inside, Mary wanders to the pews. A pastor asks if she's alright. <i>Are yo
 
 The last page details how the beautiful melody lulled her into a deep sleep. How her final breaths were peaceful. How her body melted into wood after she was gone. It doesn't say what happened to the pastor. {Have_Visited ? (Confessional_DoorSide) or Have_Visited ? (Enter_Pews): You wonder if it's the same one you met. }
 
+~ PlayBGM("inside", true, 10, 0)
+~ StopSFX("watched", 10, 0)
 You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_Book): Your stomach gurgles, and you wonder how many more of these you can stomach. Too many have the same sad ending. | Your insides twist and turn as you look over all the books that litter the floor, and sit on the shelves. All these books- no. All these <i>people</i> are victims who never got out.}
 
 *{Book_Knowledge !? (Saw_Your_Book)} [Look for your book]
@@ -132,7 +136,7 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
                         ->Take_Or_Return.Mom_Old_Book
                 }
                 
-            *[2750]
+            *[2750 ((DO NOT CHOOSE YOU WILL BE SOFT LOCKED))]
                 ->Take_Or_Return.Olin_Book
             
         - else: 
@@ -179,6 +183,8 @@ You close the book, and place it back on the shelf. {Book_Knowledge ? (Saw_Your_
     ~ Book_Knowledge += (Read_Start)
 
 - 
+~ PlayBGM("watched", true, 10, 0)
+~ StopSFX("inside", 10, 0)
 Your read the first few pages, and it details everything you've experienced so far, including the childhood memories you suppressed. There's a handful of blank pages between your childhood experience and current one. Your hands shake and your eyes burn. Is the ending already written? If it is, will reading make a difference?
 
 *[Put the book away]
@@ -199,7 +205,6 @@ You squeeze your eyes shut and tilt your head back, whisper a @, and flip to the
 
 It ends with you sitting in the pews of the church, happy. You found peace. You accepted the church.
     
-
 *{Stay_Tracker >= 2} [If the book was correct about everything else...]
     ~ Stay_Tracker += 1
     <i>Then why wouldn't the ending?</i> <>
@@ -251,8 +256,9 @@ Your entire body trembles.
 
 - 
 ~ Book_Knowledge += (Branded)
-You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You—
+You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You— #DELAY: 0.5
 
+~ PlaySFX("climax_long", false, 0, 0)
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
 You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
@@ -268,14 +274,16 @@ You scratch at your face and neck, tearing small chunks from your skin, distract
 
 Your plea fall on deaf ears as you can only watch the words engrave themselves in your skin, branding you. You curl into the fetal position, abandoning the idea of repenting. You've barely moved. You'd never make it in time. 
 
-#DELAY: 2.5
-Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin. 
+Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin. #DELAY: 0.5
 
 You whimper as the sizzling pain subsides to a biting prickle. You bring your trembling hands to your face. Your nails are chipped and broken, and not an inch of your skin in unblemished. The branded words already look healed over, like you've always had them, but a thin sheen of sweat and plasma coats them. Slowly, slowly, you sit up. Your clothing peels off the wooden floor, and you wince.
 
 *[You don't think you'll ever forget that pain]
 
-- Your book sits in front of you, and you snatch it from the floor, and hold it to your chest. You don't care about the ending anymore.
+- 
+~ PlayBGM("inside", true, 10, 0)
+~ StopSFX("watched", 10, 0)
+Your book sits in front of you, and you snatch it from the floor, and hold it to your chest. You don't care about the ending anymore.
 
 ->Office_Area.Leave_it
 
@@ -291,8 +299,9 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 ~ Room_State = Destroyed
 ~ Book_Knowledge += (Ripped_Pages)
 
-#PLAY: screeching, 1 #stop: screeching, 2
 ~ PlaySFX("screeching", false, 0.5, 0) 
+~ PlayBGM("watched", true, 5, 0)
+~ StopSFX("inside", 5, 0)
 Ensuring you won't forget, you rip the page out of the book. The church lets out a scream as you do, and the room begins to shake. You stuff the page into your pocket, as you try to keep your balance.
 
 The remaining books on the shelves fall off, and the far book shelf falls over. The room around you is starting to crumble.
@@ -315,7 +324,7 @@ You push yourself harder{Leg_State >= Limping:, but your leg is refusing to coop
             Hoping. Praying.
     
             *[But it's no use.]
-                #ENDING: 2, Bad Ending: Crushed
+                #ENDING: 2, Bad Ending - Crushed
                 -> Endings.Bad_End_2
     }
     
@@ -342,7 +351,6 @@ You push yourself harder{Leg_State >= Limping:, but your leg is refusing to coop
 
 = Read_After_Rubble
 ~ Book_Knowledge += (Read_Start)
-TODO re-write this slightly
 Your read the first few pages, and it details everything you've experienced so far, including the childhood memories you suppressed. There's a handful of blank pages between your childhood experience and current one. Your hands shake and your eyes burn. Is the ending already written? If it is, will reading make a difference?
 
 *[Take the book with you]
@@ -359,6 +367,8 @@ Your read the first few pages, and it details everything you've experienced so f
 #CYCLE: prayer, curse, plea, apology
 You squeeze your eyes shut and tilt your head back, whisper a @, and flip to the end of the book. You take a deep breath and read the last page. It ends with... 
 
+~ PlayBGM("watched", true, 10, 0)
+~ StopSFX("inside", 10, 0)
 {Stay_Tracker < 2: "Bullshit." You fling the book away from you and it lands a few feet | "N- No way." You mumble, and drop the book } in front of you. {Stay_Tracker < 2: You stare at the book with glassy eyes and clenched teeth. "I  refuse to even think about-" | You stare at nothing with a tight chest and teary eyes. "I wouldn't..."} You shake your head, and {Stay_Tracker < 2: roughly snatch the book from the ground| gingerly pick the book up off the floor}, re-reading the ending over and over again.
 
 It ends with you sitting in the pews of the church, happy. You found peace. You accepted the church.
@@ -425,8 +435,9 @@ Your entire body trembles.
 
 - 
 ~ Book_Knowledge += (Branded)
-You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You-
+You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You- #DELAY: 0.5
 
+~ PlaySFX("climax_long", false, 0, 0)
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
 You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
@@ -442,8 +453,7 @@ You scratch at your face and neck, tearing small chunks from your skin, distract
 
 Your plea fall on deaf ears as you can only watch the words engrave themselves in your skin, branding you. You curl into the fetal position, abandoning the idea of repenting. You've barely moved. You'd never make it in time. 
 
-#DELAY: 2.5
-Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin. 
+Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin.
 
 You whimper as the sizzling pain subsides to a biting prickle. You bring your trembling hands to your face. Your nails are chipped and broken, and not an inch of your skin in unblemished. The branded words already look healed over, like you've always had them, but a thin sheen of sweat and plasma coats them. Slowly, slowly, you sit up. Your clothing peels off the wooden floor, and you wince.
 
@@ -474,17 +484,15 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 ////////// ENDING INTERACTIONS ////////// 
 
 = Unsure
-TODO door creak sfx
-#IMAGE: Open_Door #PROP: [Open_Door true], [your_book false]
-Confused, you numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. 
+~PlaySFX("creaking", false, 0, 0)
+Confused, you numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. #IMAGE: Open_Door #PROP: [Open_Door true], [your_book false]
 
 *[Reach out a hand]
     But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay opens. You feel like...
 
 *[Look away]
     ~Stay_Tracker += 1
-    #CYCLE: conflicted, wary, hesitant
-    You look at the body of the church behind you. You feel @ about leaving it behind. The eye opens, and looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door sways in the wind. You feel like...
+    You look at the body of the church behind you. You feel @ about leaving it behind. The eye opens, and looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door sways in the wind. You feel like... #CYCLE: conflicted, wary, hesitant
 
 - 
 
@@ -677,24 +685,26 @@ Confused, you numbly wander back into the main body of the church. You find your
 }
 
 = Sit_Pews
+~ PlaySFX("organ", false, 5, 0)
 The front door closes, and you drift deeper into the church. Organ music begins to play. #PROP: [Open_Door false], [Closed_Door true] 
 
-TODO SFX
-#IMAGE: Church_Inside #PROP: [Closed_Door false] 
-You end up in the pews, just like your book said you would. You sit down, and close your eyes, taking in the church music. When you open them, the pews are filled with people, all turned towards you. It's people you've read about, smiling at you. Welcoming you.
+~ StopAll()
+~ PlayBGM("inside", true, 5, 0)
+You end up in the pews, just like your book said you would. You sit down, and close your eyes, taking in the church music. When you open them, the pews are filled with people, all turned towards you. It's people you've read about, smiling at you. Welcoming you. #IMAGE: Church_Inside #PROP: [Closed_Door false] 
 
 They begin to sing, hands out stretched for you to take. The music flows through you, and you feel a smile come to your face.
 
 *[Take their hands.]
 
-- #ENDING: 7, Bad? Ending: Finding Peace
+- 
 *[And find peace.]
+    #ENDING: 7, Bad? Ending - Finding Peace
     ->Endings.Bad_End_7
 
 = End_Game
 TODO if you have a high stya then cryin the dirt
 *[It has been a long night]
-    #ENDING: 9, Good Ending: It Has Been a Long, Long Night
+    #ENDING: 9, Good Ending - It Has Been a Long, Long Night
     ->Endings.Good_End_9
 
 
@@ -705,6 +715,8 @@ TODO if you have a high stya then cryin the dirt
 ~ current_area = Main_Body 
 ~ Have_Visited += Enter_Office
 ~ visited_state += 1
+~ PlayBGM("inside", true, 5, 0)
+~ StopSFX("watched", 5, 0)
 
 {
     - visited_state == 1:
@@ -801,7 +813,7 @@ TODO if you have a high stya then cryin the dirt
     
 - {Confessional_Encounters !? (Finished_Curtain_Side, Confessional_DoorSide): -> Mom_Old_Book}
 
-*{Confessional_Encounters ? (Finished_Curtain_Side)} [The wider one] //oldin
+*{Confessional_Encounters ? (Finished_Curtain_Side)} [The wider one ((DO NOT CHOOSE THIS YOU WILL BE SOFT LOCKED))] //oldin
     -> Olin_Book
 
 *[The smaller one] //mom

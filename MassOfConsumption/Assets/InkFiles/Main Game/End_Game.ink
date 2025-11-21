@@ -60,7 +60,7 @@ You keep eating and drinking. Never satisfied. Always needing more.
 *[And there is always more for you.]
 
 - 
-#ENDING: 6, Bad Ending: Never Satisfied
+#ENDING: 6, Bad Ending - Never Satisfied
 *[The church makes sure of it]
     ->Endings.Bad_End_6
 
@@ -212,7 +212,7 @@ You are alone. You are free. The wind blows through your hair and the ground is 
 *[{Stay_Tracker >= 4.5: What have you done? | It has been a long night}]
 {
     - Stay_Tracker < 4.5:
-        #ENDING: 9, Good Ending: It Has Been a Long, Long Night
+        #ENDING: 9, Good Ending - It Has Been a Long, Long Night
         ->Endings.Good_End_9
 }
 
@@ -249,7 +249,7 @@ You are alone. You are free. The wind blows through your hair and the ground is 
 *[It's over.]
 
 -
-#ENDING: 8, ??? Ending: What Have You Done?
+#ENDING: 8, ??? Ending - What Have You Done?
 You stand, wipe your eyes, and dust yourself off.
 
 *[It's time to go home.]
@@ -293,7 +293,7 @@ You are gone.
 
 *[You are the church]
 
-- #ENDING: 12, ??? Ending: You Are the Church
+- #ENDING: 12, ??? Ending - You Are the Church
 *[And the church is you]
 ->Endings.Waht_End_12
 

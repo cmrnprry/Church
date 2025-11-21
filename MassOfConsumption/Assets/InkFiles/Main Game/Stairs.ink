@@ -51,12 +51,12 @@ You shine your light to the end of the staircase, and see a door at the end of t
     ->Stairs.Turn_Back
 
 - 
-~ PlaySFX("squish-squash", true, 1, 0)
+~ PlaySFX("footsteps_squishy", true, 1, 0)
 <i>You've made it this far, might as well see it it toward the end,</i> you think, and take another deep breath through your mouth. Slowly, you make it to the bottom of the stairs.
 
 <i>Squish</i>
 
-~ StopSFX("squish-squash", 3, 0)
+~ StopSFX("footsteps_squishy", 3, 0)
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
 <i>Squelch</i>
@@ -104,25 +104,28 @@ The room is covered in the pink, bulging flesh, thick ooze drips from the ceilin
 *[Find the source of the smell]
 
 *[Investigate the ooze]
-    #DELAY: 1.5
-    You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistently falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze.
+    You walk deeper into the room, deeper into the maze, and approach a place where the ooze consistently falls from the ceiling. You stick the end of the flashlight into the small pool of it. It's sticky and slippery, much more slime like than ooze. #DELAY: 0.5
     
     ~ PlaySFX("flashlight_on", false, 0, 0)
     ~ PlaySFX("flashlight_off", false, 0, 0.25)
     ~ PlaySFX("flashlight_on", false, 0, 0.5)
     ~ PlaySFX("flashlight_off", false, 0, 0.75)
+    ~ PlayBGM("watched", true, 10, 0)
+    ~ StopSFX("inside", 10, 0)
     The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
-    ->Stairs.Melt
+        ->Stairs.Melt
 
 - You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizable. 
 
 You pass by what you assume is a standing coat hanger, and stare at it. It is taller than you, and has multiple edges jutting out from it. You reach out to lift the canvas covering it, but stop just before touching it. 
 
 *[Rip off the tarp]
+    ~ PlayBGM("watched", true, 10, 0)
+    ~ StopSFX("inside", 10, 0)
     You grab the canvas and rip it off the coat hanger.
     
-    #IMAGE: Default #CYCLE: person, animal, zombie, creature, beast #DELAY: 3.5
-    You scream and fall backward, landing in a puddle. You fix your flashlight on the @, trying to make sense of it all. It's fused into the coat rack, limbs sewn into wrong places and the metal forced into flesh so it keeps its shape. And its face? Its face was a writhing mass of-
+    ~PlaySFX("climax_long", false, 0, 0)
+    You scream and fall backward, landing in a puddle. You fix your flashlight on the @, trying to make sense of it all. It's fused into the coat rack, limbs sewn into wrong places and the metal forced into flesh so it keeps its shape. And its face? Its face was a writhing mass of— #IMAGE: Default #CYCLE: person, animal, zombie, creature, beast #DELAY: 0.5
     
     ~ PlaySFX("flashlight_on", false, 0, 0)
     ~ PlaySFX("flashlight_off", false, 0, 0.25)
@@ -148,33 +151,36 @@ You pass by what you assume is a standing coat hanger, and stare at it. It is ta
 
 You find yourself in the far back corner, a tarp partially covering something scattered over the floor. It come us to about your chest, a stacked pile of... something. Firewood? But you don't remember seeing a fireplace upstairs...
 
+~ PlayBGM("watched", true, 10, 0)
+~ StopSFX("inside", 10, 0)
 Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...? You swallow the lump in your throat.
 
 *[Lift the tarp]
 
-- #PLAY: flashlight_off
+- 
+~ PlaySFX("climax_long", false, 0, 0)
 ~ PlaySFX("flashlight_off", false, 0, 0)
 You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
 
-#CYCLE: Fidget, mourn, pity, pray
+#CYCLE: mourn, pity, pray
 Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to @ for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
 
 *[Search left]
-~temp_bool = false
-You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
-
-You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
+    ~temp_bool = false
+    You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
+    
+    You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
 
 *[Search right]
-~temp_bool = true
-You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
-
-Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
+    ~temp_bool = true
+    You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
+    
+    Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
 
 - 
 
 *[Your hand starts to itch]
-->Stairs.Melt
+    ->Stairs.Melt
 
 = Melt
 You wipe off any remaining ooze on your shirt, but that only causes the itching to spread. 
@@ -183,48 +189,49 @@ You wipe off any remaining ooze on your shirt, but that only causes the itching 
 
 - Blood rushes to your ears, so loud you can barely think. You need to get out of here- Out of this this slime{temp_bool:. You have the flashlight. |{temp_bool != 0:, flashlight be damned. |, away from that <i>thing.</i>}} You blindly try to make your way back to the door.
 
-{temp_bool != 0:The ooze falls from the ceiling. The puddles splash with each step. | Something falls on you from the ceiling, and it burns the same. You splash in puddles of more of the same.} You cannot wipe it off fast enough. 
+{temp_bool != 0: The ooze falls from the ceiling. The puddles splash with each step. | Something falls on you from the ceiling, and it burns the same. You splash in puddles of more of the same.} You cannot wipe it off fast enough. 
 
 *[It's eating through you]
 
 - You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
 
 *[You feel bone]
+    ~PlaySFX("climax_long", false, 0, 0)
 
 - 
-#DELAY: 2
+#DELAY: 0.5
 You can't think. Bone? How—? 
 
-#CLASS: Blur #DELAY: 2
+#CLASS: Blur #DELAY: 0.5
 Your skin burns.
 
-#DELAY: 2
+#DELAY: 0.5
 Your head swims. This can't be—
 
-#CLASS: Blur #DELAY: 2
+#CLASS: Blur #DELAY: 0.5
 Your skin burns.
 
-#DELAY: 2
+#DELAY: 0.5
 You can't get enough air in. Is this actually slime—?
 
 *[Your skin burns.]
 
 - 
-#DELAY: 2
+#DELAY: 1
 You keep going, desperately trying to escape. 
 
-#CLASS: Blur #DELAY: 2
+#CLASS: Blur #DELAY: 0.5
 You can't feel your hand anymore.
 
-#DELAY: 2
+#DELAY: 1
 You trip over yourself, and fall into puddle of the acidic ooze. 
 
 #CLASS: Blur
 You can't feel your legs.
 
 *[You can't feel anything.]
-#ENDING: 1, Bad Ending: Digested
-->Endings.Bad_End_1
+    #ENDING: 1, Bad Ending - Digested
+    ->Endings.Bad_End_1
 
 = Turn_Back
 +[Go upstairs]
@@ -251,7 +258,6 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
     
     After climbing the stairs for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {Looked_For_Items or Church_Investigation ? (Teleported): <i>Is the church messing with me?</i> | <i>How did...?</i>} 
     ~ Downstairs_State = Stink
-    TODO: Check what other variables I should be checking for here and down below
     
     **[Continue to the top]
         <i>Screw it.</i> You think and decide to reach the top. At this point, either the landing never existed or the church is messing with your sense of direction. Either way, you would rather take your chances with whatever the attic has in store for you rather than the basement. {Downstairs_State >= Flesh: Your skin crawls at the memory of the flesh covering the staircase. | {Downstairs_State >= Stink: You gag at the thought of the stench.}} 
@@ -291,13 +297,13 @@ In frustration you kick the door{Leg_State >= Limping:, then suppress a curse as
 
 - 
 
-~ PlaySFX("squish-squash", false, 1, 0)
+~ PlaySFX("footsteps_squishy", false, 1, 0)
 You don't think anything could be worse than the smell emanating from the door in front of you and decide to try climbing the stairs one last time. The @ sticks to your shoes as you step on it{Temp_Touched_Mass:.|, like warm gum.} Your lip curls. #CYCLE: mold, meat, fungus, flesh
 
 The stench fades and the substance coating the walls dissipates as you reach the top. You pull yourself out of the stairwell, finding yourself at the landing you were desperately searching for. You could almost kiss the ground. #IMAGE: Default
 
 *[Rest for a bit]
-    You collapse to the floor and massage your thighs. You close your eyes and lean against the wall between the stairs. Your body welcomes the much needed break, as you feel some tension release. #DELAY: 1.5
+    You collapse to the floor and massage your thighs. You close your eyes and lean against the wall between the stairs. Your body welcomes the much needed break, as you feel some tension release. #DELAY: 0.5
     
     "There's no time for this!" A woman's voice, soft but full of anger, rips through the quiet and freezing hands shove you over the edge of the stairs.
     
