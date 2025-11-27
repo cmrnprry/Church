@@ -956,11 +956,54 @@ It screams again, causing the room to shake and throw you off balence. The ceili
 *[Dodge left]
 
 *[Dodge right]
+    ~temp Temp_bool = false
     You throw yourself to the right, and directly into the chunk of celing. It grabs you with multiple hands, two holding your shoulders and two holding your legs. You kick and squirm, biting at the ones on your shoulder. The creature doesn't react as it lifts you above its body. 
     
-    "Got you~" it growls, and you see a mouth in the center of its back. {Church_Encounters ? (Finger_Chopped): {finger_pain_pass: "This pain too shall pass." | "Perhaps this time, you will accept the pain."} | "It will only hurt a pinch. It will pass, if you let it."}
+    "Got you~" it growls, and you see a mouth in the center of its back. {Church_Encounters ? (Finger_Chopped): {finger_pain_pass: "This pain too shall pass." | "Perhaps this time, you will accept the pain."} | "It only hurts a pinch. It will pass, if you let it."}
     
-    Before the words can register, it quickly and efficiently twists your limbs and yanks them from your body. Your limbless body falls to the floor with a dull thud.
+    **[Apologize]
+    
+    **[Beg]
+        ~Temp_bool = true
+    --
+    "{Temp_bool: Please, let me go! I'll- I'll do anything! | I'm sorry! I- I won't-}" It tightens it's grip. Your mind races, thinkning of what to say. 
+    
+    ***["I'll stay!"]
+        The creature stops, and loosen its grip. "Do you swear it?"
+            
+            **** {Stay_Tracker >= 2} [Yes] //truth
+                ~ Stay_Tracker += 1.5
+                You nod hesitantly. {Book_Knowledge ? (Kept_Book): With it's grip loosened, you reach down and pull your book out and wave it around. {Book_Knowledge ? (Read_End): "I read the ending, I- I know how it ends." | "Would I have kept this otherwise?"} | {Church_Encounters ? (Finger_Chopped): You hold up your bandanged hand. {finger_pain_pass: "It didn't even hurt!" | "I was cleansed already!"} | "I've realized I was wrong about the church. About all of it.!}} You gulp, hoping it doesn't know you're bluffing. 
+                
+                "Hmm..." it growls. "I hope you are not lying to me. I will believe you for now." 
+                
+            **** {Stay_Tracker < 2} [Yes] //lie
+                ~ Stay_Tracker -= 0.5
+                ~ Book_Knowledge += (Kept_Book, Read_End)
+                You nod enthusiastically. {Book_Knowledge ? (Kept_Book): With it's grip loosened, you reach down and pull your book out and wave it around. {Book_Knowledge ? (Read_End): "I read the ending, I- I know how it ends." | "Would I have kept this otherwise?"} | {Church_Encounters ? (Finger_Chopped): You hold up your bandanged hand, grinding your teeth at the memory. {finger_pain_pass: "It didn't even hurt!" | "I was cleansed already!"} | {Church_Encounters ? (Was_Coward): The creature doesn't have eyes, so you hold down a finger and wave your hand around. "Look! I've already been cleansed." | "I've realized I was wrong about the church. About all of it.!}}} You gulp, hoping it doesn't realize you're bluffing. 
+                
+                "Hmm..." it growls. {Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Read_End) or Church_Encounters ? (Finger_Chopped): {Book_Knowledge ? (Kept_Book): It feels around for the book in your hand and traces the numbers on the cover. | {Church_Encounters ? (Finger_Chopped): A free hand grabs yours and squeezes, feeling for the bandange. You yelp as it pushes against the raw wound.}} "{Book_Knowledge ? (Read_End):Even read to the end, hmm? } I will believe you for now, ████." | {Church_Encounters ? (Was_Coward): A free hand grabs yours and harshly pushes down on each finger, searching for the missing one. Your knuckles crack and you yelps as it shoves down teh last finger until it breaks.} "I don't believe you, little lying ████." -> Oldin_Death}
+                
+                
+                
+            **** {Stay_Tracker < 2} [No] //truth
+                "No." The words tumble out before you can think. You can't bring yourself to even lie. 
+                
+                ~PlaySFX("groaning_angry", false, 0, 0)
+                "Disgusting." The creature growls.
+                
+                -> Oldin_Death
+            
+            **** {Stay_Tracker >= 2} [No] //lie
+                ~ Stay_Tracker += 1
+                You shake your head, the words refusing to form in your mouth. You <s>should</s> can't stay here. You <s>want to</s> won't stay here.
+                
+                 "Hmm..." it growls. {Book_Knowledge !? (Kept_Book) or Book_Knowledge !? (Read_End) or Book_Knowledge ? (Ripped_Pages): "I don't believe you." | "It is your loss... ████." -> Oldin_Death}
+    
+    ***["I have something new to confess!"]
+        "I don't believe you." It mutters. -> Oldin_Death
+
+    
 
 - You regain your balance and push yourself harder{Leg_State >= Limping:, but your leg is refusing to cooperate with you. Each time you foot hits the floor a searing pain shoots up your shin. |.} The door is so close. <i>You're</i> so close. Another cracking from the ceiling. You jerk your head up and see a large chuck barely being held up. If it falls before you get to the door, you'll be trapped inside.
 
@@ -1002,6 +1045,21 @@ It screams again, causing the room to shake and throw you off balence. The ceili
         
         **[Move on with your search]
             -> Office_Area.Exit_Office_Continue
+
+= Oldin_Death
+~ PlaySFX("heartbeat", true, 5, 0) 
+~ PlaySFX("tinitus", true, 5, 0) 
+Before the words can register, it quickly and efficiently twists your limbs and yanks them from your body. Your limbless body falls to the floor with a dull thud, knocking the wind out of you.
+
+Your gasp on the ground, blood from your limbs dripping onto you. The creature lowers them into its mouth. A small squeak escapes from you as you try to get up. You can see your limbs. You know they're not attached. But you try anyway.
+
+"You didn't let it pass." The creature growls, and pushes off the ground with its far legs to flip itself, so it's mouth hovers over you. "Pathetic, little bug." It spits and lowers itself down, mouth gaping.
+
+****[You feel every crunch as its teeth grind your bones]
+    ->Endings.Bad_End_13
+
+= Olin_Live
+-> END
 = Mom_Young_Book
 //CAN ONLY BE READ IF YOU'VE MET MOM
 ~ Book_Knowledge += (Read_Mom_Young_Book)

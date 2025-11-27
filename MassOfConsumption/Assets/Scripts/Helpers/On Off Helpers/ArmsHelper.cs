@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class ArmsHelper : OnOffHelpers
 {
-    private List<GameObject> arms;
+    private List<GameObject> arms = new List<GameObject>();
 
     private void Start()
     {
@@ -23,10 +23,26 @@ public class ArmsHelper : OnOffHelpers
 
     protected override void TurnOn()
     {
+        StartCoroutine(TurnOnArms());
+    }
+
+    IEnumerator TurnOnArms()
+    {
+        yield return new WaitForSeconds(1.5f);
+
         foreach (var arm in arms)
         {
             arm.gameObject.SetActive(true);
+            var anim = arm.GetComponent<Animator>();
+            yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0)[0].clip.length);
+            arm.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.None;
+            Destroy(arm.transform.GetChild(1).gameObject);
+
+            yield return null;
+
+            anim.SetTrigger("Toggle");
         }
+        
     }
 
     protected override void TurnOff()

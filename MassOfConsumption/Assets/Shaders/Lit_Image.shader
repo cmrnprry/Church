@@ -53,6 +53,7 @@ Shader "Custom/Lit_Image"
         Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
         ZTest LEqual
         ZWrite Off
+        ZTest Always
         
         // Debug
         // <None>

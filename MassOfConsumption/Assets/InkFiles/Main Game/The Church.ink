@@ -2193,65 +2193,64 @@ You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessio
 - ->END
 
 = Bad_End_1
-- BAD END 1 - Digested #DELAY: 3
+- BAD END 1 - Digested #DELAY: 5
 -> Endings
 
 = Bad_End_2
-- BAD END 2 - Crushed #DELAY: 3
+- BAD END 2 - Crushed #DELAY: 5
 -> Endings
 
 = Bad_End_3
-- BAD END 3 - Sleeping Forever #DELAY: 3
+- BAD END 3 - Sleeping Forever #DELAY: 5
 -> Endings
 
 = Bad_End_4
 *[You close your eyes, and fall into a void of relief and comfort]
 
-- BAD END 4 - Why Shouldn't I stay? #DELAY: 3
+- BAD END 4 - Why Shouldn't I stay? #DELAY: 5
 
 -> Endings
 
 = Bad_End_5
-- BAD END 5 - Finding Solace #DELAY: 3
+- BAD END 5 - Finding Solace #DELAY: 5
 -> Endings
 
 = Bad_End_6
-- BAD END 6 - Never Satisfied #DELAY: 3
+- BAD END 6 - Never Satisfied #DELAY: 5
 -> Endings
 
 = Bad_End_7
-- BAD? END 7 - Finding Peace #DELAY: 3
+- BAD? END 7 - Finding Peace #DELAY: 5
 -> Endings
 
 = Waht_End_8
-- ??? END 8 -  What Have You Done? #DELAY: 3
+- ??? END 8 -  What Have You Done? #DELAY: 5
 -> Endings
 
 = Good_End_9
 *[And you deserve a very long, vey hot, bath]
 
-- GOOD END 9 - It Has Been a Long, Long Night #DELAY: 3
+- GOOD END 9 - It Has Been a Long, Long Night #DELAY: 5
 -> Endings
 
 = Bad_End_10
-- BAD END 10 - Juice box #DELAY: 3
+- BAD END 10 - Juiced #DELAY: 5
 -> Endings
 
 = Waht_End_12
-- ??? END 12 - You Are the Church #DELAY: 3
+- ??? END 12 - You Are the Church #DELAY: 5
 -> Endings
 
 
 = Bad_End_11
 *[And your body goes limp]
 
-- BAD END 11 - Fold and Snap #DELAY: 3
+- BAD END 11 - Fold and Snap #DELAY: 5
 -> Endings
 
 = Bad_End_13
-*[And your body goes limp]
 
-- BAD END 11 - Fold and Snap #DELAY: 3
+- BAD END 13 - Pathetic Bug  #DELAY: 5
 -> Endings
 
 
