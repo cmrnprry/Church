@@ -2248,6 +2248,12 @@ You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessio
 - BAD END 11 - Fold and Snap #DELAY: 3
 -> Endings
 
+= Bad_End_13
+*[And your body goes limp]
+
+- BAD END 11 - Fold and Snap #DELAY: 3
+-> Endings
+
 
 
 

@@ -956,9 +956,11 @@ It screams again, causing the room to shake and throw you off balence. The ceili
 *[Dodge left]
 
 *[Dodge right]
-    You throw yourself to the right, and directly into the chunk of celing. It grabs you with multiple hands, two holding your shoulders and two holding your waist. You kick and squirm, biting at the ones on your shoulder. The creature doesn't react as it lifts you above its body. 
+    You throw yourself to the right, and directly into the chunk of celing. It grabs you with multiple hands, two holding your shoulders and two holding your legs. You kick and squirm, biting at the ones on your shoulder. The creature doesn't react as it lifts you above its body. 
     
     "Got you~" it growls, and you see a mouth in the center of its back. {Church_Encounters ? (Finger_Chopped): {finger_pain_pass: "This pain too shall pass." | "Perhaps this time, you will accept the pain."} | "It will only hurt a pinch. It will pass, if you let it."}
+    
+    Before the words can register, it quickly and efficiently twists your limbs and yanks them from your body. Your limbless body falls to the floor with a dull thud.
 
 - You regain your balance and push yourself harder{Leg_State >= Limping:, but your leg is refusing to cooperate with you. Each time you foot hits the floor a searing pain shoots up your shin. |.} The door is so close. <i>You're</i> so close. Another cracking from the ceiling. You jerk your head up and see a large chuck barely being held up. If it falls before you get to the door, you'll be trapped inside.
 
