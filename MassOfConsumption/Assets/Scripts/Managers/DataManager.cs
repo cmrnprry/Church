@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Steamworks;
 
 public class DataManager : MonoBehaviour
 {
@@ -65,6 +66,11 @@ public class DataManager : MonoBehaviour
         string[] end = name.Split('-');
         SaveSystem.UnlockEnding(index, name);
         Endings[index - 1].text = $"{end[0]}\n<size=50>{end[1]}</size>";
+
+        SteamUserStats.SetAchievement($"Ending_{index}");
+        
+        if (SaveSystem.FoundAllEndings())
+            SteamUserStats.SetAchievement("ACHIEVEMENT_1");
     }
 
     public void SetHistoryText()

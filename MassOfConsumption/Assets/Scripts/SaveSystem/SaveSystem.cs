@@ -330,6 +330,23 @@ public static class SaveSystem
         settingsData.EndingsDictionary[index] = name;
     }
 
+    public static bool FoundAllEndings()
+    {
+        bool result = false;
+        foreach (KeyValuePair<int, string> pair in settingsData.EndingsDictionary)
+        {
+            if (pair.Value == "LOCKED")
+            {
+                result = false;
+                break;
+            }
+
+            result = true;
+        }
+
+        return result;
+    }
+
     public static string GetEnding(int index)
     {
         return settingsData.EndingsDictionary[index];

@@ -204,6 +204,7 @@ And then, it releases you.
 
 = Finger_Gone
 ~ Church_Encounters += (Finger_Chopped)
+~ WinAchievement(6)
 Your hand is gushing blood. You're screaming, you think. Everything is moving in slow motion as you stumble backwards. You don't know where you're going, just that you need to get away. #PROP: [Pews_Lighting false]
 
 The pastor walks towards you with the severed finger in one hand and wire cutters in the other. It doesn't have a face but you know it's smiling. Your back reaches a wall and you slide into a sitting position. It crouches in front of you. "Hush... Hush... Hush..." it consoles you. "It only hurts... for a minute.

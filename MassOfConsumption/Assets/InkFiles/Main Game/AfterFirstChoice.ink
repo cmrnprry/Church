@@ -78,7 +78,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
         
         You wail in agony and the creature laughs in response. It hold you against the door and begins to pull. The wood of the door creaks, but holds firm. You slam your hands against the door and creature as your legs hang uselessly by your side. 
         
-        The creature continues to laugh and pull you through the hole by your center. The wood catches your skin, digging underneath and pulling it from your flesh bit by bit. When your chest gets stuck, the creature pulls harder, sharply folding your body back.
+        The creature continues to laugh and pull you through the hole by your center. The wood catches your skin, digging underneath and pulling it from your flesh bit by bit. When your chest gets stuck, the creature pulls harder, sharply folding your body back. #ENDING: 3, Bad Ending 11 - Fold and Snap
         
         ****[There's a sharp crack.]
             ->Endings.Bad_End_11
@@ -112,8 +112,8 @@ You hear someone call your name, but you don't dare turn around. You don't know 
                 Its face is an empty hole of mouths. Tendrils rise out of the hole and shoot toward your face. They enter your nose, ears, eyes, mouth, anywhere they can, and they begin to drink.
                 
                 TODO gross popping sound
-                You shriek and squirm and hit, but nothing matters. It takes more than blood, but less than flesh. A tendril wraps around your eye and squeezes until it pops, slurping up the jelly pieces left behind. You can feel them ripping your insides apart and pulverizing them into a think soup. Any part it doesn't want are unceremoniously ripped out and discarded. 
-                
+                You shriek and squirm and hit, but nothing matters. It takes more than blood, but less than flesh. A tendril wraps around your eye and squeezes until it pops, slurping up the jelly pieces left behind. You can feel them ripping your insides apart and pulverizing them into a think soup. Any part it doesn't want are unceremoniously ripped out and discarded. #ENDING: 3, Bad Ending 10 - Juice box
+                    
                 ****[Ithurtsithurtsithurtsithurtsithurts]
                     -> Endings.Bad_End_10
                 

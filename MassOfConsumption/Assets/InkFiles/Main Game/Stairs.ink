@@ -254,6 +254,7 @@ At least until the smell hits you. The smell of rot hits your nose, so strong yo
     "Whatever," you mutter and continue down the stairs. Maybe you stepped in something. Or something died in the stairs and you didn't notice the first time around.
 
 *[Retrace your steps]
+    ~ WinAchievement(2)
     Taking a deep breath through your mouth, you start back up the stairs. {Downstairs_State >= Stink: There's no way you just walked right past the landing like that. There's a gap between the sets of stairs. <i>I would have noticed.<i/>| You could have sworn there was a gap between the set of stairs spiraling up and the set digging down. At least enough to notice when one starts and the other ends.} #IMAGE: Stairs_Up #PROP: [stairs true]
     
     After climbing the stairs for a few minutes you notice the rail sink and the incline turn sharp. <i>What in the?</i> Shining your flash light up, you see the stairs twist into a tight coil. {Looked_For_Items or Church_Investigation ? (Teleported): <i>Is the church messing with me?</i> | <i>How did...?</i>} 

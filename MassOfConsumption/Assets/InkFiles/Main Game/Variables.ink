@@ -4,6 +4,7 @@ EXTERNAL StopSFX(src, fade_out, delay)
 EXTERNAL StopAll()
 EXTERNAL Intrusive(amount, text, jump_to)
 EXTERNAL ZoomImage(scale, pos, length, delay)
+EXTERNAL WinAchievement(index)
 
 //Temp
 VAR temp_string = ""
@@ -92,6 +93,8 @@ VAR Need_Double_Check = false
 VAR Need_Find_Book = false
 VAR Finish_ophelia = false
 
+=== function WinAchievement(index)
+    ~return 1
 
 === function PlaySFX(src, loop, fade_in, delay)
     ~ return 1

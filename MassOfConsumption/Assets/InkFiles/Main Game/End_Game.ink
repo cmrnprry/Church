@@ -133,8 +133,8 @@ You are so close to freedom. You stand in the doorway. The heart pulses faster, 
 
 
 = Crush_it
-#EFFECT: Force_Open #PROP: [squeeze_heart true]
-Holding the heart in one hand, you begin to squeeze. It doesn't take much effort, almost like crushing an egg. The heart oozes blood and pulsates faster. The light begins to die.
+~ WinAchievement(4)
+Holding the heart in one hand, you begin to squeeze. It doesn't take much effort, almost like crushing an egg. The heart oozes blood and pulsates faster. The light begins to die.#EFFECT: Force_Open #PROP: [squeeze_heart true]
 
 ~ PlaySFX("groaning_hurt_1", false, 0, 0)
 The whine of a wounded animal reverberates through the room.
@@ -268,6 +268,11 @@ The heart beats in your hand, a lovely red color. It resembles a sweet apple. Ar
 - You raise the heart to your lips.
 
 *[Take a bite]
+    ~ WinAchievement(3)
+    
+*[Resist]
+    You shake your head. You can't. You shouldn't. You need to destroy it. <>
+    -> Open_the_Door.Crush_it
 
 - 
 ~ PlaySFX("shriek", false, 0, 0)

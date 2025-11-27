@@ -226,6 +226,7 @@ You shine your flashlight through at the movement. What you assume to be the gir
 = End_Booth_Encounter(Reaction)
 ~ StopSFX("watched", 10, 0)
 ~ Confessional_Encounters += (Finished_Door_Side, Killed_Girl)
+~ WinAchievement(7)
 <i>This is your fault.</i> # IMAGE: Confessional_CloseUp #PROP: [curtain_torn true]  #REMOVE: INTRUSIVE
 
 There's no sign of the girl. 

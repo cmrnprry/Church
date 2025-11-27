@@ -13,6 +13,7 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.TextCore.Text;
 using TextAsset = UnityEngine.TextAsset;
 using UnityEngine.SceneManagement;
+using Steamworks;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -212,6 +213,11 @@ namespace AYellowpaper.SerializedCollections
                 else
                     Debug.LogError(msg);
             };
+
+            Story.BindExternalFunction("WinAchievement", (int index) =>
+            {
+                SteamUserStats.SetAchievement($"ACHIEVEMENT_{index}");
+            });
 
 
             Story.BindExternalFunction("Intrusive", (int amount, string text, string jump_to) =>
@@ -734,11 +740,16 @@ namespace AYellowpaper.SerializedCollections
                     ClickToMove(1);
                     break;
                 case "LightDark":
-                    GlobalLight.color = DarkLight;
+                    if (SaveSystem.GetOverlayValue())
+                        GlobalLight.color = DarkLight;
+
                     SaveSystem.SetColorData(DarkLight);
                     break;
                 case "Shake_Confessional":
                     EffectImages("Confessional");
+                    break;
+                case "Shake_Office":
+                    EffectImages("Office");
                     break;
                 case "Remove_Finger":
                     ControlGlow("Finger");
@@ -785,6 +796,10 @@ namespace AYellowpaper.SerializedCollections
             {
                 BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
                 PropDictionary["curtain_full"].GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
+            }
+            else if (type == "Office")
+            {
+                BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
             }
         }
 
