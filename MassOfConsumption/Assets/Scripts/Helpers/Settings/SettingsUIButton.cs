@@ -25,8 +25,24 @@ public class SettingsUIButton : MonoBehaviour
 
     private void Awake()
     {
-        Background = GetComponent<Image>();
-        Text = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        GetValueIfNull();
+    }
+
+    private void SetValues(Color text_col, Color img_col)
+    {
+        if (Text != null)
+            Text.DOColor(text_col, 0.1f);
+
+        if (Background != null)
+            Background.DOColor(img_col, 0.1f);
+    }
+
+    private void GetValueIfNull()
+    {
+        if (Background == null)
+            Background = GetComponent<Image>();
+        if (Text == null)
+            Text = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
     }
 
     public void OnHover(bool isHover)
@@ -40,8 +56,8 @@ public class SettingsUIButton : MonoBehaviour
             image_color = Accent;
         }
 
-        Text.DOColor(text_color, 0.1f);
-        Background.DOColor(image_color, 0.1f);
+        GetValueIfNull();
+        SetValues(text_color, image_color);
 
         if (isHover)
             OnCursorEnter?.Invoke();
@@ -56,10 +72,8 @@ public class SettingsUIButton : MonoBehaviour
         Color text_color = (isSelected) ? Light : Dark;
         Color image_color = (isSelected) ? Accent : Light;
 
-        if (Text != null)
-            Text.DOColor(text_color, 0.1f);
-        if (Background != null)
-            Background.DOColor(image_color, 0.1f);
+        GetValueIfNull();
+        SetValues(text_color, image_color);
     }
 
     public void ClickPage()

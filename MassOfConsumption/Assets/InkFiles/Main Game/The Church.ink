@@ -2220,6 +2220,8 @@ You {Confessional_Encounters ? (Killed_Girl): hesitantly }approach the confessio
 -> Endings
 
 = Bad_End_7
+*[And find peace.]
+
 - BAD? END 7 - Finding Peace #DELAY: 5
 -> Endings
 

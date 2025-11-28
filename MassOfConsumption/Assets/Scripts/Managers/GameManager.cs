@@ -233,7 +233,9 @@ namespace AYellowpaper.SerializedCollections
                 var ypos = float.Parse(list[1].Trim());
                 Vector2 zoom_pos = new Vector2(xpos, ypos);
 
-                ImageClassData.ZoomImage(zoom, zoom_pos, dur, delay);
+                var data = new ZoomData(zoom, zoom_pos, dur, delay);
+
+                ImageClassData.ZoomImage(data);
             });
         }
 
@@ -355,7 +357,7 @@ namespace AYellowpaper.SerializedCollections
                 ImageClassData.RemoveClassTweens();
 
                 if (!zoomdata.IsNull())
-                    ImageClassData.ZoomImage(zoomdata.scale, zoomdata.position, zoomdata.duration);
+                    ImageClassData.ZoomImage(zoomdata);
 
 
                 if (imageclasses != "NULL" || string.IsNullOrEmpty(imageclasses))

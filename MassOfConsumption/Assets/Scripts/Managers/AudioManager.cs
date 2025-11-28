@@ -178,11 +178,16 @@ namespace AYellowpaper.SerializedCollections
         {
             yield return new WaitForSeconds(delay);
 
-            src.DOFade(0, duration).SetEase(Ease.InSine);
+            if (src != null)
+                src.DOFade(0, duration).SetEase(Ease.InSine);
 
             yield return new WaitForSeconds(duration);
-            src.Stop();
-            Destroy(src.gameObject);
+
+            if (src != null)
+            {
+                src.Stop();
+                Destroy(src.gameObject);
+            }
         }
 
         public void MuteAudio(int value)

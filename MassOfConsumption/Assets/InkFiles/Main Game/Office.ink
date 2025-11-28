@@ -219,7 +219,7 @@ Your traitorous mind whispers to you. You think back to everything that's happen
 You clutch the book tightly in your hands. {Stay_Tracker < 2: You cannot accept that ending. Not after everything you've been through. | Can you accept this ending? After everything?}
 
 *{Stay_Tracker >= 2} [You're not sure]
-    ->Office_Area.Unsure
+    ->Office_Area.Unsure(false)
 
 * [Take the book with you]
     ~Book_Knowledge += (Kept_Book)
@@ -332,8 +332,8 @@ You push yourself harder{Leg_State >= Limping:, but your leg is refusing to coop
 - You watch as the room collapses in on itself, leaving only a caved in door way behind. {Book_Knowledge !? (Kept_Book, Saw_Your_Book): Something glints in the rubble left behind.}
 
     "Well that was {Book_Knowledge ? (Branded): stupid}... " you mutter and carefully get to your feet, checking for any lasting damage. You don't feel great but doesn't feel like anything's broken. {Book_Knowledge ? (Branded): You rub your arms where the words are burned into the skin.  |  "Note to self, <i>don't</i> rip anything while in here..."}
-    
-*{Book_Knowledge !? (Kept_Book, Saw_Your_Book)}[Examine the glinting in the rubble]
+
+*{Book_Knowledge !? (Saw_Your_Book)}[Examine the glinting in the rubble]
     ~Book_Knowledge += (Saw_Your_Book)
     You shine your flashlight over the pile to see a book. 2758. You pick it up and flip it open and immediately close it. It's <i>your</i> book.
     
@@ -342,6 +342,8 @@ You push yourself harder{Leg_State >= Limping:, but your leg is refusing to coop
     
     **[Take it with you]
         ~Book_Knowledge += (Kept_Book)
+
+*->
 
 - You pat your pocket that holds the page{Book_Knowledge ? (Kept_Book): , and tighten your grip on your book.|.} At least you can remove one more lock with this.
         
@@ -388,7 +390,7 @@ Your traitorous mind whispers to you. You think back to everything that's happen
 You clutch the book tightly in your hands. {Stay_Tracker < 2: You cannot accept that ending. Not after everything you've been through. | Can you accept this ending? After everything?}
 
 *{Stay_Tracker >= 2} [You're not sure]
-    ->Office_Area.Unsure
+    ->Office_Area.Unsure(false)
 
 * [Take the book with you]
     ~Book_Knowledge += (Kept_Book)
@@ -460,9 +462,9 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 
 - Your book sits in front of you, and you snatch it from the floor, and hold it to your chest. You don't care about the ending anymore. You decide to take the book with you, just in case. You hold it tightly to your chest, and pat your pocket that to make sure the page lies safely within.
         
-        **[Move on with your search]
-            ~Book_Knowledge += (Kept_Book)
-            -> Exit_Office_Continue
+*[Move on with your search]
+    ~Book_Knowledge += (Kept_Book)
+    -> Exit_Office_Continue
 
 = Examine_Office_Area
 {Have_Visited !? (Stairs_Up) or Downstairs_State <= None: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.}
@@ -482,7 +484,8 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 
 ////////// ENDING INTERACTIONS ////////// 
 
-= Unsure
+= Unsure(From_Priest)
+~ StopAll()
 ~PlaySFX("creaking", false, 0, 0)
 Confused, you numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. #IMAGE: Open_Door #PROP: [Open_Door true], [your_book false]
 
@@ -501,9 +504,33 @@ Confused, you numbly wander back into the main body of the church. You find your
 *[Crying]
     ~ Church_Feeling = "crying"
 
-- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>To leave?</i> Your leg glues itself to your the floor. <i>Are you sure?</i> You grab your leg, pulling it forward.
+- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>{From_Priest: To stay? | To leave?}</i> Your leg glues itself to your the floor. <i>Are you sure?</i> {From_Priest: You swore it, but... | You grab your leg, pulling it forward.}
 
 {
+    - From_Priest and Stay_Tracker >= 5:
+        The red light intensifies, a comforting pressure. You fall to the floor. Your body is heavy. You don't want to leave it, but you know you have to. You want to. You want...
+            
+        What do you want?
+            
+        You stop, and sit back. You stare up at the church window, and it looks back at you.
+                
+        What are you fighting so hard for?
+                    
+        {finger_pain_pass: You look down at the hand that's missing a finger. | You think about all you've been through. }
+                    
+        *[You've already given up so much]
+            ~ PlaySFX("organ", false, 5, 0)
+            The front door closes, and you drift deeper into the church. Organ music begins to play. #PROP: [Open_Door false], [Closed_Door true] 
+            
+            ~ PlayBGM("inside", true, 5, 0)
+            You end up in the pews, just like your book said you would. You sit down, and close your eyes, taking in the church music. When you open them, the pews are filled with people, all turned towards you. It's people you've read about, smiling at you. Welcoming you. #IMAGE: Church_Inside #PROP: [Closed_Door false] 
+            
+            They begin to sing, hands out stretched for you to take. The music flows through you, and you feel a smile come to your face.
+            
+            **[Take their hands.]
+                #ENDING: 7, Bad? Ending - Finding Peace
+                ->Endings.Bad_End_7
+                
     - Confessional_Encounters ? (Killed_Girl):
         "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Ophelia |.} She's crying. "You're leaving me all alone? Again?"
         
@@ -694,9 +721,6 @@ You end up in the pews, just like your book said you would. You sit down, and cl
 They begin to sing, hands out stretched for you to take. The music flows through you, and you feel a smile come to your face.
 
 *[Take their hands.]
-
-- 
-*[And find peace.]
     #ENDING: 7, Bad? Ending - Finding Peace
     ->Endings.Bad_End_7
 
@@ -904,7 +928,7 @@ Anger swells inside you and you snap the book closed. You think you hate Olin. Y
     It bounces off the shelf with a thud, landing flatly on the ground. The bookshelf shuttered at the impact but nothing more. You stare at the book, thinking it deserves worse.
     
         **[Stomp it]
-            ~ PlaySFX("groaning_angry", false, 0, 0)
+            ~ PlaySFX("growling", false, 0, 0)
             You jump to your feet and walk over, and kick the book into the desk. It falls to the ground open to a random page. You raise your foot and smash your heel into spine. You grind your heel into it, tearing some of the pages. You grab the book off the ground and chuck it at the window. It crashes through.
         
         **[Leave it]
@@ -969,28 +993,31 @@ It screams again, causing the room to shake and throw you off balence. The ceili
     "{Temp_bool: Please, let me go! I'll- I'll do anything! | I'm sorry! I- I won't-}" It tightens it's grip. Your mind races, thinkning of what to say. 
     
     ***["I'll stay!"]
+        //~ Book_Knowledge += (Kept_Book)
+        ~ Confessional_Encounters += (Accepted_Priest)
+        ~ finger_pain_pass = true
+        //~ Church_Encounters += (Finger_Chopped)
         The creature stops, and loosen its grip. "Do you swear it?"
             
             **** {Stay_Tracker >= 2} [Yes] //truth
-                ~ Stay_Tracker += 1.5
-                You nod hesitantly. {Book_Knowledge ? (Kept_Book): With it's grip loosened, you reach down and pull your book out and wave it around. {Book_Knowledge ? (Read_End): "I read the ending, I- I know how it ends." | "Would I have kept this otherwise?"} | {Church_Encounters ? (Finger_Chopped): You hold up your bandanged hand. {finger_pain_pass: "It didn't even hurt!" | "I was cleansed already!"} | "I've realized I was wrong about the church. About all of it.!}} You gulp, hoping it doesn't know you're bluffing. 
+                ~ Stay_Tracker += 2
+                You betray yourself by nodding. 
                 
-                "Hmm..." it growls. "I hope you are not lying to me. I will believe you for now." 
+                The creature smiles and laughs. "I have faith in you, ████." It lightly sets you down, and pushes you out of the room. "Go on then, prove it."
+
+                -> Office_Area.Unsure(true)
                 
             **** {Stay_Tracker < 2} [Yes] //lie
                 ~ Stay_Tracker -= 0.5
-                ~ Book_Knowledge += (Kept_Book, Read_End)
-                You nod enthusiastically. {Book_Knowledge ? (Kept_Book): With it's grip loosened, you reach down and pull your book out and wave it around. {Book_Knowledge ? (Read_End): "I read the ending, I- I know how it ends." | "Would I have kept this otherwise?"} | {Church_Encounters ? (Finger_Chopped): You hold up your bandanged hand, grinding your teeth at the memory. {finger_pain_pass: "It didn't even hurt!" | "I was cleansed already!"} | {Church_Encounters ? (Was_Coward): The creature doesn't have eyes, so you hold down a finger and wave your hand around. "Look! I've already been cleansed." | "I've realized I was wrong about the church. About all of it.!}}} You gulp, hoping it doesn't realize you're bluffing. 
+                You nod enthusiastically. {Book_Knowledge ? (Kept_Book): With it's grip loosened, you reach down and pull your book out and wave it around. {Book_Knowledge ? (Read_End): "I read the ending, I- I know how it ends." {Book_Knowledge ? (Branded): Your brand pulsates, and you tighten your grip on the book. } | "Would I have kept this otherwise?"} | {Book_Knowledge ? (Read_End): "I read the ending, I- I know how it ends." {Book_Knowledge ? (Branded): Your brand pulsates and you grind your teeth.} | {Confessional_Encounters ? (Accepted_Priest): "I already confessed, remember? You told me yourself that I should..." You dig your nails into your palms.| {Church_Encounters ? (Finger_Chopped): You hold up your bandaged hand, grinding your teeth at the memory. {finger_pain_pass: "It didn't even hurt!" | "I was cleansed already!"} | {Church_Encounters ? (Was_Coward): The creature doesn't have eyes, so you hold down a finger and wave your hand around. "Look! I've already been cleansed." | "I've realized I was wrong about the church. About all of it.!}}}}} You hold your breath, hoping it doesn't realize you're bluffing. 
                 
-                "Hmm..." it growls. {Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Read_End) or Church_Encounters ? (Finger_Chopped): {Book_Knowledge ? (Kept_Book): It feels around for the book in your hand and traces the numbers on the cover. | {Church_Encounters ? (Finger_Chopped): A free hand grabs yours and squeezes, feeling for the bandange. You yelp as it pushes against the raw wound.}} "{Book_Knowledge ? (Read_End):Even read to the end, hmm? } I will believe you for now, ████." | {Church_Encounters ? (Was_Coward): A free hand grabs yours and harshly pushes down on each finger, searching for the missing one. Your knuckles crack and you yelps as it shoves down teh last finger until it breaks.} "I don't believe you, little lying ████." -> Oldin_Death}
-                
-                
+                "Hmm..." it growls. {Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Read_End) or Church_Encounters ? (Finger_Chopped) or Confessional_Encounters ? (Accepted_Priest): {Book_Knowledge ? (Kept_Book) : It feels around for the book in your hand and traces the numbers on the cover. {Book_Knowledge ? (Read_End): "You even read to the end? {Book_Knowledge ? (Branded): Although, it seems you are still... adjusting." Its hand traces the scars set in your skin. }}  | {Book_Knowledge ? (Read_End): "You even read to the end? {Book_Knowledge ? (Branded): "Although, it seems you are still... adjusting." Its hand traces the scars set in your skin.} | {Church_Encounters ? (Finger_Chopped): A free hand grabs yours and squeezes, feeling for the bandage. You yelp as it pushes against the raw wound.}}} "I am choosing to have faith in you for now, ████." It lightly sets you down, and pushes you out of the room. "Go on then, prove it." -> Oldin_Live(true) | {Church_Encounters ? (Was_Coward): A free hand grabs yours and harshly pushes down on each finger, searching for the missing one. Your knuckles crack and you yelps as it shoves down the last finger until it breaks. You scream in pain. } "I didn't expect her to raise a liar." -> Oldin_Death}
                 
             **** {Stay_Tracker < 2} [No] //truth
                 "No." The words tumble out before you can think. You can't bring yourself to even lie. 
                 
                 ~PlaySFX("groaning_angry", false, 0, 0)
-                "Disgusting." The creature growls.
+                "Disgusting." The creature growls. "I expected better from you, ████."
                 
                 -> Oldin_Death
             
@@ -998,15 +1025,12 @@ It screams again, causing the room to shake and throw you off balence. The ceili
                 ~ Stay_Tracker += 1
                 You shake your head, the words refusing to form in your mouth. You <s>should</s> can't stay here. You <s>want to</s> won't stay here.
                 
-                 "Hmm..." it growls. {Book_Knowledge !? (Kept_Book) or Book_Knowledge !? (Read_End) or Book_Knowledge ? (Ripped_Pages): "I don't believe you." | "It is your loss... ████." -> Oldin_Death}
+                 "Hmm..." it growls. {Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Read_End) or Church_Encounters ? (Finger_Chopped) or Confessional_Encounters ? (Accepted_Priest): {Book_Knowledge ? (Kept_Book): The creature thinks for a moment before shaking you. Your book falls to the floor. It picks it up and traces the cover before shoving it back into your hands. | {Church_Encounters ? (Finger_Chopped): It grabs your hand and harshly presses down on your finger stump. {finger_pain_pass: You inhale sharply, but accept the pain like before, and it quickly passes. The creature smiles. | You yelp and pull your hand away. }}} "{Confessional_Encounters ? (Accepted_Priest):I remember your confession. The pain in your voice. With that in mind, }I'm not sure I believe you, ████.{Book_Knowledge ? (Read_End): You even read to the end!} {Book_Knowledge ? (Branded) or finger_pain_pass == false: Although, it seems you are still... adjusting." {Book_Knowledge ? (Branded): Its hand traces the scars set in your skin. } |"} It lightly sets you down, and pushes you out of the room. "Go on then, prove it." -> Oldin_Live(false)  | "It is your loss... ████." -> Oldin_Death}
     
     ***["I have something new to confess!"]
         "I don't believe you." It mutters. -> Oldin_Death
 
-    
-
 - You regain your balance and push yourself harder{Leg_State >= Limping:, but your leg is refusing to cooperate with you. Each time you foot hits the floor a searing pain shoots up your shin. |.} The door is so close. <i>You're</i> so close. Another cracking from the ceiling. You jerk your head up and see a large chuck barely being held up. If it falls before you get to the door, you'll be trapped inside.
-
 
 *[Dive for it]
     You plant your leading foot and all but throw yourself at the door. You soar through the doorway and land on the stairs, hard, probably bruising something or worse. <>
@@ -1027,9 +1051,11 @@ It screams again, causing the room to shake and throw you off balence. The ceili
     
     You push you body past its limits, and run faster than you ever have before. Blood drums in your ears as you throw yourself through the doorway and run straight into the hallway wall. You collapse to the ground, heart ready to explode. <>
 
-- You watch as the room collapses in on itself, leaving only a caved in door way behind. {Book_Knowledge !? (Kept_Book, Saw_Your_Book): Something glints in the rubble left behind.}
+- 
+~ Room_State = Destroyed
+You watch as the room collapses in on itself, leaving only a caved in door way behind. The creature screams as it's squished. {Book_Knowledge !? (Saw_Your_Book): Something glints in the rubble left behind.} #EFFECT: Force_Blink
 
-    "Well that was {Book_Knowledge ? (Branded): stupid}... " you mutter and carefully get to your feet, checking for any lasting damage. You don't feel great but doesn't feel like anything's broken. {Book_Knowledge ? (Branded): You rub your arms where the words are burned into the skin.  |  "Note to self, <i>don't</i> rip anything while in here..."}
+You take a deep breath and stare at 
     
 *{Book_Knowledge !? (Kept_Book, Saw_Your_Book)}[Examine the glinting in the rubble]
     ~Book_Knowledge += (Saw_Your_Book)
@@ -1058,8 +1084,32 @@ Your gasp on the ground, blood from your limbs dripping onto you. The creature l
 ****[You feel every crunch as its teeth grind your bones]
     ->Endings.Bad_End_13
 
-= Olin_Live
--> END
+= Oldin_Live(Said_Yes)
+~ Room_State = Destroyed
+~PlaySFX("door_thud", false, 0, 0)
+The door shuts behind you and melts into the wall. {Said_Yes: You lied, but it still let you go. You don't think you were particularly skilled liar, but... | You said no, but it still let you go. } Your legs tremble and you chew the inside of your cheek.
+
+~PlaySFX("knocking", false, 0, 0)
+You run your hand along where the door was and knock. It's solid. {Book_Knowledge !? (Saw_Your_Book): You turn to leave, but a hand grabs you. Something is pessed into your hand. "Don't forget this."}
+
+{
+- Book_Knowledge !? (Saw_Your_Book):
+    ~Book_Knowledge += (Saw_Your_Book)
+    You turn on your flashlight and see it's a book. 2758. You flip it open and immediately close it. It's <i>your</i> book.
+    
+    **[Read it now]
+        ->Office_Area.Read_After_Rubble
+    
+    **[Take it with you]
+        ~Book_Knowledge += (Kept_Book)
+        You can read it later. For now, you need to return to your search.
+        -> Office_Area.Exit_Office_Continue
+        
+- else:
+    *[Move on with your search]
+        -> Office_Area.Exit_Office_Continue
+}
+
 = Mom_Young_Book
 //CAN ONLY BE READ IF YOU'VE MET MOM
 ~ Book_Knowledge += (Read_Mom_Young_Book)

@@ -44,6 +44,15 @@ public class TextObjectEffects : MonoBehaviour
         SettingsUIData.OnTextSizeChange -= SetTextSize;
     }
 
+    private void CheckIfNull()
+    {
+        if (rect == null)
+            rect = GetComponent<RectTransform>();
+
+        if (text == null)
+            text = GetComponent<TMProGlobal>();
+    }
+
     private void SetTextSize()
     {
         text.fontSize = SaveSystem.GetTextSize();
@@ -82,8 +91,7 @@ public class TextObjectEffects : MonoBehaviour
 
     private void ResetIndividualCharacters()
     {
-        if (text == null)
-            return;
+        CheckIfNull();
 
         DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text);
 
@@ -103,6 +111,7 @@ public class TextObjectEffects : MonoBehaviour
 
     public void ApplyClass(string toAdd)
     {
+        CheckIfNull();
         KillAllTweens();
 
         if (!classes.Contains(toAdd))
@@ -110,9 +119,6 @@ public class TextObjectEffects : MonoBehaviour
 
         if (!GameManager.instance.TextEffects)
             return;
-
-        if (text == null)
-            text = GetComponent<TMProGlobal>();
 
         text.alignment = TextAlignmentOptions.Center;
 

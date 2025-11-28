@@ -62,7 +62,6 @@ public class DataManager : MonoBehaviour
 
     public void UnlockEnding(int index, string name)
     {
-        //TODO: maybe make this more elegant
         string[] end = name.Split('-');
         SaveSystem.UnlockEnding(index, name);
         Endings[index - 1].text = $"{end[0]}\n<size=50>{end[1]}</size>";

@@ -92,17 +92,32 @@ public class TransistionsAndLoading : MonoBehaviour
         if (SaveLoad.activeSelf)
             TransistionsAndLoading.instance.TransitionToMenu(SaveLoad, false);
     }
- 
+
     /// <summary>
     /// Transitions to show a menu
     /// </summary>
     /// <param name="Menu">Gameobject we want to view</param>
     public void TransitionToMenu(GameObject Menu)
     {
+        MenuTransition(Menu, !Menu.activeSelf);
+    }
+
+    public void TransitionToMenu(GameObject Menu, bool shouldShow)
+    {
+        MenuTransition(Menu, shouldShow);
+    }
+
+    public void ShowSettings()
+    {
+        MenuTransition(Settings, true);
+    }
+
+    private void MenuTransition(GameObject Menu, bool shouldShow)
+    {
         TransitionScreen.gameObject.SetActive(true);
         TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
         {
-            Menu.SetActive(!Menu.activeSelf);
+            Menu.SetActive(shouldShow);
             TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
             {
                 TransitionScreen.gameObject.SetActive(false);
@@ -115,18 +130,6 @@ public class TransistionsAndLoading : MonoBehaviour
         TransitionToMenu(MainMenu);
     }
 
-    public void TransitionToMenu(GameObject Menu, bool shouldShow)
-    {
-        TransitionScreen.gameObject.SetActive(true);
-        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
-        {
-            Menu.SetActive(shouldShow);
-            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
-            {
-                TransitionScreen.gameObject.SetActive(false);
-            });
-        });
-    }
 
     /// <summary>
     ///Hides menu before load
@@ -159,18 +162,6 @@ public class TransistionsAndLoading : MonoBehaviour
 
         print("seeing");
     }
-    
-    public void ShowSettings()
-    {
-        TransitionScreen.gameObject.SetActive(true);
-        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
-        {
-            Settings.SetActive(true);
-            TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
-            {
-                TransitionScreen.gameObject.SetActive(false);
-            });
-        });
-    }
+
 
 }

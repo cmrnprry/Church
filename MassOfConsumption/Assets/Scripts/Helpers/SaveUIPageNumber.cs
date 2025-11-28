@@ -17,7 +17,7 @@ public class SaveUIPageNumber : MonoBehaviour
 
     public delegate void OnClickEvent(int Index);
     public static event OnClickEvent OnClick;
-    
+
     public delegate void HoverEvents();
 
     public static event HoverEvents OnCursorEnter;
@@ -25,8 +25,7 @@ public class SaveUIPageNumber : MonoBehaviour
 
     private void Awake()
     {
-        Outline = transform.GetChild(0).GetComponent<Image>();
-        Text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+        GetValueIfNull();
     }
 
     public void SetOutlineColor(bool isHover)
@@ -36,9 +35,9 @@ public class SaveUIPageNumber : MonoBehaviour
         if (Selected && !isHover)
             color = onSelected;
 
-        Text.DOColor(color, 0.1f);
-        Outline.DOColor(color, 0.1f);
-        
+        GetValueIfNull();
+        SetValues(color);
+
         if (isHover)
             OnCursorEnter?.Invoke();
         else
@@ -50,8 +49,8 @@ public class SaveUIPageNumber : MonoBehaviour
         Selected = isSelected;
         var color = (isSelected) ? onSelected : Default;
 
-        Text.DOColor(color, 0.1f);
-        Outline.DOColor(color, 0.1f);
+        GetValueIfNull();
+        SetValues(color);
     }
 
     public void ClickPage()
@@ -59,11 +58,31 @@ public class SaveUIPageNumber : MonoBehaviour
         OnClick?.Invoke(Index);
     }
 
-    public void SetPageNumber (int index)
+    public void SetPageNumber(int index)
     {
+        GetValueIfNull();
+
         Text.text = (index + 1).ToString();
         Index = index;
 
         IsPageSelected(index == 0);
+    }
+
+    private void SetValues(Color color)
+    {
+        if (Text != null)
+            Text.DOColor(color, 0.1f);
+
+        if (Outline != null)
+            Outline.DOColor(color, 0.1f);
+    }
+
+    private void GetValueIfNull()
+    {
+        if (Outline == null)
+            Outline = transform.GetChild(0).GetComponent<Image>();
+
+        if (Text == null)
+            Text = transform.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
 }

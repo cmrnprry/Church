@@ -19251,11 +19251,11 @@ MonoBehaviour:
     - Key: girl_thud
       Value: {fileID: 8300000, guid: 6bab3c6c4c00f5247931e67b0503271d, type: 3}
     - Key: paper_rip_1
-      Value: {fileID: 8300000, guid: 57b9c7404573fb24088a21dc88ec1694, type: 3}
+      Value: {fileID: 8300000, guid: b960c59556972cf4cb3b842e7bcc11d2, type: 3}
     - Key: paper_rip_2
-      Value: {fileID: 8300000, guid: 1cd0a7517a9f470458a4bbe6e6c0966a, type: 3}
+      Value: {fileID: 8300000, guid: bb4954d0820906b42a9fc4f3694716a3, type: 3}
     - Key: paper_rip_3
-      Value: {fileID: 8300000, guid: 93384876b8ed34b44a7dd37ea92fa55f, type: 3}
+      Value: {fileID: 8300000, guid: 9d78356e9ccca7b45a3baa422cdc5992, type: 3}
     - Key: fabric_ripping_1
       Value: {fileID: 8300000, guid: 8c467e2be3cf114429ef4a6ac12e107b, type: 3}
     - Key: fabric_ripping_2
@@ -19265,7 +19265,7 @@ MonoBehaviour:
     - Key: photo_rip_2
       Value: {fileID: 8300000, guid: 795f497f36047f94488639c25edc11f8, type: 3}
     - Key: curtain_tear
-      Value: {fileID: 8300000, guid: 60fce5d3dd2f4b24aba9e5de9e0d95d6, type: 3}
+      Value: {fileID: 8300000, guid: 6ee4c97a7b8cc7940b514e9d1744d24f, type: 3}
     - Key: confessional_breaking
       Value: {fileID: 8300000, guid: 9214c9d5585076544ab55aefa53a3fa9, type: 3}
     - Key: bang_normal
@@ -19293,23 +19293,25 @@ MonoBehaviour:
     - Key: footsteps_player
       Value: {fileID: 8300000, guid: db66b2d9361e74184a9b598fb52a09e1, type: 3}
     - Key: footsteps_scary
-      Value: {fileID: 8300000, guid: 9e685f92c10088144a7704cd212990d5, type: 3}
+      Value: {fileID: 8300000, guid: f6adb4bc768b44e56affd81612835410, type: 3}
     - Key: footsteps_squishy
-      Value: {fileID: 8300000, guid: b1913ca4bb92c8a48b4cb1e066904faf, type: 3}
+      Value: {fileID: 8300000, guid: 630b552d759112a45b4f917b8dcf3b1d, type: 3}
     - Key: gate_closed
       Value: {fileID: 8300000, guid: 06a5512253b08439795a4c5038d908a1, type: 3}
     - Key: gate_open
       Value: {fileID: 8300000, guid: 2e6315f4edbab408bb0c04553eb5f2e8, type: 3}
     - Key: groaning_angry
-      Value: {fileID: 8300000, guid: 494191f4491022f4ebbbf2b4aa0902dc, type: 3}
+      Value: {fileID: 8300000, guid: 2b593e4a43e68874280a579d915dd8f9, type: 3}
     - Key: groaning_happy
       Value: {fileID: 8300000, guid: f12d909bbabd54a54bf9281ee4bfa563, type: 3}
-    - Key: groaning_afraid
-      Value: {fileID: 8300000, guid: 1ba0b4f87e248cd41a45b2a1ca6926ad, type: 3}
+    - Key: groaning_whine
+      Value: {fileID: 8300000, guid: 0ce496a9bee1c4b4585a59c87e7e3010, type: 3}
+    - Key: groaning_growl
+      Value: {fileID: 8300000, guid: 0e376dd35dd5fcc44b96d5963105201f, type: 3}
     - Key: groaning_hurt_1
-      Value: {fileID: 8300000, guid: 094cef271e9cea24c9949ecbeb06b095, type: 3}
+      Value: {fileID: 8300000, guid: 76595fe1a44e2454ebf07f6144170934, type: 3}
     - Key: groaning_hurt_2
-      Value: {fileID: 8300000, guid: 43580e95eb472ec46afe08015743f6af, type: 3}
+      Value: {fileID: 8300000, guid: 6821790493a5a52469a12bfec2e761fc, type: 3}
     - Key: creaking
       Value: {fileID: 8300000, guid: 8cbaee438c30d471b960fec82831fc76, type: 3}
     - Key: honk
@@ -19333,9 +19335,9 @@ MonoBehaviour:
     - Key: screeching
       Value: {fileID: 8300000, guid: 6288da24f78d64acfab4a59291123ee8, type: 3}
     - Key: talking_reverse
-      Value: {fileID: 8300000, guid: 82a9caa52821c4d44893830029687037, type: 3}
+      Value: {fileID: 8300000, guid: 7b871b58258e9ba4b9f322217f1a255b, type: 3}
     - Key: talking
-      Value: {fileID: 8300000, guid: 8b1ee2a161256e54994f66e9ae384895, type: 3}
+      Value: {fileID: 8300000, guid: 8f99dc5db9f7cdf44b6d0bc53d9bc8ff, type: 3}
     - Key: tinitus
       Value: {fileID: 8300000, guid: f6c218b2ac5f71049bdb36c5eb274312, type: 3}
     - Key: growling

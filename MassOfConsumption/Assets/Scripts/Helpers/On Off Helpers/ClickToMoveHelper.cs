@@ -15,11 +15,6 @@ public class ClickToMoveHelper : MonoBehaviour
     private void Start()
     {
         img = GetComponent<Image>();
-
-        //if (isHover)
-        //    
-        //else
-        //    
     }
 
     public void OnHoverStart()

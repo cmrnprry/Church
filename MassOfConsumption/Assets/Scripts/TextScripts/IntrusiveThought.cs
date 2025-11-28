@@ -47,6 +47,18 @@ public class IntrusiveThought : MonoBehaviour
             text_sequence.Kill();
     }
 
+    private void CheckIfNull()
+    {
+        if (rect == null)
+            rect = this.GetComponent<RectTransform>();
+
+        if (button == null)
+            button = this.GetComponent<LabledButton>();
+
+        if (text_box == null)
+            text_box = this.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+    }
+
     public void SetButtonCallback(string jump_to)
     {
 
@@ -64,6 +76,8 @@ public class IntrusiveThought : MonoBehaviour
 
     public void SetTweens(string text)
     {
+        CheckIfNull();
+
         text_box.text = text;
         text_box.DOFade(fade_max.GetRandomValue(), 1.5f).SetDelay(wait.GetRandomValue());
         //heartbeat option sequence.PrependInterval(wait.GetRandomValue()).Append(rect.DOScale(1.5f, 0.25f)).Append(rect.DOScale(1f, 0.15f)).Append(rect.DOScale(1.5f, 0.25f)).Append(rect.DOScale(1f, 0.15f)).AppendInterval(wait.GetRandomValue()).SetLoops(-1, LoopType.Yoyo);
@@ -76,6 +90,8 @@ public class IntrusiveThought : MonoBehaviour
 
     public void IncreaseTweens()
     {
+        CheckIfNull();
+
         rect_sequence.Kill();
         rect_sequence = DOTween.Sequence();
 
@@ -115,6 +131,8 @@ public class IntrusiveThought : MonoBehaviour
 
     public void KillAllThoughts()
     {
+        CheckIfNull();
+
         if (rect_sequence != null)
             rect_sequence.Kill();
 
@@ -135,8 +153,7 @@ public class IntrusiveThought : MonoBehaviour
 
     private void ResetIndividualCharacters()
     {
-        if (text_box == null)
-            return;
+        CheckIfNull();
 
         DOTweenTMPAnimator anim = new DOTweenTMPAnimator(text_box);
 

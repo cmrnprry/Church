@@ -38,6 +38,14 @@ public struct ZoomData
         this.delay = delay;
     }
 
+    public ZoomData(float scale, Vector2 position)
+    {
+        this.scale = scale;
+        this.position = position;
+        this.duration = 0.5f;
+        this.delay = 0.5f;
+    }
+
     public bool IsNull()
     {
         if (scale <= 0 && duration <= 0)
@@ -104,21 +112,22 @@ public class BackgroundImage : MonoBehaviour
 
     private void AddClassTweens()
     {
-        var data = SaveSystem.GetImageClassData();
-        ApplyClass(data);
+        string data = SaveSystem.GetImageClassData();
+
+        if (data != "NULL" && !String.IsNullOrEmpty(data))
+            ApplyClass(data);
     }
 
     private void AddZoomTweens()
     {
-        var data = SaveSystem.GetImageZoomData();
+        ZoomData data = SaveSystem.GetImageZoomData();
 
         if (!data.IsNull())
-         ZoomImage(data.scale, data.position, data.duration);
+         ZoomImage(data);
     }
 
-    public void ZoomImage(float scale, Vector2 position, float duration = 0.5f, float delay = 0.5f)
+    public void ZoomImage(ZoomData data)
     {
-        var data = new ZoomData(scale, position, duration, delay);
         SaveSystem.AddImageZoomData(data);
 
         KillZoomTweens();
@@ -127,10 +136,13 @@ public class BackgroundImage : MonoBehaviour
         if (!GameManager.instance.VisualOverlay)
             return;
 
-        Vector3 scale_vector = new Vector3(scale, scale, scale);
+        if (rect == null)
+            rect = GetComponent<RectTransform>();
 
-        zoom_sequence.AppendInterval(delay).Append(rect.DOScale(scale_vector, duration))
-            .Join(rect.DOAnchorPos(position, duration));
+        Vector3 scale_vector = new Vector3(data.scale, data.scale, data.scale);
+
+        zoom_sequence.AppendInterval(data.delay).Append(rect.DOScale(scale_vector, data.duration))
+            .Join(rect.DOAnchorPos(data.position, data.duration));
     }
 
     void BlurEffectCallback()
@@ -143,6 +155,9 @@ public class BackgroundImage : MonoBehaviour
             StopEffect = false;
             return;
         }
+
+        if (mat == null)
+            mat = GetComponent<Image>().materialForRendering;
 
         float dur = duration.GetRandomValue();
         class_sequence.PrependInterval(wait.GetRandomValue())
@@ -163,9 +178,8 @@ public class BackgroundImage : MonoBehaviour
         if (mat == null)
             mat = GetComponent<Image>().materialForRendering;
 
-
         float dur = 0;
-        if (toAdd != "NULL" && toAdd != "")
+        if (toAdd != "NULL" && !String.IsNullOrEmpty(toAdd))
         {
             StopEffect = false;
             switch (toAdd)
@@ -262,8 +276,6 @@ public class BackgroundImage : MonoBehaviour
 
 
     //KILL TWEENS //
-
-
     public void RemoveClassTweens()
     {
         KillClassTweens(true);
@@ -272,7 +284,9 @@ public class BackgroundImage : MonoBehaviour
 
     public void RemoveZoomTweens()
     {
-        ZoomImage(1, Vector2.zero);
+        var data = new ZoomData(1, Vector2.zero);
+
+        ZoomImage(data);
         SaveSystem.ResetImageData(true);
     }
 
