@@ -12,7 +12,7 @@ public class SettingsUIData : MonoBehaviour
     [SerializeField] private Slider TextSpeed_Slider;
     [SerializeField] private Slider TextSize_Slider;
     [SerializeField] private TMP_Dropdown Font_dropdown;
-    [SerializeField] private ToggleSwitchColorChange AutoPlayToggle, TextDirection, LineBoilOverlay, VisualOverlay, TextEffectsOverlay;
+    [SerializeField] private ToggleSwitchColorChange AutoPlayToggle, LineBoilOverlay, VisualOverlay, TextEffectsOverlay;
 
 
     [Header("Audio Settings")]
@@ -36,7 +36,10 @@ public class SettingsUIData : MonoBehaviour
             var isfull = SaveSystem.GetFullscreen();
             full.isOn = isfull;
             window.isOn = !isfull;
+
+            SetScreenMode(isfull);
         }
+
         if (Screensize_Dropdown != null)
             Screensize_Dropdown.value = SaveSystem.GetSettingsIndex();
 
@@ -52,13 +55,6 @@ public class SettingsUIData : MonoBehaviour
             AutoPlayToggle.SetValue(SaveSystem.GetAutoplayValue());
             SetAutoPlay(SaveSystem.GetAutoplayValue());
         }
-
-        if (TextDirection != null)
-        {
-            TextDirection.SetValue(SaveSystem.GetScrollDir());
-            SetScrollDir(SaveSystem.GetScrollDir());
-        }
-
 
         if (LineBoilOverlay != null)
         {
@@ -106,11 +102,6 @@ public class SettingsUIData : MonoBehaviour
     {
         SaveSystem.SetAutoplayValue(value);
         GameManager.instance.AutoPlay = value;
-    }
-
-    public void SetScrollDir(bool value)
-    {
-        SaveSystem.SetScrollDirValue(value);
     }
 
     public void SetLineBoil(bool value)

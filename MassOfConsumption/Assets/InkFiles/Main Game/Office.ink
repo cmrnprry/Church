@@ -487,6 +487,7 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 = Unsure(From_Priest)
 ~ StopAll()
 ~PlaySFX("creaking", false, 0, 0)
+~ Intrusive(4, "It's letting you out?", "")
 Confused, you numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. #IMAGE: Open_Door #PROP: [Open_Door true], [your_book false]
 
 *[Reach out a hand]
@@ -504,19 +505,23 @@ Confused, you numbly wander back into the main body of the church. You find your
 *[Crying]
     ~ Church_Feeling = "crying"
 
-- You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>{From_Priest: To stay? | To leave?}</i> Your leg glues itself to your the floor. <i>Are you sure?</i> {From_Priest: You swore it, but... | You grab your leg, pulling it forward.}
+- 
+~ Intrusive(4, "What do you want?", "")
+You're hysterical. Your whole body is heavy and tingling. You take a heavy step toward the door. <i>Is this really what you want?</i> Freedom is only one more step away. <i>{From_Priest: To stay? | To leave?}</i> Your leg glues itself to your the floor. <i>Are you sure?</i> {From_Priest: You swore it, but... | You grab your leg, pulling it forward.}
 
 {
     - From_Priest and Stay_Tracker >= 5:
         The red light intensifies, a comforting pressure. You fall to the floor. Your body is heavy. You don't want to leave it, but you know you have to. You want to. You want...
             
-        What do you want?
+        What do you want? #REMOVE: Intrusive
             
         You stop, and sit back. You stare up at the church window, and it looks back at you.
-                
-        What are you fighting so hard for?
-                    
-        {finger_pain_pass: You look down at the hand that's missing a finger. | You think about all you've been through. }
+
+        ~ Intrusive(2, "To leave?", "")
+        ~ Intrusive(6, "To stay?", "")
+        What are you fighting so hard for? 
+
+        {finger_pain_pass: You look down at the hand that's missing a finger. | You think about all you've been through. } #REMOVE: Intrusive
                     
         *[You've already given up so much]
             ~ PlaySFX("organ", false, 5, 0)
@@ -532,7 +537,7 @@ Confused, you numbly wander back into the main body of the church. You find your
                 ->Endings.Bad_End_7
                 
     - Confessional_Encounters ? (Killed_Girl):
-        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Ophelia |.} She's crying. "You're leaving me all alone? Again?"
+        "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Ophelia |.} She's crying. "You're leaving me all alone? Again?" #REMOVE: Intrusive
         
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain. <>
         {
@@ -853,7 +858,7 @@ TODO if you have a high stya then cryin the dirt
 ~ Book_Knowledge += (Read_Oldin_Book)
 The book you chose is massive. It's thicker than most other books you've read so far, and most of it's pages are full of text instead of blank. This book is from the point of view of a pastor named Olin. He was out of work for a long while, before finding the church. One of his children was sick, so he jumped at the chance for work. Anything to get more money into the family. 
 
-However, as soon as he stepped inside, he refused to leave. The church looked at him and he thought he was receiving revelations from God. Olin accepted it readily. Greedily. Instead of finding peace like many others he—
+However, as soon as he stepped inside, he refused to leave. The church looked at him and he thought he was receiving revelations from God. Olin accepted it readily. Greedily. Instead of finding peace like many others he— #DELAY: 0.5
 
 "No way..." You mutter, re-reading the next few passages again and again. "He... He became part of the church?"
 
@@ -993,10 +998,6 @@ It screams again, causing the room to shake and throw you off balence. The ceili
     "{Temp_bool: Please, let me go! I'll- I'll do anything! | I'm sorry! I- I won't-}" It tightens it's grip. Your mind races, thinkning of what to say. 
     
     ***["I'll stay!"]
-        //~ Book_Knowledge += (Kept_Book)
-        ~ Confessional_Encounters += (Accepted_Priest)
-        ~ finger_pain_pass = true
-        //~ Church_Encounters += (Finger_Chopped)
         The creature stops, and loosen its grip. "Do you swear it?"
             
             **** {Stay_Tracker >= 2} [Yes] //truth

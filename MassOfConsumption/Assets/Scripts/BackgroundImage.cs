@@ -292,14 +292,21 @@ public class BackgroundImage : MonoBehaviour
 
     private void KillAllTweens()
     {
-        KillZoomTweens();
-        KillClassTweens();
+        KillZoomTweens(true);
+        KillClassTweens(true);
     }
 
-    private void KillZoomTweens()
+    private void KillZoomTweens(bool ShouldReset = false)
     {
         if (zoom_sequence != null && zoom_sequence.IsPlaying())
             zoom_sequence.Kill(true);
+
+        if (rect != null && ShouldReset)
+        {
+            rect.DOKill(true);
+            rect.DOScale(1, 0.5f);
+            rect.DOAnchorPos(Vector2.zero, 0.5f);
+        }
     }
 
     private void KillClassTweens(bool ShouldReset = false)

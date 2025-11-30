@@ -269,7 +269,6 @@ namespace AYellowpaper.SerializedCollections
 
         //GAMEPLAY
         public bool autoplay;
-        public bool scroll_direction;
         public bool visual_overlay;
         public bool text_effects;
         public bool image_overlay;
@@ -295,7 +294,6 @@ namespace AYellowpaper.SerializedCollections
             text_speed = -1;
             font_index = 0;
             autoplay = false;
-            scroll_direction = true;
             visual_overlay = true;
             text_effects = true;
             image_overlay = true;

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
 using TMPro;
+using UnityEngine.InputSystem;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -148,30 +149,53 @@ namespace AYellowpaper.SerializedCollections
             background.gameObject.GetComponent<RectTransform>().DOAnchorPosX(pos, time);
         }
 
-        public static IEnumerator IncrementText(string text, TMP_Text currentTextbox, ScrollRect Scroll, float AutoScrollDelay)
+        public static IEnumerator IncrementText(string text, TMP_Text currentTextbox, ScrollRect Scroll, float AutoScrollDelay, Material Mask)
         {
             IsTyping = true;
             currentTextbox.maxVisibleCharacters = 0;
             currentTextbox.text = text;
             currentTextbox.alpha = 225;
             yield return null;
-            Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
+            Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
             Scroll.content.ForceUpdateRectTransforms();
 
-            currentTextbox.ForceMeshUpdate();
+            currentTextbox.ForceMeshUpdate(true);
             TMP_TextInfo textInfo = currentTextbox.textInfo;
             int totalCharacters = textInfo.characterCount;
 
+            int lines = textInfo.lineCount;
+            TMP_LineInfo[] lineInfo = textInfo.lineInfo;
+            int[] linecharacter = new int[lines];
+
+            int index = 0;
+            int counter = 0;
+            Mask.DOFloat(GetMaskValue(index), "_Start", 0.15f);
             for (int i = 0; i < totalCharacters; i++)
             {
                 if (CurrentlySkipping)
                 {
                     IsTyping = false;
-                    currentTextbox.maxVisibleCharacters = totalCharacters;
-                    yield return new WaitForEndOfFrame();
+                    GameManager.instance.CanClick = false;
                     CurrentlySkipping = false;
 
+                    currentTextbox.maxVisibleCharacters = totalCharacters;
+                    Mask.DOFloat(GetMaskValue(lines), "_Start", 0.15f);
+
+                    yield return new WaitForEndOfFrame();
                     yield break;
+                }
+
+                if (i == 1)
+                {
+                    currentTextbox.ForceMeshUpdate(true);
+                    lines = textInfo.lineCount;
+                    lineInfo = textInfo.lineInfo;
+                    linecharacter = new int[lines];
+
+                    for (int ii = 0; ii < lines; ii++)
+                    {
+                        linecharacter[ii] = lineInfo[ii].characterCount;
+                    }
                 }
 
                 currentTextbox.maxVisibleCharacters++;
@@ -181,6 +205,15 @@ namespace AYellowpaper.SerializedCollections
                     yield return new WaitForSeconds(TextPunctuationDelay);
                 else
                     yield return new WaitForSeconds(TextCharacterDelay);
+
+                if (counter >= linecharacter[index] && i >= 1)
+                {
+                    index++;
+                    counter = 0;
+                    Mask.DOFloat(GetMaskValue(index), "_Start", 0.15f);
+                }
+
+                counter++;
             }
 
             IsTyping = false;
@@ -188,16 +221,41 @@ namespace AYellowpaper.SerializedCollections
             yield return new WaitForEndOfFrame();
         }
 
+        private static float GetMaskValue(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return 0.8f;
+                case 1:
+                    return 0.75f;
+                case 2:
+                    return 0.65f;
+                case 3:
+                    return 0.5f;
+                case 4:
+                    return 0.35f;
+                case 5:
+                    return 0.2f;
+                default:
+                    return 0;
+            }
+        }
+
         public static IEnumerator CheckSkip()
         {
             yield return new WaitUntil(() => IsTyping);
 
+            Debug.Log("LISTENING FOR SKIP");
 
             yield return new WaitUntil(() =>
-                                               (Input.GetButtonDown("Continue") || (Input.GetMouseButtonDown(0) && GameManager.instance.CanClick)) || !IsTyping || CurrentlySkipping);
+                                                GameManager.instance.Actions.Controls.Continue.triggered || GameManager.instance.CanClick || !IsTyping || CurrentlySkipping);
 
             if (!IsTyping || CurrentlySkipping)
                 yield break;
+
+            Debug.Log("SKIPPING");
+            yield return new WaitForEndOfFrame();
 
             CurrentlySkipping = true;
         }

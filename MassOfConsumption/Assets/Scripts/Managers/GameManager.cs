@@ -10,10 +10,9 @@ using Random = UnityEngine.Random;
 using ColorUtility = UnityEngine.ColorUtility;
 using DG.Tweening;
 using UnityEngine.Rendering.Universal;
-using UnityEngine.TextCore.Text;
 using TextAsset = UnityEngine.TextAsset;
-using UnityEngine.SceneManagement;
 using Steamworks;
+using UnityEngine.InputSystem;
 
 namespace AYellowpaper.SerializedCollections
 {
@@ -21,6 +20,12 @@ namespace AYellowpaper.SerializedCollections
     {
         public static GameManager instance;
         private bool should_blink = false;
+        private PlayerActions actions;
+
+        public PlayerActions Actions
+        {
+            get { return actions; }
+        }
 
         public bool ShouldBlink
         {
@@ -101,6 +106,7 @@ namespace AYellowpaper.SerializedCollections
         [SerializeField] private Animator anim;
         [SerializeField] private Image BackgroundImage;
         [SerializeField] private Transform DefualtImage;
+        [SerializeField] private Image FadeMask;
         private BackgroundImage ImageClassData;
 
 
@@ -178,7 +184,7 @@ namespace AYellowpaper.SerializedCollections
         public static event ClickEffects OnForceBlink;
         public static event ClickEffects OnForceOpen;
         public static event ClickEffects OnForceClosed;
-        public static event ClickEffects OnRemoveClick;
+        //public static event ClickEffects OnRemoveClick;
 
 
         private void Awake()
@@ -194,6 +200,7 @@ namespace AYellowpaper.SerializedCollections
 
             SaveSystem.Init();
             SaveSystem.SlotInit(BackgroundDictionary, PropDictionary, Story);
+            actions = new PlayerActions();
         }
 
         private void Start()
@@ -243,12 +250,14 @@ namespace AYellowpaper.SerializedCollections
         {
             SaveSlot.OnSave += SetDataOnSave;
             SaveSystem.OnLoad += GetDataOnLoad;
+            actions.Enable();
         }
 
         private void OnDisable()
         {
             SaveSlot.OnSave -= SetDataOnSave;
             SaveSystem.OnLoad -= GetDataOnLoad;
+            actions.Disable();
         }
 
         public void SetTextFlow(bool val)
@@ -322,7 +331,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (story_tag.Contains("CLASS"))
                 {
-                    Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
+                    Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
                     Scroll.content.ForceUpdateRectTransforms();
                 }
 
@@ -397,7 +406,7 @@ namespace AYellowpaper.SerializedCollections
                 Flashlight.isOn = true;
             }
 
-            Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
+            Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
             StartCoroutine(AfterLoad(hideChoices));
         }
 
@@ -412,7 +421,7 @@ namespace AYellowpaper.SerializedCollections
                     ClickToContinue = true;
 
                     yield return new WaitUntil(() =>
-                                           Input.GetButtonDown("Continue") || can_click);
+                                           actions.Controls.Continue.triggered || can_click);
 
                     ClickToContinue = false;
                     can_click = false;
@@ -467,6 +476,8 @@ namespace AYellowpaper.SerializedCollections
         private IEnumerator ContinueStory(bool isStart = false)
         {
             bool hideChoices = false;
+            can_click = false;
+
             Text_Delay = -1;
 
             if (Story.canContinue)
@@ -502,11 +513,21 @@ namespace AYellowpaper.SerializedCollections
 
                 Current_Textbox = Instantiate(TextPrefab, TextParent, false);
 
+                if (TextParent.childCount <= 1)
+                {
+                    FadeMask.materialForRendering.DOFloat(0, "_Start", 0.15f).OnComplete(() =>
+                    {
+                        FadeMask.gameObject.SetActive(false);
+                    });
+                }
+                else
+                    FadeMask.gameObject.SetActive(true);
+
                 foreach (var story_tag in Story.currentTags)
                 {
                     if (story_tag.Contains("CLASS"))
                     {
-                        Scroll.DOVerticalNormalizedPos(SaveSystem.GetScrollDir() ? 1 : 0, AutoScrollDelay);
+                        Scroll.DOVerticalNormalizedPos(1, AutoScrollDelay);
                         Scroll.content.ForceUpdateRectTransforms();
                     }
 
@@ -521,7 +542,7 @@ namespace AYellowpaper.SerializedCollections
                 }
 
                 StartCoroutine(StaticHelpers.CheckSkip());
-                yield return StartCoroutine(StaticHelpers.IncrementText(ContinueText, Current_Textbox, Scroll, AutoScrollDelay));
+                yield return StartCoroutine(StaticHelpers.IncrementText(ContinueText, Current_Textbox, Scroll, AutoScrollDelay, FadeMask.materialForRendering));
 
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
                 if (!ReplaceData.hasTextData())
@@ -541,11 +562,15 @@ namespace AYellowpaper.SerializedCollections
                     yield return new WaitForSeconds(NextTextDelay);
                 else //wait for input to continue
                 {
-                    ClickToContinue = true;
                     can_click = false;
+                    ClickToContinue = true;
+
+                    Debug.Log("WAIT FOR CLICK");
 
                     yield return new WaitUntil(() =>
-                                           Input.GetButtonDown("Continue") || can_click);
+                                           actions.Controls.Continue.triggered || can_click && !LinksManager.hovering);
+
+                    Debug.Log("CONTINUE");
 
                     ClickToContinue = false;
                     can_click = false;
@@ -742,8 +767,7 @@ namespace AYellowpaper.SerializedCollections
                     ClickToMove(1);
                     break;
                 case "LightDark":
-                    if (SaveSystem.GetOverlayValue())
-                        GlobalLight.color = DarkLight;
+                    GlobalLight.color = DarkLight;
 
                     SaveSystem.SetColorData(DarkLight);
                     break;
@@ -1052,6 +1076,18 @@ namespace AYellowpaper.SerializedCollections
         public bool CanStoryContinue()
         {
             return Story.canContinue || Story.currentChoices.Count > 0;
+        }
+
+        public void HandleScroll(float value)
+        {
+            if (FadeMask.gameObject.activeSelf)
+            {
+                if (value >= 0.8f)
+                    value = 0.8f;
+
+                FadeMask.materialForRendering.DOFloat(value, "_Start", 0.15f);
+            }
+
         }
     }
 }

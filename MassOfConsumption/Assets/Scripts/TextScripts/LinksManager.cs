@@ -20,8 +20,13 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
     private string color_default = "#a80f0f";
     private string color_hover = "#3f1313";
     private bool isReplace = false;
+    public static bool hovering = false;
 
     private Camera main_cam;
+
+    public delegate void HoverEvents();
+    public static event HoverEvents OnCursorEnter;
+    public static event HoverEvents OnCursorExit;
 
     public string[] GetCycle()
     {
@@ -70,8 +75,9 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
 
         Textbox.text = Textbox.text.Replace(cycle_color, next_color);
         cycle_color = next_color;
-
+        hovering = false;
         linkIndex = -1;
+        OnCursorExit?.Invoke();
     }
 
     private void OnHover(string keyword, Vector3 mousePos)
@@ -82,7 +88,8 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         cycle_color = next_color;
 
         linkIndex = TMP_TextUtilities.FindIntersectingLink(Textbox, Input.mousePosition, main_cam);
-        GameManager.instance.CanClick = false; //TODO: SET CURSOR
+        hovering = true;
+        OnCursorEnter?.Invoke();
     }
 
     // Callback for handling clicks.

@@ -82,6 +82,10 @@ public class DataManager : MonoBehaviour
         float strn = value ? 0.005f : 0.0f;
         foreach (Image img in lineboil_images)
         {
+            if (img.name == "Overlay")
+            {
+               strn = value ? 0.015f : 0.0f;
+            }
             img.materialForRendering.SetFloat("_Strength", strn);
             img.defaultMaterial.SetFloat("_Strength", strn);
         }

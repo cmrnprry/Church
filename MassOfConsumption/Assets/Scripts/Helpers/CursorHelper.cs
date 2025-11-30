@@ -5,12 +5,14 @@ using AYellowpaper.SerializedCollections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class CursorHelper : MonoBehaviour
 {
     private Vector3 mousePosition;
+    private Vector2 contollerVector;
     private readonly Vector3 offset = new Vector3(17, -22, 0);
-    private readonly float moveSpeed = 0.5f;
+    private float moveSpeed = 0.5f;
     public List<Sprite> sprites = new List<Sprite>();
     private Image img;
     private Coroutine routine;
@@ -27,6 +29,9 @@ public class CursorHelper : MonoBehaviour
     {
         LabledButton.OnCursorEnter += OnHoverStart;
         LabledButton.OnCursorExit += OnHoverEnd;
+
+        LinksManager.OnCursorEnter += OnHoverStart;
+        LinksManager.OnCursorExit += OnHoverEnd;
 
         SettingsUIButton.OnCursorEnter += OnHoverStart;
         SettingsUIButton.OnCursorExit += OnHoverEnd;
@@ -50,6 +55,9 @@ public class CursorHelper : MonoBehaviour
         LabledButton.OnCursorEnter -= OnHoverStart;
         LabledButton.OnCursorExit -= OnHoverEnd;
 
+        LinksManager.OnCursorEnter -= OnHoverStart;
+        LinksManager.OnCursorExit -= OnHoverEnd;
+
         SettingsUIButton.OnCursorEnter -= OnHoverStart;
         SettingsUIButton.OnCursorExit -= OnHoverEnd;
 
@@ -70,7 +78,7 @@ public class CursorHelper : MonoBehaviour
     private void ForceOpen()
     {
         if (routine != null)
-            StopCoroutine(routine);        
+            StopCoroutine(routine);
 
         SaveSystem.SetIsCursorNeutral(false);
         SaveSystem.SetIsCursorOpen(true);
@@ -99,14 +107,27 @@ public class CursorHelper : MonoBehaviour
         routine = StartCoroutine(Close());
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        mousePosition = Input.mousePosition + offset;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
+        //if (Gamepad.all.Count <= 0)
+        //{
+            mousePosition = Input.mousePosition + offset;
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
+      //      moveSpeed = 0.5f;
+        //}
+        //else
+        //{
+        //    contollerVector = GameManager.instance.Actions.Controls.Controller.ReadValue<Vector2>();
+        //    transform.Translate(contollerVector * Time.deltaTime * moveSpeed);
+        //    Debug.Log(transform.position);
+        //    moveSpeed =9f;
+        //}
 
-        if (Input.GetMouseButtonDown(0) && img.sprite != sprites[4] && img.sprite != sprites[5] && img.sprite != sprites[6] && GameManager.instance.ShouldBlink)
+
+        if (Mouse.current.leftButton.isPressed && img.sprite != sprites[4] && img.sprite != sprites[5] && img.sprite != sprites[6] && GameManager.instance.ShouldBlink)
         {
             if (routine != null)
                 StopCoroutine(routine);
@@ -153,6 +174,7 @@ public class CursorHelper : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         img.sprite = sprites[3];
     }
+
     IEnumerator Close()
     {
         yield return new WaitForSeconds(0.25f);

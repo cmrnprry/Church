@@ -11,7 +11,7 @@ INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
--> Take_Or_Return.Olin_Book
+-> StartGame
 === StartGame ====
 #IMAGE: Default
 There is a church at the end of the street- but there shouldn't be. You saw it when walking home from the bus stop after work. You grew up on this street. You have walked down this road daily. There is not a church at the end of the street.
@@ -243,18 +243,18 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
     ~ PlaySFX("footsteps_player", true, 0, 0)
     ~ PlaySFX("gate_open", false, 0, 0)
     ~ StopSFX("outside", 0, 0.5)
-    You {Church_Interest != "drawn": push | throw} the gate open, {Church_Interest != "drawn": walking up the path, not entirely sure why you're doing this. | tripping over yourself as you run up the path and to the door.} You enter through the church door and- #DELAY: 1.5 #PROP: [open_gates true], [closed_gates false]
+    You {Church_Interest != "drawn": push | throw} the gate open, {Church_Interest != "drawn": walking up the path, not entirely sure why you're doing this. | tripping over yourself as you run up the path and to the door.} You enter through the church door and- #DELAY: 0.5 #PROP: [open_gates true], [closed_gates false]
     -> Job.Teleport
 
 = Break_in
 ~ Church_Investigation += (Entered)
 ~ ZoomImage(28.7, "-10354.4,8052", 5, 1.5)
-~ PlaySFX("footsteps_player", true, 0, 0)
+~ PlaySFX("walking_fast_pavement", true, 0, 0)
 ~ PlaySFX("gate_open", false, 0, 0)
-#IMAGE: Church_Looming #PROP: [open_gates true] #DELAY: 1.5
-You cross the street and push the church gates open. {Church_Interest == "drawn": You trip over yourself as you run down the path and to the door. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. You hope whatever you find is worth being late for work for.} You push through the church door and— | You walk up the path, not entirely sure why you're doing this. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. Work be damned at this point. There's something happening here.} You enter through the church door and— }
+#IMAGE: Church_Looming #PROP: [open_gates true] #DELAY: 0.5
+You cross the street and push the church gates open. {Church_Interest == "drawn": You trip over yourself as you all but run down the path and to the door. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. You hope whatever you find is worth being late for work for.} You push through the church door and— | You walk up the path, not entirely sure why you're doing this. {Church_Investigation ? (Saw_Windows): You hear the driver curse and the bus drives off. Work be damned at this point. There's something happening here.} You enter through the church door and— }
 
-~ StopSFX("footsteps_player", 0, 0)
+~ StopSFX("walking_fast_pavement", 0, 0)
 ~ ZoomImage(1, "0,0", 0.15, 0)
 ~ PlayBGM("watched", true, 5, 0)
 ~ StopSFX("generic", 1, 0)
@@ -522,7 +522,7 @@ You should do something to take your mind off it.
     -> Job.Emails
 
 = Late_Work
-You find yourself in your boss' office, staring at the floor as her eyes bore into you. She says nothing for a long time, the only sound is the ticking clock and the tapping of her nails against the desk. You chew on the inside of your cheek and pick at your nails as you wait for her to say something— anything. After an eternity, she lets out a long and deep, disappointed sigh.
+You find yourself in your boss' office, staring at the floor as her eyes bore into you. She says nothing for a long time, the only sound is the ticking clock and the tapping of her nails against the desk. You chew on the inside of your cheek and pick at your nails as you wait for her to say something— anything. After an eternity, she lets out a long and deep, disappointed sigh. #IMAGE: Default
 
 "Care to explain yourself?" You snap up, and she stares at you, waiting. "You know how I feel about tardiness. And on today of all days too!"
 
@@ -755,13 +755,15 @@ You take a deep breath, and exit the office— and find yourself in front of the
 = Delete_Again
 As you click the button to delete the email— #DELAY: 0.25
 
+~ PlayBGM("watched", true, 30, 0)
+~ StopSFX("generic", 1, 0)
 ~ PlaySFX("email_ding", false, 0, 0)
 ~ PlaySFX("email_ding", false, 0, 0.25)
 ~ PlaySFX("email_ding", false, 0, 0.5)
 ~ PlaySFX("email_ding", false, 0, 0.75)
 ~ PlaySFX("email_ding", false, 0, 1)
 ~ PlaySFX("email_ding", false, 0, 1.25)
-You get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up." #DELAY: 1.5
+You get a flurry of new emails. "Church Inquiry. It's waiting. It's impatient. Hurry up. Hurry up. Hurry up." #DELAY: 1.25
 
 ~ PlaySFX("email_ding", false, 0, 0)
 ~ PlaySFX("email_ding", false, 0, 0.25)
@@ -785,7 +787,7 @@ You try to delete them, but they just keep coming. "Where are you?" "Come home."
 ~ PlaySFX("email_ding", false, 0, 0.5)
 ~ PlaySFX("email_ding", false, 0, 0.75)
 ~ PlaySFX("email_ding", false, 0, 1)
-You can't delete them fast enough. #DELAY: 1.5
+You can't delete them fast enough. #DELAY: 1
 
 
 ~ PlaySFX("email_ding", false, 0, 0)
@@ -793,8 +795,10 @@ You can't delete them fast enough. #DELAY: 1.5
 ~ PlaySFX("email_ding", false, 0, 0.5)
 ~ PlaySFX("email_ding", false, 0, 0.75)
 ~ PlaySFX("email_ding", false, 0, 1)
-They just keep coming. You try to— #DELAY: 1.5
+They just keep coming. You try to— #DELAY: 1
 
+~ PlayBGM("generic", true, 5, 0)
+~ StopSFX("watched", 5, 0)
 "Hey are you—" A hand grabs your shoulder, and you jump up from your chair, slapping the hand away. #REMOVE: INTRUSIVE
 
 "Leave me ALONE!" you shout, breathing heavy.
@@ -958,12 +962,11 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     You stop in your tracks. No? No. It's always been a photo of you and your grandparents... at... church. Church. Right. You grip the image until your knuckles go white. You squeeze your eyes shut as a memory attempts to surface. You're scared. You're trapped. You're... inside? 
     
     ~PlaySFX("photo_rip_2", false, 0, 0)
-    <i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid false]
+    <i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid false], [polaroid_rip_3 true]
     
-    You had found something. And then it let you out? No. It wouldn't— {Church_Investigation ? (Entered): But it did. Just like today. {Church_Entered == Satisfied: It let you think everything was okay and leave.} | {Church_Investigation ? (Called): It welcomed you in today, {Church_Investigation ? (Teleported): but it sent you away. | so why would it let you out as a child? When it had you? } | Or would it? }}
     
     ~PlaySFX("photo_rip_1", false, 0, 0)
-    <i>Riiiiipppppp</i> #DELAY: 1
+    <i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_3 false], [polaroid_rip_5 true]
     
     If you focus, you can remember...
     
@@ -979,7 +982,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     -- 
     ~ StopSFX("walking_fast_pavement", 0, 0)
     ~ PlaySFX("gate_open", false, 0, 0)
-    You look up sharply, falling backwards onto the sidewalk.
+    You look up sharply, falling backwards onto the sidewalk. #PROP: [polaroid_rip_2 false]
     ***[Look up]
         ->Walk_Home_From_Work.Stop_Sign("From_Remember")
 
@@ -1788,7 +1791,7 @@ The church is {Church_Feeling}. Why? Something that tickles the back of your bra
 Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when— #PROP: [polaroid false]
 
 ~PlaySFX("photo_rip_1", false, 0, 0)
-<i>Riiiiipppppp</i> #DELAY: 1
+<i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid false], [polaroid_rip_1 true]
 
 The image rips in half.
 
@@ -1798,22 +1801,22 @@ And it all clicks into place.
 
 - 
 ~PlaySFX("photo_rip_2", false, 0, 0)
-<i>Riiiiipppppp</i> #DELAY: 1
+<i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_1 false], [polaroid_rip_2 true]
 
 You don't know how you could have forgotten. How you didn't realize it before. 
 
 ~PlaySFX("photo_rip_1", false, 0, 0)
-<i>Riiiiipppppp</i> #DELAY: 1
+<i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_2 false], [polaroid_rip_2 true]
 
 You have been here before. You found something— No. Someone found you? You can't remember, but <i>you got out.</i>
 
 ~PlaySFX("photo_rip_2", false, 0, 0)
-<i>Riiiiipppppp</i> #DELAY: 1
+<i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_3 false], [polaroid_rip_4 true]
 
 There is a way out.
 
 ~PlaySFX("photo_rip_1", false, 0, 0)
-<i>Riiiiipppppp</i> 
+<i>Riiiiipppppp</i> #PROP: [polaroid_rip_4 false], [polaroid_rip_5 true]
 
 *[You just need to figure out how]
 
@@ -1821,7 +1824,7 @@ There is a way out.
 #EFFECT: LightDarktoUsed
 You blink rapidly, shaking yourself out of the memory, and look down at what's left of the image in your hand. Tiny pieces sit in a pile on the ground in front of you. Did you...?
 
-You swallow the lump in your throat and carefully pick up pieces, ensuring you get every little piece. You delicately place them back in your pocket. Once you're out of here, you can fix it.
+You swallow the lump in your throat and carefully pick up pieces, ensuring you get every little piece. You delicately place them back in your pocket. Once you're out of here, you can fix it. #PROP: [polaroid_rip_5 false]
 
 *[Rest for a moment]
     ->Trapped.Wait_Morning(false)

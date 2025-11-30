@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using AYellowpaper.SerializedCollections;
+using UnityEngine.InputSystem;
 
 public class TransistionsAndLoading : MonoBehaviour
 {
@@ -53,6 +54,7 @@ public class TransistionsAndLoading : MonoBehaviour
     private void OnDisable()
     {
         SaveSystem.OnLoad -= CloseSettingsOnLoad;
+        GameManager.instance.Actions.Controls.Pause.performed -= ShowSettings;
     }
 
     public void StartGame(GameObject Menu)
@@ -65,6 +67,7 @@ public class TransistionsAndLoading : MonoBehaviour
             TransitionScreen.DOFade(0, 0.5f).OnComplete(() =>
             {
                 TransitionScreen.gameObject.SetActive(false);
+                GameManager.instance.Actions.Controls.Pause.performed += ShowSettings;
             });
         });
     }
@@ -110,6 +113,11 @@ public class TransistionsAndLoading : MonoBehaviour
     public void ShowSettings()
     {
         MenuTransition(Settings, true);
+    }
+
+    private void ShowSettings(InputAction.CallbackContext context)
+    {
+        MenuTransition(Settings, !Settings.activeSelf);
     }
 
     private void MenuTransition(GameObject Menu, bool shouldShow)

@@ -395,7 +395,6 @@ public static class SaveSystem
 
         //set autoplay values
         GameManager.instance.AutoPlay = GetAutoplayValue();
-        GameManager.instance.SetTextFlow(GetScrollDir());
 
         GameManager.instance.VisualOverlay = GetOverlayValue();
         GameManager.instance.TextEffects = GetTextEffectsValue();
@@ -523,11 +522,6 @@ public static class SaveSystem
         return settingsData.autoplay;
     }
 
-    public static bool GetScrollDir()
-    {
-        return settingsData.scroll_direction;
-    }
-
     public static bool GetOverlayValue()
     {
         return settingsData.visual_overlay;
@@ -566,12 +560,6 @@ public static class SaveSystem
     public static void SetAutoplayValue(bool value)
     {
         settingsData.autoplay = value;
-        SaveSettingsData();
-    }
-
-    public static void SetScrollDirValue(bool value)
-    {
-        settingsData.scroll_direction = value;
         SaveSettingsData();
     }
 
