@@ -56,7 +56,7 @@ Material:
     - _StencilOp: 0
     - _StencilReadMask: 8
     - _StencilWriteMask: 8
-    - _Strength: 0
+    - _Strength: 0.005
     - _UseUIAlphaClip: 1
     m_Colors: []
   m_BuildTextureStacks: []

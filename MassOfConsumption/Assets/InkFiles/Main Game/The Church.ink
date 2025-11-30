@@ -962,11 +962,11 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     You stop in your tracks. No? No. It's always been a photo of you and your grandparents... at... church. Church. Right. You grip the image until your knuckles go white. You squeeze your eyes shut as a memory attempts to surface. You're scared. You're trapped. You're... inside? 
     
     ~PlaySFX("photo_rip_2", false, 0, 0)
-    <i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid false], [polaroid_rip_3 true]
+    <i>Riiiiipppppp</i> #DELAY: 1.5 #PROP: [polaroid false], [polaroid_rip_3 true]
     
     
     ~PlaySFX("photo_rip_1", false, 0, 0)
-    <i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_3 false], [polaroid_rip_5 true]
+    <i>Riiiiipppppp</i> #DELAY: 1.5 #PROP: [polaroid_rip_3 false], [polaroid_rip_5 true]
     
     If you focus, you can remember...
     
@@ -982,7 +982,7 @@ The bus ride home is shorter than it's ever been. You get off at your regular st
     -- 
     ~ StopSFX("walking_fast_pavement", 0, 0)
     ~ PlaySFX("gate_open", false, 0, 0)
-    You look up sharply, falling backwards onto the sidewalk. #PROP: [polaroid_rip_2 false]
+    You look up sharply, falling backwards onto the sidewalk. #PROP: [polaroid_rip_5 false]
     ***[Look up]
         ->Walk_Home_From_Work.Stop_Sign("From_Remember")
 
@@ -1072,7 +1072,8 @@ You spin around to face it, and find yourself.. in front... of the church? You l
     ~ PlaySFX("gate_open", false, 0, 0)
     You pull your hands from the gate and take a step back. The gate groans as it opens. The edges of the dirt path to the church brighten for a moment, then darken. Motion activated lights, maybe? #PROP: [open_gates true], [closed_gates false]
 
-- {state == "From_Remember": You take a hesitant step onto the property, wincing as you do, and nothing happens. You scoff and crouch, grabbing all the little pieces. As you crouch-walk forward, the edges of the dirt path to the church brighten where you step. | Before your brain catches up with your body, you take a single step onto the property, just past the open gate, and the edges of the dirt path to the church brighten where you step. {Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Entered == Satisfied: You know it's nothing, so checking again won't change anything.} | It's waiting for you to come inside. }}}
+- 
+{state == "From_Remember": You take a hesitant step onto the property, wincing as you do, and nothing happens. You scoff and crouch, grabbing all the little pieces. As you crouch-walk forward, the edges of the dirt path to the church brighten where you step. | Before your brain catches up with your body, you take a single step onto the property, just past the open gate, and the edges of the dirt path to the church brighten where you step. {Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Entered == Satisfied: You know it's nothing, so checking again won't change anything.} | It's waiting for you to come inside. }}}
 
 {state == "From_Remember": A feeling of unnerving calm washes over you. You know you need to leave, but you should get the rest of the pieces first. The wind picks up again, and scatters the pieces further up the path, and into the church.}
 
@@ -1260,7 +1261,7 @@ You take one step forward.
 *[And keep walking]
 
 -
-~ PlaySFX("footsteps_scary", true, 2, 0)
+~ PlaySFX("walking_fast_pavement", true, 2, 0)
 ~ ZoomImage(2, "-562,448", 1.5, 0)
 And walking.
 
@@ -1279,7 +1280,7 @@ Around halfway up the path, you hear another set of footsteps.
 
 -
 ~ StopSFX("footsteps_player", 0, 0)
-~ StopSFX("footsteps_scary", 0, 3)
+~ StopSFX("walking_fast_pavement", 0, 2)
 Stopping in your tracks, you wait and listen. You hear nothing, but the hairs on the back of your neck stand up. {Church_Entered == Satisfied or !Remembered_Past or State == "From_Remember": You're being overly sensitive after a... @ work day.| It has to be another trick. } #CYCLE: interesting, awful, long, disastrous
 
 {Church_Entered == Satisfied or !Remembered_Past or State == "From_Remember": Still. If someone <i>is</i> following you, they must know you know at this point. | <s>Something</s> Someone is behind you, and they know you know.} Your only choice is the church or confrontation. Your knees lock as your mind races. You must choose.
@@ -1352,10 +1353,10 @@ You try the knob.
 
 = Run(State)
 ~ PlaySFX("running_pavement", true, 0, 0)
-~ PlaySFX("scary_running", true, 0, 1.5)
+~ PlaySFX("footsteps_scary", true, 0, 1.5)
 ~ StopSFX("footsteps_player", 0, 0)
-~ StopSFX("footsteps_scary", 0, 3)
-~ ZoomImage(2.5, "-866,658", 0.5, 0)
+~ StopSFX("walking_fast_pavement", 0, 3)
+~ ZoomImage(28.7, "-10354.4,8052", 5, 1.5)
 { 
      - State == "From_Remember":
         ~ PlaySFX("climax_long", true, 0, 0)
@@ -1375,7 +1376,7 @@ You still cannot see in church.
 - 
 ~ PlaySFX("door_slam", false, 0, 0.5)
 ~ StopSFX("running_pavement", 0, 0)
-~ StopSFX("scary_running", 0, 2)
+~ StopSFX("footsteps_scary", 0, 2)
 ~ StopSFX("climax_long", 1.5, 0)
 ~ ZoomImage(1, "0,0", 0.5, 0.5)
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back {State == "From_Remember": whatever | whoever} was chasing you.#DELAY: 1.5 #EFFECT: LightDark #IMAGE: Default #PROP: [Breathing false], [open_gates false]
@@ -1788,7 +1789,7 @@ Church?
 -  
 The church is {Church_Feeling}. Why? Something that tickles the back of your brain. The memory refuses to surface, only vague images and feelings. If you close your eyes... You're scared. You're trapped. You're... inside? Inside where—?
 
-Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when— #PROP: [polaroid false]
+Your nails peirce through the image, and your knuckles turn white. Your hands shake as you try to remember when—
 
 ~PlaySFX("photo_rip_1", false, 0, 0)
 <i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid false], [polaroid_rip_1 true]
@@ -1806,7 +1807,7 @@ And it all clicks into place.
 You don't know how you could have forgotten. How you didn't realize it before. 
 
 ~PlaySFX("photo_rip_1", false, 0, 0)
-<i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_2 false], [polaroid_rip_2 true]
+<i>Riiiiipppppp</i> #DELAY: 1 #PROP: [polaroid_rip_2 false], [polaroid_rip_3 true]
 
 You have been here before. You found something— No. Someone found you? You can't remember, but <i>you got out.</i>
 
