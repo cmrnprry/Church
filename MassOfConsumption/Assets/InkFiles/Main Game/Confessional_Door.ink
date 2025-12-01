@@ -6,7 +6,7 @@
 {
     //if this is the first area we are visiting
     - visited_state <= 0:
-        ~ Have_Visited += Confessional_DoorSide //set that we have visisted the area
+        ~ Have_Visited += (Confessional_DoorSide) //set that we have visisted the area
         You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top. #IMAGE: Default #PROP: [curtain_full false]
         
         You think you'd know if there were anything else in here.
@@ -587,7 +587,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 ~ PlayBGM("inside", true, 30, 0)
 ~ previous_area = Confessional_DoorSide
 ~ current_area = Main_Body 
-~ Have_Visited += Confessional_DoorSide
+~ Have_Visited += (Confessional_DoorSide)
 ~ visited_state += 1
 
 {

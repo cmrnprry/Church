@@ -48,12 +48,12 @@ public class TransistionsAndLoading : MonoBehaviour
 
     private void OnEnable()
     {
-        SaveSystem.OnLoad += CloseSettingsOnLoad;
+        SaveSystem.PreLoad += CloseSettingsOnLoad;
     }
 
     private void OnDisable()
     {
-        SaveSystem.OnLoad -= CloseSettingsOnLoad;
+        SaveSystem.PreLoad -= CloseSettingsOnLoad;
         GameManager.instance.Actions.Controls.Pause.performed -= ShowSettings;
     }
 
@@ -86,14 +86,36 @@ public class TransistionsAndLoading : MonoBehaviour
     {
         yield return new WaitForSeconds(wait);
 
-        if (Settings.activeSelf)
-            TransistionsAndLoading.instance.TransitionToMenu(Settings, false);
+        TransitionScreen.gameObject.SetActive(true);
+        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        {
+            if (!Settings.activeSelf)
+                Settings.SetActive(true);
 
-        if (MainMenu.activeSelf)
-            TransistionsAndLoading.instance.TransitionToMenu(MainMenu, false);
+            DataManager.instance.group.enabled = true;
+            DataManager.instance.fitter.enabled = true;
+            DataManager.instance.History.SetActive(true);
 
-        if (SaveLoad.activeSelf)
-            TransistionsAndLoading.instance.TransitionToMenu(SaveLoad, false);
+            MainMenu.SetActive(false);
+            SaveLoad.SetActive(false);
+
+            TransitionScreen.DOFade(0, 0.5f).OnPlay(() =>
+            {
+                DataManager.instance.group.enabled = false;
+                DataManager.instance.fitter.enabled = false;
+                Settings.SetActive(false);
+            }).OnComplete(() =>
+            {
+                TransitionScreen.gameObject.SetActive(false);
+                DataManager.instance.History.SetActive(false);
+            });
+        });        
+
+        yield return new WaitForEndOfFrame();
+
+
+
+        SaveSystem.InvokeLoad();
     }
 
     /// <summary>

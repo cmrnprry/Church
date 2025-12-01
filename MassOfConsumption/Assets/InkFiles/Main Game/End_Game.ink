@@ -120,17 +120,16 @@ You are so close to freedom. You stand in the doorway. The heart pulses faster, 
         ~ PlaySFX("groaning_happy", false, 0, 0)
         ~ Stay_Tracker += 0.5
         You leave the heart at the gates as you set off the property. The church purrs in thanks, and snaps the gates shut. You blink and it's gone, leaving behind an empty plot of land.
-        -> Open_the_Door.Leave
+        -> Open_the_Door.Leave(false)
         
     **[Take the heart with you]
         ~ Stay_Tracker -= 0.5
         You step off the property, taking the heart with you. The church cries and the heart pulsates rapidly before melting into ooze in your hand. The church howls and it starts to collapse in on itself. The roof falls and the door pathetically opens, begging for your return. You blink and it's gone, leaving behind an empty plot of land.
-        -> Open_the_Door.Leave
+        -> Open_the_Door.Leave(false)
 
 *[Crush the heart]
     ~crushed_at_door = true
     -> Open_the_Door.Crush_it
-
 
 = Crush_it
 ~ WinAchievement(4)
@@ -165,7 +164,7 @@ You squeeze harder, until your nails pierce your palm. The light is almost gone 
         ~ StopSFX("screeching", 1, 0.5)
         The church groans and screams as it falls in on itself. It begins to shine so brightly that you are forced to shield your eyes. With one last cry, the light is gone. When you look back, so is the church.
         
-        -> Open_the_Door.Leave
+        -> Open_the_Door.Leave(false)
         
     - else:
         You squeeze your eyes shut. 
@@ -191,14 +190,14 @@ For what seems like forever.
 - Above you is a sky dotted with stars. You are not falling, but laying in soft dirt. You sit up and realize you are in an empty field of dirt. The place where a church once sat.
 
 *[The church is gone]
-    -> Open_the_Door.Leave
+    -> Open_the_Door.Leave(false)
 
-= Leave
+= Leave(From_Office)
 You are alone. You are free. The wind blows through your hair and the ground is solid beneath your feet. {Book_Knowledge ? (Branded): You rub your hands over the scars, picking at the rough skin. | {Church_Encounters ? (Finger_Chopped): You unbandage your hand and stare at the missing finger. }}
 
 *[You made it out]
 
-- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{Stay_Tracker >= 2.5: ?|.}
+- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{Stay_Tracker >= 2.5:, isn't it?|.}
 
 *[You escaped]
 
@@ -216,17 +215,21 @@ You are alone. You are free. The wind blows through your hair and the ground is 
         ->Endings.Good_End_9
 }
 
-- {crushed_at_door: You stumble forward onto the dirt where a church once sat.} Through blurry eyes you dig into the soft earth.
+- {crushed_at_door or From_Office: You stumble forward onto the dirt where a church once sat.} Through blurry eyes you dig into the soft earth.
 
 *[The church is gone.]
 
 - You don't know what you're looking for. Or what you're still doing here.
 
-*[You killed it.]
+*[{From_Office: You ran away. | You killed it.}]
 
-- You didn't mean to. You only wanted to leave.
+- {From_Office: You could have stayed. It was your choice. So why do you feel so...? | You didn't mean to. You only wanted to leave.}
 
 *[You feel empty.]
+
+*[You feel numb.]
+
+*[You feel wrong.]
 
 - Maybe... if you dig deep enough...
 
@@ -234,15 +237,15 @@ You are alone. You are free. The wind blows through your hair and the ground is 
 
 - You want to take it back. But why?
 
-*[You got what you wanted.]
+*[You got out!]
 
-- You're sorry. You shouldn't be.
+*[You got escaped!]
 
-*[You got out]
+*[You won!]
 
 - That's what you wanted, right? 
 
-*[The church is gone.]
+*[{From_Office: The church is gone. | The church is dead.}]
 
 - You should go home now.
 

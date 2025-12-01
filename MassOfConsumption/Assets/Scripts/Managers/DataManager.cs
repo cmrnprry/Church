@@ -10,10 +10,17 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
+    [Header("History Turn On")]
+    public GameObject History;
+
+    [Header("History Text Info")]
     public TMProGlobal Text_Prefab;
+    public VerticalLayoutGroup group;
+    public ContentSizeFitter fitter;
     public Transform Parent;
     public List<TMProGlobal> Endings = new List<TMProGlobal>();
 
+    [Header("Images for line boil and flicker")]
     public List<Image> lineboil_images = new List<Image>();
     public List<Image> pewflicker_images = new List<Image>();
 
@@ -78,14 +85,34 @@ public class DataManager : MonoBehaviour
     }
 
     public void SetHistoryText()
-    {
-        var chunks = SaveSystem.GetSavedHistory().Split("<br>");
-        foreach (var chunk in chunks)
+    {//TODO make this cleaner
+        group.enabled = true;
+        fitter.enabled = true;
+        foreach (Transform chunk in Parent)
+        {
+            Destroy(chunk.gameObject);
+        }
+
+        var chunks = SaveSystem.GetSavedHistory().Split("<br>", StringSplitOptions.RemoveEmptyEntries);
+        foreach (string chunk in chunks)
         {
             var current = Instantiate(Text_Prefab, Parent, false);
             current.text = chunk;
         }
     }
+
+    //public void OnScroll(float value)
+    //{
+    //    foreach (Transform chunk in Parent)
+    //    {
+    //        if (!IsFullyVisibleFrom(chunk.gameObject.GetComponent<RectTransform>(), Camera.main))
+    //            chunk.gameObject.SetActive(false);
+    //        else
+    //            chunk.gameObject.SetActive(true);
+
+    //        Debug.Log($"{chunk.gameObject.name}: {IsFullyVisibleFrom(chunk.gameObject.GetComponent<RectTransform>(), Camera.main)}");
+    //    }
+    //}
 
     public void FlipLineBoil(bool value)
     {
@@ -108,4 +135,6 @@ public class DataManager : MonoBehaviour
         }
 
     }
+
+
 }

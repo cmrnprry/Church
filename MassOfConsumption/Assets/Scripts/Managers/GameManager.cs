@@ -870,7 +870,7 @@ namespace AYellowpaper.SerializedCollections
                 }
                 else if (type == "intial")
                 {
-
+                    anim.SetTrigger("Restart");
                 }
             }
 
@@ -1085,8 +1085,7 @@ namespace AYellowpaper.SerializedCollections
         {
             if (FadeMask.gameObject.activeSelf)
             {
-                if (value >= 0.8f)
-                    value = 0.8f;
+                value = Mathf.Clamp(value, 0f, 0.8f); 
 
                 FadeMask.materialForRendering.DOFloat(value, "_Start", 0.15f);
             }

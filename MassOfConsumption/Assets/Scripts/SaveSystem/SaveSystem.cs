@@ -29,6 +29,7 @@ public static class SaveSystem
     public delegate void LoadAction();
 
     public static event LoadAction OnLoad;
+    public static event LoadAction PreLoad;
 
     public static void Init()
     {
@@ -153,12 +154,20 @@ public static class SaveSystem
             string json = System.IO.File.ReadAllText(path);
             slotData = JsonUtility.FromJson<SlotData>(json);
 
-            OnLoad?.Invoke();
+            //Preload
+            PreLoad?.Invoke();
+
+            
         }
         else
         {
             Debug.LogError($"No game to load at slot {slotID}");
         }
+    }
+
+    public static void InvokeLoad()
+    {
+        OnLoad?.Invoke();
     }
 
     /*        GETTERS AND SETTERSs          */

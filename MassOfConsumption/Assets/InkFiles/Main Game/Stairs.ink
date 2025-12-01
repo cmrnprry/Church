@@ -1,7 +1,7 @@
 === Stairs ===
 = Examine_Stairs
-#IMAGE: Defualt
-{Have_Visited !? (Stairs_Up) and Downstairs_State <= None: {previous_area == Enter_Pews and visited_state == 1: You creep up the stairs, and down the hall. There's no sign of whoever you followed. {Have_Visited !? (Enter_Office) and !Looked_For_Items: Instead, you find a side door, and 2 sets of stairs further down. } | You walk deeper down the hallway to the stairs, passing {Have_Visited !? (Enter_Office) and !Looked_For_Items: a side door. | the office.}} Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.} #IMAGE: Defualt
+#IMAGE: Default
+{Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: {previous_area == Enter_Pews and visited_state == 1: You creep up the stairs, and down the hall. There's no sign of whoever you followed. {Have_Visited !? (Enter_Office) and !Looked_For_Items: Instead, you find a side door, and 2 sets of stairs further down. } | You walk deeper down the hallway to the stairs, passing {Have_Visited !? (Enter_Office) and !Looked_For_Items: a side door. | the office.}} Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.} #IMAGE: Default
 
 +[Go upstairs]
     ->Stairs.Upstairs
@@ -10,7 +10,7 @@
     ->Stairs.Downstairs
     
 + {Room_State < Gone} [{Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: Enter Side Door| Enter office}]
-    You turn around are return to the {Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: side | office} door. {Room_State == Half: You frown at the doorway. Was it always that short? } {Room_State == Crawl: You blink at the doorway. It was definitely not always that short. You think you would remember needing to army crawl to enter.}
+    You turn around and return to the {Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None and !Looked_For_Items: side door. | office door. {Room_State == Half: You frown at the doorway. Was it always that short? } {Room_State == Crawl: You blink at the doorway. It was definitely not always that short. You think you would remember needing to army crawl to enter.}}
         ->Office_Area.Office
 
 
@@ -310,7 +310,6 @@ The stench fades and the substance coating the walls dissipates as you reach the
     
     "There's no time for this!" A woman's voice, soft but full of anger, rips through the quiet and freezing hands shove you over the edge of the stairs.
     
-    
     Your eyes snap open as you pull yourself into a ball, covering your head with your arms. Your whole body tenses as you brace for impact— #DELAY: 0.25
     ->Stairs.Upstairs_Landing(true)
 
@@ -331,7 +330,7 @@ You start up the stairs, holding the hand rail as you go. You take a break after
 Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs quiver from effort. {Leg_State > Tense: The leg you used to kick the door in feels particularly weak.}
 
 *[Give up]
-    Shaking your head, you make the journey back down the stairs. Thankfully, going down is much easier than going up. As the hand rail once again rises to sit at a reasonable height and the spiral gradually straightens out, you know you made the correct choice. #IMAGE: Stairs_Down
+    Shaking your head, you make the journey back down the stairs. Thankfully, going down is much easier than going up. As the hand rail once again rises to sit at a reasonable height and the spiral gradually straightens out, you know you made the correct choice. #IMAGE: Stairs_Down #PROP: [stairs false]
         -> Stairs.Downstairs_Trick
 
 *[Power through]
@@ -346,6 +345,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 ~ Have_Visited += (Stairs_Up)
 {
     - from_trick:
+        ~PlaySFX("girl_thud", false, 0, 0)
         You skid across a wooden floor and crash into a door. You blink rapidly and slowly uncurl yourself, trying to understand where you are and what just happened. {Met_Mimic: You look around, looking for the mimic, but find yourself alone. The sound of it's enraged screeching echos in your head. She saved you, and you hope you can pay her back one day. | That voice sounded similar to the one that gave you your flashlight. You don't know why she did that, but she must have brought you here for a reason.} #IMAGE: Default #PROP: [stairs false]
         
         You find yourself on a small landing, maybe only five feet by five feet. It sharply drops off on the edges. You crawl forward to the edge and look down. You find yourself staring down the spiral staircase, it's coils wound much tighter and steeper than you thought possible. You back up from the edge.
@@ -370,7 +370,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
     **[Examine the locks]
 
 - 
-{Saw_Locks: The locks look the same as you remember. {LIST_COUNT(items_obtained) <= 0: You don't have anything new to try with them, so you're not sure why you came back up.}| You approach the door, taking a closer look at the various locks and chains blocking it. There are three main locks from what you can tell. One that needs a code, one that needs a key and a sliding lock. Look closer at the...} #IMAGE: Default #PROP: [Keyhole false]
+{Saw_Locks: The locks look the same as you remember. {LIST_COUNT(items_obtained) <= 0: You don't have anything new to try with them, so you're not sure why you came back up.}| You approach the door, taking a closer look at the various locks and chains blocking it. There are three main locks from what you can tell. One that needs a code, one that needs a key and a sliding lock. Look closer at the...} #PROP: [Keyhole false] #IMAGE: Default 
 
 {
     - Saw_Locks == false:
@@ -387,7 +387,6 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 
 *[Lock that needs a code]
     The middle lock looks slightly newer. It doesn't require a key, but a four digit number code. It is attached to the metal bar that keeps the knob from turning. Removing this lock would probably allow the door to be opened.
-    TODO: add bit here about seeing 4 numbers around
 
 *[Lock that needs to be cut]
     The last lock is a sliding chain door lock. Sliding it all the way to the end causes a smaller deadbolt slide into place, keeping the door locked. There is no obvious keyhole.

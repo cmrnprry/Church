@@ -47,7 +47,7 @@
     }  
 
 *{visited_state >= 1} [Exit and examine the stairwell]
-    #IMAGE: Defualt
+    #IMAGE: Default
     You exit the office, planning to come back later. <>
     -> Stairs.Examine_Stairs
 
@@ -111,7 +111,9 @@ The start is jarring. Mary is stuck in a storm, and stumbled upon the church whi
 
 She did not hesitate to take shelter inside. 
 
-Once inside, Mary wanders to the pews. A pastor asks if she's alright. <i>Are you cold, child? Let me turn up the heat.</i> Before she can even speak he drapes a a heavy blanket over her shoulders. <i>Please sit. Rest. I'll play you a beautiful song.</i> He leads her to a pew before making his way to the stage and playing the organ. You can't be sure if he played the same melody you heard, but it brought Mary ot tears. No one had been so kind to her before.
+Once inside, Mary wanders to the pews. A pastor asks if she's alright. <i>Are you cold, child? Let me turn up the heat.</i> Before she can even speak he drapes a a heavy blanket over her shoulders. <i>Please sit. Rest. I'll play you a beautiful song.</i> 
+
+He leads her to a pew before making his way to the stage and playing the organ. You can't be sure if he played the same melody you heard, but it brought Mary ot tears. No one had been so kind to her before.
 
 The last page details how the beautiful melody lulled her into a deep sleep. How her final breaths were peaceful. How her body melted into wood after she was gone. It doesn't say what happened to the pastor. {Have_Visited ? (Confessional_DoorSide) or Have_Visited ? (Enter_Pews): You wonder if it's the same one you met. }
 
@@ -260,7 +262,9 @@ You rip out the last page, bracing for a new wave of agony that never comes. You
 ~ PlaySFX("climax_long", false, 0, 0)
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
 
-You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
+You scratch at your face and neck, tearing small chunks from your skin, distracting your brain for but a moment before the excruciating torment returns. In second of clarity you remember the confessional. Maybe- Maybe if you can get there and repent, this will all stop. 
+
+Rolling onto your stomach, you dig your nails into the wood, pulling yourself along the floor. {Confessional_Encounters ? (Killed_Girl): Is this what {Book_Knowledge ? (Read_Mom_Young_Book): Ophelia | she } felt as she struggled for air? As her nails cracked and broke from the floor? } Your shirt slides up, and you see angry red lines etched in your skin. You pull the collar of your shirt, look down and see more of the same.
 
 *[Apologize]
     "I'm sorry! Please, stop. <i>I'm sorry!</i>" You cry. <>
@@ -273,9 +277,9 @@ You scratch at your face and neck, tearing small chunks from your skin, distract
 
 Your plea fall on deaf ears as you can only watch the words engrave themselves in your skin, branding you. You curl into the fetal position, abandoning the idea of repenting. You've barely moved. You'd never make it in time. 
 
-Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin. #DELAY: 0.5
+Tears leak from your eyes, a cool and soothing as they roll over your bleeding skin. You whimper as the sizzling pain subsides to a biting prickle. You bring your trembling hands to your face. 
 
-You whimper as the sizzling pain subsides to a biting prickle. You bring your trembling hands to your face. Your nails are chipped and broken, and not an inch of your skin in unblemished. The branded words already look healed over, like you've always had them, but a thin sheen of sweat and plasma coats them. Slowly, slowly, you sit up. Your clothing peels off the wooden floor, and you wince.
+Your nails are chipped and broken, and not an inch of your skin in unblemished. The branded words already look healed over, like you've always had them, but a thin sheen of sweat and plasma coats them. Slowly, slowly, you sit up. Your clothing peels off the wooden floor, and you wince.
 
 *[You don't think you'll ever forget that pain]
 
@@ -486,16 +490,18 @@ You whimper as the sizzling pain subsides to a biting prickle. You bring your tr
 
 = Unsure(From_Priest)
 ~ StopAll()
-~PlaySFX("creaking", false, 0, 0)
+~ PlaySFX("creaking", false, 0, 0)
+~ PlayBGM("outside", true, 0.5, 0)
 ~ Intrusive(4, "It's letting you out?", "")
 Confused, you numbly wander back into the main body of the church. You find yourself back by the front door. It creaks open, showing off the moonlit sidewalk of the outside world. #IMAGE: Open_Door #PROP: [Open_Door true], [your_book false]
 
 *[Reach out a hand]
-    But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay opens. You feel like...
+    #EFFECT: IntialSight
+    But the church looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door stay opens. You feel like... #REMOVE: Intrusive #EFFECT: IntialSight
 
 *[Look away]
     ~Stay_Tracker += 1
-    You look at the body of the church behind you. You feel @ about leaving it behind. The eye opens, and looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door sways in the wind. You feel like... #CYCLE: conflicted, wary, hesitant
+    You look at the body of the church behind you. You feel @ about leaving it behind. The eye opens, and looks at you again, bathing you in the wonderfully {Light_Feeling == relief: pleasant | dizzying } red light. The door sways in the wind. You feel like... #CYCLE: conflicted, wary, hesitant #EFFECT: IntialSight #REMOVE: Intrusive
 
 - 
 
@@ -533,20 +539,22 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
             They begin to sing, hands out stretched for you to take. The music flows through you, and you feel a smile come to your face.
             
             **[Take their hands.]
-                #ENDING: 7, Bad? Ending - Finding Peace
+                #ENDING: 7, Bad? Ending - Finding Peace #EFFECT: remove-glow
                 ->Endings.Bad_End_7
                 
     - Confessional_Encounters ? (Killed_Girl):
+        ~ Intrusive(3, "It's not her", "")
         "You're leaving me?" You stop. It's the little girl{Book_Knowledge ? (Read_Mom_Young_Book): , Ophelia |.} She's crying. "You're leaving me all alone? Again?" #REMOVE: Intrusive
         
+        ~ Intrusive(3, "It can't be", "")
         You clench your fists, and feel something in your hand. You look down. It's the piece of ripped curtain. <>
         {
             - Priest_Feeling == guilt:
-                #CYCLE: Guilt, Shame, Remorse
-                Tears well in your eyes, and you fall to your knees, bowing your head, holding the fabric to your face. @ bubbles up inside you. 
+                ~ Intrusive(3, "Your fault. Your fault.", "")
+                Tears well in your eyes, and you fall to your knees, bowing your head, holding the fabric to your face. @ bubbles up inside you. #CYCLE: Guilt, Shame, Remorse
                 
                 *["I won't."]
-                    How could you leave her again? After all she's been through?
+                    How could you leave her again? After all she's been through? #REMOVE: Intrusive
 
                     "Thank goodness." she says, and you feel someone hug you from behind. You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands. You turn to hug her back.
             
@@ -554,9 +562,9 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
                         ->Office_Area.Sit_Pews
                         
                  *["I'm sorry."]
-                    But the guilt is misplaced. You didn't hurt her. You don't even know if she's real.
+                    But the guilt is misplaced. You didn't hurt her. You don't even know if she's real. #REMOVE: Intrusive
                     
-                    "Yes." You say and fall forward.
+                    "Yes." You say and fall forward. #EFFECT: remove-glow
                     
                     There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
     
@@ -565,18 +573,23 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
                 
                 
             - Priest_Feeling == dread:
+                ~ Intrusive(3, "Not real.", "")
                 You drop the fabric, and watch it fall to the floor. The crisp outside wind blows into the church, but the fabric does not react to it.
                 
+                ~ Intrusive(5, "But it could be...", "")
                 "It's not real." You mummer, and fix your gaze on the outside. "It's not real."
                 
-                "But <i>I</i> am." the little girl wails, and something warm slams into your back. "<i>I'm</i> real, so <i>promise</i> you won't leave me alone again!"
+                "But <i>I</i> am." the little girl wails, and something warm slams into your back. "<i>I'm</i> real, so <i>promise</i> you won't leave me alone again!" #REMOVE: Intrusive
                 
-                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
+                ~ Intrusive(5, "Real...?", "")
+                ~ Intrusive(5, "She's real.", "")
+                ~ Intrusive(5, "Not a trick.", "")
+                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands. 
                         
                 "I...." you croak.
                 
                 *["I won't]
-                    "I won't." you whimper. If it is real, how could you leave her again? "I promise"
+                    "I won't." you whimper. If it is real, how could you leave her again? "I promise" #REMOVE: Intrusive
 
                     "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
             
@@ -584,12 +597,11 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
                         ->Office_Area.Sit_Pews
                         
                 *["I'm sorry."]
-                    You steel yourself.  You don't even know if she's real.
+                    You steel yourself. You don't even know if she's real. #REMOVE: Intrusive
                     
-                    "No." You say and fall forward.
+                    "No." You say and fall forward. #EFFECT: remove-glow
                     
-                    ~ PlaySFX("Church-anger", false, 0, 0) 
-                    ~ StopSFX("Church-anger", 1, 2)
+                    ~ PlaySFX("groaning_angry", false, 0, 0)
                     There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
     
                     **[You stand and dust yourself off]
@@ -598,25 +610,28 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
             - Priest_Feeling == anger:
                 You throw the fabric to the ground. "Do you think this will work the second time?" You {Church_Feeling}.
                 
+                ~ Intrusive(5, "Fake. Fake. Fake.", "")
                 "Don't leave me. <i>Please</i> don't leave me!" she sobs, and something warm slams into your back. "Promise you won't leave!"
                 
-                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands.
-                        
+                You look down to see small hands gripping your waist. Not barely visible, ghostly hands, but real ones. Pigmented skin, warm and alive. You feel your resolve weakening the longer you look at her hands. Real hands. Human hands. #REMOVE: Intrusive
+                
+                ~ Intrusive(5, "Real...?", "")
+                ~ Intrusive(5, "She's real.", "")
+                ~ Intrusive(5, "Not a trick.", "")
                 "I...." you croak. It's real this time. It's not a trick. 
                 
                 *["I won't."]
-                    Your resolve breaks. "Thank goodness." she says, and squeezes you tighter. You turn to hug her back.
+                    Your resolve breaks. "Thank goodness." she says, and squeezes you tighter. You turn to hug her back. #REMOVE: Intrusive
                         
                     **[No one is there.]
                         ->Office_Area.Sit_Pews
                 
                 *["I have to."]
-                    You steel yourself.
+                    You steel yourself. #REMOVE: Intrusive
                     
-                    "No." You say and fall forward.
+                    "No." You say and fall forward. #EFFECT: remove-glow
                     
-                    ~ PlaySFX("Church-anger", false, 0, 0) 
-                    ~ StopSFX("Church-anger", 1, 2)
+                    ~ PlaySFX("groaning_angry", false, 0, 0) 
                     There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
     
                     **[You stand and dust yourself off]
@@ -625,35 +640,36 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
         }
         
     - Church_Encounters ? (Was_Coward):
+        ~ Intrusive(5, "Coward", "")
         "Coward." You stop. It's the woman who helped you{Ophelia_Related:, Ophelia." |.} "You're just going to leave?"
             
             *[Yes]
-                ~ PlaySFX("Church-anger", false, 0, 0) 
-                ~ StopSFX("Church-anger", 1, 2)
-                There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
+                ~ PlaySFX("groaning_angry", false, 0, 0)
+                There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false] #EFFECT: remove-glow #REMOVE: Intrusive
             
                 ***[You stand and dust yourself off]
                     ->Office_Area.End_Game
             
             *[No]
                 ~Stay_Tracker += 1
-        
-                "I..." You don't know how to answer. You look down at your hands, they're intact. You still have all ten. You ball them into fists. "I..."
+                "I..." You don't know how to answer. You look down at your hands, they're intact. You still have all ten. You ball them into fists. "I..." #REMOVE: Intrusive
     
+                ~ Intrusive(5, "She's right", "")
+                ~ Intrusive(5, "Not your fault", "")
                 "You don't deserve to leave."
                     
                 **[She's right]
                     ->Office_Area.Sit_Pews
                     
                 **[She's wrong]
-                    "I do. You all did." You say and fall forward.
+                    "I do. You all did." You say and fall forward. #REMOVE: Intrusive #EFFECT: remove-glow
     
-                    ~ PlaySFX("Church-anger", false, 0, 0) 
-                    ~ StopSFX("Church-anger", 1, 2)
+                    ~ PlaySFX("groaning_angry", false, 0, 0)
                     There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
                 
                     ***[You stand and dust yourself off]
                         ->Office_Area.End_Game
+                        
     - Book_Knowledge ? (Branded):
         ~ Intrusive(6, "You found peace", "")
         The carvings in your skin pulsate the closer you get to the door. You fall to the floor, and begin to crawl. Your body is heavy. Each movement harder than the last. The way out is within your reach. It's just a bit further. The light grows brighter. Your limbs shake.
@@ -662,13 +678,13 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
         You grind your teeth and dig your nails into the wood. You can feel the church tracing the writing in your skin. Whispering the words into your ears. You push yourself to your feet, standing before the open door, trying to find to the strength to take the last step.
         
         *[You found peace]
+            #REMOVE: Intrusive
             The pain passes, and the brand feels like a comforting hug. The church's words become your own thoughts. <> 
             ->Office_Area.Sit_Pews
             
         *[This isn't peace]
-            ~ PlaySFX("Church-anger", false, 0, 0) 
-            ~ StopSFX("Church-anger", 1, 2)
-            How could it be? You throw yourself out the door and onto the sidewalk. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false] #REMOVE: Intrusive
+            ~ PlaySFX("groaning_angry", false, 0, 0) 
+            How could it be? You throw yourself out the door and onto the sidewalk. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false] #REMOVE: Intrusive #EFFECT: remove-glow
                 
             ***[You stand and dust yourself off]
                 ->Office_Area.End_Game
@@ -687,28 +703,27 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
                 
             {
                 - Stay_Tracker >= 2.5:
-                    What are you fighting so hard for?
+                    What are you fighting so hard for? #REMOVE: Intrusive
                     
                     {finger_pain_pass: You look down at the hand that's missing a finger. | You think about all you've been through. }
                     
                     *[You've already given up so much.]
                         ->Office_Area.Sit_Pews
+                        
                 - else:
                     You didn't leave this light until the church decided you could last time, but this time... Your finger tips escape the light, reaching out through the church door. 
                     
-                    ~ PlaySFX("Church-anger", false, 0, 0) 
-                    ~ StopSFX("Church-anger", 1, 2)
-                    That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
+                    ~ PlaySFX("groaning_angry", false, 0, 0) 
+                    That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false] #EFFECT: remove-glow #REMOVE: Intrusive
         
                     *[You stand and dust yourself off]
                         ->Office_Area.End_Game
             }
             - else:
-                <> You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. 
+                You've escaped this light before, and you'll do it again. Your finger tips escape the light, reaching out through the church door. #REMOVE: Intrusive
                 
-                ~ PlaySFX("Church-anger", false, 0, 0) 
-                ~ StopSFX("Church-anger", 1, 2)
-                That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false]
+                ~ PlaySFX("groaning_angry", false, 0, 0) 
+                That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there. #IMAGE: Default #PROP: [Open_Door false] #EFFECT: remove-glow
         
                 *[You stand and dust yourself off]
                     ->Office_Area.End_Game
@@ -717,7 +732,7 @@ You're hysterical. Your whole body is heavy and tingling. You take a heavy step 
 
 = Sit_Pews
 ~ PlaySFX("organ", false, 5, 0)
-The front door closes, and you drift deeper into the church. Organ music begins to play. #PROP: [Open_Door false], [Closed_Door true] 
+The front door closes, and you drift deeper into the church. Organ music begins to play. #PROP: [Open_Door false], [Closed_Door true] #EFFECT: remove-glow #REMOVE: Intrusive
 
 ~ StopAll()
 ~ PlayBGM("inside", true, 5, 0)
@@ -730,7 +745,11 @@ They begin to sing, hands out stretched for you to take. The music flows through
     ->Endings.Bad_End_7
 
 = End_Game
-TODO if you have a high stya then cryin the dirt
+~ Stay_Tracker = 4.5
+That taste of freedom is all you need. With one last push, you throw yourself out out the door. There's a short shriek of anger, before you hit the cold pavement of the sidewalk. Then it's quiet. You look back, and the church is gone, if it was ever even there.
+
+{Stay_Tracker >= 4.5: -> Open_the_Door.Leave(true)}
+
 *[It has been a long night]
     #ENDING: 9, Good Ending - It Has Been a Long, Long Night
     ->Endings.Good_End_9
@@ -741,7 +760,7 @@ TODO if you have a high stya then cryin the dirt
 = Exit_Office_Continue
 ~ previous_area = Enter_Office
 ~ current_area = Main_Body 
-~ Have_Visited += Enter_Office
+~ Have_Visited += (Enter_Office)
 ~ visited_state += 1
 ~ PlayBGM("inside", true, 5, 0)
 ~ StopSFX("watched", 5, 0)
@@ -759,21 +778,26 @@ TODO if you have a high stya then cryin the dirt
 ~temp Temp = false
 *{items_obtained ? (Simple_Key)} [Try the simple key]
     ~ broke_key = true
+    ~PlaySFX("lock_click_break_1", false, 0, 0)
+    ~PlaySFX("key_snap_small", false, 0, 2.25)
     You fish the simple key out of your pocket and try the lock. The key slides in easy enough, but it doesn't want to turn. You jiggle the key, thinking it just needed a little force, and- <i>Clank!</i> 
     
     The key snaps in the lock. The teeth of the key are stuck and warped in the lock. You press the key against the lock, attempting to turn it again and again, thinking maybe if you press hard enough it would suddenly pop open. "God DAMMIT!"
     
+    ~PlaySFX("chest_breaking", false, 0, 0)
     You fling the head of the key away from you and hurl the chest to the floor in frustration. The chest crashes to the floor, causing the lid to open with a "pop!" A book with the number 2758 spills on it's cover onto the floor.
     ~temp_string = "if the loss of the key was worth it"
 
 *{items_obtained ? (Skeleton_Key)} [Try the skeleton key]
     ~ Temp = true
+    ~PlaySFX("lock_click_open_1", false, 0, 0)
     You fish the skeleton key out of your pocket and try the lock. The key slides in, and <i>Click!</i>
-        
+
     The lid pops open and inside sits a book with the number 2758 on it's cover.
         ~temp_string = "if the loss of the key was worth it"
 
 *[Break the chest]
+    ~PlaySFX("chest_breaking", false, 0, 0)
     You raise the chest above your head, and hurl it to the floor. The lid pops open, and a book with the number 2758 on it's cover spills onto the floor.
     ~temp_string = "if this is indeed your book"
 
@@ -1164,10 +1188,13 @@ You wipe tears from your eyes, not fully understanding why. You don't know this 
 ~ Book_Knowledge += (Read_Mom_Old_Book)
 ~ items_obtained += (Combo)
 ~ StopSFX("watched", 20, 0)
-{Book_Knowledge ? (Read_Mom_Young_Book): | The name on the inside cover is Ophelia, and you gather that it's from the perspective of a mother.} All her thoughts revolved around escaping so she can see her child again. Her actions in the church are spiteful, doing everything she could to hurt it. She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a never ending spiral staircase. | and they sound never ending. } But not once did she think of giving up.
+{Book_Knowledge ? (Read_Mom_Young_Book): | The name on the inside cover is Ophelia, and you gather that it's from the perspective of a mother.} All her thoughts revolved around escaping so she can see her child again. Her actions in the church are spiteful, doing everything she could to hurt it. 
+
+She pulls herself out of the church's sight, and avoids falling into traps it sets for her. She breaks what she can and ignores everything until she finds the stairs to the attic. She climbs the stairs {Have_Visited ? (Stairs_Up): and her experience sounds very similar to your own, a never ending spiral staircase. | and they sound never ending. } But not once did she think of giving up.
 
 She reaches the top and finds a set of locks on a door that has a pulsating red light under it. She fiddles with the locks before pulling out a book, her book from the sound of it, and flipping through it, and entering a code. Your eyes slide down the page a little more and...
 
+~ PlayBGM("inside", true, 20, 0)
 {Saw_Locks: "2755, got it!" you exclaim. "Thank you {Book_Knowledge ? (Read_Mom_Young_Book):,Ophelia|}!" | "2755?" {Book_Knowledge ? (Read_Mom_Young_Book): You commit the code to memory, knowing they'll be helpful later. | The numbers don't mean much to you, but you commit them to memory anyway.}} {Have_Visited ? (Stairs_Up): Your next step should be to explore what's up the spiral staircase.}
 
 *[Rip out the page]
@@ -1183,7 +1210,9 @@ She reaches the top and finds a set of locks on a door that has a pulsating red 
     ~ Finish_ophelia = true
 
 
-- You keep a finger to keep track of the page with the code and finish the book. The number lock pops open, but the key she found doesn't fit and she flings the key over the edge. She holds the book and debates throwing it as well, before collapsing and she reads the book again. She re-reads the same passage a few times before fury over takes her and she rips out page after page after page. 
+- You keep a finger to keep track of the page with the code and finish the book. The number lock pops open, but the key she found doesn't fit and she flings the key over the edge. 
+
+She holds the book and debates throwing it as well, before collapsing and she reads the book again. She re-reads the same passage a few times before fury over takes her and she rips out page after page after page. 
 
 {Book_Knowledge ? (Branded): You wince, knowing what comes next. You read a few passages before slamming the book shut. | Bile rises in your throat as you read the next few passages before you slam the book shut.} You don't need to read what the church did to her.
 

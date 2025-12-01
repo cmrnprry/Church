@@ -98,7 +98,7 @@ namespace AYellowpaper.SerializedCollections
                 var sfx = Instantiate(SFXSource, SFXParent);
                 float kill_time = SFXDictionary[src].length + fadeIn + delay + 0.5f;
 
-                if(src == "leak")
+                if (src == "leak")
                 {
                     var rand = UnityEngine.Random.Range(1, 6);
                     src = $"leak_{rand}";
@@ -149,8 +149,11 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (sources[src.Key] != null)
                 {
-                    sources[src.Key].Stop();
-                    Destroy(sources[src.Key].gameObject);
+                    sources[src.Key].DOFade(0, 0.5f).SetEase(Ease.InSine).OnComplete(() =>
+                    {
+                        Destroy(sources[src.Key].gameObject);
+                    });
+
                 }
 
                 SaveSystem.RemoveCurrentAudioPlaying(src.Key);

@@ -72,8 +72,8 @@ LIST Confessional_Encounters = Stubborn_to_Priest, Talked_to_Girl, Lie_to_Her, P
 //where the player has been already
 LIST Have_Visited = Main_Body, Confessional_DoorSide, Confessional_CurtainSide, Enter_Pews, Enter_Office, Stairs_Up
 
-VAR current_area = -1
-VAR previous_area = -1
+VAR current_area = None
+VAR previous_area = None
 VAR visited_state = 0
 
 VAR Met_Mimic = false

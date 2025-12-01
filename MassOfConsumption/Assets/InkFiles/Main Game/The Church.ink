@@ -11,6 +11,7 @@ INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 INCLUDE TESTING.ink
 
+-> Office_Area.End_Game
 -> StartGame
 === StartGame ====
 #IMAGE: Default
@@ -2061,7 +2062,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     
         The pressure alleviates, the burning stops, and all the { Light_Feeling  == confused: confused emotions go| {Light_Feeling } goes} with it.
     
-        You dig your nails into your hand.
+        You dig your nails into your hand. 
     
         ***[Turn away from the window]
             ~ StopSFX("climax_long", 2.5, 0)
@@ -2074,7 +2075,7 @@ The back of your throat goes tight as you hold back tears, but you don't know wh
     
     ~ PlaySFX("groaning_happy", false, 0.25, 0)
     ~ StopSFX("watched", 10, 0)
-    A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. #EFFECT: leave-glow #EFFECT: IntialSight #EFFECT: Force_Closed
+    A satisfied groan reverberates through the building. Slowly, the eye closes, and the red light with it. #EFFECT: leave-glow #EFFECT: Force_Closed
 
     "N—no!" you scramble forward, chasing the last licks of the light before its gone. The pressure alleviates, and all the { Light_Feeling  == confused: confused emotions go | {Light_Feeling} goes } with it. The window returns to it's normal, swirling state. 
 

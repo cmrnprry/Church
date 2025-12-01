@@ -1,6 +1,6 @@
 === Confessional_Curtain ===
 ~ current_area = Confessional_CurtainSide 
-~ Have_Visited += Confessional_CurtainSide
+~ Have_Visited += (Confessional_CurtainSide)
 {
     //if this is the first area we are visiting
     - visited_state <= 0:
@@ -1323,7 +1323,7 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 
 = Leave_Progress
 ~ Confessional_Encounters += (Finished_Curtain_Side)
-~ Have_Visited += Confessional_CurtainSide
+~ Have_Visited += (Confessional_CurtainSide)
 
 ~ previous_area = Confessional_CurtainSide
 ~ items_obtained += (Skeleton_Key)

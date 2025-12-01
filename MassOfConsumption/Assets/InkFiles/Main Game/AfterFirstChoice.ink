@@ -263,7 +263,7 @@ You whip around, and just barely miss seeing someone run up the stairs. #IMAGE: 
     ->Confessional_Curtain
 
 *[Follow them up the stairs]
-    ->Stairs
+    ->Stairs.Examine_Stairs
 
 = Side_Room_After
 #CHECKPOINT: 3, The pews are... full?
