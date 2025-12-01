@@ -391,7 +391,7 @@ public static class SaveSystem
         float mute = GetMuteValue() ? 0 : 1;
         AudioManager.instance.AdjustSFX(GetAudioVolume(Audio.SFX));
         AudioManager.instance.AdjustBGM(GetAudioVolume(Audio.BGM));
-        AudioManager.instance.MuteAudio((int)mute);
+        AudioManager.instance.MuteAudio(mute);
 
         //set autoplay values
         GameManager.instance.AutoPlay = GetAutoplayValue();

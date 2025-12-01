@@ -196,8 +196,11 @@ namespace AYellowpaper.SerializedCollections
             }
         }
 
-        public void MuteAudio(int value)
+        public void MuteAudio(float value)
         {
+            if (value == 0)
+                value = 0.001f;
+
             mixer.SetFloat("master", Mathf.Log10(value) * 20);
             SaveSystem.SetAudioVolume(value, Audio.Mute);
         }

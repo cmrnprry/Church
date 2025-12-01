@@ -1,5 +1,4 @@
 === Pews ===
-TODO: add in bits about the people reflecting the books?
 ~ temp_string = ""
 ~ Have_Visited += (Enter_Pews)
 
@@ -199,7 +198,7 @@ You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank
 ~ PlaySFX("tinitus", true, 5, 0) 
 And then, it releases you.
 
-* [You stumble back.]
+* [You stumble back]
     -> Pews.Finger_Gone
 
 = Finger_Gone
@@ -316,7 +315,7 @@ You try to pull back, but it's grip becomes like steel. It smiles at you. "Thank
 ~ PlaySFX("tinitus", true, 5, 0) 
 It releases you. 
 
-* [You stumble back.]
+* [You stumble back]
     -> Pews.Finger_Gone
 
 = Coward

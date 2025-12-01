@@ -540,7 +540,6 @@ On the bench sits a small key.
     The booth is quiet, save for your own breathing. You place the key in your pocket.
     
 *[Go around]
-    #PLAY: flashlight_off
     ~ PlaySFX("flashlight_off", false, 0, 0)
     You exit through the curtain, face the priest's door. You take a deep breath, and open it. The key sits on the bench, but more surprisingly, the divider is no longer splintered, and the separating grate is back in place. #EFFECT: flashlight_off
 

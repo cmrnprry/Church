@@ -223,7 +223,10 @@ namespace AYellowpaper.SerializedCollections
 
             Story.BindExternalFunction("WinAchievement", (int index) =>
             {
-                SteamUserStats.SetAchievement($"ACHIEVEMENT_{index}");
+                if (SteamManager.Initialized)
+                {
+                    SteamUserStats.SetAchievement($"ACHIEVEMENT_{index}");
+                }
             });
 
 
@@ -547,7 +550,7 @@ namespace AYellowpaper.SerializedCollections
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
                 if (!ReplaceData.hasTextData())
                 {
-                    SaveSystem.SetSavedHistory($"<br><br>{ContinueText}");
+                    SaveSystem.SetSavedHistory($"<br>{ContinueText}");
                 }
 
                 SetSaveDataForTextBox();
@@ -985,13 +988,13 @@ namespace AYellowpaper.SerializedCollections
             //if we have replace data, but don't click the replace button
             if (ReplaceData.hasData())
             {
-                SaveSystem.SetSavedHistory($"<br><br>{ContinueText}");
+                SaveSystem.SetSavedHistory($"<br>{ContinueText}");
                 SetSaveDataForTextBox();
                 ReplaceData = new ReplaceChoice("", -1);
             }
 
             WaitAfterChoice = true;
-            SaveSystem.SetSavedHistory($"<br><br>{choice.text}");
+            SaveSystem.SetSavedHistory($"<br>{choice.text}");
             SaveSystem.ClearCurrentTextData();
             Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
@@ -1004,7 +1007,7 @@ namespace AYellowpaper.SerializedCollections
         {
             WaitAfterChoice = true;
             intrusiveThoughts.KillAllThoughts();
-            SaveSystem.SetSavedHistory($"<br><br>{thought}");
+            SaveSystem.SetSavedHistory($"<br>{thought}");
             SaveSystem.ClearCurrentTextData();
             Story.ChoosePathString(path);
 

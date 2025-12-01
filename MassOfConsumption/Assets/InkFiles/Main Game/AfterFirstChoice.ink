@@ -248,7 +248,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 ~temp_bool = true
 #CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage and walk past the pews. Everyone is gone.
-{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels...<br><br> Soothing. | Your hand aches, and you lightly brush the wound.<br><br>It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... Soothing. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 ~ PlaySFX("curtain", false, 0, 2.5) 
 You bow your head and close your eyes. @ bubbles up in your chest. #CYCLE: Anxiety, Dread, Doubt, Confusion #DELAY: 3
@@ -425,7 +425,7 @@ You decide to look...
     -> Confessional
 
 * [stairs]
-    -> Stairs
+    -> Stairs.Examine_Stairs
 
 === Last_Stop ===
 

@@ -10,7 +10,8 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager instance;
 
-    public TMProGlobal HistoryText;
+    public TMProGlobal Text_Prefab;
+    public Transform Parent;
     public List<TMProGlobal> Endings = new List<TMProGlobal>();
 
     public List<Image> lineboil_images = new List<Image>();
@@ -66,15 +67,24 @@ public class DataManager : MonoBehaviour
         SaveSystem.UnlockEnding(index, name);
         Endings[index - 1].text = $"{end[0]}\n<size=50>{end[1]}</size>";
 
-        SteamUserStats.SetAchievement($"Ending_{index}");
-        
-        if (SaveSystem.FoundAllEndings())
-            SteamUserStats.SetAchievement("ACHIEVEMENT_1");
+        if (SteamManager.Initialized)
+        {
+            SteamUserStats.SetAchievement($"Ending_{index}");
+
+            if (SaveSystem.FoundAllEndings())
+                SteamUserStats.SetAchievement("ACHIEVEMENT_1");
+        }
+
     }
 
     public void SetHistoryText()
     {
-        HistoryText.text = SaveSystem.GetSavedHistory();
+        var chunks = SaveSystem.GetSavedHistory().Split("<br>");
+        foreach (var chunk in chunks)
+        {
+            var current = Instantiate(Text_Prefab, Parent, false);
+            current.text = chunk;
+        }
     }
 
     public void FlipLineBoil(bool value)
@@ -84,7 +94,7 @@ public class DataManager : MonoBehaviour
         {
             if (img.name == "Overlay")
             {
-               strn = value ? 0.015f : 0.0f;
+                strn = value ? 0.015f : 0.0f;
             }
             img.materialForRendering.SetFloat("_Strength", strn);
             img.defaultMaterial.SetFloat("_Strength", strn);

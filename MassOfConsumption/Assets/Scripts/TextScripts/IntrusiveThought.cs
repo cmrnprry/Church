@@ -66,7 +66,7 @@ public class IntrusiveThought : MonoBehaviour
         {
             if (jump_to == "")
             {
-                SaveSystem.SetSavedHistory($"<br><br>{jump_to}");
+                SaveSystem.SetSavedHistory($"<br>{jump_to}");
                 KillAllThoughts();
             }
             else

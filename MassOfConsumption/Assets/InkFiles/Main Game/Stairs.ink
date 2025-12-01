@@ -1,7 +1,7 @@
 === Stairs ===
-
 = Examine_Stairs
-{Have_Visited !? (Stairs_Up) and Downstairs_State <= None: You walk deeper down the hallway to the stairs. Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and visited_state < 1: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.} #IMAGE: Defualt
+#IMAGE: Defualt
+{Have_Visited !? (Stairs_Up) and Downstairs_State <= None: {previous_area == Enter_Pews and visited_state == 1: You creep up the stairs, and down the hall. There's no sign of whoever you followed. {Have_Visited !? (Enter_Office) and !Looked_For_Items: Instead, you find a side door, and 2 sets of stairs further down. } | You walk deeper down the hallway to the stairs, passing {Have_Visited !? (Enter_Office) and !Looked_For_Items: a side door. | the office.}} Going up, is a spiral staircase. Going down, is a long set of stairs. You can't see the end of either. {Looked_For_Items and Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: How did you miss this before?} | The stairs are still there, spiraling up into the sky and digging down into the earth.} #IMAGE: Defualt
 
 +[Go upstairs]
     ->Stairs.Upstairs
@@ -9,8 +9,8 @@
 +{Downstairs_State < Flesh} [Go downstairs]
     ->Stairs.Downstairs
     
-+ {Room_State < Gone} [Enter office]
-    You turn around are return to the office door. {Room_State == Half: You frown at the doorway. Was it always that short? } {Room_State == Crawl: You blink at the doorway. It was definitely not always that short. You think you would remember needing to army crawl to enter.}
++ {Room_State < Gone} [{Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: Enter Side Door| Enter office}]
+    You turn around are return to the {Have_Visited !? (Stairs_Up, Enter_Office) and Downstairs_State <= None: side | office} door. {Room_State == Half: You frown at the doorway. Was it always that short? } {Room_State == Crawl: You blink at the doorway. It was definitely not always that short. You think you would remember needing to army crawl to enter.}
         ->Office_Area.Office
 
 
@@ -34,7 +34,7 @@ It smells of old, rotten meat left in the sun. Of putrid sour milk left out for 
 = Down_Stink(From_Mimic)
 {Downstairs_State == Stink: You swallow your nausea| You plug your nose} and keep going, only stopping to occasionally dry heave. It isn't long before the steps change from wood to... to something you can't comprehend. You stop and shine the light. 
 
-#CYCLE: Fidget, mold, fungus, flesh
+#CYCLE: mold, fungus, flesh
 The rest of the stairs are covered in pink, bulbous... flesh? You shake your head. It has to be some sort of mold or fungus. You poke the next step with your foot, and the @ shivers in response. 
 
 You shine your light to the end of the staircase, and see a door at the end of the stairs. Walls and ceiling covered in the same disgusting substance.
@@ -56,9 +56,9 @@ You shine your light to the end of the staircase, and see a door at the end of t
 
 <i>Squish</i>
 
-~ StopSFX("footsteps_squishy", 3, 0)
 The tissue is soft under your shoes, making a soft, wet sound with each step. A thick ooze sticks to the bottom of your shoes.
 
+~ StopSFX("footsteps_squishy", 3, 0)
 <i>Squelch</i>
 
 *[Open the door]
@@ -70,16 +70,16 @@ The tissue is soft under your shoes, making a soft, wet sound with each step. A 
         ~ Downstairs_State = Bad_Vibes
         
         ~ PlaySFX("flashlight_on", false, 0, 0)
-        You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below. #IMAGE: Stairs_Down
+        You approach the stairs shine your flashlight down. The walls on either side of the stairs are smooth, but damp. You cannot see the bottom. You take one step down, and deep groan wells up from below. #IMAGE: Stairs_Down #EFFECT: flashlight_on
 
         You tense, every fiber of your being telling you to not continue down.
     - Downstairs_State == Stink:
         ~ PlaySFX("flashlight_on", false, 0, 0)
-        You approach the stairs again, and plug your nose. You breath through your mouth as you quickly descend. The stench punches you in the face, hanging heavy in the air. You take deep, deliberate breaths, as you continue.
+        You approach the stairs again, and plug your nose. You breath through your mouth as you quickly descend. The stench punches you in the face, hanging heavy in the air. You take deep, deliberate breaths, as you continue. #EFFECT: flashlight_on
         
     - else:
         ~ PlaySFX("flashlight_on", false, 0, 0)
-        You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further.
+        You approach the stairs again, and swallow. A feeling in your gut is telling you not to go down and further. #EFFECT: flashlight_on
 }
 
 *[{Downstairs_State <= Bad_Vibes: Continue down | Push through}]
@@ -112,7 +112,7 @@ The room is covered in the pink, bulging flesh, thick ooze drips from the ceilin
     ~ PlaySFX("flashlight_off", false, 0, 0.75)
     ~ PlayBGM("watched", true, 10, 0)
     ~ StopSFX("inside", 10, 0)
-    The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process.
+    The flashlight flickers, and turns offs. You hit it against the palm of your hand, trying to get it to turn back on, the slime getting on you in the process. #EFFECT: flashlight_off_forever
         ->Stairs.Melt
 
 - You walk deeper into the room. It is a maze of old furniture. Most of it is normal, chairs, tables. Some of the shapes confuse you. Some are too tall, or too wide to be anything recognizable. 
@@ -131,7 +131,7 @@ You pass by what you assume is a standing coat hanger, and stare at it. It is ta
     ~ PlaySFX("flashlight_off", false, 0, 0.25)
     ~ PlaySFX("flashlight_on", false, 0, 0.5)
     ~ PlaySFX("flashlight_off", false, 0, 0.75)
-    The @ twitches, snapping bones and warping metal to look at you. A squeak escapes you and you drop your flashlight. It flickers as it rolls away, and turns offs. The thing groans as more bones snap and it falls, landing on top of you.#CYCLE: person, animal, zombie, creature, beast 
+    The @ twitches, snapping bones and warping metal to look at you. A squeak escapes you and you drop your flashlight. It flickers as it rolls away, and turns offs. The thing groans as more bones snap and it falls, landing on top of you.#CYCLE: person, animal, zombie, creature, beast #EFFECT: flashlight_off_forever
     ~temp_bool = 0
     
     **[Get it off]
@@ -140,10 +140,12 @@ You pass by what you assume is a standing coat hanger, and stare at it. It is ta
     
     **[Get it off]
     
-    -- You screech kicking your legs and attempting to shove it off. It wails and grabs your shirt, vomiting something all over your face and body. You hold in a scream to avoid anything getting in your mouth, and rip the thing's hands off you and hurl it away from you. You clamber backwards and to your feet, wiping the vomit and ooze off your face the best you can. You blindly run away from the the thing, the only thought you have is to <i>get away.</i>
+    -- You screech kicking your legs and attempting to shove it off. It wails and grabs your shirt, vomiting something all over your face and body. You hold in a scream to avoid anything getting in your mouth, and rip the thing's hands off you and hurl it away from you. 
+    
+        You clamber backwards and to your feet, wiping the vomit and ooze off your face the best you can. You blindly run away from the the thing, the only thought you have is to <i>get away.</i>
     
         It's thick and sticky. Your skin itches where it touched, the feeling stronger where the ooze clings to your shirt. <>
-    ->Stairs.Melt
+        ->Stairs.Melt
 
 *[Leave it alone]
 
@@ -160,20 +162,21 @@ Near the edge of the tarp you see scraps of wet cloth and... Is that... bone...?
 - 
 ~ PlaySFX("climax_long", false, 0, 0)
 ~ PlaySFX("flashlight_off", false, 0, 0)
-You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away.
+#PROP: [bones true]
+You let out a shriek and fall backwards, dropping your flashlight in the process. It turns off and rolls away. #EFFECT: flashlight_off_forever #EFFECT: LightDark
 
-#CYCLE: mourn, pity, pray
+#CYCLE: mourn, pity, pray 
 Underneath the tarp lies a pile of bodies, covered in rotten flesh. Clumps of hair stuck to skulls. An amalgamation of bones fused together. You don't have time to @ for them, your only thought is to get <i>out.</i> On your hands and knees, you search the floor for your light. 
 
 *[Search left]
     ~temp_bool = false
-    You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching.
+    You feel to your left. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, but you keep searching. #PROP: [bones false]
     
     You feel a slight divot in the ground, and reach further in, hoping the flashlight rolled there. Instead, you end up shoving your hand into a pool of whatever ooze is dripping from the ceiling.
 
 *[Search right]
     ~temp_bool = true
-    You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching.
+    You feel to your right. The ground feels like you're touching chewed gum covered in slime. Your skin crawls with each touch of the ground, and keep searching. #PROP: [bones false]
     
     Eventually, your hand bumps into something hard and metal. The flashlight. You grab it. It's covered in the same ooze that drips from the ceiling. You wipe it off with your hand, and try to turn it back on.
 
@@ -196,7 +199,6 @@ You wipe off any remaining ooze on your shirt, but that only causes the itching 
 - You wipe off another blob off your shoulder, but something goes with it. Something wet. Something warm. You stop, and reach up to touch your shoulder. Your hand shakes. Your breathing becomes short and shallow.
 
 *[You feel bone]
-    ~PlaySFX("climax_long", false, 0, 0)
 
 - 
 #DELAY: 0.5
@@ -324,7 +326,7 @@ The stench fades and the substance coating the walls dissipates as you reach the
 = Upstairs
 ~ Have_Visited += (Stairs_Up)
 ~ PlaySFX("flashlight_on", false, 0, 0)
-You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up. #IMAGE: Stairs_Up #EFFECT: Flash-On #PROP: [stairs true]
+You start up the stairs, holding the hand rail as you go. You take a break after about 5 or 6 flights, but the top doesn't look any closer. With a huff, you continue up. #IMAGE: Stairs_Up #EFFECT: flashlight_on #PROP: [stairs true]
 
 Tighter and tighter the stairs spiral. The hand rail sinking lower and lower. The incline becoming steeper and steeper. After a count of 14 flights, you wonder if this is a fruitless effort. Sweat runs down your back, and your legs quiver from effort. {Leg_State > Tense: The leg you used to kick the door in feels particularly weak.}
 

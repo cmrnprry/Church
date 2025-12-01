@@ -168,6 +168,7 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
                     ~ Church_Investigation += (Teleported, Dropped_Phone)
                     ~ Stay_Tracker += 0.5
                     ~ StopSFX("outside", 0, 0)
+                    ~ ZoomImage(28.7, "-10354.4,8052", 2, 0.5)
                     You drop your phone and throw the gate open. You trip over yourself as you run down the path and to the door. You push through the church door and— #DELAY: 0.25
                     -> Job.Teleport
                 
@@ -211,6 +212,7 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
                 ~ Stay_Tracker += 0.5
                 ~ PlaySFX("gate_open", false, 0, 0)
                 ~ StopSFX("outside", 0, 0.5)
+                ~ ZoomImage(28.7, "-10354.4,8052", 2, 0.5)
                 You drop your phone and throw the gate open. You trip over yourself as you run down the path and to the door. You push through the church door and— #DELAY: 0.25 #PROP: [open_gates true], [closed_gates false]
                 -> Job.Teleport
             
@@ -531,6 +533,7 @@ You find yourself in your boss' office, staring at the floor as her eyes bore in
 = Teleport
 ~ StopSFX("footsteps_player", 0, 0)
 ~ PlayBGM("generic", true, 1, 0)
+~ ZoomImage(1, "0,0", 0.15, 0)
 "Excuse you! Is there something so important that you needed to barge in here?" You blink at the unexpected harsh lighting, finding yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were about to enter the church so how? "Well?" #IMAGE: Default #CHECKPOINT: 1, You arrive at work. #PROP: [open_gates false]
 
 *[Apologize]
@@ -1103,7 +1106,7 @@ As you pass the front gate, it creaks open, and you flinch. {Remembered_Past: Yo
 
 
 - 
-Against your better judgement, you stop, and look at the church. The gate is open. {Remembered_Past: You should keep moving. It's waiting for you. It's making the choice easy. | {Church_Investigation ? (Called): Once again, it invites you inside. | {Church_Investigation ? (Entered): {Church_Feeling == Anxious: The slimy feeling returns as a trickle of sweat slides down your back. | {Church_Feeling == Disappointed: Your heart pounds in excitement? fear? Maybe it <i>wasn't</i> just nothing. | It's— It's just a church.}} | Probably the wind blew it open. Probably.}}}
+Against your better judgement, you stop, and look at the church. The gate is open. {Remembered_Past: You should keep moving. It's waiting for you. It's making the choice easy. | {Church_Investigation ? (Called): Once again, it invites you inside. | {Church_Investigation ? (Entered): {Church_Entered == Anxious: The slimy feeling returns as a trickle of sweat slides down your back. | {Church_Entered == Disappointed: Your heart pounds in excitement? fear? Maybe it <i>wasn't</i> just nothing. | It's— It's just a church.}} | Probably the wind blew it open. Probably.}}}
 
 *[Close the gate]
 
@@ -1116,7 +1119,7 @@ Against your better judgement, you stop, and look at the church. The gate is ope
 
 - You take a single step onto the property to reach the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path. <>
 
-{Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Feeling == Satisfied: You know it's nothing, so checking again won't change anything.} | {Church_Investigation ? (Called): {Church_Investigation ? (Teleported): These didn't light up this morning, or maybe you just didn't notice. | It really wants you to come inside. } | Motion activated maybe?}}}
+{Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Entered == Satisfied: You know it's nothing, so checking again won't change anything.} | {Church_Investigation ? (Called): {Church_Investigation ? (Teleported): These didn't light up this morning, or maybe you just didn't notice. | It really wants you to come inside. } | Motion activated maybe?}}}
 
 *[Take a closer look]
 
@@ -1906,10 +1909,10 @@ Your eyelids grow heavy, and you think you understand why the church released yo
     ->Trapped.Wait_Morning(true)
 
 = Wait_Morning(Look)
-# REMOVE: INTRUSIVE
-{Look: You attempt to stand, but your legs are like jelly, and you fall back to the floor. Everything suddenly hits you at once, and you realize how exhausted you are. You press your back against the door, and rub your eyes. You think you should look around after regaining your strength. You don't want to stay in the church any longer than you need to, but pushing past your limits won't help you escape. }
 
- You rest your head on your knees.
+{Look: You attempt to stand, but your legs are like jelly, and you fall back to the floor. Everything suddenly hits you at once, and you realize how exhausted you are. You press your back against the door, and rub your eyes. You think you should look around after regaining your strength. You don't want to stay in the church any longer than you need to, but pushing past your limits won't help you escape. } # REMOVE: INTRUSIVE
+
+ You rest your head on your knees. # REMOVE: INTRUSIVE
 
 *[Try to sleep]
     ~ sleep = "sleep"
