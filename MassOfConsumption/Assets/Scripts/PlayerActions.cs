@@ -53,6 +53,24 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""History"",
+                    ""type"": ""Button"",
+                    ""id"": ""80f8f5e6-e7a9-475f-b6bf-365955b36236"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Autoplay"",
+                    ""type"": ""Button"",
+                    ""id"": ""0032516b-acae-46c7-8358-1070e831a7e4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -143,6 +161,50 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Controller"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3dbcfe42-4197-4fa7-a4cd-4102ba2fe561"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""History"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e16b079c-7e79-49f1-b01c-929a65072e2a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""History"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5b8f4bbe-c171-46fc-a9fa-9f722aff47a1"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Autoplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae1508ca-0b42-4392-ae3e-1f66f2bc922c"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Autoplay"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -154,6 +216,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Controls_Continue = m_Controls.FindAction("Continue", throwIfNotFound: true);
         m_Controls_Pause = m_Controls.FindAction("Pause", throwIfNotFound: true);
         m_Controls_Controller = m_Controls.FindAction("Controller", throwIfNotFound: true);
+        m_Controls_History = m_Controls.FindAction("History", throwIfNotFound: true);
+        m_Controls_Autoplay = m_Controls.FindAction("Autoplay", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -223,6 +287,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Continue;
     private readonly InputAction m_Controls_Pause;
     private readonly InputAction m_Controls_Controller;
+    private readonly InputAction m_Controls_History;
+    private readonly InputAction m_Controls_Autoplay;
     public struct ControlsActions
     {
         private @PlayerActions m_Wrapper;
@@ -230,6 +296,8 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Continue => m_Wrapper.m_Controls_Continue;
         public InputAction @Pause => m_Wrapper.m_Controls_Pause;
         public InputAction @Controller => m_Wrapper.m_Controls_Controller;
+        public InputAction @History => m_Wrapper.m_Controls_History;
+        public InputAction @Autoplay => m_Wrapper.m_Controls_Autoplay;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -248,6 +316,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Controller.started += instance.OnController;
             @Controller.performed += instance.OnController;
             @Controller.canceled += instance.OnController;
+            @History.started += instance.OnHistory;
+            @History.performed += instance.OnHistory;
+            @History.canceled += instance.OnHistory;
+            @Autoplay.started += instance.OnAutoplay;
+            @Autoplay.performed += instance.OnAutoplay;
+            @Autoplay.canceled += instance.OnAutoplay;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -261,6 +335,12 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Controller.started -= instance.OnController;
             @Controller.performed -= instance.OnController;
             @Controller.canceled -= instance.OnController;
+            @History.started -= instance.OnHistory;
+            @History.performed -= instance.OnHistory;
+            @History.canceled -= instance.OnHistory;
+            @Autoplay.started -= instance.OnAutoplay;
+            @Autoplay.performed -= instance.OnAutoplay;
+            @Autoplay.canceled -= instance.OnAutoplay;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -283,5 +363,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnContinue(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnController(InputAction.CallbackContext context);
+        void OnHistory(InputAction.CallbackContext context);
+        void OnAutoplay(InputAction.CallbackContext context);
     }
 }

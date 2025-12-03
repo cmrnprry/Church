@@ -93,16 +93,16 @@ namespace AYellowpaper.SerializedCollections
 
         public void PlaySFX(string src, bool shouldLoop = false, float fadeIn = 0, float delay = 0)
         {
+            if (src == "leak")
+            {
+                var rand = UnityEngine.Random.Range(1, 6);
+                src = $"leak_{rand}";
+            }
+
             if (SFXDictionary.ContainsKey(src) && !sources.ContainsKey(src))
             {
                 var sfx = Instantiate(SFXSource, SFXParent);
                 float kill_time = SFXDictionary[src].length + fadeIn + delay + 0.5f;
-
-                if (src == "leak")
-                {
-                    var rand = UnityEngine.Random.Range(1, 6);
-                    src = $"leak_{rand}";
-                }
 
                 sfx.clip = SFXDictionary[src];
                 sfx.loop = shouldLoop;

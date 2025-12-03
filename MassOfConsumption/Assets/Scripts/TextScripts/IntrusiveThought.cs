@@ -27,7 +27,7 @@ public class IntrusiveThought : MonoBehaviour
         button = this.GetComponent<LabledButton>();
         text_box = this.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
         wait.SetValue(5, 2.5f);
-        fade_min.SetValue(0.25f, 0.15f);
+        fade_min.SetValue(0.75f, 0.25f);
         fade_max.SetValue(1, .6f);
         scale_min.SetValue(1f, .5f);
         scale_max.SetValue(1.75f, 1.25f);
@@ -66,7 +66,7 @@ public class IntrusiveThought : MonoBehaviour
         {
             if (jump_to == "")
             {
-                SaveSystem.SetSavedHistory($"<br>{jump_to}");
+                SaveSystem.SetSavedHistory($"{jump_to}");
                 KillAllThoughts();
             }
             else

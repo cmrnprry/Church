@@ -18,12 +18,6 @@ public class HistoryTextView : MonoBehaviour
         textmesh = this.GetComponent<TextMeshProUGUI>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void OnEnable()
     {
         rect = this.GetComponent<RectTransform>();

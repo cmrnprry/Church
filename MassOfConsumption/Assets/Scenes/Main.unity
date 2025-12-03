@@ -18447,12 +18447,16 @@ MonoBehaviour:
       Value: {fileID: 8300000, guid: 635ca9aba00359f45bd9fa5be41a965a, type: 3}
     - Key: lock_click_break_1
       Value: {fileID: 8300000, guid: 7e5d0cc9c089cc54cbb93bc22d545984, type: 3}
+    - Key: rattle
+      Value: {fileID: 8300000, guid: b4bf826539fce4741a9a6803026311cf, type: 3}
     - Key: lock_click_open_1
       Value: {fileID: 8300000, guid: 8b911fca96eb55f4cb828cfd0cd9bf80, type: 3}
+    - Key: cut_chain
+      Value: {fileID: 8300000, guid: db8d961ca603c9e4a83862c238adcac2, type: 3}
     - Key: bang_confessional
       Value: {fileID: 8300000, guid: d00a5e160cbfe4620a7b9dcb77da2e8f, type: 3}
     - Key: eating
-      Value: {fileID: 8300000, guid: d1095d81f1d38d140bdf399330e16af3, type: 3}
+      Value: {fileID: 8300000, guid: d243ab2d2f20f7841837c0511fbe3591, type: 3}
     - Key: scary_running
       Value: {fileID: 8300000, guid: 7534ad814b4b97c40be1fd55a8d1b413, type: 3}
     - Key: climax_long
@@ -23494,7 +23498,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000038146973}
+  m_AnchoredPosition: {x: 0, y: 0.000005722046}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &777355038
@@ -35724,7 +35728,7 @@ MonoBehaviour:
       - m_Target: {fileID: 714353759}
         m_TargetAssemblyTypeName: TransistionsAndLoading, Assembly-CSharp
         m_MethodName: ShowSettings
-        m_Mode: 1
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

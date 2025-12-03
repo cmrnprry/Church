@@ -9,9 +9,7 @@ INCLUDE Stairs.ink
 INCLUDE Office.ink
 INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
-INCLUDE TESTING.ink
 
--> Office_Area.End_Game
 -> StartGame
 === StartGame ====
 #IMAGE: Default

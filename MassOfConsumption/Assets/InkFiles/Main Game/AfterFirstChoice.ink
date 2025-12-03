@@ -516,9 +516,7 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
         ~ temp_string = ""
 }
 
-You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and (Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key): You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | {Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key: You should see if it fits the chest you found in the side office. | <>} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | <>}}
-
-You need to move on. <>
+You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and (Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key and Book_Knowledge !? (Saw_Your_Book)): You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | {Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key and Book_Knowledge !? (Saw_Your_Book): You should see if it fits the chest you found in the side office. | <>} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | <>}}
 
 -> Last_Stop.Return_to_Search
 
@@ -593,7 +591,6 @@ You need to move on. <>
 {LIST_COUNT(Have_Visited) >= 4: There's only one place you haven't checked yet. {Saw_Locks: | You have collected a variety of items. If, no. <i>When</i> you find the heart, you hope you'll be ready.} | {LIST_COUNT(Have_Visited) >= 3: There are only a couple places you haven't looked yet. }}{Saw_Locks: You know where the heart most likely is, {items_obtained ? (Combo, Clippers): and you should have enough items to open the door.} Whenever you're ready, the heart is waiting. }
 
 +{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[confessional] -> Confessional
-
 
 + {Have_Visited !? (Stairs_Up)} [stairs]
     -> Inside.Investigate_Stairs_Area

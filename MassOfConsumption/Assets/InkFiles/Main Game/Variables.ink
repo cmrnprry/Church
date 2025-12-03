@@ -89,6 +89,7 @@ LIST Locks_Undone = Key_Lock, Combo_Lock, Clippers_lock //combo lock correct = 2
 VAR Saw_Locks = false //know that there is a locked door
 VAR Investigated_Locks = false
 VAR broke_key_lock = false
+VAR unlocked_chest = false
 VAR Need_Double_Check = false
 VAR Need_Find_Book = false
 VAR Finish_ophelia = false

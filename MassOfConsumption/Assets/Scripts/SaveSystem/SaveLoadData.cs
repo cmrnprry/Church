@@ -14,8 +14,11 @@ namespace AYellowpaper.SerializedCollections
     public class SlotData
     {
         public string InkStory;
-        public string History;
         public SavedImageData ImageData;
+
+        [SerializedDictionary("index", "history chunk")]
+        public SerializedDictionary<int, string> History;
+        public int History_Index;
 
         [SerializedDictionary("index", "text data")]
         public SerializedDictionary<int, SavedTextData> DisplayedTextDictionary;
@@ -33,11 +36,13 @@ namespace AYellowpaper.SerializedCollections
         //cursor data
         public bool isOpen;
         public bool isNeutral;
+        public bool should_blink;
 
         public SlotData()
         {
             InkStory = string.Empty;
-            History = string.Empty;
+            History = new SerializedDictionary<int, string>();
+            History_Index = 0;
             ImageData = new SavedImageData("Default");
 
             IntrusiveThoughts = Array.Empty<string>();
@@ -46,8 +51,10 @@ namespace AYellowpaper.SerializedCollections
             LoopingPlaying = new SerializedDictionary<string, PlayingAudioData>();
             GlobalColor = new ColorData(0.8784314f, 0.8078431f, 0.8078431f, 1);
             HasFlashlight = false;
+
             isOpen = false;
             isNeutral = true;
+            should_blink = false;
         }
     }
 }

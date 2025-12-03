@@ -246,15 +246,11 @@ namespace AYellowpaper.SerializedCollections
         {
             yield return new WaitUntil(() => IsTyping);
 
-            Debug.Log("LISTENING FOR SKIP");
-
             yield return new WaitUntil(() =>
                                                 GameManager.instance.Actions.Controls.Continue.triggered || GameManager.instance.CanClick || !IsTyping || CurrentlySkipping);
 
             if (!IsTyping || CurrentlySkipping)
                 yield break;
-
-            Debug.Log("SKIPPING");
             yield return new WaitForEndOfFrame();
 
             CurrentlySkipping = true;

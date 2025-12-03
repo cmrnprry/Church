@@ -19,18 +19,11 @@ namespace AYellowpaper.SerializedCollections
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance;
-        private bool should_blink = false;
         private PlayerActions actions;
 
         public PlayerActions Actions
         {
             get { return actions; }
-        }
-
-        public bool ShouldBlink
-        {
-            get { return should_blink; }
-            set { should_blink = value; }
         }
 
         [Header("Ink Data")][SerializeField] private TextAsset InkJsonAsset;
@@ -184,8 +177,6 @@ namespace AYellowpaper.SerializedCollections
         public static event ClickEffects OnForceBlink;
         public static event ClickEffects OnForceOpen;
         public static event ClickEffects OnForceClosed;
-        //public static event ClickEffects OnRemoveClick;
-
 
         private void Awake()
         {
@@ -229,7 +220,6 @@ namespace AYellowpaper.SerializedCollections
                 }
             });
 
-
             Story.BindExternalFunction("Intrusive", (int amount, string text, string jump_to) =>
             {
                 StaticHelpers.AddIntrusiveThoughts(amount, text, jump_to, intrusiveThoughts);
@@ -247,6 +237,8 @@ namespace AYellowpaper.SerializedCollections
 
                 ImageClassData.ZoomImage(data);
             });
+
+            Actions.Controls.Autoplay.performed += AutoplayHotkey;
         }
 
         private void OnEnable()
@@ -260,7 +252,15 @@ namespace AYellowpaper.SerializedCollections
         {
             SaveSlot.OnSave -= SetDataOnSave;
             SaveSystem.OnLoad -= GetDataOnLoad;
+            Actions.Controls.Autoplay.performed -= AutoplayHotkey;
             actions.Disable();
+        }
+
+        private void AutoplayHotkey(InputAction.CallbackContext context)
+        {
+            bool value = !SaveSystem.GetAutoplayValue();
+            SaveSystem.SetAutoplayValue(value);
+            AutoPlay = value;
         }
 
         public void SetTextFlow(bool val)
@@ -550,7 +550,7 @@ namespace AYellowpaper.SerializedCollections
                 //If we are going to replace this text, we don't want to save anything yet. We will do this after a choice click
                 if (!ReplaceData.hasTextData())
                 {
-                    SaveSystem.SetSavedHistory($"<br>{ContinueText}");
+                    SaveSystem.SetSavedHistory($"{ContinueText}");
                 }
 
                 SetSaveDataForTextBox();
@@ -568,12 +568,8 @@ namespace AYellowpaper.SerializedCollections
                     can_click = false;
                     ClickToContinue = true;
 
-                    Debug.Log("WAIT FOR CLICK");
-
                     yield return new WaitUntil(() =>
                                            actions.Controls.Continue.triggered || can_click && !LinksManager.hovering);
-
-                    Debug.Log("CONTINUE");
 
                     ClickToContinue = false;
                     can_click = false;
@@ -635,7 +631,7 @@ namespace AYellowpaper.SerializedCollections
             SaveSystem.ClearCurrentTextData();
             DeleteOldChoices();
             DeleteOldTextBoxes();
-            DataManager.instance.SetHistoryText();
+            //DataManager.instance.SetHistoryText();
         }
 
         private void CycleThroughTags(string[] Tag)
@@ -731,10 +727,10 @@ namespace AYellowpaper.SerializedCollections
             switch (key)
             {
                 case "BlinkOnClick_True":
-                    should_blink = true;
+                    SaveSystem.SetIsCursorOpen(true);
                     break;
                 case "BlinkOnClick_False":
-                    should_blink = false;
+                    SaveSystem.SetIsCursorOpen(false);
                     break;
                 case "Force_Blink":
                     CanClick = false;
@@ -988,26 +984,26 @@ namespace AYellowpaper.SerializedCollections
             //if we have replace data, but don't click the replace button
             if (ReplaceData.hasData())
             {
-                SaveSystem.SetSavedHistory($"<br>{ContinueText}");
+                SaveSystem.SetSavedHistory($"{ContinueText}");
                 SetSaveDataForTextBox();
                 ReplaceData = new ReplaceChoice("", -1);
             }
 
             WaitAfterChoice = true;
-            SaveSystem.SetSavedHistory($"<br>{choice.text}");
+            SaveSystem.SetSavedHistory($"<color=#a80f0f>{choice.text}</color>");
             SaveSystem.ClearCurrentTextData();
             Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
             DeleteOldTextBoxes();
             DisplayNextLine();
-            DataManager.instance.SetHistoryText();
+            //DataManager.instance.SetHistoryText();
         }
 
         public void OnClickIntrusiveThought(string thought, string path)
         {
             WaitAfterChoice = true;
             intrusiveThoughts.KillAllThoughts();
-            SaveSystem.SetSavedHistory($"<br>{thought}");
+            SaveSystem.SetSavedHistory($"{thought}");
             SaveSystem.ClearCurrentTextData();
             Story.ChoosePathString(path);
 
@@ -1015,7 +1011,7 @@ namespace AYellowpaper.SerializedCollections
             DeleteOldTextBoxes();
             DisplayNextLine();
 
-            DataManager.instance.SetHistoryText();
+            //DataManager.instance.SetHistoryText();
         }
 
         void DeleteOldChoices()

@@ -791,6 +791,7 @@ That taste of freedom is all you need. With one last push, you throw yourself ou
 *{items_obtained ? (Skeleton_Key)} [Try the skeleton key]
     ~ Temp = true
     ~PlaySFX("lock_click_open_1", false, 0, 0)
+    ~ unlocked_chest = true
     You fish the skeleton key out of your pocket and try the lock. The key slides in, and <i>Click!</i>
 
     The lid pops open and inside sits a book with the number 2758 on it's cover.

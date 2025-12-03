@@ -55,6 +55,7 @@ public class TransistionsAndLoading : MonoBehaviour
     {
         SaveSystem.PreLoad -= CloseSettingsOnLoad;
         GameManager.instance.Actions.Controls.Pause.performed -= ShowSettings;
+        GameManager.instance.Actions.Controls.History.performed -= ShowHistory;
     }
 
     public void StartGame(GameObject Menu)
@@ -68,6 +69,7 @@ public class TransistionsAndLoading : MonoBehaviour
             {
                 TransitionScreen.gameObject.SetActive(false);
                 GameManager.instance.Actions.Controls.Pause.performed += ShowSettings;
+                GameManager.instance.Actions.Controls.History.performed += ShowHistory;
             });
         });
     }
@@ -109,7 +111,7 @@ public class TransistionsAndLoading : MonoBehaviour
                 TransitionScreen.gameObject.SetActive(false);
                 DataManager.instance.History.SetActive(false);
             });
-        });        
+        });
 
         yield return new WaitForEndOfFrame();
 
@@ -132,14 +134,51 @@ public class TransistionsAndLoading : MonoBehaviour
         MenuTransition(Menu, shouldShow);
     }
 
-    public void ShowSettings()
+    public void ShowSettings(bool ShowHistoy = false)
     {
-        MenuTransition(Settings, true);
+        DataManager.instance.SetHistoryText();
+
+        TransitionScreen.gameObject.SetActive(true);
+        TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
+        {
+            if (!Settings.activeSelf)
+            {
+                Settings.SetActive(true);
+
+                DataManager.instance.group.enabled = true;
+                DataManager.instance.fitter.enabled = true;
+                DataManager.instance.History.SetActive(true);
+
+                if (ShowHistoy)
+                    Settings.GetComponent<SettingsButtomsController>().SelectMenu(3);
+            }
+            else
+                Settings.SetActive(false);
+
+            TransitionScreen.DOFade(0, 0.5f).OnPlay(() =>
+            {
+                if (Settings.activeSelf || ShowHistoy)
+                {
+                    DataManager.instance.group.enabled = false;
+                    DataManager.instance.fitter.enabled = false;
+                    DataManager.instance.History.SetActive(false);
+                    DataManager.instance.History.SetActive(ShowHistoy);
+                }
+            }).OnComplete(() =>
+            {
+                TransitionScreen.gameObject.SetActive(false);
+            });
+        });
     }
 
     private void ShowSettings(InputAction.CallbackContext context)
     {
-        MenuTransition(Settings, !Settings.activeSelf);
+        ShowSettings();
+    }
+
+    private void ShowHistory(InputAction.CallbackContext context)
+    {
+        ShowSettings(true);
     }
 
     private void MenuTransition(GameObject Menu, bool shouldShow)

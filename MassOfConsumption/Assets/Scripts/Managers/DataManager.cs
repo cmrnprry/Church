@@ -85,34 +85,19 @@ public class DataManager : MonoBehaviour
     }
 
     public void SetHistoryText()
-    {//TODO make this cleaner
-        group.enabled = true;
-        fitter.enabled = true;
+    {
         foreach (Transform chunk in Parent)
         {
             Destroy(chunk.gameObject);
         }
 
-        var chunks = SaveSystem.GetSavedHistory().Split("<br>", StringSplitOptions.RemoveEmptyEntries);
+        var chunks = SaveSystem.GetSavedHistory();
         foreach (string chunk in chunks)
         {
             var current = Instantiate(Text_Prefab, Parent, false);
             current.text = chunk;
         }
     }
-
-    //public void OnScroll(float value)
-    //{
-    //    foreach (Transform chunk in Parent)
-    //    {
-    //        if (!IsFullyVisibleFrom(chunk.gameObject.GetComponent<RectTransform>(), Camera.main))
-    //            chunk.gameObject.SetActive(false);
-    //        else
-    //            chunk.gameObject.SetActive(true);
-
-    //        Debug.Log($"{chunk.gameObject.name}: {IsFullyVisibleFrom(chunk.gameObject.GetComponent<RectTransform>(), Camera.main)}");
-    //    }
-    //}
 
     public void FlipLineBoil(bool value)
     {

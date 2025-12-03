@@ -127,7 +127,7 @@ public class CursorHelper : MonoBehaviour
         //}
 
 
-        if (Mouse.current.leftButton.isPressed && img.sprite != sprites[4] && img.sprite != sprites[5] && img.sprite != sprites[6] && GameManager.instance.ShouldBlink)
+        if (Mouse.current.leftButton.isPressed && img.sprite != sprites[4] && img.sprite != sprites[5] && img.sprite != sprites[6] && SaveSystem.IsBlink())
         {
             if (routine != null)
                 StopCoroutine(routine);
@@ -186,7 +186,7 @@ public class CursorHelper : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         img.sprite = sprites[1];
 
-        if (!GameManager.instance.ShouldBlink)
+        if (!SaveSystem.IsBlink() || SaveSystem.IsCursorNeutral())
         {
             yield return new WaitForSeconds(0.1f);
             img.sprite = sprites[0];

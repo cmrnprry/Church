@@ -157,7 +157,7 @@ public static class SaveSystem
             //Preload
             PreLoad?.Invoke();
 
-            
+
         }
         else
         {
@@ -171,6 +171,12 @@ public static class SaveSystem
     }
 
     /*        GETTERS AND SETTERSs          */
+
+    public static bool IsBlink(string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        return temp_data.should_blink;
+    }
 
     public static bool IsCursorOpen(string slotID = "")
     {
@@ -188,6 +194,12 @@ public static class SaveSystem
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
         temp_data.isOpen = value;
+    }
+
+    public static void SetIsBlink(bool value, string slotID = "")
+    {
+        SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
+        temp_data.should_blink = value;
     }
 
     public static void SetIsCursorNeutral(bool value, string slotID = "")
@@ -361,16 +373,27 @@ public static class SaveSystem
         return settingsData.EndingsDictionary[index];
     }
 
-    public static string GetSavedHistory(string slotID = "")
+    public static List<string> GetSavedHistory(string slotID = "")
     {
         SlotData temp_data = slotID == "" ? slotData : GetSlot(slotID);
 
-        return temp_data.History;
+        return temp_data.History.Values.ToList<string>();
     }
 
-    public static void SetSavedHistory(string his)
+    public static void SetSavedHistory(string his, bool iscycletext = false)
     {
-        slotData.History += his;
+        int index = (iscycletext) ? slotData.History_Index - 1 : slotData.History_Index;
+
+        if (slotData.History.ContainsKey(index) || iscycletext) //if we already have this one, jsut replace it
+        {
+            slotData.History[index] = his;
+        }
+        else //otherwise add it and increment the index
+        {
+            slotData.History.Add(index, his);
+            slotData.History_Index += 1;
+        }
+
     }
 
     public static void SetFullscreen(bool fullscreen)

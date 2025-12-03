@@ -249,7 +249,9 @@ You can't feel your legs.
 ~ temp Temp_Can_Smell = false
 At least until the smell hits you. The smell of rot hits your nose, so strong you gag. {Leg_State >= Limping: You grab the railing with both hands, | You grab the railing to steady yourself,} and retch. <>
 
-{Downstairs_State >= Stink: It was the same ripe smell from before. Possibly worse than before. | The stench is unbearable. It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.} You swing around to look behind you only to be met with inky blackness. You know you didn't miss the landing, that's impossible.
+{Downstairs_State >= Stink: It was the same ripe smell from before. Possibly worse than before. | The stench is unbearable. It smells of old, rotten meat left in the sun. Of putrid sour milk left out for too long. Of rancid fruit left to liquify in the fridge.} 
+
+You swing around to look behind you only to be met with inky blackness. You know you didn't miss the landing, that's impossible.
 
 *[Continue down]
     ~ Temp_Can_Smell = true
@@ -300,17 +302,18 @@ In frustration you kick the door{Leg_State >= Limping:, then suppress a curse as
 
 - 
 
-~ PlaySFX("footsteps_squishy", false, 1, 0)
+~ PlaySFX("footsteps_squishy", true, 1, 0)
 You don't think anything could be worse than the smell emanating from the door in front of you and decide to try climbing the stairs one last time. The @ sticks to your shoes as you step on it{Temp_Touched_Mass:.|, like warm gum.} Your lip curls. #CYCLE: mold, meat, fungus, flesh
 
+~ StopSFX("footsteps_squishy", 1, 0)
 The stench fades and the substance coating the walls dissipates as you reach the top. You pull yourself out of the stairwell, finding yourself at the landing you were desperately searching for. You could almost kiss the ground. #IMAGE: Default
 
 *[Rest for a bit]
-    You collapse to the floor and massage your thighs. You close your eyes and lean against the wall between the stairs. Your body welcomes the much needed break, as you feel some tension release. #DELAY: 0.5
+    You collapse to the floor and massage your thighs. You close your eyes and lean against the wall between the stairs. Your body welcomes the much needed break, as you feel some tension release. 
     
     "There's no time for this!" A woman's voice, soft but full of anger, rips through the quiet and freezing hands shove you over the edge of the stairs.
     
-    Your eyes snap open as you pull yourself into a ball, covering your head with your arms. Your whole body tenses as you brace for impact— #DELAY: 0.25
+    Your eyes snap open as you pull yourself into a ball, covering your head with your arms. Your whole body tenses as you brace for impact— #DELAY: 0.75
     ->Stairs.Upstairs_Landing(true)
 
 *[Enter the office]
@@ -395,6 +398,8 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 {visited < 2: -> Look_Close_Locks(visited + 1) | ->->}
 
 = Locks
+{Locks_Undone ? (Clippers_lock, Combo_Lock, Key_Lock): All the locks are gone. You can open the door. {visited_state < 4: You can also head back down. There might be other places you can check?}}
+
 +{Locks_Undone !? (Key_Lock) and (!broke_key or !broke_key_lock)}[{(items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key)): Try your key | Look closer at the lock}]
     -> Stairs.Try_Key
 
@@ -418,13 +423,12 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
     
         *{!broke_key}[Try the simple key]
             ~ Locks_Undone += (Key_Lock)
+            ~PlaySFX("lock_click_open_1", false, 0, 0)
+            You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it.
+            
             ~ PlaySFX("groaning-angry", false, 1, 0)
             ~ StopSFX("groaning-angry", 2, 1)
-            You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it. You sigh with relief as <>
-            
-            #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
-            
-            the chains and lock fall to the ground. The church groans angrily in response. 
+            You sigh with relief as the chains and lock fall to the ground. The church groans angrily in response. {items_obtained ? (Skeleton_Key) and !unlocked_chest: You wonder what the other key goes to. {Book_Knowledge ? (Saw_Your_Book): The pastor said... Oh. It was probably the key to that chest you broke. }}
             
             { - LIST_COUNT(Locks_Undone):
                 - 1: One lock down, two more to go.
@@ -436,19 +440,20 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
             
         *{!broke_key_lock} [Try the ornate key]
             ~ broke_key_lock = true
+            ~PlaySFX("lock_click_break_1", false, 0, 0)
+            ~PlaySFX("key_snap_small", false, 0, 2.25)
             You pull out the key the priest {Confessional_Encounters ? (Accepted_Priest): gifted | left } you. It resists slightly, but you push the key harder in the lock. It starts to turn before snapping in your hands. You shout in frustration and throw the broken key to the ground. {broke_key == false: Thank god you found the other key. Hopefully this one will work. You pull out the second key and pray it'll work. | {items_obtained ? (Clippers): You'll need to use the wire cutters on the chain and hope they don't break until you're done. | You'll need to find the right key downstairs or something to break the chains.}}
             
             {broke_key: -> Stairs.Locks }
             
             **{!broke_key}[Try the simple key]
                 ~ Locks_Undone += (Key_Lock)
+                ~PlaySFX("lock_click_open_1", false, 0, 0)
+                You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it.
+                
                 ~ PlaySFX("groaning-angry", false, 1, 0)
                 ~ StopSFX("groaning-angry", 2, 1)
-                The key refuses to turn, but you jiggle it in the lock, careful to not force it, and it turns. You sigh with relief as <>
-            
-                #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
-                
-                the chains and lock fall to the ground. The church groans angrily in response. 
+                You sigh with relief as the chains and lock fall to the ground. The church groans angrily in response. 
                 
                 { - LIST_COUNT(Locks_Undone):
                     - 1: One lock down, two more to go.
@@ -486,22 +491,25 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 
 ~ Locks_Undone += (Clippers_lock)
 
-#PLAY: cut_chain
 ~ PlaySFX("cut_chain", false, 0, 0)
 You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain. {Church_Encounters ? (Finger_Chopped): You flinch at the sound out the chain snapping, reminded of the sound when you let them take your finger. A dull pain echos through your stump.}
 
-#PLAY: cut_chain
-~ PlaySFX("cut_chain", false, 0, 0)
-{Locks_Undone !? (Key_Lock): You look at the rest of the chains that are held together with the old looking lock. {items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): You try the key you found but...}}
+{ 
+    - Locks_Undone !? (Key_Lock):
+        {Locks_Undone !? (Key_Lock): You look at the rest of the chains that are held together with the old looking lock. {items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): You can try the key but...}}
 
-*[Cut the chains]
-    ~ Locks_Undone += (Key_Lock)
-    #PLAY: cut_chain
-    ~ PlaySFX("cut_chain", false, 0, 0)
-    You cut the chain close to the lock, and it falls to the ground along with the chains it was holding up. 
-
-*[Use the key]
-    -> Stairs.Try_Key
+        *[Cut the chains]
+            ~ Locks_Undone += (Key_Lock)
+            ~ PlaySFX("cut_chain", false, 0, 0)
+            You cut the chain close to the lock, and it falls to the ground along with the chains it was holding up. 
+            
+            {LIST_COUNT(Locks_Undone) == 2: With two locks removed, all that's left is the number lock. | {LIST_COUNT(Locks_Undone) == 3:That was the last of them. | One lock down, two more to go.}}
+            
+            -> Stairs.Locks
+        
+        *[Use the key]
+            -> Stairs.Try_Key
+}
     
 - {LIST_COUNT(Locks_Undone) == 2: With two locks removed, all that's left is the number lock. | {LIST_COUNT(Locks_Undone) == 3:That was the last of them. | One lock down, two more to go.}}
 
@@ -512,6 +520,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
 {
     - items_obtained !? (Combo) and (Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Saw_Your_Book)):
         +[Try your book number]
+            ~ PlaySFX("key_snap_small", false, 0, 1)
             You can only properly remember your own book number. With no other options, you use your book number as the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place.  
             
             { - LIST_COUNT(Locks_Undone):
@@ -536,6 +545,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         
         It doesn't open.
         
+        ~ PlaySFX("lock_rattle", false, 0, 0)
         You pull harder, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
 
         Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
@@ -566,6 +576,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         
         It doesn't open.
         
+        ~ PlaySFX("lock_rattle", false, 0, 0)
         You pull harder, thinking it might be stuck. Nothing. You're almost positive the correct number was some combination of those numbers. You groan and wish you brought the page with you.
         {
             - Book_Knowledge ? (Kept_Book):
@@ -574,6 +585,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 None of them work. There's only one other 4-digit code you can think of...
                 
                 *[Try your book number]
+                    ~ PlaySFX("key_snap_small", false, 0, 1)
                     You can only properly remember your own book number. With no other options, you input your book number, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
                     
                     You nod and take a deep breath through your nose. Right. Of course it's <i>your</i> number. {Finish_ophelia: You should have read her ending closer. Then you would've known that you'd need your number, not hers. | Maybe you would have realized that earlier if you finished her book.} Good thing you brought your book with you.
@@ -591,6 +603,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 None of them work. There's only one other 4-digit code you can think of...
                 
                 *[Try your book number]
+                    ~ PlaySFX("key_snap_small", false, 0, 1)
                     You can only properly remember your own book number. With no other options, you input your book number, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
                     
                     You nod and take a deep breath through your nose. Right. Of course it's <i>your</i> number. {Finish_ophelia: You should have read her ending closer. Then you would've known that you'd need your number, not hers. | Maybe you would have realized that earlier if you finished her book.} At least you remembered your number.

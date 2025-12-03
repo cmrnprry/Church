@@ -1,11 +1,14 @@
 === Open_the_Door ===
 VAR crushed_at_door = false
 #CHECKPOINT: 8, You open the locked door.
-The door opens with a groan. The walls are bare, and the ceiling is low. The room inside is cramped, with a knee-high table in the center. On the table is a glass, and bread. Behind it, an ornate bowl with a glowing, stained glass heart inside.
+~PlaySFX("creaking", false, 0, 0)
+The door opens with a groan. The walls are bare, and the ceiling is low. The room inside is cramped, with a knee-high table in the center. On the table is a glass, and bread. Behind it, an ornate bowl with a glowing, stained glass heart inside. #IMAGE: Heart_Room
 
 "The heart...?"
 
-You duck into the room and the door closes behind you, but you don't bother looking back. You approach the table, and sit in front of it. The heart is about the size of your fist. It floats in a small bowl of water, and is the source of the red glow. The glass is filled with a deep, red liquid. The bread next to it is short and stubby. It looks soft under the light of the heart.
+You duck into the room and the door closes behind you, but you don't bother looking back. You approach the table, and sit in front of it. 
+
+The heart is about the size of your fist. It floats in a small bowl of water, and is the source of the red glow. The glass is filled with a deep, red liquid. The bread next to it is short and stubby. It looks soft under the light of the heart.
 
 ~Intrusive(3, "Take a sip", "Open_the_Door.Consume")
 ~Intrusive(2, "So hungry", "Open_the_Door.Consume")
@@ -31,8 +34,8 @@ Your mouth begins to water and your stomach growls. When was the last time you a
     -> Open_the_Door.Pick_Up
 
 = Consume
-#REMOVE: Intrusive #CYCLE: pungent, tangy, sweet, delicious
-{temp_bool: You pick up the glass and sniff the liquid. It smells like grapes.} You take a small sip and the taste is @. You can't stop yourself from gulping it down. Warm, thick liquid slides down your throat. 
+~PlaySFX("eating", false, 0, 0)
+{temp_bool: You pick up the glass and sniff the liquid. It smells like grapes.} You take a small sip and the taste is @. You can't stop yourself from gulping it down. Warm, thick liquid slides down your throat. #REMOVE: Intrusive #CYCLE: pungent, tangy, sweet, delicious
 
 *[You can't get enough.]
 

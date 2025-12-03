@@ -175,7 +175,7 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
     - Work_Encounter == Fired:
         ~Temp_String = "\"I was fired today!\" You laugh. \"I stood up to my boss, and that's all it took!\""
     - Work_Encounter == Leave_Suddenly:
-        ~Temp_String = "\"I... I just left early!\" You laugh. \"I did something for me for once and left!\""
+        ~Temp_String = "\"I... I just left!\" You laugh. \"I did something for me for once and left!\""
 }
 
 "Today was awful. I was never the best worker at my job, but today was particularly bad." You trace the wooden grooves of the wall with your finger. {Stay_Tracker < 2: Your face becomes warm at the memory, but keep your voice steady. | The words feel stuck in your throat as you recall your day. }
@@ -185,18 +185,16 @@ There was nothing in there, anyway. You should look for the heart elsewhere for 
 ~ PlaySFX("leak", false, 0, 0)
 <i>Plink!</i>#DELAY: 1
 
-#DELAY: 1.5
-The voice is silent. You squirm uncomfortably in your seat. You press your lips firmly together and chew the inside of your cheek. 
+The voice is silent. You squirm uncomfortably in your seat. You press your lips firmly together and chew the inside of your cheek. #DELAY: 3
 
 {Stay_Tracker < 2: <> You want to keep silent, but the silence feels too loud. | <> What you say next seems to just tumble out.}
 
 
 { 
 - Stay_Tracker < 2: 
-        #DELAY: 1.5
+        #DELAY: 3
         You need to say something. There's an itch caught in your throat, begging you to speak. You chomp down onto a chunk of the inside of your bottom lip. Your mouth taste like copper.
 
-        #DELAY: 1
         What you say next seems to just tumble out.
 }
 
@@ -214,16 +212,16 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         "I can't say I'm too upset about it. She hated me and was looking for a way to get rid of me. No matter how hard I worked, nothing was enough."
         ~Temp_String = "often sabotage yourself?\""
     - Work_Encounter == Leave_Suddenly:
-        "I think I regret it since... Well since I ended up stuck here!"
+        "I think I regret it since... Well, since I ended up stuck here!"
          ~Temp_String = "think that maybe it was all for a reason? Coming here?\""
         
 }
 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
-<i>Plink! Plink!</i>#DELAY: 1
+<i>Plink! Plink!</i> #DELAY: 1
 
-"I see..." The voice is quiet for a moment before continuing, "Do you {Temp_String}
+"I see..." The voice is quiet for a moment{Work_Encounter == Leave_Suddenly:, and you wince, realizing how that would sound to a pastor. He continues, | before continuing,} "Do you {Temp_String}
 
 ~ temp Temp_Bool = false
 
@@ -237,10 +235,8 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
 
 {
     - Temp_Bool:
-        #DELAY: 1
         You nod. Your chest is tight.
         
-        #PLAY: leak #PLAY: 2, leak 
         ~ PlaySFX("leak", false, 0, 0)
         ~ PlaySFX("leak", false, 0, 0.25)
         <i>Plink! Plink!</i>#DELAY: 1.5
@@ -250,10 +246,10 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
                 "Do you feel unworthy of their concern?"
                 ~Temp_String = "feel this way?"
             - Work_Encounter == Leave_Suddenly:
-                "That's wonderful to hear!" The voice is smiling. Proud of you. "Are you sure you truly regret it then?"
+                "That's wonderful to hear!" The voice is smiling. Proud of you. "Are you sure you regret it then? Staying here?"
                 ~Temp_String = "feel this way?"
             - else:
-                "And you work hard anyway?"
+                {Work_Encounter == Wrong_Email: "But you keep working hard anyway? When they only focus on your failures?"| "And you work hard anyway?"}
                 ~Temp_String = "do that?"
         }
     
@@ -261,27 +257,26 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         {
             - Work_Encounter == Leave_Suddenly:
                 ~Temp_String = "to how everything unfolded. Maybe. Maybe it was all meant to happen. Fate. Or maybe it was all the church."
-            - Work_Encounter != Fired:
+            - Work_Encounter != Fired and Work_Encounter != Wrong_Email:
                 ~Temp_String = "small talk in the kitchen. How your coworkers offer to let you join them for lunch, but you always turn them down. How you don't have many, if any, work friends. How anyone who reaches out first is met with a swift denial."
             - else:
                 ~Temp_String = "overlooked promotions. When you finally felt you proved yourself on a project, and your efforts were met with a pat on the back. How even after pushing the issue, your emails didn't get a response. How no matter what you did, how hard you worked, you got nothing in return."
         }
         
-        You shake your head. "I can't say that's the case. Today was—"
+        You shake your head. {Work_Encounter == Leave_Suddenly: "I don't think, so. It was-" | "I can't say that's the case. Today was—"}
 
-        "A fluke? A one off?{Work_Encounter == Wrong_Email or Work_Encounter == Fired: You were <i>fired</i> over it.}" The voice sneers. "Are you so sure about that?"
+        "A fluke? {Work_Encounter == Leave_Suddenly: A coincidence|A one off}?{Work_Encounter == Wrong_Email or Work_Encounter == Fired: You were <i>fired</i> over it.}" The voice sneers. "{Work_Encounter == Leave_Suddenly:How can you be so sure|Are you so sure}?"
 
-        You flinch at it's tone,{Stay_Tracker < 2: and grip the bench. Was that because you disagreed with it? | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
+        You flinch at it's tone,{Stay_Tracker < 2: and grip the bench. Was that because you disagreed with it? Youlet out a breath and rest your head against the wall. | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
         
-        "I'm not scolding you." The voice softens, and {Stay_Tracker < 2: you lessen your grip. Maybe you were overreacting? | some of your anxiety alleviates. You sit up a little straighter. } "But can you really say this was a one off event?" 
+        "I'm not scolding you." The voice softens, and {Stay_Tracker < 2: you lessen your grip. Maybe you were overreacting? | some of your anxiety alleviates. You sit up a little straighter. } "But can you really {Work_Encounter == Leave_Suddenly:say this is all one big coincidence|say this was a one off event}?" 
         
         You think back to {Temp_String}
 }
 
-*[{Work_Encounter == Leave_Suddenly: {Temp_Bool: "No... I don't." | "I can't."} | "It wasn't."}]
+*[{Work_Encounter != Leave_Suddenly: {Temp_Bool: "I do." | "I can't."} | {Temp_Bool: "I don't." | "It isn't."}}]
     {
         - Temp_Bool: //agreed last time
-            #DELAY: 1
             You hesitate, but nod. Why? Why do you {Temp_String} {Work_Encounter != Leave_Suddenly: What's the point?}
         - else: //disagreed last time
             You hesitate, but slowly, shake your head. The more you think, the more realize the voice is right.
@@ -289,7 +284,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
     }
     ~Temp_Bool = true
 
-*[{Work_Encounter == Leave_Suddenly: {Temp_Bool: "I do." | "I can."} | "It was."}]
+*[{Work_Encounter != Leave_Suddenly: {Temp_Bool: "No... I don't." | "I can."} | {Temp_Bool: "I do". |"It is."}}]
     {
         - Temp_Bool: //agreed last time
             ~Temp_Bool = false
@@ -301,7 +296,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
                 - else:
                    ~Temp_String = "You think you do, but at the same time..."
             }
-            #DELAY: 1
+            
             {Work_Encounter == Leave_Suddenly: You don't hesitate and the voice sneers, "I don't believe you."| You hesitate. Do you? {Temp_String}}
         - else: //disagreed last time
             ~Temp_Bool = false
@@ -321,13 +316,12 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
 
 {
     - Temp_Bool: //agreed last time
-        #PLAY: leak 
         ~ PlaySFX("leak", false, 0, 0)
         <i>Plink!</i> The bucket is half full.#DELAY: 1.5
 
         ~ PlayBGM("watched", true, 20, 0)
         ~ StopSFX("inside", 20, 0)
-        "I understand. Do you feel a sense of relief now?" You do. You feel a little lighter after someone saying it out loud. "Knowing you don't have to go back to that?"
+        "I understand. {Work_Encounter == Leave_Suddenly: It's that freeing? To say it out loud?" It is. You feel lighter. Freeer.| Do you feel a sense of relief now?" You do. You feel a little lighter after someone saying it out loud.} You never understood the idea of confessionals, but you think you get it now. {Work_Encounter == Leave_Suddenly: Especially knowing |"Knowing} you don't have to go back?"
 
         Your stomach drops.
         
@@ -342,12 +336,11 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
         
         ~ PlayBGM("watched", true, 20, 0)
         ~ StopSFX("inside", 20, 0)
-        The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. You <i>are</i> happier here, yes?"
+        The voice cuts you off. "From what you told me, you are <i>miserable</i> out there!" The voice is loud, and you jump in your seat. "The church has so much to offer you. And you are <i>here</i> now, safe in the church's embrace. {Work_Encounter == Leave_Suddenly:It found you again, and brought you back. Back where you belong!|You <i>are</i> happier here, yes?}"
         
         #DELAY: 1.5
-        Safe? Happy? You think about everything you've experienced up til now. {Church_Encounters !? (Leave_Light): Of the warmth you've felt. | Of the anger when you refused its light.} {RIPPED == (AT_WORK): Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {Stay_Tracker < 2.5: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? You're not sure how to feel.}
+        Safe? Happy? You think about everything you've experienced up til now. {Church_Encounters !? (Leave_Light): Of the warmth you've felt. | Of the anger when you refused its light.} {RIPPED == (AT_WORK): Of your polaroid sitting in pieces in your desk. You | You touch the pocket that holds the pieces of your polaroid, and }look at the ceiling of the booth. {Stay_Tracker < 2.5: You chuckle to yourself. Is this what safety feels like? Happiness? | Is this any better or worse than your day to day? Worse than the struggle to stay in your boss' good graces so you can meet rent?}
     
-        #PLAY: leak #DELAY: 1.5 
         ~ PlaySFX("leak", false, 0, 0)
         <i>Plink!</i> The bucket is filling fast. You can see that the liquid seems... thicker than just water. #REPLACE: liquid
         
@@ -537,7 +530,7 @@ On the bench sits a small key.
     #PROP: [skeleton_key true]
     Something cold and metal is pressed into your palm, and you're released. You yank your arm back through the opening, falling into the opposite side. Your arm throbs where the thing grabbed you. In your hand is the key. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.
     
-    The booth is quiet, save for your own breathing. You place the key in your pocket.
+    The booth is quiet, save for your own breathing. You place the key in your pocket. You offer the confessional one last look before moving on. #PROP: [skeleton_key false]
     
 *[Go around]
     ~ PlaySFX("flashlight_off", false, 0, 0)
@@ -546,7 +539,9 @@ On the bench sits a small key.
     The church fixed itself. 
     
     #PROP: [skeleton_key true]
-    You hesitate before stepping inside, quickly grabbing the key and leaving the booth. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design.You shove the key in your pocket.
+    You hesitate before stepping inside, quickly grabbing the key and leaving the booth. The key is {items_obtained ? (Simple_Key): a bit more ornate than the one you found in the office.| ornate than you would expect.} It has tiny gems in the head of the key. Even the teeth have a design. 
+    
+    You shove the key in your pocket and offer the confessional one last look before moving on. #PROP: [skeleton_key false]
 
 - 
 *[Return to your search]
@@ -555,29 +550,26 @@ On the bench sits a small key.
 
 = Agree
 ~ Stay_Tracker += 0.5
-You work everyday and for what?" 
+"You work everyday and for what?" 
 
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
 The words get stuck in your throat{Stay_Tracker < 2:, but you're not sure why}.
 
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
 "The church can feel... perplexing... at first, but it doesn't bring you here without reason. It wants to help- to heal the harm dealt to you out <i>there."</i> The voice is calming. It makes sense. Why else would you be here? "The church would never hurt you. Could never hurt you."
 
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>
+<i>Plink! Plink! Plink!</i> #DELAY: 0.5
 
 You clench and unclench your hands. {Church_Encounters ? (Leave_Light) or !Took_Item: You know shouldn't listen. You know its... it's another deception. After everything, you know this, but... | The voice is making sense. You were scared and rejected anything the church offered you.} Maybe if you hadn't rejected it so strongly then... 
 
@@ -591,11 +583,10 @@ You clench and unclench your hands. {Church_Encounters ? (Leave_Light) or !Took_
 
 -
 
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
 The leak is dripping faster now. The bucket is spilling over. The viscous liquid contains small bubbles as it crawls over the floor. 
 
@@ -643,7 +634,7 @@ The leak is dripping faster now. The bucket is spilling over. The viscous liquid
 
     #PLAY: leak 
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Plink!</i>#DELAY: 1.5
+    <i>Plink!</i>#DELAY: 0.5
     
     The voice is silent.
     
@@ -666,11 +657,10 @@ The voice is silent.
 *[Fill the silence]
     "And I just... I just want to <i>finish</i> something, you know? To finally be done. It feels impossible." You let out a deep sigh. The words tumble out. "Nothing can hold my attention long enough for me to call it "complete," so I just move onto the next thing that catches my eye. Hoping that this time. <i>This time</i> things will be different."
     
-    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
     ~ PlaySFX("leak", false, 0, 0)
     ~ PlaySFX("leak", false, 0, 0.25)
     ~ PlaySFX("leak", false, 0, 0.5)
-    <i>Plink! Plink! Plink!</i>#DELAY: 1.5
+    <i>Plink! Plink! Plink!</i>#DELAY: 0.5
     
     #DELAY: 2
     "I see..." The voice is quiet. 
@@ -683,11 +673,10 @@ The voice is silent.
     **[Agree] 
         You don't answer. You're inadequate? It's all inevitable? You bite you lip.
 
-        #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
         ~ PlaySFX("leak", false, 0, 0)
         ~ PlaySFX("leak", false, 0, 0.25)
         ~ PlaySFX("leak", false, 0, 0.5)
-        <i>Plink! Plink! Plink!</i>#DELAY: 1.5
+        <i>Plink! Plink! Plink!</i>#DELAY: 0.5
     
         ~ PlayBGM("watched", true, 20, 0)
         ~ StopSFX("inside", 20, 0)
@@ -699,9 +688,8 @@ The voice is silent.
         #DELAY: 0.5
         You shake your head. "It's not that I'm—"
     
-        #PLAY: leak 
         ~ PlaySFX("leak", false, 0, 0)
-        <i>Pl....in.....k!</i>#DELAY: 1
+        <i>Pl....in.....k!</i>#DELAY: 0.51
         
         "This is not an attack on you." The voice cuts you off. "But more of an observation from the outside looking in."
         
@@ -714,9 +702,7 @@ The voice is silent.
             -> Confessional_Curtain.Personal_End
         
         ***[Disagree]
-            Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that—"
-    
-            It cuts you off again.
+            Not an attack? Just an observation? Does this "observation" have to be so cruel? "I don't think that—" #DELAY: 0.5
 
             ~ PlayBGM("watched", true, 20, 0)
             ~ StopSFX("inside", 20, 0)
@@ -762,22 +748,20 @@ The silence returns.
 }
 
 = Personal_Motivation
-#PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
 "I see..." The voice was quiet for a moment before continuing, "Perhaps there's another reason for this? Is work too draining?"
 
 *[Agree] 
     You feel yourself nodding. After work all you want to do is sleep. How is that you're fault?
 
-    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
     ~ PlaySFX("leak", false, 0, 0)
     ~ PlaySFX("leak", false, 0, 0.25)
     ~ PlaySFX("leak", false, 0, 0.5)
-    <i>Plink! Plink! Plink!</i>#DELAY: 1.5
+    <i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
     ~ PlayBGM("watched", true, 20, 0)
     ~ StopSFX("inside", 20, 0)
@@ -790,7 +774,7 @@ The silence returns.
 
     #PLAY: leak 
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Pl....in.....k!</i>#DELAY: 1.5
+    <i>Pl....in.....k!</i>#DELAY: 0.5
 
     "This is not an attack on you." The voice cuts you off. "But more of an observation from the outside looking in."
 
@@ -833,11 +817,10 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 *[Agree] 
     You don't answer. You're inadequate? It's all inevitable? You chew you lip. You pull a chunk of dead skin with your teeth adn swallow it.
 
-    #PLAY: leak #PLAY: 1, leak #PLAY: 1, leak 
     ~ PlaySFX("leak", false, 0, 0)
     ~ PlaySFX("leak", false, 0, 0.25)
     ~ PlaySFX("leak", false, 0, 0.5)
-    <i>Plink! Plink! Plink!</i>#DELAY: 1.5
+    <i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
     ~ PlayBGM("watched", true, 20, 0)
     ~ StopSFX("inside", 20, 0)
@@ -849,9 +832,8 @@ The voice finally continues, and you can breathe again. "So you are picking thes
     #DELAY: 0.5
     You shake your head. "It's not that I'm—"
     
-    #PLAY: leak 
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Pl....in.....k!</i>#DELAY: 1.5
+    <i>Pl....in.....k!</i>#DELAY: 0.5
     
     "This is not an attack on you." The voice cuts you off. "But more of an observation from the outside looking in."
     
@@ -890,15 +872,14 @@ The voice finally continues, and you can breathe again. "So you are picking thes
 - 
 #DELAY: 0.5
 "What?" You're suddenly on edge. "Stay?"
-        
-#PLAY: leak 
+
 ~ PlaySFX("leak", false, 0, 0)
-<i>Pl....in.....k!</i>
-        
+<i>Pl....in.....k!</i> #DELAY: 0.5
+
 The last water drop is much slower than the rest, the bucket almost full. You can see that the liquid seems... thicker than just water. #REPLACE: liquid
-        
+
 "Of course." The voice changes. "You'll have all the time in the world here. Doesn't that sound grand?"
-        
+
 *[liquid]
     ->Confessional_Curtain.liquid_2
     
@@ -916,7 +897,7 @@ The last water drop is much slower than the rest, the bucket almost full. You ca
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i>#DELAY: 0.5
 
 The bucket is filling fast. You can see the liquid seems... thicker than just water. #REPLACE: liquid
 
@@ -951,16 +932,14 @@ You look closer. The liquid in the bucket is slightly viscous. It looks almost l
 #DELAY: 1
 "Nothing. I have nothing to confess." You say flatly.
 
-#PLAY: leak
 ~ PlaySFX("leak", false, 0, 0)
-<i>Plink!</i>
+<i>Plink!</i> #DELAY: 0.5
 
 #DELAY: 1
 "Nothing at all?" The voice on the other side chuckles. "Nothing at work? At home? You haven't hurt anyone? Done anything wrong?"
 
-#PLAY: leak
 ~ PlaySFX("leak", false, 0, 0)
-<i>Plink!</i>
+<i>Plink!</i> #DELAY: 0.5
 
 You hesitate before answering.
 
@@ -1034,19 +1013,17 @@ The silence returns.
 = No_Talk
 ~ temp Temp_String = ""
 ~ temp Temp_Bool = false
-#PLAY: leak
 ~ PlaySFX("leak", false, 0, 0)
-<i>Plink!</i>
+<i>Plink!</i> #DELAY: 0.5
 
 "A routine..." The voice trails off. "Would you say you become bored of this? That you wish for more than what you have?"
 
 *[Agree]
     ~ Temp_Bool = true
-    #DELAY: 1
     You feel yourself nodding. "I... My job is a means to an end. It's enough to keep me alive, but not enough to... do more..."
     
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Plink!</i> #DELAY: 1.5
+    <i>Plink!</i> #DELAY: 0.5
     
     "I see. So why {Stay_Tracker <= 1:do you fight it | don't you stay} then?"
 
@@ -1056,7 +1033,7 @@ The silence returns.
     You feel yourself shake your head. "I... My job is a means to an end, but it keeps me alive. I'm saving so one day I'll be able to... do more."
         
     ~ PlaySFX("leak", false, 0, 0)
-    <i>Plink!</i>#DELAY: 1.5
+    <i>Plink!</i> #DELAY: 0.5
         
     "I see. So why {Stay_Tracker <= 1:fight it | don't you stay} then?"
 
@@ -1068,7 +1045,7 @@ The silence returns.
 
 -
 ~ PlaySFX("leak", false, 0, 0)
-<i>Plink!</i>#DELAY: 1.5
+<i>Plink!</i #DELAY: 0.5
 
 
 {
@@ -1087,7 +1064,7 @@ The silence returns.
     ~ PlaySFX("leak", false, 0, 0)
     ~ PlaySFX("leak", false, 0, 0.25)
     ~ PlaySFX("leak", false, 0, 0.5)
-    <i>Plink! Plink! Plink!</i>#DELAY: 1.5
+    <i>Plink! Plink! Plink!</i> #DELAY: 0.5
 
 }
 
@@ -1111,7 +1088,7 @@ The silence returns.
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i> #DELAY: 0.5
 
 #DELAY: 2
 "{Temp_String}"
@@ -1119,7 +1096,7 @@ The silence returns.
 ~ PlaySFX("leak", false, 0, 0)
 ~ PlaySFX("leak", false, 0, 0.25)
 ~ PlaySFX("leak", false, 0, 0.5)
-<i>Plink! Plink! Plink!</i>#DELAY: 1.5
+<i>Plink! Plink! Plink!</i> #DELAY: 0.5
 
 "The church is scary at first, but all change is. The church doesn't bring you here without reason." The voice is calming. It makes sense. Why else would you be here? "It would never hurt you."
 
