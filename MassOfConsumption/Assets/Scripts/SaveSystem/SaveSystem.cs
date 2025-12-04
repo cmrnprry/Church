@@ -5,6 +5,7 @@ using System.Linq;
 using AYellowpaper.SerializedCollections;
 using TMPro;
 using UnityEngine.TextCore.Text;
+using System.IO;
 
 public enum Audio { BGM, SFX, Master, Mute }
 
@@ -85,13 +86,29 @@ public static class SaveSystem
 
     public static bool HasSaveData()
     {
-        if (!string.IsNullOrEmpty(settingsData.mostRecentSlot))
+        if (Directory.Exists(Application.persistentDataPath + "/"))
         {
-            string path = Application.persistentDataPath + "/" + settingsData.mostRecentSlot + ".json";
+            string[] fileEntries = Directory.GetFiles(Application.persistentDataPath + "/");
 
-            if (System.IO.File.Exists(path))
-                return true;
+            if (fileEntries.Length > 0)
+            {
+                foreach (string fileEntry in fileEntries)
+                {
+                    if (File.Exists(fileEntry) && fileEntry.Contains("slot_"))
+                    {
+                        return true;
+                    }
+                }
+            }
         }
+
+        //    if (!string.IsNullOrEmpty(settingsData.mostRecentSlot))
+        //{
+        //    string path = Application.persistentDataPath + "/" + settingsData.mostRecentSlot + ".json";
+
+        //    if (System.IO.File.Exists(path))
+        //        return true;
+        //}
 
 
 

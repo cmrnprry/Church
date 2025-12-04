@@ -51,7 +51,6 @@
 
 -
 
-#PLAY: curtain
 ~ PlaySFX("curtain", false, 0, 0)
 You stand to leave when you hear the curtain open and close from the other side of the divider. There are footsteps, then a soft thud of someone sitting on the bench.
 
@@ -62,6 +61,7 @@ You stand to leave when you hear the curtain open and close from the other side 
     -> Confessional_Door.Leave_Booth(false)
 
 = Leave_Booth(hasVisited)
+~ PlayBGM("creaking", false, 1, 1)
 You frantically grab at the the door, not wanting to face whatever is on the other side. It creaks as you turn the knob, and {hasVisited: the | a} soft voice drifts in through the grate.
 
 {hasVisited: "I... I know someone's in there! Answer me!" You hear her sniff. | "Daddy?" You stop. It's the almost same voice from earlier. The one that gave you the flashlight and note. But it's... higher pitched, and stuffier. More unsure of itself. "....Daddy...?"}
@@ -122,6 +122,7 @@ Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your
 
 - 
 ~Intrusive(3, "Do something", "")
+~PlaySFX("heartbeat", true, 2, 0)
 You can hear wheezing, but she does not answer. You squeeze your hands together, your inaction causing the panic living in your chest to grow. You need to act.
 
 
@@ -137,8 +138,8 @@ Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow mo
 - 
 ~Intrusive(4, "Do something!", "")
 ~Intrusive(2, "Move!", "")
-#CYCLE: easy, smoothly, effortlessly, fluid 
-The words come out too @. You can hear scratching on the floor. Your hand finally finds the knob. It's freezing cold, and sends a shock through your nerves. You turn the knob and it creaks, the sound echoing in your ears, louder than it should have been. 
+TODO scratching sfx?
+The words come out too @. You can hear scratching on the floor. Your hand finally finds the knob. It's freezing cold, and sends a shock through your nerves. You turn the knob and it creaks, the sound echoing in your ears, louder than it should have been. #CYCLE: easy, smoothly, effortlessly, fluid 
 
 #CLASS: Fidget #REMOVE: INTRUSIVE
 It is deathly quiet outside.
@@ -149,11 +150,12 @@ It is deathly quiet outside.
 - 
 
 ~ PlaySFX("girl_thud", false, 0, 0)
+~ StopSFX("heartbeat", 2, 0)
 You throw the door open and fall onto the ground outside the booth. You crawl on your hands and feet looking for her. "I'm- Say something if you can hear me!" 
 
-~ PlaySFX("flashlight", false, 0, 0)
+~ PlaySFX("flashlight_on", false, 0, 0)
 ~Intrusive(4, "You're too late", "")
-Your voice hangs in the air, but you don't stop looking. You stumble into fabric, and your hands graze deep grooves in the wood. You fumble with your flashlight. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch.
+Your voice hangs in the air, but you don't stop looking. You stumble into fabric, and your hands graze deep grooves in the wood. You fumble with your flashlight. You wave your flashlight over the scene, searching for the girl, but find nothing. What you do instead makes your stomach lurch. #EFFECT: flashlight_on
 
 ~Intrusive(4, "She's gone", "")
 There's a splatter of blood just outside it, next to the ripped off piece of curtain. Scratch marks are etched into the wooden floor. Your flashlight shines on broken pieces of nail.
@@ -338,7 +340,7 @@ What...?
         Your eyes dart back and forth between your empty hands, and the intact curtain in front of you. You can't understand it.
 
         # IMAGE: Church_Inside #PROP: [curtain_full false] 
-        "What is this...?" your voice warbles, and you slowly stand. You turn to face the main body of the church. You throw out your hands, holding the fabric up like an offering. "What— what is this...?!"
+        "What is this...?" your voice warbles, and you slowly stand. You turn to face the main body of the church. You throw out your hands, palms to the sky. "What— what is this...?!"
 
         You let out a wet croak. You look around, looking for some response. 
         

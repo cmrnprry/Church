@@ -83,12 +83,14 @@ You look back at the glowing heart.
 -> Open_the_Door.Pick_Up
 
 = Pick_Up
-~ PlaySFX("groaning_afraid", false, 0, 0)
-Carefully, you reach out and take the heart out of the water. The church groans. The heart softly pulses in your hand. #EFFECT: BlinkOnClick_False #EFFECT: Force_Open
+~ PlaySFX("groaning_growl", false, 0, 0)
+Carefully, you reach out and take the heart out of the water. The church groans. The heart softly pulses in your hand. #EFFECT: BlinkOnClick_False #EFFECT: Force_Open #REMOVE: Intrusive
 
 {Stay_Tracker >= 2.5: It's beautiful. | {Stay_Tracker >= 1.5: It's unnatural. | It's disgusting.}}
 
-{Stay_Tracker >= 2.5:The heart is warm. The stained glass feels delicate in your hand, the glass not really being glass at all but a thin shining skin. One wrong move could destroy it. You gently press your thumb on it's center. The room shakes in response. {Stay_Tracker >= 1.5: The heart is warm. You roll it around in your hands before softly squeezing it. The room shakes in response. It's more delicate than you had imagined, the glass not really being glass at all but a thin shining skin. | The heart is uncomfortably warm, almost burning. It appears to be made of thick glass, but it feels like you could crush it in your hands with little effort. The glass is not really glass at all but a thin shining skin. You squeeze it, and the room shakes in response.}}
+{Stay_Tracker >= 2.5:The heart is warm. The stained glass feels delicate in your hand, the glass not really being glass at all but a thin shining skin. One wrong move could destroy it. You gently press your thumb on it's center. The room shakes in response. }
+
+{Stay_Tracker >= 1.5: The heart is warm. You roll it around in your hands before softly squeezing it. The room shakes in response. It's more delicate than you had imagined, the glass not really being glass at all but a thin shining skin. | The heart is uncomfortably warm, almost burning. It appears to be made of thick glass, but it feels like you could crush it in your hands with little effort. The glass is not really glass at all but a thin shining skin. You squeeze it, and the room shakes in response.}
 
 *[Crush it]
     ~crushed_at_door = false
@@ -105,7 +107,7 @@ You hold onto the heart tightly, and leave the room. The door opens for you, and
 
 *[The church is afraid]
 
-- You approach the front door. It opens, showing off the moonlit sidewalk of the outside world. A cool breeze blows by and you take a deep breath of the crisp, fresh air. 
+- You approach the front door. It opens, showing off the moonlit sidewalk of the outside world. A cool breeze blows by and you take a deep breath of the crisp, fresh air. #IMAGE: Open_Door #PROP: [Open_Door true]
 
 You are so close to freedom. You stand in the doorway. The heart pulses faster, matching your own. You look down at it.
 
@@ -116,18 +118,19 @@ You are so close to freedom. You stand in the doorway. The heart pulses faster, 
 }
 
 *[Exit the church]
-    #EFFECT: Force_Closed
-    You step outside, into the real world, and take the heart with you. The church gates creak open, allowing you to finally escape it's grasp. 
+    ~ PlaySFX("gate_open", false, 0, 0.5)
+    You step outside, into the real world, and take the heart with you. The church gates creak open, allowing you to finally escape it's grasp. #EFFECT: Force_Closed #PROP: [Open_Door false], [open_gates true] #IMAGE: Church_Looming
     
     **[Leave the heart in the church]
         ~ PlaySFX("groaning_happy", false, 0, 0)
         ~ Stay_Tracker += 0.5
-        You leave the heart at the gates as you set off the property. The church purrs in thanks, and snaps the gates shut. You blink and it's gone, leaving behind an empty plot of land.
+        You leave the heart at the gates as you set off the property. The church purrs in thanks, and snaps the gates shut. You blink and it's gone, leaving behind an empty plot of land. #IMAGE: Default #PROP: [open_gates false]
         -> Open_the_Door.Leave(false)
         
     **[Take the heart with you]
         ~ Stay_Tracker -= 0.5
-        You step off the property, taking the heart with you. The church cries and the heart pulsates rapidly before melting into ooze in your hand. The church howls and it starts to collapse in on itself. The roof falls and the door pathetically opens, begging for your return. You blink and it's gone, leaving behind an empty plot of land.
+        ~ PlaySFX("groaning_hurt_2", false, 0, 0)
+        You step off the property, taking the heart with you. The church cries and the heart pulsates rapidly before melting into ooze in your hand. The church howls and it starts to collapse in on itself. The roof falls and the door pathetically opens, begging for your return. You blink and it's gone, leaving behind an empty plot of land. #IMAGE: Default #PROP: [open_gates false]
         -> Open_the_Door.Leave(false)
 
 *[Crush the heart]
@@ -158,10 +161,10 @@ You squeeze harder, until your nails pierce your palm. The light is almost gone 
 *[{crushed_at_door: Step outside | You are falling }]
 
 - 
-
+~StopAll()
 {
     - crushed_at_door:
-        In one calm movement, you step outside the doorway. You walk backwards, watching the church until you are outside its gates.
+        In one calm movement, you step outside the doorway. You walk backwards, watching the church until you are outside its gates. #IMAGE: Default
         
         ~ PlaySFX("screeching", true, 0, 0)
         ~ StopSFX("screeching", 1, 0.5)
@@ -170,7 +173,7 @@ You squeeze harder, until your nails pierce your palm. The light is almost gone 
         -> Open_the_Door.Leave(false)
         
     - else:
-        You squeeze your eyes shut. 
+        You squeeze your eyes shut. #IMAGE: Default
 
 }
 
@@ -190,7 +193,9 @@ For what seems like forever.
 
 *[Open your eyes]
 
-- Above you is a sky dotted with stars. You are not falling, but laying in soft dirt. You sit up and realize you are in an empty field of dirt. The place where a church once sat.
+- 
+~PlayBGM("outside", true, 0,0)
+Above you is a sky dotted with stars. You are not falling, but laying in soft dirt. You sit up and realize you are in an empty field of dirt. The place where a church once sat.
 
 *[The church is gone]
     -> Open_the_Door.Leave(false)
@@ -200,20 +205,20 @@ You are alone. You are free. The wind blows through your hair and the ground is 
 
 *[You made it out]
 
-- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{Stay_Tracker >= 2.5:, isn't it?|.}
+- You cover your mouth with your hand, and let out a shaky laugh. This is what you wanted{Stay_Tracker >= 3:, isn't it?|.}
 
 *[You escaped]
 
 -A surge of uncontrollable laughter bursts out of you. You can't stop it. You laugh until your stomach hurts. 
 
-*[{Stay_Tracker >= 4.5: You eyes grow hot | A giggle escapes you}]
+*[{Stay_Tracker >= 5: You eyes grow hot | A giggle escapes you}]
 
 -
-{Stay_Tracker >= 4.5: The laughter changes and suddenly you're sobbing. Fat, heavy tears roll down your cheeks as you gasp for air. You can barely breathe. | When your laughter finally dies down, you lay there for a moment. You think about everything. After an unmeasurable amount of time passes, you get to your feet, take a deep breath of fresh air, and begin walking home.}
+{Stay_Tracker >= 5: The laughter changes and suddenly you're sobbing. Fat, heavy tears roll down your cheeks as you gasp for air. You can barely breathe. | When your laughter finally dies down, you lay there for a moment. You think about everything. After an unmeasurable amount of time passes, you get to your feet, take a deep breath of fresh air, and begin walking home.}
 
-*[{Stay_Tracker >= 4.5: What have you done? | It has been a long night}]
+*[{Stay_Tracker >= 5: What have you done? | It has been a long night}]
 {
-    - Stay_Tracker < 4.5:
+    - Stay_Tracker < 5:
         #ENDING: 9, Good Ending - It Has Been a Long, Long Night
         ->Endings.Good_End_9
 }
@@ -281,8 +286,8 @@ The heart beats in your hand, a lovely red color. It resembles a sweet apple. Ar
     -> Open_the_Door.Crush_it
 
 - 
-~ PlaySFX("shriek", false, 0, 0)
-The church shrieks in response. It shakes and shutters. The ghostly figures clutch their heads in agony. #PROP: [eat_heart true] #CLASS: Angry-Screeching #EFFECT: Force_Blink
+~ PlaySFX("screeching", false, 0, 0)
+The church shrieks in response. It shakes and shutters. The ghostly figures clutch their heads in agony. #PROP: [eat_heart true] #ICLASS: Angry_Screeching #CLASS: Angry_Screeching #EFFECT: Force_Blink
 
 Cool, sweet juice slides down your face. Yes. It tastes just like an apple. The sweetest, crispest apple you've ever had.
 
@@ -290,15 +295,17 @@ Your body feels a bit lighter.
 
 *[Take another bite]
 
-- The ghosts fall to their knees, reaching for you. They cry for you.
+- 
+~PlaySFX("eating", false, 0, 0)
+The ghosts fall to their knees, reaching for you. They cry for you.
 
-All your worries melt away. You're not even sure why you were fighting so hard to get out. You can barely feel anything. Even the sweet taste is nothing more than a fleeting memory.
+All your worries melt away. You're not even sure why you were fighting so hard to get out. You can barely feel anything. Even the sweet taste is nothing more than a fleeting memory. 
 
 *[Finish it]
 
-- You chew and chew until there's nothing left. #PROP: [eat_heart false]
+- You chew and chew until there's nothing left. #PROP: [eat_heart false] 
 
-The heart is gone. 
+The heart is gone. #PROP: [Open_Door false] #IMAGE: Default
 
 You are gone.
 

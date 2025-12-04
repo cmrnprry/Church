@@ -62,23 +62,18 @@ You walk around and plot onto the old desk chair. It groans in protest under you
 #PROP: [simple_key true]
 The key is {items_obtained ? (Skeleton_Key): about the same size as the one you got before, but much less interesting. It is grey and nondescript, and i| small, grey and nondescript. I}t looks similar to a generic house key. You turn it over in your hands before slipping it into your pocket. {Saw_Locks: It might fit the lock upstairs. | It will probably be useful later.}
 
-*[{Explore_Office_Bookshelf !? (Check_Books): Browse the bookshelves | Search through books again}]
-    -> Office_Area.Books
-        
-*{visited_state < 1} [Return to stairwell]
-    #PROP: [simple_key false]
-    You exit the office, planning to come back later. <>
-    -> Stairs.Examine_Stairs
+-> Office_Choices
 
 = Books
 ~ Book_Knowledge += (Explored_Books)
+~ Explore_Office_Bookshelf += (Check_Books)
 You approach the bookshelves. The books all look to be leather bound, and in better condition than the rest of the items littering the shelves. Water-stained boxes and a decaying wooden chest decorate the shelves. #PROP: [simple_key false]
 
 *{Have_Visited ? (Check_Boxes) == false} [Pick through the boxes]
     ~ Explore_Office_Bookshelf += (Check_Boxes)
     You pick through the boxes first, only to find them filled with more books. You grab a random book from the box. <>
 
-*{Have_Visited ? (Check_Chest) == false} [Investigate the chest]
+*{Have_Visited !? (Check_Chest)} [Investigate the chest]
     ~ Explore_Office_Bookshelf += (Check_Chest)
     You grab the chest, and nearly drop it. The sides are slick with a wet, velvety mold. You wipe your hands on your pants and clench and unclench them, trying to forget the feeling. 
     
@@ -231,6 +226,7 @@ You clutch the book tightly in your hands. {Stay_Tracker < 2: You cannot accept 
 
 - 
 ~ Stay_Tracker -= 0.5
+~ PlaySFX("paper_rip_1", false, 0, 0)
 You stare at the page, {Stay_Tracker < 2: and without another thought, | hesitating for a moment. You stare at the page with a sour taste in your mouth. You bite the inside of your cheek, and} rip it out. There is a quivering pain in your lower back, but ignore it. You feel a flooding sense of reassurance as you stare at the blank page. Your book is no longer finished. #PROP: [your_book false]
 
 Before you can flip the book closed, you see movement on the page. Your body tenses as you watch ink stain the page and the words reappear. <i>You found peace.</i> You shake your head, {Stay_Tracker < 2: lip curling. | eyes wide.}
@@ -242,6 +238,8 @@ Before you can flip the book closed, you see movement on the page. Your body ten
     ->Office_Area.Leave_it
 - 
 ~ Stay_Tracker -= 0.5
+~ PlaySFX("paper_rip_2", false, 0, 0)
+~ PlaySFX("paper_rip_3", false, 0, 0.75)
 You rip out the page again, and again, you feel a twitching pain. This time, in your shoulder. {Stay_Tracker < 2: You refuse to let the church win. } And again the ink reappears. {Stay_Tracker < 2: | You grip the book tighter.}
 
 In {Stay_Tracker < 2: frustration | exasperation}, you rip the pages out over and over. With each page ripped comes a new pang of pain, each ache more distressing than the last. The ink reappears each time. You rip and rip and rip the pages until there's only one page left.
@@ -257,7 +255,10 @@ Your entire body trembles.
 - 
 ~ Book_Knowledge += (Branded)
 ~ WinAchievement(5)
-You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You— #DELAY: 0.5
+~ PlaySFX("paper_rip_1", false, 0, 0)
+~ PlaySFX("paper_rip_2", false, 0, 0.75)
+~ PlaySFX("paper_rip_3", false, 0, 1.5)
+You rip out the last page, bracing for a new wave of agony that never comes. You blink, a slight smile on your lips. "What now, huh?" you yell. You won. You beat the church. You— #DELAY: 1.65
 
 ~ PlaySFX("climax_long", false, 0, 0)
 Your skin tingles just under the surface, similar to a mild sunburn. You lightly slap your arm as it quickly turns into a searing, flaying pain. You scream and drop your book, clawing at the skin, trying to make it stop- ANYTHING to make it stop. Your nails dig into your flesh. Maybe if you removed it all, it would hurt less.
@@ -798,6 +799,7 @@ That taste of freedom is all you need. With one last push, you throw yourself ou
         ~temp_string = "if the loss of the key was worth it"
 
 *[Break the chest]
+    ~ Explore_Office_Bookshelf += (Check_Chest, Broke_Chest)
     ~PlaySFX("chest_breaking", false, 0, 0)
     You raise the chest above your head, and hurl it to the floor. The lid pops open, and a book with the number 2758 on it's cover spills onto the floor.
     ~temp_string = "if this is indeed your book"
@@ -811,13 +813,11 @@ That taste of freedom is all you need. With one last push, you throw yourself ou
 === Take_Or_Return(IsTake) ===
 {Book_Knowledge ? (Branded): {IsTake: You tuck the book under your arm. Leaving it behind feels wrong somehow. | You struggle to your feet and shuffle to the bookshelf. You gently place your book on the shelf and slide it back until it hits the wall. You want nothing to do with it anymore.} You... You should do something. Return to your search. Find the heart. Destroy it. Escape. | {IsTake: You tuck the book under your arm. {Book_Knowledge ? (Read_End): You may already know how this could end, or at least, how the <i>church</i> thinks it will end, but something tells you to keep your book with you. {Stay_Tracker >= 2: Just in case something changes.} | You don't want to know how this story ends, but in case you change your mind, you'll have that choice.} | {Book_Knowledge ? (Read_End): You place the book back on the shelf. You know how it ends- Or rather, how the church thinks it will end. | You don't want to know how this story ends, not when there's still something you can do. You put the book back on the shelf.} } {Stay_Tracker < 2: You shouldn't give too much weight to it. That's what the church wants. | You chew your lip{Book_Knowledge ? (Kept_Book): and tighten your grip on it}. } You should do something productive instead of dwelling on it. {Saw_Locks: You remember the woman who helped you. Maybe if you find her book, or someone else's, you can find out what the code to the number lock is. | You should look elsewhere. You look at the books surrounding you. Maybe their stories could help you?}} #PROP: [your_book false]
 
-
-
 *{(Explore_Office_Bookshelf !? (Check_Boxes))} [Pick through the boxes]
     ~ Explore_Office_Bookshelf += (Check_Boxes)
     You pick through the boxes first, only to find them filled with more books. <>
 
-*{(Explore_Office_Bookshelf !? (Check_Chest))} [Investigate the chest]
+*{(Explore_Office_Bookshelf !? (Check_Chest, Broke_Chest))} [Investigate the chest]
     ~ Explore_Office_Bookshelf += (Check_Chest)
     You grab the chest, and nearly drop it. The sides are slick with a wet, velvety mold. You wipe your hands on your pants and clench and unclench them, trying to forget the feeling. 
     
@@ -837,9 +837,9 @@ That taste of freedom is all you need. With one last push, you throw yourself ou
 *[Move on with your search]
     -> Office_Area.Exit_Office_Continue
     
-- They all resemble {Book_Knowledge ? (Saw_Your_Book): your book. | the other books in the room.} The main difference being the bold number on the cover or spine, and some looking a little older. From what you can tell, none of the numbers repeat. 
+- {!read_mary_book: They all resemble {Book_Knowledge ? (Saw_Your_Book): your book. | the other books in the room.} The main difference being the bold number on the cover or spine, and some looking a little older.} From what you can tell, none of the numbers repeat. 
 
-*[{Saw_Locks or Confessional_Encounters ? (Talked_to_Girl): Look for her book | Read through the books}]
+*[{Saw_Locks or Have_Visited ? (Confessional_DoorSide): Look for her book | Read through the books}]
 
 *{Explore_Office_Bookshelf !? (Check_Desk)}[Dig through the desk]
     ->Office_Area.Desk
@@ -1139,7 +1139,9 @@ You run your hand along where the door was and knock. It's solid. {Book_Knowledg
 = Mom_Young_Book
 //CAN ONLY BE READ IF YOU'VE MET MOM
 ~ Book_Knowledge += (Read_Mom_Young_Book)
-You don't get very far before you realize this book is from the perspective of a child. You take a deep breath before continuing. Her name is Ophelia, and she <s>is</s> was turning 10. The passages were very short and all over the place. Her experience with the church was scattered between walking by on her way to school. She was a sick child, and her family often prayed for her health. One day, her dad, a pastor, got a new job at the church.
+You don't get very far before you realize this book is from the perspective of a child. You take a deep breath before continuing. Her name is Ophelia, and she <s>is</s> was turning 10. The passages were very short and all over the place. 
+
+Her experience with the church was scattered between walking by on her way to school. She was a sick child, and her family often prayed for her health. One day, her dad, a pastor, got a new job at the church.
 
 #CYCLE: victim, meal
 You stop reading and press your forehead against the pages as you realize who's book you're reading. So it wasn't just the church, but an echo of the past? Or maybe the church wearing the skin of a past @. Either way, {Confessional_Encounters ? (Killed_Girl): the {Priest_Feeling} sticks with you. | you feel sick.}
@@ -1155,22 +1157,24 @@ As you read, an ache grows in your heart and your throat tightens. The book beco
 
 *[Look closer]
 
-- A stabbing pang shoots through your head as you attempt to re-read the name. You rub your temple and finish the page. Ophelia begs until she hears her father's voice, asking if she's finally ready to come home. She accepts, but only on the condition he lets ████ out. He agrees and the door opens. She meets her child one last time, pushing them out before the door can close.
+- A stabbing pang shoots through your head as you attempt to re-read the name. You rub your temple and finish the page. Ophelia begs until she hears her father's voice, asking if she's finally ready to come home. 
+
+She accepts, but only on the condition he lets ████ out. He agrees and the door opens. She meets her child one last time, pushing them out before the door can close. 
 
 You wipe tears from your eyes, not fully understanding why. You don't know this woman, do you? 
 
-*[Yes]
+*[You do]
     ~ Ophelia_Related = true
     Yes, you do. She must be the person behind the voice, you are absolutely sure. But something in your bones tells you it's more than that. That Ophelia is- was? - someone important to you. {Book_Knowledge !? (Read_Mom_Old_Book): Either way, you want to finish her book.} <>
 
-*[No]
+*[You don't]
     No, no you don't think so. {Book_Knowledge !? (Read_Mom_Old_Book): Still, you think you owe it to her to continue reading.} <>
 
 - 
 
 {Book_Knowledge ? (Read_Mom_Old_Book): You close the book and trace the number on the cover. | You take deep breaths, and finish her book. Once trapped inside, Ophelia rejected her father and attempted to escape. }
 {
-    - Book_Knowledge ? (Read_Mom_Old_Book):
+    - Book_Knowledge !? (Read_Mom_Old_Book):
         ->Mom_Old_Book
         
     - else:

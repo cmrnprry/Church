@@ -71,6 +71,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Save"",
+                    ""type"": ""Button"",
+                    ""id"": ""166ce76b-a127-46ad-8ed6-d188ef4d0e2a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -205,6 +214,28 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Autoplay"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e500dccb-3c50-44ca-9d0d-a3d16ae7a729"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07f15739-06c8-489a-afbf-0986b04277e5"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Save"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -218,6 +249,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_Controls_Controller = m_Controls.FindAction("Controller", throwIfNotFound: true);
         m_Controls_History = m_Controls.FindAction("History", throwIfNotFound: true);
         m_Controls_Autoplay = m_Controls.FindAction("Autoplay", throwIfNotFound: true);
+        m_Controls_Save = m_Controls.FindAction("Save", throwIfNotFound: true);
     }
 
     ~@PlayerActions()
@@ -289,6 +321,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Controller;
     private readonly InputAction m_Controls_History;
     private readonly InputAction m_Controls_Autoplay;
+    private readonly InputAction m_Controls_Save;
     public struct ControlsActions
     {
         private @PlayerActions m_Wrapper;
@@ -298,6 +331,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Controller => m_Wrapper.m_Controls_Controller;
         public InputAction @History => m_Wrapper.m_Controls_History;
         public InputAction @Autoplay => m_Wrapper.m_Controls_Autoplay;
+        public InputAction @Save => m_Wrapper.m_Controls_Save;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -322,6 +356,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Autoplay.started += instance.OnAutoplay;
             @Autoplay.performed += instance.OnAutoplay;
             @Autoplay.canceled += instance.OnAutoplay;
+            @Save.started += instance.OnSave;
+            @Save.performed += instance.OnSave;
+            @Save.canceled += instance.OnSave;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -341,6 +378,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Autoplay.started -= instance.OnAutoplay;
             @Autoplay.performed -= instance.OnAutoplay;
             @Autoplay.canceled -= instance.OnAutoplay;
+            @Save.started -= instance.OnSave;
+            @Save.performed -= instance.OnSave;
+            @Save.canceled -= instance.OnSave;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -365,5 +405,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnController(InputAction.CallbackContext context);
         void OnHistory(InputAction.CallbackContext context);
         void OnAutoplay(InputAction.CallbackContext context);
+        void OnSave(InputAction.CallbackContext context);
     }
 }

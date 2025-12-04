@@ -62,6 +62,12 @@ namespace AYellowpaper.SerializedCollections
             PlayBGM("generic", true, 1);
         }
 
+        public void ResetAudio()
+        {
+            KillAllAudio();
+            PlayBGM("generic", true, 1);
+        }
+
         public void PlayBGM(string src, bool shouldLoop = false, float fadeIn = 0, float fade_out = 0)
         {
             if (BGMDictionary.ContainsKey(src) && !sources.ContainsKey(src))
@@ -145,21 +151,21 @@ namespace AYellowpaper.SerializedCollections
 
         public void KillAllAudio()
         {
-            foreach (KeyValuePair<string, AudioSource> src in sources)
+            var copy = sources;
+            foreach (KeyValuePair<string, AudioSource> src in copy)
             {
                 if (sources[src.Key] != null)
                 {
                     sources[src.Key].DOFade(0, 0.5f).SetEase(Ease.InSine).OnComplete(() =>
                     {
                         Destroy(sources[src.Key].gameObject);
+                        sources.Remove(src.Key);
                     });
 
                 }
 
                 SaveSystem.RemoveCurrentAudioPlaying(src.Key);
             }
-
-            sources.Clear();
         }
 
         private IEnumerator FadeIn(AudioSource src, float duration = 0, float delay = 0, bool isBGM = false)

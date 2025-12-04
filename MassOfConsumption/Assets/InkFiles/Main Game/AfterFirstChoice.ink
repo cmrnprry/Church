@@ -1,8 +1,9 @@
 ===After_First===
 
 = Confessional_After
-#CHECKPOINT: 3, The pews are... full? #IMAGE: Church_Inside
-You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you. #PROP: [Pews true]
+#CHECKPOINT: 3, The pews are... full? 
+~ PlayBGM("organ", true, 5, 0)
+You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you. #PROP: [Pews true] #IMAGE: Church_Inside #EFFECT: Stair_Light, true
 
 *[Take a seat at the pews]
     ->After_First.Take_Seat
@@ -25,7 +26,8 @@ You exit the confessional, and stop in your tracks. The pews are full of people,
         ~temp_string = "uneasy"
 }
 
-Quickly, and quietly you a seat in the front row, and the light dims. A pastor climbs the stage and looks around, nodding at the figures. It looks at you, and tilts it's head. While it has no face, you can feel it smiling. It raises a hand, and points at you. You try to hide in your seat, and look away.
+~ StopSFX("organ", 0, 0)
+Quickly, and quietly you a seat in the front row, and the light dims. A pastor climbs the stage and looks around, nodding at the figures. It looks at you, and tilts it's head. While it has no face, you can feel it smiling. It raises a hand, and points at you. You try to hide in your seat, and look away. #EFFECT: Stair_Light, false
 
 A red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. {Church_Encounters ? (Leave_Light): "It warms your body, and some of the tension melts away." | "Your skin tingles under it's warmth. It's uncomfortable. " } #PROP: [Pews_Lighting true]
 
@@ -42,8 +44,11 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
     ->Pews.Try_Leave(false)
 
 = Stairs_After
-There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down. #IMAGE: Default #PROP: [Pews false]
+~ StopSFX("organ", 0, 0)
+There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down. #IMAGE: Default #PROP: [Pews false] #EFFECT: Stair_Light, false
 
+~StopAll()
+~PlayBGM("watched", true, 10, 0)
 You hear someone call your name, but you don't dare turn around. You don't know if you're being followed or not. You choose the... 
 
 *[{Looked_For_Items: Office | Door}]
@@ -54,17 +59,32 @@ You hear someone call your name, but you don't dare turn around. You don't know 
     
     **[Lock the door]
         ~ Locked_Office = true
+        ~PlaySFX("key_snap_small", false, 0, 0)
+        ~PlaySFX("door_thud", false, 0, 0.5)
+        ~PlaySFX("door_slam", false, 0, 0.8)
+        ~PlaySFX("door_thud", false, 0, 1.3)
+        ~PlaySFX("yell_short", false, 0, 1.75)
         You fiddle with the knob, and lock it. Once the lock turns, the thing slams itself against the door. It screeches again when the door doesn't open and stops.
         
     **[Don't move]
+        ~PlaySFX("door_thud", false, 0, 0.5)
+        ~PlaySFX("door_slam", false, 0, 0.8)
+        ~PlaySFX("door_thud", false, 0, 1.3)
+        ~PlaySFX("yell_short", false, 0, 1.75)
         You squeeze your eyes shut and pray it will keep moving. Instead, the thing outside slams itself against the door. You press all your weight against the door, trying to hold it back. It screeches again when the door doesn't open and stops.
         
-    -- You hear receding footsteps and breathe a sigh of relief before you hear running and the thing crashes into the door. {Leg_State >= Sore: Your legs give {Locked_Office: and you fall back. The lock keeps the door closed, but creature makes a small hole in the door. It moves to look through.| and the door flings open, pushing with it and pinning you between the wall in the door.} | You are taken back for a moment before pushing back, {Locked_Office: the lock helping keep the door shut.| keeping the door shut.} A small hole was created in the door from the struggle. The thing shoves a limb through feeling around before quickly retracting it.}
+    -- 
+    ~PlaySFX("scary_running", false, 2.5, 0)
+    ~PlaySFX("door_thud", false, 0, 4.7)
+    You hear receding footsteps and breathe a sigh of relief before you hear running and the thing crashes into the door. {Leg_State >= Sore: Your legs give {Locked_Office: and you fall back. The lock keeps the door closed, but creature makes a small hole in the door. It moves to look through.| and the door flings open, pushing with it and pinning you between the wall in the door.} | You are taken back for a moment before pushing back, {Locked_Office: the lock helping keep the door shut.| keeping the door shut.} A small hole was created in the door from the struggle. The thing shoves a limb through feeling around before quickly retracting it.}
     
     ***[{Leg_State >= Sore and !Locked_Office: Hold your breath | Move away from the hole}]
         {Leg_State >= Sore and !Locked_Office: You freeze and hold your breath. The thing whines and moans before stomping its feet and leaving. You hear distant crashing before it all goes quiet. You close the door, and hope whatever that was won't come back. | You side-step the hole, pressing yourself against the wall. The creature presses its face against the hole. You hold your breath, praying that it won't notice you. The thing whines and moans before stomping its feet and punching the door one last time. You hear distant crashing before it all goes quiet. You hope whatever that was won't come back.}
         
-        You turn and take in the room you're standing in. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.}
+        ~PlayBGM("inside", true, 5, 0)
+        ~StopSFX("watched", 5, 0)
+         #IMAGE: Office
+        You turn and take in the room you're standing in. {Looked_For_Items: The office doesn't look much different from what you saw earlier, though, you can now make out more with the help of your flashlight. | The room seems to be an office, and smells incredibly musty.} It's a tight space with bookshelves lining the side walls, each shelf packed with books and boxes. A desk sits at the far wall, covered in dust and cobwebs, and a stained glass window above it. {Church_Investigation ? (Saw_Windows): You avoid looking at it.}  #IMAGE: Office
         
         You decide to look around a bit before leaving, just in case.
         
@@ -73,11 +93,12 @@ You hear someone call your name, but you don't dare turn around. You don't know 
     ***[{Leg_State >= Sore and !Locked_Office: Push the door closed | Stab debris through the hole}]
         {Leg_State >= Sore and !Locked_Office: You take a deep breath before pushing against the door with all your might, shoving the thing out of the room. It screams again and sticks its hand through the hole, grabbing your chest, and pulling you into the door | You scoop up a large piece of the door and shove it through the hole, stabbing whatever lies on the other side. You retract your hand as it screams. The creature sticks its hand through the hole, grabbing your chest, and pulling you into the door.}
         
-        TODO gross sound
+        ~PlaySFX("wet_slamming", false, 0, 0)
         It repeatedly slams you into the door, your face crashing into the wood over and over again. You kick out your feet to stop yourself and brace your face with your arms. The creature snarls and yanks you forward again with incredible force. You legs hit the door and you hear a disgusting crunch as your knees pop. 
         
         You wail in agony and the creature laughs in response. It hold you against the door and begins to pull. The wood of the door creaks, but holds firm. You slam your hands against the door and creature as your legs hang uselessly by your side. 
         
+        ~PlaySFX("back_break", false, 0, 1)
         The creature continues to laugh and pull you through the hole by your center. The wood catches your skin, digging underneath and pulling it from your flesh bit by bit. When your chest gets stuck, the creature pulls harder, sharply folding your body back. #ENDING: 3, Bad Ending 11 - Fold and Snap
         
         ****[There's a sharp crack.]
@@ -87,6 +108,8 @@ You hear someone call your name, but you don't dare turn around. You don't know 
 
 *[Stairs]
     ~ Met_Mimic = true
+    ~PlaySFX("running_pavement", true, 0, 0)
+    ~StopSFX("running_pavement", 0, 1.5)
     You take off down the hallway. The stairs going up, is a spiral staircase, while going down, is a long set of stairs. You grab the railing and pull yourself down the stairs. You stop when you can just barely see the top and crouch, listening for any sign that you're being followed.
     
     You hear your name again and tense, taking a few more steps down the stairs. A large shadow obscures the opening of the stairs. They call for you again, staying above the stairs, "Come out. It's just me." Their voice echos down the stairwell and you shiver. It's voice matches the one from the woman who let you the flashlight.
@@ -108,7 +131,7 @@ You hear someone call your name, but you don't dare turn around. You don't know 
                 #CYCLE: hand, claw, tentacle, paw, fin
                 "Don't!" She screams, but again you wave her off and take its @. It laughs, or at least, that's what you think the sound is. It stops and pulls you closer, lowering it's hood. You scream and pull away, but its grip on you is like steel.
                 
-                TODO gluping sound
+                ~PlaySFX("gulping", false, 0, 0)
                 Its face is an empty hole of mouths. Tendrils rise out of the hole and shoot toward your face. They enter your nose, ears, eyes, mouth, anywhere they can, and they begin to drink.
                 
                 TODO gross popping sound
@@ -120,13 +143,19 @@ You hear someone call your name, but you don't dare turn around. You don't know 
             ***[<s>Don't</s> Take it]
                 "Don't!" She screams. You shake your head but feel your body move on its own. "No!"
                 
-                You feel a strong push and you're falling back. The mimic shrieks at the loss of it's pray and leaps toward you, but misses. <>
+                ~PlaySFX("yell_short", false, 0, 0)
+                ~PlayBGM("inside", true, 5, 0)
+                ~StopSFX("watched", 5, 0)
+                You feel a strong push and you're falling back. The mimic shrieks at the loss of it's pray and leaps toward you, but misses.
                 -> Stairs.Upstairs_Landing(true)
                 
             ***[<s>Take it</s>]
                 "Don't!" She screams. You shake your head but feel your body move on its own. "No!"
                 
-                You feel a strong push and you're falling back. The mimic shrieks at the loss of it's pray and leaps toward you, but misses. <>
+                ~PlaySFX("yell_short", false, 0, 0)
+                ~PlayBGM("inside", true, 5, 0)
+                ~StopSFX("watched", 5, 0)
+                You feel a strong push and you're falling back. The mimic shrieks at the loss of it's pray and leaps toward you, but misses.
                 -> Stairs.Upstairs_Landing(true)
  
 
@@ -135,7 +164,13 @@ You hear someone call your name, but you don't dare turn around. You don't know 
             TODO more feeling
             You nod, and crouch lower, her voice snapping you out of it. If you listen closer, you can hear ragged breathing coming from the mimic and a scraping against the wood as it moves. 
             
-            You feel her nearby as you wait out the creature. Eventually, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
+            ~PlaySFX("door_thud", false, 0, 0.5)
+            ~PlaySFX("door_slam", false, 0, 0.8)
+            ~PlaySFX("door_thud", false, 0, 1.3)
+            ~PlaySFX("door_slam", false, 0, 1.8)
+            ~PlaySFX("door_thud", false, 0, 2.3)
+            ~PlaySFX("yell_short", false, 0, 2.8)
+            You feel her nearby as you wait out the creature.hen it realizes you're not there, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
             
             "Thank you." You say, but she's already gone. You blow air out of your nose and glace between the pool of darkness down the stairs and back up to where the mimic was.
             
@@ -148,9 +183,19 @@ You hear someone call your name, but you don't dare turn around. You don't know 
         }
     
     **[Stay put]
-        You don't move. You highly doubt that's actually her. If it is, you hope she'll forgive you. Eventually, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. You hold the position for a moment longer before deciding it was safe enough. You stand.
+        You don't move. You highly doubt that's actually her. If it is, you hope she'll forgive you. 
         
-         You blow air out of your nose and glace between the pool of darkness down the stairs and back up to where the mimic was.
+        ~PlaySFX("door_thud", false, 0, 0)
+        ~PlaySFX("door_slam", false, 0, 0.3)
+        ~PlaySFX("door_thud", false, 0, 0.6)
+        ~PlaySFX("door_slam", false, 0, 0.9)
+        ~PlaySFX("door_thud", false, 0, 1.3)
+        ~PlaySFX("yell_short", false, 0, 1.75)
+        When it realizes you're not there, it howls and rams itself into the wall. Over and over, a wet slamming sound. With a final scream, you hear receding footsteps. 
+        
+        ~PlayBGM("inside", true, 5, 0)
+        ~StopSFX("watched", 5, 0)
+        You hold the position for a moment longer before deciding it was safe enough before standing. You blow air out of your nose and glace between the pool of darkness down the stairs and back up to where the mimic was.
         
         ***[Continue down the stairs]
             You don't really want to go back up. The mimic is <i>probably</i> gone, but you don't want to take the chance. <>
@@ -163,20 +208,23 @@ You hear someone call your name, but you don't dare turn around. You don't know 
 {
     - Confessional_Encounters !? (Finished_Curtain_Side) && Confessional_Encounters ? (Finished_Door_Side):
         ~temp_bool = false
-        Slowly and carefully, you walk backwards, trying not to make a sound, until you feel the edge of the curtain. The sound is enough, and all heads snap to look at you. One of the people shifts, but you slip past the curtain, and into the booth. You sit on the bench, and pull your feet up so they can't be seen from under the curtain. #IMAGE: Default #PROP: [Pews false]
+        ~PlaySFX("curtain", false, 0.75, 0)
+        ~ StopSFX("organ", 0, 0.5)
+        Slowly and carefully, you walk backwards, trying not to make a sound, until you feel the edge of the curtain. The sound is enough, and all heads snap to look at you. One of the people shifts, but you slip past the curtain, and into the booth. You sit on the bench, and pull your feet up so they can't be seen from under the curtain. #IMAGE: Default #PROP: [Pews false] #EFFECT: Stair_Light, false
         
-        You hold your breath, listening for movement. You hear a shuffling, and see a shadow move in front of the curtain. A hand with long, thin fingers reaches into the booth and slide from side to side.
+        You hold your breath, listening for movement. You hear a shuffling, and see a shadow move in front of the curtain. A hand with long, thin fingers reaches into the booth and slides from side to side.
         
-        A scream bubbles in your throat, but you swallow it. It stops, and retreats. You hear it say something you can't understand. A cross between human language and the growl of a creature.
+        ~PlayBGM("talking", false, 0, 3)
+        A scream bubbles in your throat, but you swallow it. The hand stops, and retreats. You hear it say something you can't understand. A cross between human language and the growl of a creature.
         
         And then it leaves.
         
-        You don't move for a long time, until you feel safe again. Slowly, slowly, you place your feet back on the floor and peak out from the curtain. The creature is gone, but the light from the stairwell and people in th pews remain.
+        You don't move for a long time, until you feel safe again. Slowly, slowly, you place your feet back on the floor and peak out from the curtain. The creature is gone, but the light from the stairwell and people in th pews remain. #PROP: [Pews true] #IMAGE: Church_Inside #EFFECT: Stair_Light, true
         
     - else:
         ~temp_bool = true
         ~PlaySFX("door_thud", false, 0, 0)
-        Slowly and carefully, you walk backwards, trying not to make a sound, until your back hits the door with a light thud. The sound is enough, and all heads snap to look at you. One of the people stands, growing taller and taller, never seeming to stop. 
+        Slowly and carefully, you walk backwards, trying not to make a sound, until your back hits the door with a light thud. The sound is enough, and all heads snap to look at you. One of the people stands, growing taller and taller, never seeming to stop. #EFFECT: Stair_Light, false
         
         TODO make this effect maybe
         You fumble to for the knob, not wanting to take your eyes off it. It stops growing, and bends, leaning toward you.
@@ -247,7 +295,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 = Pews_After
 ~temp_bool = true
 #CHECKPOINT: 3, Everyone is gone, and you feel...
-You drop down from the stage and walk past the pews. Everyone is gone.
+You drop down from the stage, and walk past the pews. Everyone is gone.
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... Soothing. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
 ~ PlaySFX("curtain", false, 0, 2.5) 
@@ -390,7 +438,7 @@ There are still more places you need to look. <>
 
 {
 - previous_area == Enter_Office:
-    {Saw_Locks: You have a code to the combo lock|You found what might be a code}<>
+    {Saw_Locks: You have a code to the combo lock|{Read_Mom_Old_Book: You found what might be a code}}<>
         {
             - items_obtained ? (Skeleton_Key, Simple_Key):
                 {broke_key:, but broke one of your keys. {Saw_Locks: You hope it wasn't the one for the locks upstairs.}}
@@ -431,15 +479,16 @@ You decide to look...
 
 = Pews_Last
 #CHECKPOINT: 6, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the empty pews. <>
+You drop down from the stage, and walk through the empty pews.
 
 #CYCLE: Soothing, Reassuring, Calming, Pleasant
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows, look back at the stage, then up at the window. Its eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
 
-You bow your head and squeeze the wire cutters in your hand.<>
+You bow your head and squeeze the wire cutters in your hand.
 
 {Saw_Locks: {items_obtained ? (Combo): {items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): With the key{items_obtained ? (Skeleton_Key, Simple_Key) and (!broke_key or !broke_key_lock):s}, code and wire cutters, you should be able to open the locked door. | You have a code and wire cutters. The chains on the locks weren't that thick, you might be able to open the door with only these items.} | Even with the wire cutters{items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key): and key{items_obtained ? (Skeleton_Key, Simple_Key) and (!broke_key or !broke_key_lock):s}}, without the code to the combo lock, you don't think you'll be able to fully unlock the door without it.}} 
 
+~ temp_string = ""
 {
     - items_obtained ? (Combo) and (items_obtained ? (Skeleton_Key) or items_obtained ? (Simple_Key)):
             ~ temp_string = "the code and the key"
@@ -456,7 +505,7 @@ You bow your head and squeeze the wire cutters in your hand.<>
 
 {Have_Visited !? (Stairs_Up): With them, {temp_string} you assume they'll help you escape, but you still don't know where the heart is. {Book_Knowledge ? (Read_Mom_Old_Book): You think you should find the stairs that Ophelia went up.}} 
 
-You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg bounces and you stare at the front door. At the end of this... maybe you'll choose to... You shake the thought from your head.| <>}
+You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg bounces and you stare at the front door. At the end of this... maybe you'll choose to... You shake the thought from your head. }
 
 
 ->Last_Stop.Return_to_Search

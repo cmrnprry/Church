@@ -530,7 +530,7 @@ You find yourself in your boss' office, staring at the floor as her eyes bore in
 -> Job_Yelled_At("Late_Work") 
 
 = Teleport
-~ StopSFX("footsteps_player", 0, 0)
+~ StopAll()
 ~ PlayBGM("generic", true, 1, 0)
 ~ ZoomImage(1, "0,0", 0.15, 0)
 "Excuse you! Is there something so important that you needed to barge in here?" You blink at the unexpected harsh lighting, finding yourself in a meeting room. Your boss and coworkers all stare at you, a mix of annoyance and confusion. You were about to enter the church so how? "Well?" #IMAGE: Default #CHECKPOINT: 1, You arrive at work. #PROP: [open_gates false]
@@ -1143,7 +1143,7 @@ You take a few steps before stopping, and look back at the open gate. You want t
     ~ PlaySFX("meow", false, 0, 0)
     No sooner than you think it, you hear the sound of growling and meowing on the property. 
 
-- {Remembered_Past or Church_Investigation ? (Called): It's the church. You know it's the church. It has to be, but what if— | {Church_Investigation ? (Entered): {Church_Feeling == Satisfied: For a moment, you think it's the church reading your thoughts. | Is the church reading your thoughts?} {Church_Feeling == Anxious: You shake it off. It's just a coincidence.} {Church_Feeling == Satisfied: You know how it sounds, but you can't shake the feeling.} You focus back at the task at hand.}} <>
+- {Remembered_Past or Church_Investigation ? (Called): It's the church. You know it's the church. It has to be, but what if— | {Church_Investigation ? (Entered): {Church_Entered == Satisfied: For a moment, you think it's the church reading your thoughts. | Is the church reading your thoughts?} {Church_Entered == Anxious: You shake it off. It's just a coincidence.} {Church_Entered == Satisfied: You know how it sounds, but you can't shake the feeling.} You focus back at the task at hand.}} <>
 
 { 
     -TempBool:
@@ -1162,7 +1162,7 @@ You take a few steps before stopping, and look back at the open gate. You want t
 = Close
 You stick your head past the gates and look around. You don't see anything, the ground doesn't even look disturbed. You take a single step onto the property to reach the open gate, and the edges of the dirt path to the church brighten where you step. Small, shining lights line the path.
 
-{Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Feeling == Satisfied: You know it's nothing, so checking again won't change anything.} | {Church_Investigation ? (Called): {Church_Investigation ? (Teleported): These didn't light up this morning, or maybe you just didn't notice. | It really wants you to come inside. } | Motion activated maybe?}}}
+{Remembered_Past: A feeling of unnerving calm washes over you. You know you need to leave. You know you need to walk away. But you also know you should keep going. There's no harm in looking. | {Church_Investigation ? (Entered): You think you should take a closer look. For nothing else, it will confirm your feelings about the church. {Church_Entered == Satisfied: You know it's nothing, so checking again won't change anything.} | {Church_Investigation ? (Called): {Church_Investigation ? (Teleported): These didn't light up this morning, or maybe you just didn't notice. | It really wants you to come inside. } | Motion activated maybe?}}}
 
 *[Take a closer look]
 
@@ -1378,7 +1378,7 @@ You still cannot see in church.
 - 
 ~ PlaySFX("door_slam", false, 0, 0.5)
 ~ StopSFX("running_pavement", 0, 0)
-~ StopSFX("footsteps_scary", 0, 2)
+~ StopSFX("footsteps_scary", 0, 1.5)
 ~ StopSFX("climax_long", 1.5, 0)
 ~ ZoomImage(1, "0,0", 0.5, 0.5)
 You slam the door closed and fall into the dark church. You quickly regain your balance, grab the door and slam it closed. You throw your full body weight against it, hoping to hold back {State == "From_Remember": whatever | whoever} was chasing you.#DELAY: 1.5 #EFFECT: LightDark #IMAGE: Default #PROP: [Breathing false], [open_gates false]
@@ -1861,7 +1861,9 @@ It was gone as quickly as it came. You grab your ear, but feel no warmth. You lo
 *[You shouldn't believe the voice]
     -> Trapped.Refuse
 
-- A low hum echoes through the room, sending a chill across your entire body. That's what the church wants but…
+- 
+~ PlaySFX("groaning_happy", false, 1.5, 0)
+A low hum echoes through the room, sending a chill across your entire body. That's what the church wants but…
 
 *[What's wrong with that?]
     ~ Stay_Tracker += 0.5
@@ -1876,7 +1878,7 @@ Maybe... Maybe you are supposed to be here. The air around you grows a little wa
 *[It's comfortable]
     ~ Stay_Tracker += 0.5
 
-*[The air smells sour]
+*[It smells sour]
     -> Trapped.Refuse
 
 - 
@@ -1909,7 +1911,7 @@ Your eyelids grow heavy, and you think you understand why the church released yo
 
 = Wait_Morning(Look)
 
-{Look: You attempt to stand, but your legs are like jelly, and you fall back to the floor. Everything suddenly hits you at once, and you realize how exhausted you are. You press your back against the door, and rub your eyes. You think you should look around after regaining your strength. You don't want to stay in the church any longer than you need to, but pushing past your limits won't help you escape. } # REMOVE: INTRUSIVE
+{Look: You attempt to stand, but your legs are like jelly, and you fall back to the floor. Everything suddenly hits you at once, and you realize how exhausted you are. You press your back against the door, and rub your eyes. You think you should look around after regaining your strength. } # REMOVE: INTRUSIVE
 
  You rest your head on your knees. # REMOVE: INTRUSIVE
 
@@ -1970,8 +1972,8 @@ You climb to your feet and look around for the source, taking a few steps into t
     
     "You don't... remember me..." The hands fall away, and the room goes still. "This is all I can do for now."
     
-    #EFFECT: IntialSight
-    The hands fall away. The voice goes quiet. The room turns still.
+    ~StopAll()
+    The hands fall away. The voice goes quiet. The room turns still. #EFFECT: IntialSight
     -> Trapped.Light
 
 - "Look up." The hands removes themselves from your mouth, and rest on your shoulders. You do as you're told and turn your gaze up. The window above the door has morphed into a stained glass eye. It's pupil darts around, looking for something. "It looks for you."
@@ -1997,8 +1999,9 @@ The voice does not answer, but you know it's still there. You sense a heavy @ em
 *["The rest? What—!"]
 
 - 
-#EFFECT: IntialSight
-The room turns still. Silent.
+
+~StopAll()
+The room turns still. Silent. #EFFECT: IntialSight
 -> Trapped.Light
 
 = Light
@@ -2018,15 +2021,15 @@ The light comes from the window above the door. A stained glass eye staring down
 
 You stagger backward, deeper into the church, an intense pressure pressing down on you. Your chest tightens, and your limbs fill with static. The air becomes heavier. Your mouth goes dry. You feel...
 
-*[Relief]
+*[Relieved]
     ~ Stay_Tracker += 0.5
     ~ Light_Feeling = relief
 
-*[Worry]
+*[Worried]
     ~ Stay_Tracker -= 0.5
     ~ Light_Feeling = worry
 
-*[Confusion]
+*[Confused]
     ~ Light_Feeling = confused
 
 - 

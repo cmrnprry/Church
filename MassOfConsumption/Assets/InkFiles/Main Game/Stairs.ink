@@ -416,7 +416,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
         ->Open_the_Door
 
 = Try_Key
-{(items_obtained !? (Skeleton_Key, Simple_Key)): You grab the pad lock and pull. The chains rattle slightly. The key hole looks average. There's nothing that indicates they type of key needed. -> Stairs.Locks }
+{items_obtained !? (Skeleton_Key) and items_obtained !? (Simple_Key): You grab the pad lock and pull. The chains rattle slightly. The key hole looks average. There's nothing that indicates they type of key needed. -> Stairs.Locks }
 
 {
     - items_obtained ? (Skeleton_Key, Simple_Key):
@@ -521,7 +521,11 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
     - items_obtained !? (Combo) and (Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Saw_Your_Book)):
         +[Try your book number]
             ~ PlaySFX("key_snap_small", false, 0, 1)
-            You can only properly remember your own book number. With no other options, you use your book number as the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place.  
+            {Book_Knowledge ? (Kept_Book): You pull out your book and trace the numbers. 2758. | You can only properly remember your own book number. 2758.} You input the number, and the lock pops open. 
+            
+            Right. Of course. What else could the code be if not your book number.
+            
+            You remove the lock from the metal bar, and slide it out of place. <>
             
             { - LIST_COUNT(Locks_Undone):
                 - 1: One lock down, two more to go.

@@ -35,11 +35,19 @@ public class TransistionsAndLoading : MonoBehaviour
 
     void Start()
     {
+        CheckForData();
+    }
+
+    void CheckForData()
+    {
         if (SaveSystem.HasSaveData())
         {
             LoadButton.gameObject.SetActive(true);
             LoadButton.onClick.AddListener(() =>
             {
+                GameManager.instance.Actions.Controls.Pause.performed += ShowSettings;
+                GameManager.instance.Actions.Controls.History.performed += ShowHistory;
+                GameManager.instance.Actions.Controls.Save.performed += ShowSaveMenu;
                 TransitionToMenu(SaveLoad, true);
                 SaveSystem.isSaving = false;
             });
@@ -56,6 +64,7 @@ public class TransistionsAndLoading : MonoBehaviour
         SaveSystem.PreLoad -= CloseSettingsOnLoad;
         GameManager.instance.Actions.Controls.Pause.performed -= ShowSettings;
         GameManager.instance.Actions.Controls.History.performed -= ShowHistory;
+        GameManager.instance.Actions.Controls.Save.performed -= ShowSaveMenu;
     }
 
     public void StartGame(GameObject Menu)
@@ -70,6 +79,7 @@ public class TransistionsAndLoading : MonoBehaviour
                 TransitionScreen.gameObject.SetActive(false);
                 GameManager.instance.Actions.Controls.Pause.performed += ShowSettings;
                 GameManager.instance.Actions.Controls.History.performed += ShowHistory;
+                GameManager.instance.Actions.Controls.Save.performed += ShowSaveMenu;
             });
         });
     }
@@ -134,7 +144,12 @@ public class TransistionsAndLoading : MonoBehaviour
         MenuTransition(Menu, shouldShow);
     }
 
-    public void ShowSettings(bool ShowHistoy = false)
+
+    public void ShowSettingsButton()
+    {
+        ShowSettings();
+    }
+    private void ShowSettings(bool ShowHistoy = false, bool showSave = false)
     {
         DataManager.instance.SetHistoryText();
 
@@ -151,6 +166,9 @@ public class TransistionsAndLoading : MonoBehaviour
 
                 if (ShowHistoy)
                     Settings.GetComponent<SettingsButtomsController>().SelectMenu(3);
+
+                if (showSave)
+                    Settings.GetComponent<SettingsButtomsController>().SelectMenu(2);
             }
             else
                 Settings.SetActive(false);
@@ -181,6 +199,11 @@ public class TransistionsAndLoading : MonoBehaviour
         ShowSettings(true);
     }
 
+    private void ShowSaveMenu(InputAction.CallbackContext context)
+    {
+        ShowSettings(false, true);
+    }
+
     private void MenuTransition(GameObject Menu, bool shouldShow)
     {
         TransitionScreen.gameObject.SetActive(true);
@@ -196,6 +219,7 @@ public class TransistionsAndLoading : MonoBehaviour
 
     public void ToMainMenu()
     {
+        CheckForData();
         TransitionToMenu(MainMenu);
     }
 
