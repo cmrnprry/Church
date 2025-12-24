@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SaveLoadUIHelper : MonoBehaviour
 {
@@ -14,8 +15,10 @@ public class SaveLoadUIHelper : MonoBehaviour
     [Header("Prefabs")]
     [SerializeField] GameObject PageNumberPreab;
     [SerializeField] GameObject SlotPagePrefab;
+    [SerializeField] GameObject AutoSlotPagePrefab;
     [SerializeField] GameObject SaveSlotsPrefab;
     [SerializeField] GameObject OverwriteSaveData;
+    [SerializeField] TextMeshProUGUI OverwriteSaveData_Text;
 
     [Header("Save Load Toggle")]
     [SerializeField] private ToggleSwitchColorChange SaveLoad;
@@ -42,7 +45,7 @@ public class SaveLoadUIHelper : MonoBehaviour
     {
         for (int i = 0; i < Max_Slots; i++)
         {
-            GameObject save_slot = Instantiate(SaveSlotsPrefab, Parent.transform);
+            GameObject save_slot = (Slot_Index == 0) ? Instantiate(AutoSlotPagePrefab, Parent.transform) : Instantiate(SaveSlotsPrefab, Parent.transform);
             save_slot.GetComponent<SaveSlot>().SetUpData(Slot_Index);
             Slot_Index++;
         }
@@ -82,6 +85,9 @@ public class SaveLoadUIHelper : MonoBehaviour
                 });
             }
         }
+
+        if (OverwriteSaveData_Text != null)
+            OverwriteSaveData_Text.text = (ID == "slot_0") ? "This save will be overwritten on the next autosave. <br><br> Continue?" : "This will cause you to overwrite the save. <br><br> Continue?";
         OverwriteSaveData.SetActive(true);
     }
 

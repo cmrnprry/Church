@@ -32,15 +32,18 @@ public class SaveSlot : MonoBehaviour
 
     private void OnEnable()
     {
+        GameManager.OnAutoSave += AutoSave;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
+        GameManager.OnAutoSave -= AutoSave;
     }
 
     public void SetUpData(int Index)
     {
         ID = Index;
+
         slotID = $"slot_{ID}";
 
         if (SaveSystem.CheckForData(slotID))
@@ -50,7 +53,19 @@ public class SaveSlot : MonoBehaviour
             image.sprite = SaveSystem.GetCurrentSprite(slotID);
         }
         else
-            text.text = String.Format($"Slot {ID + 1}");
+        {
+            text.text = (ID == 0) ? String.Format($"Auto Save Slot")  : String.Format($"Slot {ID + 1}");
+        }
+
+    }
+
+    private void AutoSave()
+    {
+        if (slotID != "slot_0")
+            return; 
+
+        image.sprite = SaveSystem.GetCurrentSprite();
+        SaveSystem.SaveAllData(slotID);
     }
 
     public void UpdateData()
@@ -75,7 +90,7 @@ public class SaveSlot : MonoBehaviour
             }
             else
             {
-                UpdateData();       
+                UpdateData();
             }
         }
         else

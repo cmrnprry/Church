@@ -156,7 +156,7 @@ namespace AYellowpaper.SerializedCollections
             {
                 if (sources[src.Key] != null)
                 {
-                    sources[src.Key].DOFade(0, 0.5f).SetEase(Ease.InSine).OnComplete(() =>
+                    sources[src.Key].DOFade(0, 1.5f).SetEase(Ease.InSine).OnComplete(() =>
                     {
                         Destroy(sources[src.Key].gameObject);
                         sources.Remove(src.Key);

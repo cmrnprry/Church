@@ -385,7 +385,7 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
 ~ current_area = Main_Body 
 ~ Have_Visited += (Enter_Pews)
 ~ visited_state += 1
-~PlayBGM("inside", true, 30, 0)
+~ PlayBGM("inside", true, 30, 0)
 
 {
     - visited_state == 1:

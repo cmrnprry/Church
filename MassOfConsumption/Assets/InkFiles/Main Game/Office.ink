@@ -763,7 +763,7 @@ That taste of freedom is all you need. With one last push, you throw yourself ou
 ~ current_area = Main_Body 
 ~ Have_Visited += (Enter_Office)
 ~ visited_state += 1
-~ PlayBGM("inside", true, 5, 0)
+~ PlayBGM("inside", true, 30, 0)
 ~ StopSFX("watched", 5, 0)
 
 {
@@ -1099,12 +1099,15 @@ You take a deep breath and stare at
             -> Office_Area.Exit_Office_Continue
 
 = Oldin_Death
+~StopAll()
 ~ PlaySFX("heartbeat", true, 5, 0) 
 ~ PlaySFX("tinitus", true, 5, 0) 
+~ PlaySFX("oldin_death_1", false, 0, 0) 
 Before the words can register, it quickly and efficiently twists your limbs and yanks them from your body. Your limbless body falls to the floor with a dull thud, knocking the wind out of you.
 
 Your gasp on the ground, blood from your limbs dripping onto you. The creature lowers them into its mouth. A small squeak escapes from you as you try to get up. You can see your limbs. You know they're not attached. But you try anyway.
 
+~ PlaySFX("oldin_death_2", false, 0, 0) 
 "You didn't let it pass." The creature growls, and pushes off the ground with its far legs to flip itself, so it's mouth hovers over you. "Pathetic, little bug." It spits and lowers itself down, mouth gaping.
 
 ****[You feel every crunch as its teeth grind your bones]

@@ -131,10 +131,10 @@ You hear someone call your name, but you don't dare turn around. You don't know 
                 #CYCLE: hand, claw, tentacle, paw, fin
                 "Don't!" She screams, but again you wave her off and take its @. It laughs, or at least, that's what you think the sound is. It stops and pulls you closer, lowering it's hood. You scream and pull away, but its grip on you is like steel.
                 
-                ~PlaySFX("gulping", false, 0, 0)
+                ~StopAll()
                 Its face is an empty hole of mouths. Tendrils rise out of the hole and shoot toward your face. They enter your nose, ears, eyes, mouth, anywhere they can, and they begin to drink.
                 
-                TODO gross popping sound
+                ~PlaySFX("gulping", false, 0, 0)
                 You shriek and squirm and hit, but nothing matters. It takes more than blood, but less than flesh. A tendril wraps around your eye and squeezes until it pops, slurping up the jelly pieces left behind. You can feel them ripping your insides apart and pulverizing them into a think soup. Any part it doesn't want are unceremoniously ripped out and discarded. #ENDING: 3, Bad Ending 10 - Juice box
                     
                 ****[Ithurtsithurtsithurtsithurtsithurts]

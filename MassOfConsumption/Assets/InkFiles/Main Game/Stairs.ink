@@ -823,6 +823,7 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 ~ previous_area = Stairs
 ~ current_area = Main_Body
 ~ visited_state += 1
+~ PlayBGM("inside", true, 30, 0)
 
 {
     - visited_state == 1:

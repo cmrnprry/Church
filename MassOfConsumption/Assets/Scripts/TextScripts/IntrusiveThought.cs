@@ -67,7 +67,7 @@ public class IntrusiveThought : MonoBehaviour
             if (jump_to == "")
             {
                 SaveSystem.SetSavedHistory($"{jump_to}");
-                KillAllThoughts();
+                KillIndividualThought();
             }
             else
                 GameManager.instance.OnClickIntrusiveThought(text_box.text, jump_to);
@@ -129,7 +129,7 @@ public class IntrusiveThought : MonoBehaviour
         }
     }
 
-    public void KillAllThoughts()
+    public void KillIndividualThought()
     {
         CheckIfNull();
 
@@ -149,6 +149,8 @@ public class IntrusiveThought : MonoBehaviour
 
         if (rect != null)
             rect.DOScale(1.25f, 0.5f).OnComplete(() => { Destroy(this.gameObject); });
+        else
+            Destroy(this.gameObject);
     }
 
     private void ResetIndividualCharacters()

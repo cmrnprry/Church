@@ -123,6 +123,7 @@ Something, no <i>someone</i>, hits the ground. Hard. You feel a pit form in your
 - 
 ~Intrusive(3, "Do something", "")
 ~PlaySFX("heartbeat", true, 2, 0)
+~PlaySFX("wheezing", true, 0, 0)
 You can hear wheezing, but she does not answer. You squeeze your hands together, your inaction causing the panic living in your chest to grow. You need to act.
 
 
@@ -138,11 +139,10 @@ Your eyes find the doorknob, and your vision tunnels. Your hand moves in slow mo
 - 
 ~Intrusive(4, "Do something!", "")
 ~Intrusive(2, "Move!", "")
-TODO scratching sfx?
+~StopAll()
 The words come out too @. You can hear scratching on the floor. Your hand finally finds the knob. It's freezing cold, and sends a shock through your nerves. You turn the knob and it creaks, the sound echoing in your ears, louder than it should have been. #CYCLE: easy, smoothly, effortlessly, fluid 
 
-#CLASS: Fidget #REMOVE: INTRUSIVE
-It is deathly quiet outside.
+It is deathly quiet outside. #CLASS: Fidget #REMOVE: INTRUSIVE
 
 <i>What if it's too late?</i> You think, and tighten your grip on the door. <i>It's all your fault. If you had just moved faster, then maybe she might still be—</i>
 
@@ -163,6 +163,7 @@ There's a splatter of blood just outside it, next to the ripped off piece of cur
 
 = Rush_Out (visit_Count)
 ~ visit_Count += 1
+~PlaySFX("wheezing", true, 0, 0)
 {
     - visit_Count == 1:
         You run to the door. Is she alright?
@@ -175,6 +176,7 @@ There's a splatter of blood just outside it, next to the ripped off piece of cur
     - visit_Count == 3:
         She says something between coughs that you can't make out.
         *[You need to hurry.]
+            ~StopAll()
             ->Confessional_Door.Rush_Out(visit_Count)
     - visit_Count == 4:
         ...
@@ -201,6 +203,7 @@ The wood around the lock is bent and warped. {Leg_State >= Sore: Your leg trembl
 - ~temp_bool = false
 
 ~ PlaySFX("door_thud", false, 0, 0)
+~ StopSFX("watched", 10, 0)
 There's a small hole you can see through. You see movement from outside. {Leg_State >= Sore: Your leg screams from the the amount of weight you're putting on it. }
 
 
@@ -226,7 +229,6 @@ You shine your flashlight through at the movement. What you assume to be the gir
 -> Confessional_Door.End_Booth_Encounter("Watched")
 
 = End_Booth_Encounter(Reaction)
-~ StopSFX("watched", 10, 0)
 ~ Confessional_Encounters += (Finished_Door_Side, Killed_Girl)
 ~ WinAchievement(7)
 <i>This is your fault.</i> # IMAGE: Confessional_CloseUp #PROP: [curtain_torn true]  #REMOVE: INTRUSIVE
@@ -237,7 +239,6 @@ There's no sign of the girl.
 
 You kneel in front of the booth. 
 
-~ PlayBGM("inside", true, 30, 0)
 You feel...
 
 *[Angry] 
@@ -318,8 +319,8 @@ You feel...
     ~temp_string = "Your hands tremble"
 - 
 
-# IMAGE: Confessional_CloseUp #PROP: [curtain_full true] 
-What...?
+~PlaySFX("climax_long", false, 1, 0)
+What...?# IMAGE: Confessional_CloseUp #PROP: [curtain_full true]
 *[{temp_string}]
 
 - 

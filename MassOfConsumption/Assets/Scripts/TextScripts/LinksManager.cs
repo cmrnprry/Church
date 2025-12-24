@@ -99,6 +99,7 @@ public class LinksManager : MonoBehaviour, IPointerClickHandler
         {
             //var linkId = Textbox.textInfo.linkInfo[linkIndex].GetLinkID();
             UpdateText();
+            hovering = false;
         }
     }
 

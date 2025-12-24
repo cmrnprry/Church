@@ -15,7 +15,6 @@ namespace AYellowpaper.SerializedCollections
 
         private void OnEnable()
         {
-            SelectMenu(0);
             SettingsUIButton.OnClick += SelectMenu;
         }
 

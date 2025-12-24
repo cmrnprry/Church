@@ -40,7 +40,7 @@ public class IntrusiveThoughtsManager : MonoBehaviour
         foreach (Transform child in Parent)
         {
             IntrusiveThought intrusive = child.gameObject.GetComponent<IntrusiveThought>();
-            intrusive.KillAllThoughts();
+            intrusive.KillIndividualThought();
         }
 
         UsedPoints.Clear();

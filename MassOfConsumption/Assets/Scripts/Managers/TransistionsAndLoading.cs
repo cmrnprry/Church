@@ -45,6 +45,7 @@ public class TransistionsAndLoading : MonoBehaviour
             LoadButton.gameObject.SetActive(true);
             LoadButton.onClick.AddListener(() =>
             {
+                Settings.SetActive(false);
                 GameManager.instance.Actions.Controls.Pause.performed += ShowSettings;
                 GameManager.instance.Actions.Controls.History.performed += ShowHistory;
                 GameManager.instance.Actions.Controls.Save.performed += ShowSaveMenu;
@@ -70,6 +71,8 @@ public class TransistionsAndLoading : MonoBehaviour
     public void StartGame(GameObject Menu)
     {
         TransitionScreen.gameObject.SetActive(true);
+        Settings.SetActive(false);
+
         TransitionScreen.DOFade(1, 0.5f).OnComplete(() =>
         {
             MainMenu.SetActive(false);

@@ -136,7 +136,7 @@ Once the bus is out of view, you let out the breath you were holding and steel y
 #IMAGE: Church_Looming #PROP: [closed_gates true]
 You cross the street to stand before the church, typing the number displayed into your phone. {Church_Interest == "drawn": You hang your arms over the fence as the phone rings. | You turn your back to the church and pace as the phone rings. You stick your free hand in your pocket, lightly caressing the photo that sits there. } 
 
-#PLAY: sfx_name
+TODO: sfx here
 <i>Brrring! Brrring!</i>
 
 You almost drop your phone at the sound of ringing drifting from {Church_Interest == "drawn": in front of you. You | behind you. You turn and } see a familiar silhouette shuffle past the front window, and take a phone off a hook.
@@ -231,7 +231,7 @@ You almost drop your phone at the sound of ringing drifting from {Church_Interes
 - Your grandparents wave at you before disappearing from the window. The open door invites you in. You shake your head, and take a step {Church_Interest != "drawn":  back. | forward.}
 
 *[Return to the bus stop]
-    #CYCLE: risky, unhealthy, dangerous, precarious
+    #CYCLE: risky, unhealthy, dangerous, precarious #IMAGE: Bus Stop #PROP: [closed_gates false]
     You scurry back to the bus stop, and pace until the next bus comes, gripping the polaroid photo in your hands. You keep your eyes glued to the ground until the bus arrives. Looking at the church felt too @. You occasionally check your phone to confirm that the conversation happened. 
     
     **[The bus arrives after what feels like forever]

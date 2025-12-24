@@ -1294,6 +1294,7 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
     ->Endings.Bad_End_5
 
 = Leave_NoProgress
+~ PlayBGM("inside", true, 5, 0)
 ~ current_area = Main_Body // set the current area
 ~ Have_Visited -= Confessional_CurtainSide //set that we have visisted the area
 ->Inside.Look_For_Heart
@@ -1305,7 +1306,6 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 ~ previous_area = Confessional_CurtainSide
 ~ items_obtained += (Skeleton_Key)
 ~ current_area = Main_Body 
-~ StopAll()
 ~ PlayBGM("inside", true, 30, 0)
 
 ~ visited_state += 1

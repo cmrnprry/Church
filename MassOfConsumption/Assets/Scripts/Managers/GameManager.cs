@@ -178,6 +178,10 @@ namespace AYellowpaper.SerializedCollections
         public static event ClickEffects OnForceOpen;
         public static event ClickEffects OnForceClosed;
 
+        public delegate void AutoSave();
+        public static event AutoSave OnAutoSave;
+
+
         private void Awake()
         {
             if (instance == null)
@@ -475,10 +479,10 @@ namespace AYellowpaper.SerializedCollections
 
         public void ClickedToContinue()
         {
-            can_click = true;
+             can_click = true;
         }
 
-        // ReSharper disable Unity.PerformanceAnalysis
+        // ReSharper disable Unity. 
         private IEnumerator ContinueStory(bool isStart = false)
         {
             bool hideChoices = false;
@@ -572,7 +576,7 @@ namespace AYellowpaper.SerializedCollections
                     ClickToContinue = true;
 
                     yield return new WaitUntil(() =>
-                                           actions.Controls.Continue.triggered || can_click && !LinksManager.hovering);
+                                           actions.Controls.Continue.triggered || (can_click && !LinksManager.hovering));
 
                     ClickToContinue = false;
                     can_click = false;
@@ -585,6 +589,11 @@ namespace AYellowpaper.SerializedCollections
 
                 ClickToContinue = false;
                 can_click = false;
+
+                //auto save
+                SetDataOnSave("slot_0");
+                OnAutoSave?.Invoke();
+
                 DisplayChoices();
                 yield break;
             }
@@ -597,6 +606,7 @@ namespace AYellowpaper.SerializedCollections
 
 
             yield return new WaitForFixedUpdate();
+            
             DisplayNextLine();
         }
 
@@ -742,200 +752,213 @@ namespace AYellowpaper.SerializedCollections
             {
                 case "BlinkOnClick_True":
                     SaveSystem.SetIsCursorOpen(true);
-            break;
+                    break;
                 case "BlinkOnClick_False":
                     SaveSystem.SetIsCursorOpen(false);
-            break;
+                    break;
                 case "Force_Blink":
                     CanClick = false;
-            OnForceBlink?.Invoke();
-            break;
+                    OnForceBlink?.Invoke();
+                    break;
                 case "Force_Closed":
                     CanClick = false;
-            OnForceClosed?.Invoke();
-            //should_blink = false;
-            break;
+                    OnForceClosed?.Invoke();
+                    //should_blink = false;
+                    break;
                 case "Force_Open":
                     CanClick = false;
-            OnForceOpen?.Invoke();
-            break;
+                    OnForceOpen?.Invoke();
+                    break;
                 case "flashlight_on":
                     SaveSystem.SetFlashlight(true);
-            if (!Flashlight.gameObject.activeSelf)
-                Flashlight.gameObject.SetActive(true);
-            Flashlight.isOn = true;
-            break;
+                    if (!Flashlight.gameObject.activeSelf)
+                        Flashlight.gameObject.SetActive(true);
+                    Flashlight.isOn = true;
+                    break;
                 case "flashlight_off":
                     Flashlight.isOn = false;
-            break;
+                    break;
                 case "flashlight_off_forever":
                     Flashlight.isOn = false;
-            SaveSystem.SetFlashlight(false);
-            Flashlight.gameObject.SetActive(false);
-            break;
+                    SaveSystem.SetFlashlight(false);
+                    Flashlight.gameObject.SetActive(false);
+                    break;
                 case "click_move_main":
                     ClickToMove(0);
-            break;
+                    break;
                 case "click_move_confessional":
                     ClickToMove(1);
-            break;
+                    break;
                 case "LightDark":
                     GlobalLight.color = DarkLight;
 
-            SaveSystem.SetColorData(DarkLight);
-            break;
+                    SaveSystem.SetColorData(DarkLight);
+                    break;
                 case "Shake_Confessional":
                     EffectImages("Confessional");
-            break;
+                    break;
                 case "Shake_Office":
                     EffectImages("Office");
-            break;
+                    break;
                 case "Remove_Finger":
                     ControlGlow("Finger");
-            break;
+                    break;
                 case "IntialSight":
                     ControlGlow("intial");
-            break;
+                    break;
                 case "start-glow":
                     ControlGlow("intense");
-            break;
+                    break;
                 case "leave-glow":
                     ControlGlow("leave");
-            break;
+                    break;
                 case "scream-glow":
                     ControlGlow("scream");
-            break;
+                    break;
                 case "stay-glow":
                     ControlGlow("stay");
-            break;
+                    break;
                 case "remove-glow":
                     var anim = LightingDictionary["Animator"].GetComponent<Animator>();
-            anim.SetTrigger("End");
-            break;
+                    anim.SetTrigger("End");
+                    break;
                 case "LightDarktoUsed":
                     DOTween.To(() => GlobalLight.color, color => GlobalLight.color = color, UsedToLight, 6f);
-            SaveSystem.SetColorData(UsedToLight);
-            break;
+                    SaveSystem.SetColorData(UsedToLight);
+                    break;
                 case "Default Light":
                     GlobalLight.color = OutsideLight;
-            SaveSystem.SetColorData(OutsideLight);
-            break;
-            default:
-                    Debug.LogWarning($"Effect {key} could not be found.");
-            break;
-        }
-    }
-
-    private void EffectImages(string type)
-    {
-        if (!SaveSystem.GetOverlayValue())
-            return;
-
-        if (type == "Confessional")
-        {
-            BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
-            PropDictionary["curtain_full"].GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
-        }
-        else if (type == "Office")
-        {
-            BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
-        }
-    }
-
-    private void ControlGlow(string type)
-    {
-        if (!SaveSystem.GetOverlayValue())
-            return;
-
-        if (type == "Finger")
-        {
-            var light = LightingDictionary["Finger"].GetComponent<Light2D>();
-            DOTween.To(() => light.intensity, value => light.intensity = value, 13, 2).SetEase(Ease.OutSine).OnComplete(() =>
-            {
-                DOTween.To(() => light.intensity, value => light.intensity = value, 3, 2).SetEase(Ease.OutSine);
-            });
-            BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(3, 100, 30, 40).SetEase(Ease.InOutBounce);
-            PropDictionary["Pews"].GetComponent<RectTransform>().DOShakePosition(3, 100, 30, 40).SetEase(Ease.InOutBounce);
-        }
-        else
-        {
-            var anim = LightingDictionary["Animator"].GetComponent<Animator>();
-            anim.enabled = true;
-
-            if (type == "intense")
-            {
-                anim.SetTrigger("Toggle");
-            }
-            else if (type == "leave")
-            {
-                anim.SetTrigger("Leave");
-            }
-            else if (type == "stay")
-            {
-                anim.SetTrigger("Stay");
-            }
-            else if (type == "scream")
-            {
-                anim.SetTrigger("Scream");
-            }
-            else if (type == "intial")
-            {
-                anim.SetTrigger("Restart");
-            }
-        }
-
-    }
-
-    private void ClickToMove(int Index)
-    {
-        var move = clicktomove[Index];
-
-        if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
-            DeleteOldChoices();
-
-        for (int index = 0; index < move.transform.childCount; index++)
-        {
-            int i = index;
-            var obj = move.transform.GetChild(index);
-            var Button = obj.gameObject.GetComponent<Button>();
-            Button.onClick.RemoveAllListeners();
-
-            foreach (var choice in Story.currentChoices)
-            {
-                if (obj.name.ToLower() == choice.text)
-                {
-                    obj.gameObject.SetActive(true);
-                    Button.onClick.AddListener(() =>
-                    {
-                        OnClickChoiceButton(choice);
-                        foreach (Transform child in move.transform)
-                        {
-                            child.gameObject.SetActive(false);
-                        }
-                    });
+                    SaveSystem.SetColorData(OutsideLight);
                     break;
+                default:
+                    Debug.LogWarning($"Effect {key} could not be found.");
+                    break;
+            }
+        }
+
+        private void EffectImages(string type)
+        {
+            if (!SaveSystem.GetOverlayValue())
+                return;
+
+            if (type == "Confessional")
+            {
+                BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
+                PropDictionary["curtain_full"].GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
+            }
+            else if (type == "Office")
+            {
+                BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(1.75f, 100, 30, 40).SetEase(Ease.InOutBounce);
+            }
+        }
+
+        private void ControlGlow(string type)
+        {
+            if (!SaveSystem.GetOverlayValue())
+                return;
+
+            if (type == "Finger")
+            {
+                var light = LightingDictionary["Finger"].GetComponent<Light2D>();
+                DOTween.To(() => light.intensity, value => light.intensity = value, 13, 2).SetEase(Ease.OutSine).OnComplete(() =>
+                {
+                    DOTween.To(() => light.intensity, value => light.intensity = value, 3, 2).SetEase(Ease.OutSine);
+                });
+                BackgroundImage.gameObject.GetComponent<RectTransform>().DOShakePosition(3, 100, 30, 40).SetEase(Ease.InOutBounce);
+                PropDictionary["Pews"].GetComponent<RectTransform>().DOShakePosition(3, 100, 30, 40).SetEase(Ease.InOutBounce);
+            }
+            else
+            {
+                var anim = LightingDictionary["Animator"].GetComponent<Animator>();
+                anim.enabled = true;
+
+                if (type == "intense")
+                {
+                    anim.SetTrigger("Toggle");
+                }
+                else if (type == "leave")
+                {
+                    anim.SetTrigger("Leave");
+                }
+                else if (type == "stay")
+                {
+                    anim.SetTrigger("Stay");
+                }
+                else if (type == "scream")
+                {
+                    anim.SetTrigger("Scream");
+                }
+                else if (type == "intial")
+                {
+                    anim.SetTrigger("Restart");
                 }
             }
+
         }
 
-        move.SetActive(true);
-    }
-
-    private void AddCycleText(string[] cycle_list)
-    {
-        float uniqueID = Random.Range(1f, 100f);
-        string new_text = $"<color=#a80f0f><u><link=\"{uniqueID}\">{cycle_list[0].Trim()}</link></u></color>";
-        ContinueText = ContinueText.Replace("@", new_text);
-
-        var linked = Current_Textbox.GetComponent<LinksManager>();
-        linked.enabled = true;
-        linked.SetData(cycle_list.ToList());
-    }
-
-    public void ReplaceText()
-    {
-        if (ReplaceData.hasData())
+        private void ClickToMove(int Index)
         {
+            var move = clicktomove[Index];
+
+            if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
+                DeleteOldChoices();
+
+            for (int index = 0; index < move.transform.childCount; index++)
+            {
+                int i = index;
+                var obj = move.transform.GetChild(index);
+                var Button = obj.gameObject.GetComponent<Button>();
+                Button.onClick.RemoveAllListeners();
+
+                foreach (var choice in Story.currentChoices)
+                {
+                    if (obj.name.ToLower() == choice.text)
+                    {
+                        obj.gameObject.SetActive(true);
+                        Button.onClick.AddListener(() =>
+                        {
+                            OnClickChoiceButton(choice);
+                            foreach (Transform child in move.transform)
+                            {
+                                child.gameObject.SetActive(false);
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+
+            move.SetActive(true);
+        }
+
+        private void AddCycleText(string[] cycle_list)
+        {
+            float uniqueID = Random.Range(1f, 100f);
+            string new_text = $"<color=#a80f0f><u><link=\"{uniqueID}\">{cycle_list[0].Trim()}</link></u></color>";
+            ContinueText = ContinueText.Replace("@", new_text);
+
+            var linked = Current_Textbox.GetComponent<LinksManager>();
+            linked.enabled = true;
+            linked.SetData(cycle_list.ToList());
+        }
+
+        public void ReplaceText()
+        {
+            if (ReplaceData.hasData())
+            {
+                StartCoroutine(ReplaceTextData());
+            }
+        }
+
+        IEnumerator ReplaceTextData()
+        {
+            yield return null;
+            CanClick = true;
+
+            yield return new WaitForEndOfFrame();
+
+            CanClick = false;
+
             //delete current text box
             Current_Textbox.DOFade(0, DefaultShortWait).OnComplete(
                 () => { Destroy(Current_Textbox.gameObject); });
@@ -943,163 +966,163 @@ namespace AYellowpaper.SerializedCollections
             //Delete old choices
             DeleteOldChoices();
 
+            yield return new WaitForSeconds(DefaultShortWait * 2);
+
             //tell the story what our next 
             Story.ChooseChoiceIndex(ReplaceData.GetChoiceIndex());
+            LinksManager.hovering = false;
             DisplayNextLine();
         }
-    }
 
-    ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
+        ////////////////////////////////////////////  CHOICES STUFFS ////////////////////////////////////////////
 
-    private void DisplayChoices()
-    {
-        if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
+        private void DisplayChoices()
+        {
+            if (ChoiceButtonContainer.GetComponentsInChildren<LabledButton>().Length > 0)
+                DeleteOldChoices();
+
+            for (int i = 0; i < Story.currentChoices.Count; i++) // iterates through all choices
+            {
+                var choice = Story.currentChoices[i];
+                if (ReplaceData.hasTextData() && choice.text == ReplaceData.GetText())
+                {
+                    ReplaceData.SetChoiceIndex(choice.index);
+                    continue;
+                }
+
+                if (choice.text[0] == '(')
+                {
+                    string visible = choice.text.Substring(1, choice.text.IndexOf(')') - 1).Trim();
+                    string replace = choice.text.Substring(choice.text.IndexOf(')') + 1).Trim();
+                    LabledButton replace_button = CreateChoiceButton(visible); // creates a choice button
+                    replace_button.onClick.AddListener(() => OnReplaceChoiceButton(choice, replace, replace_button));
+
+                    continue;
+                }
+
+                LabledButton button = CreateChoiceButton(choice.text); // creates a choice button
+                button.onClick.AddListener(() => OnClickChoiceButton(choice));
+            }
+        }
+
+        void OnReplaceChoiceButton(Choice choice, string replace, LabledButton button)
+        {
+            var choice_text = button.GetComponentInChildren<TMProGlobal>();
+            if (choice_text.text == replace)
+            {
+                OnClickChoiceButton(choice);
+            }
+            else
+            {
+                choice_text.text = replace;
+            }
+        }
+
+        private void OnClickChoiceButton(Choice choice)
+        {
+            //if we have replace data, but don't click the replace button
+            if (ReplaceData.hasData())
+            {
+                SaveSystem.SetSavedHistory($"{ContinueText}");
+                SetSaveDataForTextBox();
+                ReplaceData = new ReplaceChoice("", -1);
+            }
+
+            WaitAfterChoice = true;
+            SaveSystem.SetSavedHistory($"<color=#a80f0f>{choice.text}</color>");
+            SaveSystem.ClearCurrentTextData();
+            Story.ChooseChoiceIndex(choice.index);
             DeleteOldChoices();
+            DeleteOldTextBoxes();
+            DisplayNextLine();
+        }
 
-        for (int i = 0; i < Story.currentChoices.Count; i++) // iterates through all choices
+        public void OnClickIntrusiveThought(string thought, string path)
         {
-            var choice = Story.currentChoices[i];
-            if (ReplaceData.hasTextData() && choice.text == ReplaceData.GetText())
+            WaitAfterChoice = true;
+            intrusiveThoughts.KillAllThoughts();
+            SaveSystem.SetSavedHistory($"{thought}");
+            SaveSystem.ClearCurrentTextData();
+            Story.ChoosePathString(path);
+
+            DeleteOldChoices();
+            DeleteOldTextBoxes();
+
+            Invoke("DisplayNextLine", 0.15f);
+        }
+
+        void DeleteOldChoices()
+        {
+            foreach (var item in clicktomove)
             {
-                ReplaceData.SetChoiceIndex(choice.index);
-                continue;
+                if (item.activeSelf)
+                    item.SetActive(false);
             }
 
-            if (choice.text[0] == '(')
+
+            if (ChoiceButtonContainer != null)
             {
-                string visible = choice.text.Substring(1, choice.text.IndexOf(')') - 1).Trim();
-                string replace = choice.text.Substring(choice.text.IndexOf(')') + 1).Trim();
-                LabledButton replace_button = CreateChoiceButton(visible); // creates a choice button
-                replace_button.onClick.AddListener(() => OnReplaceChoiceButton(choice, replace, replace_button));
+                foreach (LabledButton button in ChoiceButtonContainer.GetComponentsInChildren<LabledButton>())
+                {
+                    var choice_text = button.GetComponentInChildren<TMProGlobal>();
+                    var choice_image = button.GetComponent<Image>();
+                    button.enabled = false;
 
-                continue;
-            }
-
-            LabledButton button = CreateChoiceButton(choice.text); // creates a choice button
-            button.onClick.AddListener(() => OnClickChoiceButton(choice));
-        }
-    }
-
-    void OnReplaceChoiceButton(Choice choice, string replace, LabledButton button)
-    {
-        var choice_text = button.GetComponentInChildren<TMProGlobal>();
-        if (choice_text.text == replace)
-        {
-            OnClickChoiceButton(choice);
-        }
-        else
-        {
-            choice_text.text = replace;
-        }
-    }
-
-    private void OnClickChoiceButton(Choice choice)
-    {
-        //if we have replace data, but don't click the replace button
-        if (ReplaceData.hasData())
-        {
-            SaveSystem.SetSavedHistory($"{ContinueText}");
-            SetSaveDataForTextBox();
-            ReplaceData = new ReplaceChoice("", -1);
-        }
-
-        WaitAfterChoice = true;
-        SaveSystem.SetSavedHistory($"<color=#a80f0f>{choice.text}</color>");
-        SaveSystem.ClearCurrentTextData();
-        Story.ChooseChoiceIndex(choice.index);
-        DeleteOldChoices();
-        DeleteOldTextBoxes();
-        DisplayNextLine();
-        //DataManager.instance.SetHistoryText();
-    }
-
-    public void OnClickIntrusiveThought(string thought, string path)
-    {
-        WaitAfterChoice = true;
-        intrusiveThoughts.KillAllThoughts();
-        SaveSystem.SetSavedHistory($"{thought}");
-        SaveSystem.ClearCurrentTextData();
-        Story.ChoosePathString(path);
-
-        DeleteOldChoices();
-        DeleteOldTextBoxes();
-        DisplayNextLine();
-
-        //DataManager.instance.SetHistoryText();
-    }
-
-    void DeleteOldChoices()
-    {
-        foreach (var item in clicktomove)
-        {
-            if (item.activeSelf)
-                item.SetActive(false);
-        }
-
-
-        if (ChoiceButtonContainer != null)
-        {
-            foreach (LabledButton button in ChoiceButtonContainer.GetComponentsInChildren<LabledButton>())
-            {
-                var choice_text = button.GetComponentInChildren<TMProGlobal>();
-                var choice_image = button.GetComponent<Image>();
-                button.enabled = false;
-
-                choice_image.DOFade(0, ChoiceShowDelay);
-                choice_text.DOFade(0, ChoiceShowDelay).OnComplete(
-                    () => { Destroy(button.gameObject); });
+                    choice_image.DOFade(0, ChoiceShowDelay);
+                    choice_text.DOFade(0, ChoiceShowDelay).OnComplete(
+                        () => { Destroy(button.gameObject); });
+                }
             }
         }
-    }
 
-    void DeleteOldTextBoxes(bool ignoreRecent = false)
-    {
-        if (TextParent != null)
+        void DeleteOldTextBoxes(bool ignoreRecent = false)
         {
-            var children = TextParent.GetComponentsInChildren<TMProGlobal>();
-            int length = ignoreRecent ? children.Length - 1 : children.Length;
-            for (int i = 0; i < length; i++)
+            if (TextParent != null)
             {
-                var child = children[i];
-                child.DOFade(0, AutoScrollDelay).OnComplete(
-                    () => { Destroy(child.gameObject); });
+                var children = TextParent.GetComponentsInChildren<TMProGlobal>();
+                int length = ignoreRecent ? children.Length - 1 : children.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    var child = children[i];
+                    child.DOFade(0, AutoScrollDelay).OnComplete(
+                        () => { Destroy(child.gameObject); });
+                }
             }
         }
-    }
 
-    LabledButton CreateChoiceButton(string text)
-    {
-        // creates the button from a prefab
-        LabledButton choiceButton = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer.transform, false);
-
-        // sets text on the button
-        var choice_text = choiceButton.GetComponentInChildren<TMProGlobal>();
-        choice_text.text = text;
-
-        Sequence text_fade = DOTween.Sequence();
-
-        ColorUtility.TryParseHtmlString("#a80f0f", out var color);
-        text_fade.Insert((autoplay ? 0.5f : 1f),
-            choice_text.DOColor(color, ChoiceShowDelay)).OnComplete(
-            () => { if (choiceButton != null) choiceButton.enabled = true; });
-
-        return choiceButton;
-    }
-
-    public bool CanStoryContinue()
-    {
-        return Story.canContinue || Story.currentChoices.Count > 0;
-    }
-
-    public void HandleScroll(float value)
-    {
-        if (FadeMask.gameObject.activeSelf)
+        LabledButton CreateChoiceButton(string text)
         {
-            value = Mathf.Clamp(value, 0f, 0.8f);
+            // creates the button from a prefab
+            LabledButton choiceButton = Instantiate(ChoiceButtonPrefab, ChoiceButtonContainer.transform, false);
 
-            FadeMask.materialForRendering.DOFloat(value, "_Start", 0.15f);
+            // sets text on the button
+            var choice_text = choiceButton.GetComponentInChildren<TMProGlobal>();
+            choice_text.text = text;
+
+            Sequence text_fade = DOTween.Sequence();
+
+            ColorUtility.TryParseHtmlString("#a80f0f", out var color);
+            text_fade.Insert((autoplay ? 0.5f : 1f),
+                choice_text.DOColor(color, ChoiceShowDelay)).OnComplete(
+                () => { if (choiceButton != null) choiceButton.enabled = true; });
+
+            return choiceButton;
         }
 
+        public bool CanStoryContinue()
+        {
+            return Story.canContinue || Story.currentChoices.Count > 0;
+        }
+
+        public void HandleScroll(float value)
+        {
+            if (FadeMask.gameObject.activeSelf)
+            {
+                value = Mathf.Clamp(value, 0f, 0.8f);
+
+                FadeMask.materialForRendering.DOFloat(value, "_Start", 0.15f);
+            }
+
+        }
     }
-}
 }
