@@ -1000,10 +1000,10 @@ The remaining books on the shelves fall off, and the far book shelf falls over. 
 
 *[Run]
 
-- You turn on a heel and dart out of the room as fast as you can. The thing moans and groans, tripping over books and boxes littering the floor. You sneak a glance behind you and the creature falls into the fall. It tetters back to its feet, tilting sideways before a limb shoots out to grab you, landing centimeters away from you.
+- You turn on a heel and dart out of the room as fast as you can. The thing moans and groans, tripping over books and boxes littering the floor. You sneak a glance behind you and the creature falls into the fall. It teeters back to its feet, tilting sideways before a limb shoots out to grab you, landing centimeters away from you.
 
 ~PlaySFX("climax_long", false, 0, 0)
-It screams again, causing the room to shake and throw you off balence. The ceiling cracks, and pieces begin to fall. A large chunk falls to your right side, just barely missing you.
+It screams again, causing the room to shake and throw you off balance. The ceiling cracks, and pieces begin to fall. A large chunk falls to your right side, just barely missing you.
 
 "I will END you for your INSOLENCE!" it screams, and aims another limb at you.
 
@@ -1011,7 +1011,7 @@ It screams again, causing the room to shake and throw you off balence. The ceili
 
 *[Dodge right]
     ~temp Temp_bool = false
-    You throw yourself to the right, and directly into the chunk of celing. It grabs you with multiple hands, two holding your shoulders and two holding your legs. You kick and squirm, biting at the ones on your shoulder. The creature doesn't react as it lifts you above its body. 
+    You throw yourself to the right, and directly into the chunk of ceiling. It grabs you with multiple hands, two holding your shoulders and two holding your legs. You kick and squirm, biting at the ones on your shoulder. The creature doesn't react as it lifts you above its body. 
     
     "Got you~" it growls, and you see a mouth in the center of its back. {Church_Encounters ? (Finger_Chopped): {finger_pain_pass: "This pain too shall pass." | "Perhaps this time, you will accept the pain."} | "It only hurts a pinch. It will pass, if you let it."}
     
@@ -1020,7 +1020,7 @@ It screams again, causing the room to shake and throw you off balence. The ceili
     **[Beg]
         ~Temp_bool = true
     --
-    "{Temp_bool: Please, let me go! I'll- I'll do anything! | I'm sorry! I- I won't-}" It tightens it's grip. Your mind races, thinkning of what to say. 
+    "{Temp_bool: Please, let me go! I'll- I'll do anything! | I'm sorry! I- I won't-}" It tightens it's grip. Your mind races, thinking of what to say. 
     
     ***["I'll stay!"]
         The creature stops, and loosen its grip. "Do you swear it?"
@@ -1119,7 +1119,7 @@ Your gasp on the ground, blood from your limbs dripping onto you. The creature l
 The door shuts behind you and melts into the wall. {Said_Yes: You lied, but it still let you go. You don't think you were particularly skilled liar, but... | You said no, but it still let you go. } Your legs tremble and you chew the inside of your cheek.
 
 ~PlaySFX("knocking", false, 0, 0)
-You run your hand along where the door was and knock. It's solid. {Book_Knowledge !? (Saw_Your_Book): You turn to leave, but a hand grabs you. Something is pessed into your hand. "Don't forget this."}
+You run your hand along where the door was and knock. It's solid. {Book_Knowledge !? (Saw_Your_Book): You turn to leave, but a hand grabs you. Something is pressed into your hand. "Don't forget this."}
 
 {
 - Book_Knowledge !? (Saw_Your_Book):

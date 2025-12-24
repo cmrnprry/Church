@@ -6,7 +6,7 @@
 {
     //if this is the first area we are visiting
     - visited_state <= 0:
-        ~ Have_Visited += (Confessional_DoorSide) //set that we have visisted the area
+        ~ Have_Visited += (Confessional_DoorSide) //set that we have visited the area
         You open the door to find a small, mostly empty room. A slab of wood juts out from the far wall, creating an uncomfortable looking bench. A lumpy looking red cushion sits on top. #IMAGE: Default #PROP: [curtain_full false]
         
         You think you'd know if there were anything else in here.
@@ -560,7 +560,7 @@ You ball your fists. It's not the same as what happened to you, but it's similar
     
     **[Leave the booth]
     
-    -- You didn't find the heart, but at least you learned a bit more about the church. It preys on famlies it seems, luring in one person in hopes of ensaring them all. {Church_Investigation ? (Called): Your grandparents have already been digested, you think. It tried to use them to get to you. | You wonder if you are the first one to be taken in your family. Or if you're the last.}
+    -- You didn't find the heart, but at least you learned a bit more about the church. It preys on families it seems, luring in one person in hopes of ensnaring them all. {Church_Investigation ? (Called): Your grandparents have already been digested, you think. It tried to use them to get to you. | You wonder if you are the first one to be taken in your family. Or if you're the last.}
     
         You clench your fists. You will get out of here. You won't let the church win.
         -> Confessional_Door.Return_to_Search

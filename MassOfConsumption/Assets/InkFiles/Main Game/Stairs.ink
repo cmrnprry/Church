@@ -665,7 +665,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
     ->Random_Locks(Count + 1)
     
 *{Count <= 3}[2785]
-    The lock slides off. {Book_Knowledge ? (Ripped_Pages):  Oh. 2785. That must be your number. You don't know how you feel about that. | Oh! You're surprised you were able to figure it out through chance. 2785. You frown. You feel like that wasn't her number, but if it opened the lock, it must ahve been.}
+    The lock slides off. {Book_Knowledge ? (Ripped_Pages):  Oh. 2785. That must be your number. You don't know how you feel about that. | Oh! You're surprised you were able to figure it out through chance. 2785. You frown. You feel like that wasn't her number, but if it opened the lock, it must have been.}
     
     { - LIST_COUNT(Locks_Undone):
         - 1: One lock down, two more to go.

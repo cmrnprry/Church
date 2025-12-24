@@ -12,7 +12,7 @@ The heart is about the size of your fist. It floats in a small bowl of water, an
 
 ~Intrusive(3, "Take a sip", "Open_the_Door.Consume")
 ~Intrusive(2, "So hungry", "Open_the_Door.Consume")
-~Intrusive(2, "So thirstry", "Open_the_Door.Consume")
+~Intrusive(2, "So thirsty", "Open_the_Door.Consume")
 ~ PlaySFX("stomach_growling", false, 0, 0)
 Your mouth begins to water and your stomach growls. When was the last time you ate? Or the last time you drank?
 

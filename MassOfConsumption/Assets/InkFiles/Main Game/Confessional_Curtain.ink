@@ -267,7 +267,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
 
         "A fluke? {Work_Encounter == Leave_Suddenly: A coincidence|A one off}?{Work_Encounter == Wrong_Email or Work_Encounter == Fired: You were <i>fired</i> over it.}" The voice sneers. "{Work_Encounter == Leave_Suddenly:How can you be so sure|Are you so sure}?"
 
-        You flinch at it's tone,{Stay_Tracker < 2: and grip the bench. Was that because you disagreed with it? Youlet out a breath and rest your head against the wall. | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
+        You flinch at it's tone,{Stay_Tracker < 2: and grip the bench. Was that because you disagreed with it? You let out a breath and rest your head against the wall. | and look at your shoes. Did you say something wrong? You mumble an apology and kick the floor.}
         
         "I'm not scolding you." The voice softens, and {Stay_Tracker < 2: you lessen your grip. Maybe you were overreacting? | some of your anxiety alleviates. You sit up a little straighter. } "But can you really {Work_Encounter == Leave_Suddenly:say this is all one big coincidence|say this was a one off event}?" 
         
@@ -321,7 +321,7 @@ The voice is silent. You squirm uncomfortably in your seat. You press your lips 
 
         ~ PlayBGM("watched", true, 20, 0)
         ~ StopSFX("inside", 20, 0)
-        "I understand. {Work_Encounter == Leave_Suddenly: It's that freeing? To say it out loud?" It is. You feel lighter. Freeer.| Do you feel a sense of relief now?" You do. You feel a little lighter after someone saying it out loud.} You never understood the idea of confessionals, but you think you get it now. {Work_Encounter == Leave_Suddenly: Especially knowing |"Knowing} you don't have to go back?"
+        "I understand. {Work_Encounter == Leave_Suddenly: It's that freeing? To say it out loud?" It is. You feel lighter. Freer.| Do you feel a sense of relief now?" You do. You feel a little lighter after someone saying it out loud.} You never understood the idea of confessionals, but you think you get it now. {Work_Encounter == Leave_Suddenly: Especially knowing |"Knowing} you don't have to go back?"
 
         Your stomach drops.
         
@@ -1296,7 +1296,7 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 = Leave_NoProgress
 ~ PlayBGM("inside", true, 5, 0)
 ~ current_area = Main_Body // set the current area
-~ Have_Visited -= Confessional_CurtainSide //set that we have visisted the area
+~ Have_Visited -= Confessional_CurtainSide //set that we have visited the area
 ->Inside.Look_For_Heart
 
 = Leave_Progress

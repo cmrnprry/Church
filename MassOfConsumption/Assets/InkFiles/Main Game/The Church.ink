@@ -1594,11 +1594,11 @@ illuminated by a red spotlight from the window. It's not covered in dust like re
 -
 {
     - Object == crowbar: 
-        #PROP: [crowbar fasle]
+        #PROP: [crowbar false]
         <>
         
     - Object == screwdriver:
-        #PROP: [screwdriver fasle]
+        #PROP: [screwdriver false]
         <>
         
     - Object == sledgehammer:
