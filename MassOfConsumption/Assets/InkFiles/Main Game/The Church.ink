@@ -10,6 +10,7 @@ INCLUDE Office.ink
 INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 
+-> Inside
 -> StartGame
 === StartGame ====
 #IMAGE: Default
@@ -32,19 +33,19 @@ It was not there on the walk to the bus stop yesterday, or the day before- you'r
     The feeling isn't strong, you just know you don't particularly like that there's a church there. Similar to when your grandma would put raisins in her cookies, something you don't mind but wish weren't there. 
     
     #CYCLE: uncomfortable, interesting, awkward, rough
-    You've always had a... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
+    You've always had an... @ relationship with religion, and you haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
 *[You feel drawn to it]
     ~ Church_Interest = "drawn"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    It's a slight tugging in your gut that pulls you to it. You've always had a... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. 
+    It's a slight tugging in your gut that pulls you to it. You've always had an... @ relationship with religion, so this attraction puzzles, and to an extent, disturbs, you. 
     
     You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
 
 *[You're nauseous just looking at it]
     ~ Church_Interest = "nothing"
     #CYCLE: uncomfortable, interesting, awkward, rough
-    You've never been so repulsed by a building before. You've always had a... @ relationship with religion, but this? This church? It makes you want to get in a car and keep driving until the tank runs dry. 
+    You've never been so repulsed by a building before. You've always had an... @ relationship with religion, but this? This church? It makes you want to get in a car and keep driving until the tank runs dry. 
     
     You haven't step foot in a church since your grandparents dragged you along as a kid. You've seen other churches, but none have made you feel so...
     
@@ -59,7 +60,7 @@ It was not there on the walk to the bus stop yesterday, or the day before- you'r
         You wonder if you should call the number on the sign.
     
     - "nothing":
-        You hope it disappears as quickly a it appeared and pray the bus comes quickly.
+        You hope it disappears as quickly as it appeared and pray the bus comes quickly.
 }
 
 *[{ Church_Interest != "care": Quickly c| C}ross the street]
@@ -395,7 +396,7 @@ You ignore the driver's further probing and walk around the bus, pressing a hand
 
 === Bus ===
 ~ PlayBGM("generic", true, 1, 0)
-You board the the bus, and scan your ticket.
+You board the the bus, and scan your ticket. #IMAGE: Bus Stop
 
 * {Church_Investigation !? (Investigated)} [Take a seat]
     -> Bus.Seat

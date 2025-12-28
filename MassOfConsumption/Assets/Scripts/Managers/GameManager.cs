@@ -739,6 +739,8 @@ namespace AYellowpaper.SerializedCollections
                         ImageClassData.RemoveClassTweens();
                     else if (value.ToLower() == "intrusive")
                         intrusiveThoughts.KillAllThoughts();
+                    else if (value.ToLower() == "props")
+                        StaticHelpers.TurnOffAllProps();
                     break;
                 default:
                     Debug.LogWarning($"{Tag[0]} with content {value} could not be found.");

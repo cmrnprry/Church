@@ -79,14 +79,25 @@ namespace AYellowpaper.SerializedCollections
             SaveSystem.SetCurrentSprite(key.Trim());
         }
 
+        public static void TurnOffAllProps()
+        {
+            foreach (string prop in GameManager.instance.PropDictionary.Keys)
+            {
+                SetProp(prop, false);
+            }
+        }
+
         public static void SetProp(string src, bool visibility)
         {
             if (GameManager.instance.PropDictionary.ContainsKey(src))
             {
                 var obj = GameManager.instance.PropDictionary[src];
+
+                if (obj.activeSelf == visibility)
+                    return;
+
                 if (!obj.activeSelf)
                     obj.SetActive(visibility);
-
 
                 if (obj.TryGetComponent(out OnOffHelpers helper))
                 {

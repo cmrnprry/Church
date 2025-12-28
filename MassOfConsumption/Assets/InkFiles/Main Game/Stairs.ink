@@ -424,7 +424,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
         *{!broke_key}[Try the simple key]
             ~ Locks_Undone += (Key_Lock)
             ~PlaySFX("lock_click_open_1", false, 0, 0)
-            You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it.
+            You pull out the key you found in the office and try it on the lock. {Stay_Tracker >= 2.5: Your hand shakes as you try to slide it into the hole. You miss a few times before dropping the key to the floor. "Get it together..." You mutter, shaking out your hands before picking up the key and putting it into the lock. } It resists slightly, but after jiggling it, you're able to slot it in and turn it.
             
             ~ PlaySFX("groaning-angry", false, 1, 0)
             ~ StopSFX("groaning-angry", 2, 1)
@@ -438,7 +438,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
             
             -> Stairs.Locks
             
-        *{!broke_key_lock} [Try the ornate key]
+        *{!broke_key_lock} [Try the skeleton key]
             ~ broke_key_lock = true
             ~PlaySFX("lock_click_break_1", false, 0, 0)
             ~PlaySFX("key_snap_small", false, 0, 2.25)
@@ -449,7 +449,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
             **{!broke_key}[Try the simple key]
                 ~ Locks_Undone += (Key_Lock)
                 ~PlaySFX("lock_click_open_1", false, 0, 0)
-                You pull out the key you found in the office try it on the lock. It resists slightly, but after jiggling it, you're able to slot it in and turn it.
+                You pull out the key you found in the office try it on the lock. {Stay_Tracker >= 2.5: Your hand shakes as you try to slide it into the hole. You miss a few times before dropping the key to the floor. "Get it together..." You mutter, shaking out your hands before picking up the key and putting it into the lock. } It resists slightly, but after jiggling it, you're able to slot it in and turn it.
                 
                 ~ PlaySFX("groaning-angry", false, 1, 0)
                 ~ StopSFX("groaning-angry", 2, 1)
@@ -492,7 +492,7 @@ At some point, you end up almost fully vertical, treating the stairs as a ladder
 ~ Locks_Undone += (Clippers_lock)
 
 ~ PlaySFX("cut_chain", false, 0, 0)
-You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain. {Church_Encounters ? (Finger_Chopped): You flinch at the sound out the chain snapping, reminded of the sound when you let them take your finger. A dull pain echos through your stump.}
+You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain. {Church_Encounters ? (Finger_Chopped) and !finger_pain_pass: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take your finger. A dull pain echos through your stump at the memory.} {Church_Encounters ? (Finger_Chopped) and finger_pain_pass: You don't flinch at the sound out the chain snapping, but feel a slight smile come to your lips. The stump on your hand aches at the memory, but it's a soothing pain. } {Church_Encounters ? (Was_Coward): You flinch at the sound out the chain snapping, reminding you of the sound when you let them take her finger. Her cries echo in your ears. }
 
 { 
     - Locks_Undone !? (Key_Lock):
@@ -509,17 +509,18 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         
         *[Use the key]
             -> Stairs.Try_Key
-}
-    
-- {LIST_COUNT(Locks_Undone) == 2: With two locks removed, all that's left is the number lock. | {LIST_COUNT(Locks_Undone) == 3:That was the last of them. | One lock down, two more to go.}}
+    - else:
+        {LIST_COUNT(Locks_Undone) == 2: With two locks removed, all that's left is the number lock. | {LIST_COUNT(Locks_Undone) == 3:That was the last of them. | One lock down, two more to go.}}
 
--> Stairs.Locks
+        -> Stairs.Locks
+}
 
 = Enter_Number
 {items_obtained !? (Combo): You try a few combinations on the number lock, thinking you can guess code. You try today's date, the current year, your birthday— Any meaningful set of four numbers you can think of. {Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Saw_Your_Book): Your run out of four digit numbers before you remember the numbers on your book. | After a few minutes, you give up. -> Stairs.Locks}}
 {
     - items_obtained !? (Combo) and (Book_Knowledge ? (Kept_Book) or Book_Knowledge ? (Saw_Your_Book)):
         +[Try your book number]
+            ~ Locks_Undone += (Combo_Lock)
             ~ PlaySFX("key_snap_small", false, 0, 1)
             {Book_Knowledge ? (Kept_Book): You pull out your book and trace the numbers. 2758. | You can only properly remember your own book number. 2758.} You input the number, and the lock pops open. 
             
@@ -539,7 +540,6 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
             You elect to not try your book number. You're not 100% sure why, but something feels @ about your book number being the code.
             -> Stairs.Locks
 }
-~ Locks_Undone += (Combo_Lock)
 
 {
     - Book_Knowledge ? (Ripped_Pages):
@@ -556,8 +556,32 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
         {
             - Book_Knowledge ? (Kept_Book):
                  You check the cover of your book. 2758. With shaking hands, you input the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
+                 
+                ~ Locks_Undone += (Combo_Lock)
+                ~ PlaySFX("key_snap_small", false, 0, 1)
+                You nod and take a deep breath through your nose. Right. Of course it's <i>your</i> number. {Finish_ophelia: You should have read her ending closer. Then you would've known that you'd need your number, not hers. | Maybe you would have realized that earlier if you finished her book.} Good thing you brought your book with you.
+                
+                { - LIST_COUNT(Locks_Undone):
+                    - 1: One lock down, two more to go.
+                    - 2: Two locks down, one more to go.
+                    - 3: That's the last of them.
+                }
+                
+                -> Stairs.Locks 
             -  Book_Knowledge ? (Saw_Your_Book):
                 Your book. Of course. The one you left in the office. even without it, you clearly remember the number. With shaking hands, you input the code, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
+                
+                ~ Locks_Undone += (Combo_Lock)
+                ~ PlaySFX("key_snap_small", false, 0, 1)
+                You nod and take a deep breath through your nose. Right. Of course it's <i>your</i> number. {Finish_ophelia: You should have read her ending closer. Then you would've known that you'd need your number, not hers. | Maybe you would have realized that earlier if you finished her book.} Good thing you brought your book with you.
+                
+                { - LIST_COUNT(Locks_Undone):
+                    - 1: One lock down, two more to go.
+                    - 2: Two locks down, one more to go.
+                    - 3: That's the last of them.
+                }
+                
+                -> Stairs.Locks 
             - else:
                 *[Try a few more combinations]
                     ->Random_Locks(0)
@@ -589,6 +613,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 None of them work. There's only one other 4-digit code you can think of...
                 
                 *[Try your book number]
+                    ~ Locks_Undone += (Combo_Lock)
                     ~ PlaySFX("key_snap_small", false, 0, 1)
                     You can only properly remember your own book number. With no other options, you input your book number, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
                     
@@ -607,6 +632,7 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                 None of them work. There's only one other 4-digit code you can think of...
                 
                 *[Try your book number]
+                    ~ Locks_Undone += (Combo_Lock)
                     ~ PlaySFX("key_snap_small", false, 0, 1)
                     You can only properly remember your own book number. With no other options, you input your book number, and the lock pops open. You remove the lock from the metal bar, and slide it out of place. 
                     
@@ -632,8 +658,6 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
                     Tentatively, you descend the stairs, ready for it to warp or change at any moment. When you reach the bottom and look back, the stairs are once again a giant spiral ascending into darkness. You beeline for the office, ready to search for her book.
                     
                     ->Office_Area.Office
-                
-                
         }
 }
 
@@ -659,12 +683,12 @@ You slide the chain lock to the the side, so the extra deadbolt is not blocking 
     The lock pulls a bit, but doesn't come undone.
     ->Random_Locks(Count + 1)
     
-
 *{Count <= 3}[5275]
     Not that one.
     ->Random_Locks(Count + 1)
     
 *{Count <= 3}[2785]
+    ~ Locks_Undone += (Combo_Lock)
     The lock slides off. {Book_Knowledge ? (Ripped_Pages):  Oh. 2785. That must be your number. You don't know how you feel about that. | Oh! You're surprised you were able to figure it out through chance. 2785. You frown. You feel like that wasn't her number, but if it opened the lock, it must have been.}
     
     { - LIST_COUNT(Locks_Undone):
@@ -695,128 +719,27 @@ If you weren't sure before, you are now: Behind that door lies the heart.
 +[Return to the main body of the church]
     -> Stairs.Exit_Stairs_Area
 
-= Upstairs_End
-{temp_bool == false: The locked door and soft light from under it are the same. You think you have all the pieces to open it now. {Stay_Tracker >= 2.5: You bounce on the balls of your feet. This is it. You'll be... able to leave soon. Go back to your... normal... life. } {Stay_Tracker < 2.5: You're so close to being free. } }
+= Upstairs_End(Has_visited)
+#REMOVE: props #IMAGE: Default
+{Has_visited == false: The locked door and soft light from under it are the same. You think you have all the pieces to open it now. {Stay_Tracker >= 2.5: You bounce on the balls of your feet. This is it. You'll be... able to leave soon. Go back to your... normal... life. } {Stay_Tracker < 2.5: You're so close to being free. } }
 
-+ { items_obtained ? (Skeleton_Key) && Locks_Undone ? (Key_Lock) } [Use the key.]
-    ~ temp_bool = true
-    ~ Locks_Undone += (Key_Lock)
-    {Stay_Tracker >= 2.5: You fish the key out of your pocket. Your hand shakes as you try to slide it into the hole. You miss a few times before dropping the key to the floor. "Get it together..." You mutter, shaking out your hands before picking up the key and putting it into the lock. }{Stay_Tracker < 2.5: You fish the key out of your pocket, and try it on the only lock with a key hole. } It resists slightly, but with a little force, you're able to turn it. 
-    
-    #PLAY: groaning-angry, 1 #stop: groaning-angry, 2
-    ~ PlaySFX("groaning-angry", false, 0, 0.25)
-    ~ StopSFX("groaning-angry", 2, 1)
-    The chains and lock fall to the ground. The church groans angrily in response. 
-    
-    { - LIST_COUNT(Locks_Undone):
-        - 1: One lock down, two more to go.
-        - 2: Two locks down, one more to go.
-        - 3: All the locks have been removed.
-    }
++ { (items_obtained ? (Simple_Key) or items_obtained ? (Skeleton_Key)) && Locks_Undone !? (Key_Lock) } [Use the key]
+    ->Try_Key
 
-+ { items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock)} [Use the wire cutters.]
-    ~ temp_bool = true
-    ~ Locks_Undone += (Key_Lock, Clippers_lock)
++ { items_obtained ? (Clippers) && Locks_Undone !? (Clippers_lock)} [Use the wire cutters]
+    ->Use_Clippers
 
-    {
-     - Locks_Undone !? (Key_Lock) && items_obtained ? (Skeleton_Key):
-        ~ temp_string = "you look at the rest of the chains that are held together with the old looking lock. You try the key you found but... Instead, you cut around the lock and then some, until the lock falls."
-     - Locks_Undone !? (Key_Lock) && items_obtained ? Skeleton_Key:
-        ~ temp_string = "you look at the rest of the chains that are held together with the old looking lock. You could look for a key, but... Instead, you cut around the lock and then some, until the lock falls."
-    }
-    
-    You slide the chain lock to the the side, so the extra deadbolt is not blocking the door from opening, and use the small wire cutters you have to break the sliding chain.
-
-    #PLAY: cut_chain
-    ~ PlaySFX("cut_chain", false, 0, 0)
-    {Church_Encounters ? (Finger_Chopped) and !finger_pain_pass: You flinch at the sound out the chain snapping, reminding you of the sound when you let them take your finger. A dull pain echos through your stump at the memory.} {Church_Encounters ? (Finger_Chopped) and finger_pain_pass: You don't flinch at the sound out the chain snapping, but feel a slight smile come to your lips. The stump on your hand aches at the memory, but it's a soothing pain. } {Church_Encounters ? (Was_Coward): You flinch at the sound out the chain snapping, reminding you of the sound when you let them take her finger. Her cries echo in your ears. }
-    
-    You shake the memory from your head and {temp_string}
-
-    { 
-        - Locks_Undone ? (Combo_Lock):
-            With two locks removed, all that's left is the number lock.
-        - else:
-            All the locks have been removed.
-    }
-
-+ { items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock)} [Enter code into number lock.]
-    ~ temp_bool = true
-    ~ Locks_Undone += (Combo_Lock)
-
-    {
-        - Book_Knowledge ? (Ripped_Pages):
-            You pull the page from your pocket. You grab the combination lock and input the numbers 2755, and pull on the lock.
-            
-            //TODO: Maybe little "game" to input the numbers?
-            
-            It doesn't open.
-            
-            You pull it again, thinking it might be stuck. Nothing. You re-read the page. The code is correct, so what could... You read a bit further on and... You feel sick.
-    
-            Further down the page, it explains the number. Not a date or some random sequence, the code is different for everyone. To open it, you have to use your own number. The number that the church assigned you.
-            
-            
-        - Book_Knowledge ? (Read_Mom_Old_Book):
-            You pull the page from your pocket. You grab the combination lock and input the numbers 27... 55...? 54...?, and pull on the lock.
-            
-            //TODO: Maybe little "game" to input the numbers?
-            
-            It doesn't open.
-            
-            You pull it again, thinking it might be stuck. Nothing. You're almost positive that was the correct number.
-    }
-    
-    {
-        - Book_Knowledge ? (Kept_Book):
-            {
-                - Book_Knowledge ? (Ripped_Pages):
-                    You check the cover of your book again. 2758. With shaking hands, you input the code, and the lock pops open.
-                
-                    You remove the lock from the metal bar, and slide it out of place. 
-                - Book_Knowledge ? (Read_Mom_Old_Book):
-                    "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
-                    
-                    None of them work.
-                    
-                    You check the cover of your book again. 2758. With no other options, you use your book number as the code, and the lock pops open.
-                
-                    You remove the lock from the metal bar, and slide it out of place. 
-            }
-        
-        
-        - else:
-            {
-                - Book_Knowledge ? (Ripped_Pages):
-                    Your book. Of course. The one you left in the office. even without it, you clearly remember the number. 2758. With shaking hands, you input the code, and the lock pops open.
-                
-                    You remove the lock from the metal bar, and slide it out of place. 
-                - Book_Knowledge ? (Read_Mom_Old_Book):
-                    "Come on.. Think!" You squeeze your eyes shut and try to remember the number from Ophelia's book, but your mind stays blank. You try a few more similar number combinations. 2575? 5275? 2755?
-                    
-                    None of them work.
-                    
-                    You can only properly remember your own book number. 2758. With no other options, you use your book number as the code, and the lock pops open.
-                
-                    You remove the lock from the metal bar, and slide it out of place. 
-            }
-    }
-    
-    { - LIST_COUNT(Locks_Undone):
-        - 1: One lock down, two more to go.
-        - 2: Two locks down, one more to go.
-        - 3: All the locks have been removed.
-    }
-
++ { items_obtained ? (Combo) && Locks_Undone !? (Combo_Lock)} [Enter code into number lock]
+    -> Enter_Number
 
 - 
 { 
     - LIST_COUNT(Locks_Undone) >= 3:
         *[Open the door.]
-        ->Open_the_Door
+            ->Open_the_Door
         
     - else:
-        ->Stairs.Upstairs_End
+        ->Stairs.Upstairs_End(true)
 }
 
 = Exit_Stairs_Area

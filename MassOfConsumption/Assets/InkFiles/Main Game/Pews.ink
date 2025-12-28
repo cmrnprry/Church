@@ -260,14 +260,14 @@ Your screams become whimpers as you wait for the pain to pass.
             ~ Stay_Tracker -= 0.5
             The pastor utters a prayer in the inhuman language. It is still harsh and foreign to your ears, and yet, it is strangely comforting. 
         
-            When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. #PROP: [Pews false] 
+            When the prayer finishes you glance back, only to find yourself alone on stage. The crowd is gone. All that's left of the encounter is the wire cutters sitting on the floor where the pastor had once been, and a dull pain where your finger used to be. #PROP: [Pews false, wirecutter true] 
             
 
 - 
 * [Pick up the wire cutters]
     ~ items_obtained += (Clippers)
 
-- You grab the wire cutters, and slip them into your pocket{Saw_Locks:, knowing they'll be useful later.|. They might be useful later.} #EFFECT: Force_Blink
+- You grab the wire cutters, and slip them into your pocket{Saw_Locks:, knowing they'll be useful later.|. They might be useful later.} #EFFECT: Force_Blink #PROP: [wirecutter false]
 
 {temp_bool: You think about what the masses had been chanting while the pastor cut off your finger. In the prayer after, you could... understand what they were saying. Not with words, but... You shake your head. | You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you were here.}
 
@@ -358,7 +358,7 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
 
     "Coward. Coward!" She clambers to her feet and pulls at your shirt collar. You squeeze your eyes shut. "After all I..."
     
-    ~ StopSFX("watched", 3, 0)
+    ~ StopSFX("watched", 5, 0)
     She releases you and throws something at your feet. Her voice rings in your ears, but eventually goes silent. When you turn back, you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone.| The woman is gone.} All that's left of the encounter are the wire cutters sitting on at your feet and the blood staining your shirt. #PROP: [Pews false]
 
 *[Apologize]
@@ -367,15 +367,15 @@ You feel sick, and stumble backwards. Her pain is real, but... She's already tra
 
     "Coward. Coward!" Her voice is full of hate. She clambers to her feet, and grabs the wire cutters with her non-hurt hand. She throws them at your feet. "After <i>everything</i> I did for you!"
 
-    ~ StopSFX("watched", 3, 0)
-    Her voice rings in your ears, and you look away. Eventually, it is silent. When you turn back, only to see you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone. | The woman is gone.} All that's left of the encounter are the wire cutters sitting at your feet and blood staining the wood. #PROP: [Pews false]
+    ~ StopSFX("watched", 5, 0)
+    Her voice rings in your ears, and you look away. Eventually, it is silent. When you turn back, only to see you are alone on stage. The crowd is gone. {Ophelia_Related: Ophelia is gone. | The woman is gone.} All that's left of the encounter are the wire cutters sitting at your feet and blood staining the wood. #PROP: [Pews false, wirecutter true] 
 - 
 
 *[Pick up the wire cutters]
     ~ items_obtained += (Clippers)
     ~ Church_Encounters -= (Finger_Chopped)
 
-- You grab the wire cutters, and slip them into your pocket{Saw_Locks:, knowing they'll be useful later.|. They might be useful later.} You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you are here.
+- You grab the wire cutters, and slip them into your pocket{Saw_Locks:, knowing they'll be useful later.|. They might be useful later.} You stare out at the empty pews, and wonder if this happens often. Or if it only happened because you are here. #PROP: [wirecutter false] 
 
 *[Return to your search]
     -> Pews.Pews_Continue

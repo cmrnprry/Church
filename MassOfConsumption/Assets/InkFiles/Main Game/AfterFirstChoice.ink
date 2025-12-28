@@ -3,7 +3,7 @@
 = Confessional_After
 #CHECKPOINT: 3, The pews are... full? 
 ~ PlayBGM("organ", true, 5, 0)
-You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you. #PROP: [Pews true] #IMAGE: Church_Inside #EFFECT: Stair_Light, true
+You exit the confessional, and stop in your tracks. The pews are full of people, and a church organ is playing. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you. #REMOVE: props #PROP: [Pews true] #IMAGE: Church_Inside #EFFECT: Stair_Light, true
 
 *[Take a seat at the pews]
     ->After_First.Take_Seat
@@ -26,7 +26,7 @@ You exit the confessional, and stop in your tracks. The pews are full of people,
         ~temp_string = "uneasy"
 }
 
-~ StopSFX("organ", 0, 0)
+~ StopSFX("organ", 0.5, 0)
 Quickly, and quietly you a seat in the front row, and the light dims. A pastor climbs the stage and looks around, nodding at the figures. It looks at you, and tilts it's head. While it has no face, you can feel it smiling. It raises a hand, and points at you. You try to hide in your seat, and look away. #EFFECT: Stair_Light, false
 
 A red spotlight land on you. You freeze. It's the light from the window behind the priest, and gives off the same {temp_string} feeling as before. {Church_Encounters ? (Leave_Light): "It warms your body, and some of the tension melts away." | "Your skin tingles under it's warmth. It's uncomfortable. " } #PROP: [Pews_Lighting true]
@@ -45,7 +45,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 
 = Stairs_After
 ~ StopSFX("organ", 0, 0)
-There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down. #IMAGE: Default #PROP: [Pews false] #EFFECT: Stair_Light, false
+There's no way to get to the stairs without the "people" noticing you. You take a breath before darting across the stage and to the stairs. At the top of the stairs is {Looked_For_Items: the office door from earlier. | a closed door.} The hallway extends to a larger set of stairs going up and down. #REMOVE: props #IMAGE: Default #PROP: [Pews false] #EFFECT: Stair_Light, false
 
 ~StopAll()
 ~PlayBGM("watched", true, 10, 0)
@@ -296,7 +296,7 @@ The pastor on stage is beckoning you to join him. All eyes are on you. {Church_E
 ~temp_bool = true
 #CHECKPOINT: 3, Everyone is gone, and you feel...
 You drop down from the stage, and walk past the pews. Everyone is gone.
-{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... Soothing. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
+{Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... Soothing. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Book_Knowledge ? (Read_Mom_Old_Book):Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.} #REMOVE: props
 
 ~ PlaySFX("curtain", false, 0, 2.5) 
 You bow your head and close your eyes. @ bubbles up in your chest. #CYCLE: Anxiety, Dread, Doubt, Confusion #DELAY: 3
@@ -316,7 +316,7 @@ You whip around, and just barely miss seeing someone run up the stairs. #IMAGE: 
 = Side_Room_After
 #CHECKPOINT: 3, The pews are... full?
 ~PlayBGM("organ", false, 0, 0)
-You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stairwell to see the pews are full of people. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you.
+You return to the main body of the church, but stop on the last step. The church organ is playing. You peak out from the stairwell to see the pews are full of people. The people, if you could even call them that, have no faces or distinguishing marks. They're more of just... the general shape of people, flickering in and out of view. They don't seem to notice you. #REMOVE: props #PROP: [Pews true] #IMAGE: Church_Inside
 
 The confessional at the other end of the room glows from a light, red light. 
 
@@ -341,7 +341,7 @@ You hear someone call your name, but you don't dare turn around. Instead, you qu
 
 = Pews_Second
 #CHECKPOINT: 4, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the empty pews.
+You drop down from the stage, and walk through the empty pews. #REMOVE: props #IMAGE: Church_Inside
 
 #CYCLE: Soothing, Reassuring, Calming, Pleasant
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows. You look back at the stage, then up at the window. It's eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
@@ -368,7 +368,7 @@ You need to return to your search. <>
         {
             - temp_string == "Your hands tremble":
                 #CHECKPOINT: 4, You know what you saw.
-                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact curtain. You can't be too sure.
+                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact curtain. You can't be too sure. #REMOVE: props #IMAGE: Default
                 
                 The church can adapt and change, do anything to keep you here. {items_obtained ? (Skeleton_Key): Does that mean you can't trust the key you found?} { items_obtained ? (Combo): Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
                 
@@ -376,15 +376,16 @@ You need to return to your search. <>
                 
             - temp_string == "You grimace":
                 #CHECKPOINT: 4, What have you done?
-                You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
+                You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but... #REMOVE: props #IMAGE: Default
                 
-                <Shame, Guilt, Doubt, Regret> bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
+                #CYCLE:Shame, Guilt, Doubt, Regret
+                 @ bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
                 
                 You bite the inside of your cheek. <>
                 
             - temp_string == "You grind your teeth":
                 #CHECKPOINT: 4, Is this all just a sick game?
-                You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. 
+                You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. #REMOVE: props #IMAGE: Default
                 
                 You kick a pew, hard, stubbing your toe. You curse like a sailor, and pull at your hair. You're going to lose it before you get out of here. 
         }
@@ -393,7 +394,7 @@ You need to return to your search. <>
         
     - else:
         #CHECKPOINT: 4, Did you do the right thing?
-        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>really</i> her, or just another trick of the church?
+        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>really</i> her, or just another trick of the church? #REMOVE: props #IMAGE: Default
         
         You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
         
@@ -416,7 +417,7 @@ There are still more places you need to look. <>
         ~ temp_string = ""
 }
 
-You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and Explore_Office_Bookshelf ? (Broke_Chest) == false: You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{Explore_Office_Bookshelf ? (Broke_Chest): You should see if it fits the chest you found in the side office.} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.} 
+You leave the booth, {temp_string == "accept": key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and Explore_Office_Bookshelf ? (Broke_Chest) == false: You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. }{Explore_Office_Bookshelf ? (Broke_Chest): You should see if it fits the chest you found in the side office.} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks.} #REMOVE: props #IMAGE: Church_Inside
 
 There are still more places you need to look. <>
 
@@ -434,7 +435,7 @@ There are still more places you need to look. <>
         #CHECKPOINT: 4, You found a code
 }
 
-{Book_Knowledge ? (Kept_Book): You hold your book tightly to your chest{Book_Knowledge ? (Ripped_Pages):, one hand over your pocket holding the ripped page,} as you return down the stairs.| {Book_Knowledge ? (Ripped_Pages): You keep one hand over your pocket holding the ripped page, as you return down the stairs.}} You sit on the last step and look out into the main body of the church.
+{Book_Knowledge ? (Kept_Book): You hold your book tightly to your chest{Book_Knowledge ? (Ripped_Pages):, one hand over your pocket holding the ripped page,} as you return down the stairs.| {Book_Knowledge ? (Ripped_Pages): You keep one hand over your pocket holding the ripped page, as you return down the stairs.}} You sit on the last step and look out into the main body of the church. #REMOVE: props
 
 {
 - previous_area == Enter_Office:
@@ -463,7 +464,7 @@ There are still more places you need to look. <>
 -> After_Second.Return_to_Search
 
 = Return_to_Search
-#CHECKPOINT: 5, You need to keep searching. #EFFECT: click_move_main #IMAGE: Church_Inside
+#CHECKPOINT: 5, You need to keep searching. #REMOVE: props #EFFECT: click_move_main #IMAGE: Church_Inside
 You decide to look...
 
 * {Have_Visited !? (Enter_Pews)} [pews]
@@ -479,7 +480,7 @@ You decide to look...
 
 = Pews_Last
 #CHECKPOINT: 6, Everyone is gone, and you feel...
-You drop down from the stage, and walk through the empty pews.
+You drop down from the stage, and walk through the empty pews. #REMOVE: props #IMAGE: Church_Inside
 
 #CYCLE: Soothing, Reassuring, Calming, Pleasant
 {Church_Encounters ? (Finger_Chopped): You stop when you reach the end of the rows, look back at the stage, then up at the window. Its eye is closed. You sit on the floor, crossed—legged, and just stare at the window. {finger_pain_pass: Your hand twitches. You can't say it hurts anymore. Instead, it feels... @. | Your hand aches, and you lightly brush the wound. It hurts.}} {Church_Encounters ? (Was_Coward): You stop at the pew {Ophelia_Related: Ophelia | the woman} had sat at. You put your hand— your intact hand— on the wooden pew before taking a seat yourself.}
@@ -516,7 +517,7 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
         {
             - temp_string == "Your hands tremble":
                 #CHECKPOINT: 6, You know what you saw.
-                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact curtain. You can't be too sure.
+                You pace in a circle, not sure what to do next. You know what you saw, what you heard, but... You glance back at the intact curtain. You can't be too sure. #REMOVE: props #IMAGE: Church_Inside
                 
                 The church can adapt and change, do anything to keep you here. {items_obtained ? (Skeleton_Key): Does that mean you can't trust the key you found?} { items_obtained ? (Combo): Can you trust the information you have?} What can you trust? How much is real, tangible, and how much is the church?
                 
@@ -524,7 +525,7 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
                 
             - temp_string == "You grimace":
                 #CHECKPOINT: 6, What have you done?
-                You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but...
+                You shuffle away from the confessional, not even wanting to look at it. You can't... You don't want to think about it. You know you need to keep moving forward, to find a way of of here, but... #REMOVE: props #IMAGE: Church_Inside
                 
                 #CYCLE: null, Shame, Guilt, Doubt, Regret
                 @ bubbles up in your chest, and tears form in your eyes. Your body shutters, but you don't allow yourself to cry.
@@ -533,7 +534,7 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
                 
             - temp_string == "You grind your teeth":
                 #CHECKPOINT: 6, Is this all just a sick game?
-                You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. 
+                You stomp away from the confessional. You want to hit something. Or break something. Just do anything to get all this emotion out. #REMOVE: props #IMAGE: Church_Inside
                 
                 You kick a pew, hard, stubbing your toe. You curse like a sailor, and pull at your hair. You're going to lose it before you get out of here. 
                 
@@ -544,7 +545,7 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
         
     - else:
         #CHECKPOINT: 6, Did you do the right thing?
-        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>really</i> her, or just another trick of the church?
+        You don't know how to feel. Did you help her? Does it matter if you did? Was that <i>really</i> her, or just another trick of the church? #REMOVE: props #IMAGE: Church_Inside
         
         You hope it was the former. You hope that you did help her. That she finds her parents, and lives happily with them.
         
@@ -565,11 +566,14 @@ You're close to the end of this, you can feel it. {Stay_Tracker >= 2.5: Your leg
         ~ temp_string = ""
 }
 
+#REMOVE: props #IMAGE: Church_Inside
 You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing heavily in your pocket. | key in your pocket.} {Saw_Locks and (Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key and Book_Knowledge !? (Saw_Your_Book)): You should see if it fits the chest you found in the side office. And if it doesn't fit, then maybe on the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | {Explore_Office_Bookshelf !? (Broke_Chest) and !broke_key and Book_Knowledge !? (Saw_Your_Book): You should see if it fits the chest you found in the side office. | <>} {Saw_Locks: You should see if it fits the lock on the door upstairs... Thinking back to how long it took you to get up there, maybe you should wait until you know for sure you can open the other locks. | <>}}
 
 -> Last_Stop.Return_to_Search
 
 = Stairs_Last
+#REMOVE: props #IMAGE: Church_Inside
+
 {
     - Book_Knowledge ? (Read_Mom_Old_Book, Saw_Your_Book):
         #CHECKPOINT: 6, You found your book... and a code
@@ -582,7 +586,7 @@ You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing 
                 You hold your book tightly in your hands as you return down the stairs, and to the main body of the church. <>
         }
         
-        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (items_obtained ? (Clippers)): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
+        You sit on the last step and look out into the empty room. You have a code to the lock {items_obtained ? (Clippers): and wire cutters}{items_obtained ? (Skeleton_Key): and a key}{broke_key: and lost your key}. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
     - Book_Knowledge ? (Saw_Your_Book) && Book_Knowledge !? (Read_Mom_Old_Book):
         #CHECKPOINT: 6, You found your book...
         {Book_Knowledge ? (Kept_Book): You hold your book tightly in your hands as you return down the stairs, and to the main body of the church.} You sit on the last step and look out into the empty room. {Book_Knowledge ? (Kept_Book): You trace the number on the front cover.} {Book_Knowledge ? (Branded): Your skin stings.}
@@ -633,10 +637,10 @@ You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing 
 }
 
 
-->After_Second.Return_to_Search
+->Last_Stop.Return_to_Search
 
 = Return_to_Search
-#CHECKPOINT: 7, There's only a few places left to look. #EFFECT: click_move_main #IMAGE: Church_Inside
+#CHECKPOINT: 7, There's only a few places left to look. #REMOVE: props #EFFECT: click_move_main #IMAGE: Church_Inside
 {LIST_COUNT(Have_Visited) >= 4: There's only one place you haven't checked yet. {Saw_Locks: | You have collected a variety of items. If, no. <i>When</i> you find the heart, you hope you'll be ready.} | {LIST_COUNT(Have_Visited) >= 3: There are only a couple places you haven't looked yet. }}{Saw_Locks: You know where the heart most likely is, {items_obtained ? (Combo, Clippers): and you should have enough items to open the door.} Whenever you're ready, the heart is waiting. }
 
 +{Confessional_Encounters !? (Finished_Curtain_Side) or Confessional_Encounters !? (Finished_Door_Side)}[confessional] -> Confessional
@@ -646,14 +650,14 @@ You leave the booth, {Confessional_Encounters ? (Accepted_Priest): key weighing 
 
 + {Have_Visited ? (Stairs_Up)} [stairs] 
     ~temp_bool = false
-    You stare up the stairs. They are just as tall as you remember. You take a deep breath, shake out your limbs and begin to climb.
+    You stare up the stairs. They are just as tall as you remember. You take a deep breath, shake out your limbs and begin to climb. #IMAGE: Stairs_Up #PROP: [stairs true]
     
 + {Have_Visited !? (Enter_Pews)} [pews] -> Pews
 
 - 
 
-*[It was easier this time around.]
-    -> Stairs.Upstairs_End
++[It's easier this time around]
+    -> Stairs.Upstairs_End(false)
 
 
 

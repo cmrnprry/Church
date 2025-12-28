@@ -800,6 +800,7 @@ That taste of freedom is all you need. With one last push, you throw yourself ou
 
 *[Break the chest]
     ~ Explore_Office_Bookshelf += (Check_Chest, Broke_Chest)
+    ~ Book_Knowledge += (Saw_Your_Book)
     ~PlaySFX("chest_breaking", false, 0, 0)
     You raise the chest above your head, and hurl it to the floor. The lid pops open, and a book with the number 2758 on it's cover spills onto the floor.
     ~temp_string = "if this is indeed your book"

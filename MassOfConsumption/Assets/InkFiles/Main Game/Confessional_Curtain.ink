@@ -463,7 +463,7 @@ You {Leg_State > Sore: hobble through the curtain as fast as you can | push thro
 - 
 
 ~ PlaySFX("bang_confessional", false, 0, 0)
-Bang!#CLASS: Bang_Confessional #DELAY: 1.75 #EFFECT: Shake_Confessional
+Bang! #CLASS: Bang_Confessional #DELAY: 1.75 #EFFECT: Shake_Confessional
 
 {
 
@@ -482,6 +482,7 @@ Bang!#CLASS: Bang_Confessional #DELAY: 1.75 #EFFECT: Shake_Confessional
     {Stay_Tracker >= 1.5: You dig your nails into your palms and stare at the floor. | You continue to ignore. Whatever is inside is made of the church. It would say anything to hurt you. To make you stay.}
     
     ~Temp_String = "It's quiet"
+    ~StopAll()
 }
 
 *[{Temp_String}]
@@ -508,6 +509,7 @@ You cover your face as wooden splinters fly toward you as tiny, stinging flecks 
 - 
 
 ~ PlaySFX("flashlight_on", false, 0, 0)
+~StopAll()
 The flash light clicks on, and everything stops. #EFFECT: flashlight_on
 
 The other side is pristine. It looks almost identical to the side you had been on. No one is inside.
@@ -1297,6 +1299,9 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 ~ PlayBGM("inside", true, 5, 0)
 ~ current_area = Main_Body // set the current area
 ~ Have_Visited -= Confessional_CurtainSide //set that we have visited the area
+
+- 
+#REMOVE: props
 ->Inside.Look_For_Heart
 
 = Leave_Progress
@@ -1309,16 +1314,17 @@ It says something that reverberates in your brain, but not said aloud. Blood lea
 ~ PlayBGM("inside", true, 30, 0)
 
 ~ visited_state += 1
+
+- 
+
 {
     
     - visited_state == 1:
-        #PROP: [skeleton_key false, curtain_full false]
+        
         ->After_First.Confessional_After
     - visited_state == 2:
-        #PROP: [skeleton_key false, curtain_full false]
         -> After_Second.Confessional_Sin_Second
     - else:
-        #PROP: [skeleton_key false, curtain_full false]
         -> Last_Stop.Confessional_Sin_Last
 }
 
