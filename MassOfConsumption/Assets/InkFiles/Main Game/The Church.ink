@@ -10,7 +10,6 @@ INCLUDE Office.ink
 INCLUDE AfterFirstChoice.ink
 INCLUDE End_Game.ink
 
--> Inside
 -> StartGame
 === StartGame ====
 #IMAGE: Default
